@@ -104,3 +104,8 @@ InitTestScene*.unity*
 *.slnx
 *.csproj
 *.user
+
+# ML-Agents
+/[Vv]env/
+/[Ee]nv/
+/results/
