@@ -104,3 +104,7 @@ InitTestScene*.unity*
 *.slnx
 *.csproj
 *.user
+
+# Ignore temporaries from GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/
