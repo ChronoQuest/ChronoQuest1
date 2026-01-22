@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     public int health = 100;
     public float moveSpeed = 5f;                    // speed of player, will likely be changed when animations are added to tutorial
     public TutorialManager tutorialManager;
-
+    
     void Update()
     {
         // temporary player movement logic on key press

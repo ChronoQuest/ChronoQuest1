@@ -1,17 +1,19 @@
 using UnityEngine;
+using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
     // setting the order of tutorial steps
     public enum TutorialStep
     {
+        None,
         Movement,
         Attack,
         Rewind, 
         Complete
     }
 
-    public TutorialStep currentStep; 
+    public TutorialStep currentStep = TutorialStep.None; 
     
     public GameObject rewindHint;
     public GameObject attackHint;
@@ -25,8 +27,22 @@ public class TutorialManager : MonoBehaviour
     bool attackCompleted = false;
     bool rewindCompleted = false;
 
+    public Typewriter typewriter;
+    public TextMeshProUGUI movementText;
+    public TextMeshProUGUI attackText;
+    public TextMeshProUGUI rewindText;
+
+    private string movementMessage;
+    private string attackMessage;
+    private string rewindMessage;
+
+
     void Start()
     {
+        movementMessage = movementText.text;
+        attackMessage = attackText.text;
+        rewindMessage = rewindText.text;
+        
         DisableHints();
         SetStep(TutorialStep.Movement);         // set movement hint as first step in tutorial
     }
@@ -49,7 +65,7 @@ public class TutorialManager : MonoBehaviour
 
         if (distance <= attackDistance)
         {
-            attackHint.SetActive(true);
+            SetStep(TutorialStep.Attack);
         }
     }
 
@@ -86,12 +102,29 @@ public class TutorialManager : MonoBehaviour
 
     // setting the current tutorial step and showing corresponding hint
     void SetStep(TutorialStep step)
-    {
+    {   
+        if (currentStep == step)
+            return;
         currentStep = step;
 
-        movementHint.SetActive(step == TutorialStep.Movement);
-        attackHint.SetActive(step == TutorialStep.Attack);
-        rewindHint.SetActive(step == TutorialStep.Rewind);
+        switch (step)
+        {
+            case TutorialStep.Movement:
+                movementHint.SetActive(true);
+                movementText.text = movementMessage;
+                typewriter.StartTyping(movementText);
+                break;
+            case TutorialStep.Attack:
+                attackHint.SetActive(true);
+                attackText.text = attackMessage;
+                typewriter.StartTyping(attackText);
+                break;
+            case TutorialStep.Rewind:
+                rewindHint.SetActive(true);
+                rewindText.text = rewindMessage;
+                typewriter.StartTyping(rewindText);
+                break;
+        }
     }
 
     void DisableHints()
