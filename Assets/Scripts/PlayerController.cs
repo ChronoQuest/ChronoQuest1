@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // temporary player movement logic on key press
+        // temporary player movement logic on key press for tutorial purposes 
         float move = Input.GetAxis("Horizontal");
 
         if (move != 0)
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     void StartAttack()
     {
-        // attack logic here
+        // ** attack logic here **
 
         AttackFeedback();
 
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     void GameOver()
     {
-        // game over logic here
+        // game over logic here, likely to be a screen where the user can try again
         Debug.Log("Game Over!"); 
     }
 }

@@ -108,7 +108,7 @@ public class TutorialManager : MonoBehaviour
             return;
         currentStep = step;
 
-        // based on the current step, show the corresponding tutorial hint
+        // based on the current step, show the corresponding tutorial hint using the typewriter effect
         switch (step)
         {
             case TutorialStep.Movement:
