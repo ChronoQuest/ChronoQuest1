@@ -1,0 +1,108 @@
+using UnityEngine;
+
+public class BasicEnemy : MonoBehaviour
+{
+    // enemy stats - adjust these in the Inspector
+    public float detectionRange = 5f;
+    public float attackRange = 1f;
+    public float moveSpeed = 2f;
+    public float attackCooldown = 1.5f;
+    public int damage = 1;
+    public int health = 3;
+
+    // reference to the player
+    public Transform player;
+
+    // tracking internal state
+    private float lastAttackTime;
+    private enum State { Idle, Chase, Attack }
+    private State currentState = State.Idle;
+
+    void Update()
+    {
+        // get distance to player
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        // decide which state to be in
+        if (distanceToPlayer > detectionRange)
+        {
+            currentState = State.Idle;
+        }
+        else if (distanceToPlayer > attackRange)
+        {
+            currentState = State.Chase;
+        }
+        else
+        {
+            currentState = State.Attack;
+        }
+
+        // do the right thing based on state
+        switch (currentState)
+        {
+            case State.Idle:
+                Idle();
+                break;
+            case State.Chase:
+                Chase();
+                break;
+            case State.Attack:
+                Attack();
+                break;
+        }
+    }
+
+    void Idle()
+    {
+        // do nothing, just wait
+        // you could add patrol logic here later
+    }
+
+    void Chase()
+    {
+        // move toward the player
+        Vector2 direction = (player.position - transform.position).normalized;
+        transform.position += (Vector3)(direction * moveSpeed * Time.deltaTime);
+
+        // flip sprite to face player
+        if (direction.x > 0)
+            transform.localScale = new Vector3(1, 1, 1);
+        else if (direction.x < 0)
+            transform.localScale = new Vector3(-1, 1, 1);
+    }
+
+    void Attack()
+    {
+        // check if cooldown has passed
+        if (Time.time >= lastAttackTime + attackCooldown)
+        {
+            // do the attack
+            Debug.Log("Enemy attacks!");
+            lastAttackTime = Time.time;
+
+            // try to damage the player
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        Debug.Log("Enemy took damage! Health: " + health);
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("Enemy died!");
+        Destroy(gameObject);
+    }
+}
