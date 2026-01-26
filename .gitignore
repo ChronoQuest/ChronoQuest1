@@ -109,3 +109,8 @@ InitTestScene*.unity*
 /[Aa]rtifacts/
 /[Cc]odeCoverage/
 /[Pp]roject[Ss]ettings/SceneTemplateSettings.json
+
+# ML-Agents
+/[Vv]env/
+/[Ee]nv/
+/results/

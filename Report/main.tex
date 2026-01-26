@@ -1,0 +1,34 @@
+\documentclass{report}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage[pass]{geometry}
+\usepackage{eso-pic}
+\usepackage{xcolor}
+\graphicspath{{images/}}
+
+\title{ChronoQuest}
+\author{Pablo Apresa Castellano, Mohammed Elzobair Eltayeb, Anthony Oparaocha, Megan Parfitt, Ethan Rogers, Oliver Tchum}
+\date{Team Project 2025-2026}
+
+\begin{document}
+
+\newgeometry{top=1cm, bottom=2cm, left=2cm, right=2cm}
+
+\AddToShipoutPictureBG*{%
+    \includegraphics[width=\paperwidth,height=\paperheight]{title_screen_background.png}%
+}
+
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.3\textwidth]{UoB_RGB_24.png}\par
+    \vspace{10cm}
+    % Title, author, date
+    {\Huge \bfseries \color{white} \thetitle\par}
+    \vspace{1.5cm}
+    {\Large \color{white} \theauthor\par}
+    \vfill
+    {\large \color{white} \thedate\par}
+\end{titlepage}
+\restoregeometry
+
+\end{document}
