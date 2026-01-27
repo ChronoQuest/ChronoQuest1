@@ -10,7 +10,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
     private Rigidbody2D rb;
-    private float horizontalInput;
+    public float horizontalInput;
     private bool jumpPressed;
 
     [Header("Ground Check")]
