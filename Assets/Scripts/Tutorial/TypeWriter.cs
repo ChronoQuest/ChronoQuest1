@@ -37,7 +37,8 @@ public class Typewriter : MonoBehaviour
         if(!typing)
             return;
         
-        timer -= Time.deltaTime;
+        // Use unscaledDeltaTime so UI typing speed ignores Time.timeScale
+        timer -= Time.unscaledDeltaTime;
         if(timer <= 0)
         {
             timer += timePerCharacter;
