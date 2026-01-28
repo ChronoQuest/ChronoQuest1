@@ -29,7 +29,7 @@ public class PlayerPlatformer : MonoBehaviour
         }
         jumpPressed = false;
 
-        // Debug.Log(Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
+        Debug.Log(Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
 
     }
 
@@ -43,8 +43,9 @@ public class PlayerPlatformer : MonoBehaviour
     }
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed) {
             Debug.Log("Jump Pressed");
             jumpPressed = true;
+        }
     }
 }
