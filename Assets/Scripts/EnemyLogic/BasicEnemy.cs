@@ -78,7 +78,7 @@ public class BasicEnemy : MonoBehaviour
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.TakeDamage(damage);
+                playerHealth.ModifyHealth(-damage);
             }
         }
     }
