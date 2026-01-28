@@ -8,6 +8,7 @@ public class TutorialManager : MonoBehaviour
     {
         None,
         Movement,
+        Jump,
         Attack,
         Rewind, 
         Complete
@@ -18,23 +19,33 @@ public class TutorialManager : MonoBehaviour
     public GameObject rewindHint;
     public GameObject attackHint;
     public GameObject movementHint;
+    public GameObject jumpHint; 
 
-    public Transform player;
-    public Transform enemy; 
-    public float attackDistance = 10f;
+    public PlayerPlatformer player;
+    public Transform enemy;
+    public Transform platform; 
+    public float attackDistance = 5f;
+    public float jumpDistance = 3f; 
 
     bool moveCompleted = false;
     bool attackCompleted = false;
     bool rewindCompleted = false;
+    bool jumpCompleted = false;
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
     public TextMeshProUGUI attackText;
     public TextMeshProUGUI rewindText;
+    public TextMeshProUGUI jumpText;
 
     private string movementMessage;
     private string attackMessage;
     private string rewindMessage;
+    private string jumpMessage; 
+
+    [SerializeField] float idleTimeThreshold = 2f;
+    float idleTimer = 0f;
+    Vector2 lastPlayerPosition;
 
 
     void Start()
@@ -42,17 +53,23 @@ public class TutorialManager : MonoBehaviour
         movementMessage = movementText.text;
         attackMessage = attackText.text;
         rewindMessage = rewindText.text;
+        jumpMessage = jumpText.text; 
+
+        lastPlayerPosition = player.transform.position;
         
         DisableHints();
-        SetStep(TutorialStep.Movement);         // set movement hint as first step in tutorial
     }
 
     void Update()
     {
-        // on every update, check if player is within distance to trigger the attack tutorial 
-        CheckAttackDistance();
+        Debug.Log("Current Step:" + currentStep);
         
-        if (moveCompleted && attackCompleted && rewindCompleted)
+        // on every update, check if player is within distance to trigger the attack tutorial 
+        CheckPlayerIdle();
+        CheckAttackDistance();
+        CheckJumpDistance();
+        
+        if (moveCompleted && attackCompleted && rewindCompleted && jumpCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -62,12 +79,60 @@ public class TutorialManager : MonoBehaviour
 
     void CheckAttackDistance()
     {
-        float distance = Vector2.Distance(player.position, enemy.position);
+        if (attackCompleted)
+            return;
+        
+        float distance = Vector2.Distance(player.transform.position, enemy.position);
 
         if (distance <= attackDistance)
         {
             SetStep(TutorialStep.Attack);
         }
+    }
+
+    void CheckJumpDistance()
+    {
+        if (jumpCompleted)
+            return;
+        
+        float distance = Vector2.Distance(player.transform.position, platform.position);
+
+        if (distance <= jumpDistance)
+        {
+            SetStep(TutorialStep.Jump);
+        }
+    }
+
+    void CheckPlayerIdle()
+    {
+        Debug.Log($"Idle timer: {idleTimer}");
+
+        float movementDelta = Vector2.Distance(
+            player.transform.position,
+            lastPlayerPosition
+        );
+
+        Debug.Log($"Movement delta: {movementDelta}");
+        
+        if (movementDelta < 0.01f)
+        {
+            idleTimer += Time.deltaTime;
+        } else
+        {
+            idleTimer = 0f;
+
+            if (!moveCompleted)
+            {
+                OnPlayerMoved();
+            }
+        }
+
+        if (!moveCompleted && idleTimer >= idleTimeThreshold)
+        {
+            SetStep(TutorialStep.Movement);
+        }
+
+        lastPlayerPosition = player.transform.position;
     }
 
     public void OnPlayerMoved()
@@ -77,7 +142,6 @@ public class TutorialManager : MonoBehaviour
             moveCompleted = true; 
             movementHint.SetActive(false);
             Debug.Log("Player movement tutorial complete");
-
         }
     }
 
@@ -101,11 +165,23 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    public void OnPlayerJump()
+    {
+        if (currentStep == TutorialStep.Jump && !jumpCompleted)
+        {
+            jumpCompleted = true;
+            jumpHint.SetActive(false); 
+            Debug.Log("Player jump tutorial complete");
+        }
+    }
+
     // setting the current tutorial step and showing corresponding hint
     void SetStep(TutorialStep step)
     {   
         if (currentStep == step)
             return;
+        
+        DisableHints(); 
         currentStep = step;
 
         // based on the current step, show the corresponding tutorial hint using the typewriter effect
@@ -126,6 +202,11 @@ public class TutorialManager : MonoBehaviour
                 rewindText.text = rewindMessage;
                 typewriter.StartTyping(rewindText);
                 break;
+            case TutorialStep.Jump:
+                jumpHint.SetActive(true);
+                jumpText.text = jumpMessage; 
+                typewriter.StartTyping(jumpText); 
+                break; 
         }
     }
 
@@ -135,5 +216,6 @@ public class TutorialManager : MonoBehaviour
         rewindHint.SetActive(false);
         attackHint.SetActive(false);
         movementHint.SetActive(false);
+        jumpHint.SetActive(false);
     }
 }

@@ -12,7 +12,7 @@ public class PlayerPlatformer : MonoBehaviour
     private bool jumpPressed;
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private float groundCheckRadius = 0.35f;
     [SerializeField] private LayerMask groundLayer;
     public bool isGrounded;
     private void Awake()
@@ -28,6 +28,9 @@ public class PlayerPlatformer : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
         jumpPressed = false;
+
+        // Debug.Log(Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer));
+
     }
 
     private void FixedUpdate()
@@ -41,6 +44,7 @@ public class PlayerPlatformer : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
+            Debug.Log("Jump Pressed");
             jumpPressed = true;
     }
 }

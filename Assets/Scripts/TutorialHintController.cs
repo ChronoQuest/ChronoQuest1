@@ -14,7 +14,7 @@ public class TutorialHintController : MonoBehaviour
     public float attackLunge = 1f; 
 
     private bool moveTriggered;
-    // private bool jumpTriggered;          for when jumping movement is added to tutorial
+    private bool jumpTriggered;          
     
     void Start()
     {
@@ -29,11 +29,11 @@ public class TutorialHintController : MonoBehaviour
             tutorialManager?.OnPlayerMoved();
         }
 
-        /* if (!jumpTriggered && !player.isGrounded)
+        if (!jumpTriggered && !player.isGrounded)
         {
             jumpTriggered = true;
-            tutorialManager?.OnPlayerJumped();
-        } */ 
+            tutorialManager?.OnPlayerJump();
+        }
     }
 
     void StartAttack()
@@ -82,13 +82,13 @@ public class TutorialHintController : MonoBehaviour
 
     void OnLowHealth()
     {
-        // warning logic here
+        // on low health, show the rewind logic 
     }
 
     void TriggerRewind()
     {
         /* rewind logic here
-        if the player has been attacked or health is low etc., trigger the rewind effect
+        if the player health is low, trigger the rewind effect
         */
 
         if (tutorialManager != null)
@@ -102,8 +102,9 @@ public class TutorialHintController : MonoBehaviour
 
     void GameOver()
     {
-        // game over logic here, likely to be a screen where the user can try again
-        Debug.Log("Game Over!"); 
+        // game over logic here, likely to be once all lives have run out 
+        // placeholder until health system logic has been implemented
+        Debug.Log("Game Over"); 
     }
 }
 
