@@ -21,6 +21,7 @@ public class HeartDisplay : MonoBehaviour
     {
         if (playerHealth != null)
             playerHealth.OnHealthChanged += RefreshDisplay;
+            RefreshDisplay(playerHealth.CurrentHealth, playerHealth.MaxHealth);
     }
 
     private void OnDestroy()
