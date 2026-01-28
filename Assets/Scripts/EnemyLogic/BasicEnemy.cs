@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
 {
-    // enemy stats - adjust these in the Inspector
     public float detectionRange = 5f;
     public float attackRange = 1f;
     public float moveSpeed = 2f;
@@ -10,20 +9,22 @@ public class BasicEnemy : MonoBehaviour
     public int damage = 1;
     public int health = 3;
 
-    // reference to the player
     public Transform player;
 
-    // tracking internal state
     private float lastAttackTime;
+    private Vector3 originalScale;
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
 
+    void Start()
+    {
+        originalScale = transform.localScale;
+    }
+
     void Update()
     {
-        // get distance to player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // decide which state to be in
         if (distanceToPlayer > detectionRange)
         {
             currentState = State.Idle;
@@ -37,7 +38,6 @@ public class BasicEnemy : MonoBehaviour
             currentState = State.Attack;
         }
 
-        // do the right thing based on state
         switch (currentState)
         {
             case State.Idle:
@@ -54,33 +54,27 @@ public class BasicEnemy : MonoBehaviour
 
     void Idle()
     {
-        // do nothing, just wait
-        // you could add patrol logic here later
     }
 
     void Chase()
     {
-        // move toward the player
         Vector2 direction = (player.position - transform.position).normalized;
         transform.position += (Vector3)(direction * moveSpeed * Time.deltaTime);
 
-        // flip sprite to face player
+        // flip sprite while keeping original scale
         if (direction.x > 0)
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else if (direction.x < 0)
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
     void Attack()
     {
-        // check if cooldown has passed
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            // do the attack
             Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
 
-            // try to damage the player
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
