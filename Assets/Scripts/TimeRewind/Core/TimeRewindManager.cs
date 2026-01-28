@@ -48,6 +48,10 @@ namespace TimeRewind
         
         [Header("Debug")]
         [SerializeField] private bool enableDebugLogs = true;
+
+        [Header("Rewind Time Scale")]
+        [Tooltip("Global timeScale while rewinding (1 = normal, 0.3 = strong slow-motion)")]
+        [SerializeField] private float rewindSlowTimeScale = 0.3f;
         
         #endregion
 
@@ -59,6 +63,9 @@ namespace TimeRewind
         private float _recordTimer;
         private float _recordInterval;
         private bool _initialized;
+        
+        // Cached time scale used during rewind so we can restore it afterwards
+        private float _cachedTimeScale = 1f;
         
         #endregion
 
@@ -215,7 +222,12 @@ namespace TimeRewind
                 if (enableDebugLogs)
                     Debug.Log($"[TimeRewind] StartRewind called but CanRewind=false (registered: {_rewindables?.Count ?? 0})");
                 return;
+
             }
+
+                       // Cache current time scale and apply slow-motion during rewind
+            _cachedTimeScale = Time.timeScale;
+            Time.timeScale = rewindSlowTimeScale;
             
             _isRewinding = true;
             _currentRewindTime = Time.time;
@@ -239,6 +251,11 @@ namespace TimeRewind
                 return;
             
             _isRewinding = false;
+
+            if (_cachedTimeScale <= 0f)
+                _cachedTimeScale = 1f;
+
+            Time.timeScale = _cachedTimeScale;
             
             TrimFutureStates();
             
