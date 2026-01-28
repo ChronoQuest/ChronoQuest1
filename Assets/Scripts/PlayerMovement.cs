@@ -5,6 +5,12 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerPlatformer : MonoBehaviour
 {
+    [Header("Leeway Settings")]
+    [SerializeField] private float coyoteTime = 0.2f; // How long you can jump after falling
+    private float coyoteTimeCounter;
+    [SerializeField] private float jumpBufferTime = 0.2f; // How early you can press jump before landing
+    private float jumpBufferCounter;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
@@ -30,6 +36,13 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private bool isGrounded;
 
+    [Header("Wall Slide")]
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private float wallSlideSpeed = 2f;
+    [SerializeField] private LayerMask wallLayer; // can be = GroundLayer
+    private bool isTouchingWall;
+    private bool isWallSliding;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,28 +59,61 @@ public class PlayerPlatformer : MonoBehaviour
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
+        if (isGrounded) coyoteTimeCounter = coyoteTime; // Reset timer while on ground
+        else coyoteTimeCounter -= Time.deltaTime; // Count down when in the air
+        
+        if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
+
+        float facingDirection = spriteRenderer.flipX ? -1f : 1f;
+        Vector2 wallCheckPos = (Vector2)transform.position + new Vector2(facingDirection * 0.3f, 0.8f);        
+        isTouchingWall = Physics2D.OverlapCircle(wallCheck.position, 0.3f, wallLayer);
+
+        //if player is pushing towards wall -> actually slide
+        bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
+
+
+        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall)
+        {
+            isWallSliding = true;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
         // Update Animator Parameters
         if (anim != null)
         {
             anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
             anim.SetBool("isGrounded", isGrounded);
+            anim.SetBool("isWallSliding", isWallSliding);
         }
         
         // Jump Logic
-        if (jumpPressed)
+        if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            jumpPressed = false; // Reset to prevent double jumping
-            
+            jumpBufferCounter = 0f;            
+            coyoteTimeCounter = 0f; // Prevent double jumping with coyote time
             if (anim != null) anim.SetTrigger("Jump");
         }
 
         FlipSprite();
     }
+    
+    private void OnDrawGizmos()
+    {
+        if (wallCheck != null)
+        {
+            Gizmos.color = isTouchingWall ? Color.green : Color.blue;
+            Gizmos.DrawWireSphere(wallCheck.position, 0.2f);
+        }
+    }
 
     private void FixedUpdate()
     {
-        if (isDashing) return;
+        if (isDashing || isWallSliding) return;
         // Apply horizontal movement while preserving falling/jumping speed
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
@@ -81,8 +127,8 @@ public class PlayerPlatformer : MonoBehaviour
     // Called by Player Input Component (Jump Action)
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && isGrounded)
-            jumpPressed = true;
+        if (context.performed)
+            jumpBufferCounter = jumpBufferTime;
     }
 
     public void OnDash(InputAction.CallbackContext context)
@@ -92,6 +138,8 @@ public class PlayerPlatformer : MonoBehaviour
             StartCoroutine(Dash());
         }
     }
+
+
 
     private IEnumerator Dash()
     {
