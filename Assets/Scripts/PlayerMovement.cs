@@ -17,7 +17,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
-    private bool isGrounded;
+    public bool isGrounded;
     
     [Header("Jump Buffer")]
     [SerializeField] private float jumpBufferTime = 0.1f;
@@ -60,6 +60,12 @@ public class PlayerPlatformer : MonoBehaviour
 
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
+    
+    // New method for testing
+    public void Jump()
+    {
+        jumpPressed = true;
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -69,6 +75,6 @@ public class PlayerPlatformer : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
-            jumpPressed = true;
+            Jump();
     }
 }
