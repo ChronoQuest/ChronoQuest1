@@ -91,7 +91,6 @@ public class TutorialManager : MonoBehaviour
    void CheckJumpPrompt()
     {
         if (jumpCompleted) return;
-        if (currentStep != TutorialStep.Movement) return;
         if (!player.isGrounded) return;
 
         // perform idle and proximity check
