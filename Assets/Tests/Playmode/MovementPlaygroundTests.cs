@@ -2,7 +2,6 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
 using UnityEngine.TestTools;
 
 public class MovementPlaygroundTests
@@ -13,10 +12,8 @@ public class MovementPlaygroundTests
     public IEnumerator PlayerExistsInMovementPlayground()
     {
         // Load MovementPlayground scene
-        yield return EditorSceneManager.LoadSceneAsyncInPlayMode(
-            "Assets/Scenes/MovementPlayground.unity", 
-            new LoadSceneParameters(LoadSceneMode.Single)
-        );
+        yield return SceneManager.LoadSceneAsync("MovementPlayground", LoadSceneMode.Single);
+
         // Wait a single frame
         yield return null;
 
@@ -29,10 +26,7 @@ public class MovementPlaygroundTests
     [UnityTest]
     public IEnumerator PlayerExperiencesGravity()
     {
-        yield return EditorSceneManager.LoadSceneAsyncInPlayMode(
-            "Assets/Scenes/MovementPlayground.unity", 
-            new LoadSceneParameters(LoadSceneMode.Single)
-        );
+        yield return SceneManager.LoadSceneAsync("MovementPlayground", LoadSceneMode.Single);
         GameObject player = GameObject.FindWithTag("Player");
         // Get the starting height of the player
         float startHeight = player.transform.position.y;
@@ -46,10 +40,7 @@ public class MovementPlaygroundTests
     [UnityTest]
     public IEnumerator PlayerCanMoveHorizontally()
     {
-        yield return EditorSceneManager.LoadSceneAsyncInPlayMode(
-            "Assets/Scenes/MovementPlayground.unity", 
-            new LoadSceneParameters(LoadSceneMode.Single)
-        );
+        yield return SceneManager.LoadSceneAsync("MovementPlayground", LoadSceneMode.Single);
         GameObject player = GameObject.FindWithTag("Player");
         float startX = player.transform.position.x;
         var controller = player.GetComponent<PlayerPlatformer>();
@@ -63,10 +54,7 @@ public class MovementPlaygroundTests
     [UnityTest]
     public IEnumerator PlayerCanJump()
     {
-        yield return EditorSceneManager.LoadSceneAsyncInPlayMode(
-            "Assets/Scenes/MovementPlayground.unity", 
-            new LoadSceneParameters(LoadSceneMode.Single)
-        );
+        yield return SceneManager.LoadSceneAsync("MovementPlayground", LoadSceneMode.Single);
         GameObject player = GameObject.FindWithTag("Player");
         var controller = player.GetComponent<PlayerPlatformer>();
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
