@@ -114,3 +114,6 @@ InitTestScene*.unity*
 /[Vv]env/
 /[Ee]nv/
 /results/
+
+.DS_Store
+**/.DS_Store
