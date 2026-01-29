@@ -98,10 +98,10 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            // Wait for states to be recorded
-            yield return new WaitForSeconds(0.2f);
+            // Wait for multiple FixedUpdate cycles to ensure recording happens
+            yield return WaitForRecording();
 
-            Assert.IsTrue(_manager.CanRewind);
+            Assert.IsTrue(_manager.CanRewind, "CanRewind should be true after recording states");
 
             Object.DestroyImmediate(rewindable.gameObject);
         }
@@ -116,11 +116,11 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
 
-            Assert.IsTrue(_manager.IsRewinding);
+            Assert.IsTrue(_manager.IsRewinding, "IsRewinding should be true after StartRewind");
 
             _manager.StopRewind();
             Object.DestroyImmediate(rewindable.gameObject);
@@ -140,7 +140,7 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
             yield return null;
@@ -157,17 +157,14 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
-            float progressAfterStart = _manager.RewindProgress;
 
-            yield return new WaitForSeconds(0.1f);
-
-            // Try to start again
+            // Try to start again while already rewinding
             _manager.StartRewind();
 
-            // Should still be rewinding, progress should have changed
+            // Should still be rewinding
             Assert.IsTrue(_manager.IsRewinding);
 
             _manager.StopRewind();
@@ -193,11 +190,11 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
 
-            Assert.IsTrue(eventFired);
+            Assert.IsTrue(eventFired, "OnRewindStart event should have fired");
 
             _manager.StopRewind();
             Object.DestroyImmediate(rewindable.gameObject);
@@ -212,13 +209,13 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
             yield return null;
             _manager.StopRewind();
 
-            Assert.IsTrue(eventFired);
+            Assert.IsTrue(eventFired, "OnRewindStop event should have fired");
 
             Object.DestroyImmediate(rewindable.gameObject);
         }
@@ -237,12 +234,17 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.3f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
-            yield return new WaitForSeconds(0.1f);
+            
+            // Wait a few frames for Update to run and fire progress events
+            for (int i = 0; i < 10; i++)
+            {
+                yield return null;
+            }
 
-            Assert.IsTrue(eventFired);
+            Assert.IsTrue(eventFired, "OnRewindProgress event should have fired");
             Assert.GreaterOrEqual(lastProgress, 0f);
             Assert.LessOrEqual(lastProgress, 1f);
 
@@ -260,13 +262,13 @@ namespace Tests.PlayMode
             var rewindable = CreateTestRewindable();
             _manager.Register(rewindable);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
-            Assert.IsTrue(_manager.CanRewind);
+            Assert.IsTrue(_manager.CanRewind, "Should have recorded states before clear");
 
             _manager.ClearHistory();
 
-            Assert.IsFalse(_manager.CanRewind);
+            Assert.IsFalse(_manager.CanRewind, "Should have no states after clear");
 
             Object.DestroyImmediate(rewindable.gameObject);
         }
@@ -284,32 +286,35 @@ namespace Tests.PlayMode
             Vector3 startPosition = Vector3.zero;
             rewindable.transform.position = startPosition;
 
-            // Record for a bit
-            yield return new WaitForSeconds(0.2f);
+            // Record start position for several frames
+            yield return WaitForRecording();
 
-            // Move object
+            // Move object to new position
             Vector3 newPosition = new Vector3(10f, 5f, 0f);
             rewindable.transform.position = newPosition;
 
             // Record new position
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             // Start rewinding
             _manager.StartRewind();
 
-            // Wait for rewind
-            yield return new WaitForSeconds(0.5f);
+            // Wait for rewind to happen (multiple Update frames)
+            for (int i = 0; i < 30; i++)
+            {
+                yield return null;
+            }
 
-            // Position should be closer to start than the new position
+            // Position should have moved from newPosition toward startPosition
             float distanceToStart = Vector3.Distance(rewindable.transform.position, startPosition);
             float distanceToNew = Vector3.Distance(rewindable.transform.position, newPosition);
 
-            // After rewinding, we should be closer to start position
-            Assert.Less(distanceToStart, distanceToNew, 
-                $"Expected position closer to start. Pos: {rewindable.transform.position}, Start: {startPosition}, New: {newPosition}");
-
             _manager.StopRewind();
             Object.DestroyImmediate(rewindable.gameObject);
+
+            // After rewinding, we should be closer to start position than to new position
+            Assert.Less(distanceToStart, distanceToNew, 
+                $"Expected position closer to start. Current: {rewindable.transform.position}, Start: {startPosition}, New: {newPosition}");
         }
 
         [UnityTest]
@@ -324,29 +329,50 @@ namespace Tests.PlayMode
             rewindable1.transform.position = Vector3.zero;
             rewindable2.transform.position = Vector3.zero;
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             // Move both objects
             rewindable1.transform.position = new Vector3(10f, 0f, 0f);
             rewindable2.transform.position = new Vector3(-10f, 0f, 0f);
 
-            yield return new WaitForSeconds(0.2f);
+            yield return WaitForRecording();
 
             _manager.StartRewind();
-            yield return new WaitForSeconds(0.5f);
+            
+            // Wait for rewind
+            for (int i = 0; i < 30; i++)
+            {
+                yield return null;
+            }
 
-            // Both should have moved back toward origin
-            Assert.Less(Mathf.Abs(rewindable1.transform.position.x), 10f);
-            Assert.Less(Mathf.Abs(rewindable2.transform.position.x), 10f);
+            float pos1X = Mathf.Abs(rewindable1.transform.position.x);
+            float pos2X = Mathf.Abs(rewindable2.transform.position.x);
 
             _manager.StopRewind();
             Object.DestroyImmediate(rewindable1.gameObject);
             Object.DestroyImmediate(rewindable2.gameObject);
+
+            // Both should have moved back toward origin (x should be less than 10)
+            Assert.Less(pos1X, 10f, $"Rewindable1 should have rewound, but x={pos1X}");
+            Assert.Less(pos2X, 10f, $"Rewindable2 should have rewound, but x={pos2X}");
         }
 
         #endregion
 
         #region Helper Methods
+
+        /// <summary>
+        /// Waits for enough FixedUpdate cycles to ensure states are recorded.
+        /// </summary>
+        private IEnumerator WaitForRecording()
+        {
+            // Wait for multiple FixedUpdate cycles
+            // Default fixed timestep is 0.02s, so 20 cycles = 0.4s of recording
+            for (int i = 0; i < 20; i++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
 
         private TestRewindable CreateTestRewindable(string name = "TestRewindable")
         {
