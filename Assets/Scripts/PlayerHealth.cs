@@ -1,8 +1,9 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using TimeRewind;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IRewindable
 {
     [Header("Health Settings")]
     [Range(1, 20)]
@@ -21,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
     // References
     private SpriteRenderer spriteRenderer;
     private bool isInvincible = false;
+    private bool _isRewinding = false;
 
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
@@ -42,6 +44,20 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
         UpdateUI();
     }
+    // 4. Register with Rewind Manager
+    private void OnEnable()
+    {
+        TimeRewindManager.Instance?.Register(this);
+    }
+
+    // 5. Unregister when disabled
+    private void OnDisable()
+    {
+        if (TimeRewindManager.Instance != null)
+        {
+            TimeRewindManager.Instance.Unregister(this);
+        }
+    }
 
     private void OnValidate()
     {
@@ -53,6 +69,7 @@ public class PlayerHealth : MonoBehaviour
     public void ModifyHealth(int amount)
     {
         if (IsDead) return;
+        if (_isRewinding) return;
 
         // 1. DAMAGE LOGIC
         if (amount < 0)
@@ -135,5 +152,53 @@ public class PlayerHealth : MonoBehaviour
         }
 
         isInvincible = false;
+    }
+
+    public void OnStartRewind()
+    {
+        _isRewinding = true;
+        
+        // Optional: If you want to stop flashing immediately when rewind starts:
+        StopAllCoroutines();
+        isInvincible = false;
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
+    }
+
+    public void OnStopRewind()
+    {
+        _isRewinding = false;
+    }
+
+    public RewindState CaptureState()
+    {
+        // Create state with required Transform data
+        var state = RewindState.Create(transform.position, transform.rotation, Time.time);
+        
+        // Save ONLY the things this script cares about (Health)
+        // ** REQUIREMENT: You must have 'public int Hearts;' in RewindState.cs **
+        state.Health = currentHealth;
+        
+        return state;
+    }
+
+    public void ApplyState(RewindState state)
+    {
+        // Check if health changed during this rewind frame
+        if (currentHealth != state.Health)
+        {
+            currentHealth = state.Health;
+
+            // REVIVAL LOGIC:
+            // If we were dead, but rewound to a point where we had health...
+            if (IsDead && currentHealth > 0)
+            {
+                IsDead = false;
+                if (spriteRenderer != null) spriteRenderer.enabled = true;
+                // Re-enable movement script here if you disabled it in Die()
+            }
+
+            // This will tell HeartDisplay.cs to animate the hearts filling/emptying
+            UpdateUI();
+        }
     }
 }
