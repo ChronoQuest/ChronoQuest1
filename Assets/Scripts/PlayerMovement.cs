@@ -43,6 +43,10 @@ public class PlayerPlatformer : MonoBehaviour
     private bool isTouchingWall;
     private bool isWallSliding;
 
+    [Header("Double Jump")]
+    [SerializeField] private int extraJumps = 1; // Number of mid-air jumps allowed
+    private int extraJumpsRemaining;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -59,8 +63,13 @@ public class PlayerPlatformer : MonoBehaviour
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-        if (isGrounded) coyoteTimeCounter = coyoteTime; // Reset timer while on ground
-        else coyoteTimeCounter -= Time.deltaTime; // Count down when in the air
+        if (isGrounded){
+            coyoteTimeCounter = coyoteTime;
+            extraJumpsRemaining = extraJumps;
+        }
+        else{
+            coyoteTimeCounter -= Time.deltaTime;
+        }
         
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
@@ -70,7 +79,6 @@ public class PlayerPlatformer : MonoBehaviour
 
         //if player is pushing towards wall -> actually slide
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
-
 
         if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall)
         {
@@ -124,11 +132,32 @@ public class PlayerPlatformer : MonoBehaviour
         horizontalInput = context.ReadValue<Vector2>().x;
     }
 
-    // Called by Player Input Component (Jump Action)
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
+            // If we are on the ground or in coyote time, the Update() method handles it via the buffer.
+            // We set the buffer here:
             jumpBufferCounter = jumpBufferTime;
+
+            // If we are ALREADY in the air and out of coyote time, try a double jump:
+            if (coyoteTimeCounter <= 0f && !isWallSliding && extraJumpsRemaining > 0)
+            {
+                ExecuteJump();
+                extraJumpsRemaining--; // Use up one of the mid-air jumps
+            }
+        }
+    }
+
+    private void ExecuteJump()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+    
+        // Clear buffers so we don't trigger two jumps at once
+        jumpBufferCounter = 0f;
+        coyoteTimeCounter = 0f;
+
+        if (anim != null) anim.SetTrigger("Jump");
     }
 
     public void OnDash(InputAction.CallbackContext context)
@@ -166,17 +195,27 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     void FlipSprite()
+{
+    bool isMovingLeft = horizontalInput < -0.1f;
+    bool isMovingRight = horizontalInput > 0.1f;
+
+    if (isMovingRight && spriteRenderer.flipX)
     {
-        // Flip the image based on movement direction
-        if (horizontalInput > 0.1f)
-        {
-            spriteRenderer.flipX = false; // Facing Right
-        }
-        else if (horizontalInput < -0.1f)
-        {
-            spriteRenderer.flipX = true; // Facing Left
-        }
+        spriteRenderer.flipX = false;
+        // Flip the WallCheck position to the right side
+        Vector3 newPos = wallCheck.localPosition;
+        newPos.x = Mathf.Abs(newPos.x); 
+        wallCheck.localPosition = newPos;
     }
+    else if (isMovingLeft && !spriteRenderer.flipX)
+    {
+        spriteRenderer.flipX = true;
+        // Flip the WallCheck position to the left side
+        Vector3 newPos = wallCheck.localPosition;
+        newPos.x = -Mathf.Abs(newPos.x); 
+        wallCheck.localPosition = newPos;
+    }
+}
 
     // Visualization for the Ground Check in the Scene View
     private void OnDrawGizmosSelected()
