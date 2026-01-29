@@ -167,16 +167,6 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void OnPlayerRewind()
-    {
-        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
-        {
-            rewindCompleted = true;
-            rewindHint.SetActive(false);
-            Debug.Log("Player rewind tutorial complete");
-        }
-    }
-
     public void OnPlayerJump()
     {
         if (currentStep != TutorialStep.Jump) return;
