@@ -11,6 +11,7 @@ namespace TimeRewind
         public Quaternion Rotation;
         public Vector2 Velocity;
         public float AngularVelocity;
+        public int Health;
         public int AnimatorStateHash;
         public float AnimatorNormalizedTime;
         public Dictionary<string, object> CustomData;
@@ -24,6 +25,7 @@ namespace TimeRewind
                 Rotation = rotation,
                 Velocity = Vector2.zero,
                 AngularVelocity = 0f,
+                Health = 0,
                 AnimatorStateHash = 0,
                 AnimatorNormalizedTime = 0f,
                 CustomData = null
@@ -59,6 +61,7 @@ namespace TimeRewind
                 Rotation = Quaternion.Slerp(a.Rotation, b.Rotation, t),
                 Velocity = Vector2.Lerp(a.Velocity, b.Velocity, t),
                 AngularVelocity = Mathf.Lerp(a.AngularVelocity, b.AngularVelocity, t),
+                Health = Mathf.RoundToInt(Mathf.Lerp(a.Health, b.Health, t)),
                 AnimatorStateHash = t < 0.5f ? a.AnimatorStateHash : b.AnimatorStateHash,
                 AnimatorNormalizedTime = Mathf.Lerp(a.AnimatorNormalizedTime, b.AnimatorNormalizedTime, t),
                 CustomData = t < 0.5f ? a.CustomData : b.CustomData
