@@ -21,19 +21,27 @@ public class FlyingEnemy : MonoBehaviour
     
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
+    private Animator animator;
+    private bool isTouchingPlayer = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
+        animator.ResetTrigger("Attack");
     }
 
 void Update()
     {
         float distanceToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
 
-        if (distanceToPlayer > detectionRange)
+        if (isTouchingPlayer) 
+        {
+            currentState = State.Attack;
+        }
+        else if (distanceToPlayer > detectionRange)
         {
             currentState = State.Idle;
         }
@@ -47,11 +55,19 @@ void Update()
             FacePlayer();
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject == player.gameObject)
         {
-            Attack();
+            isTouchingPlayer = true;
+        }
+    }
+
+        private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject == player.gameObject)
+        {
+            isTouchingPlayer = false;
         }
     }
 
@@ -101,8 +117,8 @@ void Update()
         {
             Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
+            animator.SetTrigger("Attack");
 
-            // Assuming you have the same PlayerHealth script
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
