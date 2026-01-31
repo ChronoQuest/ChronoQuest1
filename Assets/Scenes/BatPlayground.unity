@@ -255,6 +255,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sleepy_Bat
       objectReference: {fileID: 0}
+    - target: {fileID: 7136293193780602834, guid: 27beebfa2610e524c961cd71d7064cff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7535612166218133318, guid: 27beebfa2610e524c961cd71d7064cff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.63
@@ -488,6 +492,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &584872712
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_Name
+      value: Flying_Bat (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274048687124186791, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1059122093}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3274048687124186791, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2109425255}
+    - targetCorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2109425253}
+    - targetCorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2109425252}
+  m_SourcePrefab: {fileID: 100100000, guid: 8ce63076482712846b8134c6c6493199, type: 3}
 --- !u!1 &958363271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sleepy_Bat 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7136293193780602834, guid: 27beebfa2610e524c961cd71d7064cff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7535612166218133318, guid: 27beebfa2610e524c961cd71d7064cff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.3264093
@@ -2307,6 +2386,81 @@ MonoBehaviour:
   hoverFrequency: 1.8
   hoverAmplitude: 0.45
   currentState: 0
+--- !u!1 &2109425251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+  m_PrefabInstance: {fileID: 584872712}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2109425252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109425251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef044e789661a04288352ee95af2430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::BatAgent
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  player: {fileID: 1059122093}
+  otherBat: {fileID: 5212424312792522070}
+  moveSpeed: 5
+--- !u!114 &2109425253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109425251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &2109425255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109425251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
+  m_BrainParameters:
+    VectorObservationSize: 2
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 2
+      BranchSizes: 01000000
+    VectorActionSize: 
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 5022602860645237092, guid: c3435373f601d554fa9e1461f9140bbf, type: 3}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: BatBrain
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_DeterministicInference: 0
+  m_ObservableAttributeHandling: 0
+--- !u!4 &2109425260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+  m_PrefabInstance: {fileID: 584872712}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3509611910403811984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7047778695999147764, guid: 6fefbb076a560f34db23e13239278ac9, type: 3}
@@ -2368,11 +2522,96 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3274048687124186791, guid: 8ce63076482712846b8134c6c6493199, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5212424312792522064}
+    - targetCorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5212424312792522062}
+    - targetCorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5212424312792522071}
   m_SourcePrefab: {fileID: 100100000, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+--- !u!1 &5212424312792522061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1102769524657454602, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+  m_PrefabInstance: {fileID: 5212424312792522060}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5212424312792522062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212424312792522061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &5212424312792522064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212424312792522061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
+  m_BrainParameters:
+    VectorObservationSize: 2
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 2
+      BranchSizes: 01000000
+    VectorActionSize: 
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 5022602860645237092, guid: c3435373f601d554fa9e1461f9140bbf, type: 3}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: BatBrain
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_DeterministicInference: 0
+  m_ObservableAttributeHandling: 0
+--- !u!4 &5212424312792522070 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4682394596035568061, guid: 8ce63076482712846b8134c6c6493199, type: 3}
+  m_PrefabInstance: {fileID: 5212424312792522060}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5212424312792522071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212424312792522061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef044e789661a04288352ee95af2430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::BatAgent
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  player: {fileID: 1059122093}
+  otherBat: {fileID: 2109425260}
+  moveSpeed: 5
 --- !u!1001 &5421107225745301113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2543,5 +2782,6 @@ SceneRoots:
   - {fileID: 5421107225745301113}
   - {fileID: 362458887}
   - {fileID: 5212424312792522060}
+  - {fileID: 584872712}
   - {fileID: 507712449}
   - {fileID: 1600036176}

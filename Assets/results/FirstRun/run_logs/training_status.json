@@ -1,0 +1,29 @@
+{
+    "BatBrain": {
+        "checkpoints": [
+            {
+                "steps": 9771,
+                "file_path": "results\\FirstRun\\BatBrain\\BatBrain-9771.onnx",
+                "reward": -1.5141766492058248,
+                "creation_time": 1769884794.380112,
+                "auxillary_file_paths": [
+                    "results\\FirstRun\\BatBrain\\BatBrain-9771.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 9771,
+            "file_path": "results\\FirstRun\\BatBrain.onnx",
+            "reward": -1.5141766492058248,
+            "creation_time": 1769884794.380112,
+            "auxillary_file_paths": [
+                "results\\FirstRun\\BatBrain\\BatBrain-9771.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.7.1+cu118"
+    }
+}
