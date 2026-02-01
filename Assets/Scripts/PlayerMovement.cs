@@ -30,6 +30,12 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenu.isPaused)
+            return;
+
+        if(TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            return;
+        
         // Skip input processing during rewind
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
@@ -54,6 +60,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PauseMenu.isPaused)
+            return;
+        
         // Skip physics updates during rewind
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
@@ -69,11 +78,17 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (PauseMenu.isPaused)
+            return;
+
         horizontalInput = context.ReadValue<Vector2>().x;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (PauseMenu.isPaused)
+            return;
+
         if (context.performed)
             Jump();
     }

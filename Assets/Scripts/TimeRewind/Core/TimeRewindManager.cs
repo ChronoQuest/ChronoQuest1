@@ -163,6 +163,9 @@ namespace TimeRewind
         
         private void Update()
         {
+            if (PauseMenu.isPaused)
+                return;
+            
             if (_isRewinding)
             {
                 UpdateRewind();
@@ -210,6 +213,9 @@ namespace TimeRewind
         
         public void StartRewind()
         {
+            if (PauseMenu.isPaused)
+                return; 
+            
             if (_isRewinding)
             {
                 if (enableDebugLogs)
