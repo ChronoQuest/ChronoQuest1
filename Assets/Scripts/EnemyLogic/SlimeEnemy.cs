@@ -11,7 +11,7 @@ public class SlimeEnemy : MonoBehaviour
     public int health = 3;
 
     [Header("Hop Settings")]
-    public float hopForce = 3f;
+    public float hopForce = 4f;
     public float hopCooldown = 1f;
 
     public Transform player;
@@ -64,11 +64,13 @@ public class SlimeEnemy : MonoBehaviour
                 Attack();
                 break;
         }
+
+        // Always sync animation with ground state
+        animator.SetBool("isHopping", !isGrounded && currentState == State.Chase);
     }
 
     void Idle()
     {
-        animator.SetBool("isHopping", false);
     }
 
     void Chase()
@@ -84,7 +86,6 @@ public class SlimeEnemy : MonoBehaviour
     // Hop toward player
     if (isGrounded && Time.time >= lastHopTime + hopCooldown)
         {
-        animator.SetBool("isHopping", true);
         rb.linearVelocity = new Vector2(direction.x * moveSpeed, hopForce);
         lastHopTime = Time.time;
         isGrounded = false;
