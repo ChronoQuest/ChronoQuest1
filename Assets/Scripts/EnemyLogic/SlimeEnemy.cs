@@ -84,28 +84,27 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
                 Attack();
                 break;
         }
-
-        animator.SetBool("isHopping", !isGrounded && currentState == State.Chase);
     }
 
     void Idle() { }
 
     void Chase()
+{
+    Vector2 direction = (player.position - transform.position).normalized;
+
+    if (direction.x > 0)
+        spriteRenderer.flipX = false;
+    else if (direction.x < 0)
+        spriteRenderer.flipX = true;
+
+    if (isGrounded && Time.time >= lastHopTime + hopCooldown)
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-
-        if (direction.x > 0)
-            spriteRenderer.flipX = false;
-        else if (direction.x < 0)
-            spriteRenderer.flipX = true;
-
-        if (isGrounded && Time.time >= lastHopTime + hopCooldown)
-        {
-            rb.linearVelocity = new Vector2(direction.x * moveSpeed, hopForce);
-            lastHopTime = Time.time;
-            isGrounded = false;
-        }
+        animator.SetTrigger("hop");
+        rb.linearVelocity = new Vector2(direction.x * moveSpeed, hopForce);
+        lastHopTime = Time.time;
+        isGrounded = false;
     }
+}
 
     void Attack()
     {
