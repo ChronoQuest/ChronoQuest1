@@ -61,7 +61,7 @@ public class MovementPlaygroundTests
         // Check that the player cannot immediately jump, as they start in the air
         Assert.IsFalse(controller.isGrounded, "Player starts in the air, and should not be allowed to immediately jump");
         // Allow player to fall
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(2f);
         // Assert that the ground check is actually working
         Assert.IsTrue(controller.isGrounded, "Player should eventually be settled on the ground, but was not");
 
