@@ -5,6 +5,14 @@
 \usepackage{eso-pic}
 \usepackage{xcolor}
 \usepackage{fontspec}
+\usepackage[style=ieee]{biblatex}
+\addbibresource{references.bib}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+}
 \graphicspath{{images/}}
 
 \title{ChronoQuest}
@@ -38,6 +46,8 @@
 
 \chapter{Signed Declaration}
     ** Template will be provided for this page! **
+    
+    Test reference\cite{1}
     
 \chapter{Top Five Contributions}
     \subsection{Adaptive final boss using Machine Learning}
@@ -75,6 +85,14 @@
 \chapter{Team Process and Project Planning}
 
 \chapter{Software, Tools, and Development}
+    \section{Data Privacy and GDPR Compliance}
+        It is important to adhere to pre-existing regulations to ensure that we do not violate any regulations throughout the development and release of our project. As such, we have made the conscious effort to implement a strategy to ensure GDPR compliance as early as possible. To achieve this, we ensured the following:
+        \begin{itemize}
+            \item \textbf{Transparency:} inclusion of a Privacy Policy in the README of our GitHub repository
+            \item \textbf{Management of Unity Services:} Ensured that Unity Analytics\footnote{https://docs.unity.com/en-us/analytics} is disabled, as to not (autonomously) collect unnecessary data about the players.
+            \item \textbf{Local Storage:} All game progress and player preferences are stored locally on the user's device using Unity's \texttt{PlayerPrefs} or local JSON serialisation. No save data is transmitted to or stored on external servers.
+            \item \textbf{No PII collection: } The design and nature of our game means that there is no benefit to the collection and storage of Personally Identifiable Information (PII). The game intentionally precludes the opportunity for the player to share this information with us, thus removing the concern it raises.
+        \end{itemize}
 
 \chapter{Technical Content}
 
@@ -91,5 +109,5 @@
         
     \subsection{Oliver Tchum}
         
-
+\printbibliography
 \end{document}
