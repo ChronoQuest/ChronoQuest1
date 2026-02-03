@@ -83,10 +83,13 @@ public class BatEnemyAI : Agent, IRewindable
     {
         // Get distance to player
         Vector2 toPlayer = playerCollider.bounds.center - transform.position;
+
+        bool either_side_of_player =  transform.localScale != otherBat.transform.localScale;
     
         // Give the AI access to the player's position
         sensor.AddObservation(toPlayer.x); 
         sensor.AddObservation(toPlayer.y);
+        sensor.AddObservation(either_side_of_player);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -121,6 +124,8 @@ public class BatEnemyAI : Agent, IRewindable
 
         if (trainingMode)
         {
+            bool either_side_of_player =  transform.localScale != otherBat.transform.localScale;
+            if(either_side_of_player) AddReward(0.002f);
             // Make sure speed is taken into account (longer, less reward)
             AddReward(-0.001f);
             // Reset and punish if bat gets too far away
