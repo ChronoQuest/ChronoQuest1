@@ -48,6 +48,19 @@ public class PlayerPlatformer : MonoBehaviour
     private int extraJumpsRemaining;
     private BoxCollider2D playerCollider;
 
+    [Header("Wall Polish")]
+    [SerializeField] private float wallCoyoteTime = 0.15f;
+    private float wallCoyoteTimeCounter;
+
+    [Header("Wall Jump Settings")]
+    [SerializeField] private Vector2 wallJumpPower = new Vector2(10f, 15f); // X is away, Y is up
+    [SerializeField] private float wallJumpDuration = 0.2f;
+    private bool isWallJumping;
+
+    [Header("Wall Jump Logic")]
+    [SerializeField] private float wallJumpLockoutTime = 0.2f; // Time before you can grab a wall again
+    private float wallJumpLockoutCounter;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -60,10 +73,15 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
-
+        FlipSprite();
         if (isDashing) return;
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (isGrounded && rb.linearVelocity.y <= 0.1f)
+        {
+            anim.ResetTrigger("Jump");
+        }
 
         if (isGrounded){
             coyoteTimeCounter = coyoteTime;
@@ -73,17 +91,25 @@ public class PlayerPlatformer : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
         
+        if (wallJumpLockoutCounter > 0) wallJumpLockoutCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
-        float facingDirection = spriteRenderer.flipX ? -1f : 1f;
-        Vector2 wallCheckPos = (Vector2)transform.position + new Vector2(facingDirection * 0.3f, 0.8f);        
-        isTouchingWall = Physics2D.OverlapCircle(wallCheck.position, 0.3f, wallLayer);
+        float senseDirection = spriteRenderer.flipX ? -1f : 1f;
+        float wallDistance = 0.5f;
+
+        // This calculates the position manually, ignoring PPU/Child shifts
+        Vector3 manualWallCheckPos = transform.position + new Vector3(senseDirection * wallDistance, 0.8f, 0);
+
+        isTouchingWall = Physics2D.OverlapCircle(manualWallCheckPos, 0.45f, wallLayer);
 
         //if player is pushing towards wall -> actually slide
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
+        //bool isPushingWall = true;
 
-        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall)
-        {
+        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall && wallJumpLockoutCounter <= 0)
+        { 
+            float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
+            playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
             isWallSliding = true;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
         }
@@ -109,21 +135,28 @@ public class PlayerPlatformer : MonoBehaviour
             if (anim != null) anim.SetTrigger("Jump");
         }
 
-        FlipSprite();
+        if (isTouchingWall) 
+        {
+            wallCoyoteTimeCounter = wallCoyoteTime;
+        }
+        else 
+        {
+            wallCoyoteTimeCounter -= Time.deltaTime;
+        }
     }
     
     private void OnDrawGizmos()
     {
-        if (wallCheck != null)
-        {
-            Gizmos.color = isTouchingWall ? Color.green : Color.blue;
-            Gizmos.DrawWireSphere(wallCheck.position, 0.2f);
-        }
+        float senseDirection = (spriteRenderer != null && spriteRenderer.flipX) ? -1f : 1f;
+        Vector3 debugPos = transform.position + new Vector3(senseDirection * 0.5f, 0.8f, 0);
+
+        Gizmos.color = isTouchingWall ? Color.green : Color.blue;
+        Gizmos.DrawWireSphere(debugPos, 0.45f);
     }
 
     private void FixedUpdate()
     {
-        if (isDashing || isWallSliding) return;
+        if (isDashing || isWallSliding || isWallJumping) return;
         // Apply horizontal movement while preserving falling/jumping speed
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
@@ -138,16 +171,20 @@ public class PlayerPlatformer : MonoBehaviour
     {
         if (context.performed)
         {
-            // If we are on the ground or in coyote time, the Update() method handles it via the buffer.
-            // We set the buffer here:
-            jumpBufferCounter = jumpBufferTime;
-
-            // If we are ALREADY in the air and out of coyote time, try a double jump:
-            if (coyoteTimeCounter <= 0f && !isWallSliding && extraJumpsRemaining > 0)
+            // 1. Only do a Wall Jump if the player is ACTUALLY sliding
+            // This prevents the "kick back" when just walking into a wall on the ground
+            if (isWallSliding)
             {
-                ExecuteJump();
-                extraJumpsRemaining--; // Use up one of the mid-air jumps
+                StartCoroutine(WallJumpLogic());
             }
+            // 2. Normal/Double Jump Logic
+            else if (coyoteTimeCounter > 0f || extraJumpsRemaining > 0)
+            {
+                if (coyoteTimeCounter <= 0f) extraJumpsRemaining--;
+                ExecuteJump();
+            }
+        
+            jumpBufferCounter = jumpBufferTime;
         }
     }
 
@@ -159,7 +196,11 @@ public class PlayerPlatformer : MonoBehaviour
         jumpBufferCounter = 0f;
         coyoteTimeCounter = 0f;
 
-        if (anim != null) anim.SetTrigger("Jump");
+        if (anim != null) 
+        {
+            anim.ResetTrigger("Dash"); // Clear dash so it doesn't fire after jump
+            anim.SetTrigger("Jump");
+        }
     }
 
     public void OnDash(InputAction.CallbackContext context)
@@ -170,12 +211,30 @@ public class PlayerPlatformer : MonoBehaviour
         }
     }
 
+    private IEnumerator WallJumpLogic()
+    {
+        isWallJumping = true; // Use this to ignore OnMove input in FixedUpdate
+        wallCoyoteTimeCounter = 0; // Use it up immediately
 
+        float jumpDirection = spriteRenderer.flipX ? 1f : -1f;
+        rb.linearVelocity = new Vector2(jumpDirection * wallJumpPower.x, wallJumpPower.y);
+
+        if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
+    
+        yield return new WaitForSeconds(wallJumpDuration);    
+        isWallJumping = false;
+    }
 
     private IEnumerator Dash()
     {
         canDash = false;
         isDashing = true;
+
+        if (anim != null) 
+        {
+            anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
+            anim.SetTrigger("Dash");
+        }
         
         // Save current gravity, then set to 0 so we don't drop while dashing
         float originalGravity = rb.gravityScale;
@@ -196,29 +255,23 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = true;
     }
 
-void FlipSprite()
-{
-    if (horizontalInput > 0.1f)
+    void FlipSprite()
     {
-        spriteRenderer.flipX = false;
-        // If 0.08 was "too right," try half that distance
-        playerCollider.offset = new Vector2(-0.06f, 0.007f); 
-        
-        // Match sensors to the new body center
-        wallCheck.localPosition = new Vector2(0.3f, 0.8f); 
-        //groundCheck.localPosition = new Vector2(0.04f, 0f);
-    }
-    else if (horizontalInput < -0.1f)
-    {
-        spriteRenderer.flipX = true;
-        // If left was "too left," move it closer to zero (e.g., -0.01)
-        playerCollider.offset = new Vector2(0.05f, 0.007f); 
 
-        // Match sensors to the new body center
-        wallCheck.localPosition = new Vector2(-0.3f, 0.8f);
-        //groundCheck.localPosition = new Vector2(-0.01f, 0f);
+        if (horizontalInput > 0.1f) spriteRenderer.flipX = false;
+        else if (horizontalInput < -0.1f) spriteRenderer.flipX = true;
+
+        if (!spriteRenderer.flipX) // Facing Right
+        {
+            playerCollider.offset = new Vector2(-0.06f, 0.007f); 
+            wallCheck.localPosition = new Vector2(0.5f, 0.8f); 
+        }
+        else // Facing Left
+        {
+            playerCollider.offset = new Vector2(0.05f, 0.007f); 
+            wallCheck.localPosition = new Vector2(-0.5f, 0.8f);
+        }
     }
-}
 
     // Visualization for the Ground Check in the Scene View
     private void OnDrawGizmosSelected()
