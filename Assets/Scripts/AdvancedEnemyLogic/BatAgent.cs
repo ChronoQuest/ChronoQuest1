@@ -3,6 +3,8 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
+using log4net.DateFormatter;
+using UnityEditor.Rendering;
 public class BatEnemyAI : Agent, IRewindable
 {
     [Header("Mode")]
@@ -37,6 +39,8 @@ public class BatEnemyAI : Agent, IRewindable
 
     void Start()
     {
+        // Speed up game if training
+        if(trainingMode) Time.timeScale = 5f;
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
@@ -83,13 +87,16 @@ public class BatEnemyAI : Agent, IRewindable
     {
         // Get distance to player
         Vector2 toPlayer = playerCollider.bounds.center - transform.position;
+        Vector2 otherBatToPlayer = playerCollider.bounds.center - otherBat.transform.position;
 
         bool either_side_of_player =  transform.localScale != otherBat.transform.localScale;
     
         // Give the AI access to the player's position
         sensor.AddObservation(toPlayer.x); 
         sensor.AddObservation(toPlayer.y);
-        sensor.AddObservation(either_side_of_player);
+        // Access to other bat's position
+        sensor.AddObservation(otherBatToPlayer.x);
+        sensor.AddObservation(otherBatToPlayer.y);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -124,8 +131,6 @@ public class BatEnemyAI : Agent, IRewindable
 
         if (trainingMode)
         {
-            bool either_side_of_player =  transform.localScale != otherBat.transform.localScale;
-            if(either_side_of_player) AddReward(0.002f);
             // Make sure speed is taken into account (longer, less reward)
             AddReward(-0.001f);
             // Reset and punish if bat gets too far away
@@ -135,7 +140,19 @@ public class BatEnemyAI : Agent, IRewindable
                 EndEpisode();
                 return;
             }
-            
+            float batOffsetToPlayerX = transform.position.x - playerCollider.bounds.center.x;
+            float otherBatOffsetToPlayerX = otherBat.transform.position.x - playerCollider.bounds.center.x;
+            // Reward bats for being on opposite sides of the player
+            if (batOffsetToPlayerX * otherBatOffsetToPlayerX < 0f)
+            {
+                AddReward(0.002f);
+            }
+            // Punish bats if they are not equidistant to the player - this has a high weighting because we want synchronous attacks
+            AddReward(-0.0025f * (Mathf.Abs(batOffsetToPlayerX) - Mathf.Abs(otherBatOffsetToPlayerX)));
+            // Punish bats slightly if their heights differ
+            AddReward(-0.00005f * Mathf.Abs((transform.position.y - otherBat.transform.position.y)));
+            // Reward for being close to player
+            AddReward(-0.005f * distToPlayer);
         }
     }
     void Hover()
