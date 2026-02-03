@@ -324,6 +324,7 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         isRewinding = false;
+        isMidJumpSequence = false;
         rb.bodyType = originalBodyType;
     }
 
@@ -337,6 +338,7 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
         state.SetCustomData("flipX", spriteRenderer.flipX);
         state.SetCustomData("isGrounded", isGrounded);
         state.SetCustomData("midJump", isMidJumpSequence);
+        state.SetCustomData("frameIndex", currentFrameIndex);
         
         // Save Animation State
         var animState = animator.GetCurrentAnimatorStateInfo(0);
@@ -356,6 +358,10 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
         spriteRenderer.flipX = state.GetCustomData<bool>("flipX");
         isGrounded = state.GetCustomData<bool>("isGrounded");
         isMidJumpSequence = state.GetCustomData<bool>("midJump");
+
+        // Restore the animation frame
+        int frameIndex = state.GetCustomData<int>("frameIndex");
+        SetFrame(frameIndex);
         
         // Restore Animation
         animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
