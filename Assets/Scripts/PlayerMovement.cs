@@ -11,7 +11,6 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     private Rigidbody2D rb;
     public float horizontalInput;
-    private bool jumpPressed;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -23,6 +22,13 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.1f;
     private float jumpBufferCounter;
 
+    [Header("Input Keys")]
+    [SerializeField] private Key moveLeftKey = Key.A;
+    [SerializeField] private Key moveRightKey = Key.D;
+    [SerializeField] private Key jumpKey = Key.Space;
+
+    private bool jumpPressedThisFrame;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,19 +36,47 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
-        // Skip input processing during rewind
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
+
+        horizontalInput = 0f;
+
+        var keyboard = Keyboard.current;
+        if (keyboard != null)
+        {
+            float left = keyboard[moveLeftKey].isPressed ? -1f : 0f;
+            float right = keyboard[moveRightKey].isPressed ? 1f : 0f;
+            horizontalInput = left + right;
+            
+            if (keyboard[jumpKey].wasPressedThisFrame)
+                jumpPressedThisFrame = true;
+        }
+
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            float stickX = gamepad.leftStick.x.ReadValue();
+            if (Mathf.Abs(stickX) > 0.1f)
+                horizontalInput = stickX;
+            
+            if (gamepad.dpad.left.isPressed)
+                horizontalInput = -1f;
+            if (gamepad.dpad.right.isPressed)
+                horizontalInput = 1f;
+            
+            if (gamepad.buttonSouth.wasPressedThisFrame)
+                jumpPressedThisFrame = true;
+        }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         
         if (jumpBufferCounter > 0)
             jumpBufferCounter -= Time.deltaTime;
         
-        if (jumpPressed)
+        if (jumpPressedThisFrame)
         {
             jumpBufferCounter = jumpBufferTime;
-            jumpPressed = false;
+            jumpPressedThisFrame = false;
         }
         
         if (jumpBufferCounter > 0 && isGrounded)
@@ -54,27 +88,14 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Skip physics updates during rewind
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
 
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
     
-    // New method for testing
     public void Jump()
     {
-        jumpPressed = true;
-    }
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        horizontalInput = context.ReadValue<Vector2>().x;
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-            Jump();
+        jumpPressedThisFrame = true;
     }
 }

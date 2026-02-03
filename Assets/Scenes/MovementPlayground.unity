@@ -217,6 +217,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  isGrounded: 0
   jumpBufferTime: 0.1
 --- !u!4 &74244309 stripped
 Transform:
@@ -386,6 +387,7 @@ GameObject:
   - component: {fileID: 437446942}
   - component: {fileID: 437446941}
   - component: {fileID: 437446944}
+  - component: {fileID: 437446945}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -511,6 +513,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &437446945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437446940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176bbfe389833fc46ba8488414a1f27e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::CameraFollow2D
+  target: {fileID: 74244309}
+  offset: {x: 0, y: 0, z: -10}
+  smoothTime: 0.15
+  zoomSmoothTime: 0.2
 --- !u!1 &437476068
 GameObject:
   m_ObjectHideFlags: 0
