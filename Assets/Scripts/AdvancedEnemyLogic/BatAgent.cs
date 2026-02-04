@@ -5,6 +5,7 @@ using Unity.MLAgents.Actuators;
 using TimeRewind;
 using log4net.DateFormatter;
 using UnityEditor.Rendering;
+using Unity.Collections;
 public class BatEnemyAI : Agent, IRewindable
 {
     [Header("Mode")]
@@ -36,11 +37,10 @@ public class BatEnemyAI : Agent, IRewindable
 
     public enum State { Sleeping, Idle, Chase }
     public State currentState = State.Idle;
+    public Transform obstacle;
 
     void Start()
     {
-        // Speed up game if training
-        if(trainingMode) Time.timeScale = 5f;
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
@@ -80,6 +80,17 @@ public class BatEnemyAI : Agent, IRewindable
             playerRb.linearVelocity = Vector2.zero;
             float randPlayerX = Random.Range(-10f, 10f);
             player.position = new Vector2(randPlayerX, -7f);
+
+            // Move the obstacle to a random location
+            float randX = Random.Range(-5f, 5f);
+            float randY = Random.Range(-2f, 2f);
+            // 50% chance to flip obstacle
+            Vector3 newScale = obstacle.localScale;
+            if (randY <= 0) {
+                newScale.x = -1f;
+            } else newScale.x = 1f;
+            obstacle.localScale = newScale; 
+            obstacle.localPosition = new Vector2(randX, randY);
         }
     }
 

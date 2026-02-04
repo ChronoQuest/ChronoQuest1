@@ -11,13 +11,13 @@ behaviors:
       num_epoch: 3
       learning_rate_schedule: linear
     network_settings:
-      normalize: false
+      normalize: true
       hidden_units: 128
       num_layers: 2
     reward_signals:
       extrinsic:
         gamma: 0.99
         strength: 1.0
-    max_steps: 500000
-    time_horizon: 64
-    summary_freq: 10000
+    max_steps: 1500000
+    time_horizon: 128
+    summary_freq: 20000
