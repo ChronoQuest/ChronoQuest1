@@ -26,7 +26,6 @@ public class PlayerPlatformer : MonoBehaviour
 
     private Rigidbody2D rb;
     public float horizontalInput;
-    private bool jumpPressed;
 
     [Header("Visuals")]
     [SerializeField] private Animator anim;
@@ -63,6 +62,13 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallJumpLockoutTime = 0.2f; // Time before you can grab a wall again
     private float wallJumpLockoutCounter;
 
+    [Header("Input Keys")]
+    [SerializeField] private Key moveLeftKey = Key.A;
+    [SerializeField] private Key moveRightKey = Key.D;
+    [SerializeField] private Key jumpKey = Key.Space;
+
+    private bool jumpPressedThisFrame;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -75,9 +81,40 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
-        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            return;
         FlipSprite();
         if (isDashing) return;
+        horizontalInput = 0f;
+
+        var keyboard = Keyboard.current;
+        if (keyboard != null)
+        {
+            float left = keyboard[moveLeftKey].isPressed ? -1f : 0f;
+            float right = keyboard[moveRightKey].isPressed ? 1f : 0f;
+            horizontalInput = left + right;
+            
+            if (keyboard[jumpKey].wasPressedThisFrame)
+                jumpPressedThisFrame = true;
+        }
+
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            float stickX = gamepad.leftStick.x.ReadValue();
+            if (Mathf.Abs(stickX) > 0.1f)
+                horizontalInput = stickX;
+            
+            if (gamepad.dpad.left.isPressed)
+                horizontalInput = -1f;
+            if (gamepad.dpad.right.isPressed)
+                horizontalInput = 1f;
+            
+            if (gamepad.buttonSouth.wasPressedThisFrame)
+                jumpPressedThisFrame = true;
+        }
+
+
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
@@ -159,7 +196,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            return;
 
         if (isDashing || isWallSliding || isWallJumping) return;
         // Apply horizontal movement while preserving falling/jumping speed
@@ -249,6 +287,10 @@ public class PlayerPlatformer : MonoBehaviour
 
         // Apply dash velocity based on the direction the player is facing
         float dashDirection = spriteRenderer.flipX ? -1f : 1f;
+        if (isWallSliding)
+        {
+            dashDirection = dashDirection*(-1);
+        }
         rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0f);
 
         if (anim != null) anim.SetTrigger("Dash");
