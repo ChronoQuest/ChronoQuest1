@@ -134535,9 +134535,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 390456860282783827, guid: c2d3adfe6f8dda345808bbf782a9ba12, type: 3}
       insertIndex: -1
       addedObject: {fileID: 392674422154696435}
-    - targetCorrespondingSourceObject: {fileID: 390456860282783827, guid: c2d3adfe6f8dda345808bbf782a9ba12, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1816664384247173716, guid: c2d3adfe6f8dda345808bbf782a9ba12, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6028488294896440029}
+      addedObject: {fileID: 3816776619258052365}
   m_SourcePrefab: {fileID: 100100000, guid: c2d3adfe6f8dda345808bbf782a9ba12, type: 3}
 --- !u!1 &256754504867725843 stripped
 GameObject:
@@ -134558,13 +134558,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TrapDamage
   damage: 1
   knockbackForce: 5
---- !u!60 &6028488294896440029
+--- !u!1 &2291509841592735764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1816664384247173716, guid: c2d3adfe6f8dda345808bbf782a9ba12, type: 3}
+  m_PrefabInstance: {fileID: 502998732822432320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!60 &3816776619258052365
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256754504867725843}
+  m_GameObject: {fileID: 2291509841592735764}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -134595,20 +134600,47 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 1}
+    oldSize: {x: 1.46875, y: 2}
+    newSize: {x: 0.15625, y: 1.6514099}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 1}
-      - {x: -0.95105654, y: 0.30901697}
-      - {x: -0.5877852, y: -0.80901706}
-      - {x: 0.58778536, y: -0.80901694}
-      - {x: 0.9510565, y: 0.30901712}
+    - - {x: 0.67846894, y: -1.5206097}
+      - {x: 0.65959454, y: -1.5531151}
+      - {x: 0.5430436, y: -1.5589707}
+      - {x: 0.53463936, y: -1.5922867}
+      - {x: 0.40798068, y: -1.5910398}
+      - {x: 0.15668154, y: -1.366617}
+      - {x: 0.12002945, y: -1.3552116}
+      - {x: 0.08740544, y: -1.2330775}
+      - {x: 0.07467699, y: 0.005351901}
+      - {x: -0.08624339, y: 0.0160563}
+      - {x: -0.085828304, y: -1.2371861}
+      - {x: -0.15123129, y: -1.3652902}
+      - {x: -0.40172815, y: -1.5899597}
+      - {x: -0.5357754, y: -1.5941458}
+      - {x: -0.53969264, y: -1.5526866}
+      - {x: -0.5581355, y: -1.5539329}
+      - {x: -0.66429377, y: -1.5581195}
+      - {x: -0.67585707, y: -1.5182458}
+      - {x: -0.74347544, y: -1.5194117}
+      - {x: -0.7449794, y: -1.5772955}
+      - {x: -0.69025207, y: -1.7046634}
+      - {x: -0.48550582, y: -1.9058032}
+      - {x: -0.43276787, y: -1.8592094}
+      - {x: -0.3755045, y: -1.9404303}
+      - {x: -0.32098293, y: -1.9784551}
+      - {x: -0.014806986, y: -2.0067916}
+      - {x: 0.3917687, y: -1.9665482}
+      - {x: 0.45092344, y: -1.9152263}
+      - {x: 0.484375, y: -1.9018468}
+      - {x: 0.7042675, y: -1.715405}
+      - {x: 0.7420945, y: -1.6180747}
+      - {x: 0.7343738, y: -1.5221877}
   m_UseDelaunayMesh: 1
 --- !u!4 &5768865019415692025 stripped
 Transform:
