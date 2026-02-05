@@ -20,12 +20,16 @@ namespace TimeRewind
         public bool IsRewinding => _isRewinding;
         public event Action OnRewindStarted;
         public event Action OnRewindStopped;
+        private Animator animator;
+        private SpriteRenderer spriteRenderer;
         
         #region Unity Lifecycle
         
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            if (animator == null) animator = GetComponent<Animator>();
+            if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         }
         
         private void OnEnable()
@@ -91,6 +95,7 @@ namespace TimeRewind
             _rb.bodyType = RigidbodyType2D.Kinematic;
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
+            animator.speed = 0;
         }
         
         public void OnStopRewind()
@@ -104,17 +109,30 @@ namespace TimeRewind
                 _rb.linearVelocity = _lastAppliedState.Velocity;
                 _rb.angularVelocity = _lastAppliedState.AngularVelocity;
             }
+            animator.speed = 1;
         }
         
         public RewindState CaptureState()
         {
-            return RewindState.CreateWithPhysics(
+            var state = RewindState.CreateWithPhysics(
                 transform.position,
                 transform.rotation,
                 _rb.linearVelocity,
                 _rb.angularVelocity,
                 Time.time
             );
+
+            if (animator != null)
+            {
+                AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
+                state.AnimatorStateHash = animInfo.shortNameHash;
+                state.AnimatorNormalizedTime = animInfo.normalizedTime;
+            }
+            if (spriteRenderer != null)
+            {
+                state.SetCustomData("IsFlipped", spriteRenderer.flipX);
+            }
+            return state;
         }
         
         public void ApplyState(RewindState state)
@@ -122,6 +140,15 @@ namespace TimeRewind
             transform.position = state.Position;
             transform.rotation = state.Rotation;
             _lastAppliedState = state;
+
+            if (animator != null)
+            {
+                animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+            }
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = state.GetCustomData<bool>("IsFlipped", false); 
+            }
         }
         
         #endregion
