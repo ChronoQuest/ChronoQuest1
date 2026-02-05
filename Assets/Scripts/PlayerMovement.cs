@@ -270,6 +270,8 @@ public class PlayerPlatformer : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
+
+        tutorialManager?.OnPlayerDash();
     }
 
     private IEnumerator WallJumpLogic()

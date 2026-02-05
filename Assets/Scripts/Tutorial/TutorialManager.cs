@@ -8,10 +8,10 @@ public class TutorialManager : MonoBehaviour
     {
         None,
         Movement,
+        Dash, 
         Jump,
         Attack,
         Rewind, 
-        Dash, 
         Complete
     }
 
@@ -69,6 +69,7 @@ public class TutorialManager : MonoBehaviour
         attackMessage = attackText.text;
         rewindMessage = rewindText.text;
         jumpMessage = jumpText.text; 
+        dashMessage = dashText.text; 
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -83,6 +84,11 @@ public class TutorialManager : MonoBehaviour
             previousHealth = playerHealth.CurrentHealth;
             playerHealth.OnHealthChanged += HandleHealthChanged;
         }
+
+        if (TimeRewind.TimeRewindManager.Instance != null)
+        {
+            TimeRewind.TimeRewindManager.Instance.OnRewindStart += HandleRewindStarted;
+        }
     }
 
     void Update()
@@ -92,10 +98,11 @@ public class TutorialManager : MonoBehaviour
         - ... and enemy are close together (attack check)
         */ 
         CheckPlayerIdle();
-        CheckAttackDistance();
+        // CheckAttackDistance();
         
         // if all hints have been completed, tutorial completed 
-        if (moveCompleted && attackCompleted && rewindCompleted && jumpCompleted && rewindCompleted && dashCompleted)
+        // TODO: add back attack completed once combat has been added
+        if (moveCompleted && rewindCompleted && jumpCompleted && rewindCompleted && dashCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -151,26 +158,28 @@ public class TutorialManager : MonoBehaviour
         SetStep(TutorialStep.Jump); 
     }
 
+    public void TriggerDashHint()
+    {
+        if (dashCompleted) return;
+        if (currentStep == TutorialStep.Dash) return; 
+
+        SetStep(TutorialStep.Dash); 
+    }
+
     // handles when the health changes, triggers either the rewind or dash hint 
     private void HandleHealthChanged(int current, int max)
     {
-       if (current < previousHealth)
-       {
-            hitCount++;
-            Debug.Log($"[Tutorial] Player hit count = {hitCount}");
+       if (current >= previousHealth)
+        {
+            previousHealth = current; 
+            return; 
+        }
 
-            if (!rewindCompleted)
-            {
-                SetStep(TutorialStep.Rewind); 
-            }
-
-            if (hitCount == 2 && !dashCompleted)
-            {
-                Debug.Log("Dash hint trigger");
-                SetStep(TutorialStep.Dash); 
-            }
-       }
-
+        if (current == 1 && !rewindCompleted)
+        {
+            SetStep(TutorialStep.Rewind); 
+        }
+       
        previousHealth = current; 
     }
 
@@ -178,12 +187,12 @@ public class TutorialManager : MonoBehaviour
     private void HandlePlayerDamaged()
     {
         hitCount++; 
-
-        if (hitCount >= 2 && !dashCompleted)
-        {
-            SetStep(TutorialStep.Dash); 
-        }
     }
+
+    private void HandleRewindStarted()
+    {
+        OnPlayerRewind();
+    }   
 
     // ** the following functions "OnPlayer..." mark tutorial steps as completed on certain player actions
     public void OnPlayerMoved()
@@ -196,7 +205,8 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
-    public void OnPlayerAttack()
+    // commented out until combat logic is added
+    /* public void OnPlayerAttack()
     {
         if (currentStep == TutorialStep.Attack && !attackCompleted)
         {
@@ -204,7 +214,7 @@ public class TutorialManager : MonoBehaviour
             attackHint.SetActive(false);
             Debug.Log("Player attack tutorial complete");
         }
-    }
+    } */ 
 
     public void OnPlayerJump()
     {
@@ -212,33 +222,29 @@ public class TutorialManager : MonoBehaviour
         {
             jumpCompleted = true;
             jumpHint.SetActive(false); 
-            Debug.Log("Player jump tutorial complete"); 
+            Debug.Log("Player jump tutorial complete");
         }
     }
 
     public void OnPlayerRewind()
     {
-        if (currentStep != TutorialStep.Rewind) return;
-        if (rewindCompleted) return;
-
-        if (playerHealth.CurrentHealth < playerHealth.MaxHealth)
-            return; 
-
-        rewindCompleted = true;
-        rewindHint.SetActive(false);
-        Debug.Log("Player rewind tutorial complete");
+        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        {
+            rewindCompleted = true;
+            rewindHint.SetActive(false);
+            Debug.Log("Player rewind tutorial complete");
+        }
     }
 
     public void OnPlayerDash()
     {
-        if (currentStep != TutorialStep.Dash) return; 
-        if (dashCompleted) return; 
-
-        dashCompleted = true; 
-        dashHint.SetActive(false); 
-        Debug.Log("Player dash tutorial complete"); 
+        if (currentStep == TutorialStep.Dash && !dashCompleted)
+        {
+            dashCompleted = true;
+            dashHint.SetActive(false);
+            Debug.Log("Player dash tutorial completed"); 
+        } 
     }
-
 
     // setting the current tutorial step and showing corresponding hint
     void SetStep(TutorialStep step)
@@ -287,5 +293,6 @@ public class TutorialManager : MonoBehaviour
         attackHint.SetActive(false);
         movementHint.SetActive(false);
         jumpHint.SetActive(false);
+        dashHint.SetActive(false); 
     }
 }
