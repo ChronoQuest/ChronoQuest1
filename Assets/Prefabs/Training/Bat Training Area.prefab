@@ -1227,7 +1227,6 @@ Transform:
   - {fileID: 735571749891470422}
   - {fileID: 4564095309887555841}
   - {fileID: 9006810791887159457}
-  - {fileID: 709043395643198331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6077086194462014838
@@ -1243,7 +1242,7 @@ GameObject:
   - component: {fileID: 5588112975984731029}
   m_Layer: 8
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1381,7 +1380,7 @@ GameObject:
   - component: {fileID: 6895860653318368882}
   m_Layer: 8
   m_Name: Ceiling
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1515,7 +1514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4564095309887555841}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Obstacle
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1742,7 +1741,7 @@ PrefabInstance:
       objectReference: {fileID: 735571749891470422}
     - target: {fileID: 535482973285320641, guid: d6b0c4208c1c1114f9446150d926c528, type: 3}
       propertyPath: trainingMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2266567368230100413, guid: d6b0c4208c1c1114f9446150d926c528, type: 3}
       propertyPath: m_Name
@@ -1754,7 +1753,7 @@ PrefabInstance:
       objectReference: {fileID: 5022602860645237092, guid: 09f884a6737da6a4a93c9de9fc108260, type: 3}
     - target: {fileID: 2637041425879578865, guid: d6b0c4208c1c1114f9446150d926c528, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2637041425879578865, guid: d6b0c4208c1c1114f9446150d926c528, type: 3}
       propertyPath: m_BrainParameters.NumStackedVectorObservations
@@ -1846,76 +1845,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6040852549760166573, guid: d6b0c4208c1c1114f9446150d926c528, type: 3}
   m_PrefabInstance: {fileID: 3901719747879767386}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &4153832611793470253
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1283908788825711810}
-    m_Modifications:
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 7.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7262448542793524538, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 9006810791887159457}
-    - target: {fileID: 7262448542793524538, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: obstacle
-      value: 
-      objectReference: {fileID: 4564095309887555841}
-    - target: {fileID: 8994668768586841926, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-      propertyPath: m_Name
-      value: AI_Sleeping_Bat (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
---- !u!4 &709043395643198331 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3490966969803622486, guid: 4bba43b574be26a498413c15a7b391f8, type: 3}
-  m_PrefabInstance: {fileID: 4153832611793470253}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4159510248582189701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1986,6 +1915,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1283908788825711810}
     m_Modifications:
+    - target: {fileID: 1375373832237887129, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat
@@ -2004,7 +1937,7 @@ PrefabInstance:
       objectReference: {fileID: 7345610767942002679}
     - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: trainingMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_LocalPosition.x

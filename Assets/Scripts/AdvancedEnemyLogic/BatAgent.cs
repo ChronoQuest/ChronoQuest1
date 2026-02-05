@@ -93,7 +93,7 @@ public class BatEnemyAI : Agent, IRewindable
             float randY = Random.Range(1f, 6f);
             // 50% chance to flip obstacle
             Vector3 newScale = obstacle.localScale;
-            if (randY <= 0) {
+            if (randY <= 3.5f) {
                 newScale.x = -1f;
             } else newScale.x = 1f;
             obstacle.localScale = newScale; 
@@ -115,6 +115,10 @@ public class BatEnemyAI : Agent, IRewindable
         // Access to other bat's position
         sensor.AddObservation(otherBatToPlayer.x);
         sensor.AddObservation(otherBatToPlayer.y);
+
+        // Let the bat know its speed
+        sensor.AddObservation(rb.linearVelocity.x);
+        sensor.AddObservation(rb.linearVelocity.y);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -161,17 +165,13 @@ public class BatEnemyAI : Agent, IRewindable
             }
             float batOffsetToPlayerX = transform.position.x - playerCollider.bounds.center.x;
             float otherBatOffsetToPlayerX = otherBat.transform.position.x - playerCollider.bounds.center.x;
-            // Reward bats for being on opposite sides of the player
+            // Bonus for flanking. A bat is no longer punished if the other gets stuck
             if (batOffsetToPlayerX * otherBatOffsetToPlayerX < 0f)
             {
                 AddReward(0.002f);
             }
-            // Punish bats if they are not equidistant to the player - this has a high weighting because we want synchronous attacks
-            AddReward(-0.0025f * (Mathf.Abs(batOffsetToPlayerX) - Mathf.Abs(otherBatOffsetToPlayerX)));
-            // Punish bats slightly if their heights differ
-            AddReward(-0.00005f * Mathf.Abs((transform.position.y - otherBat.transform.position.y)));
             // Reward for being close to player
-            AddReward(-0.005f * distToPlayer);
+            AddReward(-0.001f * distToPlayer);
         }
     }
     void Hover()
@@ -183,10 +183,13 @@ public class BatEnemyAI : Agent, IRewindable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (trainingMode && collision.gameObject.CompareTag("Player"))
-        {
-            AddReward(1.0f);
-            EndEpisode();
+        if(trainingMode){
+            // The main goal is to damage the player, so reward them and end episode
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                AddReward(1.0f);
+                EndEpisode();
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -195,6 +198,14 @@ public class BatEnemyAI : Agent, IRewindable
         {
             rb.linearVelocity = Vector2.zero; 
             Attack();
+        }
+        if (trainingMode)
+        {
+            // If the bat hits a wall, punish them continuously
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                AddReward(-0.01f);
+            }
         }
     }
     void Attack()
