@@ -33,7 +33,7 @@ public class PlayerPlatformer : MonoBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private float groundCheckRadius = 0.35f;
     [SerializeField] private LayerMask groundLayer;
     public bool isGrounded { get; private set; }
 
@@ -68,6 +68,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private Key jumpKey = Key.Space;
 
     private bool jumpPressedThisFrame;
+
+    public TutorialManager tutorialManager;
 
     private void Awake()
     {
@@ -173,6 +175,8 @@ public class PlayerPlatformer : MonoBehaviour
             jumpBufferCounter = 0f;            
             coyoteTimeCounter = 0f; // Prevent double jumping with coyote time
             if (anim != null) anim.SetTrigger("Jump");
+
+            tutorialManager?.OnPlayerJump();
         }
 
         if (isTouchingWall) 
@@ -207,11 +211,23 @@ public class PlayerPlatformer : MonoBehaviour
     // Called by Player Input Component (Move Action)
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (PauseMenu.isPaused)
+            return;
+        
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            return;
+
         horizontalInput = context.ReadValue<Vector2>().x;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (PauseMenu.isPaused)
+            return;
+
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            return;
+
         if (context.performed)
         {
             // 1. Only do a Wall Jump if the player is ACTUALLY sliding
@@ -244,6 +260,8 @@ public class PlayerPlatformer : MonoBehaviour
             anim.ResetTrigger("Dash"); // Clear dash so it doesn't fire after jump
             anim.SetTrigger("Jump");
         }
+
+        tutorialManager?.OnPlayerJump(); 
     }
 
     public void OnDash(InputAction.CallbackContext context)
@@ -252,6 +270,8 @@ public class PlayerPlatformer : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
+
+        tutorialManager?.OnPlayerDash();
     }
 
     private IEnumerator WallJumpLogic()

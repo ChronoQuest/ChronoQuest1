@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement; 
 
-public class FloatingText : MonoBehaviour
+public class TitleScreen : MonoBehaviour
 {
     public float floatAmplitude = 10f;
     public float floatFrequency = 2f;
@@ -19,5 +20,10 @@ public class FloatingText : MonoBehaviour
     {
         float yOffset = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
         rectTransform.anchoredPosition = startPosition + new Vector2(0f, yOffset);
+    }
+
+    public void StartButton()
+    {
+        SceneManager.LoadScene("GameScene"); 
     }
 }
