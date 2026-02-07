@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2212810745955177558}
   m_Layer: 8
   m_Name: Floor_Barrier (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 9194451849984806122}
   m_Layer: 8
   m_Name: Barrier
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -981,7 +981,7 @@ GameObject:
   - component: {fileID: 6874074616922342126}
   m_Layer: 8
   m_Name: Wall_Barrier (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1154,10 +1154,10 @@ MonoBehaviour:
   m_DetectableTags:
   - Player
   - Ground
-  m_RaysPerDirection: 6
+  m_RaysPerDirection: 12
   m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.1
-  m_RayLength: 3
+  m_SphereCastRadius: 0.02
+  m_RayLength: 5
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294965512
@@ -1179,7 +1179,7 @@ GameObject:
   - component: {fileID: 2620719288587466009}
   m_Layer: 8
   m_Name: Floor_Barrier
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1352,10 +1352,10 @@ MonoBehaviour:
   m_DetectableTags:
   - Player
   - Ground
-  m_RaysPerDirection: 6
+  m_RaysPerDirection: 12
   m_MaxRayDegrees: 180
-  m_SphereCastRadius: 0.1
-  m_RayLength: 3
+  m_SphereCastRadius: 0.02
+  m_RayLength: 5
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 264
@@ -1686,7 +1686,7 @@ GameObject:
   - component: {fileID: 6421292597110980001}
   m_Layer: 8
   m_Name: Wall_Barrier
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
