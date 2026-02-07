@@ -3,7 +3,7 @@ using UnityEngine;
 public class TutorialHintTrigger : MonoBehaviour
 {
     // TODO: track how many times player enters the collider so it doesnt retrigger
-    public enum HintType { Jump, Dash }
+    public enum HintType { Jump, Dash, DoubleJump, JumpSuccess }
 
     [SerializeField] private HintType hintType; 
     [SerializeField] private TutorialManager tutorial; 
@@ -20,6 +20,12 @@ public class TutorialHintTrigger : MonoBehaviour
                 break;
             case HintType.Dash:
                 tutorial.TriggerDashHint(); 
+                break;
+            case HintType.DoubleJump:
+                tutorial.TriggerDoubleJumpHint();
+                break; 
+            case HintType.JumpSuccess: 
+                tutorial.OnJumpSucceeded(); 
                 break; 
         }
     }

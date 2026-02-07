@@ -9,6 +9,7 @@ public class TutorialManager : MonoBehaviour
         None,
         Movement,
         Dash, 
+        DoubleJump,
         Jump,
         Attack,
         Rewind, 
@@ -22,7 +23,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject attackHint;
     public GameObject movementHint;
     public GameObject jumpHint; 
-    public GameObject dashHint; 
+    public GameObject dashHint;
+    public GameObject doubleJumpHint;  
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
@@ -39,6 +41,7 @@ public class TutorialManager : MonoBehaviour
     bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
+    bool doubleJumpCompleted = false; 
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -46,12 +49,14 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI rewindText;
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
+    public TextMeshProUGUI doubleJumpText; 
 
     private string movementMessage;
     private string attackMessage;
     private string rewindMessage;
     private string jumpMessage; 
     private string dashMessage; 
+    private string doubleJumpMessage; 
 
     [SerializeField] float idleTimeThreshold = 2f;
     float idleTimer = 0f;
@@ -61,6 +66,9 @@ public class TutorialManager : MonoBehaviour
 
     private int hitCount = 0; 
     private int previousHealth;
+    private bool jumpAttempted = false;         
+    private bool jumpSucceeded = false; 
+    [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
 
     void Start()
     {
@@ -70,6 +78,7 @@ public class TutorialManager : MonoBehaviour
         rewindMessage = rewindText.text;
         jumpMessage = jumpText.text; 
         dashMessage = dashText.text; 
+        doubleJumpMessage = doubleJumpText.text;
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -152,11 +161,28 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerJumpHint()
     {
+        if (currentStep == TutorialStep.DoubleJump) return;
+
         if (jumpCompleted) return;
         if (currentStep == TutorialStep.Jump) return; 
 
+        jumpAttempted = true; 
+        jumpSucceeded = false; 
         SetStep(TutorialStep.Jump); 
     }
+
+    public void TriggerDoubleJumpHint()
+    {
+        if (doubleJumpCompleted) return;
+        if (currentStep == TutorialStep.DoubleJump) return; 
+
+        SetStep(TutorialStep.DoubleJump); 
+
+        // TODO: change so double jump hint is hidden after a certain trigger
+        // hides the double jump hint after the timer runs out
+        CancelInvoke(nameof(HideDoubleJumpHint));
+        Invoke(nameof(HideDoubleJumpHint), doubleJumpHintDuration);
+    } 
 
     public void TriggerDashHint()
     {
@@ -164,6 +190,13 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Dash) return; 
 
         SetStep(TutorialStep.Dash); 
+    }
+
+    public void OnJumpSucceeded()
+    {
+        jumpSucceeded = true;
+        jumpAttempted = false;
+        Debug.Log("Jump successful"); 
     }
 
     // handles when the health changes, triggers either the rewind or dash hint 
@@ -246,6 +279,21 @@ public class TutorialManager : MonoBehaviour
         } 
     }
 
+    public void OnPlayerDoubleJump()
+    {
+        if (currentStep == TutorialStep.DoubleJump)
+        {
+            doubleJumpHint.SetActive(false); 
+            Debug.Log("Player double jump completed"); 
+        }
+    }
+
+    private void HideDoubleJumpHint()
+    {
+        doubleJumpHint.SetActive(false);
+        Debug.Log("Double jump hint hidden");
+    }
+
     // setting the current tutorial step and showing corresponding hint
     void SetStep(TutorialStep step)
     {   
@@ -283,6 +331,11 @@ public class TutorialManager : MonoBehaviour
                 dashText.text = dashMessage;
                 typewriter.StartTyping(dashText); 
                 break;
+            case TutorialStep.DoubleJump:
+                doubleJumpHint.SetActive(true); 
+                doubleJumpText.text = doubleJumpMessage;
+                typewriter.StartTyping(doubleJumpText); 
+                break; 
         }
     }
 
@@ -294,5 +347,6 @@ public class TutorialManager : MonoBehaviour
         movementHint.SetActive(false);
         jumpHint.SetActive(false);
         dashHint.SetActive(false); 
+        doubleJumpHint.SetActive(false); 
     }
 }
