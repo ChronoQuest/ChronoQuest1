@@ -72,7 +72,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_Name
-      value: Player (1)
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_Layer
@@ -86,6 +86,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ca9dfb1d4c1173144a53d8aae125a7e9, type: 2}
+    - target: {fileID: 3626916397498700004, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      propertyPath: m_Size.y
+      value: 1.17
+      objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -104,11 +112,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.56
+      value: -11.8
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -180,16 +188,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3521926307116115142}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
---- !u!212 &1893749182792678861 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3626916397498700004, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
-  m_PrefabInstance: {fileID: 2887537326957276457}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &4037756588005875937 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1160356261127867848, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
-  m_PrefabInstance: {fileID: 2887537326957276457}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4991978750263448100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
@@ -266,7 +264,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.48, y: 0.58}
-    newSize: {x: 1.92, y: 1.92}
+    newSize: {x: 1, y: 1.17}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -286,25 +284,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformer
   coyoteTime: 0.05
-  jumpBufferTime: 0.01
+  jumpBufferTime: 0.2
   moveSpeed: 5
   jumpForce: 12
+  totalJumpFrames: 8
   dashSpeed: 20
-  dashDuration: 0.2
+  dashDuration: 0.25
   dashCooldown: 1
+  dashPhaseLayers:
+    serializedVersion: 2
+    m_Bits: 9
   horizontalInput: 0
-  anim: {fileID: 4037756588005875937}
-  spriteRenderer: {fileID: 1893749182792678861}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   groundCheck: {fileID: 3547365591171035264}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  wallCheck: {fileID: 2444531916079921438}
   wallSlideSpeed: 2
   wallLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 256
+  wallCheckDistance: 0.8
+  isTouchingWall: 0
+  isWallSliding: 0
   extraJumps: 1
   wallCoyoteTime: 0.15
   wallJumpPower: {x: 10, y: 15}
@@ -472,6 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.PlayerRewindController
   rewindKey: 32
+  rewindHoldThreshold: 0
 --- !u!66 &2945315806622364923
 CompositeCollider2D:
   m_ObjectHideFlags: 0
