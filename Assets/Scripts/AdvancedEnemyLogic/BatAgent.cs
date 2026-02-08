@@ -74,28 +74,43 @@ public class BatEnemyAI : Agent, IRewindable
             rb.gravityScale = 0f;
             // Start bat in a random position every time, in the air
             float randBatX = Random.Range(-6f, 13f);
-            float randBatY = Random.Range(1f, 6f);
+            float randBatY = Random.Range(-2f, 8f);
             transform.localPosition = new Vector2(randBatX, randBatY);
             rb.linearVelocity = Vector2.zero;
 
             // Spawn the player in a random position, just above the floor
             Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-            playerRb.gravityScale = 0f; 
             playerRb.linearVelocity = Vector2.zero;
             playerRb.angularVelocity = 0f;
             float randPlayerX = Random.Range(-6f, 13f);
             // Player height slightly skewed to bottom, as that is most common
-            float randPlayerY = Random.Range(1f, 6f);
+            float randPlayerY;
+            
+            // 50% chance to be in the air
+            if (Random.value > 0.5f) 
+            {
+                randPlayerY = Random.Range(0f, 6f);
+                playerRb.gravityScale = 0f; 
+            }
+            else 
+            {
+                randPlayerY = -1.5f; 
+            }
+
             player.localPosition = new Vector2(randPlayerX, randPlayerY);
 
             // Move the obstacle to a random location
-            float randX = Random.Range(-6f, 10f);
-            float randY = Random.Range(1f, 6f);
+            float randX;
+            float randY = Random.Range(0f, 8f);
             // 50% chance to flip obstacle
             Vector3 newScale = obstacle.localScale;
-            if (randY <= 3.5f) {
+            if (Random.value > 0.5f) {
                 newScale.x = -1f;
-            } else newScale.x = 1f;
+                randX = Random.Range(1f, 13f);
+            } else {
+                newScale.x = 1f;
+                randX = Random.Range(-6f, 6f);
+            }
             obstacle.localScale = newScale; 
             obstacle.localPosition = new Vector2(randX, randY);
         }
@@ -103,20 +118,17 @@ public class BatEnemyAI : Agent, IRewindable
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Get distance to player
         Vector2 toPlayer = playerCollider.bounds.center - transform.position;
         Vector2 otherBatToPlayer = playerCollider.bounds.center - otherBat.transform.position;
 
-        bool either_side_of_player =  transform.localScale != otherBat.transform.localScale;
-    
-        // Give the AI access to the player's position
-        sensor.AddObservation(toPlayer.x); 
-        sensor.AddObservation(toPlayer.y);
-        // Access to other bat's position
-        sensor.AddObservation(otherBatToPlayer.x);
-        sensor.AddObservation(otherBatToPlayer.y);
+        // Limit values so works in large rooms. 
+        sensor.AddObservation(Mathf.Clamp(toPlayer.x, -20f, 20f));
+        sensor.AddObservation(Mathf.Clamp(toPlayer.y, -20f, 20f));
 
-        // Let the bat know its speed
+        sensor.AddObservation(Mathf.Clamp(otherBatToPlayer.x, -20f, 20f));
+        sensor.AddObservation(Mathf.Clamp(otherBatToPlayer.y, -20f, 20f));
+        
+        // Let the bat know its velocity
         sensor.AddObservation(rb.linearVelocity.x);
         sensor.AddObservation(rb.linearVelocity.y);
     }
@@ -143,15 +155,12 @@ public class BatEnemyAI : Agent, IRewindable
         
         currentState = State.Chase;
 
-        float forwardAmount = actions.ContinuousActions[0];
-        float upAmount = actions.ContinuousActions[1];
+        float moveX = actions.ContinuousActions[0];
+        float moveY = actions.ContinuousActions[1];
 
-        // Determine forward direction
-        float facingDirection = Mathf.Sign(transform.localScale.x);
+        Vector2 dir = new Vector2(moveX, moveY); 
 
-        Vector2 dir = new Vector2(forwardAmount * facingDirection, upAmount); 
-
-        rb.linearVelocity = dir * moveSpeed;
+        rb.linearVelocity = dir * moveSpeed; 
 
         FacePlayer();
         animator.SetTrigger("Chase");
@@ -167,15 +176,8 @@ public class BatEnemyAI : Agent, IRewindable
                 EndEpisode();
                 return;
             }
-            float batOffsetToPlayerX = transform.position.x - playerCollider.bounds.center.x;
-            float otherBatOffsetToPlayerX = otherBat.transform.position.x - playerCollider.bounds.center.x;
-            // Bonus for flanking. A bat is no longer punished if the other gets stuck
-            if (batOffsetToPlayerX * otherBatOffsetToPlayerX < 0f)
-            {
-                AddReward(0.002f);
-            }
             // Reward for being close to player
-            // AddReward(-0.001f * distToPlayer);
+            AddReward(-0.0005f * distToPlayer);
         }
     }
     void Hover()
@@ -188,16 +190,23 @@ public class BatEnemyAI : Agent, IRewindable
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(trainingMode){
-            // The main goal is to damage the player, so reward them and end episode
-            if (collision.gameObject.CompareTag("Player"))
+           if (collision.gameObject.CompareTag("Player"))
             {
+                float batOffsetX = transform.position.x - collision.transform.position.x;
+                float otherBatOffsetX = otherBat.transform.position.x - collision.transform.position.x;
+
+                if (batOffsetX * otherBatOffsetX < 0f) 
+                {
+                    // Extra reward for flank
+                    AddReward(1.0f);
+                }
                 AddReward(1.0f);
                 EndEpisode();
             }
             // We don't want the bats to crash into walls
             if (collision.gameObject.CompareTag("Ground"))
             {
-                AddReward(-0.5f);
+                AddReward(-0.01f);
             }
         }
     }
