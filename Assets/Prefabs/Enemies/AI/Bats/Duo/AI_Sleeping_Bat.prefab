@@ -267,7 +267,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 0e9d844becb1f504f86df39f082830c5, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 5179c1b141bdb454b9603b2f86f73c5f, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: BatBrain
@@ -319,3 +319,4 @@ MonoBehaviour:
   attackCooldown: 1.5
   currentState: 0
   obstacle: {fileID: 0}
+  controlsEnvironment: 0
