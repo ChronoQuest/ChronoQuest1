@@ -3,9 +3,6 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
-using log4net.DateFormatter;
-using UnityEditor.Rendering;
-using Unity.Collections;
 public class BatEnemyAI : Agent, IRewindable
 {
     [Header("Mode")]
