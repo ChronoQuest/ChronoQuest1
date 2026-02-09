@@ -35,6 +35,8 @@ public class BatEnemyAI : Agent, IRewindable
     public enum State { Sleeping, Idle, Chase }
     public State currentState = State.Idle;
     public Transform obstacle;
+    public bool controlsEnvironment = false;
+    private BatEnemyAI partnerAgent;
 
     void Start()
     {
@@ -44,6 +46,7 @@ public class BatEnemyAI : Agent, IRewindable
         animator = GetComponent<Animator>();
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
+        partnerAgent = otherBat.GetComponent<BatEnemyAI>();
     }
 
     protected override void OnEnable()
@@ -75,41 +78,59 @@ public class BatEnemyAI : Agent, IRewindable
             transform.localPosition = new Vector2(randBatX, randBatY);
             rb.linearVelocity = Vector2.zero;
 
-            // Spawn the player in a random position, just above the floor
-            Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-            playerRb.linearVelocity = Vector2.zero;
-            playerRb.angularVelocity = 0f;
-            float randPlayerX = Random.Range(-6f, 13f);
-            // Player height slightly skewed to bottom, as that is most common
-            float randPlayerY;
-            
-            // 50% chance to be in the air
-            if (Random.value > 0.5f) 
+            if (controlsEnvironment)
             {
-                randPlayerY = Random.Range(0f, 6f);
-                playerRb.gravityScale = 0f; 
-            }
-            else 
-            {
-                randPlayerY = -1.5f; 
-            }
+                // Move the obstacle to a random location
+                float randX;
+                float randY = Random.Range(-4f, 2f);
+                // 50% chance to flip obstacle
+                Vector3 newScale = obstacle.localScale;
+                if (Random.value > 0.5f) {
+                    newScale.x = -1f;
+                    randX = Random.Range(1f, 13f);
+                } else {
+                    newScale.x = 1f;
+                    randX = Random.Range(-6f, 6f);
+                }
+                obstacle.localScale = newScale; 
+                obstacle.localPosition = new Vector2(randX, randY);
 
-            player.localPosition = new Vector2(randPlayerX, randPlayerY);
-
-            // Move the obstacle to a random location
-            float randX;
-            float randY = Random.Range(0f, 8f);
-            // 50% chance to flip obstacle
-            Vector3 newScale = obstacle.localScale;
-            if (Random.value > 0.5f) {
-                newScale.x = -1f;
-                randX = Random.Range(1f, 13f);
-            } else {
-                newScale.x = 1f;
-                randX = Random.Range(-6f, 6f);
+                // Spawn the player in a random position, just above the floor
+                Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+                playerRb.linearVelocity = Vector2.zero;
+                playerRb.angularVelocity = 0f;
+                float randPlayerX;
+                float randPlayerY;
+                
+                // 50% chance to be in the air
+                if (Random.value > 0.7f) 
+                {
+                    // 70% chance to be on a platform in the air
+                    if(Random.value > 0.3f)
+                    {
+                        randPlayerY = randY + 6f;
+                        // Account for flipping of obstacle
+                        if(newScale.x == 1){
+                            randPlayerX = Random.Range(randX - 1.5f, randX + 1.5f) + 5f;
+                        }
+                        else
+                        {
+                            randPlayerX = Random.Range(randX - 1.5f, randX + 1.5f) + 3f;
+                        }
+                    // 30% chance to be flying (mid jump)
+                    } else {
+                        randPlayerX = Random.Range(-6f, 13f);
+                        randPlayerY = Random.Range(0f, 6f);
+                        playerRb.gravityScale = 0f; 
+                    }
+                }
+                else 
+                {
+                    randPlayerX = Random.Range(-6f, 13f);
+                    randPlayerY = -1.5f; 
+                }
+                player.localPosition = new Vector2(randPlayerX, randPlayerY);
             }
-            obstacle.localScale = newScale; 
-            obstacle.localPosition = new Vector2(randX, randY);
         }
     }
 
@@ -171,6 +192,10 @@ public class BatEnemyAI : Agent, IRewindable
             {
                 AddReward(-0.5f);
                 EndEpisode();
+                if (partnerAgent.StepCount > 0)
+                {
+                    partnerAgent.EndEpisode();
+                }
                 return;
             }
             // Reward for being close to player
@@ -199,6 +224,10 @@ public class BatEnemyAI : Agent, IRewindable
                 }
                 AddReward(1.0f);
                 EndEpisode();
+                if (partnerAgent.StepCount > 0)
+                {
+                    partnerAgent.EndEpisode();
+                }
             }
             // We don't want the bats to crash into walls
             if (collision.gameObject.CompareTag("Ground"))
