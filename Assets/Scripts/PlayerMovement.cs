@@ -23,6 +23,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float dashCooldown = 1f;
     private bool canDash = true;
     private bool isDashing;
+    private bool _isRewinding = false;
+    private PlayerRewindController rewindController;
 
     private Rigidbody2D rb;
     public float horizontalInput;
@@ -72,15 +74,20 @@ public class PlayerPlatformer : MonoBehaviour
 
     private TutorialManager tutorialManager;
 
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
         // Auto-assign components if they weren't dragged into the Inspector
         if (anim == null) anim = GetComponent<Animator>();
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
+
+        rewindController = GetComponent<PlayerRewindController>();
+        if (rewindController != null)
+        {
+            rewindController.OnRewindStarted += OnStartRewind;
+            rewindController.OnRewindStopped += OnStopRewind;
+        }
     }
 
     private void Update()
@@ -174,6 +181,7 @@ public class PlayerPlatformer : MonoBehaviour
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
             jumpBufferCounter = 0f;            
             coyoteTimeCounter = 0f; // Prevent double jumping with coyote time
             if (anim != null) anim.SetTrigger("Jump");
@@ -253,7 +261,7 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed && canDash)
+        if (context.performed && canDash && !_isRewinding)
         {
             StartCoroutine(Dash());
         }
@@ -283,7 +291,7 @@ public class PlayerPlatformer : MonoBehaviour
         if (anim != null) 
         {
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
-            anim.SetTrigger("Dash");
+            if (!_isRewinding) anim.SetTrigger("Dash");
         }
         
         // Save current gravity, then set to 0 so we don't drop while dashing
@@ -298,7 +306,7 @@ public class PlayerPlatformer : MonoBehaviour
         }
         rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0f);
 
-        if (anim != null) anim.SetTrigger("Dash");
+        if (anim != null && !_isRewinding) anim.SetTrigger("Dash");
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -340,5 +348,15 @@ public class PlayerPlatformer : MonoBehaviour
     public void TriggerJumpTest()
     {
         jumpBufferCounter = jumpBufferTime;
+    }
+
+    void OnStartRewind()
+    {
+        _isRewinding = true;
+    }
+
+    void OnStopRewind()
+    {
+        _isRewinding = false;
     }
 }
