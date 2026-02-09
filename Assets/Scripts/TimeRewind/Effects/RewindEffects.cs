@@ -24,6 +24,22 @@ namespace TimeRewind
         
         [Header("Screen Tint")]
         [SerializeField] private Color rewindTintColor = new Color(0.5f, 0.7f, 1f, 0.2f);
+
+        [Header("Rewind Burst (On Start)")]
+        [Tooltip("Seconds to keep the strong burst effect when rewind starts")]
+        [SerializeField] private float rewindBurstDuration = 1f;
+
+        [Tooltip("Burst saturation during rewind start (-100 to 100, black & white is -100)")]
+        [SerializeField] private float burstSaturation = -100f;
+
+        [Tooltip("Burst chromatic aberration intensity during rewind start (0-1)")]
+        [SerializeField] private float burstChromaticAberration = 0.8f;
+
+        [Tooltip("Burst vignette intensity during rewind start (0-1)")]
+        [SerializeField] private float burstVignetteIntensity = 0.6f;
+
+        [Tooltip("Burst tint color during rewind start")]
+        [SerializeField] private Color burstTintColor = new Color(0.6f, 0.85f, 1f, 0.35f);
         
         [Header("Audio Effects")]
         [Tooltip("Audio source for rewind sound effects")]
@@ -54,10 +70,12 @@ namespace TimeRewind
         private float _originalSaturation;
         private float _originalChromaticAberration;
         private float _originalVignetteIntensity;
+        private Color _originalColorFilter;
         
         // Current effect values
         private float _currentEffectWeight;
         private bool _isRewinding;
+        private float _burstTimer;
         
         #region Unity Lifecycle
         
@@ -111,6 +129,7 @@ namespace TimeRewind
             if (profile.TryGet(out _colorAdjustments))
             {
                 _originalSaturation = _colorAdjustments.saturation.value;
+                _originalColorFilter = _colorAdjustments.colorFilter.value;
             }
             
             if (profile.TryGet(out _chromaticAberration))
@@ -131,6 +150,7 @@ namespace TimeRewind
         private void HandleRewindStart()
         {
             _isRewinding = true;
+            _burstTimer = rewindBurstDuration;
             
             if (audioSource != null && rewindStartSound != null)
             {
@@ -151,6 +171,7 @@ namespace TimeRewind
         private void HandleRewindStop()
         {
             _isRewinding = false;
+            _burstTimer = 0f;
             
             if (audioSource != null && audioSource.isPlaying && audioSource.clip == rewindLoopSound)
             {
@@ -180,6 +201,13 @@ namespace TimeRewind
         
         private void UpdateEffects()
         {
+            if (_burstTimer > 0f)
+            {
+                _burstTimer -= Time.unscaledDeltaTime;
+                if (_burstTimer < 0f)
+                    _burstTimer = 0f;
+            }
+
             // Smoothly transition effect weight
             float targetWeight = _isRewinding ? 1f : 0f;
             _currentEffectWeight = Mathf.MoveTowards(
@@ -194,30 +222,60 @@ namespace TimeRewind
         
         private void ApplyPostProcessingEffects()
         {
+            float burstWeight = 0f;
+            if (rewindBurstDuration > 0f && _burstTimer > 0f)
+                burstWeight = Mathf.Clamp01(_burstTimer / rewindBurstDuration);
+
             if (_colorAdjustments != null)
             {
-                _colorAdjustments.saturation.value = Mathf.Lerp(
+                float baseSaturation = Mathf.Lerp(
                     _originalSaturation, 
                     rewindSaturation, 
                     _currentEffectWeight
+                );
+                _colorAdjustments.saturation.value = Mathf.Lerp(
+                    baseSaturation,
+                    burstSaturation,
+                    burstWeight
+                );
+
+                Color baseTint = Color.Lerp(
+                    _originalColorFilter,
+                    rewindTintColor,
+                    _currentEffectWeight
+                );
+                _colorAdjustments.colorFilter.value = Color.Lerp(
+                    baseTint,
+                    burstTintColor,
+                    burstWeight
                 );
             }
             
             if (_chromaticAberration != null)
             {
-                _chromaticAberration.intensity.value = Mathf.Lerp(
+                float baseChromatic = Mathf.Lerp(
                     _originalChromaticAberration, 
                     rewindChromaticAberration, 
                     _currentEffectWeight
+                );
+                _chromaticAberration.intensity.value = Mathf.Lerp(
+                    baseChromatic,
+                    burstChromaticAberration,
+                    burstWeight
                 );
             }
             
             if (_vignette != null)
             {
-                _vignette.intensity.value = Mathf.Lerp(
+                float baseVignette = Mathf.Lerp(
                     _originalVignetteIntensity, 
                     rewindVignetteIntensity, 
                     _currentEffectWeight
+                );
+                _vignette.intensity.value = Mathf.Lerp(
+                    baseVignette,
+                    burstVignetteIntensity,
+                    burstWeight
                 );
             }
         }

@@ -44,20 +44,20 @@ namespace TimeRewind
         
         private void Update()
         {
+            _rewindInputHeld = false;
+            
             var keyboard = Keyboard.current;
-            if (keyboard != null)
-            {
-                _rewindInputHeld = keyboard[rewindKey].isPressed;
-            }
+            if (keyboard != null && keyboard[rewindKey].isPressed)
+                _rewindInputHeld = true;
+            
+            var gamepad = Gamepad.current;
+            if (gamepad != null && (gamepad.leftTrigger.ReadValue() > 0.5f || gamepad.rightShoulder.isPressed))
+                _rewindInputHeld = true;
             
             if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding)
-            {
                 TimeRewindManager.Instance.StartRewind();
-            }
             else if (!_rewindInputHeld && TimeRewindManager.Instance.IsRewinding)
-            {
                 TimeRewindManager.Instance.StopRewind();
-            }
         }
         
         #endregion
