@@ -17,10 +17,14 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
 
+    [Header("Animation")]
+    [SerializeField] private float totalJumpFrames = 9f;
+
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private LayerMask dashPhaseLayers;
     private bool canDash = true;
     private bool isDashing;
     private bool _isRewinding = false;
@@ -32,6 +36,7 @@ public class PlayerPlatformer : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Animator anim;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
@@ -41,11 +46,12 @@ public class PlayerPlatformer : MonoBehaviour
     public bool isGrounded { get; private set; }
 
     [Header("Wall Slide")]
-    [SerializeField] private Transform wallCheck;
+    // [SerializeField] private Transform wallCheck;
     [SerializeField] private float wallSlideSpeed = 2f;
-    [SerializeField] private LayerMask wallLayer; // can be = GroundLayer
-    private bool isTouchingWall;
-    private bool isWallSliding;
+    [SerializeField] private LayerMask wallLayer; 
+    [SerializeField] private float wallCheckDistance = 0.8f;
+    [SerializeField] private bool isTouchingWall;
+    [SerializeField] private bool isWallSliding;
 
     [Header("Double Jump")]
     [SerializeField] private int extraJumps = 1; // Number of mid-air jumps allowed
@@ -71,6 +77,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private Key jumpKey = Key.Space;
 
     private bool jumpPressedThisFrame;
+    private bool wasGrounded;
+    private bool isLanding;
 
     private TutorialManager tutorialManager;
 
@@ -92,42 +100,26 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
+        if (isDashing) return;
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
         FlipSprite();
-        if (isDashing) return;
-        horizontalInput = 0f;
-
-        var keyboard = Keyboard.current;
-        if (keyboard != null)
-        {
-            float left = keyboard[moveLeftKey].isPressed ? -1f : 0f;
-            float right = keyboard[moveRightKey].isPressed ? 1f : 0f;
-            horizontalInput = left + right;
-            
-            if (keyboard[jumpKey].wasPressedThisFrame)
-                jumpPressedThisFrame = true;
-        }
-
-        var gamepad = Gamepad.current;
-        if (gamepad != null)
-        {
-            float stickX = gamepad.leftStick.x.ReadValue();
-            if (Mathf.Abs(stickX) > 0.1f)
-                horizontalInput = stickX;
-            
-            if (gamepad.dpad.left.isPressed)
-                horizontalInput = -1f;
-            if (gamepad.dpad.right.isPressed)
-                horizontalInput = 1f;
-            
-            if (gamepad.buttonSouth.wasPressedThisFrame)
-                jumpPressedThisFrame = true;
-        }
+        float kb = 0f;
+        if (Keyboard.current != null)
+            kb = (Keyboard.current.aKey.isPressed ? -1f : 0f) + (Keyboard.current.dKey.isPressed ? 1f : 0f);
+        float gp = 0f;
+        if (Gamepad.current != null)
+            gp = Gamepad.current.leftStick.x.ReadValue();
+        horizontalInput = Mathf.Clamp(kb + gp, -1f, 1f);
 
 
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (isGrounded && !wasGrounded && !isLanding)
+        {
+            StartCoroutine(LandingRoutine());
+        }
+        wasGrounded = isGrounded;
 
         if (isGrounded && rb.linearVelocity.y <= 0.1f)
         {
@@ -145,13 +137,23 @@ public class PlayerPlatformer : MonoBehaviour
         if (wallJumpLockoutCounter > 0) wallJumpLockoutCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
-        float senseDirection = spriteRenderer.flipX ? -1f : 1f;
-        float wallDistance = 0.5f;
 
-        // This calculates the position manually, ignoring PPU/Child shifts
-        Vector3 manualWallCheckPos = transform.position + new Vector3(senseDirection * wallDistance, 0.8f, 0);
+        float direction = spriteRenderer.flipX ? -1f : 1f;
 
-        isTouchingWall = Physics2D.OverlapCircle(manualWallCheckPos, 0.45f, wallLayer);
+        // Raise the origin to "Chest Height" (e.g., +0.5f Y)
+        // This is CRITICAL: It ensures we don't hit the floor and think it's a wall.
+        Vector2 wallOrigin = new Vector2(transform.position.x, transform.position.y + 0.5f);
+
+        RaycastHit2D wallHit = Physics2D.Raycast(
+            wallOrigin, 
+            Vector2.right * direction, 
+            wallCheckDistance, 
+            groundLayer // Using the same layer!
+        );
+
+        isTouchingWall = wallHit.collider != null;
+
+        
 
         //if player is pushing towards wall -> actually slide
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
@@ -162,6 +164,7 @@ public class PlayerPlatformer : MonoBehaviour
             float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
             playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
             isWallSliding = true;
+            extraJumpsRemaining = 1;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
         }
         else
@@ -173,8 +176,14 @@ public class PlayerPlatformer : MonoBehaviour
         if (anim != null)
         {
             anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
-            anim.SetBool("isGrounded", isGrounded);
+            if (!isLanding) 
+            {
+                anim.SetBool("isGrounded", isGrounded);
+                // Only update airborne frames if we are actually in the air
+                if (!isGrounded) UpdateAirborneAnimation(); 
+            }
             anim.SetBool("isWallSliding", isWallSliding);
+            UpdateAirborneAnimation();
         }
         
         // Jump Logic
@@ -217,11 +226,7 @@ public class PlayerPlatformer : MonoBehaviour
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
-    // Called by Player Input Component (Move Action)
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        horizontalInput = context.ReadValue<Vector2>().x;
-    }
+   
 
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -237,34 +242,99 @@ public class PlayerPlatformer : MonoBehaviour
             else if (coyoteTimeCounter > 0f || extraJumpsRemaining > 0)
             {
                 if (coyoteTimeCounter <= 0f) extraJumpsRemaining--;
-                ExecuteJump();
+                StartCoroutine(JumpRoutine(extraJumpsRemaining));
             }
         
             jumpBufferCounter = jumpBufferTime;
         }
     }
 
-    private void ExecuteJump()
+    // =========================================================
+    // JUMP ROUTINE (SHORT + SAFE)
+    // =========================================================
+    IEnumerator JumpRoutine(int extraJumpsRemaining)
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-    
         // Clear buffers so we don't trigger two jumps at once
         jumpBufferCounter = 0f;
         coyoteTimeCounter = 0f;
+        anim.SetTrigger("Jump");
 
-        if (anim != null) 
+        if (extraJumpsRemaining>0)
         {
-            anim.ResetTrigger("Dash"); // Clear dash so it doesn't fire after jump
-            anim.SetTrigger("Jump");
+            anim.SetBool("isGrounded", true); 
+            SetFrame(0); // brace
+            yield return new WaitForSeconds(0.02f);
+            SetFrame(1);
         }
+        else
+        {
+            SetFrame(2); // mid-air start
+        }
+
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        isGrounded = false;
+    
+
+        yield return null;
+    }
+    // =========================================================
+    // AIRBORNE ANIMATION (GLOBAL)
+    // =========================================================
+    void UpdateAirborneAnimation()
+    {
+        if (isGrounded) return;
+
+        
+
+        float vy = rb.linearVelocity.y;
+
+        if (vy > 5f)            SetFrame(2);
+        else if (vy > 0.1f)     SetFrame(3);
+        else if (vy > -0.1f)    SetFrame(3);
+        else if (vy > -10f)      SetFrame(4);
+        else                    SetFrame(5);
+    }
+
+    // =========================================================
+    // LANDING
+    // =========================================================
+    IEnumerator UpdateLanding()
+    {
+        isLanding = true; // Lock the Update loop out of the animator
+    
+        // Keep the animator in "Air" state so SetFrame works
+        anim.SetBool("isGrounded", false); 
+
+        SetFrame(6); // Impact Frame
+        yield return new WaitForSeconds(0.1f); // 0.5s is too long for a landing! Reduced to 0.1f
+        
+        SetFrame(7); // Recovery Frame
+        yield return new WaitForSeconds(0.1f);
+
+        isLanding = false; // Release the lock
+        anim.SetBool("isGrounded", true); // Return to idle
+    }
+
+    IEnumerator LandingRoutine()
+    {
+
+        SetFrame(6);
+        yield return new WaitForSeconds(0.05f);
+        SetFrame(7);
+        yield return new WaitForSeconds(0.09f);
+        SetFrame(8);
+        yield return new WaitForSeconds(0.09f);
+
+        anim.SetBool("isGrounded", true);
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed && canDash && !_isRewinding)
-        {
-            StartCoroutine(Dash());
-        }
+        if (!context.performed || isDashing || _isRewinding) return;
+        var gamepad = Gamepad.current;
+        if (gamepad != null && context.control?.device == gamepad && gamepad.leftTrigger.ReadValue() > 0.5f)
+            return;
+        if (canDash) StartCoroutine(Dash());
     }
 
     private IEnumerator WallJumpLogic()
@@ -283,10 +353,10 @@ public class PlayerPlatformer : MonoBehaviour
         isWallJumping = false;
     }
 
-    private IEnumerator Dash()
+    IEnumerator Dash()
     {
-        canDash = false;
         isDashing = true;
+        canDash = false;
 
         if (anim != null) 
         {
@@ -294,27 +364,38 @@ public class PlayerPlatformer : MonoBehaviour
             if (!_isRewinding) anim.SetTrigger("Dash");
         }
         
-        // Save current gravity, then set to 0 so we don't drop while dashing
-        float originalGravity = rb.gravityScale;
+        float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
+        SetDashPhasing(true);
 
-        // Apply dash velocity based on the direction the player is facing
-        float dashDirection = spriteRenderer.flipX ? -1f : 1f;
-        if (isWallSliding)
-        {
-            dashDirection = dashDirection*(-1);
-        }
-        rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0f);
-
-        if (anim != null && !_isRewinding) anim.SetTrigger("Dash");
+        float dir = spriteRenderer.flipX ? -1f : 1f;
+        if (isTouchingWall) dir = -dir;
+        rb.linearVelocity = new Vector2(dir * dashSpeed, 0f);
 
         yield return new WaitForSeconds(dashDuration);
+        SetDashPhasing(false);
 
-        rb.gravityScale = originalGravity;
+        rb.gravityScale = gravity;
         isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+    }
+    // Helper to toggle collision with specific layers
+    private void SetDashPhasing(bool ignore)
+    {
+        int playerLayer = gameObject.layer;
+        
+        // Loop through all 32 possible layers
+        for (int i = 0; i < 32; i++)
+        {
+            // If the layer 'i' is selected in our LayerMask...
+            if ((dashPhaseLayers.value & (1 << i)) != 0)
+            {
+                // Toggle collision between Player and that Layer
+                Physics2D.IgnoreLayerCollision(playerLayer, i, ignore);
+            }
+        }
     }
 
     void FlipSprite()
@@ -326,13 +407,17 @@ public class PlayerPlatformer : MonoBehaviour
         if (!spriteRenderer.flipX) // Facing Right
         {
             playerCollider.offset = new Vector2(-0.06f, 0.007f); 
-            wallCheck.localPosition = new Vector2(0.5f, 0.8f); 
+            // wallCheck.localPosition = new Vector2(0.5f, 0.8f); 
         }
         else // Facing Left
         {
             playerCollider.offset = new Vector2(0.05f, 0.007f); 
-            wallCheck.localPosition = new Vector2(-0.5f, 0.8f);
+            // wallCheck.localPosition = new Vector2(-0.5f, 0.8f);
         }
+    }
+    void SetFrame(int frame)
+    {
+        anim.SetFloat("VerticalNormal", frame / totalJumpFrames);
     }
 
     // Visualization for the Ground Check in the Scene View
@@ -343,6 +428,12 @@ public class PlayerPlatformer : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
+        // Draw Wall Check (Blue Line)
+    float direction = (spriteRenderer != null && spriteRenderer.flipX) ? -1f : 1f;
+    Vector3 wallOrigin = transform.position + new Vector3(0, 0.5f, 0);
+    
+    Gizmos.color = isTouchingWall ? Color.green : Color.blue;
+    Gizmos.DrawLine(wallOrigin, wallOrigin + (Vector3.right * direction * wallCheckDistance));
     }
 
     public void TriggerJumpTest()
@@ -360,3 +451,6 @@ public class PlayerPlatformer : MonoBehaviour
         _isRewinding = false;
     }
 }
+
+
+

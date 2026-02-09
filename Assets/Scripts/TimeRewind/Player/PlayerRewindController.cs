@@ -8,12 +8,13 @@ namespace TimeRewind
     public class PlayerRewindController : MonoBehaviour, IRewindable
     {
         [Header("Input")]
-        [Tooltip("The key to hold for rewinding time")]
         [SerializeField] private Key rewindKey = Key.R;
+        [SerializeField] private float rewindHoldThreshold = 0f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
         private bool _rewindInputHeld;
+        private float _rewindHoldTimer;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
         
@@ -58,8 +59,17 @@ namespace TimeRewind
                 _rewindInputHeld = true;
             
             var gamepad = Gamepad.current;
-            if (gamepad != null && (gamepad.leftTrigger.ReadValue() > 0.5f || gamepad.rightShoulder.isPressed))
-                _rewindInputHeld = true;
+            bool bothTriggers = gamepad != null
+                && gamepad.leftTrigger.ReadValue() > 0.5f
+                && gamepad.rightTrigger.ReadValue() > 0.5f;
+            if (bothTriggers)
+            {
+                _rewindHoldTimer += Time.deltaTime;
+                if (_rewindHoldTimer >= rewindHoldThreshold)
+                    _rewindInputHeld = true;
+            }
+            else
+                _rewindHoldTimer = 0f;
             
             if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding)
                 TimeRewindManager.Instance.StartRewind();
