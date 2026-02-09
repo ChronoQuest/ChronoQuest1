@@ -27,6 +27,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private LayerMask dashPhaseLayers;
     private bool canDash = true;
     private bool isDashing;
+    private bool _isRewinding = false;
+    private PlayerRewindController rewindController;
 
     private Rigidbody2D rb;
     public float horizontalInput;
@@ -80,11 +82,17 @@ public class PlayerPlatformer : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
         // Auto-assign components if they weren't dragged into the Inspector
         if (anim == null) anim = GetComponent<Animator>();
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         playerCollider = GetComponent<BoxCollider2D>();
+
+        rewindController = GetComponent<PlayerRewindController>();
+        if (rewindController != null)
+        {
+            rewindController.OnRewindStarted += OnStartRewind;
+            rewindController.OnRewindStopped += OnStopRewind;
+        }
     }
 
     private void Update()
@@ -317,7 +325,7 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (!context.performed || isDashing) return;
+        if (!context.performed || isDashing || _isRewinding) return;
         var gamepad = Gamepad.current;
         if (gamepad != null && context.control?.device == gamepad && gamepad.leftTrigger.ReadValue() > 0.5f)
             return;
@@ -348,7 +356,7 @@ public class PlayerPlatformer : MonoBehaviour
         if (anim != null) 
         {
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
-            anim.SetTrigger("Dash");
+            if (!_isRewinding) anim.SetTrigger("Dash");
         }
         
         float gravity = rb.gravityScale;
@@ -426,6 +434,16 @@ public class PlayerPlatformer : MonoBehaviour
     public void TriggerJumpTest()
     {
         jumpBufferCounter = jumpBufferTime;
+    }
+
+    void OnStartRewind()
+    {
+        _isRewinding = true;
+    }
+
+    void OnStopRewind()
+    {
+        _isRewinding = false;
     }
 }
 
