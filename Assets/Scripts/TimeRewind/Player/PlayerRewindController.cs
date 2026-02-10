@@ -10,6 +10,9 @@ namespace TimeRewind
         [Header("Input")]
         [SerializeField] private Key rewindKey = Key.R;
         [SerializeField] private float rewindHoldThreshold = 0f;
+
+        [Header("Mana Cost")]
+        [SerializeField] private float manaDrainPerSecond = 10f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
@@ -17,6 +20,7 @@ namespace TimeRewind
         private float _rewindHoldTimer;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
+        private PlayerMana _playerMana;
         
         public bool IsRewinding => _isRewinding;
         public event Action OnRewindStarted;
@@ -31,6 +35,7 @@ namespace TimeRewind
             _rb = GetComponent<Rigidbody2D>();
             if (animator == null) animator = GetComponent<Animator>();
             if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+            _playerMana = GetComponent<PlayerMana>();
         }
         
         private void OnEnable()
@@ -71,10 +76,22 @@ namespace TimeRewind
             else
                 _rewindHoldTimer = 0f;
             
-            if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding)
+            bool hasMana = _playerMana != null && _playerMana.CurrentMana > 0f;
+
+            if (_rewindInputHeld && hasMana && !TimeRewindManager.Instance.IsRewinding)
+            {
                 TimeRewindManager.Instance.StartRewind();
-            else if (!_rewindInputHeld && TimeRewindManager.Instance.IsRewinding)
-                TimeRewindManager.Instance.StopRewind();
+            }
+            else if (TimeRewindManager.Instance.IsRewinding)
+            {
+                // Drain mana every frame while rewinding
+                bool canContinue = _playerMana != null 
+                    && _playerMana.DrainManaContinuous(manaDrainPerSecond);
+
+                // Stop if player releases input OR runs out of mana
+                if (!_rewindInputHeld || !canContinue)
+                    TimeRewindManager.Instance.StopRewind();
+            }
         }
         
         #endregion
