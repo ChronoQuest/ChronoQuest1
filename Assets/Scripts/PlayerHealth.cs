@@ -32,6 +32,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public event Action<int, int> OnHealthChanged;
     public event Action OnDeath;
     private Animator animator; 
+    public GameOverUI gameOverUI;
 
     private void Awake()
     {
@@ -132,19 +133,29 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         animator.enabled = false;
     }
 
-    private void Die()
+    private IEnumerator HandleDeath()
     {
-        if (IsDead) return; 
-        IsDead = true;
-        OnDeath?.Invoke();
-        Debug.Log("Player Died");
+        var playerMovement = GetComponent<PlayerPlatformer>(); 
+        var rb = GetComponent<Rigidbody2D>();
+        var col = GetComponent<Collider2D>(); 
+        
+        if (col != null) col.enabled = false;
 
         if (animator != null)
         {
             animator.SetTrigger("Die"); 
         }
 
-        var rb = GetComponent<Rigidbody2D>();
+        // waits until player is grounded
+        if (playerMovement != null)
+        {
+            while (!playerMovement.isGrounded) 
+                yield return null; 
+        }
+
+        if (playerMovement != null) 
+            playerMovement.enabled = false; 
+
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero; 
@@ -154,13 +165,29 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             rb.simulated = false; 
         }
 
-        var col = GetComponent<Collider2D>(); 
-        if (col != null) col.enabled = false; 
+        if (animator != null)
+        {
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Death"))
+                yield return null; 
 
-        var playerMovement = GetComponent<PlayerPlatformer>(); 
-        if (playerMovement != null) playerMovement.enabled = false;
+            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) 
+                yield return null; 
+        }
 
-        StartCoroutine(FreezeAnimatorAfterDeath()); 
+        if (gameOverUI != null) gameOverUI.ShowGameOver(); 
+
+        // OnDeath?.Invoke(); 
+
+        // StartCoroutine(FreezeAnimatorAfterDeath()); 
+    }
+
+    private void Die()
+    {   
+        if (IsDead) return; 
+        IsDead = true;
+        Debug.Log("Player Died");
+
+        StartCoroutine(HandleDeath()); 
 
         // Ensure sprite is visible when dead (optional)
         if (spriteRenderer != null) spriteRenderer.enabled = true;

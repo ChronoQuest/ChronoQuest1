@@ -97,9 +97,19 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
-        if (GetComponent<PlayerHealth>()?.IsDead == true)
+        bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
+
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position, 
+            groundCheckRadius, 
+            groundLayer
+        ); 
+
+        if (anim != null) 
+            anim.SetBool("isGrounded", isGrounded); 
+        
+        if (isDead)
         {
-            anim.SetBool("isDead", true); 
             return; 
         }
         
