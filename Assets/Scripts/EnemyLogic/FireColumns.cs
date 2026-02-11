@@ -1,26 +1,31 @@
  using TimeRewind;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Animations;
 public class Firecolumns : MonoBehaviour, IRewindable
 {
     public int damage = 1;
+    public float moveSpeed = 3f;
+    public float timeToChange = 0.5f;
     private Rigidbody2D rb;
     private bool _isRewinding;
-    private float startX;
     private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
+    private float nextChangeTime;
+    private Vector2 currentVelocity;
+    private float startTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //Destroy after 12 seconds (5 seconds pre rewind, 5 seconds post rewind, 1 sec buffer for each)
-        Destroy(transform.parent.gameObject, 12f);
-        startX = transform.position.x;
+        Destroy(gameObject, 12f);
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
         }     
         rb = GetComponent<Rigidbody2D>();
+        startTime = Time.time;
     }
     // Update is called once per frame
     void Update()
@@ -29,11 +34,17 @@ public class Firecolumns : MonoBehaviour, IRewindable
 
     void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(-4f, 0);
-        if(transform.position.x < -11f)
+        if(_isRewinding) return;
+        if (Time.time >= nextChangeTime)
         {
-            gameObject.SetActive(false);
+            if (Random.value > 0.5f) currentVelocity = new Vector2(-1f, 0f) * moveSpeed;
+            else currentVelocity = new Vector2(1f, 0f) * moveSpeed;
+            nextChangeTime = Time.time + timeToChange;
         }
+        if (transform.position.x < -14f) currentVelocity = new Vector2(1f, 0f) * moveSpeed;
+        if (transform.position.x > -5.3f) currentVelocity = new Vector2(-1f, 0f) * moveSpeed;
+        if(Time.time > startTime + 5f) gameObject.SetActive(false);
+        rb.linearVelocity = currentVelocity;
     }
     void OnDestroy()
     {
@@ -68,6 +79,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
+        nextChangeTime = Time.time + timeToChange;
     }
     public RewindState CaptureState()
     {
@@ -88,7 +100,11 @@ public class Firecolumns : MonoBehaviour, IRewindable
         transform.position = state.Position;
         transform.rotation = state.Rotation;
         _lastAppliedState = state;
-        if(transform.position.x > startX - 0.2f) Destroy(transform.parent.gameObject);
+        if (state.Timestamp <= startTime + 0.1f)
+        {
+            Destroy(gameObject);
+            return; 
+        }
         // Custom state, true is default
         bool wasActive = state.GetCustomData<bool>("IsActive", true);
         // Only change the state if it's different to avoid overhead

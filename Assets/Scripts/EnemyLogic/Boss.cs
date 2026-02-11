@@ -62,7 +62,7 @@ public class Boss : MonoBehaviour, IRewindable
     IEnumerator Attack()
     {
         isAttacking = true;
-        if(Random.value > 1f){
+        if(Random.value > 0.5f){
             yield return StartCoroutine(Fireballs());
         }
         else yield return StartCoroutine(FireColumns());

@@ -10668,7 +10668,7 @@ GameObject:
   - component: {fileID: 508054505}
   - component: {fileID: 508054506}
   - component: {fileID: 508054507}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10803,7 +10803,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508054501}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -11130,25 +11130,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1644750198123409218, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
-      propertyPath: m_Mass
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1644750198123409218, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053579986843738629, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
-      propertyPath: m_Mass
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053579986843738629, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 8643562789224903714, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.3
+      value: -5.3
       objectReference: {fileID: 0}
     - target: {fileID: 8643562789224903714, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
       propertyPath: m_LocalPosition.y
