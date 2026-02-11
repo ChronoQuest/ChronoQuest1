@@ -54,7 +54,7 @@ namespace TimeRewind
 
         public static RewindState Lerp(RewindState a, RewindState b, float t)
         {
-            return new RewindState
+            var result = new RewindState
             {
                 Timestamp = Mathf.Lerp(a.Timestamp, b.Timestamp, t),
                 Position = Vector3.Lerp(a.Position, b.Position, t),
@@ -64,8 +64,24 @@ namespace TimeRewind
                 Health = Mathf.RoundToInt(Mathf.Lerp(a.Health, b.Health, t)),
                 AnimatorStateHash = t < 0.5f ? a.AnimatorStateHash : b.AnimatorStateHash,
                 AnimatorNormalizedTime = Mathf.Lerp(a.AnimatorNormalizedTime, b.AnimatorNormalizedTime, t),
-                CustomData = t < 0.5f ? a.CustomData : b.CustomData
+                CustomData = null
             };
+
+            // Interpolate animator CustomData for smooth rewind
+            if (a.CustomData != null || b.CustomData != null)
+            {
+                result.SetCustomData("VerticalNormal", Mathf.Lerp(
+                    a.GetCustomData<float>("VerticalNormal", 0f),
+                    b.GetCustomData<float>("VerticalNormal", 0f), t));
+                result.SetCustomData("Speed", Mathf.Lerp(
+                    a.GetCustomData<float>("Speed", 0f),
+                    b.GetCustomData<float>("Speed", 0f), t));
+                result.SetCustomData("isGrounded", t < 0.5f ? a.GetCustomData<bool>("isGrounded", true) : b.GetCustomData<bool>("isGrounded", true));
+                result.SetCustomData("isWallSliding", t < 0.5f ? a.GetCustomData<bool>("isWallSliding", false) : b.GetCustomData<bool>("isWallSliding", false));
+                result.SetCustomData("IsFlipped", t < 0.5f ? a.GetCustomData<bool>("IsFlipped", false) : b.GetCustomData<bool>("IsFlipped", false));
+            }
+
+            return result;
         }
 
         public void SetCustomData(string key, object value)

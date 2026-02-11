@@ -10,6 +10,9 @@ namespace TimeRewind
         [Header("Input")]
         [SerializeField] private Key rewindKey = Key.R;
         [SerializeField] private float rewindHoldThreshold = 0f;
+
+        [Header("Mana Cost")]
+        [SerializeField] private float manaDrainPerSecond = 10f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
@@ -17,6 +20,7 @@ namespace TimeRewind
         private float _rewindHoldTimer;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
+        private PlayerMana _playerMana;
         
         public bool IsRewinding => _isRewinding;
         public event Action OnRewindStarted;
@@ -31,6 +35,7 @@ namespace TimeRewind
             _rb = GetComponent<Rigidbody2D>();
             if (animator == null) animator = GetComponent<Animator>();
             if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+            _playerMana = GetComponent<PlayerMana>();
         }
         
         private void OnEnable()
@@ -71,10 +76,20 @@ namespace TimeRewind
             else
                 _rewindHoldTimer = 0f;
             
-            if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding)
+            bool hasMana = _playerMana != null && _playerMana.CurrentMana > 0f;
+
+            if (_rewindInputHeld && hasMana && !TimeRewindManager.Instance.IsRewinding)
+            {
                 TimeRewindManager.Instance.StartRewind();
-            else if (!_rewindInputHeld && TimeRewindManager.Instance.IsRewinding)
-                TimeRewindManager.Instance.StopRewind();
+            }
+            else if (TimeRewindManager.Instance.IsRewinding)
+            {
+                bool canContinue = _playerMana != null 
+                    && _playerMana.DrainManaContinuous(manaDrainPerSecond);
+
+                if (!_rewindInputHeld || !canContinue)
+                    TimeRewindManager.Instance.StopRewind();
+            }
         }
         
         #endregion
@@ -105,7 +120,7 @@ namespace TimeRewind
             _rb.bodyType = RigidbodyType2D.Kinematic;
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
-            animator.speed = 0;
+            if (animator != null) animator.speed = 0;
         }
         
         public void OnStopRewind()
@@ -119,7 +134,7 @@ namespace TimeRewind
                 _rb.linearVelocity = _lastAppliedState.Velocity;
                 _rb.angularVelocity = _lastAppliedState.AngularVelocity;
             }
-            animator.speed = 1;
+            if (animator != null) animator.speed = 1;
         }
         
         public RewindState CaptureState()
@@ -135,8 +150,12 @@ namespace TimeRewind
             if (animator != null)
             {
                 AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
-                state.AnimatorStateHash = animInfo.shortNameHash;
+                state.AnimatorStateHash = animInfo.fullPathHash;
                 state.AnimatorNormalizedTime = animInfo.normalizedTime;
+                state.SetCustomData("VerticalNormal", animator.GetFloat("VerticalNormal"));
+                state.SetCustomData("Speed", animator.GetFloat("Speed"));
+                state.SetCustomData("isGrounded", animator.GetBool("isGrounded"));
+                state.SetCustomData("isWallSliding", animator.GetBool("isWallSliding"));
             }
             if (spriteRenderer != null)
             {
@@ -154,6 +173,11 @@ namespace TimeRewind
             if (animator != null)
             {
                 animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+                animator.SetFloat("VerticalNormal", state.GetCustomData<float>("VerticalNormal", 0f));
+                animator.SetFloat("Speed", state.GetCustomData<float>("Speed", 0f));
+                animator.SetBool("isGrounded", state.GetCustomData<bool>("isGrounded", true));
+                animator.SetBool("isWallSliding", state.GetCustomData<bool>("isWallSliding", false));
+                animator.Update(0f);
             }
             if (spriteRenderer != null)
             {
