@@ -28,6 +28,11 @@ public class PlayerCombat : MonoBehaviour
         {
             PerformSpell();
         }
+
+        if (Input.GetKeyDown(KeyCode.N)) 
+        {
+            GetComponent<Animator>().SetTrigger("RainAttack");
+        }
     }
 
     private void PerformMelee()
