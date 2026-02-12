@@ -31,12 +31,15 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     // Events
     public event Action<int, int> OnHealthChanged;
     public event Action OnDeath;
+    private Animator animator; 
+    public GameOverUI gameOverUI;
 
     private void Awake()
     {
         // Find the sprite renderer so we can flash it. 
         // "GetComponentInChildren" works even if the sprite is on a child object.
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>(); 
     }
 
     private void Start()
@@ -117,12 +120,74 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    private void Die()
+    private IEnumerator FreezeAnimatorAfterDeath()
     {
+        // waits until in the death state
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Death"))
+            yield return null;
+
+        // wait until the animation finishes
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            yield return null;
+
+        animator.enabled = false;       // disables the animator 
+    }
+
+    private IEnumerator HandleDeath()
+    {
+        var playerMovement = GetComponent<PlayerPlatformer>();  
+        var rb = GetComponent<Rigidbody2D>();
+        var col = GetComponent<Collider2D>(); 
+
+        if (col != null) col.enabled = false;
+
+        // sets the death animation to trigger
+        if (animator != null)
+        {
+            animator.SetTrigger("Die"); 
+        }
+
+        // waits until player is grounded
+        if (playerMovement != null)
+        {
+            while (!playerMovement.isGrounded) 
+                yield return null; 
+        }
+
+        // disables all player movement once grounded and death animation has run
+        if (playerMovement != null) 
+            playerMovement.enabled = false; 
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero; 
+            rb.angularVelocity = 0f;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll; 
+            rb.gravityScale = 0f;
+            rb.simulated = false; 
+        }
+
+        if (animator != null)
+        {
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Death"))
+                yield return null; 
+
+            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) 
+                yield return null; 
+        }
+
+        // shows the game over screen once death sequence has finished
+        if (gameOverUI != null) gameOverUI.ShowGameOver(); 
+    }
+
+    private void Die()
+    {   
+        if (IsDead) return; 
         IsDead = true;
-        OnDeath?.Invoke();
         Debug.Log("Player Died");
-        
+
+        StartCoroutine(HandleDeath()); 
+
         // Ensure sprite is visible when dead (optional)
         if (spriteRenderer != null) spriteRenderer.enabled = true;
     }
