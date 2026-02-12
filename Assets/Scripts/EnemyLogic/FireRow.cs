@@ -8,9 +8,10 @@ public class FireRow : MonoBehaviour, IRewindable
     private bool _isRewinding;
     private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
+    private bool fullSizeReached = false;
     public Transform fireVisual;
     private float startTime;
-    public float maxGrowSize = 17;
+    public float maxGrowSize = 17f;
     private float currentGrowSize;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,13 +39,20 @@ public class FireRow : MonoBehaviour, IRewindable
 
     void FixedUpdate()
     {
-        if(currentGrowSize < maxGrowSize){
-            Grow(currentGrowSize);
-            currentGrowSize += 0.5f;
+        if (!fullSizeReached){
+            if(currentGrowSize < maxGrowSize){
+                Grow(currentGrowSize);
+                currentGrowSize += 0.5f;
+            } else fullSizeReached = true;
         }
-        if(Time.time - startTime > 6f)
-        {
-            gameObject.SetActive(false);
+        else
+            if(Time.time - startTime > 6f)
+            {
+                if(currentGrowSize > 1f){
+                    currentGrowSize -= 0.5f;
+                    // Shrinks instead as we decrease grow size
+                    Grow(currentGrowSize);
+                } else gameObject.SetActive(false);
         }
     }
     void OnDestroy()
