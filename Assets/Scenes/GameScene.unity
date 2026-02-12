@@ -317,7 +317,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1.8546, y: -1.6841}
-  m_SizeDelta: {x: 339.71, y: 91.368}
+  m_SizeDelta: {x: 348.1, y: 100.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &155906813
 MonoBehaviour:
@@ -718,7 +718,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0, y: -1}
-  m_SizeDelta: {x: 339.71, y: 91.368}
+  m_SizeDelta: {x: 348.1, y: 100.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1350037062
 MonoBehaviour:
@@ -896,7 +896,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1555828640}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
