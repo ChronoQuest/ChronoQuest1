@@ -84,9 +84,11 @@ namespace TimeRewind
             }
             else if (TimeRewindManager.Instance.IsRewinding)
             {
+                // Drain mana every frame while rewinding
                 bool canContinue = _playerMana != null 
                     && _playerMana.DrainManaContinuous(manaDrainPerSecond);
 
+                // Stop if player releases input OR runs out of mana
                 if (!_rewindInputHeld || !canContinue)
                     TimeRewindManager.Instance.StopRewind();
             }

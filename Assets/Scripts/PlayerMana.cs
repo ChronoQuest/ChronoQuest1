@@ -10,6 +10,7 @@ public class PlayerMana : MonoBehaviour
     
     // Encapsulation: Other scripts can READ mana, but only this script can CHANGE it.
     public float CurrentMana { get; private set; }
+    public float MaxMana => maxMana;
     
     // Events: The UI Manager will listen to this to update the blue bar
     public event Action<float> OnManaChanged;
@@ -64,13 +65,25 @@ public class PlayerMana : MonoBehaviour
             ModifyMana(-cost);
             return true;
         }
-        return false; // Stop rewinding if out of mana
+        // Not enough mana to continue — drain whatever is left to zero
+        // so the "hasMana" check cleanly prevents rewind from restarting
+        ModifyMana(-CurrentMana);
+        return false;
     }
     
     // FOR REWIND SYSTEM: Force set mana to a specific value
     public void SetMana(float value)
     {
         CurrentMana = value;
+        OnManaChanged?.Invoke(CurrentMana / maxMana);
+    }
+    
+    // Allow runtime adjustment of max mana (e.g. from a UI slider)
+    public void SetMaxMana(float newMax)
+    {
+        newMax = Mathf.Max(newMax, 1f); // Prevent zero/negative max mana
+        maxMana = newMax;
+        CurrentMana = maxMana; // Refill mana when max is changed
         OnManaChanged?.Invoke(CurrentMana / maxMana);
     }
 }

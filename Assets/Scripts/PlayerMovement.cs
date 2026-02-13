@@ -40,8 +40,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private float groundCheckRadius = 0.35f;
     [SerializeField] private LayerMask groundLayer;
+
     public bool isGrounded { get; private set; }
 
     [Header("Wall Slide")]
@@ -78,6 +79,8 @@ public class PlayerPlatformer : MonoBehaviour
     private bool jumpPressedThisFrame;
     private bool wasGrounded;
     private bool isLanding;
+
+    private TutorialManager tutorialManager;
 
     private void Awake()
     {
@@ -187,9 +190,11 @@ public class PlayerPlatformer : MonoBehaviour
         if (jumpBufferCounter > 0f && coyoteTimeCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
             jumpBufferCounter = 0f;            
             coyoteTimeCounter = 0f; // Prevent double jumping with coyote time
             if (anim != null) anim.SetTrigger("Jump");
+            tutorialManager?.OnPlayerJump();
         }
 
         if (isTouchingWall) 
