@@ -32,7 +32,6 @@ public class SlimeEnemy : EnemyBase, IRewindable
     public Transform player;
 
     private Animator animator;
-    private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
 
     private float lastAttackTime;

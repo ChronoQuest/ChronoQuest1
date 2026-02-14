@@ -24,6 +24,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     // State locks
     public bool isCasting { get; private set; }
     private float recoilTimer;
+    private float castFailsafeTimer;
+    private const float MAX_CAST_TIME = 1.0f;
 
     void Awake()
     {
@@ -54,6 +56,16 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         {
             recoilTimer -= Time.deltaTime;
         }
+        if (isCasting)
+        {
+            castFailsafeTimer -= Time.deltaTime;
+            if (castFailsafeTimer <= 0f)
+            {
+                isCasting = false;
+                rb.gravityScale = originalGravity;
+                Debug.LogWarning("Spell animation interrupted! Failsafe restored gravity.");
+            }
+        }
         if (player.isDashing) return;
         if (WasCastPressed() && Time.time >= nextFireTime)
         {
@@ -68,6 +80,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
 
         dir = GetCastDirection();
         if (anim) anim.SetTrigger(GetCastAnimation(dir));
+        isCasting = true;
+        castFailsafeTimer = MAX_CAST_TIME;
 
         // Optional: small recoil
         isCasting = true;

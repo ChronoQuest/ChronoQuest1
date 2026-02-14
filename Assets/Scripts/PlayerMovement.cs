@@ -331,6 +331,10 @@ public class PlayerPlatformer : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         if (!context.performed || isDashing || _isRewinding) return;
+        
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (spellSys != null && spellSys.IsMovementLocked()) return;
+
         var gamepad = Gamepad.current;
         if (gamepad != null && context.control?.device == gamepad && gamepad.leftTrigger.ReadValue() > 0.5f)
             return;

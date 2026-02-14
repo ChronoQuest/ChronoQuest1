@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(HitFlash))]
 public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable
 {
-    [Header("Health")]
-    public int maxHealth = 3;
     protected int currentHealth;
 
     [Header("Knockback")]
@@ -22,7 +20,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable
         sprite = GetComponent<SpriteRenderer>();
         flash = GetComponent<HitFlash>();
 
-        currentHealth = maxHealth;
+  
     }
 
     // ================= DAMAGE =================
