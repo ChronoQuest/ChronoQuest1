@@ -10,8 +10,17 @@ public class FireRow : MonoBehaviour, IRewindable
     private RewindState _lastAppliedState;
     public Transform fireVisual;
     private float startTime;
-    public float maxGrowSize = 17;
+    public float maxGrowSize = 6.5f;
     private float currentGrowSize;
+
+    // references for animations
+    private Animator animator;
+    private bool isEnding = false;
+    public float fireHeight = 3f;  
+ 
+    [SerializeField] private float verticalOffset = 1.35f;
+    [SerializeField] private float baseHeight;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,31 +31,53 @@ public class FireRow : MonoBehaviour, IRewindable
         {
             TimeRewindManager.Instance.Register(this);
         }     
+
         rb = GetComponent<Rigidbody2D>();
+        animator = fireVisual.GetComponent<Animator>();
+
         startTime = Time.time;
         currentGrowSize = 1f;
+
+        // baseY = fireVisual.localPosition.y;
     }
 
     void Grow(float scale)
     {
-        fireVisual.localScale = new Vector3(scale, 1f, 1f);
-        fireVisual.localPosition = new Vector3((-scale / 2f) + 0.5f, 0f, 0f);
+        fireVisual.localScale = new Vector3(scale, fireHeight, 1f);
+        fireVisual.localPosition = new Vector3((-scale / 2f) + 0.5f, baseHeight + verticalOffset, 0f);
     }
+
     void Update()
     {
     }
 
     void FixedUpdate()
     {
-        if(currentGrowSize < maxGrowSize){
+        if(!isEnding && currentGrowSize < maxGrowSize){
             Grow(currentGrowSize);
             currentGrowSize += 0.5f;
         }
-        if(Time.time - startTime > 6f)
+
+        if(!isEnding && Time.time - startTime > 6f)
         {
-            gameObject.SetActive(false);
+            isEnding = true;
+            Debug.Log("Fire row ending triggered"); 
+
+            if (animator != null)
+            {
+                animator.SetBool("isEnding", true);
+            }
+
+            Invoke(nameof(DisableFire), 0.4f);
         }
+
     }
+
+    void DisableFire()
+    {
+        gameObject.SetActive(false); 
+    }
+
     void OnDestroy()
     {
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
@@ -68,7 +99,9 @@ public class FireRow : MonoBehaviour, IRewindable
         _originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
+        rb.angularVelocity = 0f; 
+
+        // TODO: handle animation during rewind, need animation to go backwards
     }
     public void OnStopRewind()
     {
@@ -80,6 +113,8 @@ public class FireRow : MonoBehaviour, IRewindable
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
+    
+        // TODO: handle animation during rewind, need animation to go back forwards
     }
     public RewindState CaptureState()
     {
