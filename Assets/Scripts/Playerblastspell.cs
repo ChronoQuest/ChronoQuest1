@@ -67,7 +67,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
             }
         }
         if (player.isDashing) return;
-        if (WasCastPressed() && Time.time >= nextFireTime)
+        if (WasCastPressed() && Time.time >= nextFireTime && !isCasting)
         {
             CastSpell();
             nextFireTime = Time.time + cooldown;
@@ -83,8 +83,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         isCasting = true;
         castFailsafeTimer = MAX_CAST_TIME;
 
-        // Optional: small recoil
-        isCasting = true;
+
         originalGravity = rb.gravityScale;
         rb.gravityScale = 0f; // Disable gravity so they float mid-air
         rb.linearVelocity = Vector2.zero; // Stop all momentum instantly

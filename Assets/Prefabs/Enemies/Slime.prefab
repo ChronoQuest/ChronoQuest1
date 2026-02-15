@@ -194,21 +194,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86df01b90d8fc034f9ee8fec5de372ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SlimeEnemy
-  maxHealth: 3
+  health: 3
   knockbackResistance: 1
+  knockbackUpMultiplier: 0.7
   detectionRange: 5
   loseRange: 15
   moveSpeed: 2
   attackCooldown: 1.5
   damage: 1
-  health: 3
   hopForce: 5
   hopCooldown: 1
   animationSpeed: 0.1
   currentVelocityY: 0
   currentFrameIndex: 0
   currentStateLabel: 
-  degugground: 0
   player: {fileID: 0}
 --- !u!114 &1648991664882896443
 MonoBehaviour:
