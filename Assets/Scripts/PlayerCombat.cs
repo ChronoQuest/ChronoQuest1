@@ -38,6 +38,23 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        bool attackPressed = false;
+
+        // 1. Check Mouse Input
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            attackPressed = true;
+        }
+        // 2. Check Gamepad Input (buttonWest = Square on PS / X on Xbox)
+        if (Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame)
+        {
+            attackPressed = true;
+        }
+        if (attackPressed)
+        {
+            PerformMelee();
+        }
+
         var mouse = Mouse.current;
         if (mouse == null) return;
 
@@ -61,8 +78,22 @@ public class PlayerCombat : MonoBehaviour
             comboStep = 0;
         }
 
-        bool isUp = Input.GetKey(KeyCode.W);
-        bool isDown = Input.GetKey(KeyCode.S);
+        bool isUp = false;
+        bool isDown = false;
+
+        // Check Keyboard Directions
+        if (Keyboard.current != null)
+        {
+            isUp |= Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
+            isDown |= Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+        }
+
+        // Check Gamepad Directions (Left Stick or D-Pad)
+        if (Gamepad.current != null)
+        {
+            isUp |= Gamepad.current.leftStick.y.ReadValue() > 0.5f || Gamepad.current.dpad.up.isPressed;
+            isDown |= Gamepad.current.leftStick.y.ReadValue() < -0.5f || Gamepad.current.dpad.down.isPressed;
+        }
         bool isGrounded = movement != null && movement.isGrounded;
         
         if (isGrounded && !isUp)
