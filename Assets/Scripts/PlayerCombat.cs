@@ -19,14 +19,21 @@ public class PlayerCombat : MonoBehaviour
     [Header("Air Combat")]
     public float pogoForce = 12f;
 
+    [Header("Combo Settings")]
+    public float comboResetTime = 0.7f;
+    private int comboStep = 0;
+    private float lastAttackTime;
+
     private Animator anim;
     private Rigidbody2D rb;
     private PlayerPlatformer movement;
+    private SpriteRenderer spriteRenderer;
 
     void Start(){
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         movement = GetComponent<PlayerPlatformer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -48,21 +55,39 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformMelee()
     {
+
+        if (Time.time - lastAttackTime > comboResetTime)
+        {
+            comboStep = 0;
+        }
+
         bool isUp = Input.GetKey(KeyCode.W);
         bool isDown = Input.GetKey(KeyCode.S);
         bool isGrounded = movement != null && movement.isGrounded;
         
-        if (isGrounded)
+        if (isGrounded && !isUp)
         {
-            if (isUp) anim.SetTrigger("TopSlash");
-            else anim.SetTrigger("Slash");
+            anim.SetInteger("Combo", comboStep);
+            anim.SetTrigger("Slash");
+
+            if (comboStep == 1)
+            {
+                float dir = spriteRenderer.flipX ? -1f : 1f;
+                rb.linearVelocity = new Vector2(dir * 5f, rb.linearVelocity.y);
+            }
+
+            // Cycle combo: 0 -> 1 -> 0
+            comboStep = (comboStep == 0) ? 1 : 0;
         }
         else
         {
-            if (isUp) anim.SetTrigger("AirSlashUp");
+            comboStep = 0;
+            if (isGrounded && isUp) anim.SetTrigger("TopSlash");
+            else if (isUp) anim.SetTrigger("AirSlashUp");
             else if (isDown) anim.SetTrigger("AirSlashDown");
             else anim.SetTrigger("AirSlashSide");
         }
+        lastAttackTime = Time.time;
     }
 
     public void HitEnemy() 
@@ -89,7 +114,7 @@ public class PlayerCombat : MonoBehaviour
         // Default to Side attack
         else 
         {
-            float direction = GetComponent<SpriteRenderer>().flipX ? -1f : 1f;
+            float direction = spriteRenderer.flipX ? -1f : 1f;
             attackPosition += new Vector2(direction * attackOffset, 0);        
         }
         // 2. COLLISION DETECTION
