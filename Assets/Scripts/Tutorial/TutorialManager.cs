@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
         Jump,
         Attack,
         Rewind, 
+        Spell, 
         Complete
     }
 
@@ -24,7 +25,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject movementHint;
     public GameObject jumpHint; 
     public GameObject dashHint;
-    public GameObject doubleJumpHint;  
+    public GameObject doubleJumpHint; 
+    public GameObject spellHint;  
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
@@ -42,6 +44,7 @@ public class TutorialManager : MonoBehaviour
     bool jumpCompleted = false;
     bool dashCompleted = false;
     bool doubleJumpCompleted = false; 
+    bool spellCompleted = false; 
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -50,6 +53,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
     public TextMeshProUGUI doubleJumpText; 
+    public TextMeshProUGUI spellText;
 
     private string movementMessage;
     private string attackMessage;
@@ -57,6 +61,7 @@ public class TutorialManager : MonoBehaviour
     private string jumpMessage; 
     private string dashMessage; 
     private string doubleJumpMessage; 
+    private string spellMessage;
 
     [SerializeField] float idleTimeThreshold = 2f;
     float idleTimer = 0f;
@@ -79,6 +84,7 @@ public class TutorialManager : MonoBehaviour
         jumpMessage = jumpText.text; 
         dashMessage = dashText.text; 
         doubleJumpMessage = doubleJumpText.text;
+        spellMessage = spellText.text;
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -111,7 +117,7 @@ public class TutorialManager : MonoBehaviour
         
         // if all hints have been completed, tutorial completed 
         // TODO: add back attack completed once combat has been added
-        if (moveCompleted && rewindCompleted && jumpCompleted && rewindCompleted && dashCompleted)
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -237,6 +243,24 @@ public class TutorialManager : MonoBehaviour
             Debug.Log("Player movement tutorial complete");
         }
     }
+
+    public void TriggerSpellHint()
+    {
+        if (spellCompleted) return; 
+        if (currentStep == TutorialStep.Spell) return; 
+
+        SetStep(TutorialStep.Spell);
+    }
+
+    public void OnPlayerSpell()
+    {
+        if (currentStep == TutorialStep.Spell && !spellCompleted)
+        {
+            spellCompleted = true; 
+            spellHint.SetActive(false);
+            Debug.Log("Player spell tutorial completed");
+        }
+    }
     
     // commented out until combat logic is added
     /* public void OnPlayerAttack()
@@ -336,6 +360,11 @@ public class TutorialManager : MonoBehaviour
                 doubleJumpText.text = doubleJumpMessage;
                 typewriter.StartTyping(doubleJumpText); 
                 break; 
+            case TutorialStep.Spell:
+                spellHint.SetActive(true);
+                spellText.text = spellMessage;
+                typewriter.StartTyping(spellText);
+                break;
         }
     }
 
@@ -348,5 +377,6 @@ public class TutorialManager : MonoBehaviour
         jumpHint.SetActive(false);
         dashHint.SetActive(false); 
         doubleJumpHint.SetActive(false); 
+        spellHint.SetActive(false); 
     }
 }
