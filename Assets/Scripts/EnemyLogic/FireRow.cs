@@ -59,7 +59,7 @@ public class FireRow : MonoBehaviour, IRewindable
     {
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isRewinding) return;
         PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
@@ -122,6 +122,9 @@ public class FireRow : MonoBehaviour, IRewindable
         {
             gameObject.SetActive(wasActive);
         }
+        currentGrowSize = state.GetCustomData<float>("GrowSize", 1f);
+        fullSizeReached = state.GetCustomData<bool>("FullSize", false);
+        Grow(currentGrowSize);
     }
 }
 
