@@ -47,6 +47,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     // ================= DAMAGE =================
     public virtual void TakeDamage(int amount)
     {
+        if (wasDead) return;
         health -= amount;
         flash?.Flash();
 
@@ -59,7 +60,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     // ================= KNOCKBACK =================
     public virtual void ApplyKnockback(Vector2 force)
     {
-        if(isRewinding) return;
+        if (isRewinding || wasDead) return;
 
         force /= knockbackResistance;
         rb.linearVelocity = Vector2.zero;
@@ -79,7 +80,12 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     // ================= DEATH =================
     protected virtual void Die()
     {
-        Destroy(gameObject);
+        wasDead = true;
+        if (sprite != null) sprite.enabled = false;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        // Do not Destroy - stay registered so rewind can restore us
     }
     // ================= REWIND =================
     public virtual void OnStartRewind()
@@ -120,5 +126,13 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
 
         health = state.Health;
         sprite.flipX = state.GetCustomData<bool>("flipX");
+
+        if (state.Health > 0 && wasDead)
+        {
+            wasDead = false;
+            if (sprite != null) sprite.enabled = true;
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = true;
+        }
     }
 }

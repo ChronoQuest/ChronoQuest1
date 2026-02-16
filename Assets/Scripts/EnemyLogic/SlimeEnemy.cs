@@ -63,8 +63,8 @@ public class SlimeEnemy : EnemyBase
 
     void Update()
     {
-        // 1. Pause logic if rewinding time
-        if (isRewinding) return;
+        // 1. Pause logic if rewinding time or dead
+        if (isRewinding || wasDead) return;
 
         // 2. Update Debug values
         currentVelocityY = rb.linearVelocity.y;
@@ -276,27 +276,24 @@ public class SlimeEnemy : EnemyBase
     protected override void Die()
     {
         wasDead = true;
-        
+
         // 1. Critical: Stop any active jump coroutine immediately
-        StopAllCoroutines(); 
+        StopAllCoroutines();
         isMidJumpSequence = false;
 
         // 2. Play Death Animation
         animator.SetTrigger("die");
-        
-        // 3. Disable Script Logic
-        enabled = false; 
 
-        // 4. Physics Cleanup
-        // Stop X movement but allow gravity (falling death)
+        // 3. Physics Cleanup: Stop X movement but allow gravity (falling death)
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-        
-        // Disable collider so player can walk through corpse
+
+        // 4. Disable collider and hide sprite so enemy disappears
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
-        
-        Destroy(gameObject, 0.6f);
+        if (spriteRenderer != null) spriteRenderer.enabled = false;
+
+        // Do not disable script or Destroy - stay registered so rewind can restore us
     }
 
     // --- REWIND INTERFACE IMPLEMENTATION ---
@@ -309,14 +306,6 @@ public class SlimeEnemy : EnemyBase
         StopAllCoroutines();
         isMidJumpSequence = false;
         CancelInvoke();
-
-        // Revive logic
-        if (!enabled)
-        {
-            enabled = true;
-            wasDead = false;
-            GetComponent<Collider2D>().enabled = true;
-        }
     }
 
     public override void OnStopRewind()
@@ -347,22 +336,20 @@ public class SlimeEnemy : EnemyBase
 
     public override void ApplyState(RewindState state)
     {
-        // Restore Physics
-        transform.position = state.Position;
-        transform.rotation = state.Rotation;
-        health = state.Health;
-        
-        // Restore Logic
+        base.ApplyState(state); // Restores position, rotation, velocity, health, flipX, and revives when state.Health > 0
+
+        // Restore Slime-specific logic
         spriteRenderer.flipX = state.GetCustomData<bool>("flipX");
         isGrounded = state.GetCustomData<bool>("isGrounded");
         isMidJumpSequence = state.GetCustomData<bool>("midJump");
 
-        // Restore the animation frame
         int frameIndex = state.GetCustomData<int>("frameIndex");
         SetFrame(frameIndex);
-        
-        // Restore Animation
+
         animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
         animator.Update(0f);
+
+        if (state.Health > 0)
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 }
