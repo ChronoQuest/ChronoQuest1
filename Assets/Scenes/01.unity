@@ -771,6 +771,7 @@ MonoBehaviour:
   firePoint: {fileID: 1080196436}
   knockbackStrength: 8
   pogoForce: 12
+  comboResetTime: 0.5
 --- !u!114 &566744845
 MonoBehaviour:
   m_ObjectHideFlags: 0
