@@ -74,6 +74,7 @@ public class TutorialManager : MonoBehaviour
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
     [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
+    [SerializeField] private UIFollowPlayer rewindFollow; 
 
     void Start()
     {
@@ -217,6 +218,9 @@ public class TutorialManager : MonoBehaviour
         if (current == 1 && !rewindCompleted)
         {
             SetStep(TutorialStep.Rewind); 
+
+            rewindFollow.SetTarget(player.transform);
+            rewindFollow.enabled = true;
         }
        
        previousHealth = current; 
@@ -288,6 +292,7 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Rewind && !rewindCompleted)
         {
             rewindCompleted = true;
+            rewindFollow.enabled = false;
             rewindHint.SetActive(false);
             Debug.Log("Player rewind tutorial complete");
         }
