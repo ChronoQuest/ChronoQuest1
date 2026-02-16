@@ -10546,6 +10546,7 @@ GameObject:
   - component: {fileID: 508054505}
   - component: {fileID: 508054506}
   - component: {fileID: 508054507}
+  - component: {fileID: 508054508}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
@@ -10712,12 +10713,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb30a713afaf9f4fb3f90c59a224967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Boss
+  health: 50
+  knockbackResistance: 1
+  knockbackUpMultiplier: 0.8
   attackCooldown: 0.5
   damageCooldown: 1.5
   damage: 1
-  health: 10
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
+--- !u!114 &508054508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508054501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ea977a7cd7344deb9715d8b8c6e82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::HitFlash
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
 --- !u!1001 &526924364
 PrefabInstance:
   m_ObjectHideFlags: 0

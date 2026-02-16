@@ -3,30 +3,19 @@ using UnityEngine;
 using System.Collections;
 using NUnit.Framework.Internal.Commands;
 
-public class Boss : MonoBehaviour, IRewindable
+public class Boss : EnemyBase
 {
     public float attackCooldown = 1f;
     public float damageCooldown = 1.5f;
     public int damage = 1;
-    public int health = 3;
-    private bool isAttacking;
 
     public Transform player;
     public BossAttackManager attackManager;
     private bool _isRewinding;
-    private Rigidbody2D rb;
     private float lastDamageTime;
-    private float lastAttackTime;
-    private Vector3 originalScale;
-    private Animator animator;
-    private bool playerInContact = false;
 
     void Start()
     {
-        originalScale = transform.localScale;
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
         StartCoroutine(AttackLoop());
     }
 
@@ -179,49 +168,10 @@ public class Boss : MonoBehaviour, IRewindable
             Damage();
         }
     }
-    public void TakeDamage(int amount)
-    {
-        health -= amount;
-        Debug.Log("Boss took damage! Health: " + health);
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-    void Die()
-    {
-        Debug.Log("Boss died!");
-        Destroy(gameObject);
-    }
-    public void OnStartRewind()
-    {
-        _isRewinding = true; // Sets the flag that stops Update/FixedUpdate
-    }
-    public void OnStopRewind()
+    public override void OnStopRewind()
     {
         _isRewinding = false;
         StopAllCoroutines();
         StartCoroutine(AttackLoop());
-    }
-    public RewindState CaptureState()
-    {
-        var state = RewindState.CreateWithPhysics(
-            transform.position,
-            transform.rotation,
-            (rb != null) ? rb.linearVelocity : Vector2.zero,
-            (rb != null) ? rb.angularVelocity : 0f,
-            Time.time
-        );
-        // Save data using Dictionary
-        state.Health = health;
-        return state;
-    }
-
-    public void ApplyState(RewindState state)
-    {
-        transform.position = state.Position;
-        transform.rotation = state.Rotation;
-        health = state.Health;
     }
 }
