@@ -43,6 +43,7 @@ public class SlimeEnemy : EnemyBase
 
     // Locks the Update loop during the custom Jump Coroutine so we don't interrupt the animation
     private bool isMidJumpSequence = false; 
+    private float liftoffTime = -1f; // Timestamp of last launch, used to guard OnCollisionStay2D
 
 
     private enum State { Idle, Chase, Attack }
@@ -138,7 +139,7 @@ public class SlimeEnemy : EnemyBase
         rb.linearVelocity = new Vector2(xDir * moveSpeed, hopForce);
         isGrounded = false;
         groundContacts = 0;
-
+        liftoffTime = Time.time;
         yield return new WaitForSeconds(0.1f); // Wait to ensure physical liftoff
 
         // Phase 3: Air Loop (Physics Driven)
@@ -235,6 +236,21 @@ public class SlimeEnemy : EnemyBase
         if (groundContacts <= 0) {
             isGrounded = false;
             groundContacts = 0; // Safety reset
+        }
+    }
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) return;
+
+        // Ignore the first 0.2s after liftoff so we don't re-detect the floor we just left
+        if (Time.time - liftoffTime < 0.2f) return;
+
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            if (contact.normal.y > 0.7f)
+            {
+                isGrounded = true;
+            }
         }
     }
     // ----------------------
