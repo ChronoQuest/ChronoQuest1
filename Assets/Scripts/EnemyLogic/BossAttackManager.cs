@@ -32,7 +32,12 @@ public class BossAttackManager : MonoBehaviour
     public void spawnFireColumns()
     {
         float playerX = player.transform.position.x;
-        Instantiate(fireColumn, new Vector3(playerX,-1.2f,0f), transform.rotation);
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        GameObject column = Instantiate(fireColumn, new Vector3(playerX,-1.2f,0f), transform.rotation);
+        if(playerHealth.CurrentHealth < 3){
+            // If player health is less than 3, cut the movement speed of fire columns in half
+            column.GetComponent<Firecolumns>().moveSpeed = 1.5f;
+        }
     }
 
     public void spawnFireRow()
@@ -42,7 +47,13 @@ public class BossAttackManager : MonoBehaviour
 
     public void spawnFireWave()
     {
-        Instantiate(fireWave, new Vector3(4.5f, -6.5f, 0f), transform.rotation);
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        GameObject wave = Instantiate(fireWave, new Vector3(4.5f, -6.5f, 0f), transform.rotation);
+        if(playerHealth.CurrentHealth < 3)
+        {
+            // If player health is less than 3, cut the movement speed of fire wave in half
+            wave.GetComponent<FireWave>().moveSpeed = 1f;
+        }
     }
 
     public void spawnEnemy()

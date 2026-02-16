@@ -1,6 +1,7 @@
 using TimeRewind;
 using UnityEngine;
 using System.Collections;
+using NUnit.Framework.Internal.Commands;
 
 public class Boss : MonoBehaviour, IRewindable
 {
@@ -76,11 +77,19 @@ public class Boss : MonoBehaviour, IRewindable
 
     IEnumerator Fireballs()
     {
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         while (_isRewinding) yield return null;
         WaitForSeconds wait = new WaitForSeconds(0.5f);
         for(int i = 0; i < 15; i++) {
-            // Spawn a fireball
-            if(!_isRewinding) attackManager.spawnFireball();
+            // If player health is less than 3, only spawn every other fireball
+            if(i % 2 == 0 && playerHealth.CurrentHealth < 3){
+                yield return wait;
+                continue;
+            } else
+            {
+                // Spawn a fireball
+                if(!_isRewinding) attackManager.spawnFireball();
+            }
             // Wait 0.5 second
             yield return wait;
             // Repeat 15 times
@@ -107,9 +116,17 @@ public class Boss : MonoBehaviour, IRewindable
     {
         while (_isRewinding) yield return null;
         WaitForSeconds wait = new WaitForSeconds(1f);
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         for(int i = 0; i < 7; i++) {
-            // Spawn a fireball
-            if(!_isRewinding) attackManager.spawnFireWave();
+            // Spawn every other fire wave if health < 3
+            if(i % 2 == 0 && playerHealth.CurrentHealth < 3){
+                yield return wait;
+                continue;
+            } else
+            {
+                // Spawn a fireball
+                if(!_isRewinding) attackManager.spawnFireWave();
+            }
             // Wait 2 seconds
             yield return wait;
             // Repeat 4 times
