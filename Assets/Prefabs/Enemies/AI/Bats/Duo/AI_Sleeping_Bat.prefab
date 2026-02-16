@@ -77,6 +77,8 @@ GameObject:
   - component: {fileID: 5134010809994271242}
   - component: {fileID: 1498069238531568368}
   - component: {fileID: 7262448542793524538}
+  - component: {fileID: 7713596864817159871}
+  - component: {fileID: 2218417924015169229}
   m_Layer: 0
   m_Name: AI_Sleeping_Bat
   m_TagString: Untagged
@@ -267,7 +269,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 619248da67db0154ebb23c1ec71248e9, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 2484626b44a0d1c458f0ff4625d6ab0c, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: BatBrain
@@ -315,8 +317,36 @@ MonoBehaviour:
   moveSpeed: 5
   detectionRange: 5
   damage: 1
-  health: 3
   attackCooldown: 1.5
   currentState: 0
   obstacle: {fileID: 0}
   controlsEnvironment: 0
+--- !u!114 &7713596864817159871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994668768586841926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ea977a7cd7344deb9715d8b8c6e82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::HitFlash
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
+--- !u!114 &2218417924015169229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994668768586841926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ffd798e8b0244ca9384d018154a4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::EnemyBase
+  health: 1
+  knockbackResistance: 1
+  knockbackUpMultiplier: 0.8

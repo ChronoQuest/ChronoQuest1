@@ -3,8 +3,9 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
-public class BatEnemyAI : Agent, IRewindable
+public class BatEnemyAI : Agent
 {
+    private EnemyBase enemy;
     [Header("Mode")]
     [Tooltip("Training mode")]
     public bool trainingMode = false;
@@ -18,18 +19,13 @@ public class BatEnemyAI : Agent, IRewindable
     public Transform otherBat;
 
     private Rigidbody2D rb;
-    private Vector3 startPos;
 
     public float moveSpeed = 5f;
     private Animator animator;
     public float detectionRange = 1f;
     public int damage = 1;
-    public int health = 3;
     public float attackCooldown = 1.5f;
     private float lastAttackTime;
-    private bool _isRewinding;
-    private RigidbodyType2D _originalBodyType;
-    private RewindState _lastAppliedState;
     private Vector3 originalScale;
 
     public enum State { Sleeping, Idle, Chase }
@@ -40,6 +36,7 @@ public class BatEnemyAI : Agent, IRewindable
 
     void Start()
     {
+        enemy = GetComponent<EnemyBase>();
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
@@ -49,23 +46,6 @@ public class BatEnemyAI : Agent, IRewindable
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
     }
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        if (TimeRewindManager.Instance != null)
-        {
-            TimeRewindManager.Instance.Register(this);
-        }
-    }
-
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        if (TimeRewindManager.Instance != null)
-        {
-            TimeRewindManager.Instance.Unregister(this);
-        }
-    }
     public override void OnEpisodeBegin()
     {
         if (trainingMode)
@@ -158,8 +138,6 @@ public class BatEnemyAI : Agent, IRewindable
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (_isRewinding) return;
-
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
         
         if (!trainingMode && distToPlayer > detectionRange)
@@ -287,88 +265,4 @@ public class BatEnemyAI : Agent, IRewindable
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
-    public void TakeDamage(int amount)
-    {
-        health -= amount;
-        Debug.Log("Enemy took damage! Health: " + health);
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    void Die()
-    {
-        Debug.Log("Enemy died!");
-        Destroy(gameObject);
-    }
-
-    public void OnStartRewind()
-    {
-        _isRewinding = true; // Sets the flag that stops Update/FixedUpdate
-
-        // Make Rigidbody Kinematic so physics doesn't interfere
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-        _originalBodyType = rb.bodyType;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-    }
-
-    public void OnStopRewind()
-    {
-        _isRewinding = false;
-
-        // Restore physics
-        rb.bodyType = _originalBodyType;
-
-        if (_originalBodyType == RigidbodyType2D.Dynamic)
-        {
-            rb.linearVelocity = _lastAppliedState.Velocity;
-            rb.angularVelocity = _lastAppliedState.AngularVelocity;
-        }
-        if(currentState == State.Chase) animator.SetTrigger("Chase");
-        else animator.ResetTrigger("Chase");
-    }
-
-public RewindState CaptureState()
-    {
-        // Create physics state
-        var state = RewindState.CreateWithPhysics(
-            transform.position,
-            transform.rotation,
-            (rb != null) ? rb.linearVelocity : Vector2.zero,
-            (rb != null) ? rb.angularVelocity : 0f,
-            Time.time
-        );
-
-        state.Health = health;
-        state.SetCustomData("EnemyState", (int)currentState);
-        state.SetCustomData("DetectRange", detectionRange);
-        state.SetCustomData("FacingDirection", transform.localScale);
-
-        AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
-        state.AnimatorStateHash = animInfo.shortNameHash;
-        state.AnimatorNormalizedTime = animInfo.normalizedTime;
-        
-        return state;
-    }
-
-    public void ApplyState(RewindState state)
-    {
-        transform.position = state.Position;
-        transform.rotation = state.Rotation;
-        _lastAppliedState = state;
-
-        health = state.Health;
-        
-        currentState = (State)state.GetCustomData<int>("EnemyState", (int)State.Idle);
-        
-        detectionRange = state.GetCustomData<float>("DetectRange", 10f);
-
-        transform.localScale = state.GetCustomData<Vector3>("FacingDirection", new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z));
-
-        animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
-    }
 }

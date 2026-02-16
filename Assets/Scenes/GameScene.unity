@@ -238,10 +238,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1375373832237887129, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
-      propertyPath: m_Model
-      value: 
-      objectReference: {fileID: 5022602860645237092, guid: 57cb5a3479c9d9c44aca3c9179f2c265, type: 3}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (1)
@@ -250,6 +246,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1207369297}
+    - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: otherBat
+      value: 
+      objectReference: {fileID: 782980476}
     - target: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 56.941265
@@ -589,10 +589,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!4 &782980476 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+  m_PrefabInstance: {fileID: 1849851606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &922459879 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3724842226651659153, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
   m_PrefabInstance: {fileID: 3212802410766754496}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &964409654 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+  m_PrefabInstance: {fileID: 351774168}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1006784906 stripped
 GameObject:
@@ -982,10 +992,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1375373832237887129, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
-      propertyPath: m_Model
-      value: 
-      objectReference: {fileID: 5022602860645237092, guid: 57cb5a3479c9d9c44aca3c9179f2c265, type: 3}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat
@@ -994,6 +1000,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1207369297}
+    - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: otherBat
+      value: 
+      objectReference: {fileID: 964409654}
     - target: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 48.65
