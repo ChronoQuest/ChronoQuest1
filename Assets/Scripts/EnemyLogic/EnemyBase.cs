@@ -22,6 +22,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     protected bool isRewinding;
     protected bool wasDead;
 
+    protected bool isStunned;
 
     protected virtual void Awake()
     {
@@ -58,11 +59,21 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     // ================= KNOCKBACK =================
     public virtual void ApplyKnockback(Vector2 force)
     {
-        force /= knockbackResistance;
+        if(isRewinding) return;
 
+        force /= knockbackResistance;
         rb.linearVelocity = Vector2.zero;
-        Vector2 arcForce = new Vector2(force.x, Mathf.Abs(force.x) * knockbackUpMultiplier);
-        rb.AddForce(arcForce, ForceMode2D.Impulse);
+
+        Vector2 finalForce = new Vector2(force.x, Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)) * knockbackUpMultiplier);
+        rb.AddForce(finalForce, ForceMode2D.Impulse);
+        StartCoroutine(HitStunRoutine(0.25f));
+    }
+
+    private System.Collections.IEnumerator HitStunRoutine(float duration)
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(duration);
+        isStunned = false;
     }
 
     // ================= DEATH =================

@@ -16,10 +16,17 @@ public class PlayerCombat : MonoBehaviour
     [Header("Knockback")]
     public float knockbackStrength = 8f;
 
+    [Header("Air Combat")]
+    public float pogoForce = 12f;
+
     private Animator anim;
+    private Rigidbody2D rb;
+    private PlayerPlatformer movement;
 
     void Start(){
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        movement = GetComponent<PlayerPlatformer>();
     }
 
     void Update()
@@ -33,12 +40,6 @@ public class PlayerCombat : MonoBehaviour
             PerformMelee();
         }
 
-        // // Right Click = Spell
-        // if (mouse.rightButton.wasPressedThisFrame)
-        // {
-        //     PerformSpell();
-        // }
-
         if (Input.GetKeyDown(KeyCode.N)) 
         {
             GetComponent<Animator>().SetTrigger("RainAttack");
@@ -47,61 +48,77 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformMelee()
     {
-        bool isAttackingUp = Input.GetKey(KeyCode.W);
-        if (isAttackingUp)
+        bool isUp = Input.GetKey(KeyCode.W);
+        bool isDown = Input.GetKey(KeyCode.S);
+        bool isGrounded = movement != null && movement.isGrounded;
+        
+        if (isGrounded)
         {
-            anim.SetTrigger("TopSlash");
+            if (isUp) anim.SetTrigger("TopSlash");
+            else anim.SetTrigger("Slash");
         }
         else
         {
-            anim.SetTrigger("Slash");
+            if (isUp) anim.SetTrigger("AirSlashUp");
+            else if (isDown) anim.SetTrigger("AirSlashDown");
+            else anim.SetTrigger("AirSlashSide");
         }
     }
 
     public void HitEnemy() 
     {
-        Vector2 attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_TopSlash"))
-        {
-            // Calculate position ABOVE the player
-            attackPosition = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
-        }
-        else
-        {
-            // Calculate position in FRONT of the player
-            attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
-        }
+        Vector2 attackPosition = (Vector2)transform.position;
+    
+        AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
 
+        // 1. DYNAMIC HITBOX PLACEMENT
+        // Check if the current animation is an "Upward" attack
+
+        bool isUpAttack = state.IsName("Player_TopSlash") || state.IsName("Player_AirSlash_Up") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlash_Up");
+        bool isDownAttack = state.IsName("Player_AirSlashDown") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlashDown");
+
+        if (isUpAttack)
+        {
+            attackPosition += (Vector2)transform.up * topAttackOffset;
+        }
+        // Check if the current animation is the "Downward" air attack
+        else if (isDownAttack)
+        {
+            attackPosition += (Vector2)transform.up * -topAttackOffset; // Negative Y moves hitbox down
+        }
+        // Default to Side attack
+        else 
+        {
+            float direction = GetComponent<SpriteRenderer>().flipX ? -1f : 1f;
+            attackPosition += new Vector2(direction * attackOffset, 0);        
+        }
+        // 2. COLLISION DETECTION
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            SlimeEnemy slime = enemy.GetComponent<SlimeEnemy>();
-            if (slime != null)
+            EnemyBase target = enemy.GetComponent<EnemyBase>();
+            if (target != null)
             {
-                slime.TakeDamage(meleeDamage);
-            
-                Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                slime.ApplyKnockback(knockbackDir * knockbackStrength);
+                target.TakeDamage(meleeDamage);
+
+                // 3. PHYSICS INTERACTION (The Pogo)
+                if (state.IsName("Player_AirSlashDown"))
+                {
+                    // Push player UP (Bounce)
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, pogoForce);
+                    // Push enemy DOWN
+                    target.ApplyKnockback(Vector2.down * knockbackStrength);
+                }
+                else
+                {
+                    // Standard Knockback away from player
+                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+                    target.ApplyKnockback(knockbackDir * knockbackStrength);
+                }
             }
         }
     }
-
-    // private void PerformSpell()
-    // {
-    //     if (spellPrefab == null || firePoint == null) return;
-
-    //     // Calculate direction to mouse
-    //     Vector3 mousePos = Mouse.current.position.ReadValue();
-    //     mousePos.z = 10f; 
-    //     Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
-    //     Vector2 direction = (Vector2)worldMousePos - (Vector2)firePoint.position;
-        
-    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-    //     // Spawn spell rotated toward mouse
-    //     Instantiate(spellPrefab, firePoint.position, Quaternion.Euler(0, 0, angle));
-    // }
 
     // Draws a red circle in the Scene View so you can see your melee range
     private void OnDrawGizmosSelected()
@@ -109,5 +126,9 @@ public class PlayerCombat : MonoBehaviour
         Vector2 attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPosition, meleeRange);
+
+        Gizmos.color = Color.blue; // Different color for clarity
+        Vector2 topPos = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
+        Gizmos.DrawWireSphere(topPos, meleeRange);
     }
 }
