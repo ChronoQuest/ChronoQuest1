@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 3036362963315020311}
   - component: {fileID: 3391948159114428736}
   - component: {fileID: 1170278645737019840}
-  m_Layer: 10
+  - component: {fileID: 1648991664882896443}
+  m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,17 +194,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86df01b90d8fc034f9ee8fec5de372ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SlimeEnemy
+  health: 3
+  knockbackResistance: 1
+  knockbackUpMultiplier: 0.7
   detectionRange: 5
   loseRange: 15
   moveSpeed: 2
   attackCooldown: 1.5
   damage: 1
-  health: 3
   hopForce: 5
   hopCooldown: 1
   animationSpeed: 0.1
   currentVelocityY: 0
   currentFrameIndex: 0
   currentStateLabel: 
-  degugground: 0
   player: {fileID: 0}
+--- !u!114 &1648991664882896443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869955167663698504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ea977a7cd7344deb9715d8b8c6e82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::HitFlash
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
