@@ -7,6 +7,7 @@ public class PlayerCombat : MonoBehaviour
     public float meleeRange = 3.0f;
     public int meleeDamage = 1;
     public float attackOffset = 1.0f; // Distance in front of player
+    public float topAttackOffset = 2.0f; // Offset for attacking upward
 
     [Header("Spell Settings")]
     public GameObject spellPrefab;
@@ -46,15 +47,31 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformMelee()
     {
-        if(anim != null){
+        bool isAttackingUp = Input.GetKey(KeyCode.W);
+        if (isAttackingUp)
+        {
+            anim.SetTrigger("TopSlash");
+        }
+        else
+        {
             anim.SetTrigger("Slash");
         }
     }
 
     public void HitEnemy() 
     {
-    // Move your damage logic here
         Vector2 attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_TopSlash"))
+        {
+            // Calculate position ABOVE the player
+            attackPosition = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
+        }
+        else
+        {
+            // Calculate position in FRONT of the player
+            attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
+        }
+
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
 
         foreach (Collider2D enemy in hitEnemies)
@@ -66,7 +83,6 @@ public class PlayerCombat : MonoBehaviour
             
                 Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
                 slime.ApplyKnockback(knockbackDir * knockbackStrength);
-                Debug.Log("Melee hit confirmed via Animation Event!");
             }
         }
     }
