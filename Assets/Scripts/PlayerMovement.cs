@@ -69,10 +69,7 @@ public class PlayerPlatformer : MonoBehaviour
 
     private bool jumpPressedThisFrame;
 
-    // tutorial references
-
-    public TutorialManager tutorialManager;
-    public bool movementLocked = false; 
+    public TutorialManager tutorialManager; 
 
     private void Awake()
     {
@@ -86,8 +83,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
-        if (movementLocked)
-            return; 
+        /* if (movementLocked)
+            return; */ 
          
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;

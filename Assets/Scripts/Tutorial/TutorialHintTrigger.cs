@@ -2,12 +2,18 @@ using UnityEngine;
 
 public class TutorialHintTrigger : MonoBehaviour
 {
-    // TODO: track how many times player enters the collider so it doesnt retrigger
-    public enum HintType { Jump, Dash, DoubleJump, JumpSuccess, Spell }
+    public enum HintType { 
+        Jump, 
+        Dash,
+        DoubleJump, 
+        JumpSuccess, 
+        Spell, 
+        WallJump 
+    }
 
     [SerializeField] private HintType hintType; 
     [SerializeField] private TutorialManager tutorial; 
-    private bool hasTriggered = false; 
+    private bool hasTriggered = false;          // bool variable to ensure hints only activate once
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -35,6 +41,9 @@ public class TutorialHintTrigger : MonoBehaviour
                 break; 
             case HintType.Spell:
                 tutorial.TriggerSpellHint(); 
+                break; 
+            case HintType.WallJump:
+                tutorial.TriggerWallJumpHint();
                 break; 
         }
     }

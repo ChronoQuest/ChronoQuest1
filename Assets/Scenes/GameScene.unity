@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 273176720}
   - component: {fileID: 273176719}
   - component: {fileID: 273176718}
+  - component: {fileID: 273176722}
   m_Layer: 5
   m_Name: SpellHint
   m_TagString: Untagged
@@ -422,6 +423,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &273176722
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273176716}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &384006744
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,6 +447,7 @@ GameObject:
   - component: {fileID: 384006747}
   - component: {fileID: 384006746}
   - component: {fileID: 384006745}
+  - component: {fileID: 384006749}
   m_Layer: 5
   m_Name: AttackHint
   m_TagString: Untagged
@@ -525,6 +539,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1280.0001, y: 720}
   m_SizeDelta: {x: 2560, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &384006749
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384006744}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &390803925
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,6 +563,7 @@ GameObject:
   - component: {fileID: 390803928}
   - component: {fileID: 390803927}
   - component: {fileID: 390803926}
+  - component: {fileID: 390803930}
   m_Layer: 5
   m_Name: JumpHint
   m_TagString: Untagged
@@ -628,6 +655,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1280.0001, y: 720}
   m_SizeDelta: {x: 2560, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &390803930
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390803925}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &441687324
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,7 +701,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118622.02, y: -69726}
+  m_AnchoredPosition: {x: -119614.08, y: -71138.99}
   m_SizeDelta: {x: 248.62, y: 53.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &441687326
@@ -685,7 +724,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'write here ... '
+  m_text: Press the space bar and D to wall jump.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -778,6 +817,7 @@ GameObject:
   - component: {fileID: 442043815}
   - component: {fileID: 442043814}
   - component: {fileID: 442043818}
+  - component: {fileID: 442043819}
   m_Layer: 5
   m_Name: MovementHint
   m_TagString: Untagged
@@ -882,6 +922,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Typewriter
   timePerCharacter: 0.03
+--- !u!225 &442043819
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442043813}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &446086181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,8 +1476,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118623.945, y: -69759.97}
-  m_SizeDelta: {x: 277.06, y: 147.8}
+  m_AnchoredPosition: {x: -119616.586, y: -71160.65}
+  m_SizeDelta: {x: 286.37, y: 133.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &646123514
 MonoBehaviour:
@@ -2799,6 +2851,7 @@ GameObject:
   - component: {fileID: 1092405308}
   - component: {fileID: 1092405307}
   - component: {fileID: 1092405306}
+  - component: {fileID: 1092405310}
   m_Layer: 5
   m_Name: DoubleJumpHint
   m_TagString: Untagged
@@ -2890,6 +2943,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1280.0001, y: 720}
   m_SizeDelta: {x: 2560, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1092405310
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092405305}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1185931653
 GameObject:
   m_ObjectHideFlags: 0
@@ -2992,6 +3057,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformer
+--- !u!1 &1251851748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1251851749}
+  - component: {fileID: 1251851751}
+  - component: {fileID: 1251851750}
+  m_Layer: 0
+  m_Name: WallJumpTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1251851749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251851748}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1197.9, y: -713.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494549601}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1251851750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251851748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc84a9fc3f6734e7f933ebff715dad83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
+  hintType: 5
+  tutorial: {fileID: 1888388351}
+--- !u!61 &1251851751
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251851748}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.21367836, y: -0.7227011}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.2654381, y: 4.809042}
+  m_EdgeRadius: 0
 --- !u!1 &1406895532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3167,6 +3325,7 @@ RectTransform:
   - {fileID: 562300244}
   - {fileID: 1779710864}
   - {fileID: 1074888691}
+  - {fileID: 1251851749}
   m_Father: {fileID: 242109919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3250,7 +3409,6 @@ GameObject:
   - component: {fileID: 1618970463}
   - component: {fileID: 1618970464}
   - component: {fileID: 1618970465}
-  - component: {fileID: 1618970466}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3439,21 +3597,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d327957ef9034a14fa859fc952b23350, type: 2}
---- !u!114 &1618970466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618970458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 611f8d8955ebb4d9b9a1c051cfb6b67e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TutorialCameraController
-  follow: {fileID: 0}
-  originalTarget: {fileID: 0}
-  focusTarget: {fileID: 0}
 --- !u!1 &1685145021
 GameObject:
   m_ObjectHideFlags: 0
@@ -3912,6 +4055,7 @@ GameObject:
   - component: {fileID: 1805836733}
   - component: {fileID: 1805836732}
   - component: {fileID: 1805836731}
+  - component: {fileID: 1805836735}
   m_Layer: 5
   m_Name: DashHint
   m_TagString: Untagged
@@ -4003,6 +4147,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1280.0001, y: 720}
   m_SizeDelta: {x: 2560, y: 1440}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1805836735
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805836730}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1825683183
 GameObject:
   m_ObjectHideFlags: 0
@@ -4191,6 +4347,7 @@ MonoBehaviour:
   dashHint: {fileID: 1805836730}
   doubleJumpHint: {fileID: 1092405305}
   spellHint: {fileID: 273176716}
+  wallJumpHint: {fileID: 2034113932}
   player: {fileID: 1207369301}
   playerHealth: {fileID: 1207369300}
   enemy: {fileID: 836332137}
@@ -4204,10 +4361,12 @@ MonoBehaviour:
   dashText: {fileID: 900895895}
   doubleJumpText: {fileID: 529236479}
   spellText: {fileID: 674741535}
+  wallJumpText: {fileID: 441687326}
   idleTimeThreshold: 2
   movementGracePeriod: 6
   doubleJumpHintDuration: 4
   rewindFollow: {fileID: 2050657091}
+  hintFadeDuration: 0.3
 --- !u!1 &1944384192
 GameObject:
   m_ObjectHideFlags: 0
@@ -4314,6 +4473,7 @@ GameObject:
   - component: {fileID: 2034113936}
   - component: {fileID: 2034113935}
   - component: {fileID: 2034113934}
+  - component: {fileID: 2034113938}
   m_Layer: 5
   m_Name: WallJumpHint
   m_TagString: Untagged
@@ -4418,6 +4578,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &2034113938
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034113932}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2050657086
 GameObject:
   m_ObjectHideFlags: 0
@@ -4431,6 +4603,7 @@ GameObject:
   - component: {fileID: 2050657089}
   - component: {fileID: 2050657088}
   - component: {fileID: 2050657091}
+  - component: {fileID: 2050657093}
   m_Layer: 5
   m_Name: RewindHint
   m_TagString: Untagged
@@ -4536,6 +4709,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   target: {fileID: 1207369297}
   worldOffset: {x: 0, y: 1.5, z: 0}
+--- !u!225 &2050657093
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050657086}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &741631715792943317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4797,7 +4982,7 @@ PrefabInstance:
       objectReference: {fileID: 1406895534}
     - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_LocalPosition.y
