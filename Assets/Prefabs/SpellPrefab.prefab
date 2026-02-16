@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6518441881450793589}
   - component: {fileID: 3828432729119660005}
   - component: {fileID: 7707852978569969851}
+  - component: {fileID: 4762639282576488643}
   m_Layer: 0
   m_Name: SpellPrefab
   m_TagString: Untagged
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.81335044, b: 1, a: 1}
+  m_Color: {r: 0.9395693, g: 0.945243, b: 0.9622642, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -120,7 +121,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &3828432729119660005
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -155,8 +156,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0.6896992, y: 0}
+  m_Radius: 1.1896992
 --- !u!114 &7707852978569969851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,3 +172,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::SpellProjectile
   speed: 15
   lifetime: 3
+  damage: 3
+  knockbackStrength: 6
+--- !u!95 &4762639282576488643
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6294899724744691538}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3ece8a05be8f4c4f9da2164a7d7417f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

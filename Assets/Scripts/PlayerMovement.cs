@@ -26,7 +26,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float dashCooldown = 1f;
     [SerializeField] private LayerMask dashPhaseLayers;
     private bool canDash = true;
-    private bool isDashing;
+    public bool isDashing;
     private bool _isRewinding = false;
     private PlayerRewindController rewindController;
 
@@ -216,7 +216,12 @@ public class PlayerPlatformer : MonoBehaviour
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
 
-        if (isDashing || isWallSliding || isWallJumping) return;
+        // --- NEW: Check if the Spell System has locked movement ---
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
+
+        // Added 'spellLock' to the return condition
+        if (isDashing || isWallSliding || isWallJumping || spellLock) return;
         // Apply horizontal movement while preserving falling/jumping speed
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
@@ -326,6 +331,10 @@ public class PlayerPlatformer : MonoBehaviour
     public void OnDash(InputAction.CallbackContext context)
     {
         if (!context.performed || isDashing || _isRewinding) return;
+        
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (spellSys != null && spellSys.IsMovementLocked()) return;
+
         var gamepad = Gamepad.current;
         if (gamepad != null && context.control?.device == gamepad && gamepad.leftTrigger.ReadValue() > 0.5f)
             return;

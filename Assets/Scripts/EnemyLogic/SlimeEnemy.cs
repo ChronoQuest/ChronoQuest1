@@ -8,7 +8,7 @@ using TimeRewind;
 /// 2. Player detection and damage logic.
 /// 3. Integration with the TimeRewind system.
 /// </summary>
-public class SlimeEnemy : MonoBehaviour, IRewindable
+public class SlimeEnemy : EnemyBase
 {
     [Header("Stats")]
     public float detectionRange = 5f;
@@ -16,7 +16,6 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
     public float moveSpeed = 2f;
     public float attackCooldown = 1.5f;
     public int damage = 1;
-    public int health = 3;
 
     [Header("Hop Settings")]
     public float hopForce = 3f;
@@ -27,12 +26,11 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
     public float currentVelocityY;  // Visible in Inspector to debug falling speed
     public int currentFrameIndex;   // Shows which animation frame (0-8) is currently active
     public string currentStateLabel;
-    public int degugground;
+    
 
     public Transform player;
 
     private Animator animator;
-    private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
 
     private float lastAttackTime;
@@ -46,10 +44,6 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
     // Locks the Update loop during the custom Jump Coroutine so we don't interrupt the animation
     private bool isMidJumpSequence = false; 
 
-    // --- Rewind System Variables ---
-    private bool isRewinding = false;
-    private RigidbodyType2D originalBodyType;
-    private bool wasDead = false;
 
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
@@ -60,17 +54,12 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-    void OnEnable()
+    protected override void Awake()
     {
-        // Register this enemy with the Rewind Manager when it spawns/enables
-        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
+        health = 10; // Slime unique HP
+        base.Awake();
     }
 
-    void OnDisable()
-    {
-        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
-    }
 
     void Update()
     {
@@ -79,12 +68,15 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
 
         // 2. Update Debug values
         currentVelocityY = rb.linearVelocity.y;
-        degugground = groundContacts;
 
         // 3. Jump Guard: If the Jump Coroutine is running, stop here.
         // The coroutine handles movement/animation while airborne.
         if (isMidJumpSequence) return; 
-
+        
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 3f), rb.linearVelocity.y);
+        }
         // 4. Default State (Ground Logic)
         SetFrame(0); // Default to "Sitting" frame
         animator.SetBool("isGrounded", isGrounded);
@@ -187,7 +179,8 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
         currentStateLabel = "Landing";
         
         // Stop sliding physics
-        rb.linearVelocity = Vector2.zero; 
+        rb.linearVelocity = Vector2.zero;
+
         currentVelocityY = 0f;
         
         // Force grounded state so Update() picks it up correctly next frame
@@ -269,31 +262,18 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
         }
     }
 
-    public void TakeDamage(int amount)
+    public override void ApplyKnockback(Vector2 force)
     {
-        health -= amount;
-        if (health <= 0) Die();
-    }
-
-    public void ApplyKnockback(Vector2 force)
-    {
-        // If we are mid-jump, we stop the jump so the knockback actually moves us
         if (isMidJumpSequence)
         {
             StopAllCoroutines();
             isMidJumpSequence = false;
-            currentStateLabel = "Knockback";
         }
 
-        if (rb != null)
-        {
-            // Reset velocity first so the knockback is consistent
-            rb.linearVelocity = Vector2.zero; 
-            rb.AddForce(force, ForceMode2D.Impulse);
-        }
+        base.ApplyKnockback(force);
     }
 
-    void Die()
+    protected override void Die()
     {
         wasDead = true;
         
@@ -322,31 +302,31 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
     // --- REWIND INTERFACE IMPLEMENTATION ---
     // Handles saving and restoring state for the TimeRewind system.
 
-    public void OnStartRewind()
+    public override void OnStartRewind()
     {
-        isRewinding = true;
-        StopAllCoroutines(); // Stop animations so they don't fight the rewind
+        base.OnStartRewind(); // IMPORTANT
+
+        StopAllCoroutines();
         isMidJumpSequence = false;
-        
-        // Physics to Kinematic to prevent fighting the rewind positioning
-        originalBodyType = rb.bodyType;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.linearVelocity = Vector2.zero;
-        
         CancelInvoke();
-        
-        // Revive logic if rewinding from death
-        if (!enabled) { enabled = true; wasDead = false; GetComponent<Collider2D>().enabled = true; }
+
+        // Revive logic
+        if (!enabled)
+        {
+            enabled = true;
+            wasDead = false;
+            GetComponent<Collider2D>().enabled = true;
+        }
     }
 
-    public void OnStopRewind()
+    public override void OnStopRewind()
     {
-        isRewinding = false;
+        base.OnStopRewind(); // IMPORTANT
+
         isMidJumpSequence = false;
-        rb.bodyType = originalBodyType;
     }
 
-    public RewindState CaptureState()
+    public override RewindState CaptureState()
     {
         // Save Physics State
         var state = RewindState.CreateWithPhysics(transform.position, transform.rotation, rb.linearVelocity, rb.angularVelocity, Time.time);
@@ -365,7 +345,7 @@ public class SlimeEnemy : MonoBehaviour, IRewindable
         return state;
     }
 
-    public void ApplyState(RewindState state)
+    public override void ApplyState(RewindState state)
     {
         // Restore Physics
         transform.position = state.Position;

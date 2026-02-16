@@ -137,6 +137,13 @@ namespace TimeRewind
                 AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
                 state.AnimatorStateHash = animInfo.shortNameHash;
                 state.AnimatorNormalizedTime = animInfo.normalizedTime;
+                // --- NEW: Capture Cast Layer (1) ---
+                if (animator.layerCount > 1)
+                {
+                    AnimatorStateInfo layer1Info = animator.GetCurrentAnimatorStateInfo(1);
+                    state.SetCustomData("Layer1Hash", layer1Info.fullPathHash);
+                    state.SetCustomData("Layer1Time", layer1Info.normalizedTime);
+                }
             }
             if (spriteRenderer != null)
             {
@@ -154,6 +161,15 @@ namespace TimeRewind
             if (animator != null)
             {
                 animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+                if (animator.layerCount > 1)
+                {
+                    int layer1Hash = state.GetCustomData<int>("Layer1Hash", 0);
+                    if (layer1Hash != 0)
+                    {
+                        float layer1Time = state.GetCustomData<float>("Layer1Time", 0f);
+                        animator.Play(layer1Hash, 1, layer1Time);
+                    }
+                }
             }
             if (spriteRenderer != null)
             {

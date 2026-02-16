@@ -1,6 +1,6 @@
 using UnityEngine;
 using TimeRewind;
-public class FlyingEnemy : MonoBehaviour, IRewindable
+public class FlyingEnemy : MonoBehaviour, IRewindable, IDamageable
 {
     public float detectionRange = 10f;
     public float attackRange = 1f;
