@@ -8,7 +8,8 @@ public class TutorialHintTrigger : MonoBehaviour
         DoubleJump, 
         JumpSuccess, 
         Spell, 
-        WallJump 
+        WallJump,
+        WallJumpSuccess
     }
 
     [SerializeField] private HintType hintType; 
@@ -45,6 +46,9 @@ public class TutorialHintTrigger : MonoBehaviour
             case HintType.WallJump:
                 tutorial.TriggerWallJumpHint();
                 break; 
+            case HintType.WallJumpSuccess:
+                tutorial.OnPlayerWallJump();
+                break;
         }
     }
 }

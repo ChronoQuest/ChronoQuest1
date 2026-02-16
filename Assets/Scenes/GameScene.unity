@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &154273845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 154273846}
+  m_Layer: 0
+  m_Name: SpellEnemyFocus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &154273846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154273845}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1175.76, y: -699.52, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494549601}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &242109915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,7 +1776,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118048, y: -69726}
+  m_AnchoredPosition: {x: -117577, y: -69726}
   m_SizeDelta: {x: 248.62, y: 53.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &674741535
@@ -1957,7 +1988,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118050, y: -69759.97}
+  m_AnchoredPosition: {x: -117579, y: -69759.97}
   m_SizeDelta: {x: 277.06, y: 147.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &772435580
@@ -2757,6 +2788,7 @@ GameObject:
   - component: {fileID: 1074888691}
   - component: {fileID: 1074888693}
   - component: {fileID: 1074888692}
+  - component: {fileID: 1074888694}
   m_Layer: 0
   m_Name: SpellTrigger
   m_TagString: Untagged
@@ -2773,7 +2805,7 @@ Transform:
   m_GameObject: {fileID: 1074888690}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1190.5, y: -697.6, z: 0}
+  m_LocalPosition: {x: -1190.1, y: -697.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2839,6 +2871,26 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.23896408, y: 4.809042}
   m_EdgeRadius: 0
+--- !u!114 &1074888694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074888690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccd768e7c0e8400ab3df55fcaf4cfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TutorialCameraController
+  cameraFollow: {fileID: 1618970463}
+  enemyFocus: {fileID: 154273846}
+  tutorialManager: {fileID: 1888388351}
+  panToEnemyDelay: 0.3
+  focusDuration: 3
+  panSmoothTime: 0.45
+  normalSmoothTime: 0.15
+  returnSmoothTime: 0.3
 --- !u!1 &1092405305
 GameObject:
   m_ObjectHideFlags: 0
@@ -3326,6 +3378,8 @@ RectTransform:
   - {fileID: 1779710864}
   - {fileID: 1074888691}
   - {fileID: 1251851749}
+  - {fileID: 1849945482}
+  - {fileID: 154273846}
   m_Father: {fileID: 242109919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4234,6 +4288,99 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825683183}
   m_CullTransparentMesh: 1
+--- !u!1 &1849945481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1849945482}
+  - component: {fileID: 1849945484}
+  - component: {fileID: 1849945483}
+  m_Layer: 0
+  m_Name: WallJumpSuccessful
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1849945482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849945481}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1192.9, y: -710.28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1494549601}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1849945483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849945481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc84a9fc3f6734e7f933ebff715dad83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  hintType: 6
+  tutorial: {fileID: 1888388351}
+--- !u!61 &1849945484
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849945481}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -2.953888, y: 1.1274395}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 8.204819, y: 6.7937107}
+  m_EdgeRadius: 0
 --- !u!1001 &1849995346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4365,6 +4512,7 @@ MonoBehaviour:
   idleTimeThreshold: 2
   movementGracePeriod: 6
   doubleJumpHintDuration: 4
+  spellHintDuration: 5
   rewindFollow: {fileID: 2050657091}
   hintFadeDuration: 0.3
 --- !u!1 &1944384192

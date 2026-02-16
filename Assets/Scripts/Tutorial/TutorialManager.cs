@@ -80,6 +80,7 @@ public class TutorialManager : MonoBehaviour
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
     [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
+    [SerializeField] private float spellHintDuration = 5f;                 // temporary trigger time for spell hint 
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
 
@@ -300,6 +301,10 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Spell) return; 
 
         SetStep(TutorialStep.Spell);
+
+        // TODO: change so the spell hint is hidden after the a certain amount of time or after the player attacks the enemies
+        CancelInvoke(nameof(HideSpellHint));
+        Invoke(nameof(HideSpellHint), spellHintDuration);
     }
 
     public void TriggerWallJumpHint()
@@ -385,6 +390,12 @@ public class TutorialManager : MonoBehaviour
     {
         HideHint(doubleJumpHint);
         Debug.Log("Double jump hint hidden");
+    }
+
+    private void HideSpellHint()
+    {
+        HideHint(spellHint);
+        Debug.Log("Spell hint hidden");
     }
 
     // setting the current tutorial step and showing corresponding hint
