@@ -1,60 +1,49 @@
 using UnityEngine;
 using TimeRewind;
-public class FlyingEnemy : MonoBehaviour, IRewindable, IDamageable
+
+public class FlyingEnemy : EnemyBase
 {
+    [Header("Flying Stats")]
     public float detectionRange = 10f;
     public float attackRange = 1f;
     public float moveSpeed = 5f;
     public float attackCooldown = 1.5f;
     public int damage = 1;
-    public int health = 3;
 
-    public Transform player;
-    public float hoverFrequency = 2f; // Bob speed
-    public float hoverAmplitude = 0.5f; // Max bob height
+    [Header("Hovering")]
+    public float hoverFrequency = 2f; 
+    public float hoverAmplitude = 0.5f; 
+    
     public enum State { Sleeping, Idle, Chase, Attack }
     public State currentState = State.Idle;
 
-    private float lastAttackTime;
-    private Rigidbody2D rb;
-    private Vector3 originalScale;
-    private Vector2 movement; // Store movement to apply in FixedUpdate
-    private Collider2D playerCollider;
+    [Header("References")]
+    public Transform player;
     private Animator animator;
+    private Collider2D playerCollider;
+
+    private float lastAttackTime;
+    private Vector3 originalScale;
     private bool isTouchingPlayer = false;
-    private RigidbodyType2D _originalBodyType;
-    private RewindState _lastAppliedState;
-    private bool _isRewinding;
+    private RewindState? _lastAppliedState;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        // rb, sprite, and flash are inherited and assigned in EnemyBase.Awake()
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
+
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
     }
 
-    private void OnEnable()
-    {
-        if (TimeRewindManager.Instance != null)
-        {
-            TimeRewindManager.Instance.Register(this);
-        }
-    }
+    // No OnEnable/OnDisable needed here; EnemyBase handles Rewind registration
 
-    private void OnDisable()
+    void Update()
     {
-        if (TimeRewindManager.Instance != null)
-        {
-            TimeRewindManager.Instance.Unregister(this);
-        }
-    }
+        if (isRewinding || isStunned) return;
 
-void Update()
-    {
-        if (_isRewinding) return;
         float distanceToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
 
         if (isTouchingPlayer) 
@@ -63,46 +52,23 @@ void Update()
         }
         else if (distanceToPlayer > detectionRange)
         {
-            // If the enemy is sleeping and outside range, continue to sleep
-            if (currentState == State.Sleeping) currentState = State.Sleeping;
-            // If awake, continue to be awake
-            else currentState = State.Idle;
+            if (currentState != State.Sleeping) currentState = State.Idle;
         }
         else
         {
-            // If enemy has awoken, increase detection range
-            if (currentState == State.Sleeping) detectionRange += (float)2;
+            if (currentState == State.Sleeping) detectionRange += 2f;
             currentState = State.Chase;
         }
 
-        if (currentState == State.Chase)
-        {
-            FacePlayer();
-        }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject == player.gameObject)
-        {
-            isTouchingPlayer = true;
-        }
-    }
-
-        private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject == player.gameObject)
-        {
-            isTouchingPlayer = false;
-        }
+        if (currentState == State.Chase) FacePlayer();
     }
 
     void FixedUpdate()
     {
-        if (_isRewinding) return;
+        if (isRewinding || isStunned) return;
+
         switch (currentState)
         {
-            case State.Sleeping:
-                break;
             case State.Idle:
                 Hover();
                 break;
@@ -110,7 +76,6 @@ void Update()
                 Chase();
                 break;
             case State.Attack:
-                // Stop moving when attacking
                 rb.linearVelocity = Vector2.zero; 
                 Attack();
                 break;
@@ -119,7 +84,6 @@ void Update()
 
     void Hover()
     {
-        // Simple Sine wave bobbing effect
         float newY = Mathf.Sin(Time.time * hoverFrequency) * hoverAmplitude;
         rb.linearVelocity = new Vector2(0, newY); 
     }
@@ -127,93 +91,64 @@ void Update()
     void Chase()
     {
         animator.SetTrigger("Chase");
-        // Enemy's body type should be kinematic - different movement system  
         Vector2 newPosition = Vector2.MoveTowards(rb.position, playerCollider.bounds.center, moveSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPosition);
     }
 
     void FacePlayer()
     {
-         if (player.position.x > transform.position.x)
-             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
-         else
-             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+        // Flip scale based on player position relative to us
+        float flip = (player.position.x > transform.position.x) ? -1 : 1;
+        transform.localScale = new Vector3(flip * Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
     void Attack()
     {
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
             animator.SetTrigger("Attack");
 
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.ModifyHealth(-damage);
-            }
+            if (playerHealth != null) playerHealth.ModifyHealth(-damage);
         }
     }
 
-    public void TakeDamage(int amount)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        health -= amount;
-        Debug.Log("Enemy took damage! Health: " + health);
+        if (collision.gameObject.CompareTag("Player")) isTouchingPlayer = true;
+    }
 
-        if (health <= 0)
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) isTouchingPlayer = false;
+    }
+
+    // ================= REWIND OVERRIDES =================
+
+    public override void OnStartRewind()
+    {
+        base.OnStartRewind(); // Handles kinematic switch and velocity reset
+    }
+
+    public override void OnStopRewind()
+    {
+        base.OnStopRewind(); // Restores original body type
+        
+        if (originalBodyType == RigidbodyType2D.Dynamic && _lastAppliedState != null)
         {
-            Die();
+            rb.linearVelocity = _lastAppliedState.Value.Velocity;
         }
-    }
-
-    void Die()
-    {
-        Debug.Log("Enemy died!");
-        Destroy(gameObject);
-    }
-
-    public void OnStartRewind()
-    {
-        _isRewinding = true; // Sets the flag that stops Update/FixedUpdate
-
-        // Make Rigidbody Kinematic so physics doesn't interfere
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
-        _originalBodyType = rb.bodyType;
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-    }
-
-    public void OnStopRewind()
-    {
-        _isRewinding = false;
-
-        // Restore physics
-        rb.bodyType = _originalBodyType;
-
-        if (_originalBodyType == RigidbodyType2D.Dynamic)
-        {
-            rb.linearVelocity = _lastAppliedState.Velocity;
-            rb.angularVelocity = _lastAppliedState.AngularVelocity;
-        }
+        
         if(currentState == State.Chase) animator.SetTrigger("Chase");
-        else animator.ResetTrigger("Chase");
     }
 
-public RewindState CaptureState()
+    public override RewindState CaptureState()
     {
-        // Create physics state
-        var state = RewindState.CreateWithPhysics(
-            transform.position,
-            transform.rotation,
-            (rb != null) ? rb.linearVelocity : Vector2.zero,
-            (rb != null) ? rb.angularVelocity : 0f,
-            Time.time
-        );
+        // Start with the base state (Physics/Health)
+        var state = base.CaptureState();
 
-        // Save data using Dictionary
-        state.Health = health;
+        // Add Bat-specific data
         state.SetCustomData("EnemyState", (int)currentState);
         state.SetCustomData("DetectRange", detectionRange);
         state.SetCustomData("FacingDirection", transform.localScale);
@@ -225,19 +160,14 @@ public RewindState CaptureState()
         return state;
     }
 
-    public void ApplyState(RewindState state)
+    public override void ApplyState(RewindState state)
     {
-        transform.position = state.Position;
-        transform.rotation = state.Rotation;
+        base.ApplyState(state); // Restores Pos/Rot/Health
         _lastAppliedState = state;
 
-        health = state.Health;
-        
         currentState = (State)state.GetCustomData<int>("EnemyState", (int)State.Idle);
-        
         detectionRange = state.GetCustomData<float>("DetectRange", 10f);
-
-        transform.localScale = state.GetCustomData<Vector3>("FacingDirection", new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z));
+        transform.localScale = state.GetCustomData<Vector3>("FacingDirection", originalScale);
 
         animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
