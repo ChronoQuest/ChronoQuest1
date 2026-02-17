@@ -9,7 +9,8 @@ public class TutorialHintTrigger : MonoBehaviour
         JumpSuccess, 
         Spell, 
         WallJump,
-        WallJumpSuccess
+        WallJumpSuccess, 
+        Attack
     }
 
     [SerializeField] private HintType hintType; 
@@ -25,7 +26,6 @@ public class TutorialHintTrigger : MonoBehaviour
 
        hasTriggered = true; 
 
-        // TODO : trigger the spell hint when the player enters the corridor, use box collider and set as trigger
         switch (hintType)
         {
             case HintType.Jump:
@@ -48,6 +48,9 @@ public class TutorialHintTrigger : MonoBehaviour
                 break; 
             case HintType.WallJumpSuccess:
                 tutorial.OnPlayerWallJump();
+                break;
+            case HintType.Attack:
+                tutorial.TriggerAttackHint();
                 break;
         }
     }

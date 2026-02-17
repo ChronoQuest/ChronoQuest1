@@ -35,8 +35,6 @@ public class TutorialCameraController : MonoBehaviour
         isTriggered = true;
         player = p.transform;
 
-        tutorialManager.TriggerSpellHint();
-
         StartCoroutine(CameraPanSequence());
     }
 

@@ -80,7 +80,8 @@ public class TutorialManager : MonoBehaviour
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
     [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
-    [SerializeField] private float spellHintDuration = 5f;                 // temporary trigger time for spell hint 
+    [SerializeField] private float spellHintDuration = 5f;                 // temporary trigger time for spell hint
+    [SerializeField] private float attackHintDuration = 5f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
 
@@ -246,6 +247,18 @@ public class TutorialManager : MonoBehaviour
         SetStep(TutorialStep.Dash); 
     }
 
+    public void TriggerAttackHint()
+    {
+        if (attackCompleted) return;
+        if (currentStep == TutorialStep.Attack) return; 
+
+        SetStep(TutorialStep.Attack); 
+
+        // TODO: change so attack hint is hidden after the player hits the enemy for the first time
+        CancelInvoke(nameof(HideAttackHint));
+        Invoke(nameof(HideAttackHint), attackHintDuration);
+    }
+
     public void OnJumpSucceeded()
     {
         jumpSucceeded = true;
@@ -325,16 +338,15 @@ public class TutorialManager : MonoBehaviour
         }
     }
     
-    // commented out until combat logic is added
-    /* public void OnPlayerAttack()
+    public void OnPlayerAttack()
     {
         if (currentStep == TutorialStep.Attack && !attackCompleted)
         {
             attackCompleted = true;
-            attackHint.Hide();
+            HideHint(attackHint);
             Debug.Log("Player attack tutorial complete");
         }
-    } */ 
+    }
 
     public void OnPlayerJump()
     {
@@ -396,6 +408,12 @@ public class TutorialManager : MonoBehaviour
     {
         HideHint(spellHint);
         Debug.Log("Spell hint hidden");
+    }
+
+    private void HideAttackHint()
+    {
+        HideHint(attackHint);
+        Debug.Log("Attack hint hidden");
     }
 
     // setting the current tutorial step and showing corresponding hint

@@ -48,9 +48,9 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene("TitleScreen"); 
     }
 
-    // TODO: when death logic has been written, adapt this
     public void RestartButton()
     {
+        isPaused = false; 
         Time.timeScale = 1f;
         SceneManager.LoadScene("GameScene"); 
     }
