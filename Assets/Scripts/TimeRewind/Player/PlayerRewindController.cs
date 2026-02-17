@@ -154,7 +154,6 @@ namespace TimeRewind
                 AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
                 state.AnimatorStateHash = animInfo.fullPathHash;
                 state.AnimatorNormalizedTime = animInfo.normalizedTime;
-<<<<<<< feature/combat-logic
                 // --- NEW: Capture Cast Layer (1) ---
                 if (animator.layerCount > 1)
                 {
@@ -162,12 +161,10 @@ namespace TimeRewind
                     state.SetCustomData("Layer1Hash", layer1Info.fullPathHash);
                     state.SetCustomData("Layer1Time", layer1Info.normalizedTime);
                 }
-=======
                 state.SetCustomData("VerticalNormal", animator.GetFloat("VerticalNormal"));
                 state.SetCustomData("Speed", animator.GetFloat("Speed"));
                 state.SetCustomData("isGrounded", animator.GetBool("isGrounded"));
                 state.SetCustomData("isWallSliding", animator.GetBool("isWallSliding"));
->>>>>>> dev
             }
             if (spriteRenderer != null)
             {
@@ -185,7 +182,6 @@ namespace TimeRewind
             if (animator != null)
             {
                 animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
-<<<<<<< feature/combat-logic
                 if (animator.layerCount > 1)
                 {
                     int layer1Hash = state.GetCustomData<int>("Layer1Hash", 0);
@@ -195,13 +191,11 @@ namespace TimeRewind
                         animator.Play(layer1Hash, 1, layer1Time);
                     }
                 }
-=======
                 animator.SetFloat("VerticalNormal", state.GetCustomData<float>("VerticalNormal", 0f));
                 animator.SetFloat("Speed", state.GetCustomData<float>("Speed", 0f));
                 animator.SetBool("isGrounded", state.GetCustomData<bool>("isGrounded", true));
                 animator.SetBool("isWallSliding", state.GetCustomData<bool>("isWallSliding", false));
                 animator.Update(0f);
->>>>>>> dev
             }
             if (spriteRenderer != null)
             {
