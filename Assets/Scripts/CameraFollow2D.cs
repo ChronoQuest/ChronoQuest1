@@ -64,4 +64,22 @@ public class CameraFollow2D : MonoBehaviour
         if (player != null)
             target = player.transform;
     }
-}
+    
+    // methods added for tutorial camera movement (spell section)
+    public void SetTemporaryTarget(Transform newTarget)
+    {
+        target = newTarget; 
+        velocity = Vector3.zero;
+    }
+
+    public void RestoreTarget(Transform originalTarget)
+    {
+        target = originalTarget; 
+        velocity = Vector3.zero;
+    }
+
+    public void SetSmoothTime(float value)
+    {
+        smoothTime = Mathf.Max(0.01f, value);
+    }
+}  
