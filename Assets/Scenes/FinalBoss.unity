@@ -10713,9 +10713,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb30a713afaf9f4fb3f90c59a224967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Boss
-  health: 50
+  health: 500
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
+  deathAnimationDuration: 0.6
   attackCooldown: 0.5
   damageCooldown: 1.5
   damage: 1

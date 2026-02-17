@@ -15,10 +15,16 @@ public class PlayerMana : MonoBehaviour
     // Events: The UI Manager will listen to this to update the blue bar
     public event Action<float> OnManaChanged;
 
-    private void Start()
+    private void Awake()
     {
         CurrentMana = maxMana;
-        OnManaChanged?.Invoke(CurrentMana / maxMana); // Update UI at start
+        //OnManaChanged?.Invoke(CurrentMana / maxMana); // Update UI at start
+        Debug.Log($"Mana System Awake: Current Mana set to {CurrentMana} using Max Mana {maxMana}");
+    }
+
+    private void Start() 
+    {
+        OnManaChanged?.Invoke(CurrentMana / maxMana);
     }
 
     private void Update()
@@ -37,7 +43,7 @@ public class PlayerMana : MonoBehaviour
     }
 
     // General method to add/subtract mana safely
-    private void ModifyMana(float amount)
+    public void ModifyMana(float amount)
     {
         CurrentMana = Mathf.Clamp(CurrentMana + amount, 0, maxMana);
         

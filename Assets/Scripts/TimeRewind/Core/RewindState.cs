@@ -90,6 +90,17 @@ namespace TimeRewind
                 result.SetCustomData("flipX", t < 0.5f ? a.GetCustomData<bool>("flipX", false) : b.GetCustomData<bool>("flipX", false));
                 result.SetCustomData("midJump", t < 0.5f ? a.GetCustomData<bool>("midJump", false) : b.GetCustomData<bool>("midJump", false));
                 result.SetCustomData("frameIndex", Mathf.RoundToInt(Mathf.Lerp(a.GetCustomData<int>("frameIndex", 0), b.GetCustomData<int>("frameIndex", 0), t)));
+
+                // Player cast layer (Layer 1)
+                result.SetCustomData("Layer1Hash", t < 0.5f ? a.GetCustomData<int>("Layer1Hash", 0) : b.GetCustomData<int>("Layer1Hash", 0));
+                result.SetCustomData("Layer1Time", Mathf.Lerp(a.GetCustomData<float>("Layer1Time", 0f), b.GetCustomData<float>("Layer1Time", 0f), t));
+
+                // SpellProjectile
+                result.SetCustomData("hasHit", t < 0.5f ? a.GetCustomData<bool>("hasHit", false) : b.GetCustomData<bool>("hasHit", false));
+                result.SetCustomData("lifetime", Mathf.Lerp(a.GetCustomData<float>("lifetime", 0f), b.GetCustomData<float>("lifetime", 0f), t));
+
+                // PlayerSpellSystem
+                result.SetCustomData("nextFireTime", Mathf.Lerp(a.GetCustomData<float>("nextFireTime", 0f), b.GetCustomData<float>("nextFireTime", 0f), t));
             }
 
             return result;
