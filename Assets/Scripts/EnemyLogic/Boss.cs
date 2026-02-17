@@ -8,6 +8,7 @@ public class Boss : EnemyBase
     public float attackCooldown = 1f;
     public float damageCooldown = 1.5f;
     public int damage = 1;
+    private bool platformsRaised = false;
 
     public Transform player;
     public BossAttackManager attackManager;
@@ -128,6 +129,7 @@ public class Boss : EnemyBase
         WaitForSeconds wait = new WaitForSeconds(7f);
         WaitForSeconds wait2 = new WaitForSeconds(1f);
             if(!_isRewinding) {
+                platformsRaised = true;
                 attackManager.raisePlatforms();
                 // Allow time for player to react to platforms
                 yield return wait2;
@@ -135,6 +137,7 @@ public class Boss : EnemyBase
                 yield return wait;
             }
         attackManager.lowerPlatforms();
+        platformsRaised = false;
     }
 
     IEnumerator Enemy()
@@ -168,10 +171,18 @@ public class Boss : EnemyBase
             Damage();
         }
     }
+    public override void OnStartRewind()
+    {
+        _isRewinding = true;
+    }
     public override void OnStopRewind()
     {
         _isRewinding = false;
         StopAllCoroutines();
+        if(platformsRaised){
+            attackManager.lowerPlatforms();
+            platformsRaised = false;
+        }
         StartCoroutine(AttackLoop());
     }
 }
