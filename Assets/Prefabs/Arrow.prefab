@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3088167690548789682}
   - component: {fileID: 4558462555342347833}
   - component: {fileID: 2644183512972243344}
-  - component: {fileID: 7746489152554712520}
+  - component: {fileID: 1908304995684619544}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -167,7 +167,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.26, y: 0.05}
   m_EdgeRadius: 0
---- !u!114 &7746489152554712520
+--- !u!114 &1908304995684619544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,9 +176,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2949883894860106733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2716e5780143d44e94bd2e2022d7c75, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ef5b61c84834431ca88929ce2326871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ArrowProjectile
-  arrowSpeed: 10
-  lifetime: 3
-  damage: 1
+  speed: 8
+  lifetime: 5
