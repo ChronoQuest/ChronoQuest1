@@ -440,6 +440,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformer
+--- !u!114 &1207369307 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 3765684241865112175}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerMana
 --- !u!1 &1406895532
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +915,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f09bb9a4b3e14b64bc57a45a2bf93c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!1 &1955402002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2455767372189120468, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+  m_PrefabInstance: {fileID: 3212802410766754496}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1955402008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955402002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerMana
+  maxMana: 100
+  manaGainOnHit: 10
+  passiveRegenRate: 0
 --- !u!1 &2050657086 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6958479893052103642, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
@@ -1312,6 +1343,10 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 1282564490297637744, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: playerMana
+      value: 
+      objectReference: {fileID: 1207369307}
     - target: {fileID: 3724842226651659153, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1392,6 +1427,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7276164888348976266, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: playerMana
+      value: 
+      objectReference: {fileID: 1207369307}
     - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
       propertyPath: playerHealth
       value: 
@@ -1399,7 +1438,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2455767372189120468, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1955402008}
   m_SourcePrefab: {fileID: 100100000, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
 --- !u!1001 &3765684241865112175
 PrefabInstance:
