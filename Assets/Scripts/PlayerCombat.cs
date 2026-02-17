@@ -40,6 +40,12 @@ public class PlayerCombat : MonoBehaviour
             PerformMelee();
         }
 
+        // // Right Click = Spell
+        // if (mouse.rightButton.wasPressedThisFrame)
+        // {
+        //     PerformSpell();
+        // }
+
         if (Input.GetKeyDown(KeyCode.N)) 
         {
             GetComponent<Animator>().SetTrigger("RainAttack");
@@ -119,6 +125,22 @@ public class PlayerCombat : MonoBehaviour
             }
         }
     }
+
+    // private void PerformSpell()
+    // {
+    //     if (spellPrefab == null || firePoint == null) return;
+
+    //     // Calculate direction to mouse
+    //     Vector3 mousePos = Mouse.current.position.ReadValue();
+    //     mousePos.z = 10f; 
+    //     Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+    //     Vector2 direction = (Vector2)worldMousePos - (Vector2)firePoint.position;
+        
+    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+    //     // Spawn spell rotated toward mouse
+    //     Instantiate(spellPrefab, firePoint.position, Quaternion.Euler(0, 0, angle));
+    // }
 
     // Draws a red circle in the Scene View so you can see your melee range
     private void OnDrawGizmosSelected()

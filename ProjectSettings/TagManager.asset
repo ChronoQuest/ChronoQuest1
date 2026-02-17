@@ -17,6 +17,10 @@ TagManager:
   - Ground
   - Wall
   - Enemy
+  - Enemy
+  - Ground
+  - Wall
+  - Background
   - 
   - 
   - 

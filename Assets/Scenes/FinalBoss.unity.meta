@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/FinalBoss.unity.meta
 guid: e3a0b98f428633b4aba4b286d26fd2dc
+========
+guid: e7d89c926c16e5f40afcdde9d0ce623f
+folderAsset: yes
+>>>>>>>> dev:Assets/Animations/RainAttack.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
