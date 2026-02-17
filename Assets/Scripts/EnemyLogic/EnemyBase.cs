@@ -1,5 +1,6 @@
 using UnityEngine;
 using TimeRewind;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -13,6 +14,8 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     public float knockbackResistance = 1f; // higher = less knockback
     public float knockbackUpMultiplier = 0.8f;
 
+    [Header("Death Settings")]
+    public float deathAnimationDuration = 0.6f;
 
     protected Rigidbody2D rb;
     protected SpriteRenderer sprite;
@@ -87,6 +90,14 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
         if (col != null) col.enabled = false;
         rb.linearVelocity = Vector2.zero;
         // Do not Destroy - stay registered so rewind can restore us
+    }
+    protected virtual IEnumerator DeathRoutine()
+    {
+        // Wait for the specific enemy's animation to finish
+        yield return new WaitForSeconds(deathAnimationDuration);
+        
+        // Hide the sprite instead of Destroying (so it can be rewound)
+        if (sprite != null) sprite.enabled = false;
     }
     // ================= REWIND =================
     public virtual void OnStartRewind()
