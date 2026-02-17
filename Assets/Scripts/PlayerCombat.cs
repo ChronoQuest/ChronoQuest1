@@ -24,6 +24,9 @@ public class PlayerCombat : MonoBehaviour
     private int comboStep = 0;
     private float lastAttackTime;
 
+    [Header("Dependencies")]
+    private PlayerMana manaSystem;
+
     private Animator anim;
     private Rigidbody2D rb;
     private PlayerPlatformer movement;
@@ -34,6 +37,7 @@ public class PlayerCombat : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         movement = GetComponent<PlayerPlatformer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        manaSystem = GetComponent<PlayerMana>();
     }
 
     void Update()
@@ -55,18 +59,17 @@ public class PlayerCombat : MonoBehaviour
             PerformMelee();
         }
 
-        var mouse = Mouse.current;
-        if (mouse == null) return;
-
-        // Left Click = Melee
-        if (mouse.leftButton.wasPressedThisFrame)
-        {
-            PerformMelee();
-        }
-
         if (Input.GetKeyDown(KeyCode.N)) 
         {
-            GetComponent<Animator>().SetTrigger("RainAttack");
+            // Costs 20 mana
+            if (manaSystem != null && manaSystem.TrySpendMana(20f))
+            {
+                anim.SetTrigger("RainAttack");
+            }
+            else
+            {
+                Debug.Log("Not enough mana for Rain Attack!");
+            }
         }
     }
 
@@ -157,6 +160,7 @@ public class PlayerCombat : MonoBehaviour
             if (target != null)
             {
                 target.TakeDamage(meleeDamage);
+                if (manaSystem != null) manaSystem.AddManaOnHit();
 
                 // 3. PHYSICS INTERACTION (The Pogo)
                 if (state.IsName("Player_AirSlashDown"))

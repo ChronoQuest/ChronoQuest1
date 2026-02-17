@@ -110,6 +110,17 @@ public class BasicEnemy : MonoBehaviour
 
     void Die()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMana pm = player.GetComponent<PlayerMana>();
+            if (pm != null)
+            {
+                // 3. Restore mana (adjust the 15f to whatever bonus you want)
+                pm.ModifyMana(15f); 
+                Debug.Log("Enemy killed! Mana restored.");
+            }
+        }
         Debug.Log("Enemy died!");
         Destroy(gameObject);
     }
