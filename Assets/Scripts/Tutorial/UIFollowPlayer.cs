@@ -22,7 +22,6 @@ public class UIFollowPlayer : MonoBehaviour
             target.position + worldOffset
         );
 
-        // hide if behind camera
         if (screenPos.z < 0)
         {
             rectTransform.gameObject.SetActive(false);
