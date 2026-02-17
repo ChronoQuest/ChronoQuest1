@@ -87,6 +87,9 @@ public class SpellProjectile : MonoBehaviour, IRewindable
                 Vector2 dir = (collision.transform.position - transform.position).normalized;
                 kb.ApplyKnockback(dir * knockbackStrength);
             }
+            // Check if enemy died
+            EnemyBase enemy = collision.GetComponent<EnemyBase>();
+            if (enemy != null && enemy.IsDead) return;
             
             ExecuteImpact();
             return; // Stop running code here so we don't hit the ground check below

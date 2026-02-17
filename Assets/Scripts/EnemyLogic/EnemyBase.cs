@@ -22,6 +22,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IR
     protected bool isRewinding;
     protected bool wasDead;
 
+    public bool IsDead => health <= 0;
     protected bool isStunned;
 
     protected virtual void Awake()
