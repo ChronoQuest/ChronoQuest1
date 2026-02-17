@@ -42,7 +42,7 @@ public class FlyingEnemy : EnemyBase
 
     void Update()
     {
-        if (isRewinding || isStunned) return;
+        if (isRewinding || isStunned || wasDead) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
 
@@ -65,7 +65,7 @@ public class FlyingEnemy : EnemyBase
 
     void FixedUpdate()
     {
-        if (isRewinding || isStunned) return;
+        if (isRewinding || isStunned || wasDead) return;
 
         switch (currentState)
         {
