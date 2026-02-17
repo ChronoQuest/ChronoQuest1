@@ -31,6 +31,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     // Events
     public event Action<int, int> OnHealthChanged;
     public event Action OnDeath;
+    
 
     private void Awake()
     {

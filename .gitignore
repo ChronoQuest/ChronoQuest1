@@ -114,6 +114,15 @@ InitTestScene*.unity*
 /[Vv]env/
 /[Ee]nv/
 /results/
+/Assets/results/
+*.onnx.meta
+*.pt.meta
 
 .DS_Store
 **/.DS_Store
+
+# PyTorch checkpoints
+*.pt
+
+# TensorBoard logs
+events.out.tfevents.*

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections; 
 
 public class TutorialManager : MonoBehaviour
 {
@@ -8,27 +9,37 @@ public class TutorialManager : MonoBehaviour
     {
         None,
         Movement,
+        Dash, 
+        DoubleJump,
         Jump,
         Attack,
         Rewind, 
-        Dash, 
+        Spell, 
+        WallJump, 
         Complete
     }
 
     public TutorialStep currentStep = TutorialStep.None; 
+
+    // states
+    private GameObject activeHint = null;
+    private TutorialStep pendingStep = TutorialStep.None;
+    private bool isFading = false; 
 
     // references to hint UI elements 
     public GameObject rewindHint;
     public GameObject attackHint;
     public GameObject movementHint;
     public GameObject jumpHint; 
-    public GameObject dashHint; 
+    public GameObject dashHint;
+    public GameObject doubleJumpHint; 
+    public GameObject spellHint; 
+    public GameObject wallJumpHint;  
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
     public PlayerHealth playerHealth;
     public Transform enemy;
-    public Transform platform; 
 
     // jump and attack distance are used to check proximity to objects like the enemy or platform
     // once close enough, hints for attack and jump will trigger
@@ -40,6 +51,9 @@ public class TutorialManager : MonoBehaviour
     bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
+    bool doubleJumpCompleted = false; 
+    bool spellCompleted = false; 
+    bool wallJumpCompleted = false; 
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -47,21 +61,34 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI rewindText;
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
+    public TextMeshProUGUI doubleJumpText; 
+    public TextMeshProUGUI spellText;
+    public TextMeshProUGUI wallJumpText; 
 
     private string movementMessage;
     private string attackMessage;
     private string rewindMessage;
     private string jumpMessage; 
     private string dashMessage; 
+    private string doubleJumpMessage; 
+    private string spellMessage;
+    private string wallJumpMessage; 
 
     [SerializeField] float idleTimeThreshold = 2f;
     float idleTimer = 0f;
     Vector2 lastPlayerPosition;
-    [SerializeField] private float movementGracePeriod = 6f; 
+    [SerializeField] private float movementGracePeriod = 4f; 
     private float gameStartTime; 
 
     private int hitCount = 0; 
     private int previousHealth;
+    private bool jumpAttempted = false;         
+    private bool jumpSucceeded = false; 
+    [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
+    [SerializeField] private float spellHintDuration = 5f;                 // temporary trigger time for spell hint
+    [SerializeField] private float attackHintDuration = 5f;                // temporary trigger time for attack hint
+    [SerializeField] private UIFollowPlayer rewindFollow; 
+    [SerializeField] private float hintFadeDuration = 0.3f;
 
     void Start()
     {
@@ -70,6 +97,10 @@ public class TutorialManager : MonoBehaviour
         attackMessage = attackText.text;
         rewindMessage = rewindText.text;
         jumpMessage = jumpText.text; 
+        dashMessage = dashText.text; 
+        doubleJumpMessage = doubleJumpText.text;
+        spellMessage = spellText.text;
+        wallJumpMessage = wallJumpText.text;
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -84,6 +115,11 @@ public class TutorialManager : MonoBehaviour
             previousHealth = playerHealth.CurrentHealth;
             playerHealth.OnHealthChanged += HandleHealthChanged;
         }
+
+        if (TimeRewind.TimeRewindManager.Instance != null)
+        {
+            TimeRewind.TimeRewindManager.Instance.OnRewindStart += HandleRewindStarted;
+        }
     }
 
     void Update()
@@ -91,18 +127,81 @@ public class TutorialManager : MonoBehaviour
         /* on every update, check if the player: 
         - ... is idle (movement check)
         - ... and enemy are close together (attack check)
-        - ... is close enough to trigger the jump hint
         */ 
         CheckPlayerIdle();
-        CheckAttackDistance();
-        CheckJumpPrompt();
+        // CheckAttackDistance();
         
         // if all hints have been completed, tutorial completed 
-        if (moveCompleted && attackCompleted && rewindCompleted && jumpCompleted && rewindCompleted && dashCompleted)
+        // TODO: add back attack completed once combat has been added
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
             DisableHints();
+        }
+    }
+
+    // ---- fade effects & showing and hiding hints ----
+    void ShowHint(GameObject hint)
+    {
+        hint.SetActive(true);
+
+        var cg = hint.GetComponent<CanvasGroup>();
+        if (cg != null)        
+            cg.alpha = 1f;
+    }
+
+    void HideHint(GameObject hint)
+    {
+        if (hint == null) return; 
+        
+        var cg = hint.GetComponent<CanvasGroup>(); 
+        if (cg == null)
+        {
+            hint.SetActive(false); 
+            OnHintHidden(hint);
+            return; 
+        }
+
+        if (!isFading)
+        {
+            StartCoroutine(FadeOut(cg, hint)); 
+        }
+    }
+
+    IEnumerator FadeOut(CanvasGroup cg, GameObject hint)
+    {
+        isFading = true;
+        
+        float start = cg.alpha; 
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / hintFadeDuration; 
+            cg.alpha = Mathf.Lerp(start, 0f, t); 
+            yield return null; 
+        }
+
+        cg.alpha = 0f; 
+        hint.SetActive(false); 
+
+        isFading = false; 
+        OnHintHidden(hint);
+    }
+
+    void OnHintHidden(GameObject hint)
+    {
+        if (activeHint == hint)
+        {
+            activeHint = null; 
+        }
+
+        if (pendingStep != TutorialStep.None)
+        {
+            var step = pendingStep;
+            pendingStep = TutorialStep.None; 
+            SetStep(step);
         }
     }
 
@@ -118,22 +217,6 @@ public class TutorialManager : MonoBehaviour
         {
             SetStep(TutorialStep.Attack);
         }
-    }
-
-    // checks the distance between the platform and the player 
-   void CheckJumpPrompt()
-    {
-        if (jumpCompleted) return;
-        if (!player.isGrounded) return;
-
-        // perform proximity check 
-        float movementDelta = Vector2.Distance(player.transform.position, lastPlayerPosition);
-        if (movementDelta > 0.01f) return;
-        
-        float distance = Vector2.Distance(player.transform.position, platform.position);
-        if (distance > jumpDistance) return;
-
-        SetStep(TutorialStep.Jump);
     }
 
     // checks if the player has been idle for the first n seconds of the game to trigger 
@@ -162,26 +245,75 @@ public class TutorialManager : MonoBehaviour
         lastPlayerPosition = player.transform.position;
     }
 
+    public void TriggerJumpHint()
+    {
+        if (currentStep == TutorialStep.DoubleJump) return;
+
+        if (jumpCompleted) return;
+        if (currentStep == TutorialStep.Jump) return; 
+
+        jumpAttempted = true; 
+        jumpSucceeded = false; 
+        SetStep(TutorialStep.Jump); 
+    }
+
+    public void TriggerDoubleJumpHint()
+    {
+        if (doubleJumpCompleted) return;
+        if (currentStep == TutorialStep.DoubleJump) return; 
+
+        SetStep(TutorialStep.DoubleJump); 
+
+        // TODO: change so double jump hint is hidden after a certain trigger
+        // hides the double jump hint after the timer runs out
+        CancelInvoke(nameof(HideDoubleJumpHint));
+        Invoke(nameof(HideDoubleJumpHint), doubleJumpHintDuration);
+    } 
+
+    public void TriggerDashHint()
+    {
+        if (dashCompleted) return;
+        if (currentStep == TutorialStep.Dash) return; 
+
+        SetStep(TutorialStep.Dash); 
+    }
+
+    public void TriggerAttackHint()
+    {
+        if (attackCompleted) return;
+        if (currentStep == TutorialStep.Attack) return; 
+
+        SetStep(TutorialStep.Attack); 
+
+        // TODO: change so attack hint is hidden after the player hits the enemy for the first time
+        CancelInvoke(nameof(HideAttackHint));
+        Invoke(nameof(HideAttackHint), attackHintDuration);
+    }
+
+    public void OnJumpSucceeded()
+    {
+        jumpSucceeded = true;
+        jumpAttempted = false;
+        Debug.Log("Jump successful"); 
+    }
+
     // handles when the health changes, triggers either the rewind or dash hint 
     private void HandleHealthChanged(int current, int max)
     {
-       if (current < previousHealth)
-       {
-            hitCount++;
-            Debug.Log($"[Tutorial] Player hit count = {hitCount}");
+       if (current >= previousHealth)
+        {
+            previousHealth = current; 
+            return; 
+        }
 
-            if (!rewindCompleted)
-            {
-                SetStep(TutorialStep.Rewind); 
-            }
+        if (current == 3 && !rewindCompleted)
+        {
+            SetStep(TutorialStep.Rewind); 
 
-            if (hitCount == 2 && !dashCompleted)
-            {
-                Debug.Log("Dash hint trigger");
-                SetStep(TutorialStep.Dash); 
-            }
-       }
-
+            rewindFollow.SetTarget(player.transform);
+            rewindFollow.enabled = true;
+        }
+       
        previousHealth = current; 
     }
 
@@ -189,12 +321,12 @@ public class TutorialManager : MonoBehaviour
     private void HandlePlayerDamaged()
     {
         hitCount++; 
-
-        if (hitCount >= 2 && !dashCompleted)
-        {
-            SetStep(TutorialStep.Dash); 
-        }
     }
+
+    private void HandleRewindStarted()
+    {
+        OnPlayerRewind();
+    }   
 
     // ** the following functions "OnPlayer..." mark tutorial steps as completed on certain player actions
     public void OnPlayerMoved()
@@ -202,8 +334,38 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Movement && !moveCompleted)
         {
             moveCompleted = true; 
-            movementHint.SetActive(false);
+            HideHint(movementHint);
             Debug.Log("Player movement tutorial complete");
+        }
+    }
+
+    public void TriggerSpellHint()
+    {
+        if (spellCompleted) return; 
+        if (currentStep == TutorialStep.Spell) return; 
+
+        SetStep(TutorialStep.Spell);
+
+        // TODO: change so the spell hint is hidden after the a certain amount of time or after the player attacks the enemies
+        CancelInvoke(nameof(HideSpellHint));
+        Invoke(nameof(HideSpellHint), spellHintDuration);
+    }
+
+    public void TriggerWallJumpHint()
+    {
+        if (wallJumpCompleted) return; 
+        if (currentStep == TutorialStep.WallJump) return;
+
+        SetStep(TutorialStep.WallJump);
+    }
+
+    public void OnPlayerSpell()
+    {
+        if (currentStep == TutorialStep.Spell && !spellCompleted)
+        {
+            spellCompleted = true; 
+            HideHint(spellHint);
+            Debug.Log("Player spell tutorial completed");
         }
     }
     
@@ -212,81 +374,143 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Attack && !attackCompleted)
         {
             attackCompleted = true;
-            attackHint.SetActive(false);
+            HideHint(attackHint);
             Debug.Log("Player attack tutorial complete");
         }
     }
 
     public void OnPlayerJump()
     {
-        if (currentStep != TutorialStep.Jump) return;
-        if (jumpCompleted) return;
-
-        jumpCompleted = true;
-        jumpHint.SetActive(false); 
-        Debug.Log("Player jump tutorial complete");
+        if (currentStep == TutorialStep.Jump && !jumpCompleted)
+        {
+            jumpCompleted = true;
+            HideHint(jumpHint);
+            Debug.Log("Player jump tutorial complete");
+        }
     }
 
     public void OnPlayerRewind()
     {
-        if (currentStep != TutorialStep.Rewind) return;
-        if (rewindCompleted) return;
-
-        if (playerHealth.CurrentHealth < playerHealth.MaxHealth)
-            return; 
-
-        rewindCompleted = true;
-        rewindHint.SetActive(false);
-        Debug.Log("Player rewind tutorial complete");
+        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        {
+            rewindCompleted = true;
+            rewindFollow.enabled = false;
+            HideHint(rewindHint);
+            Debug.Log("Player rewind tutorial complete");
+        }
     }
 
     public void OnPlayerDash()
     {
-        if (currentStep != TutorialStep.Dash) return; 
-        if (dashCompleted) return; 
-
-        dashCompleted = true; 
-        dashHint.SetActive(false); 
-        Debug.Log("Player dash tutorial complete"); 
+        if (currentStep == TutorialStep.Dash && !dashCompleted)
+        {
+            dashCompleted = true;
+            HideHint(dashHint);
+            Debug.Log("Player dash tutorial completed"); 
+        } 
     }
 
+    public void OnPlayerWallJump()
+    {
+        if (currentStep == TutorialStep.WallJump && !wallJumpCompleted)
+        {
+            wallJumpCompleted = true; 
+            HideHint(wallJumpHint); 
+            Debug.Log("Player wall jump tutorial completed"); 
+        }
+    }
+
+    public void OnPlayerDoubleJump()
+    {
+        if (currentStep == TutorialStep.DoubleJump)
+        {
+            HideHint(doubleJumpHint);
+            Debug.Log("Player double jump completed"); 
+        }
+    }
+
+    private void HideDoubleJumpHint()
+    {
+        HideHint(doubleJumpHint);
+        Debug.Log("Double jump hint hidden");
+    }
+
+    private void HideSpellHint()
+    {
+        HideHint(spellHint);
+        Debug.Log("Spell hint hidden");
+    }
+
+    private void HideAttackHint()
+    {
+        HideHint(attackHint);
+        Debug.Log("Attack hint hidden");
+    }
 
     // setting the current tutorial step and showing corresponding hint
     void SetStep(TutorialStep step)
     {   
         if (currentStep == step)
             return;
-        
-        DisableHints(); 
+
+        if (activeHint != null || isFading)
+        {
+            pendingStep = step; 
+            return; 
+        }
+         
         currentStep = step;
 
         // based on the current step, show the corresponding tutorial hint using the typewriter effect
         switch (step)
         {
             case TutorialStep.Movement:
-                movementHint.SetActive(true);
+                activeHint = movementHint;
+                ShowHint(movementHint);
                 movementText.text = movementMessage;
                 typewriter.StartTyping(movementText);
                 break;
             case TutorialStep.Attack:
-                attackHint.SetActive(true);
+                activeHint = attackHint;
+                ShowHint(attackHint);
                 attackText.text = attackMessage;
                 typewriter.StartTyping(attackText);
                 break;
             case TutorialStep.Rewind:
-                rewindHint.SetActive(true);
+                activeHint = rewindHint;
+                ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
                 typewriter.StartTyping(rewindText);
                 break;
             case TutorialStep.Jump:
-                jumpHint.SetActive(true);
+                activeHint = jumpHint; 
+                ShowHint(jumpHint);
                 jumpText.text = jumpMessage; 
                 typewriter.StartTyping(jumpText); 
                 break; 
             case TutorialStep.Dash:
-                dashHint.SetActive(true); 
+                activeHint = dashHint;
+                ShowHint(dashHint); 
                 dashText.text = dashMessage;
                 typewriter.StartTyping(dashText); 
+                break;
+            case TutorialStep.DoubleJump:
+                activeHint = doubleJumpHint; 
+                ShowHint(doubleJumpHint); 
+                doubleJumpText.text = doubleJumpMessage;
+                typewriter.StartTyping(doubleJumpText); 
+                break; 
+            case TutorialStep.Spell:
+                activeHint = spellHint;
+                ShowHint(spellHint);
+                spellText.text = spellMessage;
+                typewriter.StartTyping(spellText);
+                break;
+            case TutorialStep.WallJump:
+                activeHint = wallJumpHint; 
+                ShowHint(wallJumpHint);
+                wallJumpText.text = wallJumpMessage;
+                typewriter.StartTyping(wallJumpText);
                 break;
         }
     }
@@ -294,9 +518,13 @@ public class TutorialManager : MonoBehaviour
     // hints are disabled once tutorial is complete
     void DisableHints()
     {
-        rewindHint.SetActive(false);
-        attackHint.SetActive(false);
-        movementHint.SetActive(false);
-        jumpHint.SetActive(false);
+        HideHint(rewindHint); 
+        HideHint(attackHint);
+        HideHint(movementHint);
+        HideHint(jumpHint);
+        HideHint(dashHint); 
+        HideHint(doubleJumpHint); 
+        HideHint(spellHint);
+        HideHint(wallJumpHint);
     }
 }
