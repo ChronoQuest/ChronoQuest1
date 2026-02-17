@@ -50,7 +50,6 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
         // Auto destroy after lifetime
-        Destroy(gameObject, lifetime);
 }
 
     // This allows us to pause the aging process while time is going backwards

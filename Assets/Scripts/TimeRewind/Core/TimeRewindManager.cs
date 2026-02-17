@@ -333,13 +333,18 @@ namespace TimeRewind
                 _currentRewindTime = oldestTime;
             }
             
-            foreach (var kvp in _rewindables)
+            // Snapshot the keys to avoid InvalidOperationException if a
+            // rewindable is unregistered (e.g. destroyed) during iteration.
+            var keys = new System.Collections.Generic.List<IRewindable>(_rewindables.Keys);
+            
+            foreach (var key in keys)
             {
-                var mb = kvp.Key as MonoBehaviour;
+                var mb = key as MonoBehaviour;
                 if (mb == null)
                     continue;
                 
-                var buffer = kvp.Value;
+                if (!_rewindables.TryGetValue(key, out var buffer))
+                    continue;
                 
                 if (buffer.GetInterpolationStates(
                     _currentRewindTime,
@@ -349,7 +354,7 @@ namespace TimeRewind
                     out float t))
                 {
                     var interpolatedState = RewindState.Lerp(before, after, t);
-                    kvp.Key.ApplyState(interpolatedState);
+                    key.ApplyState(interpolatedState);
                 }
             }
             
