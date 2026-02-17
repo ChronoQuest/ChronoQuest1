@@ -4,6 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Enemy
   - Ground
   layers:
   - Default
@@ -21,10 +22,6 @@ TagManager:
   - Ground
   - Wall
   - Background
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 
