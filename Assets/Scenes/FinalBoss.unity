@@ -10801,6 +10801,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+--- !u!114 &526924365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 526924364}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerMana
 --- !u!1 &893864175
 GameObject:
   m_ObjectHideFlags: 0
@@ -38867,6 +38878,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1282564490297637744, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: playerMana
+      value: 
+      objectReference: {fileID: 526924365}
     - target: {fileID: 3724842226651659153, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
       propertyPath: m_Pivot.x
       value: 0
