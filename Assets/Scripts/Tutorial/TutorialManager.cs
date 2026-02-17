@@ -21,6 +21,11 @@ public class TutorialManager : MonoBehaviour
 
     public TutorialStep currentStep = TutorialStep.None; 
 
+    // states
+    private GameObject activeHint = null;
+    private TutorialStep pendingStep = TutorialStep.None;
+    private bool isFading = false; 
+
     // references to hint UI elements 
     public GameObject rewindHint;
     public GameObject attackHint;
@@ -148,18 +153,26 @@ public class TutorialManager : MonoBehaviour
 
     void HideHint(GameObject hint)
     {
+        if (hint == null) return; 
+        
         var cg = hint.GetComponent<CanvasGroup>(); 
         if (cg == null)
         {
             hint.SetActive(false); 
+            OnHintHidden(hint);
             return; 
         }
 
-        StartCoroutine(FadeOut(cg, hint));
+        if (!isFading)
+        {
+            StartCoroutine(FadeOut(cg, hint)); 
+        }
     }
 
     IEnumerator FadeOut(CanvasGroup cg, GameObject hint)
     {
+        isFading = true;
+        
         float start = cg.alpha; 
         float t = 0f;
 
@@ -172,6 +185,24 @@ public class TutorialManager : MonoBehaviour
 
         cg.alpha = 0f; 
         hint.SetActive(false); 
+
+        isFading = false; 
+        OnHintHidden(hint);
+    }
+
+    void OnHintHidden(GameObject hint)
+    {
+        if (activeHint == hint)
+        {
+            activeHint = null; 
+        }
+
+        if (pendingStep != TutorialStep.None)
+        {
+            var step = pendingStep;
+            pendingStep = TutorialStep.None; 
+            SetStep(step);
+        }
     }
 
     // checks the distance between the enemy and the player
@@ -421,6 +452,12 @@ public class TutorialManager : MonoBehaviour
     {   
         if (currentStep == step)
             return;
+
+        if (activeHint != null || isFading)
+        {
+            pendingStep = step; 
+            return; 
+        }
          
         currentStep = step;
 
@@ -428,41 +465,49 @@ public class TutorialManager : MonoBehaviour
         switch (step)
         {
             case TutorialStep.Movement:
+                activeHint = movementHint;
                 ShowHint(movementHint);
                 movementText.text = movementMessage;
                 typewriter.StartTyping(movementText);
                 break;
             case TutorialStep.Attack:
+                activeHint = attackHint;
                 ShowHint(attackHint);
                 attackText.text = attackMessage;
                 typewriter.StartTyping(attackText);
                 break;
             case TutorialStep.Rewind:
+                activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
                 typewriter.StartTyping(rewindText);
                 break;
             case TutorialStep.Jump:
+                activeHint = jumpHint; 
                 ShowHint(jumpHint);
                 jumpText.text = jumpMessage; 
                 typewriter.StartTyping(jumpText); 
                 break; 
             case TutorialStep.Dash:
+                activeHint = dashHint;
                 ShowHint(dashHint); 
                 dashText.text = dashMessage;
                 typewriter.StartTyping(dashText); 
                 break;
             case TutorialStep.DoubleJump:
+                activeHint = doubleJumpHint; 
                 ShowHint(doubleJumpHint); 
                 doubleJumpText.text = doubleJumpMessage;
                 typewriter.StartTyping(doubleJumpText); 
                 break; 
             case TutorialStep.Spell:
+                activeHint = spellHint;
                 ShowHint(spellHint);
                 spellText.text = spellMessage;
                 typewriter.StartTyping(spellText);
                 break;
             case TutorialStep.WallJump:
+                activeHint = wallJumpHint; 
                 ShowHint(wallJumpHint);
                 wallJumpText.text = wallJumpMessage;
                 typewriter.StartTyping(wallJumpText);
