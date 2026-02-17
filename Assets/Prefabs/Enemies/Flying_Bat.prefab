@@ -202,3 +202,4 @@ MonoBehaviour:
   player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
+  currentState: 1

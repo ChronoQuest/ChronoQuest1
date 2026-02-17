@@ -42,7 +42,6 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.35f;
     [SerializeField] private LayerMask groundLayer;
-
     public bool isGrounded { get; private set; }
 
     [Header("Wall Slide")]
@@ -80,7 +79,7 @@ public class PlayerPlatformer : MonoBehaviour
     private bool wasGrounded;
     private bool isLanding;
 
-    private TutorialManager tutorialManager;
+    public TutorialManager tutorialManager;
 
     private void Awake()
     {
@@ -245,12 +244,17 @@ public class PlayerPlatformer : MonoBehaviour
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
-
     public void OnJump(InputAction.CallbackContext context)
     {
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
+        if (PauseMenu.isPaused)
+            return;
+
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            return;
+
         if (context.performed)
         {
             // 1. Only do a Wall Jump if the player is ACTUALLY sliding
@@ -297,6 +301,8 @@ public class PlayerPlatformer : MonoBehaviour
     
 
         yield return null;
+
+        tutorialManager?.OnPlayerJump(); 
     }
     // =========================================================
     // AIRBORNE ANIMATION (GLOBAL)
@@ -381,6 +387,8 @@ public class PlayerPlatformer : MonoBehaviour
     {
         isDashing = true;
         canDash = false;
+
+        tutorialManager?.OnPlayerDash();
 
         if (anim != null) 
         {
@@ -475,6 +483,3 @@ public class PlayerPlatformer : MonoBehaviour
         _isRewinding = false;
     }
 }
-
-
-
