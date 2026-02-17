@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,22 +8,34 @@ namespace TimeRewind
     public class PlayerRewindController : MonoBehaviour, IRewindable
     {
         [Header("Input")]
-        [Tooltip("The key to hold for rewinding time")]
         [SerializeField] private Key rewindKey = Key.R;
+        [SerializeField] private float rewindHoldThreshold = 0f;
+
+        [Header("Mana Cost")]
+        [SerializeField] private float manaDrainPerSecond = 10f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
         private bool _rewindInputHeld;
+        private float _rewindHoldTimer;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
+        private PlayerMana _playerMana;
         
         public bool IsRewinding => _isRewinding;
+        public event Action OnRewindStarted;
+        public event Action OnRewindStopped;
+        private Animator animator;
+        private SpriteRenderer spriteRenderer;
         
         #region Unity Lifecycle
         
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            if (animator == null) animator = GetComponent<Animator>();
+            if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+            _playerMana = GetComponent<PlayerMana>();
         }
         
         private void OnEnable()
@@ -51,13 +64,34 @@ namespace TimeRewind
                 _rewindInputHeld = true;
             
             var gamepad = Gamepad.current;
-            if (gamepad != null && (gamepad.leftTrigger.ReadValue() > 0.5f || gamepad.rightShoulder.isPressed))
-                _rewindInputHeld = true;
+            bool bothTriggers = gamepad != null
+                && gamepad.leftTrigger.ReadValue() > 0.5f
+                && gamepad.rightTrigger.ReadValue() > 0.5f;
+            if (bothTriggers)
+            {
+                _rewindHoldTimer += Time.deltaTime;
+                if (_rewindHoldTimer >= rewindHoldThreshold)
+                    _rewindInputHeld = true;
+            }
+            else
+                _rewindHoldTimer = 0f;
             
-            if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding)
+            bool hasMana = _playerMana != null && _playerMana.CurrentMana > 0f;
+
+            if (_rewindInputHeld && hasMana && !TimeRewindManager.Instance.IsRewinding)
+            {
                 TimeRewindManager.Instance.StartRewind();
-            else if (!_rewindInputHeld && TimeRewindManager.Instance.IsRewinding)
-                TimeRewindManager.Instance.StopRewind();
+            }
+            else if (TimeRewindManager.Instance.IsRewinding)
+            {
+                // Drain mana every frame while rewinding
+                bool canContinue = _playerMana != null 
+                    && _playerMana.DrainManaContinuous(manaDrainPerSecond);
+
+                // Stop if player releases input OR runs out of mana
+                if (!_rewindInputHeld || !canContinue)
+                    TimeRewindManager.Instance.StopRewind();
+            }
         }
         
         #endregion
@@ -83,15 +117,18 @@ namespace TimeRewind
         public void OnStartRewind()
         {
             _isRewinding = true;
+            OnRewindStarted?.Invoke();
             _originalBodyType = _rb.bodyType;
             _rb.bodyType = RigidbodyType2D.Kinematic;
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
+            if (animator != null) animator.speed = 0;
         }
         
         public void OnStopRewind()
         {
             _isRewinding = false;
+            OnRewindStopped?.Invoke();
             _rb.bodyType = _originalBodyType;
             
             if (_originalBodyType == RigidbodyType2D.Dynamic)
@@ -99,17 +136,34 @@ namespace TimeRewind
                 _rb.linearVelocity = _lastAppliedState.Velocity;
                 _rb.angularVelocity = _lastAppliedState.AngularVelocity;
             }
+            if (animator != null) animator.speed = 1;
         }
         
         public RewindState CaptureState()
         {
-            return RewindState.CreateWithPhysics(
+            var state = RewindState.CreateWithPhysics(
                 transform.position,
                 transform.rotation,
                 _rb.linearVelocity,
                 _rb.angularVelocity,
                 Time.time
             );
+
+            if (animator != null)
+            {
+                AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
+                state.AnimatorStateHash = animInfo.fullPathHash;
+                state.AnimatorNormalizedTime = animInfo.normalizedTime;
+                state.SetCustomData("VerticalNormal", animator.GetFloat("VerticalNormal"));
+                state.SetCustomData("Speed", animator.GetFloat("Speed"));
+                state.SetCustomData("isGrounded", animator.GetBool("isGrounded"));
+                state.SetCustomData("isWallSliding", animator.GetBool("isWallSliding"));
+            }
+            if (spriteRenderer != null)
+            {
+                state.SetCustomData("IsFlipped", spriteRenderer.flipX);
+            }
+            return state;
         }
         
         public void ApplyState(RewindState state)
@@ -117,6 +171,20 @@ namespace TimeRewind
             transform.position = state.Position;
             transform.rotation = state.Rotation;
             _lastAppliedState = state;
+
+            if (animator != null)
+            {
+                animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+                animator.SetFloat("VerticalNormal", state.GetCustomData<float>("VerticalNormal", 0f));
+                animator.SetFloat("Speed", state.GetCustomData<float>("Speed", 0f));
+                animator.SetBool("isGrounded", state.GetCustomData<bool>("isGrounded", true));
+                animator.SetBool("isWallSliding", state.GetCustomData<bool>("isWallSliding", false));
+                animator.Update(0f);
+            }
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = state.GetCustomData<bool>("IsFlipped", false); 
+            }
         }
         
         #endregion
