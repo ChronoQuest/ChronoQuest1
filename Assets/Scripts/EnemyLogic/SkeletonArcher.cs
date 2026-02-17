@@ -33,7 +33,6 @@ public class SkeletonArcher : EnemyBase
     [SerializeField] private State currentState = State.Idle;
 
     private float lastShootTime;
-    private bool isDead;
     private Vector3 originalScale;
     private Vector2 pendingArrowDirection;
 
@@ -65,7 +64,7 @@ public class SkeletonArcher : EnemyBase
 
     void Update()
     {
-        if (isRewinding || isDead || isStunned) return;
+        if (isRewinding || wasDead || isStunned) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -85,7 +84,7 @@ public class SkeletonArcher : EnemyBase
 
     void FixedUpdate()
     {
-        if (isRewinding || isDead || isStunned) return;
+        if (isRewinding || wasDead || isStunned) return;
 
         switch (currentState)
         {
@@ -126,7 +125,7 @@ public class SkeletonArcher : EnemyBase
     /// </summary>
     public void FireArrow()
     {
-        if (isDead || isRewinding) return;
+        if (wasDead || isRewinding) return;
 
         ArrowProjectile arrow = GetPooledArrow();
         if (arrow == null) return;
@@ -164,16 +163,9 @@ public class SkeletonArcher : EnemyBase
 
     protected override void Die()
     {
-        isDead = true;
+        base.Die();
         StopAllCoroutines();
-
         if (animator != null) animator.SetTrigger("Dead");
-        rb.linearVelocity = Vector2.zero;
-
-        if (col != null) col.enabled = false;
-        enabled = false;
-
-        Destroy(gameObject, 1.5f);
     }
 
     // ================= REWIND =================
@@ -182,13 +174,6 @@ public class SkeletonArcher : EnemyBase
     {
         base.OnStartRewind();
         StopAllCoroutines();
-
-        if (isDead)
-        {
-            isDead = false;
-            enabled = true;
-            if (col != null) col.enabled = true;
-        }
     }
 
     public override void OnStopRewind()
@@ -202,8 +187,6 @@ public class SkeletonArcher : EnemyBase
 
         state.SetCustomData("EnemyState", (int)currentState);
         state.SetCustomData("FacingDirection", transform.localScale);
-        state.SetCustomData("isDead", isDead);
-
         if (animator != null)
         {
             AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -221,14 +204,6 @@ public class SkeletonArcher : EnemyBase
 
         currentState = (State)state.GetCustomData<int>("EnemyState", (int)State.Idle);
         transform.localScale = state.GetCustomData<Vector3>("FacingDirection", originalScale);
-
-        bool wasDead = state.GetCustomData<bool>("isDead");
-        if (wasDead != isDead)
-        {
-            isDead = wasDead;
-            enabled = !isDead;
-            if (col != null) col.enabled = !isDead;
-        }
 
         if (animator != null)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
