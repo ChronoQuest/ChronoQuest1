@@ -16,92 +16,169 @@ public class PlayerCombat : MonoBehaviour
     [Header("Knockback")]
     public float knockbackStrength = 8f;
 
+    [Header("Air Combat")]
+    public float pogoForce = 12f;
+
+    [Header("Combo Settings")]
+    public float comboResetTime = 0.7f;
+    private int comboStep = 0;
+    private float lastAttackTime;
+
+    [Header("Dependencies")]
+    private PlayerMana manaSystem;
+
     private Animator anim;
+    private Rigidbody2D rb;
+    private PlayerPlatformer movement;
+    private SpriteRenderer spriteRenderer;
 
     void Start(){
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        movement = GetComponent<PlayerPlatformer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        manaSystem = GetComponent<PlayerMana>();
     }
 
     void Update()
     {
-        var mouse = Mouse.current;
-        if (mouse == null) return;
+        bool attackPressed = false;
 
-        // Left Click = Melee
-        if (mouse.leftButton.wasPressedThisFrame)
+        // 1. Check Mouse Input
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            attackPressed = true;
+        }
+        // 2. Check Gamepad Input (buttonWest = Square on PS / X on Xbox)
+        if (Gamepad.current != null && Gamepad.current.buttonWest.wasPressedThisFrame)
+        {
+            attackPressed = true;
+        }
+        if (attackPressed)
         {
             PerformMelee();
         }
 
-        // // Right Click = Spell
-        // if (mouse.rightButton.wasPressedThisFrame)
-        // {
-        //     PerformSpell();
-        // }
-
         if (Input.GetKeyDown(KeyCode.N)) 
         {
-            GetComponent<Animator>().SetTrigger("RainAttack");
+            // Costs 20 mana
+            if (manaSystem != null && manaSystem.TrySpendMana(20f))
+            {
+                anim.SetTrigger("RainAttack");
+            }
+            else
+            {
+                Debug.Log("Not enough mana for Rain Attack!");
+            }
         }
     }
 
     private void PerformMelee()
     {
-        bool isAttackingUp = Input.GetKey(KeyCode.W);
-        if (isAttackingUp)
+
+        if (Time.time - lastAttackTime > comboResetTime)
         {
-            anim.SetTrigger("TopSlash");
+            comboStep = 0;
+        }
+
+        bool isUp = false;
+        bool isDown = false;
+
+        // Check Keyboard Directions
+        if (Keyboard.current != null)
+        {
+            isUp |= Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
+            isDown |= Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+        }
+
+        // Check Gamepad Directions (Left Stick or D-Pad)
+        if (Gamepad.current != null)
+        {
+            isUp |= Gamepad.current.leftStick.y.ReadValue() > 0.5f || Gamepad.current.dpad.up.isPressed;
+            isDown |= Gamepad.current.leftStick.y.ReadValue() < -0.5f || Gamepad.current.dpad.down.isPressed;
+        }
+        bool isGrounded = movement != null && movement.isGrounded;
+        
+        if (isGrounded && !isUp)
+        {
+            anim.SetInteger("Combo", comboStep);
+            anim.SetTrigger("Slash");
+
+            if (comboStep == 1)
+            {
+                float dir = spriteRenderer.flipX ? -1f : 1f;
+                rb.linearVelocity = new Vector2(dir * 5f, rb.linearVelocity.y);
+            }
+
+            // Cycle combo: 0 -> 1 -> 0
+            comboStep = (comboStep == 0) ? 1 : 0;
         }
         else
         {
-            anim.SetTrigger("Slash");
+            comboStep = 0;
+            if (isGrounded && isUp) anim.SetTrigger("TopSlash");
+            else if (isUp) anim.SetTrigger("AirSlashUp");
+            else if (isDown) anim.SetTrigger("AirSlashDown");
+            else anim.SetTrigger("AirSlashSide");
         }
+        lastAttackTime = Time.time;
     }
 
     public void HitEnemy() 
     {
-        Vector2 attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_TopSlash"))
-        {
-            // Calculate position ABOVE the player
-            attackPosition = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
-        }
-        else
-        {
-            // Calculate position in FRONT of the player
-            attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
-        }
+        Vector2 attackPosition = (Vector2)transform.position;
+    
+        AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
 
+        // 1. DYNAMIC HITBOX PLACEMENT
+        // Check if the current animation is an "Upward" attack
+
+        bool isUpAttack = state.IsName("Player_TopSlash") || state.IsName("Player_AirSlash_Up") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlash_Up");
+        bool isDownAttack = state.IsName("Player_AirSlashDown") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlashDown");
+
+        if (isUpAttack)
+        {
+            attackPosition += (Vector2)transform.up * topAttackOffset;
+        }
+        // Check if the current animation is the "Downward" air attack
+        else if (isDownAttack)
+        {
+            attackPosition += (Vector2)transform.up * -topAttackOffset; // Negative Y moves hitbox down
+        }
+        // Default to Side attack
+        else 
+        {
+            float direction = spriteRenderer.flipX ? -1f : 1f;
+            attackPosition += new Vector2(direction * attackOffset, 0);        
+        }
+        // 2. COLLISION DETECTION
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            SlimeEnemy slime = enemy.GetComponent<SlimeEnemy>();
-            if (slime != null)
+            EnemyBase target = enemy.GetComponent<EnemyBase>();
+            if (target != null)
             {
-                slime.TakeDamage(meleeDamage);
-            
-                Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
-                slime.ApplyKnockback(knockbackDir * knockbackStrength);
+                target.TakeDamage(meleeDamage);
+                if (manaSystem != null) manaSystem.AddManaOnHit();
+
+                // 3. PHYSICS INTERACTION (The Pogo)
+                if (state.IsName("Player_AirSlashDown"))
+                {
+                    // Push player UP (Bounce)
+                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, pogoForce);
+                    // Push enemy DOWN
+                    target.ApplyKnockback(Vector2.down * knockbackStrength);
+                }
+                else
+                {
+                    // Standard Knockback away from player
+                    Vector2 knockbackDir = (enemy.transform.position - transform.position).normalized;
+                    target.ApplyKnockback(knockbackDir * knockbackStrength);
+                }
             }
         }
     }
-
-    // private void PerformSpell()
-    // {
-    //     if (spellPrefab == null || firePoint == null) return;
-
-    //     // Calculate direction to mouse
-    //     Vector3 mousePos = Mouse.current.position.ReadValue();
-    //     mousePos.z = 10f; 
-    //     Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
-    //     Vector2 direction = (Vector2)worldMousePos - (Vector2)firePoint.position;
-        
-    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-    //     // Spawn spell rotated toward mouse
-    //     Instantiate(spellPrefab, firePoint.position, Quaternion.Euler(0, 0, angle));
-    // }
 
     // Draws a red circle in the Scene View so you can see your melee range
     private void OnDrawGizmosSelected()
@@ -109,5 +186,9 @@ public class PlayerCombat : MonoBehaviour
         Vector2 attackPosition = (Vector2)transform.position + ((Vector2)transform.right * attackOffset);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPosition, meleeRange);
+
+        Gizmos.color = Color.blue; // Different color for clarity
+        Vector2 topPos = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
+        Gizmos.DrawWireSphere(topPos, meleeRange);
     }
 }

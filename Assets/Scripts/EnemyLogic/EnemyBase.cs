@@ -1,10 +1,11 @@
 using UnityEngine;
 using TimeRewind;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(HitFlash))]
-public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
+public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 {
     [Header("Health")]
     public int health = 3;
@@ -13,6 +14,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public float knockbackResistance = 1f; // higher = less knockback
     public float knockbackUpMultiplier = 0.8f;
 
+    [Header("Death Settings")]
+    public float deathAnimationDuration = 0.6f;
 
     protected Rigidbody2D rb;
     protected SpriteRenderer sprite;
@@ -22,6 +25,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected bool isRewinding;
     protected bool wasDead;
 
+    public bool IsDead => health <= 0;
+    protected bool isStunned;
 
     protected virtual void Awake()
     {
@@ -46,6 +51,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     // ================= DAMAGE =================
     public virtual void TakeDamage(int amount)
     {
+        if (wasDead) return;
         health -= amount;
         flash?.Flash();
 
@@ -58,17 +64,40 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     // ================= KNOCKBACK =================
     public virtual void ApplyKnockback(Vector2 force)
     {
-        force /= knockbackResistance;
+        if (isRewinding || wasDead) return;
 
+        force /= knockbackResistance;
         rb.linearVelocity = Vector2.zero;
-        Vector2 arcForce = new Vector2(force.x, Mathf.Abs(force.x) * knockbackUpMultiplier);
-        rb.AddForce(arcForce, ForceMode2D.Impulse);
+
+        Vector2 finalForce = new Vector2(force.x, Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)) * knockbackUpMultiplier);
+        rb.AddForce(finalForce, ForceMode2D.Impulse);
+        StartCoroutine(HitStunRoutine(0.25f));
+    }
+
+    private System.Collections.IEnumerator HitStunRoutine(float duration)
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(duration);
+        isStunned = false;
     }
 
     // ================= DEATH =================
     protected virtual void Die()
     {
-        Destroy(gameObject);
+        wasDead = true;
+        if (sprite != null) sprite.enabled = false;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        // Do not Destroy - stay registered so rewind can restore us
+    }
+    protected virtual IEnumerator DeathRoutine()
+    {
+        // Wait for the specific enemy's animation to finish
+        yield return new WaitForSeconds(deathAnimationDuration);
+        
+        // Hide the sprite instead of Destroying (so it can be rewound)
+        if (sprite != null) sprite.enabled = false;
     }
     // ================= REWIND =================
     public virtual void OnStartRewind()
@@ -109,5 +138,13 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
         health = state.Health;
         sprite.flipX = state.GetCustomData<bool>("flipX");
+
+        if (state.Health > 0 && wasDead)
+        {
+            wasDead = false;
+            if (sprite != null) sprite.enabled = true;
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = true;
+        }
     }
 }

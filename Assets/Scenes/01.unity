@@ -567,6 +567,7 @@ MonoBehaviour:
   dashPhaseLayers:
     serializedVersion: 2
     m_Bits: 0
+  isDashing: 0
   horizontalInput: 0
   anim: {fileID: 566744838}
   spriteRenderer: {fileID: 566744839}
@@ -765,9 +766,12 @@ MonoBehaviour:
   meleeRange: 1.3
   meleeDamage: 1
   attackOffset: 0
+  topAttackOffset: 2
   spellPrefab: {fileID: 6294899724744691538, guid: 4369f0b2705eacc438c5255f58e30c51, type: 3}
   firePoint: {fileID: 1080196436}
   knockbackStrength: 8
+  pogoForce: 12
+  comboResetTime: 0.5
 --- !u!114 &566744845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,6 +789,23 @@ MonoBehaviour:
   spawnAreaWidth: 10
   spawnHeight: 8
   delayBetweenShots: 0.1
+--- !u!114 &566744846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566744835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83811ae7f97b34704940a8d06cf54949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerSpellSystem
+  spellPrefab: {fileID: 6294899724744691538, guid: 4369f0b2705eacc438c5255f58e30c51, type: 3}
+  firePoint: {fileID: 1080196436}
+  cooldown: 0.4
+  recoilForce: 8
+  recoilDuration: 0.2
 --- !u!1001 &593721764
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -793,17 +814,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 631445143101862141, guid: 288f2f253f3641b4eafc8a9f56eb09c8, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1102769524657454602, guid: 288f2f253f3641b4eafc8a9f56eb09c8, type: 3}
       propertyPath: m_Name
       value: Flying_Bat
       objectReference: {fileID: 0}
+    - target: {fileID: 3274048687124186791, guid: 288f2f253f3641b4eafc8a9f56eb09c8, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 566744840}
     - target: {fileID: 4682394596035568061, guid: 288f2f253f3641b4eafc8a9f56eb09c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.06
       objectReference: {fileID: 0}
     - target: {fileID: 4682394596035568061, guid: 288f2f253f3641b4eafc8a9f56eb09c8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.15
+      value: 1.97
       objectReference: {fileID: 0}
     - target: {fileID: 4682394596035568061, guid: 288f2f253f3641b4eafc8a9f56eb09c8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1413,6 +1442,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 566744845}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 566744846}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
 --- !u!1 &1900996692
 GameObject:
