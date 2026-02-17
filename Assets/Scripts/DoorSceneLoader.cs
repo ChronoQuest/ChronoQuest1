@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
-using UnityEditor.UI;
-
 
 public class DoorSceneLoader : MonoBehaviour
 {
