@@ -53,7 +53,7 @@ public class Boss : EnemyBase
             if(rand > 0.75f) yield return StartCoroutine(FireRow());
             else yield return StartCoroutine(FireWave()); 
         } else if (rand > 0.25f) yield return StartCoroutine(Enemy());
-        else yield return StartCoroutine(Platforms());
+        else yield return 0f; //StartCoroutine(Platforms());
     }
 
     IEnumerator OffensiveMove()

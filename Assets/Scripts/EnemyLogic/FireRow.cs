@@ -39,6 +39,7 @@ public class FireRow : MonoBehaviour, IRewindable
 
     void FixedUpdate()
     {
+        if (_isRewinding) return;
         if (!fullSizeReached){
             if(currentGrowSize < maxGrowSize){
                 Grow(currentGrowSize);

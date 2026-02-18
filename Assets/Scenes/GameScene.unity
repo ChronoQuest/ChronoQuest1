@@ -151,6 +151,14 @@ PrefabInstance:
       propertyPath: otherBat
       value: 
       objectReference: {fileID: 839995187}
+    - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: detectionRange
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5139049366995625032, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -314,6 +322,14 @@ PrefabInstance:
       propertyPath: otherBat
       value: 
       objectReference: {fileID: 330783854}
+    - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521958872914039209, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: detectionRange
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5139049366995625032, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Layer
       value: 10

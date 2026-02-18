@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-
+using TimeRewind;
 public class BossAttackManager : MonoBehaviour
 {
     public GameObject fireball;
@@ -79,7 +79,7 @@ public class BossAttackManager : MonoBehaviour
         StartCoroutine(movePlatform(platforms.transform.position - Vector3.up * 5f));
     }
 
-    private IEnumerator movePlatform(Vector3 targetPos)
+private IEnumerator movePlatform(Vector3 targetPos)
     {
         Rigidbody2D rb = platforms.GetComponent<Rigidbody2D>();
         Vector3 startPos = platforms.transform.position;
@@ -88,6 +88,21 @@ public class BossAttackManager : MonoBehaviour
 
         while (elapsed < duration)
         {
+            if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            {
+                while (TimeRewindManager.Instance.IsRewinding)
+                {
+                    yield return null;
+                }
+                
+                float totalDistance = Vector3.Distance(startPos, targetPos);
+                if (totalDistance > 0.01f)
+                {
+                    float currentDist = Vector3.Distance(startPos, platforms.transform.position);
+                    float progress = Mathf.Clamp01(currentDist / totalDistance);
+                    elapsed = progress * duration;
+                }
+            }
             rb.MovePosition(Vector2.Lerp(startPos, targetPos, elapsed / duration));
             elapsed += Time.deltaTime;
             yield return null;
