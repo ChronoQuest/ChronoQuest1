@@ -41,8 +41,6 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        spriteRenderer.flipX = direction.x < 0;
-
         StartCoroutine(LifetimeRoutine());
     }
 
