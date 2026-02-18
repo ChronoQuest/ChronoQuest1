@@ -4,32 +4,37 @@ using TimeRewind;
 public class PlatformController : MonoBehaviour, IRewindable
 {
     private Rigidbody2D rb;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool isRewinding;
+    private RigidbodyType2D originalBodyType;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    
+        if (TimeRewindManager.Instance != null)
+            TimeRewindManager.Instance.Register(this);
     }
 
     public void OnStartRewind()
-    {    
-
+    {
+        isRewinding = true;
+        originalBodyType = rb.bodyType;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.linearVelocity = Vector2.zero;
     }
+
     public void OnStopRewind()
     {
-
+        isRewinding = false;
+        rb.bodyType = originalBodyType;
     }
+
     public RewindState CaptureState()
     {
-        return RewindState.Create(
+        return RewindState.CreateWithPhysics(
             transform.position,
             transform.rotation,
+            rb.linearVelocity,
+            rb.angularVelocity,
             Time.time
         );
     }
