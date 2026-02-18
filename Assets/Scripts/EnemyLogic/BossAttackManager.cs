@@ -91,7 +91,6 @@ private IEnumerator movePlatform(Vector3 targetPos)
             if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             {
                 while (TimeRewindManager.Instance.IsRewinding)
-                {
                     yield return null;
                 }
                 
@@ -105,8 +104,6 @@ private IEnumerator movePlatform(Vector3 targetPos)
             }
             rb.MovePosition(Vector2.Lerp(startPos, targetPos, elapsed / duration));
             elapsed += Time.deltaTime;
-            yield return null;
-        }
 
         platforms.transform.position = targetPos;
     }
