@@ -14,6 +14,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     public float recoilForce = 8f;
     public float recoilDuration = 0.2f;
 
+    [Header("Dependencies")]
+    private PlayerMana manaSystem;
+
     private Vector2 dir;
     private PlayerPlatformer player;
     private Animator anim;
@@ -36,6 +39,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         rb = GetComponent<Rigidbody2D>();
         originalGravity = rb.gravityScale;
         // ----------------------------------
+        manaSystem = GetComponent<PlayerMana>();
     }
     // --- NEW: Register the Cooldown logic to the Rewind Manager ---
     void OnEnable()
@@ -69,8 +73,15 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         if (player.isDashing) return;
         if (WasCastPressed() && Time.time >= nextFireTime && !isCasting)
         {
-            CastSpell();
-            nextFireTime = Time.time + cooldown;
+            if (manaSystem != null && manaSystem.TrySpendMana(5f)) 
+            {
+                CastSpell();
+                nextFireTime = Time.time + cooldown;
+            }
+            else 
+            {
+                Debug.Log("Not enough mana for Blast!");
+            }
         }
     }
 

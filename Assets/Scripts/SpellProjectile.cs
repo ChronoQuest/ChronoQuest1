@@ -13,6 +13,8 @@ public class SpellProjectile : MonoBehaviour, IRewindable
 
     private Rigidbody2D rb;
     private Animator anim;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D col;
     private bool hasHit = false;
 
     // --- Rewind Variables ---
@@ -24,6 +26,8 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
     }
     void OnEnable()
     {
@@ -50,7 +54,6 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
         // Auto destroy after lifetime
-        Destroy(gameObject, lifetime);
 }
 
     // This allows us to pause the aging process while time is going backwards
@@ -87,6 +90,9 @@ public class SpellProjectile : MonoBehaviour, IRewindable
                 Vector2 dir = (collision.transform.position - transform.position).normalized;
                 kb.ApplyKnockback(dir * knockbackStrength);
             }
+            // Check if enemy died
+            EnemyBase enemy = collision.GetComponent<EnemyBase>();
+            if (enemy != null && enemy.IsDead) return;
             
             ExecuteImpact();
             return; // Stop running code here so we don't hit the ground check below
@@ -99,26 +105,26 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         }
     }
 
-    // Helper function to keep things clean
+    // Helper function to keep things clean - hide but do not destroy so rewind can restore
     private void ExecuteImpact()
     {
         hasHit = true;
         rb.linearVelocity = Vector2.zero; // Stop moving
         anim.SetTrigger("Impact");        // Play explosion
-        StartCoroutine(DestroyAfterDelay(0.3f));
+        StartCoroutine(HideAfterImpact(0.3f));
     }
 
-    private IEnumerator DestroyAfterDelay(float delay)
+    private IEnumerator HideAfterImpact(float delay)
     {
         float timer = delay;
         while (timer > 0)
         {
-            // Only tick down the timer if time is moving forward
             if (!isRewinding) timer -= Time.deltaTime;
-            
             yield return null;
         }
-        Destroy(gameObject);
+        // Disable collider and sprite - stay registered so rewind can restore us (like enemies)
+        if (col != null) col.enabled = false;
+        if (spriteRenderer != null) spriteRenderer.enabled = false;
     }
 
     // ==========================================
@@ -128,7 +134,8 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     public void OnStartRewind()
     {
         isRewinding = true;
-        
+        StopAllCoroutines(); // Stop HideAfterImpact so we don't hide during rewind
+
         // Stop physics from interfering with the rewind path
         originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
@@ -174,22 +181,25 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         // Restore Physics
         transform.position = state.Position;
         transform.rotation = state.Rotation;
-        rb.linearVelocity = state.Velocity; // Keeps the momentum correct when rewind stops
+        rb.linearVelocity = state.Velocity;
 
         // Restore Logic
+        bool wasHit = hasHit;
         hasHit = state.GetCustomData<bool>("hasHit");
         currentLifetime = state.GetCustomData<float>("lifetime");
-        if (isRewinding && currentLifetime <= 0.05f)
+
+        // Revive when rewinding to a state where projectile was still active (like enemies)
+        if (wasHit && !hasHit)
         {
-            Destroy(gameObject);
-            return;
+            if (col != null) col.enabled = true;
+            if (spriteRenderer != null) spriteRenderer.enabled = true;
         }
-        
+
         // Restore Animation
         if (anim != null && state.AnimatorStateHash != 0)
         {
             anim.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
-            anim.Update(0f); // Force animator to update frame immediately
+            anim.Update(0f);
         }
     }
 

@@ -407,6 +407,7 @@ public class PlayerPlatformer : MonoBehaviour
         
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
+        yield return new WaitForSeconds(0.09f);
         SetDashPhasing(true);
 
         float dir = spriteRenderer.flipX ? -1f : 1f;
