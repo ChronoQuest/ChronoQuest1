@@ -101,6 +101,12 @@ namespace TimeRewind
 
                 // PlayerSpellSystem
                 result.SetCustomData("nextFireTime", Mathf.Lerp(a.GetCustomData<float>("nextFireTime", 0f), b.GetCustomData<float>("nextFireTime", 0f), t));
+
+                // Boss projectiles
+                result.SetCustomData("IsActive", t < 0.5f ? a.GetCustomData<bool>("IsActive", true): b.GetCustomData<bool>("IsActive", true));
+                result.SetCustomData("GrowSize", Mathf.Lerp(a.GetCustomData<float>("GrowSize", 1f), b.GetCustomData<float>("GrowSize", 1f),t));
+                result.SetCustomData("Age", Mathf.Lerp(a.GetCustomData<float>("Age", 0f), b.GetCustomData<float>("Age", 0f), t));
+                result.SetCustomData("FullSize", t < 0.5f ? a.GetCustomData<bool>("FullSize", false): b.GetCustomData<bool>("FullSize", false));
             }
 
             return result;

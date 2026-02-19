@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3391948159114428736}
   - component: {fileID: 1170278645737019840}
   - component: {fileID: 1648991664882896443}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,6 +197,7 @@ MonoBehaviour:
   health: 3
   knockbackResistance: 1
   knockbackUpMultiplier: 0.7
+  deathAnimationDuration: 0.6
   detectionRange: 5
   loseRange: 15
   moveSpeed: 2

@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(HitFlash))]
-public abstract class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
+public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 {
     [Header("Health")]
     public int health = 3;

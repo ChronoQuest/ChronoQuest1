@@ -23,7 +23,7 @@ public class TrapDamage : MonoBehaviour
     private void TryDamage(GameObject other, Vector3 otherPosition)
     {
         if (!other.CompareTag("Player")) return;
-
+        
         PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth != null)
             playerHealth.ModifyHealth(-damage);

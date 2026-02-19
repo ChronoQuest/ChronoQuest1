@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 631445143101862141}
   - component: {fileID: 8752233626781386071}
   - component: {fileID: 3274048687124186791}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Flying_Bat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,3 +202,4 @@ MonoBehaviour:
   player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
+  currentState: 1
