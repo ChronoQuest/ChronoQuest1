@@ -277,7 +277,7 @@ public class SlimeEnemy : EnemyBase
     base.ApplyKnockback(force);
     }
 
-    protected override void Die()
+    public override void Die()
     {
         wasDead = true;
         // 1. Critical: Stop any active jump coroutine immediately

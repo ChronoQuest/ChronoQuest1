@@ -85,6 +85,8 @@ namespace TimeRewind
                 result.SetCustomData("FacingDirection", t < 0.5f ? a.GetCustomData<Vector3>("FacingDirection", Vector3.one) : b.GetCustomData<Vector3>("FacingDirection", Vector3.one));
                 result.SetCustomData("EnemyState", t < 0.5f ? a.GetCustomData<int>("EnemyState", 0) : b.GetCustomData<int>("EnemyState", 0));
                 result.SetCustomData("DetectRange", Mathf.Lerp(a.GetCustomData<float>("DetectRange", 10f), b.GetCustomData<float>("DetectRange", 10f), t));
+                result.SetCustomData("spriteVisible", a.GetCustomData<bool>("spriteVisible"));
+                result.SetCustomData("colEnabled", a.GetCustomData<bool>("colEnabled"));
 
                 // SlimeEnemy - facing via flipX
                 result.SetCustomData("flipX", t < 0.5f ? a.GetCustomData<bool>("flipX", false) : b.GetCustomData<bool>("flipX", false));
