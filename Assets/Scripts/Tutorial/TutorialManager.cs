@@ -90,6 +90,11 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
 
+    // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
+    [SerializeField] private Collider2D attackTutorialArea;
+    [SerializeField] private LayerMask enemyLayer;
+    private bool attackAreaActivated = false;
+
     void Start()
     {
         // messages are assigned to the corresponding UI text component 
@@ -130,6 +135,20 @@ public class TutorialManager : MonoBehaviour
         */ 
         CheckPlayerIdle();
         // CheckAttackDistance();
+
+        /* if (currentStep == TutorialStep.Attack && attackAreaActivated && !attackCompleted)
+        {
+            if (!AreEnemiesRemainingInArea())
+            {
+                attackCompleted = true;
+                attackAreaActivated = false;
+
+                AllowAll();
+                HideHint(attackHint);
+
+                Debug.Log("Player attack tutorial complete");
+            }
+        } */ 
         
         // if all hints have been completed, tutorial completed 
         // TODO: add back attack completed once combat has been added
@@ -141,6 +160,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    #region Fade Effect
     // ---- fade effects & showing and hiding hints ----
     void ShowHint(GameObject hint)
     {
@@ -204,6 +224,40 @@ public class TutorialManager : MonoBehaviour
             SetStep(step);
         }
     }
+    #endregion
+
+    #region Freezing Player Movement
+    // ----- helper for freezing player actions -----
+    void AllowOnly(PlayerAction action)
+    {
+        player.allowedActions = action; 
+        
+        if (!action.HasFlag(PlayerAction.Movement))
+        {
+            player.FreezeMovement();
+        }
+    }
+
+    void AllowAll()
+    {
+        player.allowedActions = PlayerAction.All;
+    }
+    #endregion
+
+    #region Attack Tutorial Area
+    private bool AreEnemiesRemainingInArea()
+    {
+        Collider2D[] results = new Collider2D[10];
+        
+        int count = Physics2D.OverlapCollider(
+            attackTutorialArea,
+            new ContactFilter2D { layerMask = enemyLayer, useLayerMask = true },
+            results
+        );
+
+        return count > 0; 
+    }
+    #endregion 
 
     // checks the distance between the enemy and the player
     void CheckAttackDistance()
@@ -376,7 +430,7 @@ public class TutorialManager : MonoBehaviour
             attackCompleted = true;
             HideHint(attackHint);
             Debug.Log("Player attack tutorial complete");
-        }
+        } 
     }
 
     public void OnPlayerJump()
@@ -405,6 +459,7 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Dash && !dashCompleted)
         {
             dashCompleted = true;
+
             HideHint(dashHint);
             Debug.Log("Player dash tutorial completed"); 
         } 
@@ -464,13 +519,17 @@ public class TutorialManager : MonoBehaviour
         // based on the current step, show the corresponding tutorial hint using the typewriter effect
         switch (step)
         {
+            // TODO: testing to ensure these conditions are suitable for the tutorial, may need to be changed
             case TutorialStep.Movement:
+                AllowOnly(PlayerAction.Movement);
                 activeHint = movementHint;
                 ShowHint(movementHint);
                 movementText.text = movementMessage;
                 typewriter.StartTyping(movementText);
                 break;
             case TutorialStep.Attack:
+                // attackAreaActivated = true; 
+                AllowOnly(PlayerAction.Movement | PlayerAction.Attack);
                 activeHint = attackHint;
                 ShowHint(attackHint);
                 attackText.text = attackMessage;
@@ -483,30 +542,35 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(rewindText);
                 break;
             case TutorialStep.Jump:
+                AllowOnly(PlayerAction.Jump | PlayerAction.Movement); 
                 activeHint = jumpHint; 
                 ShowHint(jumpHint);
                 jumpText.text = jumpMessage; 
                 typewriter.StartTyping(jumpText); 
                 break; 
             case TutorialStep.Dash:
+                AllowOnly(PlayerAction.Movement | PlayerAction.Dash);
                 activeHint = dashHint;
                 ShowHint(dashHint); 
                 dashText.text = dashMessage;
                 typewriter.StartTyping(dashText); 
                 break;
             case TutorialStep.DoubleJump:
+                AllowOnly(PlayerAction.Movement | PlayerAction.Jump);
                 activeHint = doubleJumpHint; 
                 ShowHint(doubleJumpHint); 
                 doubleJumpText.text = doubleJumpMessage;
                 typewriter.StartTyping(doubleJumpText); 
                 break; 
             case TutorialStep.Spell:
+                AllowOnly(PlayerAction.Movement | PlayerAction.Spell);
                 activeHint = spellHint;
                 ShowHint(spellHint);
                 spellText.text = spellMessage;
                 typewriter.StartTyping(spellText);
                 break;
             case TutorialStep.WallJump:
+                AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump);
                 activeHint = wallJumpHint; 
                 ShowHint(wallJumpHint);
                 wallJumpText.text = wallJumpMessage;

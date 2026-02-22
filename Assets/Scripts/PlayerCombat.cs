@@ -42,6 +42,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (!movement.IsActionAllowed(PlayerAction.Attack))
+            return;
+
         bool attackPressed = false;
 
         // 1. Check Mouse Input

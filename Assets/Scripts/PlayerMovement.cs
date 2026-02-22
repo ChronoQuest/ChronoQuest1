@@ -79,7 +79,14 @@ public class PlayerPlatformer : MonoBehaviour
     private bool wasGrounded;
     private bool isLanding;
 
+    // references and locks for player movement in tutorial
     public TutorialManager tutorialManager;
+    /*public bool canMove = true; 
+    public bool canJump = true;
+    public bool canDash = true; */ 
+
+    [Header("Action Permissions")]
+    public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
 
     private void Awake()
     {
@@ -246,11 +253,18 @@ public class PlayerPlatformer : MonoBehaviour
         // Added 'spellLock' to the return condition
         if (isDashing || isWallSliding || isWallJumping || spellLock) return;
         // Apply horizontal movement while preserving falling/jumping speed
+
+        if (!IsActionAllowed(PlayerAction.Movement))
+            return; 
+
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!IsActionAllowed(PlayerAction.Jump))
+            return;
+        
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
@@ -362,6 +376,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        if (!IsActionAllowed(PlayerAction.Dash))
+            return;
+        
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
@@ -378,6 +395,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     private IEnumerator WallJumpLogic()
     {
+        if (!IsActionAllowed(PlayerAction.WallJump))
+            yield break;
+        
         isWallJumping = true; // Use this to ignore OnMove input in FixedUpdate
         wallCoyoteTimeCounter = 0; // Use it up immediately
 
@@ -491,5 +511,20 @@ public class PlayerPlatformer : MonoBehaviour
     void OnStopRewind()
     {
         _isRewinding = false;
+    }
+
+    public bool IsActionAllowed(PlayerAction action)
+    {
+        return allowedActions.HasFlag(action); 
+    }
+
+    public void FreezeMovement()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    public void RestoreMovement()
+    {
+        // TODO
     }
 }
