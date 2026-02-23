@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using TimeRewind;
-public class BossAttackManager : MonoBehaviour
+using Unity.Collections;
+public class BossAttackManager : MonoBehaviour, IRewindable
 {
     public GameObject fireball;
     public GameObject fireColumn;
@@ -11,6 +12,7 @@ public class BossAttackManager : MonoBehaviour
     public GameObject platforms;
     public GameObject floorFire;
     public Transform player;
+    private bool isRewinding;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,12 +27,14 @@ public class BossAttackManager : MonoBehaviour
 
     public void spawnFireball()
     {
+        if (isRewinding) return;
         float randX = Random.Range(-12f, 2.5f);
         Instantiate(fireball, new Vector3(randX,9f,0f), transform.rotation);
     }
 
     public void spawnFireColumns()
     {
+        if (isRewinding) return;
         float playerX = player.transform.position.x;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         GameObject column = Instantiate(fireColumn, new Vector3(playerX,-1.2f,0f), transform.rotation);
@@ -42,11 +46,13 @@ public class BossAttackManager : MonoBehaviour
 
     public void spawnFireRow()
     {
+        if (isRewinding) return;
         Instantiate(fireRow, new Vector3(2.5f, -4.25f, 0f), transform.rotation);
     }
 
     public void spawnFireWave()
     {
+        if (isRewinding) return;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         GameObject wave = Instantiate(fireWave, new Vector3(4.5f, -6.5f, 0f), transform.rotation);
         if(playerHealth.CurrentHealth < 3)
@@ -58,6 +64,7 @@ public class BossAttackManager : MonoBehaviour
 
     public void spawnEnemy()
     {
+        if (isRewinding) return;
         float randX = Random.Range(-12f, 2.5f);
         if(Random.value > 0f) {
             GameObject newSlime = Instantiate(slime, new Vector3(randX, 6f, 0f), transform.rotation);
@@ -69,47 +76,36 @@ public class BossAttackManager : MonoBehaviour
         }
     }
 
-    public void raisePlatforms()
+    public void spawnPlatforms()
     {
-        StartCoroutine(movePlatform(platforms.transform.position + Vector3.up * 5f));
+        if (isRewinding) return;
+        Instantiate(platforms, new Vector3(0f, -5f, 1f), transform.rotation);
     }
-
-    public void lowerPlatforms()
-    {
-        StartCoroutine(movePlatform(platforms.transform.position - Vector3.up * 5f));
-    }
-
-private IEnumerator movePlatform(Vector3 targetPos)
-    {
-        Rigidbody2D rb = platforms.GetComponent<Rigidbody2D>();
-        Vector3 startPos = platforms.transform.position;
-        float duration = 2f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
-            {
-                while (TimeRewindManager.Instance.IsRewinding)
-                    yield return null;
-                }
-                
-                float totalDistance = Vector3.Distance(startPos, targetPos);
-                if (totalDistance > 0.01f)
-                {
-                    float currentDist = Vector3.Distance(startPos, platforms.transform.position);
-                    float progress = Mathf.Clamp01(currentDist / totalDistance);
-                    elapsed = progress * duration;
-                }
-            }
-            rb.MovePosition(Vector2.Lerp(startPos, targetPos, elapsed / duration));
-            elapsed += Time.deltaTime;
-
-        platforms.transform.position = targetPos;
-    }
+    
 
     public void spawnFloorFire()
     {
+        if (isRewinding) return;
         Instantiate(floorFire, new Vector3(11f, -6.75f, 0f), transform.rotation);
+    }
+
+    public void OnStartRewind()
+    {
+        isRewinding = true;
+    }
+
+    public void OnStopRewind()
+    {
+        isRewinding = false;
+    }
+
+    public RewindState CaptureState()
+    {
+        return RewindState.Create(transform.position, transform.rotation, Time.time);
+    }
+
+    public void ApplyState(RewindState state)
+    {
+        
     }
 }
