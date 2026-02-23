@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 3521958872914039209}
   - component: {fileID: 2549410938233235704}
   - component: {fileID: 2502081071533185815}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: AI_Flying_Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,6 +289,7 @@ MonoBehaviour:
   health: 1
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
+  deathAnimationDuration: 0.6
 --- !u!1 &5139049366995625032
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3078392085424940858}
   - component: {fileID: 8458029826484103810}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
