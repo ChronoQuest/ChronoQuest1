@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -157,12 +158,14 @@ public class PlayerCombat : MonoBehaviour
         }
         // 2. COLLISION DETECTION
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
+        bool hitAnything = false;
 
         foreach (Collider2D enemy in hitEnemies)
         {
             EnemyBase target = enemy.GetComponent<EnemyBase>();
             if (target != null)
             {
+                hitAnything = true;
                 target.TakeDamage(meleeDamage);
                 if (manaSystem != null) manaSystem.AddManaOnHit();
 
@@ -182,6 +185,22 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
         }
+        if (hitAnything)
+        {
+            TriggerHitstop(0.07f);
+        }
+    }
+
+    public void TriggerHitstop(float duration = 0.05f)
+    {
+        StartCoroutine(HitstopRoutine(duration));
+    }
+
+    private IEnumerator HitstopRoutine(float duration)
+    {
+        Time.timeScale = 0f; 
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = 1f;
     }
 
     // Draws a red circle in the Scene View so you can see your melee range
