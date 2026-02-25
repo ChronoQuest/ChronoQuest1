@@ -5,6 +5,7 @@ using System.Collections;
 
 public class TutorialManager : MonoBehaviour
 {
+    #region Enums and State
     public enum TutorialStep
     {
         None,
@@ -20,8 +21,9 @@ public class TutorialManager : MonoBehaviour
     }
 
     public TutorialStep currentStep = TutorialStep.None; 
+    #endregion
 
-    // states
+    #region Serialized Fields and References
     private GameObject activeHint = null;
     private TutorialStep pendingStep = TutorialStep.None;
     private bool isFading = false; 
@@ -85,7 +87,6 @@ public class TutorialManager : MonoBehaviour
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
     [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
-    [SerializeField] private float spellHintDuration = 5f;                 // temporary trigger time for spell hint
     [SerializeField] private float attackHintDuration = 5f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
@@ -96,6 +97,7 @@ public class TutorialManager : MonoBehaviour
     private bool attackAreaActivated = false;
 
     [SerializeField] private GameObject attackGateBlocker; 
+    #endregion
 
     void Start()
     {
@@ -144,28 +146,7 @@ public class TutorialManager : MonoBehaviour
     }
 
     void Update()
-    {
-        /* on every update, check if the player: 
-        - ... is idle (movement check)
-        - ... and enemy are close together (attack check)
-        */ 
-       // CheckPlayerIdle();
-        // CheckAttackDistance();
-
-        /* if (currentStep == TutorialStep.Attack && attackAreaActivated && !attackCompleted)
-        {
-            if (!AreEnemiesRemainingInArea())
-            {
-                attackCompleted = true;
-                attackAreaActivated = false;
-
-                AllowAll();
-                HideHint(attackHint);
-
-                Debug.Log("Player attack tutorial complete");
-            }
-        } */ 
-        
+    {   
         // if all hints have been completed, tutorial completed 
         // TODO: add back attack completed once combat has been added
         if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted)
@@ -291,22 +272,10 @@ public class TutorialManager : MonoBehaviour
     }
     #endregion 
 
-    // checks the distance between the enemy and the player
-    void CheckAttackDistance()
-    {
-        if (attackCompleted)
-            return;
-        
-        float distance = Vector2.Distance(player.transform.position, enemy.position);
-
-        if (distance <= attackDistance)
-        {
-            SetStep(TutorialStep.Attack);
-        }
-    }
-
+    #region Tutorial Triggers
     // checks if the player has been idle for the first n seconds of the game to trigger 
-    void CheckPlayerIdle()
+    // TODO: currently not being used, delete if no longer needed, not sure yet
+    /* void CheckPlayerIdle()
     {
         float movementDelta = Vector2.Distance(player.transform.position, lastPlayerPosition);
         
@@ -329,7 +298,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         lastPlayerPosition = player.transform.position;
-    }
+    } */ 
 
     public void TriggerJumpHint()
     {
@@ -403,7 +372,7 @@ public class TutorialManager : MonoBehaviour
        previousHealth = current; 
     }
 
-    // keeps track of the hit count and uses it to show the dash hint 
+    // keeps track of the hit count and use it to show the dash hint 
     private void HandlePlayerDamaged()
     {
         hitCount++; 
@@ -413,8 +382,10 @@ public class TutorialManager : MonoBehaviour
     {
         OnPlayerRewind();
     }   
+    #endregion
 
-    // ** the following functions "OnPlayer..." mark tutorial steps as completed on certain player actions
+    #region Tutorial Completion Functions
+    // the following functions "OnPlayer..." mark tutorial steps as completed on certain player actions
     public void OnPlayerMoved()
     {   
         if (currentStep == TutorialStep.Movement && !moveCompleted)
@@ -433,10 +404,6 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Spell) return; 
 
         SetStep(TutorialStep.Spell);
-
-        // TODO: change so the spell hint is hidden after the a certain amount of time or after the player attacks the enemies
-        CancelInvoke(nameof(HideSpellHint));
-        Invoke(nameof(HideSpellHint), spellHintDuration);
     }
 
     public void TriggerWallJumpHint()
@@ -525,18 +492,14 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Double jump hint hidden");
     }
 
-    private void HideSpellHint()
-    {
-        HideHint(spellHint);
-        Debug.Log("Spell hint hidden");
-    }
-
     private void HideAttackHint()
     {
         HideHint(attackHint);
         Debug.Log("Attack hint hidden");
     }
+    #endregion
 
+    #region Step Logic
     // setting the current tutorial step and showing corresponding hint
     void SetStep(TutorialStep step)
     {   
@@ -626,4 +589,5 @@ public class TutorialManager : MonoBehaviour
         HideHint(spellHint);
         HideHint(wallJumpHint);
     }
+    #endregion
 }

@@ -105,13 +105,7 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void Update()
-    {
-        var pi = GetComponent<PlayerInput>(); 
-        if (pi != null)
-        {
-            Debug.Log("Current action map: " + pi.currentActionMap.name);
-        }
-        
+    {   
         bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
 
         isGrounded = Physics2D.OverlapCircle(

@@ -121,6 +121,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         firePoint.rotation = Quaternion.Euler(0, 0, angle);
         GameObject spell = Instantiate(spellPrefab, firePoint.position, firePoint.rotation);
         spell.GetComponent<SpellProjectile>().Init(dir, sprite.flipX);
+
+        player.tutorialManager?.OnPlayerSpell();
     }
     // Helper function for the Platformer script to check if it should ignore inputs
     public bool IsMovementLocked()
