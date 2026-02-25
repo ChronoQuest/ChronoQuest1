@@ -42,6 +42,11 @@ public class TutorialCameraController : MonoBehaviour
         p.allowedActions = PlayerAction.None;
         p.FreezeMovement();
 
+        Animator animator = p.GetComponent<Animator>(); 
+        if (animator != null) {
+            animator.SetBool("IsFrozen", true);
+        }
+
         StartCoroutine(CameraPanSequence(p));
     }
 
@@ -63,5 +68,11 @@ public class TutorialCameraController : MonoBehaviour
 
         // restore player movement after camera sequence
         p.allowedActions = cachedActions;
+
+        Animator animator = p.GetComponent<Animator>(); 
+        if (animator != null)
+        {
+            animator.SetBool("IsFrozen", false); 
+        }
     }
 }

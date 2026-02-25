@@ -95,6 +95,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     private bool attackAreaActivated = false;
 
+    [SerializeField] private GameObject attackGateBlocker; 
+
     void Start()
     {
         // messages are assigned to the corresponding UI text component 
@@ -115,6 +117,20 @@ public class TutorialManager : MonoBehaviour
         
         DisableHints();
 
+        currentStep = TutorialStep.None;
+        moveCompleted = false;
+
+        player.allowedActions = PlayerAction.Movement;
+        player.FreezeMovement();
+        SetStep(TutorialStep.Movement); 
+
+         // subscribe to health change event to trigger the rewind hint
+         if (playerHealth != null)
+        {
+            previousHealth = playerHealth.CurrentHealth;
+            playerHealth.OnHealthChanged += HandleHealthChanged;
+        }
+        
         if (playerHealth != null)
         {
             previousHealth = playerHealth.CurrentHealth;
@@ -133,7 +149,7 @@ public class TutorialManager : MonoBehaviour
         - ... is idle (movement check)
         - ... and enemy are close together (attack check)
         */ 
-        CheckPlayerIdle();
+       // CheckPlayerIdle();
         // CheckAttackDistance();
 
         /* if (currentStep == TutorialStep.Attack && attackAreaActivated && !attackCompleted)
@@ -227,9 +243,10 @@ public class TutorialManager : MonoBehaviour
     #endregion
 
     #region Freezing Player Movement
-    // ----- helper for freezing player actions -----
+    // method only allows certain acitons to be performed by player
     void AllowOnly(PlayerAction action)
     {
+        Debug.Log("AllowOnly called: " + action);
         player.allowedActions = action; 
         
         if (!action.HasFlag(PlayerAction.Movement))
@@ -238,13 +255,16 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // resets player movement so all actions are possible
     void AllowAll()
     {
+        Debug.Log("AllowAll called");
         player.allowedActions = PlayerAction.All;
     }
     #endregion
 
     #region Attack Tutorial Area
+    // TODO: implement this logic
     private bool AreEnemiesRemainingInArea()
     {
         Collider2D[] results = new Collider2D[10];
@@ -256,6 +276,18 @@ public class TutorialManager : MonoBehaviour
         );
 
         return count > 0; 
+    }
+
+    // don't let player progress to the dash tutorial until the slime has been killed
+    public void UnlockCorridor()
+    {
+        if (attackGateBlocker != null)
+        {
+            attackGateBlocker.SetActive(false); 
+            attackCompleted = true;
+            AllowAll(); 
+            Debug.Log("Attack gate unlocked"); 
+        }
     }
     #endregion 
 
@@ -384,11 +416,13 @@ public class TutorialManager : MonoBehaviour
 
     // ** the following functions "OnPlayer..." mark tutorial steps as completed on certain player actions
     public void OnPlayerMoved()
-    {
+    {   
         if (currentStep == TutorialStep.Movement && !moveCompleted)
         {
+            Debug.Log("Hiding movement hint");
             moveCompleted = true; 
             HideHint(movementHint);
+            AllowAll(); 
             Debug.Log("Player movement tutorial complete");
         }
     }
@@ -425,12 +459,13 @@ public class TutorialManager : MonoBehaviour
     
     public void OnPlayerAttack()
     {
-        if (currentStep == TutorialStep.Attack && !attackCompleted)
-        {
-            attackCompleted = true;
-            HideHint(attackHint);
-            Debug.Log("Player attack tutorial complete");
-        } 
+        if (currentStep == TutorialStep.Attack || !attackCompleted)
+            return; 
+
+        attackCompleted = true;
+        HideHint(attackHint);
+        AllowAll();
+        Debug.Log("Player attack tutorial complete");
     }
 
     public void OnPlayerJump()

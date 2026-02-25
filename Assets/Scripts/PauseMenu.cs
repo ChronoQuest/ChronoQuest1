@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement; 
+using UnityEngine.InputSystem; 
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,49 +10,50 @@ public class PauseMenu : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Keyboard.current?.escapeKey.wasPressedThisFrame == true || Gamepad.current?.startButton.wasPressedThisFrame == true)
         {
-            Debug.Log("Escape key was pressed.");
-            isPaused = !isPaused;
-            container.SetActive(isPaused);
-            Time.timeScale = isPaused ? 0f : 1f;
-            escapePressed += 1; 
+            if (isPaused) 
+                Resume(); 
+            else
+                Pause(); 
         }
+    } 
+
+    public void Pause()
+    {
+        Debug.Log("Pausing game");
+        isPaused = true; 
+        container.SetActive(true); 
+        Time.timeScale = 0f; 
+    }
+
+    public void Resume()
+    {
+        Debug.Log("Resuming game");
+        isPaused = false; 
+        container.SetActive(false); 
+        Time.timeScale = 1f; 
     }
 
     public void PauseButton()
     {
-        Debug.Log("pause button pressed");
-        container.SetActive(true);
-        Time.timeScale = 0f;    
-        isPaused = true; 
+        Pause(); 
     }
 
     public void ResumeButton()
     {
-        Debug.Log("resume button pressed");
-        container.SetActive(false);
-        Time.timeScale = 1f;    
-        isPaused = false;
+        Resume(); 
     }
 
     public void MainMenuButton()
     {
-        isPaused = false; 
-        Time.timeScale = 1f;
-
-        if (container != null)
-        {
-            container.SetActive(false); 
-        }
-
+        Resume(); 
         SceneManager.LoadScene("TitleScreen"); 
     }
 
     public void RestartButton()
     {
-        isPaused = false; 
-        Time.timeScale = 1f;
+        Resume(); 
         SceneManager.LoadScene("GameScene"); 
     }
 }

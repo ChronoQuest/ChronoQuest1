@@ -106,6 +106,12 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
+        var pi = GetComponent<PlayerInput>(); 
+        if (pi != null)
+        {
+            Debug.Log("Current action map: " + pi.currentActionMap.name);
+        }
+        
         bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
 
         isGrounded = Physics2D.OverlapCircle(
@@ -134,6 +140,10 @@ public class PlayerPlatformer : MonoBehaviour
             gp = Gamepad.current.leftStick.x.ReadValue();
         horizontalInput = Mathf.Clamp(kb + gp, -1f, 1f);
 
+        if (Mathf.Abs(horizontalInput) > 0.1f)
+        {
+            tutorialManager?.OnPlayerMoved();
+        }
 
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -159,6 +169,17 @@ public class PlayerPlatformer : MonoBehaviour
         if (wallJumpLockoutCounter > 0) wallJumpLockoutCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
+        // freezing animation when movement not allowed
+        if (!IsActionAllowed(PlayerAction.Movement))
+        {
+            if (anim != null)
+            {
+                anim.SetFloat("Speed", 0f); 
+                anim.SetBool("isWallSliding", false); 
+            }
+
+            return; 
+        }
 
         float direction = spriteRenderer.flipX ? -1f : 1f;
 
@@ -376,6 +397,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        Debug.Log($"OnDash fired: phase = {context.phase}");
+
         if (!IsActionAllowed(PlayerAction.Dash))
             return;
         
@@ -521,10 +544,5 @@ public class PlayerPlatformer : MonoBehaviour
     public void FreezeMovement()
     {
         rb.linearVelocity = Vector2.zero;
-    }
-
-    public void RestoreMovement()
-    {
-        // TODO
     }
 }
