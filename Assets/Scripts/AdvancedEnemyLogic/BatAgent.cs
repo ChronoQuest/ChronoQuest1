@@ -3,6 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
+using System.Collections.Generic;
 public class BatEnemyAI : Agent, IRewindable
 {
     private EnemyBase enemy;
@@ -16,6 +17,19 @@ public class BatEnemyAI : Agent, IRewindable
     public float hoverAmplitude = 0.5f; // Max bob height
     private bool isRewinding = false;
     private bool isDead = false;
+    private bool isDodging = false;
+    private bool hasForesight = true;
+    private float dodgeDuration = 0.5f;
+    private float dodgeTimer = 0f;
+    private Vector2 calculatedDodgeVector;
+    public float sequenceSimilarity = 0f;
+    public float foresightThreshold = 0.75f;
+    public float dodgeTriggerDistance = 3f;
+    private float previousPlayerDistance;
+    private List<PlayerTactic> currentPlayerTimeline;
+    private List<PlayerTactic> previousPlayerTimeline = new List<PlayerTactic>();
+    public float recordInterval = 0.5f;
+    private float recordTimer = 0f;
     private Collider2D playerCollider;
     private SpriteRenderer spriteRenderer;
     public Transform otherBat;
@@ -34,6 +48,12 @@ public class BatEnemyAI : Agent, IRewindable
     public Transform obstacle;
     public bool controlsEnvironment = false;
     private BatEnemyAI partnerAgent;
+    // Possible 'tactics' a player could be employing
+    public enum PlayerTactic {Idle, Approaching, Retreating, AttackingClose, AttackingFar, Airborne}
+    private PlayerPlatformer playerPlatformer;
+    private PlayerCombat playerCombat;
+    private PlayerSpellSystem playerSpells;
+
 
     void Start()
     {
@@ -48,12 +68,59 @@ public class BatEnemyAI : Agent, IRewindable
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
+        playerPlatformer = player.GetComponent<PlayerPlatformer>();
+        playerCombat = player.GetComponent<PlayerCombat>();
+        playerSpells = player.GetComponent<PlayerSpellSystem>();
+        currentPlayerTimeline = new List<PlayerTactic>();
         animator = GetComponent<Animator>();
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("die");
-        Debug.Log("Bat alive on start");
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
+    }
+
+    void Update()
+    {
+        if (isDead || isRewinding || trainingMode) return;
+
+        if (currentState == State.Chase)
+        {
+            recordTimer += Time.deltaTime;
+            if (recordTimer >= recordInterval)
+            {
+                PlayerTactic tactic = GetCurrentPlayerTactic();
+                Debug.Log(tactic);
+                currentPlayerTimeline.Add(tactic);
+                //CalculateSimilarity(); // Update the score!
+                recordTimer = 0f;
+            }
+        }
+
+        // Player is behaving similarly (within a threshold) to before
+        if (sequenceSimilarity >= foresightThreshold)
+        {
+            if (!hasForesight)
+            {
+                hasForesight = true;
+                animator.SetBool("hasForesight", true);
+            }
+
+            if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
+            {
+                Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+                
+                TriggerForesightDodge(approachDirection);
+            }
+        }
+        else
+        {
+            // Player is behaving differently
+            if (hasForesight && !isDodging)
+            {
+                hasForesight = false;
+                animator.SetBool("hasForesight", false);
+            }
+        }
     }
     void OnDestroy()
     {
@@ -175,6 +242,19 @@ public class BatEnemyAI : Agent, IRewindable
         
         currentState = State.Chase;
 
+        if (isDodging)
+        {
+            TriggerForesightDodge(new Vector2 (5f, 0f));
+            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
+            dodgeTimer -= Time.deltaTime;
+            if (dodgeTimer <= 0)
+            {
+                isDodging = false;
+                hasForesight = false;
+            }
+            return;
+        }
+
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
@@ -205,6 +285,37 @@ public class BatEnemyAI : Agent, IRewindable
             // Reward for being close to player
             AddReward(-0.0005f * distToPlayer);
         }
+    }
+
+    public void TriggerForesightDodge(Vector2 playerAttackDirection)
+    {
+        if (isDodging || isDead || isRewinding) return;
+
+        hasForesight = true;
+        isDodging = true;
+        dodgeTimer = dodgeDuration;
+
+        animator.SetBool("hasForesight", true);
+
+        calculatedDodgeVector = new Vector2(-playerAttackDirection.y, playerAttackDirection.x).normalized;
+        
+        // Dodge either up or down
+        if (Random.value > 0.5f) calculatedDodgeVector *= -1; 
+    }
+
+    private PlayerTactic GetCurrentPlayerTactic() {
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
+        bool isPlayerAttacking = playerCombat.isAttacking || playerSpells.isCasting;
+        bool isPlayerInAir = !playerPlatformer.isGrounded;
+
+        if(isPlayerAttacking) return distToPlayer < 3f ? PlayerTactic.AttackingClose : PlayerTactic.AttackingFar;
+        if(isPlayerInAir) return PlayerTactic.Airborne;
+
+        if(Mathf.Abs(distToPlayer - previousPlayerDistance) < 0.1f) return PlayerTactic.Idle;
+        var tactic = distToPlayer < previousPlayerDistance ? PlayerTactic.Approaching : PlayerTactic.Retreating;
+
+        previousPlayerDistance = distToPlayer;
+        return tactic;
     }
     void Hover()
     {
@@ -308,10 +419,17 @@ private void HandleDeath()
         enemy.OnStartRewind();
         
         StopAllCoroutines(); 
+
+        if (currentPlayerTimeline.Count > 0)
+        {
+            previousPlayerTimeline = new List<PlayerTactic>(currentPlayerTimeline);
+            currentPlayerTimeline.Clear();
+        }
         
         animator.ResetTrigger("die");
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("Chase");
+        animator.ResetTrigger("Foresight");
         animator.speed = 0f;
     }
 

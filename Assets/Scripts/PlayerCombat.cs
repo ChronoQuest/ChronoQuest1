@@ -31,6 +31,7 @@ public class PlayerCombat : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerPlatformer movement;
     private SpriteRenderer spriteRenderer;
+    public bool isAttacking { get; private set; }
 
     void Start(){
         anim = GetComponent<Animator>();
@@ -75,7 +76,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformMelee()
     {
-
+        isAttacking = true;
         if (Time.time - lastAttackTime > comboResetTime)
         {
             comboStep = 0;
@@ -122,6 +123,11 @@ public class PlayerCombat : MonoBehaviour
             else anim.SetTrigger("AirSlashSide");
         }
         lastAttackTime = Time.time;
+        Invoke(nameof(ResetAttackFlag), comboResetTime);
+    }
+    private void ResetAttackFlag()
+    {
+        isAttacking = false;
     }
 
     public void HitEnemy() 
