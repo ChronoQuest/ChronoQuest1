@@ -110,6 +110,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         {
             // duration = 0.15s, magnitude = 0.2f
             shaker.Shake(0.1f, 0.1f);
+            shaker.FlashRed();
         }
     }
 
