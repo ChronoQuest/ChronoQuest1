@@ -4,6 +4,7 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
 using System.Collections.Generic;
+using System.Linq;
 public class BatEnemyAI : Agent, IRewindable
 {
     private EnemyBase enemy;
@@ -72,6 +73,7 @@ public class BatEnemyAI : Agent, IRewindable
         playerCombat = player.GetComponent<PlayerCombat>();
         playerSpells = player.GetComponent<PlayerSpellSystem>();
         currentPlayerTimeline = new List<PlayerTactic>();
+        previousPlayerDistance = Vector2.Distance(transform.position, player.position);
         animator = GetComponent<Animator>();
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
@@ -82,8 +84,10 @@ public class BatEnemyAI : Agent, IRewindable
     void Update()
     {
         if (isDead || isRewinding || trainingMode) return;
+        hasForesight = true;
+        animator.SetBool("hasForesight", true);
 
-        if (currentState == State.Chase)
+        if (currentState == State.Chase || true /* FOR TESTING */)
         {
             recordTimer += Time.deltaTime;
             if (recordTimer >= recordInterval)
@@ -91,24 +95,32 @@ public class BatEnemyAI : Agent, IRewindable
                 PlayerTactic tactic = GetCurrentPlayerTactic();
                 Debug.Log(tactic);
                 currentPlayerTimeline.Add(tactic);
-                //CalculateSimilarity(); // Update the score!
+                sequenceSimilarity = CalculateSimilarity();
                 recordTimer = 0f;
             }
         }
 
         // Player is behaving similarly (within a threshold) to before
-        if (sequenceSimilarity >= foresightThreshold)
+        if (sequenceSimilarity >= foresightThreshold || hasForesight)
         {
             if (!hasForesight)
             {
                 hasForesight = true;
                 animator.SetBool("hasForesight", true);
             }
+            GameObject spellObj = GameObject.FindWithTag("Spell");
 
             if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
             {
                 Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
                 
+                TriggerForesightDodge(approachDirection);
+            }
+            if (!isDodging && spellObj != null)
+            {
+                //Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                //Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
                 TriggerForesightDodge(approachDirection);
             }
         }
@@ -117,10 +129,23 @@ public class BatEnemyAI : Agent, IRewindable
             // Player is behaving differently
             if (hasForesight && !isDodging)
             {
-                hasForesight = false;
-                animator.SetBool("hasForesight", false);
+                //hasForesight = false;
+                //animator.SetBool("hasForesight", false);
             }
         }
+    }
+
+    float CalculateSimilarity()
+    {
+        int index = currentPlayerTimeline.Count - 1;
+        if (index < 0 || index >= previousPlayerTimeline.Count)
+            return 0f;
+        PlayerTactic present = currentPlayerTimeline.Last();
+        PlayerTactic past = previousPlayerTimeline[index];
+        if (past == present) {
+            return 1f;
+        }
+        return 0f;  
     }
     void OnDestroy()
     {
@@ -233,6 +258,17 @@ public class BatEnemyAI : Agent, IRewindable
             // If awake, continue to be awake
             else {
                 currentState = State.Idle;
+                if (isDodging)
+                    {
+                        rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
+                        dodgeTimer -= Time.deltaTime;
+                        if (dodgeTimer <= 0)
+                        {
+                            isDodging = false;
+                            hasForesight = false;
+                        }
+                        return;
+                    }
                 Hover();
             }
             return;
@@ -244,7 +280,6 @@ public class BatEnemyAI : Agent, IRewindable
 
         if (isDodging)
         {
-            TriggerForesightDodge(new Vector2 (5f, 0f));
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
             dodgeTimer -= Time.deltaTime;
             if (dodgeTimer <= 0)
@@ -287,33 +322,37 @@ public class BatEnemyAI : Agent, IRewindable
         }
     }
 
-    public void TriggerForesightDodge(Vector2 playerAttackDirection)
+    public void TriggerForesightDodge(Vector2 attackDirection)
     {
         if (isDodging || isDead || isRewinding) return;
-
+        Debug.Log("ACTUALLY TRIED TO DIDGE");
         hasForesight = true;
         isDodging = true;
         dodgeTimer = dodgeDuration;
 
         animator.SetBool("hasForesight", true);
 
-        calculatedDodgeVector = new Vector2(-playerAttackDirection.y, playerAttackDirection.x).normalized;
+        calculatedDodgeVector = new Vector2(-attackDirection.y, attackDirection.x).normalized;
         
         // Dodge either up or down
         if (Random.value > 0.5f) calculatedDodgeVector *= -1; 
     }
 
-    private PlayerTactic GetCurrentPlayerTactic() {
+    private PlayerTactic GetCurrentPlayerTactic()
+    {
         float distToPlayer = Vector2.Distance(transform.position, player.position);
         bool isPlayerAttacking = playerCombat.isAttacking || playerSpells.isCasting;
         bool isPlayerInAir = !playerPlatformer.isGrounded;
-
-        if(isPlayerAttacking) return distToPlayer < 3f ? PlayerTactic.AttackingClose : PlayerTactic.AttackingFar;
-        if(isPlayerInAir) return PlayerTactic.Airborne;
-
-        if(Mathf.Abs(distToPlayer - previousPlayerDistance) < 0.1f) return PlayerTactic.Idle;
-        var tactic = distToPlayer < previousPlayerDistance ? PlayerTactic.Approaching : PlayerTactic.Retreating;
-
+        PlayerTactic tactic;
+        if (isPlayerAttacking)
+        {
+            if(distToPlayer < 3f) tactic = PlayerTactic.AttackingClose;
+            else tactic = PlayerTactic.AttackingFar;
+        }
+        else if (isPlayerInAir) tactic = PlayerTactic.Airborne;
+        else if (Mathf.Abs(distToPlayer - previousPlayerDistance) < 0.1f) tactic = PlayerTactic.Idle;
+        else if (distToPlayer < previousPlayerDistance) tactic = PlayerTactic.Approaching;
+        else tactic = PlayerTactic.Retreating;
         previousPlayerDistance = distToPlayer;
         return tactic;
     }
