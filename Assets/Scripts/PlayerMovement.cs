@@ -99,6 +99,22 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void Update()
     {
+        bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
+
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position, 
+            groundCheckRadius, 
+            groundLayer
+        ); 
+
+        if (anim != null) 
+            anim.SetBool("isGrounded", isGrounded); 
+        
+        if (isDead)
+        {
+            return; 
+        }
+        
         if (isDashing) return;
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
@@ -217,6 +233,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GetComponent<PlayerHealth>()?.IsDead == true)
+            return;
+
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             return;
 
@@ -232,6 +251,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (GetComponent<PlayerHealth>()?.IsDead == true)
+            return;
+        
         if (PauseMenu.isPaused)
             return;
 
@@ -340,6 +362,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        if (GetComponent<PlayerHealth>()?.IsDead == true)
+            return;
+        
         if (!context.performed || isDashing || _isRewinding) return;
         
         PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
@@ -349,8 +374,6 @@ public class PlayerPlatformer : MonoBehaviour
         if (gamepad != null && context.control?.device == gamepad && gamepad.leftTrigger.ReadValue() > 0.5f)
             return;
         if (canDash) StartCoroutine(Dash());
-
-        tutorialManager?.OnPlayerDash();
     }
 
     private IEnumerator WallJumpLogic()
@@ -373,6 +396,8 @@ public class PlayerPlatformer : MonoBehaviour
     {
         isDashing = true;
         canDash = false;
+
+        tutorialManager?.OnPlayerDash();
 
         if (anim != null) 
         {
