@@ -4,7 +4,6 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
 using System.Collections.Generic;
-using System.Linq;
 public class BatEnemyAI : Agent, IRewindable
 {
     private EnemyBase enemy;
@@ -94,7 +93,7 @@ public class BatEnemyAI : Agent, IRewindable
             PlayerTactic tactic = GetCurrentPlayerTactic();
             if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(tactic);
-            sequenceSimilarity = CalculateSimilarity();
+            sequenceSimilarity = CalculateDTWSimilarity();
             recordTimer = 0f;
         }
 
@@ -134,24 +133,69 @@ public class BatEnemyAI : Agent, IRewindable
         }
     }
 
-    float CalculateSimilarity()
+    // Heuristic for calculating distance between tactics
+    float GetTacticDistance(PlayerTactic a, PlayerTactic b)
     {
-        if (currentTimeline.Count < windowSize || previousTimeline.Count < windowSize)
-            return 0f;
-
-        var currentArray = currentTimeline.ToArray();
-        var previousArray = previousTimeline.ToArray();
-
-        int matches = 0;
-        for (int i = 0; i < windowSize; i++)
-        {
-            PlayerTactic current = currentArray[currentArray.Length - 1 - i];
-            PlayerTactic previous = previousArray[previousArray.Length - 1 - i];
-            if (current == previous) matches++;
-        }
-
-        return (float)matches / windowSize;
+        if (a == b) return 0f;
+        // Attacking and being idle have a high difference
+        if ((a == PlayerTactic.AttackingClose || a == PlayerTactic.AttackingFar) && b == PlayerTactic.Idle) return 2.0f;
+        return 1.0f; // Default difference
     }
+    // Use Dynamic Time Warp algorithm to calculate similarity between current and previous timeline
+    float CalculateDTWSimilarity()
+    {
+        // We need both timelines to have at least the window size number of samples
+        if (currentTimeline.Count < windowSize || previousTimeline.Count < windowSize) return 0f;
+
+        // Convert both queues into arrays for easier manipulation
+        var current = currentTimeline.ToArray();
+        var previous = previousTimeline.ToArray();
+        int c_len = current.Length;
+        int p_len = previous.Length;
+
+        float[,] dtw = new float[c_len + 1, p_len + 1];
+
+        // Initialise table
+        for (int i = 0; i <= c_len; i++)
+            for (int j = 0; j <= p_len; j++)
+                dtw[i, j] = float.PositiveInfinity;
+
+        dtw[0, 0] = 0;
+
+        // Populate matrix
+        for (int i = 1; i <= c_len; i++)
+        {
+            for (int j = 1; j <= p_len; j++)
+            {
+                float cost = GetTacticDistance(current[i - 1], previous[j - 1]);
+                // Using algorithm: D(i,j) = d(i,j) + min(D(i−1,j), D(i,j−1), D(i−1,j−1))
+                dtw[i, j] = cost + Mathf.Min(dtw[i - 1, j], Mathf.Min(dtw[i, j - 1], dtw[i - 1, j - 1]));
+            }
+        }
+        // Normalise score
+        float maxPossibleDistance = c_len * 2.0f; 
+        return 1.0f - Mathf.Clamp01(dtw[c_len, p_len] / maxPossibleDistance);
+    }
+
+    // Old Hamming-weight distance function
+    // float CalculateSimilarity()
+    // {
+    //     if (currentTimeline.Count < windowSize || previousTimeline.Count < windowSize)
+    //         return 0f;
+
+    //     var currentArray = currentTimeline.ToArray();
+    //     var previousArray = previousTimeline.ToArray();
+
+    //     int matches = 0;
+    //     for (int i = 0; i < windowSize; i++)
+    //     {
+    //         PlayerTactic current = currentArray[currentArray.Length - 1 - i];
+    //         PlayerTactic previous = previousArray[previousArray.Length - 1 - i];
+    //         if (current == previous) matches++;
+    //     }
+
+    //     return (float)matches / windowSize;
+    // }
     void OnDestroy()
     {
         if (TimeRewindManager.Instance != null)
@@ -231,6 +275,7 @@ public class BatEnemyAI : Agent, IRewindable
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (isDead) return;
         Vector2 toPlayer = playerCollider.bounds.center - transform.position;
         // Limit values so works in large rooms. 
         sensor.AddObservation(Mathf.Clamp(toPlayer.x, -20f, 20f));
