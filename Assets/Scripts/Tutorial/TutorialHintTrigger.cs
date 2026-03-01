@@ -10,7 +10,8 @@ public class TutorialHintTrigger : MonoBehaviour
         Spell, 
         WallJump,
         WallJumpSuccess, 
-        Attack
+        Attack,
+        HideAttack
     }
 
     [SerializeField] private HintType hintType; 

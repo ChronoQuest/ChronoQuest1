@@ -87,7 +87,7 @@ public class TutorialManager : MonoBehaviour
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
     [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
-    [SerializeField] private float attackHintDuration = 5f;                // temporary trigger time for attack hint
+    [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
 
@@ -236,11 +236,20 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    // resets player movement so all actions are possible
     void AllowAll()
     {
         Debug.Log("AllowAll called");
-        player.allowedActions = PlayerAction.All;
+        PlayerAction allowed = PlayerAction.Movement; 
+
+        if (jumpCompleted) allowed |= PlayerAction.Jump; 
+        if (attackCompleted) allowed |= PlayerAction.Attack;
+        if (dashCompleted) allowed |= PlayerAction.Dash;
+        if (rewindCompleted) allowed |= PlayerAction.Rewind;
+        if (doubleJumpCompleted) allowed |= PlayerAction.Jump;   
+        if (wallJumpCompleted) allowed |= PlayerAction.WallJump;
+        if (spellCompleted) allowed |= PlayerAction.Spell;  
+
+        player.allowedActions = allowed;
     }
     #endregion
 
@@ -273,33 +282,6 @@ public class TutorialManager : MonoBehaviour
     #endregion 
 
     #region Tutorial Triggers
-    // checks if the player has been idle for the first n seconds of the game to trigger 
-    // TODO: currently not being used, delete if no longer needed, not sure yet
-    /* void CheckPlayerIdle()
-    {
-        float movementDelta = Vector2.Distance(player.transform.position, lastPlayerPosition);
-        
-        if (movementDelta < 0.01f)
-        {
-            idleTimer += Time.deltaTime;
-        } else {
-            idleTimer = 0f;
-
-            if (!moveCompleted)
-            {
-                OnPlayerMoved();
-            }
-        }
-
-        // if the move tutorial hasn't been completed, the time conditions are met, trigger the movement tutorial step 
-        if (!moveCompleted && Time.time - gameStartTime <= movementGracePeriod && idleTimer >= idleTimeThreshold)
-        {
-            SetStep(TutorialStep.Movement);
-        }
-
-        lastPlayerPosition = player.transform.position;
-    } */ 
-
     public void TriggerJumpHint()
     {
         if (currentStep == TutorialStep.DoubleJump) return;
@@ -340,9 +322,8 @@ public class TutorialManager : MonoBehaviour
 
         SetStep(TutorialStep.Attack); 
 
-        // TODO: change so attack hint is hidden after the player hits the enemy for the first time
         CancelInvoke(nameof(HideAttackHint));
-        Invoke(nameof(HideAttackHint), attackHintDuration);
+        Invoke(nameof(HideAttackHint), attackHintDuration); 
     }
 
     public void OnJumpSucceeded()
@@ -420,13 +401,14 @@ public class TutorialManager : MonoBehaviour
         {
             spellCompleted = true; 
             HideHint(spellHint);
+            AllowAll(); 
             Debug.Log("Player spell tutorial completed");
         }
     }
     
     public void OnPlayerAttack()
     {
-        if (currentStep == TutorialStep.Attack || !attackCompleted)
+        if (currentStep == TutorialStep.Attack || attackCompleted)
             return; 
 
         attackCompleted = true;
@@ -441,6 +423,7 @@ public class TutorialManager : MonoBehaviour
         {
             jumpCompleted = true;
             HideHint(jumpHint);
+            AllowAll(); 
             Debug.Log("Player jump tutorial complete");
         }
     }
@@ -492,8 +475,9 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Double jump hint hidden");
     }
 
-    private void HideAttackHint()
+    public void HideAttackHint()
     {
+        CancelInvoke(nameof(HideAttackHint));
         HideHint(attackHint);
         Debug.Log("Attack hint hidden");
     }
