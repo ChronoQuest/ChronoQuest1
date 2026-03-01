@@ -232,22 +232,41 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void FixedUpdate()
+{
+    if (GetComponent<PlayerHealth>()?.IsDead == true) return;
+    if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+
+    PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+    bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
+
+    if (isDashing || isWallSliding || isWallJumping || spellLock) return;
+
+    // 1. Calculate Base Movement (Input)
+    float targetVelocityX = horizontalInput * moveSpeed;
+
+    // 2. CHECK FOR MOVING PLATFORM
+    // We check if we are grounded and what we are standing on
+    if (isGrounded)
     {
-        if (GetComponent<PlayerHealth>()?.IsDead == true)
-            return;
-
-        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
-            return;
-
-        // --- NEW: Check if the Spell System has locked movement ---
-        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-        bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
-
-        // Added 'spellLock' to the return condition
-        if (isDashing || isWallSliding || isWallJumping || spellLock) return;
-        // Apply horizontal movement while preserving falling/jumping speed
-        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+        Collider2D groundCol = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        
+        if (groundCol != null)
+        {
+            // Does the ground have the MovingPlatform script?
+            // (We check parent because usually the collider is a child "Visuals" object)
+            MovingPlatform platform = groundCol.GetComponentInParent<MovingPlatform>();
+            
+            if (platform != null)
+            {
+                // ADD the platform's velocity to the player's target velocity
+                targetVelocityX += platform.CurrentVelocity.x;
+            }
+        }
     }
+
+    // 3. Apply the combined velocity
+    rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
+}
 
     public void OnJump(InputAction.CallbackContext context)
     {
