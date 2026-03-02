@@ -126,3 +126,7 @@ InitTestScene*.unity*
 
 # TensorBoard logs
 events.out.tfevents.*
+
+# ML Agents timers
+*.json
+*timers*

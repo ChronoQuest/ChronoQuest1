@@ -13,6 +13,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     [Header("Knockback")]
     public float knockbackResistance = 1f; // higher = less knockback
     public float knockbackUpMultiplier = 0.8f;
+    public System.Action OnDeath;
 
     [Header("Death Settings")]
     public float deathAnimationDuration = 0.6f;
@@ -82,16 +83,18 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     }
 
     // ================= DEATH =================
-    protected virtual void Die()
+    public virtual void Die()
     {
         wasDead = true;
-        if (sprite != null) sprite.enabled = false;
+        //if (sprite != null) sprite.enabled = false;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
         rb.linearVelocity = Vector2.zero;
+        OnDeath?.Invoke();
+        StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us
     }
-    protected virtual IEnumerator DeathRoutine()
+    public virtual IEnumerator DeathRoutine()
     {
         // Wait for the specific enemy's animation to finish
         yield return new WaitForSeconds(deathAnimationDuration);

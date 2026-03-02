@@ -48,7 +48,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
     {
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isRewinding) return;
         PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();

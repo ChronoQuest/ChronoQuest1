@@ -44,7 +44,7 @@ namespace TimeRewind
         [SerializeField] private int recordsPerSecond = 50;
         
         [Tooltip("Speed multiplier for rewinding (1 = real-time, 2 = double speed)")]
-        [SerializeField] private float rewindSpeed = 1f;
+        [SerializeField] private float rewindSpeed = 1.3f;
         
         [Header("Debug")]
         [SerializeField] private bool enableDebugLogs = true;
