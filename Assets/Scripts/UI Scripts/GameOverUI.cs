@@ -9,7 +9,7 @@ public class GameOverUI : MonoBehaviour
     public float fadeDuration = 1.5f; 
     private float fadeTimer = 0f; 
     private bool isFading = false;
-    private bool hasFinished = false; 
+    private bool hasFinished = false;
 
     // ---- fading effect ---- 
     void Update()
@@ -33,9 +33,28 @@ public class GameOverUI : MonoBehaviour
         fadeTimer = 0f; 
     }
 
+    /// <summary>
+    /// Dismisses the game over screen immediately and resumes gameplay.
+    /// Idempotent: no-op if the UI is not currently shown or fading in.
+    /// </summary>
+    public void HideGameOver()
+    {
+        if (!hasFinished && !isFading)
+            return;
+        hasFinished = false;
+        isFading = false;
+        fadeTimer = 0f;
+        canvasGroup.alpha = 0f;
+        content.SetActive(false);
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        Time.timeScale = 1f;
+    }
+
     void FinishFade()
     {
         hasFinished = true; 
+        isFading = false;
 
         content.SetActive(true); 
 
