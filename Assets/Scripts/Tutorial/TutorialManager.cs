@@ -105,7 +105,6 @@ public class TutorialManager : MonoBehaviour
         moveCompleted = false;
 
         player.allowedActions = PlayerAction.Movement;
-        player.FreezeMovement();
         SetStep(TutorialStep.Movement); 
 
          // subscribe to health change event to trigger the rewind hint
@@ -410,7 +409,6 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Dash && !dashCompleted)
         {
             dashCompleted = true;
-
             HideHint(dashHint);
             Debug.Log("Player dash tutorial completed"); 
         } 
