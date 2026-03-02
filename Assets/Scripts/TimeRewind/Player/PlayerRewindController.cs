@@ -10,12 +10,15 @@ namespace TimeRewind
         [Header("Input")]
         [SerializeField] private Key rewindKey = Key.R;
         [SerializeField] private float rewindHoldThreshold = 0f;
+        [Tooltip("Minimum time rewind runs after starting; prevents a quick tap from starting then immediately stopping.")]
+        [SerializeField] private float minRewindDuration = 0.25f;
 
         [Header("Mana Cost")]
         [SerializeField] private float manaDrainPerSecond = 10f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
+        private float _rewindStartTime;
         private bool _rewindInputHeld;
         private float _rewindHoldTimer;
         private RigidbodyType2D _originalBodyType;
@@ -88,8 +91,11 @@ namespace TimeRewind
                 bool canContinue = _playerMana != null 
                     && _playerMana.DrainManaContinuous(manaDrainPerSecond);
 
-                // Stop if player releases input OR runs out of mana
-                if (!_rewindInputHeld || !canContinue)
+                // Stop if out of mana, or if player released input after minimum rewind duration
+                bool minDurationElapsed = (Time.unscaledTime - _rewindStartTime) >= minRewindDuration;
+                if (!canContinue)
+                    TimeRewindManager.Instance.StopRewind();
+                else if (!_rewindInputHeld && minDurationElapsed)
                     TimeRewindManager.Instance.StopRewind();
             }
         }
@@ -117,6 +123,7 @@ namespace TimeRewind
         public void OnStartRewind()
         {
             _isRewinding = true;
+            _rewindStartTime = Time.unscaledTime;
             OnRewindStarted?.Invoke();
             _originalBodyType = _rb.bodyType;
             _rb.bodyType = RigidbodyType2D.Kinematic;
