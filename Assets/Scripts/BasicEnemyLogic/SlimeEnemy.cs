@@ -73,6 +73,7 @@ public class SlimeEnemy : EnemyBase
         if (isMidJumpSequence) return;
         if (isGrounded)
         {
+        float friction = isMidJumpSequence ? 3f : 20f;
         rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 3f), rb.linearVelocity.y);
         }
         // 4. Default State (Ground Logic)
@@ -188,6 +189,10 @@ public class SlimeEnemy : EnemyBase
     void OnCollisionEnter2D(Collision2D collision)
     {
     // 1. Hit Player: Attack immediately
+    if (!isMidJumpSequence && !collision.gameObject.CompareTag("Player"))
+    {
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
     if (collision.gameObject.CompareTag("Player"))
     {
     playerInContact = true;
@@ -258,32 +263,42 @@ public class SlimeEnemy : EnemyBase
     void Attack()
     {
     // Check cooldown logic
-    if (Time.time >= lastAttackTime + attackCooldown)
-    {
-    lastAttackTime = Time.time;
-    PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-    if (playerHealth != null) playerHealth.ModifyHealth(-damage);
-    }
+        if (Time.time >= lastAttackTime + attackCooldown)
+        {
+            lastAttackTime = Time.time;
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+        }
     }
 
     public override void ApplyKnockback(Vector2 force)
     {
-    if (isMidJumpSequence)
-    {
-    StopAllCoroutines();
-    isMidJumpSequence = false;
+        if (isMidJumpSequence)
+        {
+            StopAllCoroutines();
+            isMidJumpSequence = false;
+            currentStateLabel = "Stunned/Hit";
+        }
+        Vector2 knockbackDir = force.normalized;
+        float knockbackSpeed = 7f; 
+        float upwardPop = 2f;
+        rb.linearVelocity = new Vector2(knockbackDir.x * knockbackSpeed, upwardPop);
+        SetFrame(5); 
     }
 
-    base.ApplyKnockback(force);
-    }
-
-    protected override void Die()
+    public override void Die()
     {
         wasDead = true;
         // 1. Critical: Stop any active jump coroutine immediately
         StopAllCoroutines();
         isMidJumpSequence = false;
 
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) 
+        {
+            PlayerMana pm = p.GetComponent<PlayerMana>();
+            if (pm != null) pm.ModifyMana(15f); // Reward 15 mana
+        }
         // 2. Play Death Animation
         animator.SetTrigger("die");
 

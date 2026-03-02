@@ -3,7 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
-public class BatEnemyAI : Agent
+public class BatEnemyAI : Agent, IRewindable
 {
     private EnemyBase enemy;
     [Header("Mode")]
@@ -14,12 +14,13 @@ public class BatEnemyAI : Agent
     public Transform player;
     public float hoverFrequency = 2f; // Bob speed
     public float hoverAmplitude = 0.5f; // Max bob height
+    private bool isRewinding = false;
+    private bool isDead = false;
     private Collider2D playerCollider;
-    // Eventually to be used for 'flanking'
+    private SpriteRenderer spriteRenderer;
     public Transform otherBat;
 
     private Rigidbody2D rb;
-
     public float moveSpeed = 5f;
     private Animator animator;
     public float detectionRange = 1f;
@@ -37,17 +38,34 @@ public class BatEnemyAI : Agent
     void Start()
     {
         enemy = GetComponent<EnemyBase>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        enemy.OnDeath += HandleDeath;
+        if (TimeRewindManager.Instance != null)
+        {
+            TimeRewindManager.Instance.Unregister(enemy); 
+            TimeRewindManager.Instance.Register(this);    
+        }
         rb = GetComponent<Rigidbody2D>();
         originalScale = transform.localScale;
         playerCollider = player.GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
+        animator.ResetTrigger("die");
+        Debug.Log("Bat alive on start");
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
+    }
+    void OnDestroy()
+    {
+        if (TimeRewindManager.Instance != null)
+        {
+            TimeRewindManager.Instance.Unregister(this);
+        }
     }
 
     public override void OnEpisodeBegin()
     {
+        isDead = false;
         if (trainingMode)
         {
             // Disable gravity
@@ -138,6 +156,7 @@ public class BatEnemyAI : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (isDead) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
         
         if (!trainingMode && distToPlayer > detectionRange)
@@ -196,6 +215,7 @@ public class BatEnemyAI : Agent
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isRewinding || isDead) return;
         if(trainingMode){
            if (collision.gameObject.CompareTag("Player"))
             {
@@ -227,6 +247,7 @@ public class BatEnemyAI : Agent
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
+        if (isRewinding || isDead) return;
         if (!trainingMode && collision.gameObject.CompareTag("Player"))
         {
             rb.linearVelocity = Vector2.zero; 
@@ -265,4 +286,69 @@ public class BatEnemyAI : Agent
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
+private void HandleDeath()
+    {
+        if (isRewinding) return;
+        Debug.Log("Bat death triggered");
+        
+        isDead = true;
+        
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+        
+        rb.linearVelocity = Vector2.zero;
+        animator.SetTrigger("die");
+        
+        StartCoroutine(enemy.DeathRoutine()); 
+    }
+
+    public void OnStartRewind()
+    {
+        isRewinding = true;
+        enemy.OnStartRewind();
+        
+        StopAllCoroutines(); 
+        
+        animator.ResetTrigger("die");
+        animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Chase");
+        animator.speed = 0f;
+    }
+
+    public void OnStopRewind()
+    {
+        isRewinding = false;
+        enemy.OnStopRewind();
+        animator.speed = 1f;
+        if (isDead)
+        {
+            spriteRenderer.enabled = false;
+        }
+    }
+
+    public RewindState CaptureState()
+    {
+        var state = enemy.CaptureState(); 
+        AnimatorStateInfo animState = animator.GetCurrentAnimatorStateInfo(0);
+        state.AnimatorStateHash = animState.fullPathHash;
+        state.AnimatorNormalizedTime = animState.normalizedTime;
+        
+        state.SetCustomData("spriteVisible", spriteRenderer.enabled);
+        
+        Collider2D col = GetComponent<Collider2D>();
+        state.SetCustomData("colEnabled", col != null && col.enabled);
+        
+        return state;
+    }
+
+    public void ApplyState(RewindState state)
+    {
+        enemy.ApplyState(state); 
+        isDead = state.Health <= 0; 
+        if (spriteRenderer != null) spriteRenderer.enabled = state.GetCustomData<bool>("spriteVisible");
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = state.GetCustomData<bool>("colEnabled");
+        animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+        animator.Update(0f);
+    }
 }

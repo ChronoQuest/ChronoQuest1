@@ -85,6 +85,8 @@ namespace TimeRewind
                 result.SetCustomData("FacingDirection", t < 0.5f ? a.GetCustomData<Vector3>("FacingDirection", Vector3.one) : b.GetCustomData<Vector3>("FacingDirection", Vector3.one));
                 result.SetCustomData("EnemyState", t < 0.5f ? a.GetCustomData<int>("EnemyState", 0) : b.GetCustomData<int>("EnemyState", 0));
                 result.SetCustomData("DetectRange", Mathf.Lerp(a.GetCustomData<float>("DetectRange", 10f), b.GetCustomData<float>("DetectRange", 10f), t));
+                result.SetCustomData("spriteVisible", a.GetCustomData<bool>("spriteVisible"));
+                result.SetCustomData("colEnabled", a.GetCustomData<bool>("colEnabled"));
 
                 // SlimeEnemy - facing via flipX
                 result.SetCustomData("flipX", t < 0.5f ? a.GetCustomData<bool>("flipX", false) : b.GetCustomData<bool>("flipX", false));
@@ -107,6 +109,27 @@ namespace TimeRewind
                 result.SetCustomData("GrowSize", Mathf.Lerp(a.GetCustomData<float>("GrowSize", 1f), b.GetCustomData<float>("GrowSize", 1f),t));
                 result.SetCustomData("Age", Mathf.Lerp(a.GetCustomData<float>("Age", 0f), b.GetCustomData<float>("Age", 0f), t));
                 result.SetCustomData("FullSize", t < 0.5f ? a.GetCustomData<bool>("FullSize", false): b.GetCustomData<bool>("FullSize", false));
+
+                // Smoothly interpolate the progress floats
+                float aProgress = a.GetCustomData<float>("Progress", 0f);
+                float bProgress = b.GetCustomData<float>("Progress", 0f);
+                result.SetCustomData("Progress", Mathf.Lerp(aProgress, bProgress, t));
+
+                float aWait = a.GetCustomData<float>("TopWaitProgress", 0f);
+                float bWait = b.GetCustomData<float>("TopWaitProgress", 0f);
+                result.SetCustomData("TopWaitProgress", Mathf.Lerp(aWait, bWait, t));
+
+                // Snap the booleans and fixed positions to match state 'a'
+                result.SetCustomData("MovingUp", a.GetCustomData<bool>("MovingUp", true));
+                result.SetCustomData("WaitingAtTop", a.GetCustomData<bool>("WaitingAtTop", false));
+                result.SetCustomData("StartPos", a.GetCustomData<Vector3>("StartPos", a.Position));
+                result.SetCustomData("TargetPos", a.GetCustomData<Vector3>("TargetPos", a.Position));
+                result.SetCustomData("CycleComplete", t < 0.5f ? a.GetCustomData<bool>("CycleComplete", false) : b.GetCustomData<bool>("CycleComplete", false));
+
+                // Boss timers
+                result.SetCustomData("MainTimer", Mathf.Lerp(a.GetCustomData<float>("MainTimer", 0f), b.GetCustomData<float>("MainTimer", 0f), t));
+                result.SetCustomData("RestrictTimer", Mathf.Lerp(a.GetCustomData<float>("RestrictTimer", 0f), b.GetCustomData<float>("RestrictTimer", 0f), t));
+                result.SetCustomData("OffenseTimer", Mathf.Lerp(a.GetCustomData<float>("OffenseTimer", 0f), b.GetCustomData<float>("OffenseTimer", 0f), t));
             }
 
             return result;
