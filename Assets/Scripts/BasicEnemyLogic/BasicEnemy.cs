@@ -7,6 +7,7 @@ public class BasicEnemy : MonoBehaviour
     public float attackCooldown = 1.5f;
     public int damage = 1;
     public int health = 3;
+    private Rigidbody2D rb;
 
     public Transform player;
 
@@ -21,6 +22,16 @@ public class BasicEnemy : MonoBehaviour
     {
         originalScale = transform.localScale;
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void FixedUpdate()
+    {
+        if (currentState == State.Chase && player != null)
+        {
+            Vector2 direction = (player.position - transform.position).normalized;
+            rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+        }
     }
 
     void Update()
@@ -108,8 +119,21 @@ public class BasicEnemy : MonoBehaviour
         }
     }
 
+    public void ApplyKnockback(Vector2 force)
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        // This applies the hit as a single 'pop'
+        rb.AddForce(force, ForceMode2D.Impulse);
+    }
+
     void Die()
     {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) 
+        {
+            p.GetComponent<PlayerMana>()?.ModifyMana(15f);
+        }
         Debug.Log("Enemy died!");
         Destroy(gameObject);
     }

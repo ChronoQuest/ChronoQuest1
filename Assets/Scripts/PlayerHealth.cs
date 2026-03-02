@@ -106,6 +106,14 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             // Start the cooldown routine
             StartCoroutine(InvincibilityRoutine());
         }
+
+        CameraShake shaker = Camera.main.GetComponent<CameraShake>();
+        if (shaker != null)
+        {
+            // duration = 0.15s, magnitude = 0.2f
+            shaker.Shake(0.1f, 0.1f);
+            shaker.FlashRed();
+        }
     }
 
     private void Heal(int amount)
