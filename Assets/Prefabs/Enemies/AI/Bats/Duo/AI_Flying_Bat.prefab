@@ -252,16 +252,26 @@ MonoBehaviour:
   player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
+  sequenceSimilarity: 0
+  foresightThreshold: 0.75
+  dodgeTriggerDistance: 3.4
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  recordInterval: 0.5
   otherBat: {fileID: 7231518081331576005}
   moveSpeed: 5
   detectionRange: 10
   damage: 1
   attackCooldown: 1.5
-  foresightGlowColor: {r: 0, g: 4, b: 0, a: 1}
-  glowObject: {fileID: 0}
   currentState: 1
   obstacle: {fileID: 0}
   controlsEnvironment: 0
+  weightDistance: 0.5
+  weightVelocity: 0.2
+  weightAttack: 2
+  minTimelineSize: 4
+  bandWidth: 3
 --- !u!114 &2549410938233235704
 MonoBehaviour:
   m_ObjectHideFlags: 0
