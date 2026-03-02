@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -81,6 +82,10 @@ public class PlayerCombat : MonoBehaviour
             comboStep = 0;
         }
 
+        float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
+        if (moveInput != 0) spriteRenderer.flipX = (moveInput < 0);
+
+        float dir = spriteRenderer.flipX ? -1f : 1f;
         bool isUp = false;
         bool isDown = false;
 
@@ -104,11 +109,8 @@ public class PlayerCombat : MonoBehaviour
             anim.SetInteger("Combo", comboStep);
             anim.SetTrigger("Slash");
 
-            if (comboStep == 1)
-            {
-                float dir = spriteRenderer.flipX ? -1f : 1f;
-                rb.linearVelocity = new Vector2(dir * 5f, rb.linearVelocity.y);
-            }
+            float lungePower = (comboStep == 1) ? 6f : 4f; 
+            rb.linearVelocity = new Vector2(dir * lungePower, rb.linearVelocity.y);
 
             // Cycle combo: 0 -> 1 -> 0
             comboStep = (comboStep == 0) ? 1 : 0;
@@ -119,7 +121,10 @@ public class PlayerCombat : MonoBehaviour
             if (isGrounded && isUp) anim.SetTrigger("TopSlash");
             else if (isUp) anim.SetTrigger("AirSlashUp");
             else if (isDown) anim.SetTrigger("AirSlashDown");
-            else anim.SetTrigger("AirSlashSide");
+            else {
+                anim.SetTrigger("AirSlashSide");
+                rb.linearVelocity = new Vector2(dir * 3f, rb.linearVelocity.y);
+            }
         }
         lastAttackTime = Time.time;
     }
@@ -153,12 +158,14 @@ public class PlayerCombat : MonoBehaviour
         }
         // 2. COLLISION DETECTION
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
+        bool hitAnything = false;
 
         foreach (Collider2D enemy in hitEnemies)
         {
             EnemyBase target = enemy.GetComponent<EnemyBase>();
             if (target != null)
             {
+                hitAnything = true;
                 target.TakeDamage(meleeDamage);
                 if (manaSystem != null) manaSystem.AddManaOnHit();
 
@@ -178,6 +185,22 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
         }
+        if (hitAnything)
+        {
+            TriggerHitstop(0.07f);
+        }
+    }
+
+    public void TriggerHitstop(float duration = 0.05f)
+    {
+        StartCoroutine(HitstopRoutine(duration));
+    }
+
+    private IEnumerator HitstopRoutine(float duration)
+    {
+        Time.timeScale = 0f; 
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = 1f;
     }
 
     // Draws a red circle in the Scene View so you can see your melee range
