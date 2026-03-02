@@ -11,7 +11,6 @@ public class TutorialManager : MonoBehaviour
         None,
         Movement,
         Dash, 
-        DoubleJump,
         Jump,
         Attack,
         Rewind, 
@@ -34,26 +33,18 @@ public class TutorialManager : MonoBehaviour
     public GameObject movementHint;
     public GameObject jumpHint; 
     public GameObject dashHint;
-    public GameObject doubleJumpHint; 
     public GameObject spellHint; 
     public GameObject wallJumpHint;  
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
     public PlayerHealth playerHealth;
-    public Transform enemy;
-
-    // jump and attack distance are used to check proximity to objects like the enemy or platform
-    // once close enough, hints for attack and jump will trigger
-    public float attackDistance = 5f;
-    public float jumpDistance = 5.5f; 
 
     bool moveCompleted = false;
     bool attackCompleted = false;
     bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
-    bool doubleJumpCompleted = false; 
     bool spellCompleted = false; 
     bool wallJumpCompleted = false; 
 
@@ -63,7 +54,6 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI rewindText;
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
-    public TextMeshProUGUI doubleJumpText; 
     public TextMeshProUGUI spellText;
     public TextMeshProUGUI wallJumpText; 
 
@@ -71,22 +61,17 @@ public class TutorialManager : MonoBehaviour
     private string attackMessage;
     private string rewindMessage;
     private string jumpMessage; 
-    private string dashMessage; 
-    private string doubleJumpMessage; 
+    private string dashMessage;  
     private string spellMessage;
     private string wallJumpMessage; 
 
-    [SerializeField] float idleTimeThreshold = 2f;
-    float idleTimer = 0f;
-    Vector2 lastPlayerPosition;
-    [SerializeField] private float movementGracePeriod = 4f; 
+    Vector2 lastPlayerPosition; 
     private float gameStartTime; 
 
     private int hitCount = 0; 
     private int previousHealth;
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
-    [SerializeField] private float doubleJumpHintDuration = 4f;             // temporary trigger time for double jump hint
     [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
@@ -94,8 +79,6 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
-    private bool attackAreaActivated = false;
-
     [SerializeField] private GameObject attackGateBlocker; 
     #endregion
 
@@ -107,7 +90,6 @@ public class TutorialManager : MonoBehaviour
         rewindMessage = rewindText.text;
         jumpMessage = jumpText.text; 
         dashMessage = dashText.text; 
-        doubleJumpMessage = doubleJumpText.text;
         spellMessage = spellText.text;
         wallJumpMessage = wallJumpText.text;
 
@@ -244,8 +226,7 @@ public class TutorialManager : MonoBehaviour
         if (jumpCompleted) allowed |= PlayerAction.Jump; 
         if (attackCompleted) allowed |= PlayerAction.Attack;
         if (dashCompleted) allowed |= PlayerAction.Dash;
-        if (rewindCompleted) allowed |= PlayerAction.Rewind;
-        if (doubleJumpCompleted) allowed |= PlayerAction.Jump;   
+        if (rewindCompleted) allowed |= PlayerAction.Rewind; 
         if (wallJumpCompleted) allowed |= PlayerAction.WallJump;
         if (spellCompleted) allowed |= PlayerAction.Spell;  
 
@@ -284,8 +265,6 @@ public class TutorialManager : MonoBehaviour
     #region Tutorial Triggers
     public void TriggerJumpHint()
     {
-        if (currentStep == TutorialStep.DoubleJump) return;
-
         if (jumpCompleted) return;
         if (currentStep == TutorialStep.Jump) return; 
 
@@ -293,19 +272,6 @@ public class TutorialManager : MonoBehaviour
         jumpSucceeded = false; 
         SetStep(TutorialStep.Jump); 
     }
-
-    public void TriggerDoubleJumpHint()
-    {
-        if (doubleJumpCompleted) return;
-        if (currentStep == TutorialStep.DoubleJump) return; 
-
-        SetStep(TutorialStep.DoubleJump); 
-
-        // TODO: change so double jump hint is hidden after a certain trigger
-        // hides the double jump hint after the timer runs out
-        CancelInvoke(nameof(HideDoubleJumpHint));
-        Invoke(nameof(HideDoubleJumpHint), doubleJumpHintDuration);
-    } 
 
     public void TriggerDashHint()
     {
@@ -460,21 +426,6 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void OnPlayerDoubleJump()
-    {
-        if (currentStep == TutorialStep.DoubleJump)
-        {
-            HideHint(doubleJumpHint);
-            Debug.Log("Player double jump completed"); 
-        }
-    }
-
-    private void HideDoubleJumpHint()
-    {
-        HideHint(doubleJumpHint);
-        Debug.Log("Double jump hint hidden");
-    }
-
     public void HideAttackHint()
     {
         CancelInvoke(nameof(HideAttackHint));
@@ -537,13 +488,6 @@ public class TutorialManager : MonoBehaviour
                 dashText.text = dashMessage;
                 typewriter.StartTyping(dashText); 
                 break;
-            case TutorialStep.DoubleJump:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Jump);
-                activeHint = doubleJumpHint; 
-                ShowHint(doubleJumpHint); 
-                doubleJumpText.text = doubleJumpMessage;
-                typewriter.StartTyping(doubleJumpText); 
-                break; 
             case TutorialStep.Spell:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Spell);
                 activeHint = spellHint;
@@ -569,7 +513,6 @@ public class TutorialManager : MonoBehaviour
         HideHint(movementHint);
         HideHint(jumpHint);
         HideHint(dashHint); 
-        HideHint(doubleJumpHint); 
         HideHint(spellHint);
         HideHint(wallJumpHint);
     }
