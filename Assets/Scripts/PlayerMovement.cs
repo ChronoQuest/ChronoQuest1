@@ -415,17 +415,17 @@ public class PlayerPlatformer : MonoBehaviour
         isDashing = true;
         canDash = false;
 
-        tutorialManager?.OnPlayerDash();
-
         if (anim != null) 
         {
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
             if (!_isRewinding) anim.SetTrigger("Dash");
         }
+
+        tutorialManager?.OnPlayerDash();
         
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        yield return new WaitForSeconds(0.09f);
+        yield return new WaitForSeconds(0.04f);
         SetDashPhasing(true);
 
         float dir = spriteRenderer.flipX ? -1f : 1f;
