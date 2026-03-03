@@ -152,6 +152,15 @@ public class MeleeSkeleton : EnemyBase
     {
         var state = base.CaptureState();
         state.SetCustomData("isAttacking", isAttacking);
+        state.SetCustomData("spriteEnabled", spriteRenderer != null && spriteRenderer.enabled);
+
+        if (animator != null)
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            state.AnimatorStateHash = info.shortNameHash;
+            state.AnimatorNormalizedTime = info.normalizedTime;
+        }
+
         return state;
     }
 
@@ -159,6 +168,12 @@ public class MeleeSkeleton : EnemyBase
     {
         base.ApplyState(state);
         isAttacking = state.GetCustomData<bool>("isAttacking");
+
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = state.GetCustomData<bool>("spriteEnabled", true);
+
+        if (animator != null)
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 
     void OnDrawGizmosSelected()

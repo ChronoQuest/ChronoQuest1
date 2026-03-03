@@ -202,6 +202,7 @@ public class GhostEnemy : EnemyBase
         state.SetCustomData("isTeleporting", isTeleporting);
         state.SetCustomData("lastTeleportTime", lastTeleportTime);
         state.SetCustomData("colEnabled", col != null && col.enabled);
+        state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
 
         if (animator != null)
         {
@@ -222,6 +223,9 @@ public class GhostEnemy : EnemyBase
 
         if (col != null)
             col.enabled = state.GetCustomData<bool>("colEnabled", true);
+
+        if (sprite != null)
+            sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
 
         if (animator != null)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
