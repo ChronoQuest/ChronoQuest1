@@ -153,7 +153,18 @@ public class PlayerPlatformer : MonoBehaviour
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
 
-        float direction = spriteRenderer.flipX ? -1f : 1f;
+        //float direction = spriteRenderer.flipX ? -1f : 1f;
+
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        float direction;
+        if (spellSys != null && spellSys.isCasting)
+        {
+            direction = spriteRenderer.flipX ? -1f : 1f; // Keep current facing
+        }
+        else
+        {
+            direction = spriteRenderer.flipX ? -1f : 1f; // Standard behavior
+        }
 
         // Raise the origin to "Chest Height" (e.g., +0.5f Y)
         // This is CRITICAL: It ensures we don't hit the floor and think it's a wall.
@@ -442,6 +453,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     void FlipSprite()
     {
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (spellSys != null && spellSys.isCasting) return;
 
         if (horizontalInput > 0.1f) spriteRenderer.flipX = false;
         else if (horizontalInput < -0.1f) spriteRenderer.flipX = true;
