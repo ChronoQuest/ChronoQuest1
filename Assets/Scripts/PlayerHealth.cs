@@ -81,6 +81,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             if (isInvincible) return;
 
             // Otherwise, take the damage and start invincibility
+            DataCollectionService.Instance?.RecordDamageTaken(-amount);
             TakeDamage(amount);
         }
         
@@ -192,6 +193,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {   
         if (IsDead) return; 
         IsDead = true;
+        OnDeath?.Invoke();
+        DataCollectionService.Instance?.RecordDeath();
         Debug.Log("Player Died");
 
         StartCoroutine(HandleDeath()); 

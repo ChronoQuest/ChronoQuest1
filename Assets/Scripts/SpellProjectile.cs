@@ -83,6 +83,7 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         if (dmg != null)
         {
             dmg.TakeDamage(damage);
+            DataCollectionService.Instance?.RecordSpellHit();
 
             IKnockbackable kb = collision.GetComponent<IKnockbackable>();
             if (kb != null)

@@ -303,7 +303,9 @@ public class PlayerPlatformer : MonoBehaviour
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         isGrounded = false;
-    
+
+        bool usedDoubleJump = extraJumpsRemaining > 0;
+        DataCollectionService.Instance?.RecordJump(false, usedDoubleJump);
 
         yield return null;
 
@@ -387,6 +389,7 @@ public class PlayerPlatformer : MonoBehaviour
         rb.linearVelocity = new Vector2(jumpDirection * wallJumpPower.x, wallJumpPower.y);
 
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
+        DataCollectionService.Instance?.RecordJump(true, false);
     
         yield return new WaitForSeconds(wallJumpDuration);    
         isWallJumping = false;
@@ -398,6 +401,7 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = false;
 
         tutorialManager?.OnPlayerDash();
+        DataCollectionService.Instance?.RecordDash();
 
         if (anim != null) 
         {
