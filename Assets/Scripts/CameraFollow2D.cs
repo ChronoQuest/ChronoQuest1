@@ -1,0 +1,92 @@
+using UnityEngine;
+
+public class CameraFollow2D : MonoBehaviour
+{
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset = new Vector3(0f, 0f, -10f);
+    [SerializeField] private float smoothTime = 0.15f;
+    [SerializeField] private float zoomSmoothTime = 0.2f;
+
+    private Vector3 velocity;
+    private float zoomVelocity;
+    private Camera cameraComponent;
+    private float defaultZoom;
+    private float targetZoom;
+    private Vector3 shakeOffset;
+
+    private void Awake()
+    {
+        cameraComponent = GetComponent<Camera>();
+        if (cameraComponent != null)
+        {
+            defaultZoom = cameraComponent.orthographicSize;
+            targetZoom = defaultZoom;
+        }
+
+        if (target == null)
+            TryAssignPlayerTarget();
+    }
+
+    public void ApplyShakeOffset(Vector3 offset)
+    {
+        shakeOffset = offset;
+    }
+
+    private void LateUpdate()
+    {
+        if (target == null)
+        {
+            TryAssignPlayerTarget();
+            return;
+        }
+
+        Vector3 desired = target.position + offset;
+        //transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime) + shakeOffset;
+
+        if (cameraComponent != null)
+        {
+            cameraComponent.orthographicSize = Mathf.SmoothDamp(
+                cameraComponent.orthographicSize,
+                targetZoom,
+                ref zoomVelocity,
+                zoomSmoothTime
+            );
+        }
+    }
+
+    public void SetZoom(float size)
+    {
+        targetZoom = size;
+    }
+
+    public void ResetZoom()
+    {
+        targetZoom = defaultZoom;
+    }
+
+    private void TryAssignPlayerTarget()
+    {
+        PlayerPlatformer player = FindObjectOfType<PlayerPlatformer>();
+        if (player != null)
+            target = player.transform;
+    }
+    
+    // methods added for tutorial camera movement (spell section)
+    public void SetTemporaryTarget(Transform newTarget)
+    {
+        target = newTarget; 
+        velocity = Vector3.zero;
+    }
+
+    public void RestoreTarget(Transform originalTarget)
+    {
+        target = originalTarget; 
+        velocity = Vector3.zero;
+    }
+
+    public void SetSmoothTime(float value)
+    {
+        smoothTime = Mathf.Max(0.01f, value);
+    }
+}  

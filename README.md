@@ -22,3 +22,20 @@ Chronoquest aims to deliver:
 - A polished, complete experience within a small scope  
 
 This project focuses on strong system interaction, clear design goals, and technical ambition balanced with achievable development constraints.
+
+## Privacy Policy
+
+**Last Updated:** [29/01/2026]
+
+This project is for the University of Bristol's COMS30043: Team Project 2025/26. We respect user privacy and adhere to the following data handling principles:
+
+### 1. Data Collection
+- **No Personal Data:** This application does not collect, store, or transmit any Personally Identifiable Information (PII) such as names, emails, or physical addresses.
+- **No Analytics:** Unity Analytics and Unity Hardware Statistics have been disabled/removed from this project. No background telemetry is sent to Unity Technologies.
+
+### 2. Game Saves
+- All game progress and settings are saved locally on the user's device (using Unity's `PlayerPrefs` or local JSON files).
+- No save data is uploaded to cloud servers.
+
+### 3. Contact
+For any privacy concerns regarding this software, please contact the development team via this repository.
