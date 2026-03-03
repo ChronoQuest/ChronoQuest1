@@ -364,12 +364,12 @@ TextureImporter:
       name: Ghost-Sheet_0
       rect:
         serializedVersion: 2
-        x: 44
-        y: 739
-        width: 26
-        height: 40
+        x: 0
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -386,12 +386,12 @@ TextureImporter:
       name: Ghost-Sheet_1
       rect:
         serializedVersion: 2
-        x: 154
-        y: 739
-        width: 26
-        height: 40
+        x: 110
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -408,12 +408,12 @@ TextureImporter:
       name: Ghost-Sheet_2
       rect:
         serializedVersion: 2
-        x: 264
-        y: 739
-        width: 26
-        height: 39
+        x: 220
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -430,12 +430,12 @@ TextureImporter:
       name: Ghost-Sheet_3
       rect:
         serializedVersion: 2
-        x: 374
-        y: 737
-        width: 26
-        height: 40
+        x: 330
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -452,12 +452,12 @@ TextureImporter:
       name: Ghost-Sheet_4
       rect:
         serializedVersion: 2
-        x: 483
-        y: 737
-        width: 28
-        height: 40
+        x: 440
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -474,12 +474,12 @@ TextureImporter:
       name: Ghost-Sheet_5
       rect:
         serializedVersion: 2
-        x: 593
-        y: 737
-        width: 28
-        height: 40
+        x: 550
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -496,12 +496,12 @@ TextureImporter:
       name: Ghost-Sheet_6
       rect:
         serializedVersion: 2
-        x: 704
-        y: 738
-        width: 26
-        height: 40
+        x: 660
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -518,12 +518,12 @@ TextureImporter:
       name: Ghost-Sheet_7
       rect:
         serializedVersion: 2
-        x: 814
-        y: 739
-        width: 26
-        height: 40
+        x: 770
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -540,12 +540,12 @@ TextureImporter:
       name: Ghost-Sheet_8
       rect:
         serializedVersion: 2
-        x: 45
-        y: 659
-        width: 28
-        height: 40
+        x: 0
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -562,12 +562,12 @@ TextureImporter:
       name: Ghost-Sheet_9
       rect:
         serializedVersion: 2
-        x: 154
-        y: 659
-        width: 29
-        height: 39
+        x: 110
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -584,12 +584,12 @@ TextureImporter:
       name: Ghost-Sheet_10
       rect:
         serializedVersion: 2
-        x: 263
-        y: 659
-        width: 30
-        height: 38
+        x: 220
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -606,12 +606,12 @@ TextureImporter:
       name: Ghost-Sheet_11
       rect:
         serializedVersion: 2
-        x: 372
-        y: 659
-        width: 31
-        height: 38
+        x: 330
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -628,12 +628,12 @@ TextureImporter:
       name: Ghost-Sheet_12
       rect:
         serializedVersion: 2
-        x: 483
-        y: 660
-        width: 30
-        height: 38
+        x: 440
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -650,12 +650,12 @@ TextureImporter:
       name: Ghost-Sheet_13
       rect:
         serializedVersion: 2
-        x: 594
-        y: 660
-        width: 29
-        height: 39
+        x: 550
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -672,12 +672,12 @@ TextureImporter:
       name: Ghost-Sheet_14
       rect:
         serializedVersion: 2
-        x: 46
-        y: 579
-        width: 25
-        height: 40
+        x: 0
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -694,12 +694,12 @@ TextureImporter:
       name: Ghost-Sheet_15
       rect:
         serializedVersion: 2
-        x: 155
-        y: 579
-        width: 26
-        height: 39
+        x: 110
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -716,12 +716,12 @@ TextureImporter:
       name: Ghost-Sheet_16
       rect:
         serializedVersion: 2
-        x: 264
-        y: 579
-        width: 27
-        height: 38
+        x: 220
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -738,12 +738,12 @@ TextureImporter:
       name: Ghost-Sheet_17
       rect:
         serializedVersion: 2
-        x: 373
-        y: 579
-        width: 28
-        height: 38
+        x: 330
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -760,12 +760,12 @@ TextureImporter:
       name: Ghost-Sheet_18
       rect:
         serializedVersion: 2
-        x: 484
-        y: 580
-        width: 27
-        height: 38
+        x: 440
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -782,12 +782,12 @@ TextureImporter:
       name: Ghost-Sheet_19
       rect:
         serializedVersion: 2
-        x: 595
-        y: 580
-        width: 26
-        height: 39
+        x: 550
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -804,12 +804,12 @@ TextureImporter:
       name: Ghost-Sheet_20
       rect:
         serializedVersion: 2
-        x: 46
-        y: 500
-        width: 25
-        height: 36
+        x: 0
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -826,12 +826,12 @@ TextureImporter:
       name: Ghost-Sheet_21
       rect:
         serializedVersion: 2
-        x: 156
-        y: 500
-        width: 24
-        height: 36
+        x: 110
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -848,12 +848,12 @@ TextureImporter:
       name: Ghost-Sheet_22
       rect:
         serializedVersion: 2
-        x: 265
-        y: 501
-        width: 24
-        height: 38
+        x: 220
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -870,12 +870,12 @@ TextureImporter:
       name: Ghost-Sheet_23
       rect:
         serializedVersion: 2
-        x: 376
-        y: 500
-        width: 24
-        height: 39
+        x: 330
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -892,12 +892,12 @@ TextureImporter:
       name: Ghost-Sheet_24
       rect:
         serializedVersion: 2
-        x: 46
-        y: 420
-        width: 25
-        height: 36
+        x: 0
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -914,12 +914,12 @@ TextureImporter:
       name: Ghost-Sheet_25
       rect:
         serializedVersion: 2
-        x: 156
-        y: 420
-        width: 24
-        height: 36
+        x: 110
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -936,12 +936,12 @@ TextureImporter:
       name: Ghost-Sheet_26
       rect:
         serializedVersion: 2
-        x: 265
-        y: 421
-        width: 24
-        height: 38
+        x: 220
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -958,12 +958,12 @@ TextureImporter:
       name: Ghost-Sheet_27
       rect:
         serializedVersion: 2
-        x: 376
-        y: 420
-        width: 24
-        height: 39
+        x: 330
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -980,12 +980,12 @@ TextureImporter:
       name: Ghost-Sheet_28
       rect:
         serializedVersion: 2
-        x: 46
-        y: 340
-        width: 25
-        height: 36
+        x: 0
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1002,12 +1002,12 @@ TextureImporter:
       name: Ghost-Sheet_29
       rect:
         serializedVersion: 2
-        x: 156
-        y: 340
-        width: 24
-        height: 36
+        x: 110
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1024,12 +1024,12 @@ TextureImporter:
       name: Ghost-Sheet_30
       rect:
         serializedVersion: 2
-        x: 265
-        y: 341
-        width: 24
-        height: 38
+        x: 220
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1046,12 +1046,12 @@ TextureImporter:
       name: Ghost-Sheet_31
       rect:
         serializedVersion: 2
-        x: 379
-        y: 340
-        width: 19
-        height: 39
+        x: 330
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1068,12 +1068,12 @@ TextureImporter:
       name: Ghost-Sheet_32
       rect:
         serializedVersion: 2
-        x: 488
-        y: 340
-        width: 17
-        height: 40
+        x: 440
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1090,12 +1090,12 @@ TextureImporter:
       name: Ghost-Sheet_33
       rect:
         serializedVersion: 2
-        x: 599
-        y: 369
-        width: 6
-        height: 8
+        x: 550
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1112,12 +1112,12 @@ TextureImporter:
       name: Ghost-Sheet_34
       rect:
         serializedVersion: 2
-        x: 601
-        y: 259
-        width: 130
-        height: 125
+        x: 660
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1134,12 +1134,12 @@ TextureImporter:
       name: Ghost-Sheet_35
       rect:
         serializedVersion: 2
-        x: 375
-        y: 355
-        width: 7
-        height: 13
+        x: 0
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1156,12 +1156,12 @@ TextureImporter:
       name: Ghost-Sheet_36
       rect:
         serializedVersion: 2
-        x: 485
-        y: 353
-        width: 6
-        height: 13
+        x: 110
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1178,12 +1178,12 @@ TextureImporter:
       name: Ghost-Sheet_37
       rect:
         serializedVersion: 2
-        x: 503
-        y: 354
-        width: 6
-        height: 9
+        x: 220
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1200,12 +1200,12 @@ TextureImporter:
       name: Ghost-Sheet_38
       rect:
         serializedVersion: 2
-        x: 593
-        y: 354
-        width: 6
-        height: 13
+        x: 330
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1222,12 +1222,12 @@ TextureImporter:
       name: Ghost-Sheet_39
       rect:
         serializedVersion: 2
-        x: 605
-        y: 350
-        width: 8
-        height: 11
+        x: 440
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1244,12 +1244,12 @@ TextureImporter:
       name: Ghost-Sheet_40
       rect:
         serializedVersion: 2
-        x: 603
-        y: 340
-        width: 8
-        height: 13
+        x: 550
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1266,12 +1266,12 @@ TextureImporter:
       name: Ghost-Sheet_41
       rect:
         serializedVersion: 2
-        x: 46
-        y: 260
-        width: 25
-        height: 36
+        x: 660
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1288,12 +1288,12 @@ TextureImporter:
       name: Ghost-Sheet_42
       rect:
         serializedVersion: 2
-        x: 156
-        y: 260
-        width: 24
-        height: 36
+        x: 0
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1310,12 +1310,12 @@ TextureImporter:
       name: Ghost-Sheet_43
       rect:
         serializedVersion: 2
-        x: 265
-        y: 261
-        width: 24
-        height: 38
+        x: 110
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1332,12 +1332,12 @@ TextureImporter:
       name: Ghost-Sheet_44
       rect:
         serializedVersion: 2
-        x: 379
-        y: 260
-        width: 19
-        height: 39
+        x: 220
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1354,12 +1354,12 @@ TextureImporter:
       name: Ghost-Sheet_45
       rect:
         serializedVersion: 2
-        x: 488
-        y: 260
-        width: 17
-        height: 40
+        x: 330
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1376,12 +1376,12 @@ TextureImporter:
       name: Ghost-Sheet_46
       rect:
         serializedVersion: 2
-        x: 599
-        y: 289
-        width: 6
-        height: 8
+        x: 440
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1398,12 +1398,12 @@ TextureImporter:
       name: Ghost-Sheet_47
       rect:
         serializedVersion: 2
-        x: 601
-        y: 280
-        width: 11
-        height: 22
+        x: 550
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1420,12 +1420,12 @@ TextureImporter:
       name: Ghost-Sheet_48
       rect:
         serializedVersion: 2
-        x: 375
-        y: 275
-        width: 7
-        height: 13
+        x: 660
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1442,12 +1442,12 @@ TextureImporter:
       name: Ghost-Sheet_49
       rect:
         serializedVersion: 2
-        x: 485
-        y: 273
-        width: 6
-        height: 13
+        x: 770
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1464,12 +1464,12 @@ TextureImporter:
       name: Ghost-Sheet_50
       rect:
         serializedVersion: 2
-        x: 503
-        y: 274
-        width: 6
-        height: 9
+        x: 880
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1486,12 +1486,12 @@ TextureImporter:
       name: Ghost-Sheet_51
       rect:
         serializedVersion: 2
-        x: 593
-        y: 274
-        width: 6
-        height: 13
+        x: 990
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1508,12 +1508,12 @@ TextureImporter:
       name: Ghost-Sheet_52
       rect:
         serializedVersion: 2
-        x: 605
-        y: 270
-        width: 8
-        height: 11
+        x: 1100
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1530,12 +1530,12 @@ TextureImporter:
       name: Ghost-Sheet_53
       rect:
         serializedVersion: 2
-        x: 603
-        y: 260
-        width: 8
-        height: 13
+        x: 1210
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1552,12 +1552,12 @@ TextureImporter:
       name: Ghost-Sheet_54
       rect:
         serializedVersion: 2
-        x: 46
-        y: 180
-        width: 25
-        height: 36
+        x: 1320
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1574,12 +1574,12 @@ TextureImporter:
       name: Ghost-Sheet_55
       rect:
         serializedVersion: 2
-        x: 156
-        y: 180
-        width: 24
-        height: 36
+        x: 1430
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1596,12 +1596,12 @@ TextureImporter:
       name: Ghost-Sheet_56
       rect:
         serializedVersion: 2
-        x: 265
-        y: 181
-        width: 24
-        height: 38
+        x: 0
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1618,12 +1618,12 @@ TextureImporter:
       name: Ghost-Sheet_57
       rect:
         serializedVersion: 2
-        x: 376
-        y: 178
-        width: 24
-        height: 39
+        x: 110
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1640,12 +1640,12 @@ TextureImporter:
       name: Ghost-Sheet_58
       rect:
         serializedVersion: 2
-        x: 481
-        y: 173
-        width: 29
-        height: 38
+        x: 220
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1662,12 +1662,12 @@ TextureImporter:
       name: Ghost-Sheet_59
       rect:
         serializedVersion: 2
-        x: 593
-        y: 173
-        width: 28
-        height: 32
+        x: 330
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1684,12 +1684,12 @@ TextureImporter:
       name: Ghost-Sheet_60
       rect:
         serializedVersion: 2
-        x: 700
-        y: 173
-        width: 33
-        height: 12
+        x: 440
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1706,12 +1706,12 @@ TextureImporter:
       name: Ghost-Sheet_61
       rect:
         serializedVersion: 2
-        x: 704
-        y: 183
-        width: 6
-        height: 6
+        x: 550
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1728,12 +1728,12 @@ TextureImporter:
       name: Ghost-Sheet_62
       rect:
         serializedVersion: 2
-        x: 720
-        y: 183
-        width: 6
-        height: 6
+        x: 660
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1750,12 +1750,12 @@ TextureImporter:
       name: Ghost-Sheet_63
       rect:
         serializedVersion: 2
-        x: 814
-        y: 178
-        width: 6
-        height: 6
+        x: 770
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1772,12 +1772,12 @@ TextureImporter:
       name: Ghost-Sheet_64
       rect:
         serializedVersion: 2
-        x: 830
-        y: 178
-        width: 6
-        height: 6
+        x: 0
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1794,12 +1794,12 @@ TextureImporter:
       name: Ghost-Sheet_65
       rect:
         serializedVersion: 2
-        x: 808
-        y: 173
-        width: 38
-        height: 7
+        x: 110
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1816,12 +1816,12 @@ TextureImporter:
       name: Ghost-Sheet_66
       rect:
         serializedVersion: 2
-        x: 918
-        y: 173
-        width: 38
-        height: 8
+        x: 220
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1838,12 +1838,12 @@ TextureImporter:
       name: Ghost-Sheet_67
       rect:
         serializedVersion: 2
-        x: 1028
-        y: 173
-        width: 38
-        height: 6
+        x: 330
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1860,12 +1860,12 @@ TextureImporter:
       name: Ghost-Sheet_68
       rect:
         serializedVersion: 2
-        x: 1138
-        y: 173
-        width: 38
-        height: 6
+        x: 440
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1882,12 +1882,12 @@ TextureImporter:
       name: Ghost-Sheet_69
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 173
-        width: 26
-        height: 6
+        x: 550
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1904,12 +1904,12 @@ TextureImporter:
       name: Ghost-Sheet_70
       rect:
         serializedVersion: 2
-        x: 1270
-        y: 173
-        width: 236
-        height: 6
+        x: 660
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1926,12 +1926,12 @@ TextureImporter:
       name: Ghost-Sheet_71
       rect:
         serializedVersion: 2
-        x: 45
-        y: 99
-        width: 26
-        height: 40
+        x: 770
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1948,12 +1948,12 @@ TextureImporter:
       name: Ghost-Sheet_72
       rect:
         serializedVersion: 2
-        x: 155
-        y: 100
-        width: 28
-        height: 39
+        x: 880
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1966,341 +1966,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_73
-      rect:
-        serializedVersion: 2
-        x: 265
-        y: 99
-        width: 25
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 72093858616f9fd10800000000000000
-      internalID: 2160028072890568743
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_74
-      rect:
-        serializedVersion: 2
-        x: 370
-        y: 100
-        width: 42
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 51df1a75723fc8d50800000000000000
-      internalID: 6741030092566297877
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_75
-      rect:
-        serializedVersion: 2
-        x: 481
-        y: 100
-        width: 40
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5b39b5c6d72f8c850800000000000000
-      internalID: 6397629891182564277
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_76
-      rect:
-        serializedVersion: 2
-        x: 595
-        y: 98
-        width: 28
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7a170f5a48cc209a0800000000000000
-      internalID: -6268222861254561369
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_77
-      rect:
-        serializedVersion: 2
-        x: 706
-        y: 99
-        width: 25
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4dbed3fadb96e8ca0800000000000000
-      internalID: -6012752189083227180
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_78
-      rect:
-        serializedVersion: 2
-        x: 815
-        y: 99
-        width: 26
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1da099b2e8204f0e0800000000000000
-      internalID: -2237160305256232239
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_79
-      rect:
-        serializedVersion: 2
-        x: 46
-        y: 20
-        width: 24
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e4d9f10ea04693180800000000000000
-      internalID: -9135160371271721650
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_80
-      rect:
-        serializedVersion: 2
-        x: 155
-        y: 21
-        width: 24
-        height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5f3a06fdeeda85220800000000000000
-      internalID: 2474919236701561845
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_81
-      rect:
-        serializedVersion: 2
-        x: 261
-        y: 20
-        width: 31
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 65b711779db87cec0800000000000000
-      internalID: -3546712415409177770
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_82
-      rect:
-        serializedVersion: 2
-        x: 370
-        y: 20
-        width: 32
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 72fd26bd3320fe7c0800000000000000
-      internalID: -4040007918980767961
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_83
-      rect:
-        serializedVersion: 2
-        x: 480
-        y: 20
-        width: 32
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4f0eb08ae1387a9b0800000000000000
-      internalID: -5068938687890595596
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_84
-      rect:
-        serializedVersion: 2
-        x: 591
-        y: 20
-        width: 31
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 65eae481b7ce0f2b0800000000000000
-      internalID: -5552678327114879402
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_85
-      rect:
-        serializedVersion: 2
-        x: 701
-        y: 20
-        width: 31
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6321c077c30c62350800000000000000
-      internalID: 5991687720190874166
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_86
-      rect:
-        serializedVersion: 2
-        x: 815
-        y: 18
-        width: 26
-        height: 41
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e539fbb48c7249cd0800000000000000
-      internalID: -2552371347594439842
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ghost-Sheet_87
-      rect:
-        serializedVersion: 2
-        x: 925
-        y: 19
-        width: 26
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4cc904be837988400800000000000000
-      internalID: 326677243705203908
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8129632395a8b134b8a238015b3b6dd3
     internalID: 0
     vertices: []
     indices: 
@@ -2308,7 +1978,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":14.0,"y":10.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Ghost-Sheet_0: -5662871578180991815
       Ghost-Sheet_1: 7189840374964406950
@@ -2381,22 +2053,7 @@ TextureImporter:
       Ghost-Sheet_70: 1369101704673193724
       Ghost-Sheet_71: -2188763869845313403
       Ghost-Sheet_72: 2601953975672582542
-      Ghost-Sheet_73: 2160028072890568743
-      Ghost-Sheet_74: 6741030092566297877
-      Ghost-Sheet_75: 6397629891182564277
-      Ghost-Sheet_76: -6268222861254561369
-      Ghost-Sheet_77: -6012752189083227180
-      Ghost-Sheet_78: -2237160305256232239
-      Ghost-Sheet_79: -9135160371271721650
       Ghost-Sheet_8: -1891757779967955749
-      Ghost-Sheet_80: 2474919236701561845
-      Ghost-Sheet_81: -3546712415409177770
-      Ghost-Sheet_82: -4040007918980767961
-      Ghost-Sheet_83: -5068938687890595596
-      Ghost-Sheet_84: -5552678327114879402
-      Ghost-Sheet_85: 5991687720190874166
-      Ghost-Sheet_86: -2552371347594439842
-      Ghost-Sheet_87: 326677243705203908
       Ghost-Sheet_9: -6005555052213164162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

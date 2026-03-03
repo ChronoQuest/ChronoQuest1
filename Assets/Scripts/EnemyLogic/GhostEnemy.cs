@@ -14,16 +14,22 @@ public class GhostEnemy : EnemyBase
     public float hoverAmplitude = 0.3f;
     public float hoverFrequency = 1.5f;
 
-    [Header("Phase-in")]
-    public float phaseInDuration = 0.6f; // Fade in when first detecting player
+    [Header("Teleport")]
+    public float teleportInterval = 3f;
+    public float teleportOffset = 2f;     // how far from player to reappear
+    public float phaseOutDuration = 0.5f; // match your PhaseOut clip length
+    public float phaseInDuration = 0.5f;  // match your PhaseIn clip length
 
     public Transform player;
 
     private Animator animator;
+    private Collider2D col;
     private float lastAttackTime;
+    private float lastTeleportTime;
     private bool isTouchingPlayer;
     private bool hasDetected;
     private bool isHitStunned;
+    private bool isTeleporting;
 
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
@@ -37,14 +43,14 @@ public class GhostEnemy : EnemyBase
     void Start()
     {
         animator = GetComponent<Animator>();
-        // Ghosts float — no gravity
+        col = GetComponent<Collider2D>();
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void Update()
     {
-        if (isRewinding || wasDead) return;
+        if (isRewinding || wasDead || isTeleporting) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -53,11 +59,7 @@ public class GhostEnemy : EnemyBase
             currentState = State.Attack;
         else if (dist < detectionRange)
         {
-            if (!hasDetected)
-            {
-                hasDetected = true;
-                StartCoroutine(PhaseInRoutine());
-            }
+            hasDetected = true;
             currentState = State.Chase;
         }
         else
@@ -74,7 +76,7 @@ public class GhostEnemy : EnemyBase
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isHitStunned) return;
+        if (isRewinding || wasDead || isHitStunned || isTeleporting) return;
 
         switch (currentState)
         {
@@ -83,6 +85,11 @@ public class GhostEnemy : EnemyBase
                 break;
 
             case State.Chase:
+                if (Time.time >= lastTeleportTime + teleportInterval)
+                {
+                    StartCoroutine(TeleportRoutine());
+                    break;
+                }
                 Vector2 dir = ((Vector2)player.position - (Vector2)transform.position).normalized;
                 rb.linearVelocity = dir * moveSpeed;
                 break;
@@ -93,30 +100,36 @@ public class GhostEnemy : EnemyBase
                 {
                     lastAttackTime = Time.time;
                     animator?.SetTrigger("Attack");
-                    player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage);
                 }
                 break;
         }
     }
 
-    // Fade in from transparent when the ghost detects the player
-    IEnumerator PhaseInRoutine()
+    // Fade out → teleport near player → fade in
+    IEnumerator TeleportRoutine()
     {
-        Color c = sprite.color;
-        c.a = 0f;
-        sprite.color = c;
+        isTeleporting = true;
+        rb.linearVelocity = Vector2.zero;
+        if (col != null) col.enabled = false;
 
-        float elapsed = 0f;
-        while (elapsed < phaseInDuration)
-        {
-            elapsed += Time.deltaTime;
-            c.a = Mathf.Clamp01(elapsed / phaseInDuration);
-            sprite.color = c;
-            yield return null;
-        }
+        // Phase out — ghost sinks underground
+        animator?.SetTrigger("PhaseOut");
+        yield return new WaitForSeconds(phaseOutDuration);
 
-        c.a = 1f;
-        sprite.color = c;
+        // Ghost is now underground in the animation — safe to snap position
+        float side = Random.value > 0.5f ? 1f : -1f;
+        Vector2 targetX = (Vector2)player.position + new Vector2(side * teleportOffset, 1f);
+        RaycastHit2D hit = Physics2D.Raycast(targetX, Vector2.down, 10f, LayerMask.GetMask("Ground"));
+        Vector2 spawnPos = hit.collider != null ? hit.point : (Vector2)player.position + new Vector2(side * teleportOffset, 0f);
+        transform.position = spawnPos;
+
+        // Phase in
+        animator?.SetTrigger("PhaseIn");
+        yield return new WaitForSeconds(phaseInDuration);
+
+        if (col != null) col.enabled = true;
+        isTeleporting = false;
+        lastTeleportTime = Time.time;
     }
 
     public override void TakeDamage(int amount)
@@ -132,6 +145,13 @@ public class GhostEnemy : EnemyBase
         isHitStunned = true;
         yield return new WaitForSeconds(0.2f);
         isHitStunned = false;
+    }
+
+    // Called by Animation Event on the attack clip at the hit frame
+    public void GhostDealDamage()
+    {
+        if (wasDead || isRewinding || !isTouchingPlayer || player == null) return;
+        player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -154,7 +174,6 @@ public class GhostEnemy : EnemyBase
         animator?.SetTrigger("Die");
         rb.linearVelocity = Vector2.zero;
 
-        Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
 
         StartCoroutine(base.DeathRoutine());
@@ -167,6 +186,8 @@ public class GhostEnemy : EnemyBase
         base.OnStartRewind();
         StopAllCoroutines();
         isTouchingPlayer = false;
+        isTeleporting = false;
+        if (col != null) col.enabled = true;
     }
 
     public override void OnStopRewind()
@@ -178,7 +199,17 @@ public class GhostEnemy : EnemyBase
     {
         var state = base.CaptureState();
         state.SetCustomData("hasDetected", hasDetected);
-        state.SetCustomData("spriteAlpha", sprite.color.a);
+        state.SetCustomData("isTeleporting", isTeleporting);
+        state.SetCustomData("lastTeleportTime", lastTeleportTime);
+        state.SetCustomData("colEnabled", col != null && col.enabled);
+
+        if (animator != null)
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            state.AnimatorStateHash = info.shortNameHash;
+            state.AnimatorNormalizedTime = info.normalizedTime;
+        }
+
         return state;
     }
 
@@ -186,9 +217,13 @@ public class GhostEnemy : EnemyBase
     {
         base.ApplyState(state);
         hasDetected = state.GetCustomData<bool>("hasDetected");
+        isTeleporting = state.GetCustomData<bool>("isTeleporting");
+        lastTeleportTime = state.GetCustomData<float>("lastTeleportTime");
 
-        Color c = sprite.color;
-        c.a = state.GetCustomData<float>("spriteAlpha");
-        sprite.color = c;
+        if (col != null)
+            col.enabled = state.GetCustomData<bool>("colEnabled", true);
+
+        if (animator != null)
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 }
