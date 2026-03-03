@@ -44,6 +44,7 @@ public class BatEnemyAI : Agent, IRewindable
     private int memorySize = 30;
     private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
     private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
+    private float rewindStartTime;
     public float recordInterval = 0.5f;
     private float recordTimer = 0f;
     private Collider2D playerCollider;
@@ -67,7 +68,7 @@ public class BatEnemyAI : Agent, IRewindable
     // Controlls how many player states we look at when determining similarity
     // public int windowSize = 4; - Only used by Hamming Weight func
     // We need at least minTimelineSize samples before we consider foresight
-    public int minTimelineSize = 4;
+    public int minTimelineSize = 2;
     public int bandWidth = 3;
 
 
@@ -112,6 +113,7 @@ public class BatEnemyAI : Agent, IRewindable
             if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(state);
             sequenceSimilarity = CalculateDTWSimilarity();
+            Debug.Log(sequenceSimilarity);
             recordTimer = 0f;
         }
 
@@ -539,13 +541,15 @@ private void HandleDeath()
         isRewinding = true;
         enemy.OnStartRewind();
         
-        StopAllCoroutines(); 
+        StopAllCoroutines();
 
-        if (currentTimeline.Count > 0)
-        {
-            previousTimeline = new Queue<PlayerState>(currentTimeline);
-            currentTimeline.Clear();
-        }
+        rewindStartTime = Time.time;
+
+        // if (currentTimeline.Count > 0)
+        // {
+        //     previousTimeline = new Queue<PlayerState>(currentTimeline);
+        //     currentTimeline.Clear();
+        // }
         
         animator.ResetTrigger("die");
         animator.ResetTrigger("Attack");
@@ -562,6 +566,24 @@ private void HandleDeath()
         {
             spriteRenderer.enabled = false;
         }
+
+        float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime; 
+        int statesErased = Mathf.RoundToInt(timeRewound / recordInterval);
+        
+        statesErased = Mathf.Clamp(statesErased, 0, currentTimeline.Count);
+        var currentArray = currentTimeline.ToArray();
+        
+        previousTimeline.Clear();
+        int startIndex = currentArray.Length - statesErased;
+        for (int i = startIndex; i < currentArray.Length; i++)
+        {
+            previousTimeline.Enqueue(currentArray[i]);
+        }
+
+        // Wipe current timeline
+        currentTimeline.Clear();
+        
+        recordTimer = 0f; 
     }
 
     public RewindState CaptureState()
@@ -581,7 +603,7 @@ private void HandleDeath()
 
     public void ApplyState(RewindState state)
     {
-        enemy.ApplyState(state); 
+        enemy.ApplyState(state);
         isDead = state.Health <= 0; 
         if (spriteRenderer != null) spriteRenderer.enabled = state.GetCustomData<bool>("spriteVisible");
         Collider2D col = GetComponent<Collider2D>();

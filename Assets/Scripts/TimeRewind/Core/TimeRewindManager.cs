@@ -72,6 +72,7 @@ namespace TimeRewind
         #region Properties
         
         public bool IsRewinding => _isRewinding;
+        public float CurrentRewindTime => _currentRewindTime;
         
         public bool CanRewind
         {
