@@ -117,6 +117,7 @@ namespace TimeRewind
         public void OnStartRewind()
         {
             _isRewinding = true;
+            DataCollectionService.Instance?.RecordRewindStarted();
             OnRewindStarted?.Invoke();
             _originalBodyType = _rb.bodyType;
             _rb.bodyType = RigidbodyType2D.Kinematic;
@@ -128,6 +129,7 @@ namespace TimeRewind
         public void OnStopRewind()
         {
             _isRewinding = false;
+            DataCollectionService.Instance?.RecordRewindStopped();
             OnRewindStopped?.Invoke();
             _rb.bodyType = _originalBodyType;
             

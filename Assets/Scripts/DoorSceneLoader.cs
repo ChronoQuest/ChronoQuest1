@@ -16,6 +16,8 @@ public class DoorSceneLoader : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            DataCollectionService.Instance?.RecordDoorEntered(sceneName);
+            DataCollectionService.Instance?.SaveSessionAndStartNew();
             animator.SetBool("IsOpened", true);
             StartCoroutine(Transition(other.gameObject));
         }
