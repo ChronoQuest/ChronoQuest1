@@ -107879,6 +107879,35 @@ MonoBehaviour:
   boxWidth: 0.7
   boxHeight: 0.2
   offset: {x: -0.2, y: -0.85}
+--- !u!114 &936638540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936638509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d021fdd0521760445bfb99a3f080a3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindEffects
+  postProcessVolume: {fileID: 1406895534}
+  rewindSaturation: -50
+  rewindChromaticAberration: 0.5
+  rewindVignetteIntensity: 0.4
+  effectTransitionSpeed: 5
+  rewindTintColor: {r: 0.5, g: 0.7, b: 1, a: 0.2}
+  rewindBurstDuration: 1
+  burstSaturation: -100
+  burstChromaticAberration: 0.8
+  burstVignetteIntensity: 0.6
+  burstTintColor: {r: 0.6, g: 0.85, b: 1, a: 0.35}
+  audioSource: {fileID: 0}
+  rewindLoopSound: {fileID: 0}
+  rewindStartSound: {fileID: 0}
+  rewindEndSound: {fileID: 0}
+  progressBar: {fileID: 0}
+  rewindIndicator: {fileID: 0}
 --- !u!1 &942049445
 GameObject:
   m_ObjectHideFlags: 0
@@ -504865,6 +504894,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 936638526}
+    - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 936638540}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
 --- !u!1 &1069954545
 GameObject:
