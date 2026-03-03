@@ -16,6 +16,10 @@ public class PauseMenu : MonoBehaviour
             container.SetActive(isPaused);
             Time.timeScale = isPaused ? 0f : 1f;
             escapePressed += 1; 
+            if (isPaused)
+            {
+                DataCollectionService.Instance?.RecordPause();
+            }
         }
     }
 
@@ -25,6 +29,7 @@ public class PauseMenu : MonoBehaviour
         container.SetActive(true);
         Time.timeScale = 0f;    
         isPaused = true; 
+        DataCollectionService.Instance?.RecordPause();
     }
 
     public void ResumeButton()
