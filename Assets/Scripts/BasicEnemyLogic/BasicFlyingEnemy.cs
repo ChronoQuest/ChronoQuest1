@@ -53,7 +53,7 @@ public class FlyingEnemy : EnemyBase
         }
     }
 
-void Update()
+    void Update()
     {
         if (_isRewinding) return;
         float distanceToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);

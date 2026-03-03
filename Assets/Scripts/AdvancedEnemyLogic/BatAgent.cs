@@ -92,6 +92,13 @@ public class BatEnemyAI : Agent, IRewindable
         animator.ResetTrigger("die");
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
     }
+    void OnDestroy()
+    {
+        if (TimeRewindManager.Instance != null)
+        {
+            TimeRewindManager.Instance.Unregister(this);
+        }
+    }
 
     void Update()
     {
@@ -223,14 +230,6 @@ public class BatEnemyAI : Agent, IRewindable
 
     //     return (float)matches / windowSize;
     // }
-    void OnDestroy()
-    {
-        if (TimeRewindManager.Instance != null)
-        {
-            TimeRewindManager.Instance.Unregister(this);
-        }
-    }
-
     public override void OnEpisodeBegin()
     {
         isDead = false;

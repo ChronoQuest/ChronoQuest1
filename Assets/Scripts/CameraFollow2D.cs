@@ -12,6 +12,7 @@ public class CameraFollow2D : MonoBehaviour
     private Camera cameraComponent;
     private float defaultZoom;
     private float targetZoom;
+    private Vector3 shakeOffset;
 
     private void Awake()
     {
@@ -26,6 +27,11 @@ public class CameraFollow2D : MonoBehaviour
             TryAssignPlayerTarget();
     }
 
+    public void ApplyShakeOffset(Vector3 offset)
+    {
+        shakeOffset = offset;
+    }
+
     private void LateUpdate()
     {
         if (target == null)
@@ -35,7 +41,8 @@ public class CameraFollow2D : MonoBehaviour
         }
 
         Vector3 desired = target.position + offset;
-        transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime);
+        //transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime) + shakeOffset;
 
         if (cameraComponent != null)
         {
