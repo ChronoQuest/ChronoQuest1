@@ -51,7 +51,7 @@ namespace TimeRewind
 
         [Header("Rewind Time Scale")]
         [Tooltip("Global timeScale while rewinding (1 = normal, 0.3 = strong slow-motion)")]
-        [SerializeField] private float rewindSlowTimeScale = 0.3f;
+        [SerializeField] private float rewindSlowTimeScale = 0.5f;
         
         #endregion
 

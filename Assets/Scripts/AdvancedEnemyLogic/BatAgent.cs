@@ -61,6 +61,9 @@ public class BatEnemyAI : Agent, IRewindable
         public Vector2 velocity;
         public int attackType; // 0: Not attacking, 1: Melee, 2: Spell
     }
+
+    public enum ForesightTactics { Dodge, Lunge }
+    public int futureLookaheadSteps = 6;
     public float weightDistance = 0.5f;
     public float weightVelocity = 0.2f;
     
@@ -70,6 +73,7 @@ public class BatEnemyAI : Agent, IRewindable
     // We need at least minTimelineSize samples before we consider foresight
     public int minTimelineSize = 2;
     public int bandWidth = 3;
+    private int highestAttackThisInterval = 0;
 
 
     void Start()
@@ -92,6 +96,9 @@ public class BatEnemyAI : Agent, IRewindable
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("die");
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
+        // Immediately get a player state
+        PlayerState state = GetCurrentPlayerState();
+        currentTimeline.Enqueue(state);
     }
     void OnDestroy()
     {
@@ -105,15 +112,19 @@ public class BatEnemyAI : Agent, IRewindable
     {
         if (isDead || isRewinding || trainingMode) return;
 
+        if (playerCombat.isAttacking) highestAttackThisInterval = 1;
+        else if (playerSpells.isCasting) highestAttackThisInterval = 2;
+
         recordTimer += Time.deltaTime;
         if (recordTimer >= recordInterval)
         {
             // Record state of the player
             PlayerState state = GetCurrentPlayerState();
+            state.attackType = highestAttackThisInterval;
             if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(state);
             sequenceSimilarity = CalculateDTWSimilarity();
-            Debug.Log(sequenceSimilarity);
+            Debug.Log("Timeline similarity: " + sequenceSimilarity);
             recordTimer = 0f;
         }
 
@@ -125,22 +136,11 @@ public class BatEnemyAI : Agent, IRewindable
                 hasForesight = true;
                 animator.SetBool("hasForesight", true);
             }
-            GameObject spellObj = playerSpells.latestSpell;
 
-            if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
-            {
-                Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
-                
-                TriggerForesightDodge(approachDirection);
-            }
-            if (!isDodging && spellObj != null)
-            {
-                if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f){
-                    Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
-                    Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
-                    TriggerForesightDodge(approachDirection);
-                }
-            }
+            ForesightTactics tactic = DetermineForesightAction();
+
+            if (tactic == ForesightTactics.Dodge) ExecuteDodge();
+            else if (tactic == ForesightTactics.Lunge) ExecuteLunge();
         }
         else
         {
@@ -149,6 +149,35 @@ public class BatEnemyAI : Agent, IRewindable
             {
                 hasForesight = false;
                 animator.SetBool("hasForesight", false);
+            }
+        }
+    }
+
+    void ExecuteLunge()
+    {
+        if (!isDodging)
+        {
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+            TriggerForesightLunge(approachDirection);
+        }
+    }
+
+    void ExecuteDodge()
+    {
+        GameObject spellObj = playerSpells.latestSpell;
+
+        if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
+        {
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+                
+            TriggerForesightDodge(approachDirection);
+        }
+        if (!isDodging && spellObj != null)
+        {
+            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f){
+                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                TriggerForesightDodge(approachDirection);
             }
         }
     }
@@ -170,11 +199,32 @@ public class BatEnemyAI : Agent, IRewindable
 
         return distance;
     }
+
+    ForesightTactics DetermineForesightAction()
+    {
+        int nextIndex = currentTimeline.Count; 
+        var previousArray = previousTimeline.ToArray();
+        // Look ahead into the future
+        for (int i = nextIndex; i < nextIndex + futureLookaheadSteps; i++)
+        {
+            // Stop looking if we hit the end of the recorded present
+            if (i >= previousArray.Length) break; 
+
+            if (previousArray[i].attackType > 0) 
+            {
+                return ForesightTactics.Dodge;
+            }
+        }
+        return ForesightTactics.Lunge; 
+    }
     // Use Dynamic Time Warp algorithm to calculate similarity between current and previous timeline
     float CalculateDTWSimilarity()
     {
         // We need both timelines to have at least the window size number of samples
         if (currentTimeline.Count < minTimelineSize || previousTimeline.Count < minTimelineSize) return 0f;
+
+        // If we reach an unobserved point in time, we can't trigger foresight
+        if (currentTimeline.Count > previousTimeline.Count) return 0f;
 
         // Convert both queues into arrays for easier manipulation
         var current = currentTimeline.ToArray();
@@ -209,8 +259,8 @@ public class BatEnemyAI : Agent, IRewindable
                 }
             }
         // Normalise score
-        float maxPossibleDistance = c_len * 5.0f; 
-        return 1.0f - Mathf.Clamp01(dtw[c_len, p_len] / maxPossibleDistance);
+        float averageCost = dtw[c_len, p_len] / (c_len + p_len); 
+        return 1.0f - Mathf.Clamp01(averageCost / 2.0f); // 2.0f is your "error tolerance" per step
     }
 
     // Old Hamming-weight distance function
@@ -425,6 +475,18 @@ public class BatEnemyAI : Agent, IRewindable
         }
     }
 
+    public void TriggerForesightLunge(Vector2 approachDirection)
+    {
+        if (isDodging || isDead || isRewinding) return;
+        hasForesight = true;
+        isDodging = true;
+        dodgeTimer = dodgeDuration;
+
+        animator.SetBool("hasForesight", true);
+
+        calculatedDodgeVector = approachDirection;
+    }
+
     private PlayerState GetCurrentPlayerState()
     {
         PlayerState state = new PlayerState();
@@ -433,11 +495,7 @@ public class BatEnemyAI : Agent, IRewindable
         state.distance = offset.magnitude;
         Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
         state.velocity = playerRb.linearVelocity;
-        
-        if (playerCombat.isAttacking) state.attackType = 1; // Melee
-        else if (playerSpells.isCasting) state.attackType = 2; // Spell
-        else state.attackType = 0; // Not attacking
-        
+        state.attackType = 0; // Assign in update
         return state;
     }
     void Hover()
@@ -582,6 +640,9 @@ private void HandleDeath()
 
         // Wipe current timeline
         currentTimeline.Clear();
+        // Immediately get a player state
+        PlayerState state = GetCurrentPlayerState();
+        currentTimeline.Enqueue(state);
         
         recordTimer = 0f; 
     }
