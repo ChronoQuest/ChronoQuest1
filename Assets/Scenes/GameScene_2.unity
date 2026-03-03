@@ -511279,7 +511279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c620a3e75c5224b3cbeea6cc571295a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
-  shakeDuration: 0.5
+  shakeDuration: 3
   shakeIntensity: 0.05
   restoreDelay: 5
   physicsCollider: {fileID: 866386364}
