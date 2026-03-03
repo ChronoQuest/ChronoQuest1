@@ -51,6 +51,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isWallSliding;
+    private float wallAnimationVisualTimer;
+    private const float WALL_GRACE_TIME = 0.08f; // 0.1 seconds of "memory"
 
     [Header("Double Jump")]
     [SerializeField] private int extraJumps = 1; // Number of mid-air jumps allowed
@@ -179,8 +181,6 @@ public class PlayerPlatformer : MonoBehaviour
 
         isTouchingWall = wallHit.collider != null;
 
-        
-
         //if player is pushing towards wall -> actually slide
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
         //bool isPushingWall = true;
@@ -189,13 +189,20 @@ public class PlayerPlatformer : MonoBehaviour
         { 
             float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
             playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
+
+            wallAnimationVisualTimer = WALL_GRACE_TIME;
             isWallSliding = true;
+
             extraJumpsRemaining = 1;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
         }
         else
         {
-            isWallSliding = false;
+            wallAnimationVisualTimer -= Time.deltaTime;
+            if (wallAnimationVisualTimer <= 0)
+            {
+                isWallSliding = false;
+            }
         }
 
         // Update Animator Parameters
