@@ -161,7 +161,7 @@ public class SkeletonArcher : EnemyBase
 
     // ================= DEATH =================
 
-    protected override void Die()
+    public override void Die()
     {
         base.Die();
         StopAllCoroutines();
