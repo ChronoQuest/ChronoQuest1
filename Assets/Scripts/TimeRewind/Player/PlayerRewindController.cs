@@ -12,6 +12,8 @@ namespace TimeRewind
         [SerializeField] private float rewindHoldThreshold = 0f;
         [Tooltip("Minimum time rewind runs after starting; prevents a quick tap from starting then immediately stopping.")]
         [SerializeField] private float minRewindDuration = 0.25f;
+        [Tooltip("Frames input must be released before rewind stops; prevents one-frame glitches from stopping rewind.")]
+        [SerializeField] private int releaseFramesRequired = 2;
 
         [Header("Mana Cost")]
         [SerializeField] private float manaDrainPerSecond = 10f;
@@ -21,6 +23,7 @@ namespace TimeRewind
         private float _rewindStartTime;
         private bool _rewindInputHeld;
         private float _rewindHoldTimer;
+        private int _releaseFrameCount;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
         private PlayerMana _playerMana;
@@ -91,12 +94,29 @@ namespace TimeRewind
                 bool canContinue = _playerMana != null 
                     && _playerMana.DrainManaContinuous(manaDrainPerSecond);
 
-                // Stop if out of mana, or if player released input after minimum rewind duration
                 bool minDurationElapsed = (Time.unscaledTime - _rewindStartTime) >= minRewindDuration;
                 if (!canContinue)
+                {
                     TimeRewindManager.Instance.StopRewind();
+                    _releaseFrameCount = 0;
+                }
                 else if (!_rewindInputHeld && minDurationElapsed)
-                    TimeRewindManager.Instance.StopRewind();
+                {
+                    _releaseFrameCount++;
+                    if (_releaseFrameCount >= releaseFramesRequired)
+                    {
+                        TimeRewindManager.Instance.StopRewind();
+                        _releaseFrameCount = 0;
+                    }
+                }
+                else
+                {
+                    _releaseFrameCount = 0;
+                }
+            }
+            else
+            {
+                _releaseFrameCount = 0;
             }
         }
         
@@ -112,7 +132,9 @@ namespace TimeRewind
             }
             else if (context.canceled)
             {
-                _rewindInputHeld = false;
+                // Ignore cancel while rewinding so UI/focus doesn't falsely release and stop rewind
+                if (!_isRewinding)
+                    _rewindInputHeld = false;
             }
         }
         

@@ -1,6 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; 
-using System.Collections; 
+using UnityEngine.SceneManagement;
+using System.Collections;
+using TimeRewind;
 
 public class GameOverUI : MonoBehaviour
 {
@@ -25,6 +26,18 @@ public class GameOverUI : MonoBehaviour
                 FinishFade(); 
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        if (TimeRewindManager.Instance != null)
+            TimeRewindManager.Instance.OnRewindStop += OnRewindStopped;
+    }
+
+    private void OnDisable()
+    {
+        if (TimeRewindManager.Instance != null)
+            TimeRewindManager.Instance.OnRewindStop -= OnRewindStopped;
     }
 
     public void ShowGameOver()
@@ -61,8 +74,17 @@ public class GameOverUI : MonoBehaviour
         canvasGroup.interactable = true; 
         canvasGroup.blocksRaycasts = true; 
         
-        // pause gameplay once the fade has completed
-        Time.timeScale = 0f; 
+        // Pause gameplay once the fade has completed, but not while the player is rewinding
+        if (TimeRewindManager.Instance == null || !TimeRewindManager.Instance.IsRewinding)
+            Time.timeScale = 0f; 
+    }
+
+    private void OnRewindStopped()
+    {
+        // When rewind ends and we're still in game-over state, pause again
+        var playerHealth = FindFirstObjectByType<PlayerHealth>();
+        if (playerHealth != null && playerHealth.IsDead)
+            Time.timeScale = 0f;
     }
 
     // ---- button event methods ---- 
