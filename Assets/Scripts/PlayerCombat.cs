@@ -78,6 +78,7 @@ public class PlayerCombat : MonoBehaviour
     private void PerformMelee()
     {
         isAttacking = true;
+        DataCollectionService.Instance?.RecordMeleeAttempt();
         if (Time.time - lastAttackTime > comboResetTime)
         {
             comboStep = 0;
@@ -173,6 +174,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 hitAnything = true;
                 target.TakeDamage(meleeDamage);
+                DataCollectionService.Instance?.RecordMeleeHit();
                 if (manaSystem != null) manaSystem.AddManaOnHit();
 
                 // 3. PHYSICS INTERACTION (The Pogo)

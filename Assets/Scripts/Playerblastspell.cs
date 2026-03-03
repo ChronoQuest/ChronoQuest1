@@ -78,6 +78,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
             {
                 CastSpell();
                 nextFireTime = Time.time + cooldown;
+                DataCollectionService.Instance?.RecordSpellCast();
             }
             else 
             {
