@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 2006805382678745457}
   - component: {fileID: 3036728015572430708}
   - component: {fileID: 2374404326114978385}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SkeletonArcher
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
