@@ -85,8 +85,12 @@ public class PlayerCombat : MonoBehaviour
         }
 
         float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
-        if (moveInput != 0) spriteRenderer.flipX = (moveInput < 0);
-
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (moveInput != 0 && (spellSys == null || !spellSys.isCasting)) 
+        {
+            spriteRenderer.flipX = (moveInput < 0);
+        }
+        
         float dir = spriteRenderer.flipX ? -1f : 1f;
         bool isUp = false;
         bool isDown = false;

@@ -124,6 +124,7 @@ namespace TimeRewind
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
             if (animator != null) animator.speed = 0;
+            GetComponent<PlayerSafetyNet>()?.CancelRespawn();
         }
         
         public void OnStopRewind()

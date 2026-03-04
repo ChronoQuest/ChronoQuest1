@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Enemy
   - Spell
+  - Trap
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Ground
   - Wall
   - Background
-  - 
-  - 
+  - Enemy
+  - FallingPlatform
   - 
   - 
   - 
