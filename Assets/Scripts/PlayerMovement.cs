@@ -51,6 +51,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isWallSliding;
+    private float wallAnimationVisualTimer;
+    private const float WALL_GRACE_TIME = 0.08f; // 0.1 seconds of "memory"
 
     [Header("Double Jump")]
     [SerializeField] private int extraJumps = 1; // Number of mid-air jumps allowed
@@ -153,7 +155,18 @@ public class PlayerPlatformer : MonoBehaviour
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
 
-        float direction = spriteRenderer.flipX ? -1f : 1f;
+        //float direction = spriteRenderer.flipX ? -1f : 1f;
+
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        float direction;
+        if (spellSys != null && spellSys.isCasting)
+        {
+            direction = spriteRenderer.flipX ? -1f : 1f; // Keep current facing
+        }
+        else
+        {
+            direction = spriteRenderer.flipX ? -1f : 1f; // Standard behavior
+        }
 
         // Raise the origin to "Chest Height" (e.g., +0.5f Y)
         // This is CRITICAL: It ensures we don't hit the floor and think it's a wall.
@@ -168,8 +181,6 @@ public class PlayerPlatformer : MonoBehaviour
 
         isTouchingWall = wallHit.collider != null;
 
-        
-
         //if player is pushing towards wall -> actually slide
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
         //bool isPushingWall = true;
@@ -178,13 +189,20 @@ public class PlayerPlatformer : MonoBehaviour
         { 
             float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
             playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
+
+            wallAnimationVisualTimer = WALL_GRACE_TIME;
             isWallSliding = true;
+
             extraJumpsRemaining = 1;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
         }
         else
         {
-            isWallSliding = false;
+            wallAnimationVisualTimer -= Time.deltaTime;
+            if (wallAnimationVisualTimer <= 0)
+            {
+                isWallSliding = false;
+            }
         }
 
         // Update Animator Parameters
@@ -408,10 +426,12 @@ public class PlayerPlatformer : MonoBehaviour
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
             if (!_isRewinding) anim.SetTrigger("Dash");
         }
+
+        tutorialManager?.OnPlayerDash();
         
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        yield return new WaitForSeconds(0.09f);
+        yield return new WaitForSeconds(0.04f);
         SetDashPhasing(true);
 
         float dir = spriteRenderer.flipX ? -1f : 1f;
@@ -446,6 +466,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     void FlipSprite()
     {
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (spellSys != null && spellSys.isCasting) return;
 
         if (horizontalInput > 0.1f) spriteRenderer.flipX = false;
         else if (horizontalInput < -0.1f) spriteRenderer.flipX = true;
