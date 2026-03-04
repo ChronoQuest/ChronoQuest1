@@ -92,7 +92,7 @@ public class NecromancerEnemy : EnemyBase
     bool HasDeadMinion()
     {
         foreach (var m in minions)
-            if (m != null && m.wasDead) return true;
+            if (m != null && m.IsDead) return true;
         return false;
     }
 
@@ -113,7 +113,7 @@ public class NecromancerEnemy : EnemyBase
         if (wasDead || isRewinding) return;
         foreach (var m in minions)
         {
-            if (m != null && m.wasDead)
+            if (m != null && m.IsDead)
             {
                 m.Revive();
                 return; // revive one at a time
