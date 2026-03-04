@@ -106,6 +106,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     // ================= REVIVE =================
     public virtual void Revive()
     {
+        StopAllCoroutines(); // stop any pending DeathRoutine that would re-hide the sprite
         wasDead = false;
         health = startHealth;
         rb.bodyType = originalBodyType;
