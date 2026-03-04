@@ -41,11 +41,11 @@ public class BatEnemyAI : Agent, IRewindable
     public float dodgeTriggerDistance = 3.4f;
     // So the bat won't dodge into walls and floors!
     public LayerMask obstacleLayer;
-    private int memorySize = 30;
+    private int memorySize = 50;
     private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
     private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
     private float rewindStartTime;
-    public float recordInterval = 0.5f;
+    public float recordInterval = 0.3f;
     private float recordTimer = 0f;
     private Collider2D playerCollider;
     private SpriteRenderer spriteRenderer;
@@ -74,6 +74,7 @@ public class BatEnemyAI : Agent, IRewindable
     public int minTimelineSize = 2;
     public int bandWidth = 3;
     private int highestAttackThisInterval = 0;
+    public static bool batDiedPreviously = false;
 
 
     void Start()
@@ -125,6 +126,7 @@ public class BatEnemyAI : Agent, IRewindable
             currentTimeline.Enqueue(state);
             sequenceSimilarity = CalculateDTWSimilarity();
             Debug.Log("Timeline similarity: " + sequenceSimilarity);
+            highestAttackThisInterval = 0;
             recordTimer = 0f;
         }
 
@@ -202,6 +204,7 @@ public class BatEnemyAI : Agent, IRewindable
 
     ForesightTactics DetermineForesightAction()
     {
+        if (playerCombat.isAttacking || playerSpells.isCasting || batDiedPreviously) return ForesightTactics.Dodge;
         int nextIndex = currentTimeline.Count; 
         var previousArray = previousTimeline.ToArray();
         // Look ahead into the future
@@ -584,6 +587,7 @@ private void HandleDeath()
         Debug.Log("Bat death triggered");
         
         isDead = true;
+        batDiedPreviously = true;
         
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
