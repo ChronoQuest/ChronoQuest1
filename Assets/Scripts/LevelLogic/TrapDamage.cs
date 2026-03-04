@@ -26,7 +26,10 @@ public class TrapDamage : MonoBehaviour
         
         PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth != null)
+        {
             playerHealth.ModifyHealth(-damage);
+            DataCollectionService.Instance?.RecordTrapHit();
+        }
 
         if (knockbackForce > 0f)
         {
