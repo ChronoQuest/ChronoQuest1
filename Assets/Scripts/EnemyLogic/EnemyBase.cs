@@ -9,6 +9,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 {
     [Header("Health")]
     public int health = 3;
+    [HideInInspector] public int startHealth;
 
     [Header("Knockback")]
     public float knockbackResistance = 1f; // higher = less knockback
@@ -34,8 +35,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         flash = GetComponent<HitFlash>();
-
-  
+        startHealth = health;
     }
     protected virtual void OnEnable()
     {
@@ -102,6 +102,16 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         // Hide the sprite instead of Destroying (so it can be rewound)
         if (sprite != null) sprite.enabled = false;
     }
+    // ================= REVIVE =================
+    public virtual void Revive()
+    {
+        wasDead = false;
+        health = startHealth;
+        if (sprite != null) sprite.enabled = true;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = true;
+    }
+
     // ================= REWIND =================
     public virtual void OnStartRewind()
     {

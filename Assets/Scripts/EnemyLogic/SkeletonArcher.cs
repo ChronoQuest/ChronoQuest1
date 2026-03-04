@@ -159,6 +159,14 @@ public class SkeletonArcher : EnemyBase
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
+    // ================= REVIVE =================
+
+    public override void Revive()
+    {
+        base.Revive();
+        if (animator != null) animator.SetTrigger("Revive");
+    }
+
     // ================= DEATH =================
 
     public override void Die()

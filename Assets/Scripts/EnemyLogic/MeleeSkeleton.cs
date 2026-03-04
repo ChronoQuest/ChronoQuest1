@@ -133,6 +133,18 @@ public class MeleeSkeleton : EnemyBase
         StartCoroutine(base.DeathRoutine());
     }
 
+    // ================= REVIVE =================
+
+    public override void Revive()
+    {
+        base.Revive();
+        isAttacking = false;
+        isHitStunned = false;
+        rb.gravityScale = 1f; // Die() sets this to 0
+        spriteRenderer.enabled = true;
+        animator?.SetTrigger("Revive");
+    }
+
     // ================= REWIND =================
 
     public override void OnStartRewind()
