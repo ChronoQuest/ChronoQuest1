@@ -29,6 +29,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private float recoilTimer;
     private float castFailsafeTimer;
     private const float MAX_CAST_TIME = 1.0f;
+    public GameObject latestSpell;
 
     void Awake()
     {
@@ -122,6 +123,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         firePoint.localPosition = new Vector3(newX, firePoint.localPosition.y, firePoint.localPosition.z);
         firePoint.rotation = Quaternion.Euler(0, 0, angle);
         GameObject spell = Instantiate(spellPrefab, firePoint.position, firePoint.rotation);
+        latestSpell = spell;
         spell.GetComponent<SpellProjectile>().Init(dir, sprite.flipX);
     }
     // Helper function for the Platformer script to check if it should ignore inputs
