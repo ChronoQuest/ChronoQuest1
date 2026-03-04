@@ -138,16 +138,10 @@ public class NecromancerEnemy : EnemyBase
 
     public override void Die()
     {
-        wasDead = true;
-        StopAllCoroutines();
         isReviving = false;
-
         animator?.SetTrigger("Die");
-        rb.linearVelocity = Vector2.zero;
-
-        if (col != null) col.enabled = false;
-
-        StartCoroutine(base.DeathRoutine());
+        base.Die();          // handles wasDead, Kinematic, zero velocity, collider, DeathRoutine
+        StopAllCoroutines(); // cancel DeathRoutine so corpse stays visible
     }
 
     // ================= REWIND =================
