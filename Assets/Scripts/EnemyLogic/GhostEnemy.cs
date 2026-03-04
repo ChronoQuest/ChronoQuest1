@@ -17,6 +17,7 @@ public class GhostEnemy : EnemyBase
     [Header("Teleport")]
     public float teleportInterval = 3f;
     public float teleportOffset = 2f;     // how far from player to reappear
+    public float teleportYOffset = 1f;    // raise spawn point above ground surface
     public float phaseOutDuration = 0.5f; // match your PhaseOut clip length
     public float phaseInDuration = 0.5f;  // match your PhaseIn clip length
 
@@ -120,7 +121,9 @@ public class GhostEnemy : EnemyBase
         float side = Random.value > 0.5f ? 1f : -1f;
         Vector2 targetX = (Vector2)player.position + new Vector2(side * teleportOffset, 1f);
         RaycastHit2D hit = Physics2D.Raycast(targetX, Vector2.down, 10f, LayerMask.GetMask("Ground"));
-        Vector2 spawnPos = hit.collider != null ? hit.point : (Vector2)player.position + new Vector2(side * teleportOffset, 0f);
+        Vector2 spawnPos = hit.collider != null
+            ? hit.point + Vector2.up * teleportYOffset
+            : (Vector2)player.position + new Vector2(side * teleportOffset, teleportYOffset);
         transform.position = spawnPos;
 
         // Phase in
