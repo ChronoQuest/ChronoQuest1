@@ -161,10 +161,21 @@ public class SkeletonArcher : EnemyBase
 
     // ================= REVIVE =================
 
+    [Header("Revive")]
+    public float reviveAnimDuration = 0.9f;
+
     public override void Revive()
     {
         base.Revive();
         if (animator != null) animator.SetTrigger("Revive");
+        StartCoroutine(ReviveStunRoutine());
+    }
+
+    IEnumerator ReviveStunRoutine()
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(reviveAnimDuration);
+        isStunned = false;
     }
 
     // ================= DEATH =================

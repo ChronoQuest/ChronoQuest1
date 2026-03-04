@@ -127,6 +127,9 @@ public class MeleeSkeleton : EnemyBase
 
     // ================= REVIVE =================
 
+    [Header("Revive")]
+    public float reviveAnimDuration = 0.9f;
+
     public override void Revive()
     {
         base.Revive();
@@ -135,6 +138,14 @@ public class MeleeSkeleton : EnemyBase
         rb.gravityScale = 1f; // Die() sets this to 0
         spriteRenderer.enabled = true;
         animator?.SetTrigger("Revive");
+        StartCoroutine(ReviveStunRoutine());
+    }
+
+    IEnumerator ReviveStunRoutine()
+    {
+        isHitStunned = true;
+        yield return new WaitForSeconds(reviveAnimDuration);
+        isHitStunned = false;
     }
 
     // ================= REWIND =================

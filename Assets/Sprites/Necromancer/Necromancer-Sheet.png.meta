@@ -358,7 +358,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -424,12 +424,12 @@ TextureImporter:
       name: Necromancer-Sheet_0
       rect:
         serializedVersion: 2
-        x: 38
-        y: 1005
-        width: 32
-        height: 48
+        x: 0
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -446,12 +446,12 @@ TextureImporter:
       name: Necromancer-Sheet_1
       rect:
         serializedVersion: 2
-        x: 148
-        y: 1005
-        width: 31
-        height: 48
+        x: 110
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -468,12 +468,12 @@ TextureImporter:
       name: Necromancer-Sheet_2
       rect:
         serializedVersion: 2
-        x: 258
-        y: 1005
-        width: 31
-        height: 48
+        x: 220
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -490,12 +490,12 @@ TextureImporter:
       name: Necromancer-Sheet_3
       rect:
         serializedVersion: 2
-        x: 368
-        y: 1005
-        width: 30
-        height: 48
+        x: 330
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -512,12 +512,12 @@ TextureImporter:
       name: Necromancer-Sheet_4
       rect:
         serializedVersion: 2
-        x: 478
-        y: 1005
-        width: 30
-        height: 48
+        x: 440
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -534,12 +534,12 @@ TextureImporter:
       name: Necromancer-Sheet_5
       rect:
         serializedVersion: 2
-        x: 588
-        y: 1005
-        width: 31
-        height: 48
+        x: 550
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -556,12 +556,12 @@ TextureImporter:
       name: Necromancer-Sheet_6
       rect:
         serializedVersion: 2
-        x: 698
-        y: 1005
-        width: 31
-        height: 48
+        x: 660
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -578,12 +578,12 @@ TextureImporter:
       name: Necromancer-Sheet_7
       rect:
         serializedVersion: 2
-        x: 808
-        y: 1005
-        width: 32
-        height: 48
+        x: 770
+        y: 990
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -600,12 +600,12 @@ TextureImporter:
       name: Necromancer-Sheet_8
       rect:
         serializedVersion: 2
-        x: 44
-        y: 915
-        width: 24
-        height: 50
+        x: 0
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -622,12 +622,12 @@ TextureImporter:
       name: Necromancer-Sheet_9
       rect:
         serializedVersion: 2
-        x: 157
-        y: 915
-        width: 20
-        height: 50
+        x: 110
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -644,12 +644,12 @@ TextureImporter:
       name: Necromancer-Sheet_10
       rect:
         serializedVersion: 2
-        x: 268
-        y: 915
-        width: 18
-        height: 50
+        x: 220
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -666,12 +666,12 @@ TextureImporter:
       name: Necromancer-Sheet_11
       rect:
         serializedVersion: 2
-        x: 378
-        y: 915
-        width: 17
-        height: 48
+        x: 330
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -688,12 +688,12 @@ TextureImporter:
       name: Necromancer-Sheet_12
       rect:
         serializedVersion: 2
-        x: 488
-        y: 915
-        width: 16
-        height: 48
+        x: 440
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -710,12 +710,12 @@ TextureImporter:
       name: Necromancer-Sheet_13
       rect:
         serializedVersion: 2
-        x: 595
-        y: 915
-        width: 20
-        height: 48
+        x: 550
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -732,12 +732,12 @@ TextureImporter:
       name: Necromancer-Sheet_14
       rect:
         serializedVersion: 2
-        x: 702
-        y: 915
-        width: 24
-        height: 48
+        x: 660
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -754,12 +754,12 @@ TextureImporter:
       name: Necromancer-Sheet_15
       rect:
         serializedVersion: 2
-        x: 812
-        y: 915
-        width: 25
-        height: 49
+        x: 770
+        y: 900
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -776,12 +776,12 @@ TextureImporter:
       name: Necromancer-Sheet_16
       rect:
         serializedVersion: 2
-        x: 39
-        y: 825
-        width: 34
-        height: 46
+        x: 0
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -798,12 +798,12 @@ TextureImporter:
       name: Necromancer-Sheet_17
       rect:
         serializedVersion: 2
-        x: 149
-        y: 825
-        width: 33
-        height: 45
+        x: 110
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -820,12 +820,12 @@ TextureImporter:
       name: Necromancer-Sheet_18
       rect:
         serializedVersion: 2
-        x: 259
-        y: 825
-        width: 32
-        height: 44
+        x: 220
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -842,12 +842,12 @@ TextureImporter:
       name: Necromancer-Sheet_19
       rect:
         serializedVersion: 2
-        x: 369
-        y: 825
-        width: 31
-        height: 45
+        x: 330
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -864,12 +864,12 @@ TextureImporter:
       name: Necromancer-Sheet_20
       rect:
         serializedVersion: 2
-        x: 479
-        y: 825
-        width: 30
-        height: 46
+        x: 440
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -886,12 +886,12 @@ TextureImporter:
       name: Necromancer-Sheet_21
       rect:
         serializedVersion: 2
-        x: 589
-        y: 825
-        width: 31
-        height: 45
+        x: 550
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -908,12 +908,12 @@ TextureImporter:
       name: Necromancer-Sheet_22
       rect:
         serializedVersion: 2
-        x: 699
-        y: 825
-        width: 32
-        height: 44
+        x: 660
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -930,12 +930,12 @@ TextureImporter:
       name: Necromancer-Sheet_23
       rect:
         serializedVersion: 2
-        x: 809
-        y: 825
-        width: 33
-        height: 45
+        x: 770
+        y: 810
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -952,12 +952,12 @@ TextureImporter:
       name: Necromancer-Sheet_24
       rect:
         serializedVersion: 2
-        x: 37
-        y: 735
-        width: 33
-        height: 46
+        x: 0
+        y: 720
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -974,12 +974,12 @@ TextureImporter:
       name: Necromancer-Sheet_25
       rect:
         serializedVersion: 2
-        x: 147
-        y: 735
-        width: 35
-        height: 47
+        x: 110
+        y: 720
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -996,12 +996,12 @@ TextureImporter:
       name: Necromancer-Sheet_26
       rect:
         serializedVersion: 2
-        x: 250
-        y: 735
-        width: 40
-        height: 46
+        x: 220
+        y: 720
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1018,12 +1018,12 @@ TextureImporter:
       name: Necromancer-Sheet_27
       rect:
         serializedVersion: 2
-        x: 364
-        y: 735
-        width: 37
-        height: 48
+        x: 330
+        y: 720
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1040,12 +1040,12 @@ TextureImporter:
       name: Necromancer-Sheet_28
       rect:
         serializedVersion: 2
-        x: 37
-        y: 645
-        width: 33
-        height: 46
+        x: 0
+        y: 630
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1062,12 +1062,12 @@ TextureImporter:
       name: Necromancer-Sheet_29
       rect:
         serializedVersion: 2
-        x: 147
-        y: 645
-        width: 35
-        height: 47
+        x: 110
+        y: 630
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1084,12 +1084,12 @@ TextureImporter:
       name: Necromancer-Sheet_30
       rect:
         serializedVersion: 2
-        x: 250
-        y: 645
-        width: 40
-        height: 46
+        x: 220
+        y: 630
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1106,12 +1106,12 @@ TextureImporter:
       name: Necromancer-Sheet_31
       rect:
         serializedVersion: 2
-        x: 364
-        y: 645
-        width: 37
-        height: 48
+        x: 330
+        y: 630
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1128,12 +1128,12 @@ TextureImporter:
       name: Necromancer-Sheet_32
       rect:
         serializedVersion: 2
-        x: 37
-        y: 555
-        width: 33
-        height: 46
+        x: 0
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1150,12 +1150,12 @@ TextureImporter:
       name: Necromancer-Sheet_33
       rect:
         serializedVersion: 2
-        x: 147
-        y: 555
-        width: 35
-        height: 47
+        x: 110
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1172,12 +1172,12 @@ TextureImporter:
       name: Necromancer-Sheet_34
       rect:
         serializedVersion: 2
-        x: 250
-        y: 555
-        width: 40
-        height: 46
+        x: 220
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1194,12 +1194,12 @@ TextureImporter:
       name: Necromancer-Sheet_35
       rect:
         serializedVersion: 2
-        x: 356
-        y: 555
-        width: 45
-        height: 46
+        x: 330
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1216,12 +1216,12 @@ TextureImporter:
       name: Necromancer-Sheet_36
       rect:
         serializedVersion: 2
-        x: 466
-        y: 555
-        width: 45
-        height: 43
+        x: 440
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1238,12 +1238,12 @@ TextureImporter:
       name: Necromancer-Sheet_37
       rect:
         serializedVersion: 2
-        x: 575
-        y: 555
-        width: 53
-        height: 36
+        x: 550
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1260,12 +1260,12 @@ TextureImporter:
       name: Necromancer-Sheet_38
       rect:
         serializedVersion: 2
-        x: 685
-        y: 555
-        width: 54
-        height: 33
+        x: 660
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1282,12 +1282,12 @@ TextureImporter:
       name: Necromancer-Sheet_39
       rect:
         serializedVersion: 2
-        x: 795
-        y: 555
-        width: 59
-        height: 26
+        x: 770
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1304,12 +1304,12 @@ TextureImporter:
       name: Necromancer-Sheet_40
       rect:
         serializedVersion: 2
-        x: 905
-        y: 555
-        width: 69
-        height: 12
+        x: 880
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1326,12 +1326,12 @@ TextureImporter:
       name: Necromancer-Sheet_41
       rect:
         serializedVersion: 2
-        x: 1015
-        y: 555
-        width: 69
-        height: 11
+        x: 990
+        y: 540
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1348,12 +1348,12 @@ TextureImporter:
       name: Necromancer-Sheet_42
       rect:
         serializedVersion: 2
-        x: 37
-        y: 465
-        width: 33
-        height: 46
+        x: 0
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1370,12 +1370,12 @@ TextureImporter:
       name: Necromancer-Sheet_43
       rect:
         serializedVersion: 2
-        x: 147
-        y: 465
-        width: 35
-        height: 47
+        x: 110
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1392,12 +1392,12 @@ TextureImporter:
       name: Necromancer-Sheet_44
       rect:
         serializedVersion: 2
-        x: 250
-        y: 465
-        width: 40
-        height: 46
+        x: 220
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1414,12 +1414,12 @@ TextureImporter:
       name: Necromancer-Sheet_45
       rect:
         serializedVersion: 2
-        x: 356
-        y: 465
-        width: 45
-        height: 46
+        x: 330
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1436,12 +1436,12 @@ TextureImporter:
       name: Necromancer-Sheet_46
       rect:
         serializedVersion: 2
-        x: 466
-        y: 465
-        width: 45
-        height: 43
+        x: 440
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1458,12 +1458,12 @@ TextureImporter:
       name: Necromancer-Sheet_47
       rect:
         serializedVersion: 2
-        x: 575
-        y: 465
-        width: 53
-        height: 36
+        x: 550
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1480,12 +1480,12 @@ TextureImporter:
       name: Necromancer-Sheet_48
       rect:
         serializedVersion: 2
-        x: 685
-        y: 465
-        width: 54
-        height: 33
+        x: 660
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1502,12 +1502,12 @@ TextureImporter:
       name: Necromancer-Sheet_49
       rect:
         serializedVersion: 2
-        x: 795
-        y: 465
-        width: 59
-        height: 26
+        x: 770
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1524,12 +1524,12 @@ TextureImporter:
       name: Necromancer-Sheet_50
       rect:
         serializedVersion: 2
-        x: 905
-        y: 465
-        width: 69
-        height: 12
+        x: 880
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1546,12 +1546,12 @@ TextureImporter:
       name: Necromancer-Sheet_51
       rect:
         serializedVersion: 2
-        x: 1015
-        y: 465
-        width: 69
-        height: 11
+        x: 990
+        y: 450
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1568,12 +1568,12 @@ TextureImporter:
       name: Necromancer-Sheet_52
       rect:
         serializedVersion: 2
-        x: 38
-        y: 375
-        width: 33
-        height: 49
+        x: 0
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1590,12 +1590,12 @@ TextureImporter:
       name: Necromancer-Sheet_53
       rect:
         serializedVersion: 2
-        x: 150
-        y: 375
-        width: 33
-        height: 55
+        x: 110
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1612,12 +1612,12 @@ TextureImporter:
       name: Necromancer-Sheet_54
       rect:
         serializedVersion: 2
-        x: 265
-        y: 375
-        width: 25
-        height: 62
+        x: 220
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1634,12 +1634,12 @@ TextureImporter:
       name: Necromancer-Sheet_55
       rect:
         serializedVersion: 2
-        x: 376
-        y: 375
-        width: 23
-        height: 63
+        x: 330
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1656,12 +1656,12 @@ TextureImporter:
       name: Necromancer-Sheet_56
       rect:
         serializedVersion: 2
-        x: 486
-        y: 375
-        width: 25
-        height: 63
+        x: 440
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1678,12 +1678,12 @@ TextureImporter:
       name: Necromancer-Sheet_57
       rect:
         serializedVersion: 2
-        x: 596
-        y: 375
-        width: 25
-        height: 63
+        x: 550
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1700,12 +1700,12 @@ TextureImporter:
       name: Necromancer-Sheet_58
       rect:
         serializedVersion: 2
-        x: 708
-        y: 375
-        width: 33
-        height: 56
+        x: 660
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1722,12 +1722,12 @@ TextureImporter:
       name: Necromancer-Sheet_59
       rect:
         serializedVersion: 2
-        x: 816
-        y: 375
-        width: 40
-        height: 51
+        x: 770
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1744,12 +1744,12 @@ TextureImporter:
       name: Necromancer-Sheet_60
       rect:
         serializedVersion: 2
-        x: 926
-        y: 375
-        width: 40
-        height: 51
+        x: 880
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1766,12 +1766,12 @@ TextureImporter:
       name: Necromancer-Sheet_61
       rect:
         serializedVersion: 2
-        x: 1036
-        y: 375
-        width: 40
-        height: 50
+        x: 990
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1788,12 +1788,12 @@ TextureImporter:
       name: Necromancer-Sheet_62
       rect:
         serializedVersion: 2
-        x: 1146
-        y: 375
-        width: 41
-        height: 50
+        x: 1100
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1810,12 +1810,12 @@ TextureImporter:
       name: Necromancer-Sheet_63
       rect:
         serializedVersion: 2
-        x: 1256
-        y: 375
-        width: 37
-        height: 51
+        x: 1210
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1832,12 +1832,12 @@ TextureImporter:
       name: Necromancer-Sheet_64
       rect:
         serializedVersion: 2
-        x: 1364
-        y: 375
-        width: 31
-        height: 49
+        x: 1320
+        y: 360
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1854,12 +1854,12 @@ TextureImporter:
       name: Necromancer-Sheet_65
       rect:
         serializedVersion: 2
-        x: 147
-        y: 285
-        width: 36
-        height: 58
+        x: 0
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1876,12 +1876,12 @@ TextureImporter:
       name: Necromancer-Sheet_66
       rect:
         serializedVersion: 2
-        x: 258
-        y: 285
-        width: 35
-        height: 63
+        x: 110
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1898,12 +1898,12 @@ TextureImporter:
       name: Necromancer-Sheet_67
       rect:
         serializedVersion: 2
-        x: 378
-        y: 285
-        width: 21
-        height: 70
+        x: 220
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1920,12 +1920,12 @@ TextureImporter:
       name: Necromancer-Sheet_68
       rect:
         serializedVersion: 2
-        x: 488
-        y: 285
-        width: 23
-        height: 69
+        x: 330
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1942,12 +1942,12 @@ TextureImporter:
       name: Necromancer-Sheet_69
       rect:
         serializedVersion: 2
-        x: 598
-        y: 285
-        width: 23
-        height: 69
+        x: 440
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1964,12 +1964,12 @@ TextureImporter:
       name: Necromancer-Sheet_70
       rect:
         serializedVersion: 2
-        x: 708
-        y: 285
-        width: 20
-        height: 69
+        x: 550
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1986,12 +1986,12 @@ TextureImporter:
       name: Necromancer-Sheet_71
       rect:
         serializedVersion: 2
-        x: 818
-        y: 285
-        width: 27
-        height: 59
+        x: 660
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2008,12 +2008,12 @@ TextureImporter:
       name: Necromancer-Sheet_72
       rect:
         serializedVersion: 2
-        x: 1035
-        y: 285
-        width: 40
-        height: 52
+        x: 770
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2030,12 +2030,12 @@ TextureImporter:
       name: Necromancer-Sheet_73
       rect:
         serializedVersion: 2
-        x: 1041
-        y: 331
-        width: 9
-        height: 10
+        x: 880
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2052,12 +2052,12 @@ TextureImporter:
       name: Necromancer-Sheet_74
       rect:
         serializedVersion: 2
-        x: 1065
-        y: 328
-        width: 7
-        height: 10
+        x: 990
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2074,12 +2074,12 @@ TextureImporter:
       name: Necromancer-Sheet_75
       rect:
         serializedVersion: 2
-        x: 1129
-        y: 285
-        width: 64
-        height: 54
+        x: 1100
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2096,12 +2096,12 @@ TextureImporter:
       name: Necromancer-Sheet_76
       rect:
         serializedVersion: 2
-        x: 1152
-        y: 336
-        width: 8
-        height: 6
+        x: 1210
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2118,12 +2118,12 @@ TextureImporter:
       name: Necromancer-Sheet_77
       rect:
         serializedVersion: 2
-        x: 1234
-        y: 285
-        width: 69
-        height: 58
+        x: 1320
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2140,12 +2140,12 @@ TextureImporter:
       name: Necromancer-Sheet_78
       rect:
         serializedVersion: 2
-        x: 38
-        y: 285
-        width: 33
-        height: 49
+        x: 1430
+        y: 270
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2162,12 +2162,12 @@ TextureImporter:
       name: Necromancer-Sheet_79
       rect:
         serializedVersion: 2
-        x: 911
-        y: 285
-        width: 53
-        height: 50
+        x: 0
+        y: 180
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2184,12 +2184,12 @@ TextureImporter:
       name: Necromancer-Sheet_80
       rect:
         serializedVersion: 2
-        x: 1019
-        y: 311
-        width: 6
-        height: 14
+        x: 110
+        y: 180
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2206,12 +2206,12 @@ TextureImporter:
       name: Necromancer-Sheet_81
       rect:
         serializedVersion: 2
-        x: 1031
-        y: 316
-        width: 10
-        height: 13
+        x: 220
+        y: 180
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2228,12 +2228,12 @@ TextureImporter:
       name: Necromancer-Sheet_82
       rect:
         serializedVersion: 2
-        x: 1066
-        y: 306
-        width: 9
-        height: 11
+        x: 0
+        y: 90
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2250,12 +2250,12 @@ TextureImporter:
       name: Necromancer-Sheet_83
       rect:
         serializedVersion: 2
-        x: 1070
-        y: 316
-        width: 6
-        height: 8
+        x: 110
+        y: 90
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2272,12 +2272,12 @@ TextureImporter:
       name: Necromancer-Sheet_84
       rect:
         serializedVersion: 2
-        x: 1179
-        y: 310
-        width: 6
-        height: 6
+        x: 220
+        y: 90
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2294,12 +2294,12 @@ TextureImporter:
       name: Necromancer-Sheet_85
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 285
-        width: 27
-        height: 48
+        x: 0
+        y: 0
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2316,12 +2316,12 @@ TextureImporter:
       name: Necromancer-Sheet_86
       rect:
         serializedVersion: 2
-        x: 1474
-        y: 285
-        width: 31
-        height: 49
+        x: 110
+        y: 0
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2338,12 +2338,12 @@ TextureImporter:
       name: Necromancer-Sheet_87
       rect:
         serializedVersion: 2
-        x: 1029
-        y: 308
-        width: 11
-        height: 7
+        x: 220
+        y: 0
+        width: 110
+        height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2356,451 +2356,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_88
-      rect:
-        serializedVersion: 2
-        x: 1074
-        y: 302
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dc20a066d8c677030800000000000000
-      internalID: 3492379390607229645
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_89
-      rect:
-        serializedVersion: 2
-        x: 1249
-        y: 302
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f0426322f3d8c18e0800000000000000
-      internalID: -1721345655265942513
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_90
-      rect:
-        serializedVersion: 2
-        x: 953
-        y: 285
-        width: 19
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: acd42e28c6213f3f0800000000000000
-      internalID: -868330045890736694
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_91
-      rect:
-        serializedVersion: 2
-        x: 1029
-        y: 300
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 03536a5ded809c8d0800000000000000
-      internalID: -2825717538038074064
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_92
-      rect:
-        serializedVersion: 2
-        x: 1062
-        y: 298
-        width: 8
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3abd88b970717b850800000000000000
-      internalID: 6392603517517355939
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_93
-      rect:
-        serializedVersion: 2
-        x: 1074
-        y: 293
-        width: 7
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 72400410cf7817c60800000000000000
-      internalID: 7814176344887002151
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_94
-      rect:
-        serializedVersion: 2
-        x: 1139
-        y: 301
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b87fac0785397e2d0800000000000000
-      internalID: -3249466598065768565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_95
-      rect:
-        serializedVersion: 2
-        x: 1014
-        y: 292
-        width: 12
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e530132e829de0190800000000000000
-      internalID: -7994213518919269538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_96
-      rect:
-        serializedVersion: 2
-        x: 1070
-        y: 293
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 71569c9154f5b3fa0800000000000000
-      internalID: -5819953343056222953
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_97
-      rect:
-        serializedVersion: 2
-        x: 1124
-        y: 293
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e56f279b19d6b9a40800000000000000
-      internalID: 5376011052845823582
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_98
-      rect:
-        serializedVersion: 2
-        x: 1076
-        y: 285
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bc734f62439bf7d10800000000000000
-      internalID: 2125621182785140683
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_99
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 195
-        width: 31
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b48fd49590d635f30800000000000000
-      internalID: 4563110734376859723
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_100
-      rect:
-        serializedVersion: 2
-        x: 149
-        y: 195
-        width: 31
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0507171f45851c230800000000000000
-      internalID: 3657301494252793936
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_101
-      rect:
-        serializedVersion: 2
-        x: 259
-        y: 195
-        width: 31
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 641e436d77ec54e00800000000000000
-      internalID: 1028455104014246214
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_102
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 106
-        width: 31
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 57afa948ed349b970800000000000000
-      internalID: 8771116372267301493
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_103
-      rect:
-        serializedVersion: 2
-        x: 147
-        y: 107
-        width: 31
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 92f526b7c75bb2ec0800000000000000
-      internalID: -3590576731647221975
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_104
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 106
-        width: 34
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e192b95c57d53e0f0800000000000000
-      internalID: -1088923924485691106
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_105
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 14
-        width: 34
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7acee9dbe9ec4b9d0800000000000000
-      internalID: -2759353490489807705
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_106
-      rect:
-        serializedVersion: 2
-        x: 143
-        y: 14
-        width: 34
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 36483018d1a877f60800000000000000
-      internalID: 8032040319761744995
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Necromancer-Sheet_107
-      rect:
-        serializedVersion: 2
-        x: 253
-        y: 14
-        width: 34
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9d906924491139490800000000000000
-      internalID: -7740824006049789479
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 92b860295eabec148bc96729e4175502
     internalID: 0
     vertices: []
     indices: 
@@ -2808,19 +2368,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":14.0,"y":12.0},"gridSpriteSize":{"x":110.0,"y":90.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Necromancer-Sheet_0: 6199202977000859942
       Necromancer-Sheet_1: -4055168136252210396
       Necromancer-Sheet_10: 7181567916343439993
-      Necromancer-Sheet_100: 3657301494252793936
-      Necromancer-Sheet_101: 1028455104014246214
-      Necromancer-Sheet_102: 8771116372267301493
-      Necromancer-Sheet_103: -3590576731647221975
-      Necromancer-Sheet_104: -1088923924485691106
-      Necromancer-Sheet_105: -2759353490489807705
-      Necromancer-Sheet_106: 8032040319761744995
-      Necromancer-Sheet_107: -7740824006049789479
       Necromancer-Sheet_11: -679225461485081464
       Necromancer-Sheet_12: 6847242991337332560
       Necromancer-Sheet_13: -556173133079674612
@@ -2905,19 +2459,7 @@ TextureImporter:
       Necromancer-Sheet_85: 5463074838222941811
       Necromancer-Sheet_86: 4677247628482971914
       Necromancer-Sheet_87: -787982859238950281
-      Necromancer-Sheet_88: 3492379390607229645
-      Necromancer-Sheet_89: -1721345655265942513
       Necromancer-Sheet_9: 3172417309168603402
-      Necromancer-Sheet_90: -868330045890736694
-      Necromancer-Sheet_91: -2825717538038074064
-      Necromancer-Sheet_92: 6392603517517355939
-      Necromancer-Sheet_93: 7814176344887002151
-      Necromancer-Sheet_94: -3249466598065768565
-      Necromancer-Sheet_95: -7994213518919269538
-      Necromancer-Sheet_96: -5819953343056222953
-      Necromancer-Sheet_97: 5376011052845823582
-      Necromancer-Sheet_98: 2125621182785140683
-      Necromancer-Sheet_99: 4563110734376859723
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

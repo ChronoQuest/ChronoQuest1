@@ -44,12 +44,12 @@ public class NecromancerEnemy : EnemyBase
 
         float dist = Vector2.Distance(transform.position, player.position);
 
-        if (dist > detectionRange)
+        if (CanRevive())
+            currentState = State.Revive;
+        else if (dist > detectionRange)
             currentState = State.Idle;
         else if (dist < safeDistance)
             currentState = State.BackAway;
-        else if (CanRevive())
-            currentState = State.Revive;
         else
             currentState = State.Idle;
 
@@ -114,10 +114,7 @@ public class NecromancerEnemy : EnemyBase
         foreach (var m in minions)
         {
             if (m != null && m.IsDead)
-            {
                 m.Revive();
-                return; // revive one at a time
-            }
         }
     }
 
