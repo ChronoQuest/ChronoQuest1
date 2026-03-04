@@ -127,6 +127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1222602111227640323, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
+    - target: {fileID: 1479446334900793829, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
     - target: {fileID: 2229025780431889811, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
       propertyPath: m_Name
       value: GameOver_Canvas
@@ -211,6 +219,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7110183509388350762, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -971,6 +983,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7596737112677261011, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 1a2bfbc833ac8534cad1c778965f9d77, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
