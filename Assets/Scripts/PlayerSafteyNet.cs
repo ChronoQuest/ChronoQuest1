@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TimeRewind; // Needed to check if player started rewinding
 
 public class PlayerSafetyNet : MonoBehaviour
 {
@@ -10,15 +11,16 @@ public class PlayerSafetyNet : MonoBehaviour
     [Tooltip("The tag you put on your Trap objects.")]
     [SerializeField] private string unsafeTag = "Trap"; 
 
-    [Tooltip("How long you must be on safe ground before it saves (Lower is more responsive)")]
+    [Tooltip("How long you must be on safe ground before it saves")]
     [SerializeField] private float recordInterval = 0.05f; 
 
+    [Header("Respawn Settings")]
+    [Tooltip("Time to wait before teleporting (gives player chance to rewind)")]
+    [SerializeField] private float respawnDelay = 1.0f; // NEW SETTING
+
     [Header("Detection Box")]
-    [Tooltip("Width of the foot check. Should match your player collider width.")]
     [SerializeField] private float boxWidth = 0.5f;
-    [Tooltip("Height of the foot check.")]
     [SerializeField] private float boxHeight = 0.2f;
-    [Tooltip("Offset from the player center to the feet.")]
     [SerializeField] private Vector2 offset = new Vector2(0f, -0.6f);
 
     private Vector3 _lastSafePosition;
@@ -28,6 +30,7 @@ public class PlayerSafetyNet : MonoBehaviour
     private Rigidbody2D _rb;
     private PlayerHealth _health;
     private bool _isRespawning;
+    private Coroutine _respawnRoutine; // Store reference to cancel it
 
     private void Awake()
     {
@@ -36,18 +39,12 @@ public class PlayerSafetyNet : MonoBehaviour
         _lastSafePosition = transform.position;
     }
 
-    private void Update()
-    {
-        if (_health.IsDead || _isRespawning) return;
-
-        // Visual debug to help you adjust the box in the editor
-        // (Only works if Gizmos are enabled)
-    }
-
     private void FixedUpdate()
     {
-        // We use FixedUpdate for physics checks to be more consistent
         if (_health.IsDead || _isRespawning) return;
+        
+        // If we are currently rewinding, do not update safe position
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 
         if (IsCurrentlySafe())
         {
@@ -55,15 +52,12 @@ public class PlayerSafetyNet : MonoBehaviour
             
             if (_safeTimer >= recordInterval)
             {
-                // Save the position slightly above the ground to prevent getting stuck in floor
                 _lastSafePosition = transform.position + Vector3.up * 0.1f;
-                // Don't reset timer to 0, just cap it, so we stay "safe" continuously
                 _safeTimer = recordInterval; 
             }
         }
         else
         {
-            // We are in the air or on a trap -> Reset the confidence timer
             _safeTimer = 0f;
         }
     }
@@ -73,60 +67,83 @@ public class PlayerSafetyNet : MonoBehaviour
         Vector2 center = (Vector2)transform.position + offset;
         Vector2 size = new Vector2(boxWidth, boxHeight);
 
-        // 1. Get ALL colliders under the feet, not just the first one
         Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f, groundLayer);
-
         bool foundSolidGround = false;
 
         foreach (Collider2D hit in hits)
         {
-            // Ignore our own collider (if the player is on the Ground layer)
             if (hit.gameObject == gameObject) continue;
-
-            // 2. IMMEDIATE FAIL: If ANY object under us is a trap, we are unsafe.
-            if (hit.CompareTag(unsafeTag))
-            {
-                return false; 
-            }
-
-            // 3. If it's not a trigger (it's solid), we found potential ground
-            if (!hit.isTrigger)
-            {
-                foundSolidGround = true;
-            }
+            if (hit.CompareTag(unsafeTag)) return false; 
+            if (!hit.isTrigger) foundSolidGround = true;
         }
 
-        // We are safe ONLY if we found solid ground AND didn't find any traps
         return foundSolidGround;
     }
 
     public void RespawnAtSafety()
     {
-        if (_isRespawning) return;
-        StartCoroutine(RespawnRoutine());
+        if (_isRespawning || _health.IsDead) return;
+        
+        // Start the delayed respawn
+        _respawnRoutine = StartCoroutine(RespawnRoutine());
+    }
+
+    // Call this if the player presses Rewind manually to cancel the pending respawn
+    public void CancelRespawn()
+    {
+        if (_isRespawning && _respawnRoutine != null)
+        {
+            StopCoroutine(_respawnRoutine);
+            
+            // Re-enable physics if we disabled them
+            if (_rb != null) 
+            {
+                _rb.simulated = true;
+                _rb.linearVelocity = Vector2.zero;
+            }
+            
+            _isRespawning = false;
+        }
     }
 
     private IEnumerator RespawnRoutine()
     {
         _isRespawning = true;
 
-        // Optional: Stop velocity
+        // 1. FREEZE PLAYER (Optional: Keep them in the spikes for a moment)
         if (_rb != null) 
         {
             _rb.linearVelocity = Vector2.zero;
-            _rb.simulated = false; // Prevent physics fighting the teleport
+            _rb.simulated = false; // Freezes them in place
         }
 
-        // Teleport
+        // 2. WAIT FOR DELAY (Grace Period)
+        float timer = 0f;
+        while (timer < respawnDelay)
+        {
+            timer += Time.deltaTime;
+
+            // CHECK: Did the player start rewinding during this delay?
+            if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
+            {
+                // Player saved themselves! Cancel everything.
+                if (_rb != null) _rb.simulated = true;
+                _isRespawning = false;
+                yield break; // Exit the coroutine immediately
+            }
+
+            yield return null;
+        }
+
+        // 3. TELEPORT (If they didn't rewind)
         transform.position = _lastSafePosition;
 
-        yield return new WaitForSeconds(0.1f); // Brief pause
+        yield return new WaitForSeconds(0.1f); // Tiny pause to stabilize landing
 
         if (_rb != null) _rb.simulated = true;
         _isRespawning = false;
     }
 
-    // DRAW THE BOX IN THE EDITOR SO YOU CAN SEE IT
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
