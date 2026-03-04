@@ -36,6 +36,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         sprite = GetComponent<SpriteRenderer>();
         flash = GetComponent<HitFlash>();
         startHealth = health;
+        originalBodyType = rb.bodyType; // captured once — represents alive body type
     }
     protected virtual void OnEnable()
     {
@@ -86,10 +87,10 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void Die()
     {
         wasDead = true;
-        //if (sprite != null) sprite.enabled = false;
+        rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place — prevents falling through floor
+        rb.linearVelocity = Vector2.zero;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
-        rb.linearVelocity = Vector2.zero;
         OnDeath?.Invoke();
         StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us
@@ -107,6 +108,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     {
         wasDead = false;
         health = startHealth;
+        rb.bodyType = originalBodyType;
         if (sprite != null) sprite.enabled = true;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
@@ -116,7 +118,6 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void OnStartRewind()
     {
         isRewinding = true;
-        originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
     }
@@ -124,7 +125,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void OnStopRewind()
     {
         isRewinding = false;
-        rb.bodyType = originalBodyType;
+        // Restore alive body type if living, keep frozen if still dead
+        rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
 
         // If rewind stopped during a death animation, restart the cleanup coroutine
         // so the sprite gets hidden (StopAllCoroutines in OnStartRewind killed it)
@@ -160,6 +162,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         if (state.Health > 0 && wasDead)
         {
             wasDead = false;
+            rb.bodyType = originalBodyType;
             if (sprite != null) sprite.enabled = true;
             Collider2D col = GetComponent<Collider2D>();
             if (col != null) col.enabled = true;
