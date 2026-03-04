@@ -119,18 +119,10 @@ public class MeleeSkeleton : EnemyBase
 
     public override void Die()
     {
-        wasDead = true;
-        StopAllCoroutines();
         isAttacking = false;
-
-        animator.SetTrigger("Die");
-        rb.linearVelocity = Vector2.zero;
-        rb.gravityScale = 0f;
-
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
-
-        StartCoroutine(base.DeathRoutine());
+        animator?.SetTrigger("Die");
+        base.Die();          // handles wasDead, Kinematic, zero velocity, collider, DeathRoutine
+        StopAllCoroutines(); // cancel DeathRoutine so bones stay visible (same as SkeletonArcher)
     }
 
     // ================= REVIVE =================
