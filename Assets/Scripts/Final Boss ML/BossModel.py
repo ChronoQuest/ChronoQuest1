@@ -34,30 +34,27 @@ lowest_aic = np.inf
 bic = []
 aic = []
 
-n_components_range = range(1,7)
 cv_types = ["spherical", "tied", "diag", "full"]
 
 for cv_type in cv_types:
-    for n_components in n_components_range:
-        gmm = GaussianMixture (
-            n_components=n_components,
-            covariance_type=cv_type,
-            random_state=42,
-            n_init=10
-        )
+    gmm = GaussianMixture (
+        n_components=3,
+        covariance_type=cv_type,
+        random_state=42,
+        n_init=10
+    )
 
-        gmm.fit(X_scaled)
-        bic.append(gmm.bic(X_scaled))
-        aic.append(gmm.aic(X_scaled))
+    gmm.fit(X_scaled)
+    bic.append(gmm.bic(X_scaled))
+    aic.append(gmm.aic(X_scaled))
 
-        if bic[-1] < lowest_bic:
-            lowest_bic = bic[-1]
-            lowest_aic = aic[-1]
-            best_gmm = gmm
-            best_params = {
-                "n_components": n_components, 
-                "covariance_type": cv_type
-            }
+    if bic[-1] < lowest_bic:
+        lowest_bic = bic[-1]
+        lowest_aic = aic[-1]
+        best_gmm = gmm
+        best_params = {
+            "covariance_type": cv_type
+        }
 
 # printing best model and parameters
 labels = best_gmm.predict(X_scaled)

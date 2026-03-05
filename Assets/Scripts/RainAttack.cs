@@ -8,6 +8,7 @@ public class RainAttack : MonoBehaviour
     public float spawnAreaWidth = 10f;
     public float spawnHeight = 8f;
     public float delayBetweenShots = 0.1f;
+    public PlayerTacticalModel playerTacticalModel; 
 
     // This method will be called by the Animation Event
     public void StartProjectileRain()
@@ -17,6 +18,8 @@ public class RainAttack : MonoBehaviour
 
     private System.Collections.IEnumerator SpawnRain()
     {
+        playerTacticalModel.RecordSpell(); 
+        
         for (int i = 0; i < projectileCount; i++)
         {
             // Calculate a random position above the player

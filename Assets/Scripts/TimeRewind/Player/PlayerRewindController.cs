@@ -27,6 +27,7 @@ namespace TimeRewind
         public event Action OnRewindStopped;
         private Animator animator;
         private SpriteRenderer spriteRenderer;
+        public PlayerTacticalModel playerTacticalModel; 
         
         #region Unity Lifecycle
         
@@ -118,6 +119,8 @@ namespace TimeRewind
         {
             _isRewinding = true;
             DataCollectionService.Instance?.RecordRewindStarted();
+            playerTacticalModel.RecordRewind(); 
+
             OnRewindStarted?.Invoke();
             _originalBodyType = _rb.bodyType;
             _rb.bodyType = RigidbodyType2D.Kinematic;

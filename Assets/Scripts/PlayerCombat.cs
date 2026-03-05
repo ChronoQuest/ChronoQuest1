@@ -32,6 +32,7 @@ public class PlayerCombat : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerPlatformer movement;
     private SpriteRenderer spriteRenderer;
+    public PlayerTacticalModel playerTacticalModel;
 
     void Start(){
         anim = GetComponent<Animator>();
@@ -77,6 +78,8 @@ public class PlayerCombat : MonoBehaviour
     private void PerformMelee()
     {
         DataCollectionService.Instance?.RecordMeleeAttempt();
+        playerTacticalModel.RecordMeleeHit(); 
+
         if (Time.time - lastAttackTime > comboResetTime)
         {
             comboStep = 0;
