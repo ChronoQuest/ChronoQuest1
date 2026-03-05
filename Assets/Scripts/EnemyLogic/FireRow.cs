@@ -11,8 +11,9 @@ public class FireRow : MonoBehaviour, IRewindable
     private bool fullSizeReached = false;
     public Transform fireVisual;
     private float startTime;
-    public float maxGrowSize = 17f;
+    public float maxGrowSize = 18f;
     private float currentGrowSize;
+    public int bossFacingDirection = 1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,7 +32,7 @@ public class FireRow : MonoBehaviour, IRewindable
     void Grow(float scale)
     {
         fireVisual.localScale = new Vector3(scale, 1f, 1f);
-        fireVisual.localPosition = new Vector3((-scale / 2f) + 0.5f, 0f, 0f);
+        fireVisual.localPosition = new Vector3(((-scale / 2f) + 0.5f) * bossFacingDirection, 0f, 0f);
     }
     void Update()
     {

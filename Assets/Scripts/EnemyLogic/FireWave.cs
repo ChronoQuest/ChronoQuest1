@@ -9,7 +9,8 @@ public class FireWave : MonoBehaviour, IRewindable
     private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
     private Vector2 currentVelocity;
-    public float moveSpeed = 2f;
+    public float moveSpeed = 10f;
+    public int bossFacingDirection = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,9 +32,13 @@ public class FireWave : MonoBehaviour, IRewindable
     void FixedUpdate()
     {
         if(_isRewinding) return;
-        currentVelocity = new Vector2(-5f, 0f) * moveSpeed;
+        currentVelocity = new Vector2(-bossFacingDirection, 0f) * moveSpeed;
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
-        if(transform.position.x < -15f) gameObject.SetActive(false);
+        float limit = 15f;
+        if (Mathf.Abs(transform.position.x) > limit)
+        {
+            gameObject.SetActive(false);
+        }
     }
     void OnDestroy()
     {

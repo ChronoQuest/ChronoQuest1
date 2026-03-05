@@ -12,6 +12,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
     private float nextChangeTime;
     private Vector2 currentVelocity;
     private float startTime;
+    public int bossFacingDirection;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,8 +40,11 @@ public class Firecolumns : MonoBehaviour, IRewindable
             else currentVelocity = new Vector2(1f, 0f) * moveSpeed;
             nextChangeTime = Time.time + timeToChange;
         }
-        if (transform.position.x < -9f) currentVelocity = new Vector2(1f, 0f) * moveSpeed;
-        if (transform.position.x > -1f) currentVelocity = new Vector2(-1f, 0f) * moveSpeed;
+        float minX = Mathf.Min(-9f * bossFacingDirection, -0.2f * bossFacingDirection);
+        float maxX = Mathf.Max(-9f * bossFacingDirection, -0.2f * bossFacingDirection);
+
+        if (transform.position.x < minX) currentVelocity = Vector2.right * moveSpeed;
+        if (transform.position.x > maxX) currentVelocity = Vector2.left * moveSpeed;
         if(Time.time > startTime + 5f) gameObject.SetActive(false);
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }

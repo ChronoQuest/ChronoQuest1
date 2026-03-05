@@ -75,7 +75,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         StartCoroutine(HitStunRoutine(0.25f));
     }
 
-    private System.Collections.IEnumerator HitStunRoutine(float duration)
+    public System.Collections.IEnumerator HitStunRoutine(float duration)
     {
         isStunned = true;
         yield return new WaitForSeconds(duration);

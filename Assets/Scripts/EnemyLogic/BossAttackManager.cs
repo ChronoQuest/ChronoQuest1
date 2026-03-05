@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections;
 using TimeRewind;
-using Unity.Collections;
+
 public class BossAttackManager : MonoBehaviour, IRewindable
 {
     public GameObject fireball;
@@ -25,47 +24,54 @@ public class BossAttackManager : MonoBehaviour, IRewindable
         
     }
 
-    public void spawnFireball()
+    public void spawnFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 2.5f);
+        float randX = Random.Range(-12f, 2.5f) * facingDirection;
         Instantiate(fireball, new Vector3(randX,9f,0f), transform.rotation);
     }
 
-    public void spawnFireColumns()
+    public void spawnFireColumns(int facingDirection)
     {
         if (isRewinding) return;
         float playerX = player.transform.position.x;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         GameObject column = Instantiate(fireColumn, new Vector3(playerX,-1.2f,0f), transform.rotation);
+        Firecolumns fc = column.GetComponent<Firecolumns>();
+        fc.bossFacingDirection = facingDirection;
         if(playerHealth.CurrentHealth < 3){
             // If player health is less than 3, cut the movement speed of fire columns in half
             column.GetComponent<Firecolumns>().moveSpeed = 1.5f;
         }
     }
 
-    public void spawnFireRow()
+    public void spawnFireRow(int facingDirection)
     {
         if (isRewinding) return;
-        Instantiate(fireRow, new Vector3(2.5f, -4.25f, 0f), transform.rotation);
+        GameObject fire_row = Instantiate(fireRow, new Vector3(3.35f * facingDirection, -4.25f, 0f), transform.rotation);
+        FireRow fr = fire_row.GetComponent<FireRow>();
+        fr.bossFacingDirection = facingDirection;
     }
 
-    public void spawnFireWave()
+    public void spawnFireWave(int facingDirection)
     {
         if (isRewinding) return;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        GameObject wave = Instantiate(fireWave, new Vector3(4.5f, -6.5f, 0f), transform.rotation);
+        GameObject wave = Instantiate(fireWave, new Vector3(5.5f * facingDirection, -6.5f, 0f), transform.rotation);
+        wave.transform.localScale = new Vector3(facingDirection, 1f, 1f);
+        FireWave fw = wave.GetComponent<FireWave>();
+        fw.bossFacingDirection = facingDirection;
         if(playerHealth.CurrentHealth < 3)
         {
             // If player health is less than 3, cut the movement speed of fire wave in half
-            wave.GetComponent<FireWave>().moveSpeed = 1f;
+            fw.moveSpeed *= 0.5f;
         }
     }
 
-    public void spawnEnemy()
+    public void spawnEnemy(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 2.5f);
+        float randX = Random.Range(-12f * facingDirection, 3.25f);
         if(Random.value > 0f) {
             GameObject newSlime = Instantiate(slime, new Vector3(randX, 6f, 0f), transform.rotation);
             SlimeEnemy slimeComponent = newSlime.GetComponent<SlimeEnemy>();
@@ -76,17 +82,19 @@ public class BossAttackManager : MonoBehaviour, IRewindable
         }
     }
 
-    public void spawnPlatforms()
+    public void spawnPlatforms(int facingDirection)
     {
         if (isRewinding) return;
-        Instantiate(platforms, new Vector3(0f, -5f, 1f), transform.rotation);
+        Instantiate(platforms, new Vector3(-4f * facingDirection, -5f, 1f), transform.rotation);
     }
     
 
-    public void spawnFloorFire()
+    public void spawnFloorFire(int facingDirection)
     {
         if (isRewinding) return;
-        Instantiate(floorFire, new Vector3(11f, -6.75f, 0f), transform.rotation);
+        GameObject fire_floor = Instantiate(floorFire, new Vector3(12.25f * facingDirection, -6.75f, 0f), transform.rotation);
+        FloorFireRow ff = fire_floor.GetComponent<FloorFireRow>();
+        ff.bossFacingDirection = facingDirection;
     }
 
     public void OnStartRewind()

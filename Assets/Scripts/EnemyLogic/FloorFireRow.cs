@@ -10,11 +10,10 @@ public class FloorFireRow : MonoBehaviour, IRewindable
     private RewindState _lastAppliedState;
     private bool fullSizeReached = false;
     public Transform fireVisual;
-    
-    // CHANGED: Removed startTime, added _age
     private float _age; 
-    public float maxGrowSize = 24.5f;
+    public float maxGrowSize = 25.5f;
     private float currentGrowSize;
+    public int bossFacingDirection = 1;
 
     void Start()
     {
@@ -25,7 +24,6 @@ public class FloorFireRow : MonoBehaviour, IRewindable
         }     
         rb = GetComponent<Rigidbody2D>();
         
-        // Initialize age
         _age = 0f;
         currentGrowSize = 1f;
     }
@@ -33,7 +31,7 @@ public class FloorFireRow : MonoBehaviour, IRewindable
     void Grow(float scale)
     {
         fireVisual.localScale = new Vector3(scale, 1f, 1f);
-        fireVisual.localPosition = new Vector3((-scale / 2f) + 0.5f, 0f, 0f);
+        fireVisual.localPosition = new Vector3(((-scale / 2f) + 0.5f) * bossFacingDirection, 0f, 0f);
     }
 
     void FixedUpdate()

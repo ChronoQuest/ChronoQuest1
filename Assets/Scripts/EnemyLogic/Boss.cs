@@ -14,11 +14,15 @@ public class Boss : EnemyBase, IRewindable
     private float mainTimer;
     private float restrictiveTimer;
     private float offensiveTimer;
+    private float positionalTimer;
     private float lastDamageTime;
+    private int facingDirection = 1;
+    private bool isGrounded;
 
     void Start()
     {
         StartCoroutine(AttackLoop());
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -57,6 +61,16 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
+    IEnumerator WaitPositional(float duration)
+    {
+        positionalTimer = 0f;
+        while (positionalTimer < duration)
+        {
+            if (!_isRewinding) positionalTimer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     IEnumerator AttackLoop()
     {   
         while (health > 0)
@@ -70,12 +84,18 @@ public class Boss : EnemyBase, IRewindable
     IEnumerator FullAttack()
     {
         while (_isRewinding) yield return null;
+        float rand = Random.value;
 
-        Coroutine restrict = StartCoroutine(RestrictiveMove());
-        Coroutine attack = StartCoroutine(OffensiveMove());
-
-        yield return restrict;
-        yield return attack;
+        if(rand > 0.3f){
+            Coroutine restrict = StartCoroutine(RestrictiveMove());
+            Coroutine attack = StartCoroutine(OffensiveMove());
+            yield return restrict;
+            yield return attack;
+        } else
+        {
+            Coroutine position = StartCoroutine(PositionalMove());
+            yield return position;
+        }
     }
 
     IEnumerator RestrictiveMove()
@@ -105,6 +125,12 @@ public class Boss : EnemyBase, IRewindable
             yield return StartCoroutine(FireColumns());
     }
 
+    IEnumerator PositionalMove()
+    {
+        while (_isRewinding) yield return null;
+        yield return StartCoroutine(ChangeSides());
+    }
+
     IEnumerator Fireballs()
     {
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
@@ -120,7 +146,7 @@ public class Boss : EnemyBase, IRewindable
             else
             {
                 if(!_isRewinding) 
-                    attackManager.spawnFireball();
+                    attackManager.spawnFireball(facingDirection);
             }
 
             yield return StartCoroutine(WaitOffensive(0.5f));
@@ -132,7 +158,7 @@ public class Boss : EnemyBase, IRewindable
         while (_isRewinding) yield return null;
 
         if(!_isRewinding) 
-            attackManager.spawnFireColumns();
+            attackManager.spawnFireColumns(facingDirection);
 
         yield return StartCoroutine(WaitOffensive(5f));
     }
@@ -142,7 +168,7 @@ public class Boss : EnemyBase, IRewindable
         while (_isRewinding) yield return null;
 
         if(!_isRewinding) 
-            attackManager.spawnFireRow();
+            attackManager.spawnFireRow(facingDirection);
 
         yield return StartCoroutine(WaitRestrictive(7f));
     }
@@ -163,7 +189,7 @@ public class Boss : EnemyBase, IRewindable
             else
             {
                 if(!_isRewinding) 
-                    attackManager.spawnFireWave();
+                    attackManager.spawnFireWave(facingDirection);
             }
 
             yield return StartCoroutine(WaitRestrictive(1f));
@@ -173,9 +199,9 @@ public class Boss : EnemyBase, IRewindable
     IEnumerator Platforms()
     {
         while (_isRewinding) yield return null;
-        attackManager.spawnPlatforms();
+        attackManager.spawnPlatforms(facingDirection);
         yield return StartCoroutine(WaitRestrictive(0.5f));
-        attackManager.spawnFloorFire();
+        attackManager.spawnFloorFire(facingDirection);
         PlatformController platform = FindFirstObjectByType<PlatformController>();
         while (platform != null && !platform.cycleComplete)
             yield return null;
@@ -186,11 +212,36 @@ public class Boss : EnemyBase, IRewindable
         while (_isRewinding) yield return null;
 
         if(!_isRewinding) 
-            attackManager.spawnEnemy();
+            attackManager.spawnEnemy(facingDirection);
 
         yield return StartCoroutine(WaitRestrictive(7f));
     }
 
+    IEnumerator ChangeSides()
+    {
+        Vector2 start = transform.position;
+        // Arena is centred at (0,0), so get invert x to get other side
+        Vector2 target = new Vector2(-start.x, start.y);
+
+        float jumpHeight = 5f;
+        float gravity = Mathf.Abs(Physics2D.gravity.y * rb.gravityScale);
+        float velocityY = Mathf.Sqrt(2 * gravity * jumpHeight);
+        float timeToPeak = velocityY / gravity;
+        float totalAirTime = timeToPeak * 2;
+        float velocityX = (target.x - start.x) / totalAirTime;
+        rb.linearVelocity = new Vector2(velocityX, velocityY);
+        isGrounded = false;
+
+        facingDirection *= -1;
+        while(!isGrounded)
+        {
+            yield return null;
+        }
+        rb.linearVelocity = Vector2.zero;
+        // Ensure the boss lands at the correct position
+        transform.position = new Vector2(target.x, transform.position.y);
+        yield return StartCoroutine(WaitPositional(2f));
+    }
     void Damage()
     {
         if (Time.time >= lastDamageTime + damageCooldown)
@@ -205,8 +256,20 @@ public class Boss : EnemyBase, IRewindable
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            Damage();
+        if (collision.gameObject.CompareTag("Player")) Damage();
+        if (collision.gameObject.CompareTag("Ground")) isGrounded = true;
+    }
+
+    public override void ApplyKnockback(Vector2 force)
+    {
+        if (isRewinding || wasDead) return;
+
+        // No knockback for boss (for now)
+        //force /= knockbackResistance;
+        //rb.linearVelocity = Vector2.zero;
+        // Vector2 finalForce = new Vector2(force.x, Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)) * knockbackUpMultiplier);
+        // rb.AddForce(finalForce, ForceMode2D.Impulse);
+        StartCoroutine(base.HitStunRoutine(0.25f));
     }
 
     public override void OnStartRewind()

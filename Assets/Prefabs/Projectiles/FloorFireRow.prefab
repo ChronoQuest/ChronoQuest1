@@ -76,7 +76,8 @@ MonoBehaviour:
   damage: 1
   moveSpeed: 3
   fireVisual: {fileID: 8745990569113588900}
-  maxGrowSize: 24.5
+  maxGrowSize: 25.5
+  bossFacingDirection: 1
 --- !u!1 &4920550980553641357
 GameObject:
   m_ObjectHideFlags: 0

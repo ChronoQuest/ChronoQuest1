@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Spell
   - Trap
+  - Trigger
   layers:
   - Default
   - TransparentFX
