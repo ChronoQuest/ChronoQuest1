@@ -126,7 +126,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
             if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(state);
             sequenceSimilarity = CalculateDTWSimilarity();
-            Debug.Log("Timeline similarity: " + sequenceSimilarity);
+            //Debug.Log("Timeline similarity: " + sequenceSimilarity);
             highestAttackThisInterval = 0;
             recordTimer = 0f;
         }
@@ -562,7 +562,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     {
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            Debug.Log("Enemy attacks!");
+            //Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
             animator.SetTrigger("Attack");
 
@@ -585,7 +585,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 private void HandleDeath()
     {
         if (isRewinding) return;
-        Debug.Log("Bat death triggered");
+        //Debug.Log("Bat death triggered");
         
         isDead = true;
         batDiedPreviously = true;

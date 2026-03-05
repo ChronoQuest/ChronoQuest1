@@ -18,11 +18,13 @@ public class Boss : EnemyBase, IRewindable
     private float lastDamageTime;
     private int facingDirection = 1;
     private bool isGrounded;
+    CameraShake cameraShake;
 
     void Start()
     {
         StartCoroutine(AttackLoop());
         rb = GetComponent<Rigidbody2D>();
+        cameraShake = Camera.main.GetComponent<CameraShake>();
     }
 
     void Update()
@@ -86,16 +88,18 @@ public class Boss : EnemyBase, IRewindable
         while (_isRewinding) yield return null;
         float rand = Random.value;
 
-        if(rand > 0.3f){
-            Coroutine restrict = StartCoroutine(RestrictiveMove());
-            Coroutine attack = StartCoroutine(OffensiveMove());
-            yield return restrict;
-            yield return attack;
-        } else
-        {
-            Coroutine position = StartCoroutine(PositionalMove());
-            yield return position;
-        }
+        yield return StartCoroutine(PositionalMove());
+
+        // if(rand > 0.3f){
+        //     Coroutine restrict = StartCoroutine(RestrictiveMove());
+        //     Coroutine attack = StartCoroutine(OffensiveMove());
+        //     yield return restrict;
+        //     yield return attack;
+        // } else
+        // {
+        //     Coroutine position = StartCoroutine(PositionalMove());
+        //     yield return position;
+        // }
     }
 
     IEnumerator RestrictiveMove()
@@ -103,6 +107,8 @@ public class Boss : EnemyBase, IRewindable
         float rand = Random.value;
 
         while (_isRewinding) yield return null;
+
+        yield return StartCoroutine(Enemy());
 
         if(rand > 0.5f)
         {
@@ -119,16 +125,15 @@ public class Boss : EnemyBase, IRewindable
     {
         while (_isRewinding) yield return null;
 
-        if(Random.value > 0.5f)
-            yield return StartCoroutine(Fireballs());
-        else 
-            yield return StartCoroutine(FireColumns());
+        if(Random.value > 0.5f) yield return StartCoroutine(Fireballs());
+        else yield return StartCoroutine(FireColumns());
     }
 
     IEnumerator PositionalMove()
     {
         while (_isRewinding) yield return null;
-        yield return StartCoroutine(ChangeSides());
+        if(Random.value > 1f) yield return StartCoroutine(ChangeSides());
+        else yield return StartCoroutine(GroundPound());
     }
 
     IEnumerator Fireballs()
@@ -220,7 +225,6 @@ public class Boss : EnemyBase, IRewindable
     IEnumerator ChangeSides()
     {
         Vector2 start = transform.position;
-        // Arena is centred at (0,0), so get invert x to get other side
         Vector2 target = new Vector2(-start.x, start.y);
 
         float jumpHeight = 5f;
@@ -229,18 +233,73 @@ public class Boss : EnemyBase, IRewindable
         float timeToPeak = velocityY / gravity;
         float totalAirTime = timeToPeak * 2;
         float velocityX = (target.x - start.x) / totalAirTime;
+        
         rb.linearVelocity = new Vector2(velocityX, velocityY);
         isGrounded = false;
-
         facingDirection *= -1;
-        while(!isGrounded)
+
+        while(!isGrounded || _isRewinding)
         {
             yield return null;
         }
+        
         rb.linearVelocity = Vector2.zero;
-        // Ensure the boss lands at the correct position
         transform.position = new Vector2(target.x, transform.position.y);
-        yield return StartCoroutine(WaitPositional(2f));
+        yield return StartCoroutine(WaitPositional(1f));
+    }
+
+    IEnumerator GroundPound()
+    {
+        Vector2 finalPos = new Vector2(-transform.position.x, transform.position.y);
+
+        float jumpHeight = 7f;
+        float riseDuration = 0.6f;
+        float fallMultiplier = 2f;
+        float fallDuration = riseDuration / fallMultiplier;
+        float totalDuration = riseDuration + fallDuration;
+        float lateralDistance = -4f * facingDirection;
+
+        while (Mathf.Abs(transform.position.x - finalPos.x) > 0.1f)
+        {
+            Vector2 startPos = transform.position;
+            Vector2 peakPos = startPos + new Vector2(lateralDistance, jumpHeight);
+            Vector2 smashTarget = new Vector2(peakPos.x, startPos.y);
+
+            positionalTimer = 0f; 
+
+            while (positionalTimer < totalDuration)
+            {
+                if (!_isRewinding)
+                {
+                    positionalTimer += Time.deltaTime;
+                    
+                    if (positionalTimer <= riseDuration)
+                    {
+                        float progress = positionalTimer / riseDuration;
+                        rb.MovePosition(Vector2.Lerp(startPos, peakPos, progress));
+                    }
+                    else
+                    {
+                        float progress = (positionalTimer - riseDuration) / fallDuration;
+                        rb.MovePosition(Vector2.Lerp(peakPos, smashTarget, progress));
+                    }
+                }
+                yield return null;
+            }
+
+            // Hit the ground
+            rb.MovePosition(smashTarget);
+            isGrounded = true;
+            
+            if (!_isRewinding) cameraShake.Shake(0.25f, 0.2f); 
+            rb.linearVelocity = Vector2.zero;
+
+            yield return StartCoroutine(WaitPositional(0.5f));
+        }
+        
+        facingDirection *= -1;
+        transform.position = finalPos;
+        yield return StartCoroutine(WaitPositional(1f));
     }
     void Damage()
     {
@@ -283,13 +342,14 @@ public class Boss : EnemyBase, IRewindable
         base.OnStopRewind(); 
         _isRewinding = false;
     }
-
     public override RewindState CaptureState()
     {
         var state = base.CaptureState();
         state.SetCustomData("MainTimer", mainTimer);
         state.SetCustomData("RestrictTimer", restrictiveTimer);
         state.SetCustomData("OffenseTimer", offensiveTimer);
+        state.SetCustomData("PositionalTimer", positionalTimer);
+        state.SetCustomData("isGrounded", isGrounded);
         return state;
     }
 
@@ -299,5 +359,7 @@ public class Boss : EnemyBase, IRewindable
         mainTimer = state.GetCustomData<float>("MainTimer", 0f);
         restrictiveTimer = state.GetCustomData<float>("RestrictTimer", 0f);
         offensiveTimer = state.GetCustomData<float>("OffenseTimer", 0f);
+        positionalTimer = state.GetCustomData<float>("PositionalTimer", 0f);
+        isGrounded = state.GetCustomData<bool>("isGrounded", true);
     }
 }

@@ -132,6 +132,7 @@ namespace TimeRewind
                 result.SetCustomData("MainTimer", Mathf.Lerp(a.GetCustomData<float>("MainTimer", 0f), b.GetCustomData<float>("MainTimer", 0f), t));
                 result.SetCustomData("RestrictTimer", Mathf.Lerp(a.GetCustomData<float>("RestrictTimer", 0f), b.GetCustomData<float>("RestrictTimer", 0f), t));
                 result.SetCustomData("OffenseTimer", Mathf.Lerp(a.GetCustomData<float>("OffenseTimer", 0f), b.GetCustomData<float>("OffenseTimer", 0f), t));
+                result.SetCustomData("PositionalTimer", Mathf.Lerp(a.GetCustomData<float>("PositionalTimer", 0f), b.GetCustomData<float>("PositionalTimer", 0f), t));
             }
 
             return result;

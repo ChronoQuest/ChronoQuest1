@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class MeleeSkeleton : EnemyBase
+public class MeleeSkeleton : EnemyBase, IBossSpawnable
 {
     [Header("Stats")]
     public float detectionRange = 6f;
@@ -15,7 +15,7 @@ public class MeleeSkeleton : EnemyBase
     public float hitboxRadius = 0.6f;
     public float hitboxOffset = 0.8f;
 
-    public Transform player;
+    public Transform player {get; set;}
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
