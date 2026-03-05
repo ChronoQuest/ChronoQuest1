@@ -28,6 +28,8 @@ public class PlayerTacticalModel : MonoBehaviour
     private float windowDuration = 5f; 
     private float timer = 0f; 
 
+    public GMMModel gmmModel; 
+
     void Start()
     {
         foreach (TacticType tactic in System.Enum.GetValues(typeof(TacticType)))
@@ -43,6 +45,7 @@ public class PlayerTacticalModel : MonoBehaviour
         if (timer >= windowDuration)
         {
             DetermineTactics();
+            DebugTactics();
             ResetWindow(); 
         }
     }
@@ -50,20 +53,54 @@ public class PlayerTacticalModel : MonoBehaviour
     // calculates player tactic score based on events recorded in the game
     void DetermineTactics()
     {
-        float aggressive = meleeHits;
+        /* float aggressive = meleeHits;
         float evasive = dashCount * 0.6f + jumpCount * 0.4f; 
         float ability = spellCount; 
         float rewindReliance = rewindCount; 
-        float cautious = damageTaken * 0.6f + rewindCount * 0.4f; 
+        float cautious = damageTaken * 0.6f + rewindCount * 0.4f; */ 
+
+        float[] features = BuildFeatureVector();
+        float[] clusterProbs = gmmModel.PredictProba(features); 
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = aggressive; 
-        tacticBeliefs[TacticType.Evasive] = evasive;
-        tacticBeliefs[TacticType.Ability] = ability;
-        tacticBeliefs[TacticType.RewindReliance] = rewindReliance; 
-        tacticBeliefs[TacticType.Cautious] = cautious;
+        tacticBeliefs[TacticType.Aggressive] = clusterProbs[0]; 
+        tacticBeliefs[TacticType.Evasive] = clusterProbs[1];
+        tacticBeliefs[TacticType.Ability] = clusterProbs[2];
+        tacticBeliefs[TacticType.RewindReliance] = clusterProbs[3]; 
+        tacticBeliefs[TacticType.Cautious] = clusterProbs[4];
 
         NormaliseBeliefs(); 
+    }
+
+    float[] BuildFeatureVector()
+    {
+        var data = DataCollectionService.Instance;
+
+        return new float[]
+        {
+            data.DashCount,
+            data.JumpCount,
+            data.WallJumpCount,
+            data.DoubleJumpCount,
+            data.RewindActivationCount,
+            data.RewindDurationSeconds,
+
+            data.MeleeAttacks,
+            data.MeleeHits,
+            data.SpellCasts,
+            data.SpellHits,
+            data.RainAttackUses,
+
+            data.DamageTakenTotal,
+            data.DeathCount,
+
+            data.DoorsEntered,
+            data.TrapHits,
+            data.TutorialStepsCompleted,
+            data.PauseCount,
+
+            data.SessionDurationSeconds
+        };
     }
 
     void NormaliseBeliefs()
@@ -94,6 +131,18 @@ public class PlayerTacticalModel : MonoBehaviour
         rewindCount = 0; 
         damageTaken = 0; 
         timer = 0;
+    }
+
+    void DebugTactics()
+    {
+        string output = "TACTICS: ";
+
+        foreach (var pair in tacticBeliefs)
+        {
+            output += pair.Key + ": " + pair.Value.ToString("F2") + " | "; 
+        }
+
+        Debug.Log(output);
     }
 
     // recording events and incrementing counters
