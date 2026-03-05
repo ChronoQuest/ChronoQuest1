@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TimeRewind;
 
-public class SkeletonArcher : EnemyBase
+public class SkeletonArcher : EnemyBase, IBossSpawnable
 {
     [Header("Detection")]
     public float detectionRange = 8f;
@@ -17,7 +17,7 @@ public class SkeletonArcher : EnemyBase
     public float shootCooldown = 2f;
 
     [Header("References")]
-    public Transform player;
+    public Transform player { get; set; }
     public GameObject arrowPrefab;
 
     [Header("Arrow Pool")]

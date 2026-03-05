@@ -4,7 +4,7 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
 using System.Collections.Generic;
-public class BatEnemyAI : Agent, IRewindable
+public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 {
     private EnemyBase enemy;
     [Header("Mode")]
@@ -16,7 +16,7 @@ public class BatEnemyAI : Agent, IRewindable
     public Transform obstacle;
 
     [Header("References")]
-    public Transform player;
+    public Transform player { get; set; }
     private PlayerCombat playerCombat;
     private PlayerSpellSystem playerSpells;
     [Header("Basic behaviour variables")]
@@ -75,6 +75,7 @@ public class BatEnemyAI : Agent, IRewindable
     public int bandWidth = 3;
     private int highestAttackThisInterval = 0;
     public static bool batDiedPreviously = false;
+
 
 
     void Start()

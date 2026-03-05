@@ -1,5 +1,6 @@
 using UnityEngine;
 using TimeRewind;
+using System.Collections.Generic;
 
 public class BossAttackManager : MonoBehaviour, IRewindable
 {
@@ -7,7 +8,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public GameObject fireColumn;
     public GameObject fireRow;
     public GameObject fireWave;
-    public GameObject slime;
+    public List<GameObject> enemyList;
     public GameObject platforms;
     public GameObject floorFire;
     public Transform player;
@@ -72,14 +73,11 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
         float randX = Random.Range(-12f * facingDirection, 3.25f);
-        if(Random.value > 0f) {
-            GameObject newSlime = Instantiate(slime, new Vector3(randX, 6f, 0f), transform.rotation);
-            SlimeEnemy slimeComponent = newSlime.GetComponent<SlimeEnemy>();
-            if (slimeComponent != null)
-            {
-                slimeComponent.player = player;
-            }
-        }
+        int size = enemyList.Count;
+        GameObject chosenEnemy = enemyList[Random.Range(0, size)];
+        GameObject newEnemy = Instantiate(chosenEnemy, new Vector3(randX, 5f, 0f), transform.rotation);
+        IBossSpawnable enemyComponent = newEnemy.GetComponent<IBossSpawnable>();
+        if (enemyComponent != null) enemyComponent.player = player;
     }
 
     public void spawnPlatforms(int facingDirection)

@@ -8,7 +8,7 @@ using TimeRewind;
 /// 2. Player detection and damage logic.
 /// 3. Integration with the TimeRewind system.
 /// </summary>
-public class SlimeEnemy : EnemyBase
+public class SlimeEnemy : EnemyBase, IBossSpawnable
 {
     [Header("Stats")]
     public float detectionRange = 5f;
@@ -27,7 +27,7 @@ public class SlimeEnemy : EnemyBase
     public int currentFrameIndex; // Shows which animation frame (0-8) is currently active
     public string currentStateLabel;
 
-    public Transform player;
+    public Transform player { get; set; }
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
