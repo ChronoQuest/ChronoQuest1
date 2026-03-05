@@ -1,232 +1,310 @@
 fileFormatVersion: 2
-guid: e67d5bf3261064a4ab552ab688f9788a
+guid: e1b8d62ced372ce4cb6059b18ed28e35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5392066793042786390
-    second: Skeleton_Archer-Sheet_0
+      213: -3828820476789506080
+    second: Skeleton_Warrior-Sheet_0
   - first:
-      213: -1154594342682901094
-    second: Skeleton_Archer-Sheet_1
+      213: -3407714099261928723
+    second: Skeleton_Warrior-Sheet_1
   - first:
-      213: -2747449790181408242
-    second: Skeleton_Archer-Sheet_2
+      213: 9110729424731996572
+    second: Skeleton_Warrior-Sheet_2
   - first:
-      213: 7814465330829251410
-    second: Skeleton_Archer-Sheet_3
+      213: -5997758139635115862
+    second: Skeleton_Warrior-Sheet_3
   - first:
-      213: 4981686585654269849
-    second: Skeleton_Archer-Sheet_4
+      213: 4584584497781072885
+    second: Skeleton_Warrior-Sheet_4
   - first:
-      213: -3630652889387786714
-    second: Skeleton_Archer-Sheet_5
+      213: 5351624043617095465
+    second: Skeleton_Warrior-Sheet_5
   - first:
-      213: -1923024763845921548
-    second: Skeleton_Archer-Sheet_6
+      213: 5638019637627365415
+    second: Skeleton_Warrior-Sheet_6
   - first:
-      213: 3271829635525413198
-    second: Skeleton_Archer-Sheet_7
+      213: -5100863917353453704
+    second: Skeleton_Warrior-Sheet_7
   - first:
-      213: 9111949546175300900
-    second: Skeleton_Archer-Sheet_8
+      213: -6069009701636567001
+    second: Skeleton_Warrior-Sheet_8
   - first:
-      213: 6992459241031140173
-    second: Skeleton_Archer-Sheet_9
+      213: -7172212386086780211
+    second: Skeleton_Warrior-Sheet_9
   - first:
-      213: 806381342007637370
-    second: Skeleton_Archer-Sheet_10
+      213: 2321704070081464267
+    second: Skeleton_Warrior-Sheet_10
   - first:
-      213: -7268371272713158315
-    second: Skeleton_Archer-Sheet_11
+      213: 7372487006611317280
+    second: Skeleton_Warrior-Sheet_11
   - first:
-      213: -6720568464903957302
-    second: Skeleton_Archer-Sheet_12
+      213: -4389977079850698023
+    second: Skeleton_Warrior-Sheet_12
   - first:
-      213: 6380039123415540415
-    second: Skeleton_Archer-Sheet_13
+      213: 6684054012544543093
+    second: Skeleton_Warrior-Sheet_13
   - first:
-      213: 3001850765488316859
-    second: Skeleton_Archer-Sheet_14
+      213: -3733059784953260040
+    second: Skeleton_Warrior-Sheet_14
   - first:
-      213: -2852494668695787094
-    second: Skeleton_Archer-Sheet_15
+      213: 6868177076176839535
+    second: Skeleton_Warrior-Sheet_15
   - first:
-      213: 1218535232199825991
-    second: Skeleton_Archer-Sheet_16
+      213: 2306487458000242925
+    second: Skeleton_Warrior-Sheet_16
   - first:
-      213: 8737574490365439614
-    second: Skeleton_Archer-Sheet_17
+      213: -6396222044953522577
+    second: Skeleton_Warrior-Sheet_17
   - first:
-      213: 2859055028057264249
-    second: Skeleton_Archer-Sheet_18
+      213: 8494541786784653361
+    second: Skeleton_Warrior-Sheet_18
   - first:
-      213: 1134067732274393517
-    second: Skeleton_Archer-Sheet_19
+      213: 5570493291257839976
+    second: Skeleton_Warrior-Sheet_19
   - first:
-      213: -2572606937508938398
-    second: Skeleton_Archer-Sheet_20
+      213: 6941000946644355005
+    second: Skeleton_Warrior-Sheet_20
   - first:
-      213: -8460655121852521666
-    second: Skeleton_Archer-Sheet_21
+      213: 2229347828428457895
+    second: Skeleton_Warrior-Sheet_21
   - first:
-      213: 5039601878274714377
-    second: Skeleton_Archer-Sheet_22
+      213: -6504620962370601389
+    second: Skeleton_Warrior-Sheet_22
   - first:
-      213: 7520009181456992791
-    second: Skeleton_Archer-Sheet_23
+      213: 7140751693236283513
+    second: Skeleton_Warrior-Sheet_23
   - first:
-      213: 7655061972829674820
-    second: Skeleton_Archer-Sheet_24
+      213: 7513448876439589776
+    second: Skeleton_Warrior-Sheet_24
   - first:
-      213: 8592325103686052329
-    second: Skeleton_Archer-Sheet_25
+      213: -3879646865477222442
+    second: Skeleton_Warrior-Sheet_25
   - first:
-      213: -8562142289968681322
-    second: Skeleton_Archer-Sheet_26
+      213: -5048528896861171216
+    second: Skeleton_Warrior-Sheet_26
   - first:
-      213: -676012130864242816
-    second: Skeleton_Archer-Sheet_27
+      213: -5949012973533935293
+    second: Skeleton_Warrior-Sheet_27
   - first:
-      213: -6097435487645019581
-    second: Skeleton_Archer-Sheet_28
+      213: -7980866787232787362
+    second: Skeleton_Warrior-Sheet_28
   - first:
-      213: -3491986581149405510
-    second: Skeleton_Archer-Sheet_29
+      213: 6746486871487542874
+    second: Skeleton_Warrior-Sheet_29
   - first:
-      213: 5060571579566501197
-    second: Skeleton_Archer-Sheet_30
+      213: -7566304522830529697
+    second: Skeleton_Warrior-Sheet_30
   - first:
-      213: 6595866325750896782
-    second: Skeleton_Archer-Sheet_31
+      213: -3007108533385323757
+    second: Skeleton_Warrior-Sheet_31
   - first:
-      213: -3405046081241509376
-    second: Skeleton_Archer-Sheet_32
+      213: 5042002423084735932
+    second: Skeleton_Warrior-Sheet_32
   - first:
-      213: 2229816295807657658
-    second: Skeleton_Archer-Sheet_33
+      213: 8744336510436887853
+    second: Skeleton_Warrior-Sheet_33
   - first:
-      213: -7714493454071490498
-    second: Skeleton_Archer-Sheet_34
+      213: -6164231861814612728
+    second: Skeleton_Warrior-Sheet_34
   - first:
-      213: 7579266554668191862
-    second: Skeleton_Archer-Sheet_35
+      213: 8321978523517417068
+    second: Skeleton_Warrior-Sheet_35
   - first:
-      213: 464187950704188980
-    second: Skeleton_Archer-Sheet_36
+      213: -2047976441770955684
+    second: Skeleton_Warrior-Sheet_36
   - first:
-      213: -3923541765101490441
-    second: Skeleton_Archer-Sheet_37
+      213: -1000622521106681835
+    second: Skeleton_Warrior-Sheet_37
   - first:
-      213: 5113329297096761005
-    second: Skeleton_Archer-Sheet_38
+      213: -7833242208818280079
+    second: Skeleton_Warrior-Sheet_38
   - first:
-      213: 3492514682835654456
-    second: Skeleton_Archer-Sheet_39
+      213: 3064310053950871980
+    second: Skeleton_Warrior-Sheet_39
   - first:
-      213: -3485398818666716111
-    second: Skeleton_Archer-Sheet_40
+      213: 2750976140790799641
+    second: Skeleton_Warrior-Sheet_40
   - first:
-      213: -5153530087871567410
-    second: Skeleton_Archer-Sheet_41
+      213: -6057581412443552621
+    second: Skeleton_Warrior-Sheet_41
   - first:
-      213: -9157094108898489109
-    second: Skeleton_Archer-Sheet_42
+      213: 8836791413401637585
+    second: Skeleton_Warrior-Sheet_42
   - first:
-      213: -2012211830890006052
-    second: Skeleton_Archer-Sheet_43
+      213: 5554722379731309896
+    second: Skeleton_Warrior-Sheet_43
   - first:
-      213: -2512973136747139300
-    second: Skeleton_Archer-Sheet_44
+      213: -105225763622763490
+    second: Skeleton_Warrior-Sheet_44
   - first:
-      213: -9180437552450411219
-    second: Skeleton_Archer-Sheet_45
+      213: -8588625545275625088
+    second: Skeleton_Warrior-Sheet_45
   - first:
-      213: 5341801758743296424
-    second: Skeleton_Archer-Sheet_46
+      213: -5702705970805999750
+    second: Skeleton_Warrior-Sheet_46
   - first:
-      213: 3146122957558651135
-    second: Skeleton_Archer-Sheet_47
+      213: 671084815609938864
+    second: Skeleton_Warrior-Sheet_47
   - first:
-      213: -4734005047180040856
-    second: Skeleton_Archer-Sheet_48
+      213: -3705409553663855063
+    second: Skeleton_Warrior-Sheet_48
   - first:
-      213: 9168494394845920684
-    second: Skeleton_Archer-Sheet_49
+      213: 7028927044964382726
+    second: Skeleton_Warrior-Sheet_49
   - first:
-      213: 8040592704550106136
-    second: Skeleton_Archer-Sheet_50
+      213: -5146033834952003867
+    second: Skeleton_Warrior-Sheet_50
   - first:
-      213: -6924715129646881204
-    second: Skeleton_Archer-Sheet_51
+      213: -2108671507531210375
+    second: Skeleton_Warrior-Sheet_51
   - first:
-      213: 8398370559644049063
-    second: Skeleton_Archer-Sheet_52
+      213: -7047743329265681806
+    second: Skeleton_Warrior-Sheet_52
   - first:
-      213: -4115755810948919700
-    second: Skeleton_Archer-Sheet_53
+      213: -878634987136295066
+    second: Skeleton_Warrior-Sheet_53
   - first:
-      213: 7796745446243434077
-    second: Skeleton_Archer-Sheet_54
+      213: 4831013060271755230
+    second: Skeleton_Warrior-Sheet_54
   - first:
-      213: 4319297842664544817
-    second: Skeleton_Archer-Sheet_55
+      213: -7655924358597185806
+    second: Skeleton_Warrior-Sheet_55
   - first:
-      213: -4750224076129629272
-    second: Skeleton_Archer-Sheet_56
+      213: -2783888251784152255
+    second: Skeleton_Warrior-Sheet_56
   - first:
-      213: -3077860210887834594
-    second: Skeleton_Archer-Sheet_57
+      213: 3245266416423409047
+    second: Skeleton_Warrior-Sheet_57
   - first:
-      213: -2514486272233092993
-    second: Skeleton_Archer-Sheet_58
+      213: 6309118879192772842
+    second: Skeleton_Warrior-Sheet_58
   - first:
-      213: 7178183264697476152
-    second: Skeleton_Archer-Sheet_59
+      213: 5856689563986140808
+    second: Skeleton_Warrior-Sheet_59
   - first:
-      213: 7326937129641578484
-    second: Skeleton_Archer-Sheet_60
+      213: -1832642307490167646
+    second: Skeleton_Warrior-Sheet_60
   - first:
-      213: 6431653040486365386
-    second: Skeleton_Archer-Sheet_61
+      213: 114462698314575130
+    second: Skeleton_Warrior-Sheet_61
   - first:
-      213: 9218727176924677932
-    second: Skeleton_Archer-Sheet_62
+      213: 6390294112350067688
+    second: Skeleton_Warrior-Sheet_62
   - first:
-      213: -6392401802343416927
-    second: Skeleton_Archer-Sheet_63
+      213: -6395402050081377530
+    second: Skeleton_Warrior-Sheet_63
   - first:
-      213: -3612046609941518738
-    second: Skeleton_Archer-Sheet_64
+      213: 3955542978895138442
+    second: Skeleton_Warrior-Sheet_64
   - first:
-      213: 5250241224427479974
-    second: Skeleton_Archer-Sheet_65
+      213: -5865053317022478561
+    second: Skeleton_Warrior-Sheet_65
   - first:
-      213: 478048680693693820
-    second: Skeleton_Archer-Sheet_66
+      213: 2367919956597361490
+    second: Skeleton_Warrior-Sheet_66
   - first:
-      213: 6444450461611899571
-    second: Skeleton_Archer-Sheet_67
+      213: 5352758316452297096
+    second: Skeleton_Warrior-Sheet_67
   - first:
-      213: 6041725838039659307
-    second: Skeleton_Archer-Sheet_68
+      213: -8222226671057846214
+    second: Skeleton_Warrior-Sheet_68
   - first:
-      213: 6219342168259669450
-    second: Skeleton_Archer-Sheet_69
+      213: -4408859725983234500
+    second: Skeleton_Warrior-Sheet_69
   - first:
-      213: -8053052619089119883
-    second: Skeleton_Archer-Sheet_70
+      213: -6285438767679743798
+    second: Skeleton_Warrior-Sheet_70
   - first:
-      213: 7276422263822208567
-    second: Skeleton_Archer-Sheet_71
+      213: 9210507342309393287
+    second: Skeleton_Warrior-Sheet_71
   - first:
-      213: 6737556785076066583
-    second: Skeleton_Archer-Sheet_72
+      213: -6676450982897681777
+    second: Skeleton_Warrior-Sheet_72
   - first:
-      213: 5564186484170915573
-    second: Skeleton_Archer-Sheet_73
+      213: 1033953062816593254
+    second: Skeleton_Warrior-Sheet_73
   - first:
-      213: -5436717242824454501
-    second: Skeleton_Archer-Sheet_74
+      213: -8437959680367883434
+    second: Skeleton_Warrior-Sheet_74
+  - first:
+      213: -6117903325218892926
+    second: Skeleton_Warrior-Sheet_75
+  - first:
+      213: 7556359079780419003
+    second: Skeleton_Warrior-Sheet_76
+  - first:
+      213: 72434390330506058
+    second: Skeleton_Warrior-Sheet_77
+  - first:
+      213: 5103970340459356031
+    second: Skeleton_Warrior-Sheet_78
+  - first:
+      213: -451628718534611725
+    second: Skeleton_Warrior-Sheet_79
+  - first:
+      213: 5699961626096934810
+    second: Skeleton_Warrior-Sheet_80
+  - first:
+      213: 3205044827311479113
+    second: Skeleton_Warrior-Sheet_81
+  - first:
+      213: -1481704986939643
+    second: Skeleton_Warrior-Sheet_82
+  - first:
+      213: -8120614895381199217
+    second: Skeleton_Warrior-Sheet_83
+  - first:
+      213: 1897656050489614306
+    second: Skeleton_Warrior-Sheet_84
+  - first:
+      213: -5065811532323863126
+    second: Skeleton_Warrior-Sheet_85
+  - first:
+      213: -7324960428779996205
+    second: Skeleton_Warrior-Sheet_86
+  - first:
+      213: 5146928606518330398
+    second: Skeleton_Warrior-Sheet_87
+  - first:
+      213: 6974534642733835668
+    second: Skeleton_Warrior-Sheet_88
+  - first:
+      213: -9111706058575554818
+    second: Skeleton_Warrior-Sheet_89
+  - first:
+      213: -2722872218227252658
+    second: Skeleton_Warrior-Sheet_90
+  - first:
+      213: -4734027819670493789
+    second: Skeleton_Warrior-Sheet_91
+  - first:
+      213: -7625825502005733980
+    second: Skeleton_Warrior-Sheet_92
+  - first:
+      213: 9131674142888138397
+    second: Skeleton_Warrior-Sheet_93
+  - first:
+      213: -8005008422839853267
+    second: Skeleton_Warrior-Sheet_94
+  - first:
+      213: 2557490239219108622
+    second: Skeleton_Warrior-Sheet_95
+  - first:
+      213: -6970103483788835513
+    second: Skeleton_Warrior-Sheet_96
+  - first:
+      213: -7296668671365893993
+    second: Skeleton_Warrior-Sheet_97
+  - first:
+      213: -2904579429496391196
+    second: Skeleton_Warrior-Sheet_98
+  - first:
+      213: 6359732793896332945
+    second: Skeleton_Warrior-Sheet_99
+  - first:
+      213: -5846363540929747924
+    second: Skeleton_Warrior-Sheet_100
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -322,7 +400,271 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_0
+      name: Skeleton_Warrior-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ef3834ff0c4ddac0800000000000000
+      internalID: -3828820476789506080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dea0761e41e55b0d0800000000000000
+      internalID: -3407714099261928723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9189dd1420df6e70800000000000000
+      internalID: 9110729424731996572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa8575edfbea3cca0800000000000000
+      internalID: -5997758139635115862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f3e0018f47bf9f30800000000000000
+      internalID: 4584584497781072885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92f8c3ba6b9c44a40800000000000000
+      internalID: 5351624043617095465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 728a4792df44e3e40800000000000000
+      internalID: 5638019637627365415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8773a8eea471639b0800000000000000
+      internalID: -5100863917353453704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7209d83d4db86cba0800000000000000
+      internalID: -6069009701636567001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc204a9b5de277c90800000000000000
+      internalID: -7172212386086780211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc7c8c20d89583020800000000000000
+      internalID: 2321704070081464267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02220441fd5505660800000000000000
+      internalID: 7372487006611317280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_12
       rect:
         serializedVersion: 2
         x: 0
@@ -337,14 +679,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 658be7c0e2874da40800000000000000
-      internalID: 5392066793042786390
+      spriteID: 9da746fda1ba313c0800000000000000
+      internalID: -4389977079850698023
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_1
+      name: Skeleton_Warrior-Sheet_13
       rect:
         serializedVersion: 2
         x: 110
@@ -359,14 +701,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a95c5b8009e0affe0800000000000000
-      internalID: -1154594342682901094
+      spriteID: 579ed35f5b782cc50800000000000000
+      internalID: 6684054012544543093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_2
+      name: Skeleton_Warrior-Sheet_14
       rect:
         serializedVersion: 2
         x: 220
@@ -381,14 +723,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e020402f8f81fd9d0800000000000000
-      internalID: -2747449790181408242
+      spriteID: 8f7909877e1813cc0800000000000000
+      internalID: -3733059784953260040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_3
+      name: Skeleton_Warrior-Sheet_15
       rect:
         serializedVersion: 2
         x: 330
@@ -403,14 +745,102 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 253dea9c0de827c60800000000000000
-      internalID: 7814465330829251410
+      spriteID: f63600069aaa05f50800000000000000
+      internalID: 6868177076176839535
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_4
+      name: Skeleton_Warrior-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de88ffc6f1a420020800000000000000
+      internalID: 2306487458000242925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6ec50250fd0c37a0800000000000000
+      internalID: -6396222044953522577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 130e203cfbca2e570800000000000000
+      internalID: 8494541786784653361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 861ce19722e5e4d40800000000000000
+      internalID: 5570493291257839976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_20
       rect:
         serializedVersion: 2
         x: 0
@@ -425,14 +855,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99750483e81822540800000000000000
-      internalID: 4981686585654269849
+      spriteID: db703620693635060800000000000000
+      internalID: 6941000946644355005
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_5
+      name: Skeleton_Warrior-Sheet_21
       rect:
         serializedVersion: 2
         x: 110
@@ -447,14 +877,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 62e9b41ee645d9dc0800000000000000
-      internalID: -3630652889387786714
+      spriteID: 7a74442d90c30fe10800000000000000
+      internalID: 2229347828428457895
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_6
+      name: Skeleton_Warrior-Sheet_22
       rect:
         serializedVersion: 2
         x: 220
@@ -469,14 +899,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4f43fa87a2b0055e0800000000000000
-      internalID: -1923024763845921548
+      spriteID: 35e375b92b1fab5a0800000000000000
+      internalID: -6504620962370601389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_7
+      name: Skeleton_Warrior-Sheet_23
       rect:
         serializedVersion: 2
         x: 330
@@ -491,102 +921,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e498617f7bfd76d20800000000000000
-      internalID: 3271829635525413198
+      spriteID: 9782e98e4db091360800000000000000
+      internalID: 7140751693236283513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_8
-      rect:
-        serializedVersion: 2
-        x: 440
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4258f07c5d5247e70800000000000000
-      internalID: 9111949546175300900
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_9
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d430f00d1a43a0160800000000000000
-      internalID: 6992459241031140173
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_10
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a753ed3ee87d03b00800000000000000
-      internalID: 806381342007637370
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 551474246de812b90800000000000000
-      internalID: -7268371272713158315
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_12
+      name: Skeleton_Warrior-Sheet_24
       rect:
         serializedVersion: 2
         x: 0
@@ -601,14 +943,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac415b8969ebbb2a0800000000000000
-      internalID: -6720568464903957302
+      spriteID: 0935d36f1f1254860800000000000000
+      internalID: 7513448876439589776
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_13
+      name: Skeleton_Warrior-Sheet_25
       rect:
         serializedVersion: 2
         x: 110
@@ -623,14 +965,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb22744a7c37a8850800000000000000
-      internalID: 6380039123415540415
+      spriteID: 6dfb5492bb9b82ac0800000000000000
+      internalID: -3879646865477222442
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_14
+      name: Skeleton_Warrior-Sheet_26
       rect:
         serializedVersion: 2
         x: 220
@@ -645,14 +987,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bb16aa1ed57b8a920800000000000000
-      internalID: 3001850765488316859
+      spriteID: 0f19b4077b500f9b0800000000000000
+      internalID: -5048528896861171216
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_15
+      name: Skeleton_Warrior-Sheet_27
       rect:
         serializedVersion: 2
         x: 330
@@ -667,102 +1009,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa921b44637e968d0800000000000000
-      internalID: -2852494668695787094
+      spriteID: 349c154483cd07da0800000000000000
+      internalID: -5949012973533935293
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_16
-      rect:
-        serializedVersion: 2
-        x: 440
-        y: 720
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 74a919d665b19e010800000000000000
-      internalID: 1218535232199825991
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_17
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 720
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e7e2fb094b9124970800000000000000
-      internalID: 8737574490365439614
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_18
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 720
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 970d5ac66676da720800000000000000
-      internalID: 2859055028057264249
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_19
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 720
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: da1b27d08940dbf00800000000000000
-      internalID: 1134067732274393517
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_20
+      name: Skeleton_Warrior-Sheet_28
       rect:
         serializedVersion: 2
         x: 0
@@ -777,14 +1031,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 26df21fde934c4cd0800000000000000
-      internalID: -2572606937508938398
+      spriteID: e54d64301f34e3190800000000000000
+      internalID: -7980866787232787362
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_21
+      name: Skeleton_Warrior-Sheet_29
       rect:
         serializedVersion: 2
         x: 110
@@ -799,14 +1053,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3324ee3ef6b59a80800000000000000
-      internalID: -8460655121852521666
+      spriteID: a56f9d0b01650ad50800000000000000
+      internalID: 6746486871487542874
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_22
+      name: Skeleton_Warrior-Sheet_30
       rect:
         serializedVersion: 2
         x: 220
@@ -821,14 +1075,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90ba4f3153340f540800000000000000
-      internalID: 5039601878274714377
+      spriteID: f5b314edf161ff690800000000000000
+      internalID: -7566304522830529697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_23
+      name: Skeleton_Warrior-Sheet_31
       rect:
         serializedVersion: 2
         x: 330
@@ -843,14 +1097,124 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 71a8b6002807c5860800000000000000
-      internalID: 7520009181456992791
+      spriteID: 31b9582a8ba9446d0800000000000000
+      internalID: -3007108533385323757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_24
+      name: Skeleton_Warrior-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbddf987d7ac8f540800000000000000
+      internalID: 5042002423084735932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2dc11d0abf1a5970800000000000000
+      internalID: 8744336510436887853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80d256bf7cf347aa0800000000000000
+      internalID: -6164231861814612728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c667faa106b9d7370800000000000000
+      internalID: 8321978523517417068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5cafdfd6402493e0800000000000000
+      internalID: -2047976441770955684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_37
       rect:
         serializedVersion: 2
         x: 0
@@ -865,14 +1229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 44d1d185e4e3c3a60800000000000000
-      internalID: 7655061972829674820
+      spriteID: 5103e2b5e131d12f0800000000000000
+      internalID: -1000622521106681835
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_25
+      name: Skeleton_Warrior-Sheet_38
       rect:
         serializedVersion: 2
         x: 110
@@ -887,14 +1251,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e9e0ef58221e3770800000000000000
-      internalID: 8592325103686052329
+      spriteID: 1794acf96bbba4390800000000000000
+      internalID: -7833242208818280079
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_26
+      name: Skeleton_Warrior-Sheet_39
       rect:
         serializedVersion: 2
         x: 220
@@ -909,14 +1273,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69e211293f82d2980800000000000000
-      internalID: -8562142289968681322
+      spriteID: ca9566732cd968a20800000000000000
+      internalID: 3064310053950871980
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_27
+      name: Skeleton_Warrior-Sheet_40
       rect:
         serializedVersion: 2
         x: 330
@@ -931,14 +1295,124 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 08f5bf37c825e96f0800000000000000
-      internalID: -676012130864242816
+      spriteID: 91d1969893e6d2620800000000000000
+      internalID: 2750976140790799641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_28
+      name: Skeleton_Warrior-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3940b41ccc52feba0800000000000000
+      internalID: -6057581412443552621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d2d60e98f692aa70800000000000000
+      internalID: 8836791413401637585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8451ccdf296561d40800000000000000
+      internalID: 5554722379731309896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e14cb0ab9b92a8ef0800000000000000
+      internalID: -105225763622763490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 081300132921fc880800000000000000
+      internalID: -8588625545275625088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior-Sheet_46
       rect:
         serializedVersion: 2
         x: 0
@@ -953,14 +1427,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 342de06cabe816ba0800000000000000
-      internalID: -6097435487645019581
+      spriteID: a77fb9f322bebd0b0800000000000000
+      internalID: -5702705970805999750
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_29
+      name: Skeleton_Warrior-Sheet_47
       rect:
         serializedVersion: 2
         x: 110
@@ -975,14 +1449,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: abea82ea4b8f98fc0800000000000000
-      internalID: -3491986581149405510
+      spriteID: 0b3c690951c205900800000000000000
+      internalID: 671084815609938864
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_30
+      name: Skeleton_Warrior-Sheet_48
       rect:
         serializedVersion: 2
         x: 220
@@ -997,14 +1471,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4daf702a03ca3640800000000000000
-      internalID: 5060571579566501197
+      spriteID: 926f68e94adb39cc0800000000000000
+      internalID: -3705409553663855063
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_31
+      name: Skeleton_Warrior-Sheet_49
       rect:
         serializedVersion: 2
         x: 330
@@ -1019,14 +1493,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e88d7541a79398b50800000000000000
-      internalID: 6595866325750896782
+      spriteID: 608fc3318e3cb8160800000000000000
+      internalID: 7028927044964382726
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_32
+      name: Skeleton_Warrior-Sheet_50
       rect:
         serializedVersion: 2
         x: 440
@@ -1041,14 +1515,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 00293cb31a8deb0d0800000000000000
-      internalID: -3405046081241509376
+      spriteID: 5ee6b81fd7d9598b0800000000000000
+      internalID: -5146033834952003867
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_33
+      name: Skeleton_Warrior-Sheet_51
       rect:
         serializedVersion: 2
         x: 550
@@ -1063,14 +1537,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ab62ef16b16e1fe10800000000000000
-      internalID: 2229816295807657658
+      spriteID: 9716d95af6e7cb2e0800000000000000
+      internalID: -2108671507531210375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_34
+      name: Skeleton_Warrior-Sheet_52
       rect:
         serializedVersion: 2
         x: 660
@@ -1085,14 +1559,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e381eff931d90f490800000000000000
-      internalID: -7714493454071490498
+      spriteID: 27a7df658c2613e90800000000000000
+      internalID: -7047743329265681806
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_35
+      name: Skeleton_Warrior-Sheet_53
       rect:
         serializedVersion: 2
         x: 770
@@ -1107,14 +1581,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6701ff856c6fe2960800000000000000
-      internalID: 7579266554668191862
+      spriteID: 66fd28862267ec3f0800000000000000
+      internalID: -878634987136295066
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_36
+      name: Skeleton_Warrior-Sheet_54
       rect:
         serializedVersion: 2
         x: 880
@@ -1129,14 +1603,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 43e5db65b70217600800000000000000
-      internalID: 464187950704188980
+      spriteID: edf45c258c43b0340800000000000000
+      internalID: 4831013060271755230
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_37
+      name: Skeleton_Warrior-Sheet_55
       rect:
         serializedVersion: 2
         x: 0
@@ -1151,14 +1625,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7fe67bd6d87cc89c0800000000000000
-      internalID: -3923541765101490441
+      spriteID: 2feed82db51b0c590800000000000000
+      internalID: -7655924358597185806
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_38
+      name: Skeleton_Warrior-Sheet_56
       rect:
         serializedVersion: 2
         x: 110
@@ -1173,14 +1647,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: daedc0577e136f640800000000000000
-      internalID: 5113329297096761005
+      spriteID: 14bb50a7264ad59d0800000000000000
+      internalID: -2783888251784152255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_39
+      name: Skeleton_Warrior-Sheet_57
       rect:
         serializedVersion: 2
         x: 220
@@ -1195,14 +1669,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83751439997e77030800000000000000
-      internalID: 3492514682835654456
+      spriteID: 7951c609c90890d20800000000000000
+      internalID: 3245266416423409047
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_40
+      name: Skeleton_Warrior-Sheet_58
       rect:
         serializedVersion: 2
         x: 330
@@ -1217,14 +1691,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 134edc8ad3061afc0800000000000000
-      internalID: -3485398818666716111
+      spriteID: ae0fef7813e7e8750800000000000000
+      internalID: 6309118879192772842
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_41
+      name: Skeleton_Warrior-Sheet_59
       rect:
         serializedVersion: 2
         x: 440
@@ -1239,14 +1713,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ec9a02d80bbfa78b0800000000000000
-      internalID: -5153530087871567410
+      spriteID: 88e912dd024274150800000000000000
+      internalID: 5856689563986140808
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_42
+      name: Skeleton_Warrior-Sheet_60
       rect:
         serializedVersion: 2
         x: 550
@@ -1261,14 +1735,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bec8840ac677be080800000000000000
-      internalID: -9157094108898489109
+      spriteID: 2a442b5f7852196e0800000000000000
+      internalID: -1832642307490167646
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_43
+      name: Skeleton_Warrior-Sheet_61
       rect:
         serializedVersion: 2
         x: 660
@@ -1283,58 +1757,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cd976fe30003314e0800000000000000
-      internalID: -2012211830890006052
+      spriteID: a1da219b737a69100800000000000000
+      internalID: 114462698314575130
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_44
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c1f66161f30202dd0800000000000000
-      internalID: -2512973136747139300
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_45
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d256983afa8889080800000000000000
-      internalID: -9180437552450411219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_46
+      name: Skeleton_Warrior-Sheet_62
       rect:
         serializedVersion: 2
         x: 0
@@ -1349,14 +1779,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a97372c564e12a40800000000000000
-      internalID: 5341801758743296424
+      spriteID: 8eb55e053a2eea850800000000000000
+      internalID: 6390294112350067688
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_47
+      name: Skeleton_Warrior-Sheet_63
       rect:
         serializedVersion: 2
         x: 110
@@ -1371,14 +1801,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff81cf8392649ab20800000000000000
-      internalID: 3146122957558651135
+      spriteID: 603381148b7fe37a0800000000000000
+      internalID: -6395402050081377530
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_48
+      name: Skeleton_Warrior-Sheet_64
       rect:
         serializedVersion: 2
         x: 220
@@ -1393,14 +1823,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8656dedcd7f6d4eb0800000000000000
-      internalID: -4734005047180040856
+      spriteID: a8ec5d6c169e4e630800000000000000
+      internalID: 3955542978895138442
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_49
+      name: Skeleton_Warrior-Sheet_65
       rect:
         serializedVersion: 2
         x: 330
@@ -1415,14 +1845,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cad73f943190d3f70800000000000000
-      internalID: 9168494394845920684
+      spriteID: f1f062225152b9ea0800000000000000
+      internalID: -5865053317022478561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_50
+      name: Skeleton_Warrior-Sheet_66
       rect:
         serializedVersion: 2
         x: 440
@@ -1437,102 +1867,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8147e42c67ce59f60800000000000000
-      internalID: 8040592704550106136
+      spriteID: 25b4b8d97aa8cd020800000000000000
+      internalID: 2367919956597361490
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_51
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 320
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c46ef9e374876ef90800000000000000
-      internalID: -6924715129646881204
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_52
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 320
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ae9eab07810d8470800000000000000
-      internalID: 8398370559644049063
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_53
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 320
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c6ec32a65e5e1e6c0800000000000000
-      internalID: -4115755810948919700
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_54
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 320
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d5efb77acaa933c60800000000000000
-      internalID: 7796745446243434077
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_55
+      name: Skeleton_Warrior-Sheet_67
       rect:
         serializedVersion: 2
         x: 0
@@ -1547,14 +1889,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13a9127d08a31fb30800000000000000
-      internalID: 4319297842664544817
+      spriteID: 88938a42451d84a40800000000000000
+      internalID: 5352758316452297096
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_56
+      name: Skeleton_Warrior-Sheet_68
       rect:
         serializedVersion: 2
         x: 110
@@ -1569,14 +1911,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8ab09cade50d31eb0800000000000000
-      internalID: -4750224076129629272
+      spriteID: a30cad8e768c4ed80800000000000000
+      internalID: -8222226671057846214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_57
+      name: Skeleton_Warrior-Sheet_69
       rect:
         serializedVersion: 2
         x: 220
@@ -1591,14 +1933,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e14c8b5027e3945d0800000000000000
-      internalID: -3077860210887834594
+      spriteID: c364e38307590d2c0800000000000000
+      internalID: -4408859725983234500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_58
+      name: Skeleton_Warrior-Sheet_70
       rect:
         serializedVersion: 2
         x: 330
@@ -1613,14 +1955,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7843f6ce00ca1dd0800000000000000
-      internalID: -2514486272233092993
+      spriteID: ac8daf21eb2a5c8a0800000000000000
+      internalID: -6285438767679743798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_59
+      name: Skeleton_Warrior-Sheet_71
       rect:
         serializedVersion: 2
         x: 440
@@ -1635,102 +1977,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83462f8c5a70e9360800000000000000
-      internalID: 7178183264697476152
+      spriteID: 7838a73e0ab42df70800000000000000
+      internalID: 9210507342309393287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_60
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 240
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4ff08e7ef728ea560800000000000000
-      internalID: 7326937129641578484
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_61
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 240
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ac830cc2d52d14950800000000000000
-      internalID: 6431653040486365386
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_62
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 240
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c27c5d5468f7fef70800000000000000
-      internalID: 9218727176924677932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_63
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 240
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1abf0cddd60a947a0800000000000000
-      internalID: -6392401802343416927
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_64
+      name: Skeleton_Warrior-Sheet_72
       rect:
         serializedVersion: 2
         x: 0
@@ -1745,14 +1999,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e662846eebe6fddc0800000000000000
-      internalID: -3612046609941518738
+      spriteID: f8a7314543b7853a0800000000000000
+      internalID: -6676450982897681777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_65
+      name: Skeleton_Warrior-Sheet_73
       rect:
         serializedVersion: 2
         x: 0
@@ -1767,14 +2021,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6a3ac1f939a9cd840800000000000000
-      internalID: 5250241224427479974
+      spriteID: 6653c9f15d6595e00800000000000000
+      internalID: 1033953062816593254
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_66
+      name: Skeleton_Warrior-Sheet_74
       rect:
         serializedVersion: 2
         x: 110
@@ -1789,14 +2043,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7d77160ebe52a600800000000000000
-      internalID: 478048680693693820
+      spriteID: 65b8a9e706856ea80800000000000000
+      internalID: -8437959680367883434
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_67
+      name: Skeleton_Warrior-Sheet_75
       rect:
         serializedVersion: 2
         x: 220
@@ -1811,14 +2065,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3babaf8fc894f6950800000000000000
-      internalID: 6444450461611899571
+      spriteID: 283952af657d81ba0800000000000000
+      internalID: -6117903325218892926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_68
+      name: Skeleton_Warrior-Sheet_76
       rect:
         serializedVersion: 2
         x: 0
@@ -1833,8 +2087,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b2337a6a3a588d350800000000000000
-      internalID: 6041725838039659307
+      spriteID: bb50c993c849dd860800000000000000
+      internalID: 7556359079780419003
       vertices: []
       indices: 
       edges: []
@@ -1843,7 +2097,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 783608976b44ac446b080d1f6247a3e1
+    spriteID: 3fb27cb66b1075c4487a8a4fb187a6ec
     internalID: 0
     vertices: []
     indices: 
@@ -1853,77 +2107,85 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":12.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":14.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Skeleton_Archer-Sheet_0: 5392066793042786390
-      Skeleton_Archer-Sheet_1: -1154594342682901094
-      Skeleton_Archer-Sheet_10: 806381342007637370
-      Skeleton_Archer-Sheet_11: -7268371272713158315
-      Skeleton_Archer-Sheet_12: -6720568464903957302
-      Skeleton_Archer-Sheet_13: 6380039123415540415
-      Skeleton_Archer-Sheet_14: 3001850765488316859
-      Skeleton_Archer-Sheet_15: -2852494668695787094
-      Skeleton_Archer-Sheet_16: 1218535232199825991
-      Skeleton_Archer-Sheet_17: 8737574490365439614
-      Skeleton_Archer-Sheet_18: 2859055028057264249
-      Skeleton_Archer-Sheet_19: 1134067732274393517
-      Skeleton_Archer-Sheet_2: -2747449790181408242
-      Skeleton_Archer-Sheet_20: -2572606937508938398
-      Skeleton_Archer-Sheet_21: -8460655121852521666
-      Skeleton_Archer-Sheet_22: 5039601878274714377
-      Skeleton_Archer-Sheet_23: 7520009181456992791
-      Skeleton_Archer-Sheet_24: 7655061972829674820
-      Skeleton_Archer-Sheet_25: 8592325103686052329
-      Skeleton_Archer-Sheet_26: -8562142289968681322
-      Skeleton_Archer-Sheet_27: -676012130864242816
-      Skeleton_Archer-Sheet_28: -6097435487645019581
-      Skeleton_Archer-Sheet_29: -3491986581149405510
-      Skeleton_Archer-Sheet_3: 7814465330829251410
-      Skeleton_Archer-Sheet_30: 5060571579566501197
-      Skeleton_Archer-Sheet_31: 6595866325750896782
-      Skeleton_Archer-Sheet_32: -3405046081241509376
-      Skeleton_Archer-Sheet_33: 2229816295807657658
-      Skeleton_Archer-Sheet_34: -7714493454071490498
-      Skeleton_Archer-Sheet_35: 7579266554668191862
-      Skeleton_Archer-Sheet_36: 464187950704188980
-      Skeleton_Archer-Sheet_37: -3923541765101490441
-      Skeleton_Archer-Sheet_38: 5113329297096761005
-      Skeleton_Archer-Sheet_39: 3492514682835654456
-      Skeleton_Archer-Sheet_4: 4981686585654269849
-      Skeleton_Archer-Sheet_40: -3485398818666716111
-      Skeleton_Archer-Sheet_41: -5153530087871567410
-      Skeleton_Archer-Sheet_42: -9157094108898489109
-      Skeleton_Archer-Sheet_43: -2012211830890006052
-      Skeleton_Archer-Sheet_44: -2512973136747139300
-      Skeleton_Archer-Sheet_45: -9180437552450411219
-      Skeleton_Archer-Sheet_46: 5341801758743296424
-      Skeleton_Archer-Sheet_47: 3146122957558651135
-      Skeleton_Archer-Sheet_48: -4734005047180040856
-      Skeleton_Archer-Sheet_49: 9168494394845920684
-      Skeleton_Archer-Sheet_5: -3630652889387786714
-      Skeleton_Archer-Sheet_50: 8040592704550106136
-      Skeleton_Archer-Sheet_51: -6924715129646881204
-      Skeleton_Archer-Sheet_52: 8398370559644049063
-      Skeleton_Archer-Sheet_53: -4115755810948919700
-      Skeleton_Archer-Sheet_54: 7796745446243434077
-      Skeleton_Archer-Sheet_55: 4319297842664544817
-      Skeleton_Archer-Sheet_56: -4750224076129629272
-      Skeleton_Archer-Sheet_57: -3077860210887834594
-      Skeleton_Archer-Sheet_58: -2514486272233092993
-      Skeleton_Archer-Sheet_59: 7178183264697476152
-      Skeleton_Archer-Sheet_6: -1923024763845921548
-      Skeleton_Archer-Sheet_60: 7326937129641578484
-      Skeleton_Archer-Sheet_61: 6431653040486365386
-      Skeleton_Archer-Sheet_62: 9218727176924677932
-      Skeleton_Archer-Sheet_63: -6392401802343416927
-      Skeleton_Archer-Sheet_64: -3612046609941518738
-      Skeleton_Archer-Sheet_65: 5250241224427479974
-      Skeleton_Archer-Sheet_66: 478048680693693820
-      Skeleton_Archer-Sheet_67: 6444450461611899571
-      Skeleton_Archer-Sheet_68: 6041725838039659307
-      Skeleton_Archer-Sheet_7: 3271829635525413198
-      Skeleton_Archer-Sheet_8: 9111949546175300900
-      Skeleton_Archer-Sheet_9: 6992459241031140173
+      Skeleton_Warrior-Sheet_0: -3828820476789506080
+      Skeleton_Warrior-Sheet_1: -3407714099261928723
+      Skeleton_Warrior-Sheet_10: 2321704070081464267
+      Skeleton_Warrior-Sheet_11: 7372487006611317280
+      Skeleton_Warrior-Sheet_12: -4389977079850698023
+      Skeleton_Warrior-Sheet_13: 6684054012544543093
+      Skeleton_Warrior-Sheet_14: -3733059784953260040
+      Skeleton_Warrior-Sheet_15: 6868177076176839535
+      Skeleton_Warrior-Sheet_16: 2306487458000242925
+      Skeleton_Warrior-Sheet_17: -6396222044953522577
+      Skeleton_Warrior-Sheet_18: 8494541786784653361
+      Skeleton_Warrior-Sheet_19: 5570493291257839976
+      Skeleton_Warrior-Sheet_2: 9110729424731996572
+      Skeleton_Warrior-Sheet_20: 6941000946644355005
+      Skeleton_Warrior-Sheet_21: 2229347828428457895
+      Skeleton_Warrior-Sheet_22: -6504620962370601389
+      Skeleton_Warrior-Sheet_23: 7140751693236283513
+      Skeleton_Warrior-Sheet_24: 7513448876439589776
+      Skeleton_Warrior-Sheet_25: -3879646865477222442
+      Skeleton_Warrior-Sheet_26: -5048528896861171216
+      Skeleton_Warrior-Sheet_27: -5949012973533935293
+      Skeleton_Warrior-Sheet_28: -7980866787232787362
+      Skeleton_Warrior-Sheet_29: 6746486871487542874
+      Skeleton_Warrior-Sheet_3: -5997758139635115862
+      Skeleton_Warrior-Sheet_30: -7566304522830529697
+      Skeleton_Warrior-Sheet_31: -3007108533385323757
+      Skeleton_Warrior-Sheet_32: 5042002423084735932
+      Skeleton_Warrior-Sheet_33: 8744336510436887853
+      Skeleton_Warrior-Sheet_34: -6164231861814612728
+      Skeleton_Warrior-Sheet_35: 8321978523517417068
+      Skeleton_Warrior-Sheet_36: -2047976441770955684
+      Skeleton_Warrior-Sheet_37: -1000622521106681835
+      Skeleton_Warrior-Sheet_38: -7833242208818280079
+      Skeleton_Warrior-Sheet_39: 3064310053950871980
+      Skeleton_Warrior-Sheet_4: 4584584497781072885
+      Skeleton_Warrior-Sheet_40: 2750976140790799641
+      Skeleton_Warrior-Sheet_41: -6057581412443552621
+      Skeleton_Warrior-Sheet_42: 8836791413401637585
+      Skeleton_Warrior-Sheet_43: 5554722379731309896
+      Skeleton_Warrior-Sheet_44: -105225763622763490
+      Skeleton_Warrior-Sheet_45: -8588625545275625088
+      Skeleton_Warrior-Sheet_46: -5702705970805999750
+      Skeleton_Warrior-Sheet_47: 671084815609938864
+      Skeleton_Warrior-Sheet_48: -3705409553663855063
+      Skeleton_Warrior-Sheet_49: 7028927044964382726
+      Skeleton_Warrior-Sheet_5: 5351624043617095465
+      Skeleton_Warrior-Sheet_50: -5146033834952003867
+      Skeleton_Warrior-Sheet_51: -2108671507531210375
+      Skeleton_Warrior-Sheet_52: -7047743329265681806
+      Skeleton_Warrior-Sheet_53: -878634987136295066
+      Skeleton_Warrior-Sheet_54: 4831013060271755230
+      Skeleton_Warrior-Sheet_55: -7655924358597185806
+      Skeleton_Warrior-Sheet_56: -2783888251784152255
+      Skeleton_Warrior-Sheet_57: 3245266416423409047
+      Skeleton_Warrior-Sheet_58: 6309118879192772842
+      Skeleton_Warrior-Sheet_59: 5856689563986140808
+      Skeleton_Warrior-Sheet_6: 5638019637627365415
+      Skeleton_Warrior-Sheet_60: -1832642307490167646
+      Skeleton_Warrior-Sheet_61: 114462698314575130
+      Skeleton_Warrior-Sheet_62: 6390294112350067688
+      Skeleton_Warrior-Sheet_63: -6395402050081377530
+      Skeleton_Warrior-Sheet_64: 3955542978895138442
+      Skeleton_Warrior-Sheet_65: -5865053317022478561
+      Skeleton_Warrior-Sheet_66: 2367919956597361490
+      Skeleton_Warrior-Sheet_67: 5352758316452297096
+      Skeleton_Warrior-Sheet_68: -8222226671057846214
+      Skeleton_Warrior-Sheet_69: -4408859725983234500
+      Skeleton_Warrior-Sheet_7: -5100863917353453704
+      Skeleton_Warrior-Sheet_70: -6285438767679743798
+      Skeleton_Warrior-Sheet_71: 9210507342309393287
+      Skeleton_Warrior-Sheet_72: -6676450982897681777
+      Skeleton_Warrior-Sheet_73: 1033953062816593254
+      Skeleton_Warrior-Sheet_74: -8437959680367883434
+      Skeleton_Warrior-Sheet_75: -6117903325218892926
+      Skeleton_Warrior-Sheet_76: 7556359079780419003
+      Skeleton_Warrior-Sheet_8: -6069009701636567001
+      Skeleton_Warrior-Sheet_9: -7172212386086780211
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
