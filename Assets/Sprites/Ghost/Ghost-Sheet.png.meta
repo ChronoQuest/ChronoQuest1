@@ -1,232 +1,271 @@
 fileFormatVersion: 2
-guid: e67d5bf3261064a4ab552ab688f9788a
+guid: 6842cbad4fdbb2f419f5e34c99861ef1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5392066793042786390
-    second: Skeleton_Archer-Sheet_0
+      213: -5662871578180991815
+    second: Ghost-Sheet_0
   - first:
-      213: -1154594342682901094
-    second: Skeleton_Archer-Sheet_1
+      213: 7189840374964406950
+    second: Ghost-Sheet_1
   - first:
-      213: -2747449790181408242
-    second: Skeleton_Archer-Sheet_2
+      213: -3718347094540284078
+    second: Ghost-Sheet_2
   - first:
-      213: 7814465330829251410
-    second: Skeleton_Archer-Sheet_3
+      213: -7578058256828440795
+    second: Ghost-Sheet_3
   - first:
-      213: 4981686585654269849
-    second: Skeleton_Archer-Sheet_4
+      213: -7284506132182457801
+    second: Ghost-Sheet_4
   - first:
-      213: -3630652889387786714
-    second: Skeleton_Archer-Sheet_5
+      213: 7588984183233628690
+    second: Ghost-Sheet_5
   - first:
-      213: -1923024763845921548
-    second: Skeleton_Archer-Sheet_6
+      213: -8248075664900341140
+    second: Ghost-Sheet_6
   - first:
-      213: 3271829635525413198
-    second: Skeleton_Archer-Sheet_7
+      213: 8160510040787513936
+    second: Ghost-Sheet_7
   - first:
-      213: 9111949546175300900
-    second: Skeleton_Archer-Sheet_8
+      213: -1891757779967955749
+    second: Ghost-Sheet_8
   - first:
-      213: 6992459241031140173
-    second: Skeleton_Archer-Sheet_9
+      213: -6005555052213164162
+    second: Ghost-Sheet_9
   - first:
-      213: 806381342007637370
-    second: Skeleton_Archer-Sheet_10
+      213: -2049783107406774795
+    second: Ghost-Sheet_10
   - first:
-      213: -7268371272713158315
-    second: Skeleton_Archer-Sheet_11
+      213: -5888340099575219574
+    second: Ghost-Sheet_11
   - first:
-      213: -6720568464903957302
-    second: Skeleton_Archer-Sheet_12
+      213: 6435068506290440632
+    second: Ghost-Sheet_12
   - first:
-      213: 6380039123415540415
-    second: Skeleton_Archer-Sheet_13
+      213: 7586682290592745534
+    second: Ghost-Sheet_13
   - first:
-      213: 3001850765488316859
-    second: Skeleton_Archer-Sheet_14
+      213: 6772229276325582705
+    second: Ghost-Sheet_14
   - first:
-      213: -2852494668695787094
-    second: Skeleton_Archer-Sheet_15
+      213: -7248826445337618832
+    second: Ghost-Sheet_15
   - first:
-      213: 1218535232199825991
-    second: Skeleton_Archer-Sheet_16
+      213: 3320851844911287227
+    second: Ghost-Sheet_16
   - first:
-      213: 8737574490365439614
-    second: Skeleton_Archer-Sheet_17
+      213: 6485472295691103955
+    second: Ghost-Sheet_17
   - first:
-      213: 2859055028057264249
-    second: Skeleton_Archer-Sheet_18
+      213: -3133204106564292067
+    second: Ghost-Sheet_18
   - first:
-      213: 1134067732274393517
-    second: Skeleton_Archer-Sheet_19
+      213: 1482023486056457262
+    second: Ghost-Sheet_19
   - first:
-      213: -2572606937508938398
-    second: Skeleton_Archer-Sheet_20
+      213: -8811548906721358493
+    second: Ghost-Sheet_20
   - first:
-      213: -8460655121852521666
-    second: Skeleton_Archer-Sheet_21
+      213: 5516157233673174888
+    second: Ghost-Sheet_21
   - first:
-      213: 5039601878274714377
-    second: Skeleton_Archer-Sheet_22
+      213: 3352898723551327629
+    second: Ghost-Sheet_22
   - first:
-      213: 7520009181456992791
-    second: Skeleton_Archer-Sheet_23
+      213: 3928586849903868211
+    second: Ghost-Sheet_23
   - first:
-      213: 7655061972829674820
-    second: Skeleton_Archer-Sheet_24
+      213: 227186290669854190
+    second: Ghost-Sheet_24
   - first:
-      213: 8592325103686052329
-    second: Skeleton_Archer-Sheet_25
+      213: -3455557111089544384
+    second: Ghost-Sheet_25
   - first:
-      213: -8562142289968681322
-    second: Skeleton_Archer-Sheet_26
+      213: -146523137162065135
+    second: Ghost-Sheet_26
   - first:
-      213: -676012130864242816
-    second: Skeleton_Archer-Sheet_27
+      213: 4174768993444101763
+    second: Ghost-Sheet_27
   - first:
-      213: -6097435487645019581
-    second: Skeleton_Archer-Sheet_28
+      213: -3369901217048674818
+    second: Ghost-Sheet_28
   - first:
-      213: -3491986581149405510
-    second: Skeleton_Archer-Sheet_29
+      213: 1499731486029602087
+    second: Ghost-Sheet_29
   - first:
-      213: 5060571579566501197
-    second: Skeleton_Archer-Sheet_30
+      213: -2487790232211330787
+    second: Ghost-Sheet_30
   - first:
-      213: 6595866325750896782
-    second: Skeleton_Archer-Sheet_31
+      213: -6882123139462236256
+    second: Ghost-Sheet_31
   - first:
-      213: -3405046081241509376
-    second: Skeleton_Archer-Sheet_32
+      213: -7046186555868634914
+    second: Ghost-Sheet_32
   - first:
-      213: 2229816295807657658
-    second: Skeleton_Archer-Sheet_33
+      213: -2334981703340389872
+    second: Ghost-Sheet_33
   - first:
-      213: -7714493454071490498
-    second: Skeleton_Archer-Sheet_34
+      213: -4724208596424722546
+    second: Ghost-Sheet_34
   - first:
-      213: 7579266554668191862
-    second: Skeleton_Archer-Sheet_35
+      213: -8950961764941701792
+    second: Ghost-Sheet_35
   - first:
-      213: 464187950704188980
-    second: Skeleton_Archer-Sheet_36
+      213: 939017510130731671
+    second: Ghost-Sheet_36
   - first:
-      213: -3923541765101490441
-    second: Skeleton_Archer-Sheet_37
+      213: -7399933452470866305
+    second: Ghost-Sheet_37
   - first:
-      213: 5113329297096761005
-    second: Skeleton_Archer-Sheet_38
+      213: 8113703731383039281
+    second: Ghost-Sheet_38
   - first:
-      213: 3492514682835654456
-    second: Skeleton_Archer-Sheet_39
+      213: -1484733580086299299
+    second: Ghost-Sheet_39
   - first:
-      213: -3485398818666716111
-    second: Skeleton_Archer-Sheet_40
+      213: 1545198708021872079
+    second: Ghost-Sheet_40
   - first:
-      213: -5153530087871567410
-    second: Skeleton_Archer-Sheet_41
+      213: -1556136872762731801
+    second: Ghost-Sheet_41
   - first:
-      213: -9157094108898489109
-    second: Skeleton_Archer-Sheet_42
+      213: -8769961997384865353
+    second: Ghost-Sheet_42
   - first:
-      213: -2012211830890006052
-    second: Skeleton_Archer-Sheet_43
+      213: 729921436667244478
+    second: Ghost-Sheet_43
   - first:
-      213: -2512973136747139300
-    second: Skeleton_Archer-Sheet_44
+      213: 6332535380473115282
+    second: Ghost-Sheet_44
   - first:
-      213: -9180437552450411219
-    second: Skeleton_Archer-Sheet_45
+      213: -4200276741221723315
+    second: Ghost-Sheet_45
   - first:
-      213: 5341801758743296424
-    second: Skeleton_Archer-Sheet_46
+      213: 5495833030937723106
+    second: Ghost-Sheet_46
   - first:
-      213: 3146122957558651135
-    second: Skeleton_Archer-Sheet_47
+      213: -4391166799911596604
+    second: Ghost-Sheet_47
   - first:
-      213: -4734005047180040856
-    second: Skeleton_Archer-Sheet_48
+      213: -1594039897936622988
+    second: Ghost-Sheet_48
   - first:
-      213: 9168494394845920684
-    second: Skeleton_Archer-Sheet_49
+      213: 6597295025754922807
+    second: Ghost-Sheet_49
   - first:
-      213: 8040592704550106136
-    second: Skeleton_Archer-Sheet_50
+      213: 6191602160960914956
+    second: Ghost-Sheet_50
   - first:
-      213: -6924715129646881204
-    second: Skeleton_Archer-Sheet_51
+      213: 6676556187387783355
+    second: Ghost-Sheet_51
   - first:
-      213: 8398370559644049063
-    second: Skeleton_Archer-Sheet_52
+      213: -673922364520972676
+    second: Ghost-Sheet_52
   - first:
-      213: -4115755810948919700
-    second: Skeleton_Archer-Sheet_53
+      213: 149340185047355614
+    second: Ghost-Sheet_53
   - first:
-      213: 7796745446243434077
-    second: Skeleton_Archer-Sheet_54
+      213: 1339949381197507569
+    second: Ghost-Sheet_54
   - first:
-      213: 4319297842664544817
-    second: Skeleton_Archer-Sheet_55
+      213: -1859525295578826284
+    second: Ghost-Sheet_55
   - first:
-      213: -4750224076129629272
-    second: Skeleton_Archer-Sheet_56
+      213: -4036769736779595478
+    second: Ghost-Sheet_56
   - first:
-      213: -3077860210887834594
-    second: Skeleton_Archer-Sheet_57
+      213: -6542090729457049008
+    second: Ghost-Sheet_57
   - first:
-      213: -2514486272233092993
-    second: Skeleton_Archer-Sheet_58
+      213: 7511078059107051260
+    second: Ghost-Sheet_58
   - first:
-      213: 7178183264697476152
-    second: Skeleton_Archer-Sheet_59
+      213: 567078956418803713
+    second: Ghost-Sheet_59
   - first:
-      213: 7326937129641578484
-    second: Skeleton_Archer-Sheet_60
+      213: -4658325734196776613
+    second: Ghost-Sheet_60
   - first:
-      213: 6431653040486365386
-    second: Skeleton_Archer-Sheet_61
+      213: 9111988206487763765
+    second: Ghost-Sheet_61
   - first:
-      213: 9218727176924677932
-    second: Skeleton_Archer-Sheet_62
+      213: 6191878236109176912
+    second: Ghost-Sheet_62
   - first:
-      213: -6392401802343416927
-    second: Skeleton_Archer-Sheet_63
+      213: 6116232461617233164
+    second: Ghost-Sheet_63
   - first:
-      213: -3612046609941518738
-    second: Skeleton_Archer-Sheet_64
+      213: -8765266739606036066
+    second: Ghost-Sheet_64
   - first:
-      213: 5250241224427479974
-    second: Skeleton_Archer-Sheet_65
+      213: -3006398401863656812
+    second: Ghost-Sheet_65
   - first:
-      213: 478048680693693820
-    second: Skeleton_Archer-Sheet_66
+      213: 8861459350882583364
+    second: Ghost-Sheet_66
   - first:
-      213: 6444450461611899571
-    second: Skeleton_Archer-Sheet_67
+      213: 3045638129416729036
+    second: Ghost-Sheet_67
   - first:
-      213: 6041725838039659307
-    second: Skeleton_Archer-Sheet_68
+      213: -3469974003213676685
+    second: Ghost-Sheet_68
   - first:
-      213: 6219342168259669450
-    second: Skeleton_Archer-Sheet_69
+      213: 948139582335987666
+    second: Ghost-Sheet_69
   - first:
-      213: -8053052619089119883
-    second: Skeleton_Archer-Sheet_70
+      213: 1369101704673193724
+    second: Ghost-Sheet_70
   - first:
-      213: 7276422263822208567
-    second: Skeleton_Archer-Sheet_71
+      213: -2188763869845313403
+    second: Ghost-Sheet_71
   - first:
-      213: 6737556785076066583
-    second: Skeleton_Archer-Sheet_72
+      213: 2601953975672582542
+    second: Ghost-Sheet_72
   - first:
-      213: 5564186484170915573
-    second: Skeleton_Archer-Sheet_73
+      213: 2160028072890568743
+    second: Ghost-Sheet_73
   - first:
-      213: -5436717242824454501
-    second: Skeleton_Archer-Sheet_74
+      213: 6741030092566297877
+    second: Ghost-Sheet_74
+  - first:
+      213: 6397629891182564277
+    second: Ghost-Sheet_75
+  - first:
+      213: -6268222861254561369
+    second: Ghost-Sheet_76
+  - first:
+      213: -6012752189083227180
+    second: Ghost-Sheet_77
+  - first:
+      213: -2237160305256232239
+    second: Ghost-Sheet_78
+  - first:
+      213: -9135160371271721650
+    second: Ghost-Sheet_79
+  - first:
+      213: 2474919236701561845
+    second: Ghost-Sheet_80
+  - first:
+      213: -3546712415409177770
+    second: Ghost-Sheet_81
+  - first:
+      213: -4040007918980767961
+    second: Ghost-Sheet_82
+  - first:
+      213: -5068938687890595596
+    second: Ghost-Sheet_83
+  - first:
+      213: -5552678327114879402
+    second: Ghost-Sheet_84
+  - first:
+      213: 5991687720190874166
+    second: Ghost-Sheet_85
+  - first:
+      213: -2552371347594439842
+    second: Ghost-Sheet_86
+  - first:
+      213: 326677243705203908
+    second: Ghost-Sheet_87
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -322,271 +361,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 880
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 658be7c0e2874da40800000000000000
-      internalID: 5392066793042786390
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 110
-        y: 880
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a95c5b8009e0affe0800000000000000
-      internalID: -1154594342682901094
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 220
-        y: 880
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e020402f8f81fd9d0800000000000000
-      internalID: -2747449790181408242
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 330
-        y: 880
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 253dea9c0de827c60800000000000000
-      internalID: 7814465330829251410
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 99750483e81822540800000000000000
-      internalID: 4981686585654269849
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 110
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 62e9b41ee645d9dc0800000000000000
-      internalID: -3630652889387786714
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_6
-      rect:
-        serializedVersion: 2
-        x: 220
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4f43fa87a2b0055e0800000000000000
-      internalID: -1923024763845921548
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_7
-      rect:
-        serializedVersion: 2
-        x: 330
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e498617f7bfd76d20800000000000000
-      internalID: 3271829635525413198
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_8
-      rect:
-        serializedVersion: 2
-        x: 440
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4258f07c5d5247e70800000000000000
-      internalID: 9111949546175300900
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_9
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d430f00d1a43a0160800000000000000
-      internalID: 6992459241031140173
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_10
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a753ed3ee87d03b00800000000000000
-      internalID: 806381342007637370
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 800
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 551474246de812b90800000000000000
-      internalID: -7268371272713158315
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_12
+      name: Ghost-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -601,14 +376,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac415b8969ebbb2a0800000000000000
-      internalID: -6720568464903957302
+      spriteID: 9b4cdd58d407961b0800000000000000
+      internalID: -5662871578180991815
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_13
+      name: Ghost-Sheet_1
       rect:
         serializedVersion: 2
         x: 110
@@ -623,14 +398,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fb22744a7c37a8850800000000000000
-      internalID: 6380039123415540415
+      spriteID: 6aac3854ab177c360800000000000000
+      internalID: 7189840374964406950
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_14
+      name: Ghost-Sheet_2
       rect:
         serializedVersion: 2
         x: 220
@@ -645,14 +420,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bb16aa1ed57b8a920800000000000000
-      internalID: 3001850765488316859
+      spriteID: 25f0256a407c56cc0800000000000000
+      internalID: -3718347094540284078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_15
+      name: Ghost-Sheet_3
       rect:
         serializedVersion: 2
         x: 330
@@ -667,14 +442,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aa921b44637e968d0800000000000000
-      internalID: -2852494668695787094
+      spriteID: 52f568a6a2455d690800000000000000
+      internalID: -7578058256828440795
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_16
+      name: Ghost-Sheet_4
       rect:
         serializedVersion: 2
         x: 440
@@ -689,14 +464,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 74a919d665b19e010800000000000000
-      internalID: 1218535232199825991
+      spriteID: 7322c1b844c38ea90800000000000000
+      internalID: -7284506132182457801
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_17
+      name: Ghost-Sheet_5
       rect:
         serializedVersion: 2
         x: 550
@@ -711,14 +486,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e7e2fb094b9124970800000000000000
-      internalID: 8737574490365439614
+      spriteID: 21ac2bf08ec715960800000000000000
+      internalID: 7588984183233628690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_18
+      name: Ghost-Sheet_6
       rect:
         serializedVersion: 2
         x: 660
@@ -733,14 +508,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 970d5ac66676da720800000000000000
-      internalID: 2859055028057264249
+      spriteID: c62421902e2f88d80800000000000000
+      internalID: -8248075664900341140
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_19
+      name: Ghost-Sheet_7
       rect:
         serializedVersion: 2
         x: 770
@@ -755,14 +530,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: da1b27d08940dbf00800000000000000
-      internalID: 1134067732274393517
+      spriteID: 052f52755a4ff3170800000000000000
+      internalID: 8160510040787513936
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_20
+      name: Ghost-Sheet_8
       rect:
         serializedVersion: 2
         x: 0
@@ -777,14 +552,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 26df21fde934c4cd0800000000000000
-      internalID: -2572606937508938398
+      spriteID: bdcade372502fb5e0800000000000000
+      internalID: -1891757779967955749
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_21
+      name: Ghost-Sheet_9
       rect:
         serializedVersion: 2
         x: 110
@@ -799,14 +574,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3324ee3ef6b59a80800000000000000
-      internalID: -8460655121852521666
+      spriteID: e7728c1bf7bf7aca0800000000000000
+      internalID: -6005555052213164162
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_22
+      name: Ghost-Sheet_10
       rect:
         serializedVersion: 2
         x: 220
@@ -821,14 +596,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 90ba4f3153340f540800000000000000
-      internalID: 5039601878274714377
+      spriteID: 5fd3c60cf15bd83e0800000000000000
+      internalID: -2049783107406774795
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_23
+      name: Ghost-Sheet_11
       rect:
         serializedVersion: 2
         x: 330
@@ -843,14 +618,58 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 71a8b6002807c5860800000000000000
-      internalID: 7520009181456992791
+      spriteID: a8a712090e9684ea0800000000000000
+      internalID: -5888340099575219574
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_24
+      name: Ghost-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b9ceb646b4fd4950800000000000000
+      internalID: 6435068506290440632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e38078ae85f494960800000000000000
+      internalID: 7586682290592745534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_14
       rect:
         serializedVersion: 2
         x: 0
@@ -865,14 +684,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 44d1d185e4e3c3a60800000000000000
-      internalID: 7655061972829674820
+      spriteID: 17713e065aacbfd50800000000000000
+      internalID: 6772229276325582705
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_25
+      name: Ghost-Sheet_15
       rect:
         serializedVersion: 2
         x: 110
@@ -887,14 +706,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e9e0ef58221e3770800000000000000
-      internalID: 8592325103686052329
+      spriteID: 076913ff0cef66b90800000000000000
+      internalID: -7248826445337618832
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_26
+      name: Ghost-Sheet_16
       rect:
         serializedVersion: 2
         x: 220
@@ -909,14 +728,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69e211293f82d2980800000000000000
-      internalID: -8562142289968681322
+      spriteID: bbb43a78829061e20800000000000000
+      internalID: 3320851844911287227
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_27
+      name: Ghost-Sheet_17
       rect:
         serializedVersion: 2
         x: 330
@@ -931,14 +750,58 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 08f5bf37c825e96f0800000000000000
-      internalID: -676012130864242816
+      spriteID: 3de2e4101b6010a50800000000000000
+      internalID: 6485472295691103955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_28
+      name: Ghost-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d12b07b277f9484d0800000000000000
+      internalID: -3133204106564292067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e246e2b2284319410800000000000000
+      internalID: 1482023486056457262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_20
       rect:
         serializedVersion: 2
         x: 0
@@ -953,14 +816,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 342de06cabe816ba0800000000000000
-      internalID: -6097435487645019581
+      spriteID: 36d44e574f617b580800000000000000
+      internalID: -8811548906721358493
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_29
+      name: Ghost-Sheet_21
       rect:
         serializedVersion: 2
         x: 110
@@ -975,14 +838,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: abea82ea4b8f98fc0800000000000000
-      internalID: -3491986581149405510
+      spriteID: 86f7a4637c35d8c40800000000000000
+      internalID: 5516157233673174888
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_30
+      name: Ghost-Sheet_22
       rect:
         serializedVersion: 2
         x: 220
@@ -997,14 +860,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4daf702a03ca3640800000000000000
-      internalID: 5060571579566501197
+      spriteID: d853329ef93e78e20800000000000000
+      internalID: 3352898723551327629
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_31
+      name: Ghost-Sheet_23
       rect:
         serializedVersion: 2
         x: 330
@@ -1019,124 +882,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e88d7541a79398b50800000000000000
-      internalID: 6595866325750896782
+      spriteID: 3397ac9ece4258630800000000000000
+      internalID: 3928586849903868211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_32
-      rect:
-        serializedVersion: 2
-        x: 440
-        y: 480
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00293cb31a8deb0d0800000000000000
-      internalID: -3405046081241509376
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_33
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 480
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ab62ef16b16e1fe10800000000000000
-      internalID: 2229816295807657658
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_34
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 480
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e381eff931d90f490800000000000000
-      internalID: -7714493454071490498
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_35
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 480
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6701ff856c6fe2960800000000000000
-      internalID: 7579266554668191862
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_36
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 480
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 43e5db65b70217600800000000000000
-      internalID: 464187950704188980
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_37
+      name: Ghost-Sheet_24
       rect:
         serializedVersion: 2
         x: 0
@@ -1151,14 +904,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7fe67bd6d87cc89c0800000000000000
-      internalID: -3923541765101490441
+      spriteID: eed17394ab0272300800000000000000
+      internalID: 227186290669854190
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_38
+      name: Ghost-Sheet_25
       rect:
         serializedVersion: 2
         x: 110
@@ -1173,14 +926,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: daedc0577e136f640800000000000000
-      internalID: 5113329297096761005
+      spriteID: 043ce64ad156b00d0800000000000000
+      internalID: -3455557111089544384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_39
+      name: Ghost-Sheet_26
       rect:
         serializedVersion: 2
         x: 220
@@ -1195,14 +948,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83751439997e77030800000000000000
-      internalID: 3492514682835654456
+      spriteID: 11b441aabf177fdf0800000000000000
+      internalID: -146523137162065135
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_40
+      name: Ghost-Sheet_27
       rect:
         serializedVersion: 2
         x: 330
@@ -1217,124 +970,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 134edc8ad3061afc0800000000000000
-      internalID: -3485398818666716111
+      spriteID: 38efc89d742cfe930800000000000000
+      internalID: 4174768993444101763
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_41
-      rect:
-        serializedVersion: 2
-        x: 440
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ec9a02d80bbfa78b0800000000000000
-      internalID: -5153530087871567410
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_42
-      rect:
-        serializedVersion: 2
-        x: 550
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bec8840ac677be080800000000000000
-      internalID: -9157094108898489109
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_43
-      rect:
-        serializedVersion: 2
-        x: 660
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cd976fe30003314e0800000000000000
-      internalID: -2012211830890006052
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_44
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c1f66161f30202dd0800000000000000
-      internalID: -2512973136747139300
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_45
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 400
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d256983afa8889080800000000000000
-      internalID: -9180437552450411219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_46
+      name: Ghost-Sheet_28
       rect:
         serializedVersion: 2
         x: 0
@@ -1349,14 +992,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a97372c564e12a40800000000000000
-      internalID: 5341801758743296424
+      spriteID: efd38a592b4bb31d0800000000000000
+      internalID: -3369901217048674818
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_47
+      name: Ghost-Sheet_29
       rect:
         serializedVersion: 2
         x: 110
@@ -1371,14 +1014,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff81cf8392649ab20800000000000000
-      internalID: 3146122957558651135
+      spriteID: 72d534337dd10d410800000000000000
+      internalID: 1499731486029602087
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_48
+      name: Ghost-Sheet_30
       rect:
         serializedVersion: 2
         x: 220
@@ -1393,14 +1036,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8656dedcd7f6d4eb0800000000000000
-      internalID: -4734005047180040856
+      spriteID: d196b55f6f7997dd0800000000000000
+      internalID: -2487790232211330787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_49
+      name: Ghost-Sheet_31
       rect:
         serializedVersion: 2
         x: 330
@@ -1415,14 +1058,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cad73f943190d3f70800000000000000
-      internalID: 9168494394845920684
+      spriteID: 0a77bdbb779cd70a0800000000000000
+      internalID: -6882123139462236256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_50
+      name: Ghost-Sheet_32
       rect:
         serializedVersion: 2
         x: 440
@@ -1437,14 +1080,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8147e42c67ce59f60800000000000000
-      internalID: 8040592704550106136
+      spriteID: ed02154e8aae63e90800000000000000
+      internalID: -7046186555868634914
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_51
+      name: Ghost-Sheet_33
       rect:
         serializedVersion: 2
         x: 550
@@ -1459,14 +1102,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c46ef9e374876ef90800000000000000
-      internalID: -6924715129646881204
+      spriteID: 01a0c57138a789fd0800000000000000
+      internalID: -2334981703340389872
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_52
+      name: Ghost-Sheet_34
       rect:
         serializedVersion: 2
         x: 660
@@ -1481,58 +1124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7ae9eab07810d8470800000000000000
-      internalID: 8398370559644049063
+      spriteID: e87f14dbf4d307eb0800000000000000
+      internalID: -4724208596424722546
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_53
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 320
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c6ec32a65e5e1e6c0800000000000000
-      internalID: -4115755810948919700
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_54
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 320
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d5efb77acaa933c60800000000000000
-      internalID: 7796745446243434077
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_55
+      name: Ghost-Sheet_35
       rect:
         serializedVersion: 2
         x: 0
@@ -1547,14 +1146,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13a9127d08a31fb30800000000000000
-      internalID: 4319297842664544817
+      spriteID: 06ddb82f2bbc7c380800000000000000
+      internalID: -8950961764941701792
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_56
+      name: Ghost-Sheet_36
       rect:
         serializedVersion: 2
         x: 110
@@ -1569,14 +1168,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8ab09cade50d31eb0800000000000000
-      internalID: -4750224076129629272
+      spriteID: 79ac639437f080d00800000000000000
+      internalID: 939017510130731671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_57
+      name: Ghost-Sheet_37
       rect:
         serializedVersion: 2
         x: 220
@@ -1591,14 +1190,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e14c8b5027e3945d0800000000000000
-      internalID: -3077860210887834594
+      spriteID: f7ea1f34bb72e4990800000000000000
+      internalID: -7399933452470866305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_58
+      name: Ghost-Sheet_38
       rect:
         serializedVersion: 2
         x: 330
@@ -1613,14 +1212,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7843f6ce00ca1dd0800000000000000
-      internalID: -2514486272233092993
+      spriteID: 135f8d13e8aa99070800000000000000
+      internalID: 8113703731383039281
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_59
+      name: Ghost-Sheet_39
       rect:
         serializedVersion: 2
         x: 440
@@ -1635,14 +1234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83462f8c5a70e9360800000000000000
-      internalID: 7178183264697476152
+      spriteID: d55bcd4ecaa256be0800000000000000
+      internalID: -1484733580086299299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_60
+      name: Ghost-Sheet_40
       rect:
         serializedVersion: 2
         x: 550
@@ -1657,14 +1256,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ff08e7ef728ea560800000000000000
-      internalID: 7326937129641578484
+      spriteID: fc54903c906a17510800000000000000
+      internalID: 1545198708021872079
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_61
+      name: Ghost-Sheet_41
       rect:
         serializedVersion: 2
         x: 660
@@ -1679,58 +1278,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac830cc2d52d14950800000000000000
-      internalID: 6431653040486365386
+      spriteID: 7e2171d42cd776ae0800000000000000
+      internalID: -1556136872762731801
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_62
-      rect:
-        serializedVersion: 2
-        x: 770
-        y: 240
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c27c5d5468f7fef70800000000000000
-      internalID: 9218727176924677932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_63
-      rect:
-        serializedVersion: 2
-        x: 880
-        y: 240
-        width: 110
-        height: 80
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1abf0cddd60a947a0800000000000000
-      internalID: -6392401802343416927
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_64
+      name: Ghost-Sheet_42
       rect:
         serializedVersion: 2
         x: 0
@@ -1745,14 +1300,300 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e662846eebe6fddc0800000000000000
-      internalID: -3612046609941518738
+      spriteID: 7b923345706da4680800000000000000
+      internalID: -8769961997384865353
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_65
+      name: Ghost-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebf6e7aeda3312a00800000000000000
+      internalID: 729921436667244478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29271b8906fa1e750800000000000000
+      internalID: 6332535380473115282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d43d421de8e95b5c0800000000000000
+      internalID: -4200276741221723315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e0c6e1060f154c40800000000000000
+      internalID: 5495833030937723106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cdc7c59f017f03c0800000000000000
+      internalID: -4391166799911596604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47a00bd8825d0e9e0800000000000000
+      internalID: -1594039897936622988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73fd2983fdc4e8b50800000000000000
+      internalID: 6597295025754922807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c06cd926c5dfce550800000000000000
+      internalID: 6191602160960914956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb86f208a74e7ac50800000000000000
+      internalID: 6676556187387783355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7e39881e2fb5a6f0800000000000000
+      internalID: -673922364520972676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed050786b10921200800000000000000
+      internalID: 149340185047355614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fb2843ecd4789210800000000000000
+      internalID: 1339949381197507569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 1430
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d9bb2a8893a136e0800000000000000
+      internalID: -1859525295578826284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_56
       rect:
         serializedVersion: 2
         x: 0
@@ -1767,14 +1608,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6a3ac1f939a9cd840800000000000000
-      internalID: 5250241224427479974
+      spriteID: a218437ef438af7c0800000000000000
+      internalID: -4036769736779595478
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_66
+      name: Ghost-Sheet_57
       rect:
         serializedVersion: 2
         x: 110
@@ -1789,14 +1630,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7d77160ebe52a600800000000000000
-      internalID: 478048680693693820
+      spriteID: 052265e9423d535a0800000000000000
+      internalID: -6542090729457049008
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_67
+      name: Ghost-Sheet_58
       rect:
         serializedVersion: 2
         x: 220
@@ -1811,14 +1652,124 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3babaf8fc894f6950800000000000000
-      internalID: 6444450461611899571
+      spriteID: cf66e4903b5bc3860800000000000000
+      internalID: 7511078059107051260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_68
+      name: Ghost-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10821fc6e4baed700800000000000000
+      internalID: 567078956418803713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b51f325fc6d4a5fb0800000000000000
+      internalID: -4658325734196776613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53b70451ff8447e70800000000000000
+      internalID: 9111988206487763765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05082c32378fde550800000000000000
+      internalID: 6191878236109176912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0d7866c40931e450800000000000000
+      internalID: 6116232461617233164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_64
       rect:
         serializedVersion: 2
         x: 0
@@ -1833,8 +1784,184 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b2337a6a3a588d350800000000000000
-      internalID: 6041725838039659307
+      spriteID: e916c3837548b5680800000000000000
+      internalID: -8765266739606036066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49a5d9305902746d0800000000000000
+      internalID: -3006398401863656812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4438be0645a3afa70800000000000000
+      internalID: 8861459350882583364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc1f4420eb7444a20800000000000000
+      internalID: 3045638129416729036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37fcb9e570d28dfc0800000000000000
+      internalID: -3469974003213676685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dfaf9a3de7782d00800000000000000
+      internalID: 948139582335987666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfe6d602fb6000310800000000000000
+      internalID: 1369101704673193724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58829a06bd2ff91e0800000000000000
+      internalID: -2188763869845313403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8131e9ea5ffb1420800000000000000
+      internalID: 2601953975672582542
       vertices: []
       indices: 
       edges: []
@@ -1843,7 +1970,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 783608976b44ac446b080d1f6247a3e1
+    spriteID: 8129632395a8b134b8a238015b3b6dd3
     internalID: 0
     vertices: []
     indices: 
@@ -1853,77 +1980,81 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":12.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":14.0,"y":10.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Skeleton_Archer-Sheet_0: 5392066793042786390
-      Skeleton_Archer-Sheet_1: -1154594342682901094
-      Skeleton_Archer-Sheet_10: 806381342007637370
-      Skeleton_Archer-Sheet_11: -7268371272713158315
-      Skeleton_Archer-Sheet_12: -6720568464903957302
-      Skeleton_Archer-Sheet_13: 6380039123415540415
-      Skeleton_Archer-Sheet_14: 3001850765488316859
-      Skeleton_Archer-Sheet_15: -2852494668695787094
-      Skeleton_Archer-Sheet_16: 1218535232199825991
-      Skeleton_Archer-Sheet_17: 8737574490365439614
-      Skeleton_Archer-Sheet_18: 2859055028057264249
-      Skeleton_Archer-Sheet_19: 1134067732274393517
-      Skeleton_Archer-Sheet_2: -2747449790181408242
-      Skeleton_Archer-Sheet_20: -2572606937508938398
-      Skeleton_Archer-Sheet_21: -8460655121852521666
-      Skeleton_Archer-Sheet_22: 5039601878274714377
-      Skeleton_Archer-Sheet_23: 7520009181456992791
-      Skeleton_Archer-Sheet_24: 7655061972829674820
-      Skeleton_Archer-Sheet_25: 8592325103686052329
-      Skeleton_Archer-Sheet_26: -8562142289968681322
-      Skeleton_Archer-Sheet_27: -676012130864242816
-      Skeleton_Archer-Sheet_28: -6097435487645019581
-      Skeleton_Archer-Sheet_29: -3491986581149405510
-      Skeleton_Archer-Sheet_3: 7814465330829251410
-      Skeleton_Archer-Sheet_30: 5060571579566501197
-      Skeleton_Archer-Sheet_31: 6595866325750896782
-      Skeleton_Archer-Sheet_32: -3405046081241509376
-      Skeleton_Archer-Sheet_33: 2229816295807657658
-      Skeleton_Archer-Sheet_34: -7714493454071490498
-      Skeleton_Archer-Sheet_35: 7579266554668191862
-      Skeleton_Archer-Sheet_36: 464187950704188980
-      Skeleton_Archer-Sheet_37: -3923541765101490441
-      Skeleton_Archer-Sheet_38: 5113329297096761005
-      Skeleton_Archer-Sheet_39: 3492514682835654456
-      Skeleton_Archer-Sheet_4: 4981686585654269849
-      Skeleton_Archer-Sheet_40: -3485398818666716111
-      Skeleton_Archer-Sheet_41: -5153530087871567410
-      Skeleton_Archer-Sheet_42: -9157094108898489109
-      Skeleton_Archer-Sheet_43: -2012211830890006052
-      Skeleton_Archer-Sheet_44: -2512973136747139300
-      Skeleton_Archer-Sheet_45: -9180437552450411219
-      Skeleton_Archer-Sheet_46: 5341801758743296424
-      Skeleton_Archer-Sheet_47: 3146122957558651135
-      Skeleton_Archer-Sheet_48: -4734005047180040856
-      Skeleton_Archer-Sheet_49: 9168494394845920684
-      Skeleton_Archer-Sheet_5: -3630652889387786714
-      Skeleton_Archer-Sheet_50: 8040592704550106136
-      Skeleton_Archer-Sheet_51: -6924715129646881204
-      Skeleton_Archer-Sheet_52: 8398370559644049063
-      Skeleton_Archer-Sheet_53: -4115755810948919700
-      Skeleton_Archer-Sheet_54: 7796745446243434077
-      Skeleton_Archer-Sheet_55: 4319297842664544817
-      Skeleton_Archer-Sheet_56: -4750224076129629272
-      Skeleton_Archer-Sheet_57: -3077860210887834594
-      Skeleton_Archer-Sheet_58: -2514486272233092993
-      Skeleton_Archer-Sheet_59: 7178183264697476152
-      Skeleton_Archer-Sheet_6: -1923024763845921548
-      Skeleton_Archer-Sheet_60: 7326937129641578484
-      Skeleton_Archer-Sheet_61: 6431653040486365386
-      Skeleton_Archer-Sheet_62: 9218727176924677932
-      Skeleton_Archer-Sheet_63: -6392401802343416927
-      Skeleton_Archer-Sheet_64: -3612046609941518738
-      Skeleton_Archer-Sheet_65: 5250241224427479974
-      Skeleton_Archer-Sheet_66: 478048680693693820
-      Skeleton_Archer-Sheet_67: 6444450461611899571
-      Skeleton_Archer-Sheet_68: 6041725838039659307
-      Skeleton_Archer-Sheet_7: 3271829635525413198
-      Skeleton_Archer-Sheet_8: 9111949546175300900
-      Skeleton_Archer-Sheet_9: 6992459241031140173
+      Ghost-Sheet_0: -5662871578180991815
+      Ghost-Sheet_1: 7189840374964406950
+      Ghost-Sheet_10: -2049783107406774795
+      Ghost-Sheet_11: -5888340099575219574
+      Ghost-Sheet_12: 6435068506290440632
+      Ghost-Sheet_13: 7586682290592745534
+      Ghost-Sheet_14: 6772229276325582705
+      Ghost-Sheet_15: -7248826445337618832
+      Ghost-Sheet_16: 3320851844911287227
+      Ghost-Sheet_17: 6485472295691103955
+      Ghost-Sheet_18: -3133204106564292067
+      Ghost-Sheet_19: 1482023486056457262
+      Ghost-Sheet_2: -3718347094540284078
+      Ghost-Sheet_20: -8811548906721358493
+      Ghost-Sheet_21: 5516157233673174888
+      Ghost-Sheet_22: 3352898723551327629
+      Ghost-Sheet_23: 3928586849903868211
+      Ghost-Sheet_24: 227186290669854190
+      Ghost-Sheet_25: -3455557111089544384
+      Ghost-Sheet_26: -146523137162065135
+      Ghost-Sheet_27: 4174768993444101763
+      Ghost-Sheet_28: -3369901217048674818
+      Ghost-Sheet_29: 1499731486029602087
+      Ghost-Sheet_3: -7578058256828440795
+      Ghost-Sheet_30: -2487790232211330787
+      Ghost-Sheet_31: -6882123139462236256
+      Ghost-Sheet_32: -7046186555868634914
+      Ghost-Sheet_33: -2334981703340389872
+      Ghost-Sheet_34: -4724208596424722546
+      Ghost-Sheet_35: -8950961764941701792
+      Ghost-Sheet_36: 939017510130731671
+      Ghost-Sheet_37: -7399933452470866305
+      Ghost-Sheet_38: 8113703731383039281
+      Ghost-Sheet_39: -1484733580086299299
+      Ghost-Sheet_4: -7284506132182457801
+      Ghost-Sheet_40: 1545198708021872079
+      Ghost-Sheet_41: -1556136872762731801
+      Ghost-Sheet_42: -8769961997384865353
+      Ghost-Sheet_43: 729921436667244478
+      Ghost-Sheet_44: 6332535380473115282
+      Ghost-Sheet_45: -4200276741221723315
+      Ghost-Sheet_46: 5495833030937723106
+      Ghost-Sheet_47: -4391166799911596604
+      Ghost-Sheet_48: -1594039897936622988
+      Ghost-Sheet_49: 6597295025754922807
+      Ghost-Sheet_5: 7588984183233628690
+      Ghost-Sheet_50: 6191602160960914956
+      Ghost-Sheet_51: 6676556187387783355
+      Ghost-Sheet_52: -673922364520972676
+      Ghost-Sheet_53: 149340185047355614
+      Ghost-Sheet_54: 1339949381197507569
+      Ghost-Sheet_55: -1859525295578826284
+      Ghost-Sheet_56: -4036769736779595478
+      Ghost-Sheet_57: -6542090729457049008
+      Ghost-Sheet_58: 7511078059107051260
+      Ghost-Sheet_59: 567078956418803713
+      Ghost-Sheet_6: -8248075664900341140
+      Ghost-Sheet_60: -4658325734196776613
+      Ghost-Sheet_61: 9111988206487763765
+      Ghost-Sheet_62: 6191878236109176912
+      Ghost-Sheet_63: 6116232461617233164
+      Ghost-Sheet_64: -8765266739606036066
+      Ghost-Sheet_65: -3006398401863656812
+      Ghost-Sheet_66: 8861459350882583364
+      Ghost-Sheet_67: 3045638129416729036
+      Ghost-Sheet_68: -3469974003213676685
+      Ghost-Sheet_69: 948139582335987666
+      Ghost-Sheet_7: 8160510040787513936
+      Ghost-Sheet_70: 1369101704673193724
+      Ghost-Sheet_71: -2188763869845313403
+      Ghost-Sheet_72: 2601953975672582542
+      Ghost-Sheet_8: -1891757779967955749
+      Ghost-Sheet_9: -6005555052213164162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
