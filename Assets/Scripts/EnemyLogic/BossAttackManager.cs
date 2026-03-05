@@ -16,7 +16,10 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        // To stop the game freezing when a bat is first spawned, spawn one at the very start and destroy it
+        GameObject firstBat = Instantiate(enemyList[0], new Vector3(0, -50f, 0), Quaternion.identity);
+        firstBat.SetActive(false); 
+        Destroy(firstBat);
     }
 
     // Update is called once per frame
