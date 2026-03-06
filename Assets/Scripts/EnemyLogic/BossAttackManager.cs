@@ -80,7 +80,10 @@ public class BossAttackManager : MonoBehaviour, IRewindable
         GameObject chosenEnemy = enemyList[Random.Range(0, size)];
         GameObject newEnemy = Instantiate(chosenEnemy, new Vector3(randX, 5f, 0f), transform.rotation);
         IBossSpawnable enemyComponent = newEnemy.GetComponent<IBossSpawnable>();
-        if (enemyComponent != null) enemyComponent.player = player;
+        if (enemyComponent != null) {
+            enemyComponent.player = player;
+            enemyComponent.DoubleDetectionRange();
+        }
     }
 
     public void spawnPlatforms(int facingDirection)

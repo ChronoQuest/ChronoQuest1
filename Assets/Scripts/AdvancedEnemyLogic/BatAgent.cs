@@ -17,6 +17,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
     [Header("References")]
     public Transform player { get; set; }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
     private PlayerCombat playerCombat;
     private PlayerSpellSystem playerSpells;
     [Header("Basic behaviour variables")]

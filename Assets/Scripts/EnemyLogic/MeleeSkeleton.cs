@@ -16,6 +16,10 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
     public float hitboxOffset = 0.8f;
 
     public Transform player {get; set;}
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;

@@ -18,6 +18,10 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     [Header("References")]
     public Transform player { get; set; }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
     public GameObject arrowPrefab;
 
     [Header("Arrow Pool")]

@@ -128,11 +128,31 @@ namespace TimeRewind
                 result.SetCustomData("TargetPos", a.GetCustomData<Vector3>("TargetPos", a.Position));
                 result.SetCustomData("CycleComplete", t < 0.5f ? a.GetCustomData<bool>("CycleComplete", false) : b.GetCustomData<bool>("CycleComplete", false));
 
-                // Boss timers
-                result.SetCustomData("MainTimer", Mathf.Lerp(a.GetCustomData<float>("MainTimer", 0f), b.GetCustomData<float>("MainTimer", 0f), t));
-                result.SetCustomData("RestrictTimer", Mathf.Lerp(a.GetCustomData<float>("RestrictTimer", 0f), b.GetCustomData<float>("RestrictTimer", 0f), t));
-                result.SetCustomData("OffenseTimer", Mathf.Lerp(a.GetCustomData<float>("OffenseTimer", 0f), b.GetCustomData<float>("OffenseTimer", 0f), t));
-                result.SetCustomData("PositionalTimer", Mathf.Lerp(a.GetCustomData<float>("PositionalTimer", 0f), b.GetCustomData<float>("PositionalTimer", 0f), t));
+                // Boss Enums / Ints
+                result.SetCustomData("Phase", t < 0.5f ? a.GetCustomData<int>("Phase", 0) : b.GetCustomData<int>("Phase", 0));
+                result.SetCustomData("PosType", t < 0.5f ? a.GetCustomData<int>("PosType", 0) : b.GetCustomData<int>("PosType", 0));
+                result.SetCustomData("OffType", t < 0.5f ? a.GetCustomData<int>("OffType", 0) : b.GetCustomData<int>("OffType", 0));
+                result.SetCustomData("ResType", t < 0.5f ? a.GetCustomData<int>("ResType", 0) : b.GetCustomData<int>("ResType", 0));
+                
+                result.SetCustomData("OffIndex", t < 0.5f ? a.GetCustomData<int>("OffIndex", 0) : b.GetCustomData<int>("OffIndex", 0));
+                result.SetCustomData("ResIndex", t < 0.5f ? a.GetCustomData<int>("ResIndex", 0) : b.GetCustomData<int>("ResIndex", 0));
+                result.SetCustomData("Facing", t < 0.5f ? a.GetCustomData<int>("Facing", 1) : b.GetCustomData<int>("Facing", 1));
+
+                // Boss Movement Targets
+                result.SetCustomData("TargetX", t < 0.5f ? a.GetCustomData<float>("TargetX", 0f) : b.GetCustomData<float>("TargetX", 0f));
+                result.SetCustomData("MoveStart", t < 0.5f ? a.GetCustomData<Vector2>("MoveStart", Vector2.zero) : b.GetCustomData<Vector2>("MoveStart", Vector2.zero));
+                result.SetCustomData("MovePeak", t < 0.5f ? a.GetCustomData<Vector2>("MovePeak", Vector2.zero) : b.GetCustomData<Vector2>("MovePeak", Vector2.zero));
+                result.SetCustomData("MoveTarget", t < 0.5f ? a.GetCustomData<Vector2>("MoveTarget", Vector2.zero) : b.GetCustomData<Vector2>("MoveTarget", Vector2.zero));
+
+                // Boss Timers
+                result.SetCustomData("IdleTimer", Mathf.Lerp(a.GetCustomData<float>("IdleTimer", 0f), b.GetCustomData<float>("IdleTimer", 0f), t));
+                result.SetCustomData("PosTimer", Mathf.Lerp(a.GetCustomData<float>("PosTimer", 0f), b.GetCustomData<float>("PosTimer", 0f), t));
+                result.SetCustomData("OffTimer", Mathf.Lerp(a.GetCustomData<float>("OffTimer", 0f), b.GetCustomData<float>("OffTimer", 0f), t));
+                result.SetCustomData("ResTimer", Mathf.Lerp(a.GetCustomData<float>("ResTimer", 0f), b.GetCustomData<float>("ResTimer", 0f), t));
+
+                // Boss bools
+                result.SetCustomData("OffSpawned", t < 0.5f ? a.GetCustomData<bool>("OffSpawned", false) : b.GetCustomData<bool>("OffSpawned", false));
+                result.SetCustomData("ResSpawned", t < 0.5f ? a.GetCustomData<bool>("ResSpawned", false) : b.GetCustomData<bool>("ResSpawned", false));
             }
 
             return result;

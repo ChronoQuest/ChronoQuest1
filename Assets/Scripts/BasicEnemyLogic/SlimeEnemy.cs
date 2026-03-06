@@ -28,6 +28,10 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
     public string currentStateLabel;
 
     public Transform player { get; set; }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;

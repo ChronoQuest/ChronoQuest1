@@ -22,7 +22,10 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
     public float phaseInDuration = 0.5f;  // match your PhaseIn clip length
 
     public Transform player {get; set;}
-
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
     private Animator animator;
     private Collider2D col;
     private float lastAttackTime;
