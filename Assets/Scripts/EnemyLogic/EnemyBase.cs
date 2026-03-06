@@ -115,6 +115,11 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     {
         isRewinding = false;
         rb.bodyType = originalBodyType;
+
+        // If rewind stopped during a death animation, restart the cleanup coroutine
+        // so the sprite gets hidden (StopAllCoroutines in OnStartRewind killed it)
+        if (wasDead)
+            StartCoroutine(DeathRoutine());
     }
 
 

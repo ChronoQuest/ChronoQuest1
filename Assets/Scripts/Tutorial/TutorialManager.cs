@@ -368,6 +368,7 @@ public class TutorialManager : MonoBehaviour
             HideHint(spellHint);
             AllowAll(); 
             Debug.Log("Player spell tutorial completed");
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
     
@@ -380,6 +381,7 @@ public class TutorialManager : MonoBehaviour
         HideHint(attackHint);
         AllowAll();
         Debug.Log("Player attack tutorial complete");
+        DataCollectionService.Instance?.RecordTutorialStepCompleted();
     }
 
     public void OnPlayerJump()
@@ -390,6 +392,7 @@ public class TutorialManager : MonoBehaviour
             HideHint(jumpHint);
             AllowAll(); 
             Debug.Log("Player jump tutorial complete");
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
 
@@ -401,6 +404,7 @@ public class TutorialManager : MonoBehaviour
             rewindFollow.enabled = false;
             HideHint(rewindHint);
             Debug.Log("Player rewind tutorial complete");
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
 
@@ -411,6 +415,7 @@ public class TutorialManager : MonoBehaviour
             dashCompleted = true;
             HideHint(dashHint);
             Debug.Log("Player dash tutorial completed"); 
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
         } 
     }
 
@@ -421,6 +426,7 @@ public class TutorialManager : MonoBehaviour
             wallJumpCompleted = true; 
             HideHint(wallJumpHint); 
             Debug.Log("Player wall jump tutorial completed"); 
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
 

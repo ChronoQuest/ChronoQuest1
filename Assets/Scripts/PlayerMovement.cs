@@ -51,6 +51,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isWallSliding;
+    private float wallAnimationVisualTimer;
+    private const float WALL_GRACE_TIME = 0.08f; // 0.1 seconds of "memory"
 
     [Header("Double Jump")]
     [SerializeField] private int extraJumps = 1; // Number of mid-air jumps allowed
@@ -175,7 +177,18 @@ public class PlayerPlatformer : MonoBehaviour
             return; 
         }
 
-        float direction = spriteRenderer.flipX ? -1f : 1f;
+        //float direction = spriteRenderer.flipX ? -1f : 1f;
+
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        float direction;
+        if (spellSys != null && spellSys.isCasting)
+        {
+            direction = spriteRenderer.flipX ? -1f : 1f; // Keep current facing
+        }
+        else
+        {
+            direction = spriteRenderer.flipX ? -1f : 1f; // Standard behavior
+        }
 
         // Raise the origin to "Chest Height" (e.g., +0.5f Y)
         // This is CRITICAL: It ensures we don't hit the floor and think it's a wall.
@@ -190,8 +203,6 @@ public class PlayerPlatformer : MonoBehaviour
 
         isTouchingWall = wallHit.collider != null;
 
-        
-
         //if player is pushing towards wall -> actually slide
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
         //bool isPushingWall = true;
@@ -200,13 +211,20 @@ public class PlayerPlatformer : MonoBehaviour
         { 
             float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
             playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
+
+            wallAnimationVisualTimer = WALL_GRACE_TIME;
             isWallSliding = true;
+
             extraJumpsRemaining = 1;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
         }
         else
         {
-            isWallSliding = false;
+            wallAnimationVisualTimer -= Time.deltaTime;
+            if (wallAnimationVisualTimer <= 0)
+            {
+                isWallSliding = false;
+            }
         }
 
         // Update Animator Parameters
@@ -254,26 +272,41 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void FixedUpdate()
+{
+    if (GetComponent<PlayerHealth>()?.IsDead == true) return;
+    if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+
+    PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+    bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
+
+    if (isDashing || isWallSliding || isWallJumping || spellLock) return;
+
+    // 1. Calculate Base Movement (Input)
+    float targetVelocityX = horizontalInput * moveSpeed;
+
+    // 2. CHECK FOR MOVING PLATFORM
+    // We check if we are grounded and what we are standing on
+    if (isGrounded)
     {
-        if (GetComponent<PlayerHealth>()?.IsDead == true)
-            return;
-
-        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
-            return;
-
-        // --- NEW: Check if the Spell System has locked movement ---
-        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-        bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
-
-        // Added 'spellLock' to the return condition
-        if (isDashing || isWallSliding || isWallJumping || spellLock) return;
-        // Apply horizontal movement while preserving falling/jumping speed
-
-        if (!IsActionAllowed(PlayerAction.Movement))
-            return; 
-
-        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+        Collider2D groundCol = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        
+        if (groundCol != null)
+        {
+            // Does the ground have the MovingPlatform script?
+            // (We check parent because usually the collider is a child "Visuals" object)
+            MovingPlatform platform = groundCol.GetComponentInParent<MovingPlatform>();
+            
+            if (platform != null)
+            {
+                // ADD the platform's velocity to the player's target velocity
+                targetVelocityX += platform.CurrentVelocity.x;
+            }
+        }
     }
+
+    // 3. Apply the combined velocity
+    rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
+}
 
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -332,7 +365,9 @@ public class PlayerPlatformer : MonoBehaviour
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         isGrounded = false;
-    
+
+        bool usedDoubleJump = extraJumpsRemaining > 0;
+        DataCollectionService.Instance?.RecordJump(false, usedDoubleJump);
 
         yield return null;
 
@@ -424,6 +459,7 @@ public class PlayerPlatformer : MonoBehaviour
         rb.linearVelocity = new Vector2(jumpDirection * wallJumpPower.x, wallJumpPower.y);
 
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
+        DataCollectionService.Instance?.RecordJump(true, false);
     
         yield return new WaitForSeconds(wallJumpDuration);    
         isWallJumping = false;
@@ -435,16 +471,19 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = false;
 
         tutorialManager?.OnPlayerDash();
+        DataCollectionService.Instance?.RecordDash();
 
         if (anim != null) 
         {
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
             if (!_isRewinding) anim.SetTrigger("Dash");
         }
+
+        tutorialManager?.OnPlayerDash();
         
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        yield return new WaitForSeconds(0.09f);
+        yield return new WaitForSeconds(0.04f);
         SetDashPhasing(true);
 
         float dir = spriteRenderer.flipX ? -1f : 1f;
@@ -479,6 +518,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     void FlipSprite()
     {
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (spellSys != null && spellSys.isCasting) return;
 
         if (horizontalInput > 0.1f) spriteRenderer.flipX = false;
         else if (horizontalInput < -0.1f) spriteRenderer.flipX = true;

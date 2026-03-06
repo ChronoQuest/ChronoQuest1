@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
                 Resume(); 
             else
                 Pause(); 
+                DataCollectionService.Instance?.RecordPause();
         }
     } 
 
@@ -38,6 +39,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseButton()
     {
         Pause(); 
+        DataCollectionService.Instance?.RecordPause();
     }
 
     public void ResumeButton()

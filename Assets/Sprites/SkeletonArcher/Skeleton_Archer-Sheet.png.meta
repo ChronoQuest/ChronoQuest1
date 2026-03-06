@@ -259,7 +259,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -325,10 +325,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_0
       rect:
         serializedVersion: 2
-        x: 43
-        y: 896
-        width: 32
-        height: 43
+        x: 0
+        y: 880
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -347,10 +347,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_1
       rect:
         serializedVersion: 2
-        x: 153
-        y: 896
-        width: 32
-        height: 42
+        x: 110
+        y: 880
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -369,10 +369,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_2
       rect:
         serializedVersion: 2
-        x: 263
-        y: 896
-        width: 32
-        height: 41
+        x: 220
+        y: 880
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -391,10 +391,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_3
       rect:
         serializedVersion: 2
-        x: 373
-        y: 896
-        width: 32
-        height: 42
+        x: 330
+        y: 880
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -413,10 +413,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_4
       rect:
         serializedVersion: 2
-        x: 47
-        y: 816
-        width: 36
-        height: 42
+        x: 0
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -435,10 +435,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_5
       rect:
         serializedVersion: 2
-        x: 156
-        y: 816
-        width: 36
-        height: 41
+        x: 110
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -457,10 +457,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_6
       rect:
         serializedVersion: 2
-        x: 263
-        y: 816
-        width: 38
-        height: 41
+        x: 220
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -479,10 +479,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_7
       rect:
         serializedVersion: 2
-        x: 373
-        y: 816
-        width: 39
-        height: 42
+        x: 330
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -501,10 +501,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_8
       rect:
         serializedVersion: 2
-        x: 483
-        y: 816
-        width: 38
-        height: 42
+        x: 440
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -523,10 +523,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_9
       rect:
         serializedVersion: 2
-        x: 593
-        y: 816
-        width: 39
-        height: 41
+        x: 550
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -545,10 +545,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_10
       rect:
         serializedVersion: 2
-        x: 703
-        y: 816
-        width: 38
-        height: 41
+        x: 660
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -567,10 +567,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_11
       rect:
         serializedVersion: 2
-        x: 816
-        y: 816
-        width: 36
-        height: 42
+        x: 770
+        y: 800
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -589,10 +589,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_12
       rect:
         serializedVersion: 2
-        x: 41
-        y: 736
-        width: 42
-        height: 41
+        x: 0
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -611,10 +611,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_13
       rect:
         serializedVersion: 2
-        x: 152
-        y: 736
-        width: 40
-        height: 40
+        x: 110
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -633,10 +633,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_14
       rect:
         serializedVersion: 2
-        x: 263
-        y: 736
-        width: 38
-        height: 40
+        x: 220
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -655,10 +655,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_15
       rect:
         serializedVersion: 2
-        x: 373
-        y: 736
-        width: 39
-        height: 41
+        x: 330
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -677,10 +677,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_16
       rect:
         serializedVersion: 2
-        x: 481
-        y: 736
-        width: 40
-        height: 41
+        x: 440
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -699,10 +699,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_17
       rect:
         serializedVersion: 2
-        x: 592
-        y: 736
-        width: 40
-        height: 40
+        x: 550
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -721,10 +721,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_18
       rect:
         serializedVersion: 2
-        x: 703
-        y: 736
-        width: 38
-        height: 40
+        x: 660
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -743,10 +743,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_19
       rect:
         serializedVersion: 2
-        x: 815
-        y: 736
-        width: 37
-        height: 41
+        x: 770
+        y: 720
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -765,10 +765,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_20
       rect:
         serializedVersion: 2
-        x: 44
-        y: 656
-        width: 35
-        height: 40
+        x: 0
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -787,10 +787,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_21
       rect:
         serializedVersion: 2
-        x: 154
-        y: 656
-        width: 35
-        height: 41
+        x: 110
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -809,10 +809,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_22
       rect:
         serializedVersion: 2
-        x: 258
-        y: 656
-        width: 31
-        height: 49
+        x: 220
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -831,10 +831,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_23
       rect:
         serializedVersion: 2
-        x: 371
-        y: 656
-        width: 29
-        height: 47
+        x: 330
+        y: 640
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -853,10 +853,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_24
       rect:
         serializedVersion: 2
-        x: 44
-        y: 576
-        width: 35
-        height: 40
+        x: 0
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -875,10 +875,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_25
       rect:
         serializedVersion: 2
-        x: 154
-        y: 576
-        width: 35
-        height: 41
+        x: 110
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -897,10 +897,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_26
       rect:
         serializedVersion: 2
-        x: 258
-        y: 576
-        width: 31
-        height: 49
+        x: 220
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -919,10 +919,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_27
       rect:
         serializedVersion: 2
-        x: 371
-        y: 576
-        width: 29
-        height: 47
+        x: 330
+        y: 560
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -941,10 +941,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_28
       rect:
         serializedVersion: 2
-        x: 44
-        y: 496
-        width: 35
-        height: 40
+        x: 0
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -963,10 +963,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_29
       rect:
         serializedVersion: 2
-        x: 154
-        y: 496
-        width: 35
-        height: 41
+        x: 110
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -985,10 +985,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_30
       rect:
         serializedVersion: 2
-        x: 258
-        y: 496
-        width: 31
-        height: 49
+        x: 220
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1007,10 +1007,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_31
       rect:
         serializedVersion: 2
-        x: 370
-        y: 496
-        width: 41
-        height: 43
+        x: 330
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1029,10 +1029,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_32
       rect:
         serializedVersion: 2
-        x: 475
-        y: 526
-        width: 8
-        height: 6
+        x: 440
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1051,10 +1051,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_33
       rect:
         serializedVersion: 2
-        x: 478
-        y: 496
-        width: 49
-        height: 24
+        x: 550
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1073,10 +1073,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_34
       rect:
         serializedVersion: 2
-        x: 583
-        y: 509
-        width: 6
-        height: 7
+        x: 660
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1095,10 +1095,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_35
       rect:
         serializedVersion: 2
-        x: 587
-        y: 496
-        width: 51
-        height: 15
+        x: 770
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1117,10 +1117,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_36
       rect:
         serializedVersion: 2
-        x: 691
-        y: 496
-        width: 58
-        height: 10
+        x: 880
+        y: 480
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1139,10 +1139,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_37
       rect:
         serializedVersion: 2
-        x: 802
-        y: 496
-        width: 57
-        height: 6
+        x: 0
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1161,10 +1161,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_38
       rect:
         serializedVersion: 2
-        x: 914
-        y: 496
-        width: 55
-        height: 6
+        x: 110
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1183,10 +1183,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_39
       rect:
         serializedVersion: 2
-        x: 44
-        y: 416
-        width: 35
-        height: 40
+        x: 220
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1205,10 +1205,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_40
       rect:
         serializedVersion: 2
-        x: 154
-        y: 416
-        width: 35
-        height: 41
+        x: 330
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1227,10 +1227,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_41
       rect:
         serializedVersion: 2
-        x: 258
-        y: 416
-        width: 31
-        height: 49
+        x: 440
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1249,10 +1249,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_42
       rect:
         serializedVersion: 2
-        x: 370
-        y: 416
-        width: 41
-        height: 43
+        x: 550
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1271,10 +1271,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_43
       rect:
         serializedVersion: 2
-        x: 475
-        y: 446
-        width: 8
-        height: 6
+        x: 660
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1293,10 +1293,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_44
       rect:
         serializedVersion: 2
-        x: 478
-        y: 416
-        width: 49
-        height: 24
+        x: 770
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1315,10 +1315,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_45
       rect:
         serializedVersion: 2
-        x: 583
-        y: 429
-        width: 6
-        height: 7
+        x: 880
+        y: 400
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1337,10 +1337,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_46
       rect:
         serializedVersion: 2
-        x: 587
-        y: 416
-        width: 51
-        height: 15
+        x: 0
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1359,10 +1359,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_47
       rect:
         serializedVersion: 2
-        x: 691
-        y: 416
-        width: 58
-        height: 10
+        x: 110
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1381,10 +1381,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_48
       rect:
         serializedVersion: 2
-        x: 802
-        y: 416
-        width: 57
-        height: 6
+        x: 220
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1403,10 +1403,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_49
       rect:
         serializedVersion: 2
-        x: 914
-        y: 416
-        width: 55
-        height: 6
+        x: 330
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1425,10 +1425,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_50
       rect:
         serializedVersion: 2
-        x: 475
-        y: 366
-        width: 8
-        height: 6
+        x: 440
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1447,10 +1447,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_51
       rect:
         serializedVersion: 2
-        x: 590
-        y: 336
-        width: 41
-        height: 43
+        x: 550
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1469,10 +1469,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_52
       rect:
         serializedVersion: 2
-        x: 698
-        y: 336
-        width: 31
-        height: 49
+        x: 660
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1491,10 +1491,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_53
       rect:
         serializedVersion: 2
-        x: 814
-        y: 336
-        width: 35
-        height: 41
+        x: 770
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1513,10 +1513,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_54
       rect:
         serializedVersion: 2
-        x: 924
-        y: 336
-        width: 35
-        height: 40
+        x: 880
+        y: 320
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1535,10 +1535,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_55
       rect:
         serializedVersion: 2
-        x: 363
-        y: 349
-        width: 6
-        height: 7
+        x: 0
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1557,10 +1557,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_56
       rect:
         serializedVersion: 2
-        x: 367
-        y: 336
-        width: 51
-        height: 15
+        x: 110
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1579,10 +1579,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_57
       rect:
         serializedVersion: 2
-        x: 478
-        y: 336
-        width: 49
-        height: 24
+        x: 220
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1601,10 +1601,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_58
       rect:
         serializedVersion: 2
-        x: 34
-        y: 336
-        width: 55
-        height: 6
+        x: 330
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1623,10 +1623,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_59
       rect:
         serializedVersion: 2
-        x: 142
-        y: 336
-        width: 57
-        height: 6
+        x: 440
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1645,10 +1645,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_60
       rect:
         serializedVersion: 2
-        x: 251
-        y: 336
-        width: 58
-        height: 10
+        x: 550
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1667,10 +1667,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_61
       rect:
         serializedVersion: 2
-        x: 43
-        y: 256
-        width: 32
-        height: 43
+        x: 660
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1689,10 +1689,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_62
       rect:
         serializedVersion: 2
-        x: 146
-        y: 256
-        width: 37
-        height: 52
+        x: 770
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1711,10 +1711,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_63
       rect:
         serializedVersion: 2
-        x: 262
-        y: 256
-        width: 30
-        height: 53
+        x: 880
+        y: 240
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1733,10 +1733,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_64
       rect:
         serializedVersion: 2
-        x: 372
-        y: 256
-        width: 43
-        height: 47
+        x: 0
+        y: 160
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1755,10 +1755,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_65
       rect:
         serializedVersion: 2
-        x: 481
-        y: 256
-        width: 41
-        height: 47
+        x: 0
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1777,10 +1777,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_66
       rect:
         serializedVersion: 2
-        x: 591
-        y: 256
-        width: 36
-        height: 47
+        x: 110
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1799,10 +1799,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_67
       rect:
         serializedVersion: 2
-        x: 701
-        y: 256
-        width: 33
-        height: 47
+        x: 220
+        y: 80
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1821,10 +1821,10 @@ TextureImporter:
       name: Skeleton_Archer-Sheet_68
       rect:
         serializedVersion: 2
-        x: 812
-        y: 256
-        width: 30
-        height: 47
+        x: 0
+        y: 0
+        width: 110
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1835,138 +1835,6 @@ TextureImporter:
       bones: []
       spriteID: b2337a6a3a588d350800000000000000
       internalID: 6041725838039659307
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_69
-      rect:
-        serializedVersion: 2
-        x: 922
-        y: 256
-        width: 30
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: acda9b320ca8f4650800000000000000
-      internalID: 6219342168259669450
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_70
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 176
-        width: 39
-        height: 41
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 575f9a15f4fcd3090800000000000000
-      internalID: -8053052619089119883
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_71
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 98
-        width: 39
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 73ecdde2f7b0bf460800000000000000
-      internalID: 7276422263822208567
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_72
-      rect:
-        serializedVersion: 2
-        x: 154
-        y: 100
-        width: 36
-        height: 37
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7195b7ce23c908d50800000000000000
-      internalID: 6737556785076066583
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_73
-      rect:
-        serializedVersion: 2
-        x: 261
-        y: 98
-        width: 28
-        height: 44
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5fe79058026f73d40800000000000000
-      internalID: 5564186484170915573
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Skeleton_Archer-Sheet_74
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 16
-        width: 28
-        height: 46
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b9e053df876ec84b0800000000000000
-      internalID: -5436717242824454501
       vertices: []
       indices: 
       edges: []
@@ -1985,7 +1853,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":9.0,"y":12.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Skeleton_Archer-Sheet_0: 5392066793042786390
       Skeleton_Archer-Sheet_1: -1154594342682901094
@@ -2053,13 +1921,7 @@ TextureImporter:
       Skeleton_Archer-Sheet_66: 478048680693693820
       Skeleton_Archer-Sheet_67: 6444450461611899571
       Skeleton_Archer-Sheet_68: 6041725838039659307
-      Skeleton_Archer-Sheet_69: 6219342168259669450
       Skeleton_Archer-Sheet_7: 3271829635525413198
-      Skeleton_Archer-Sheet_70: -8053052619089119883
-      Skeleton_Archer-Sheet_71: 7276422263822208567
-      Skeleton_Archer-Sheet_72: 6737556785076066583
-      Skeleton_Archer-Sheet_73: 5564186484170915573
-      Skeleton_Archer-Sheet_74: -5436717242824454501
       Skeleton_Archer-Sheet_8: 9111949546175300900
       Skeleton_Archer-Sheet_9: 6992459241031140173
   mipmapLimitGroupName: 
