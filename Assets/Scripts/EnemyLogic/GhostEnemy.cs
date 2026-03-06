@@ -21,7 +21,12 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
     public float phaseOutDuration = 0.5f; // match your PhaseOut clip length
     public float phaseInDuration = 0.5f;  // match your PhaseIn clip length
 
-    public Transform player {get; set;}
+    [SerializeField] private Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
     public void DoubleDetectionRange()
     {
         detectionRange *= 2f;

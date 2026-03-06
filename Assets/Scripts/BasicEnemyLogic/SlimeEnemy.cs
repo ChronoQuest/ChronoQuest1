@@ -27,7 +27,13 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
     public int currentFrameIndex; // Shows which animation frame (0-8) is currently active
     public string currentStateLabel;
 
-    public Transform player { get; set; }
+    [SerializeField] private Transform _player;
+
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
     public void DoubleDetectionRange()
     {
         detectionRange *= 2f;

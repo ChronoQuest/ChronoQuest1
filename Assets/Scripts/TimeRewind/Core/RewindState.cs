@@ -109,6 +109,8 @@ namespace TimeRewind
                 result.SetCustomData("GrowSize", Mathf.Lerp(a.GetCustomData<float>("GrowSize", 1f), b.GetCustomData<float>("GrowSize", 1f),t));
                 result.SetCustomData("Age", Mathf.Lerp(a.GetCustomData<float>("Age", 0f), b.GetCustomData<float>("Age", 0f), t));
                 result.SetCustomData("FullSize", t < 0.5f ? a.GetCustomData<bool>("FullSize", false): b.GetCustomData<bool>("FullSize", false));
+                result.SetCustomData("IsEnding", t < 0.5f ? a.GetCustomData<bool>("IsEnding", false): b.GetCustomData<bool>("IsEnding", false));
+                result.SetCustomData("IsKinematic", t < 0.5f ? a.GetCustomData<bool>("IsKinematic", false): b.GetCustomData<bool>("IsKinematic", false));
 
                 // Trap State 
                 result.SetCustomData("TrapBroken", t < 0.5f ? a.GetCustomData<bool>("TrapBroken", false) : b.GetCustomData<bool>("TrapBroken", false));
@@ -154,7 +156,6 @@ namespace TimeRewind
                 result.SetCustomData("OffSpawned", t < 0.5f ? a.GetCustomData<bool>("OffSpawned", false) : b.GetCustomData<bool>("OffSpawned", false));
                 result.SetCustomData("ResSpawned", t < 0.5f ? a.GetCustomData<bool>("ResSpawned", false) : b.GetCustomData<bool>("ResSpawned", false));
             }
-
             return result;
         }
 

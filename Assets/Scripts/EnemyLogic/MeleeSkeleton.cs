@@ -15,7 +15,12 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
     public float hitboxRadius = 0.6f;
     public float hitboxOffset = 0.8f;
 
-    public Transform player {get; set;}
+    [SerializeField] private Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
     public void DoubleDetectionRange()
     {
         detectionRange *= 2f;

@@ -1,6 +1,6 @@
- using TimeRewind;
+using TimeRewind;
 using UnityEngine;
-using System.Collections; 
+using System.Collections;
 
 public class Fireball : MonoBehaviour, IRewindable
 {
@@ -9,6 +9,7 @@ public class Fireball : MonoBehaviour, IRewindable
     private bool _isRewinding;
     private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
+    private Animator anim;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,14 +18,12 @@ public class Fireball : MonoBehaviour, IRewindable
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
-        }     
+        }    
+        
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
     void OnDestroy()
     {
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
@@ -32,10 +31,7 @@ public class Fireball : MonoBehaviour, IRewindable
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isRewinding) return;
-        /* if (collision.gameObject.CompareTag("Ground"))
-        {
-            gameObject.SetActive(false);
-        } */ 
+
         PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
@@ -44,8 +40,6 @@ public class Fireball : MonoBehaviour, IRewindable
 
         if (collision.CompareTag("Ground"))
         {
-            Animator anim = GetComponent<Animator>(); 
-            
             if (anim != null)
             {
                 anim.SetTrigger("HitGround"); 
@@ -56,7 +50,6 @@ public class Fireball : MonoBehaviour, IRewindable
             
             transform.position += Vector3.up * 0.7f; 
 
-            // Destroy(gameObject, 0.5f); 
             StartCoroutine(DestroyAfterImpact()); 
         }
     }
@@ -64,18 +57,21 @@ public class Fireball : MonoBehaviour, IRewindable
     private IEnumerator DestroyAfterImpact()
     {
         yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject); 
+        gameObject.SetActive(false);
     }
 
     public void OnStartRewind()
     {
         _isRewinding = true;
+        StopAllCoroutines(); 
+
         // Make Rigidbody Kinematic so physics doesn't interfere
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         _originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
+        if (anim != null) anim.speed = 0f;
     }
     public void OnStopRewind()
     {
@@ -87,6 +83,7 @@ public class Fireball : MonoBehaviour, IRewindable
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
+        if (anim != null) anim.speed = 1f;
     }
     public RewindState CaptureState()
     {
@@ -98,28 +95,43 @@ public class Fireball : MonoBehaviour, IRewindable
             (rb != null) ? rb.angularVelocity : 0f,
             Time.time
         );
+        if (anim != null && anim.GetCurrentAnimatorClipInfo(0).Length > 0)
+        {
+            var animState = anim.GetCurrentAnimatorStateInfo(0);
+            state.AnimatorStateHash = animState.fullPathHash;
+            state.AnimatorNormalizedTime = animState.normalizedTime;
+        }
         // Custom state for being active
         state.SetCustomData("IsActive", gameObject.activeSelf);
+        state.SetCustomData("IsKinematic", rb != null && rb.bodyType == RigidbodyType2D.Kinematic);
         return state;
     }
     public void ApplyState(RewindState state)
     {
         // If the fireball reaches the spawn point, destroy it
         if (transform.position.y > 8.5f)
-            {
-                Destroy(gameObject);
-                return;
-            }
+        {
+            Destroy(gameObject);
+            return;
+        }
+            
         transform.position = state.Position;
         transform.rotation = state.Rotation;
         _lastAppliedState = state;
-        // Custom state, true is default
+        if (anim != null && state.AnimatorStateHash != 0)
+        {
+            anim.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+        }
+
         bool wasActive = state.GetCustomData<bool>("IsActive", true);
-        // Only change the state if it's different to avoid overhead
         if (gameObject.activeSelf != wasActive)
         {
             gameObject.SetActive(wasActive);
         }
+        if (rb != null)
+        {
+            bool wasKinematic = state.GetCustomData<bool>("IsKinematic", false);
+            rb.bodyType = wasKinematic ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+        }
     }
 }
-

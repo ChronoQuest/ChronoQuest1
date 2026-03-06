@@ -13,7 +13,6 @@ public class Boss : EnemyBase, IRewindable
     bool _isRewinding;
     bool offActionSpawned;
     bool resActionSpawned;
-
     int facingDirection = 1;
     bool isGrounded;
     float lastDamageTime;

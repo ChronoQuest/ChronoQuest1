@@ -16,7 +16,13 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     public Transform obstacle;
 
     [Header("References")]
-    public Transform player { get; set; }
+    [SerializeField] private Transform _player;
+
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
     public void DoubleDetectionRange()
     {
         detectionRange *= 2f;

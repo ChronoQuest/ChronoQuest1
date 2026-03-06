@@ -25168,7 +25168,7 @@ MonoBehaviour:
   retreatSpeed: 2
   damage: 1
   shootCooldown: 2
-  player: {fileID: 0}
+  _player: {fileID: 0}
   arrowPrefab: {fileID: 0}
   arrowPoolSize: 5
   arrowSpawnOffset: {x: 0.3, y: 0.5}
@@ -529480,6 +529480,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 936638525}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
     - target: {fileID: 5531599089896343868, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
       propertyPath: m_Name
       value: SkeletonArcher
@@ -533227,6 +533231,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: _player
       value: 
       objectReference: {fileID: 936638525}
     - target: {fileID: 5531599089896343868, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
