@@ -246,7 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
   damage: 1
-  knockbackForce: 5
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1001 &330783853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56048,6 +56049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TrapDamage
   damage: 1
   knockbackForce: 5
+  upwardForce: 6
 --- !u!1001 &7296222224498140105
 PrefabInstance:
   m_ObjectHideFlags: 0
