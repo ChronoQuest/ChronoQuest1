@@ -507744,7 +507744,7 @@ MonoBehaviour:
   - {fileID: 1240570428}
   - {fileID: 1195483171}
   - {fileID: 1240570428}
-  speed: 7
+  speed: 6
   waitTimeAtPoint: 1
 --- !u!50 &1168468951
 Rigidbody2D:
@@ -529951,7 +529951,7 @@ MonoBehaviour:
   waypoints:
   - {fileID: 1587606394}
   - {fileID: 365228309}
-  speed: 9
+  speed: 8
   waitTimeAtPoint: 1
 --- !u!50 &2039152400
 Rigidbody2D:
