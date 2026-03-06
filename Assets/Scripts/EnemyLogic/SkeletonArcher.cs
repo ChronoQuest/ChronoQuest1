@@ -224,7 +224,7 @@ public class SkeletonArcher : EnemyBase
         currentState = (State)state.GetCustomData<int>("EnemyState", (int)State.Idle);
         transform.localScale = state.GetCustomData<Vector3>("FacingDirection", originalScale);
 
-        if (animator != null)
+        if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 }

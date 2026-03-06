@@ -187,7 +187,7 @@ public class MeleeSkeleton : EnemyBase
         if (spriteRenderer != null)
             spriteRenderer.enabled = state.GetCustomData<bool>("spriteEnabled", true);
 
-        if (animator != null)
+        if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 

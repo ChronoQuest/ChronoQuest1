@@ -26,6 +26,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected RigidbodyType2D originalBodyType;
     protected bool isRewinding;
     protected bool wasDead;
+    protected bool justBecameAlive; // true for one ApplyState frame when transitioning dead→alive
 
     public bool IsDead => health <= 0;
     protected bool isStunned;
@@ -160,13 +161,26 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         health = state.Health;
         sprite.flipX = state.GetCustomData<bool>("flipX");
 
+        justBecameAlive = false;
+
         if (state.Health > 0 && wasDead)
         {
+            // dead → alive transition
+            justBecameAlive = true;
             wasDead = false;
             rb.bodyType = originalBodyType;
             if (sprite != null) sprite.enabled = true;
             Collider2D col = GetComponent<Collider2D>();
             if (col != null) col.enabled = true;
+        }
+        else if (state.Health <= 0 && !wasDead)
+        {
+            // alive → dead transition (rewinding past the death event)
+            wasDead = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.linearVelocity = Vector2.zero;
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
         }
     }
 }
