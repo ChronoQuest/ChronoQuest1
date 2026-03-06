@@ -42,11 +42,14 @@ public class Boss : EnemyBase, IRewindable
     Vector2 movePeak;
     Vector2 moveTarget;
     float finalTargetX;
-
+    private Vector3 originalScale;
+    private Animator animator;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
+        originalScale = transform.localScale;
+        animator = GetComponent<Animator>();
         EndPhase();
     }
 
