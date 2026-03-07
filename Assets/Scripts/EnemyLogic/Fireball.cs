@@ -10,6 +10,8 @@ public class Fireball : MonoBehaviour, IRewindable
     private RewindState _lastAppliedState;
     private Animator anim;
     private Collider2D _collider;
+    private float _explosionTimer = 0.5f;
+    private bool _isExploding = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +25,19 @@ public class Fireball : MonoBehaviour, IRewindable
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
+    }
+    void Update()
+    {
+        if (_isRewinding) return;
+
+        if (_isExploding)
+        {
+            _explosionTimer -= Time.deltaTime;
+            if (_explosionTimer <= 0f)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     void OnDestroy()
@@ -54,16 +69,10 @@ public class Fireball : MonoBehaviour, IRewindable
             _collider.offset = new Vector2(0f, -0.9f);
             transform.rotation = Quaternion.identity;
 
-            StartCoroutine(DestroyAfterImpact()); 
+            _isExploding = true;
+            _explosionTimer = 0.5f;
         }
     }
-
-    private IEnumerator DestroyAfterImpact()
-    {
-        yield return new WaitForSeconds(0.5f);
-        gameObject.SetActive(false);
-    }
-
     public void OnStartRewind()
     {
         _isRewinding = true;
@@ -109,6 +118,8 @@ public class Fireball : MonoBehaviour, IRewindable
         state.SetCustomData("IsActive", gameObject.activeSelf);
         state.SetCustomData("IsKinematic", rb != null && rb.bodyType == RigidbodyType2D.Kinematic);
         state.SetCustomData("ColOffset", _collider != null ? _collider.offset : Vector2.zero);
+        state.SetCustomData("IsEnding", _isExploding);
+        state.SetCustomData("lifetime", _explosionTimer);
         return state;
     }
     public void ApplyState(RewindState state)
@@ -131,5 +142,7 @@ public class Fireball : MonoBehaviour, IRewindable
         bool wasActive = state.GetCustomData<bool>("IsActive", true);
         if (gameObject.activeSelf != wasActive) gameObject.SetActive(wasActive);
         if (_collider != null) _collider.offset = state.GetCustomData<Vector2>("ColOffset", Vector2.zero);
+        _isExploding = state.GetCustomData<bool>("IsEnding", false);
+        _explosionTimer = state.GetCustomData<float>("lifetime", 0.5f);
     }
 }
