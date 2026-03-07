@@ -32,7 +32,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
         float randX = Random.Range(-12f, 2.5f) * facingDirection;
-        Instantiate(fireball, new Vector3(randX,9f,0f), transform.rotation);
+        Instantiate(fireball, new Vector3(randX,9f,0f), fireball.transform.rotation);
     }
 
     public void spawnFireColumns(int facingDirection)

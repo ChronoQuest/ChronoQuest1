@@ -111,6 +111,7 @@ namespace TimeRewind
                 result.SetCustomData("FullSize", t < 0.5f ? a.GetCustomData<bool>("FullSize", false): b.GetCustomData<bool>("FullSize", false));
                 result.SetCustomData("IsEnding", t < 0.5f ? a.GetCustomData<bool>("IsEnding", false): b.GetCustomData<bool>("IsEnding", false));
                 result.SetCustomData("IsKinematic", t < 0.5f ? a.GetCustomData<bool>("IsKinematic", false): b.GetCustomData<bool>("IsKinematic", false));
+                result.SetCustomData("ColOffset", t < 0.5f ? a.GetCustomData<Vector2>("ColOffset", Vector2.zero) : b.GetCustomData<Vector2>("ColOffset", Vector2.zero));
 
                 // Trap State 
                 result.SetCustomData("TrapBroken", t < 0.5f ? a.GetCustomData<bool>("TrapBroken", false) : b.GetCustomData<bool>("TrapBroken", false));

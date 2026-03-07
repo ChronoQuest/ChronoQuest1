@@ -77,7 +77,7 @@ public class Boss : EnemyBase, IRewindable
         idleTimer += Time.deltaTime;
         if (idleTimer < 1f) return;
 
-        if (Random.value > 0.5f) StartPositional();
+        if (Random.value > 0.7f) StartPositional();
         else StartCombat();
     }
     void StartPositional()
@@ -200,11 +200,11 @@ public class Boss : EnemyBase, IRewindable
             offActionSpawned = false; 
             resActionSpawned = false;
 
-            if (Random.value > 0.5f)  currentOff = OffMove.Fireballs;
+            if (Random.value > 0.0f)  currentOff = OffMove.Fireballs;
             else currentOff = OffMove.FireColumns;
 
             float rand = Random.value;
-            if (rand < 0.25f) currentRes = ResMove.FireRow;
+            if (rand < 1.25f) currentRes = ResMove.FireRow;
             else if (rand < 0.5f) currentRes = ResMove.FireWave;
             else if (rand < 0.75f) currentRes = ResMove.Platforms;
             else currentRes = ResMove.Enemy;

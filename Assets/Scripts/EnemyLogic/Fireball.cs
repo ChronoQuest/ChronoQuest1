@@ -7,9 +7,9 @@ public class Fireball : MonoBehaviour, IRewindable
     public int damage = 1;
     private Rigidbody2D rb;
     private bool _isRewinding;
-    private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
     private Animator anim;
+    private Collider2D _collider;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +22,7 @@ public class Fireball : MonoBehaviour, IRewindable
         
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
     }
 
     void OnDestroy()
@@ -38,7 +39,7 @@ public class Fireball : MonoBehaviour, IRewindable
             playerHealth.ModifyHealth(-damage);
         }
 
-        if (collision.CompareTag("Ground"))
+        if (collision.CompareTag("Trigger"))
         {
             if (anim != null)
             {
@@ -48,7 +49,10 @@ public class Fireball : MonoBehaviour, IRewindable
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic; 
             
-            transform.position += Vector3.up * 0.7f; 
+            // Move pos, collider and rotation slightly to account for change in sprite
+            transform.position += Vector3.up * 0.85f;
+            _collider.offset = new Vector2(0f, -0.9f);
+            transform.rotation = Quaternion.identity;
 
             StartCoroutine(DestroyAfterImpact()); 
         }
@@ -65,20 +69,20 @@ public class Fireball : MonoBehaviour, IRewindable
         _isRewinding = true;
         StopAllCoroutines(); 
 
-        // Make Rigidbody Kinematic so physics doesn't interfere
         if (rb == null) rb = GetComponent<Rigidbody2D>();
-        _originalBodyType = rb.bodyType;
+        
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
+        
         if (anim != null) anim.speed = 0f;
     }
     public void OnStopRewind()
     {
         _isRewinding = false;
-        // Restore physics
-        rb.bodyType = _originalBodyType;
-        if (_originalBodyType == RigidbodyType2D.Dynamic)
+        bool wasKinematic = _lastAppliedState.GetCustomData<bool>("IsKinematic", false);
+        rb.bodyType = wasKinematic ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+        if (rb.bodyType == RigidbodyType2D.Dynamic)
         {
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
@@ -104,6 +108,7 @@ public class Fireball : MonoBehaviour, IRewindable
         // Custom state for being active
         state.SetCustomData("IsActive", gameObject.activeSelf);
         state.SetCustomData("IsKinematic", rb != null && rb.bodyType == RigidbodyType2D.Kinematic);
+        state.SetCustomData("ColOffset", _collider != null ? _collider.offset : Vector2.zero);
         return state;
     }
     public void ApplyState(RewindState state)
@@ -124,14 +129,7 @@ public class Fireball : MonoBehaviour, IRewindable
         }
 
         bool wasActive = state.GetCustomData<bool>("IsActive", true);
-        if (gameObject.activeSelf != wasActive)
-        {
-            gameObject.SetActive(wasActive);
-        }
-        if (rb != null)
-        {
-            bool wasKinematic = state.GetCustomData<bool>("IsKinematic", false);
-            rb.bodyType = wasKinematic ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
-        }
+        if (gameObject.activeSelf != wasActive) gameObject.SetActive(wasActive);
+        if (_collider != null) _collider.offset = state.GetCustomData<Vector2>("ColOffset", Vector2.zero);
     }
 }

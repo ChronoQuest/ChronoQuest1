@@ -86,28 +86,34 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     private int highestAttackThisInterval = 0;
     public static bool batDiedPreviously = false;
 
-
+    protected override void Awake()
+    {
+        base.Awake();
+        enemy = GetComponent<EnemyBase>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        originalScale = transform.localScale;
+        if (player != null)
+        {
+            playerCollider = player.GetComponent<Collider2D>();
+            playerCombat = player.GetComponent<PlayerCombat>();
+            playerSpells = player.GetComponent<PlayerSpellSystem>();
+        }
+        if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
+    }
 
     void Start()
     {
-        enemy = GetComponent<EnemyBase>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         enemy.OnDeath += HandleDeath;
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Unregister(enemy); 
             TimeRewindManager.Instance.Register(this);    
         }
-        rb = GetComponent<Rigidbody2D>();
-        originalScale = transform.localScale;
-        playerCollider = player.GetComponent<Collider2D>();
-        playerCombat = player.GetComponent<PlayerCombat>();
-        playerSpells = player.GetComponent<PlayerSpellSystem>();
-        animator = GetComponent<Animator>();
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("die");
-        if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
         // Immediately get a player state
         PlayerState state = GetCurrentPlayerState();
         currentTimeline.Enqueue(state);
@@ -367,25 +373,40 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (isDead) return;
+        if (isDead || playerCollider == null)
+        {
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            return;
+        }
         Vector2 toPlayer = playerCollider.bounds.center - transform.position;
-        // Limit values so works in large rooms. 
         sensor.AddObservation(Mathf.Clamp(toPlayer.x, -20f, 20f));
         sensor.AddObservation(Mathf.Clamp(toPlayer.y, -20f, 20f));
-
-        if(otherBat != null){
+        if (otherBat != null)
+        {
             Vector2 otherBatToPlayer = playerCollider.bounds.center - otherBat.transform.position;
             sensor.AddObservation(Mathf.Clamp(otherBatToPlayer.x, -20f, 20f));
             sensor.AddObservation(Mathf.Clamp(otherBatToPlayer.y, -20f, 20f));
-        } else
+        }
+        else
         {
             sensor.AddObservation(20f);
             sensor.AddObservation(20f);
         }
-        
-        // Let the bat know its velocity
-        sensor.AddObservation(rb.linearVelocity.x);
-        sensor.AddObservation(rb.linearVelocity.y);
+        if (rb != null)
+        {
+            sensor.AddObservation(rb.linearVelocity.x);
+            sensor.AddObservation(rb.linearVelocity.y);
+        }
+        else
+        {
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions)
