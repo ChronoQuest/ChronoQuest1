@@ -181,8 +181,16 @@ MonoBehaviour:
   moveSpeed: 2
   reviveCooldown: 5
   reviveAnimDuration: 1.2
+  attackRange: 8
+  attackCooldown: 3
+  attackAnimDuration: 0.8
+  attackDamage: 1
+  spellPrefab: {fileID: 4829135501635859076, guid: 1452b2040651f9d4aac41a3e7c657e75, type: 3}
+  spellPoolSize: 3
   player: {fileID: 0}
-  minions: []
+  minions:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!70 &31513771389696814
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
