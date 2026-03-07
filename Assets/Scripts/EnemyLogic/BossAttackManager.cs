@@ -61,8 +61,8 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        GameObject wave = Instantiate(fireWave, new Vector3(5.5f * facingDirection, -6.5f, 0f), transform.rotation);
-        wave.transform.localScale = new Vector3(facingDirection, 1f, 1f);
+        GameObject wave = Instantiate(fireWave, new Vector3(6.5f * facingDirection, -6.15f, 0f), transform.rotation);
+        wave.transform.localScale = new Vector3(facingDirection * -2f, 2f, 1f);
         FireWave fw = wave.GetComponent<FireWave>();
         fw.bossFacingDirection = facingDirection;
         if(playerHealth.CurrentHealth < 3)
