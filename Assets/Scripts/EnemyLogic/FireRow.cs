@@ -68,7 +68,7 @@ public class FireRow : MonoBehaviour, IRewindable
             currentGrowSize += 0.5f;
         }
 
-        if(!isEnding && currentAge > 6f)
+        if(!isEnding && currentAge > 5.6f)
         {
             isEnding = true;
             Debug.Log("Fire row ending triggered"); 
@@ -78,14 +78,9 @@ public class FireRow : MonoBehaviour, IRewindable
                 animator.SetBool("isEnding", true);
             }
 
-            Invoke(nameof(DisableFire), 0.4f);
-        }
+            
+        } else if (currentAge > 6f) gameObject.SetActive(false); 
 
-    }
-
-    void DisableFire()
-    {
-        gameObject.SetActive(false); 
     }
 
     void OnDestroy()
@@ -111,7 +106,6 @@ public class FireRow : MonoBehaviour, IRewindable
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f; 
 
-        // TODO: handle animation during rewind, need animation to go backwards
     }
     public void OnStopRewind()
     {
@@ -124,7 +118,6 @@ public class FireRow : MonoBehaviour, IRewindable
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
     
-        // TODO: handle animation during rewind, need animation to go back forwards
     }
     public RewindState CaptureState()
     {
@@ -136,6 +129,12 @@ public class FireRow : MonoBehaviour, IRewindable
             (rb != null) ? rb.angularVelocity : 0f,
             Time.time
         );
+        if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+        {
+            var animState = animator.GetCurrentAnimatorStateInfo(0);
+            state.AnimatorStateHash = animState.fullPathHash;
+            state.AnimatorNormalizedTime = animState.normalizedTime;
+        }
         state.SetCustomData("GrowSize", currentGrowSize);
         state.SetCustomData("FullSize", fullSizeReached);
         state.SetCustomData("Age", currentAge);
@@ -158,6 +157,10 @@ public class FireRow : MonoBehaviour, IRewindable
         if (gameObject.activeSelf != wasActive)
         {
             gameObject.SetActive(wasActive);
+        }
+        if (animator != null && state.AnimatorStateHash != 0)
+        {
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
         }
         currentGrowSize = state.GetCustomData<float>("GrowSize", 1f);
         fullSizeReached = state.GetCustomData<bool>("FullSize", false);
