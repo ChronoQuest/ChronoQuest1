@@ -200,7 +200,7 @@ public class Boss : EnemyBase, IRewindable
             offActionSpawned = false; 
             resActionSpawned = false;
 
-            if (Random.value > 0.0f)  currentOff = OffMove.Fireballs;
+            if (Random.value > 1.0f)  currentOff = OffMove.Fireballs;
             else currentOff = OffMove.FireColumns;
 
             float rand = Random.value;

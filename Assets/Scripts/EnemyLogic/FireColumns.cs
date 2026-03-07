@@ -13,6 +13,11 @@ public class Firecolumns : MonoBehaviour, IRewindable
     private float changeTimer; 
     private Vector2 currentVelocity;
     public int bossFacingDirection;
+    public Transform fireVisualLeft;
+    public Transform fireVisualRight;
+    private Animator animatorLeft;
+    private Animator animatorRight;
+    private bool isEnding = false;
     void Start()
     {
         if (TimeRewindManager.Instance != null)
@@ -20,6 +25,8 @@ public class Firecolumns : MonoBehaviour, IRewindable
             TimeRewindManager.Instance.Register(this);
         }     
         rb = GetComponent<Rigidbody2D>();
+        animatorLeft = fireVisualLeft.GetComponent<Animator>();
+        animatorRight = fireVisualRight.GetComponent<Animator>();
         
         // Initialize our safe timers
         age = 0f;
@@ -47,13 +54,19 @@ public class Firecolumns : MonoBehaviour, IRewindable
         if (transform.position.x < minX) currentVelocity = Vector2.right * moveSpeed;
         if (transform.position.x > maxX) currentVelocity = Vector2.left * moveSpeed;
 
-        // Gameplay Safe Deactivation (5 seconds)
-        if(age > 5f && gameObject.activeSelf) 
-            gameObject.SetActive(false);
+        if(age > 4.6f && gameObject.activeSelf &&!isEnding){
+            isEnding = true;
+            if (animatorLeft != null && animatorRight != null)
+            {
+                animatorLeft.SetBool("isEnding", true);
+                animatorRight.SetBool("isEnding", true);
+            }
+        }
+        if(age > 5f) gameObject.SetActive(false);
+
         
         // Gameplay Safe Destruction (12 seconds)
-        if(age > 12f)
-            Destroy(gameObject);
+        if(age > 12f) Destroy(gameObject);
 
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }
@@ -102,6 +115,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
         state.SetCustomData("IsActive", gameObject.activeSelf);
         state.SetCustomData("Age", age);
         state.SetCustomData("ChangeTimer", changeTimer);
+        state.SetCustomData("IsEnding", isEnding);
         return state;
     }
     public void ApplyState(RewindState state)
@@ -111,6 +125,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
         _lastAppliedState = state;
         age = state.GetCustomData<float>("Age", 0f);
         changeTimer = state.GetCustomData<float>("ChangeTimer", 0f);
+        isEnding = state.GetCustomData<bool>("IsEnding", false);
 
         // If we rewind before the object was born, destroy it
         if (age <= 0.1f)
