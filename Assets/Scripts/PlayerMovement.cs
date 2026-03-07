@@ -273,6 +273,12 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void FixedUpdate()
 {
+    if (!IsActionAllowed(PlayerAction.Movement))
+    {
+        rb.linearVelocity = Vector2.zero;
+        return;
+    }
+    
     if (GetComponent<PlayerHealth>()?.IsDead == true) return;
     if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 

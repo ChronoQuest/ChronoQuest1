@@ -9,7 +9,8 @@ public class TutorialHintTrigger : MonoBehaviour
         WallJump,
         WallJumpSuccess, 
         Attack,
-        HideAttack
+        HideAttack,
+        RainSpell
     }
 
     [SerializeField] private HintType hintType; 
@@ -48,6 +49,9 @@ public class TutorialHintTrigger : MonoBehaviour
             case HintType.HideAttack:
                 tutorial.HideAttackHint();
                 break; 
+            case HintType.RainSpell:
+                tutorial.TriggerRainSpell(); 
+                break;
         }
     }
 }

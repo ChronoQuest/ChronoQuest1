@@ -5,6 +5,7 @@ public class CameraZoomZone : MonoBehaviour
     [SerializeField] private CameraFollow2D cameraFollow;
     [Min(0.1f)]
     [SerializeField] private float zoomSize = 8f;
+    [SerializeField] private Vector2 cameraOffset; 
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class CameraZoomZone : MonoBehaviour
             return;
 
         cameraFollow.SetZoom(zoomSize);
+        cameraFollow.SetOffset(cameraOffset); 
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -38,5 +40,6 @@ public class CameraZoomZone : MonoBehaviour
             return;
 
         cameraFollow.ResetZoom();
+        cameraFollow.ResetOffset(); 
     }
 }

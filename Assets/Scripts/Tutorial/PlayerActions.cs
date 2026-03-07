@@ -19,6 +19,7 @@ public enum PlayerAction
     Rewind = 1 << 4,
     Spell = 1 << 5, 
     WallJump = 1 << 6, 
+    RainSpell = 1 << 7,
 
     All = ~0 
 }

@@ -16,6 +16,7 @@ public class TutorialManager : MonoBehaviour
         Rewind, 
         Spell, 
         WallJump, 
+        RainSpell,
         Complete
     }
 
@@ -35,6 +36,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject dashHint;
     public GameObject spellHint; 
     public GameObject wallJumpHint;  
+    public GameObject rainSpellHint;
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
@@ -47,6 +49,7 @@ public class TutorialManager : MonoBehaviour
     bool dashCompleted = false;
     bool spellCompleted = false; 
     bool wallJumpCompleted = false; 
+    bool rainSpellCompleted = false; 
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -56,6 +59,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI dashText; 
     public TextMeshProUGUI spellText;
     public TextMeshProUGUI wallJumpText; 
+    public TextMeshProUGUI rainSpellText; 
 
     private string movementMessage;
     private string attackMessage;
@@ -64,6 +68,7 @@ public class TutorialManager : MonoBehaviour
     private string dashMessage;  
     private string spellMessage;
     private string wallJumpMessage; 
+    private string rainSpellMessage; 
 
     Vector2 lastPlayerPosition; 
     private float gameStartTime; 
@@ -79,7 +84,6 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private GameObject attackGateBlocker; 
     #endregion
 
     void Start()
@@ -92,6 +96,7 @@ public class TutorialManager : MonoBehaviour
         dashMessage = dashText.text; 
         spellMessage = spellText.text;
         wallJumpMessage = wallJumpText.text;
+        rainSpellMessage = rainSpellText.text; 
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -113,12 +118,6 @@ public class TutorialManager : MonoBehaviour
             previousHealth = playerHealth.CurrentHealth;
             playerHealth.OnHealthChanged += HandleHealthChanged;
         }
-        
-        if (playerHealth != null)
-        {
-            previousHealth = playerHealth.CurrentHealth;
-            playerHealth.OnHealthChanged += HandleHealthChanged;
-        }
 
         if (TimeRewind.TimeRewindManager.Instance != null)
         {
@@ -130,7 +129,7 @@ public class TutorialManager : MonoBehaviour
     {   
         // if all hints have been completed, tutorial completed 
         // TODO: add back attack completed once combat has been added
-        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted)
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -217,19 +216,35 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    void AllowAll()
+    /* void AllowAll()
     {
         Debug.Log("AllowAll called");
         PlayerAction allowed = PlayerAction.Movement; 
 
-        if (jumpCompleted) allowed |= PlayerAction.Jump; 
-        if (attackCompleted) allowed |= PlayerAction.Attack;
-        if (dashCompleted) allowed |= PlayerAction.Dash;
-        if (rewindCompleted) allowed |= PlayerAction.Rewind; 
-        if (wallJumpCompleted) allowed |= PlayerAction.WallJump;
-        if (spellCompleted) allowed |= PlayerAction.Spell;  
+        if (jumpCompleted || currentStep == TutorialStep.Jump) 
+            allowed |= PlayerAction.Jump; 
+
+        if (attackCompleted || currentStep == TutorialStep.Attack) 
+            allowed |= PlayerAction.Attack; 
+
+        if (dashCompleted || currentStep == TutorialStep.Dash) 
+            allowed |= PlayerAction.Dash;
+
+        if (rewindCompleted || currentStep == TutorialStep.Rewind) 
+            allowed |= PlayerAction.Rewind; 
+
+        if (wallJumpCompleted || currentStep == TutorialStep.WallJump) 
+            allowed |= PlayerAction.WallJump;
+
+        if (spellCompleted || currentStep == TutorialStep.Spell) 
+            allowed |= PlayerAction.Spell;  
 
         player.allowedActions = allowed;
+    } */
+
+    void AllowAll()
+    {
+        player.allowedActions = PlayerAction.All;
     }
     #endregion
 
@@ -246,18 +261,6 @@ public class TutorialManager : MonoBehaviour
         );
 
         return count > 0; 
-    }
-
-    // don't let player progress to the dash tutorial until the slime has been killed
-    public void UnlockCorridor()
-    {
-        if (attackGateBlocker != null)
-        {
-            attackGateBlocker.SetActive(false); 
-            attackCompleted = true;
-            AllowAll(); 
-            Debug.Log("Attack gate unlocked"); 
-        }
     }
     #endregion 
 
@@ -291,11 +294,12 @@ public class TutorialManager : MonoBehaviour
         Invoke(nameof(HideAttackHint), attackHintDuration); 
     }
 
-    public void OnJumpSucceeded()
+    public void TriggerRainSpell()
     {
-        jumpSucceeded = true;
-        jumpAttempted = false;
-        Debug.Log("Jump successful"); 
+        if (rainSpellCompleted) return;
+        if (currentStep == TutorialStep.RainSpell) return;
+
+        SetStep(TutorialStep.RainSpell);
     }
 
     // handles when the health changes, triggers either the rewind or dash hint 
@@ -464,8 +468,7 @@ public class TutorialManager : MonoBehaviour
                 movementText.text = movementMessage;
                 typewriter.StartTyping(movementText);
                 break;
-            case TutorialStep.Attack:
-                // attackAreaActivated = true; 
+            case TutorialStep.Attack: 
                 AllowOnly(PlayerAction.Movement | PlayerAction.Attack);
                 activeHint = attackHint;
                 ShowHint(attackHint);
@@ -486,14 +489,14 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(jumpText); 
                 break; 
             case TutorialStep.Dash:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Dash);
+                AllowOnly(PlayerAction.Movement | PlayerAction.Dash | PlayerAction.Jump);
                 activeHint = dashHint;
                 ShowHint(dashHint); 
                 dashText.text = dashMessage;
                 typewriter.StartTyping(dashText); 
                 break;
             case TutorialStep.Spell:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Spell);
+                AllowOnly(PlayerAction.Movement | PlayerAction.Spell | PlayerAction.Jump | PlayerAction.Dash);
                 activeHint = spellHint;
                 ShowHint(spellHint);
                 spellText.text = spellMessage;
@@ -505,6 +508,13 @@ public class TutorialManager : MonoBehaviour
                 ShowHint(wallJumpHint);
                 wallJumpText.text = wallJumpMessage;
                 typewriter.StartTyping(wallJumpText);
+                break;
+            case TutorialStep.RainSpell:
+                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell); 
+                activeHint = rainSpellHint;
+                ShowHint(rainSpellHint);
+                rainSpellText.text = rainSpellMessage; 
+                typewriter.StartTyping(rainSpellText); 
                 break;
         }
     }

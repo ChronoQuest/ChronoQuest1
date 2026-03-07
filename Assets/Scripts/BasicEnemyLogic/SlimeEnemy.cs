@@ -309,12 +309,6 @@ public class SlimeEnemy : EnemyBase
         // 4. Disable collider and hide sprite so enemy disappears
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
-
-        TutorialManager tutorial = FindObjectOfType<TutorialManager>();
-        if (tutorial != null)
-        {
-            tutorial.UnlockCorridor();
-        }
         
         StartCoroutine(base.DeathRoutine());
 
