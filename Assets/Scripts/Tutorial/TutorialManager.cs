@@ -84,6 +84,8 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
+    private float previousZoom;
+    private CameraFollow2D cam; 
     #endregion
 
     void Start()
@@ -100,6 +102,8 @@ public class TutorialManager : MonoBehaviour
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
+
+        cam = Camera.main.GetComponent<CameraFollow2D>();
 
         // track the start of the game, used for the idle check in the movement hint
         gameStartTime = Time.time; 
@@ -128,13 +132,17 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {   
         // if all hints have been completed, tutorial completed 
-        // TODO: add back attack completed once combat has been added
         if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
             DisableHints();
         }
+
+        /* if (rewindCompleted && Time.timeScale != 1f)
+        {
+            Time.timeScale = 1f; 
+        } */ 
     }
 
     #region Fade Effect
@@ -175,7 +183,7 @@ public class TutorialManager : MonoBehaviour
 
         while (t < 1f)
         {
-            t += Time.deltaTime / hintFadeDuration; 
+            t += Time.unscaledDeltaTime / hintFadeDuration; 
             cg.alpha = Mathf.Lerp(start, 0f, t); 
             yield return null; 
         }
@@ -215,32 +223,6 @@ public class TutorialManager : MonoBehaviour
             player.FreezeMovement();
         }
     }
-
-    /* void AllowAll()
-    {
-        Debug.Log("AllowAll called");
-        PlayerAction allowed = PlayerAction.Movement; 
-
-        if (jumpCompleted || currentStep == TutorialStep.Jump) 
-            allowed |= PlayerAction.Jump; 
-
-        if (attackCompleted || currentStep == TutorialStep.Attack) 
-            allowed |= PlayerAction.Attack; 
-
-        if (dashCompleted || currentStep == TutorialStep.Dash) 
-            allowed |= PlayerAction.Dash;
-
-        if (rewindCompleted || currentStep == TutorialStep.Rewind) 
-            allowed |= PlayerAction.Rewind; 
-
-        if (wallJumpCompleted || currentStep == TutorialStep.WallJump) 
-            allowed |= PlayerAction.WallJump;
-
-        if (spellCompleted || currentStep == TutorialStep.Spell) 
-            allowed |= PlayerAction.Spell;  
-
-        player.allowedActions = allowed;
-    } */
 
     void AllowAll()
     {
@@ -317,6 +299,12 @@ public class TutorialManager : MonoBehaviour
 
             rewindFollow.SetTarget(player.transform);
             rewindFollow.enabled = true;
+
+            if (cam != null)
+            {
+                previousZoom = Camera.main.orthographicSize;
+                cam.SetZoom(previousZoom - 1f);
+            } 
         }
        
        previousHealth = current; 
@@ -330,6 +318,13 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRewindStarted()
     {
+        Debug.Log("REWIND STARTED");
+
+        if (cam != null)
+        {
+            cam.SetZoom(previousZoom);
+        }
+
         OnPlayerRewind();
     }   
     #endregion
@@ -407,6 +402,7 @@ public class TutorialManager : MonoBehaviour
             rewindCompleted = true;
             rewindFollow.enabled = false;
             HideHint(rewindHint);
+
             Debug.Log("Player rewind tutorial complete");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
