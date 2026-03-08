@@ -86,34 +86,26 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     private int highestAttackThisInterval = 0;
     public static bool batDiedPreviously = false;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        enemy = GetComponent<EnemyBase>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        originalScale = transform.localScale;
-        if (player != null)
-        {
-            playerCollider = player.GetComponent<Collider2D>();
-            playerCombat = player.GetComponent<PlayerCombat>();
-            playerSpells = player.GetComponent<PlayerSpellSystem>();
-        }
-        if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
-    }
-
     void Start()
     {
+        enemy = GetComponent<EnemyBase>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         enemy.OnDeath += HandleDeath;
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Unregister(enemy); 
             TimeRewindManager.Instance.Register(this);    
         }
+        rb = GetComponent<Rigidbody2D>();
+        originalScale = transform.localScale;
+        playerCollider = player.GetComponent<Collider2D>();
+        playerCombat = player.GetComponent<PlayerCombat>();
+        playerSpells = player.GetComponent<PlayerSpellSystem>();
+        animator = GetComponent<Animator>();
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("die");
+        if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
         // Immediately get a player state
         PlayerState state = GetCurrentPlayerState();
         currentTimeline.Enqueue(state);
