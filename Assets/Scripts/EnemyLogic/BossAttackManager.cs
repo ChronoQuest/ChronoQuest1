@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class BossAttackManager : MonoBehaviour, IRewindable
 {
     public GameObject fireball;
+    public GameObject homingFireball;
     public GameObject fireColumn;
     public GameObject fireRow;
     public GameObject fireWave;
@@ -33,6 +34,12 @@ public class BossAttackManager : MonoBehaviour, IRewindable
         if (isRewinding) return;
         float randX = Random.Range(-12f, 2.5f) * facingDirection;
         Instantiate(fireball, new Vector3(randX,9f,0f), fireball.transform.rotation);
+    }
+    public void spawnHomingFireball(int facingDirection)
+    {
+        if (isRewinding) return;
+        float randX = Random.Range(-12f, 2.5f) * facingDirection;
+        Instantiate(homingFireball, new Vector3(randX,6f,0f), homingFireball.transform.rotation);
     }
 
     public void spawnFireColumns(int facingDirection)

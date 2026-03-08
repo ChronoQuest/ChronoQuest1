@@ -17842,6 +17842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::BossAttackManager
   fireball: {fileID: 4226470768778562818, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
+  homingFireball: {fileID: 4226470768778562818, guid: e8048b089624a28469efe1566c7983ff, type: 3}
   fireColumn: {fileID: 1242331537018533324, guid: 2a7bf4bfd89eb954387af276434580a7, type: 3}
   fireRow: {fileID: 8350819984362886484, guid: 689016a0676ac84418b2fb60afb9d0c4, type: 3}
   fireWave: {fileID: 1228122738348930315, guid: 175154f0f0616cc40a5934a323a5166b, type: 3}
