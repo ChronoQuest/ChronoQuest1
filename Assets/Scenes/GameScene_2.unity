@@ -505256,6 +505256,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: dashPhaseLayers.m_Bits
+      value: 1161
+      objectReference: {fileID: 0}
     - target: {fileID: 4777569780141679609, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: postProcessVolume
       value: 
@@ -510537,6 +510541,10 @@ PrefabInstance:
     - target: {fileID: 792851248633016917, guid: ea3d597bae199ef4bba7019ce135659e, type: 3}
       propertyPath: m_Name
       value: GhostEnemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 987323167111619277, guid: ea3d597bae199ef4bba7019ce135659e, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1255838054294113718, guid: ea3d597bae199ef4bba7019ce135659e, type: 3}
       propertyPath: m_LocalPosition.x
