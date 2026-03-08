@@ -19,7 +19,7 @@ public class Boss : EnemyBase, IRewindable
 
     enum BossPhase { Idle, Positional, Combat }
     enum PosMove { None, GroundPound, ChangeSides }
-    enum OffMove { None, Fireballs, FireColumns, HomingFireballs }
+    enum OffMove { None, Fireballs, FireColumns, HomingFireballs, FireExplosion }
     enum ResMove { None, FireRow, FireWave, Platforms, Enemy }
     public bool isDead = false;
     BossPhase currentPhase;
@@ -199,12 +199,14 @@ public class Boss : EnemyBase, IRewindable
             
             offActionSpawned = false; 
             resActionSpawned = false;
-
-            if (Random.value > 0.5f)  currentOff = OffMove.Fireballs;
-            else currentOff = OffMove.FireColumns;
-            currentOff = OffMove.HomingFireballs;
-
             float rand = Random.value;
+
+            if (rand < 0.25f)  currentOff = OffMove.Fireballs;
+            else if (rand < 0.5f) currentOff = OffMove.FireColumns;
+            else if (rand < 0.75f) currentOff = OffMove.HomingFireballs;
+            else currentOff = OffMove.FireExplosion;
+
+            rand = Random.value;
             if (rand < 0.25f) currentRes = ResMove.FireRow;
             else if (rand < 0.5f) currentRes = ResMove.FireWave;
             else if (rand < 0.75f) currentRes = ResMove.Platforms;
@@ -258,6 +260,20 @@ public class Boss : EnemyBase, IRewindable
             {
                 offTimer = 0f;
                 attackManager.spawnHomingFireball(facingDirection);
+                offIndex++;
+            }
+            return false;
+        }
+        else if (currentOff == OffMove.FireExplosion)
+        {
+            if (offIndex >= 15) return true; 
+            PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
+            float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1f : 0.5f;
+
+            if (offTimer > spawnDelay)
+            {
+                offTimer = 0f;
+                attackManager.spawnFireExplosion(facingDirection);
                 offIndex++;
             }
             return false;

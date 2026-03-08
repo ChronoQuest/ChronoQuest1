@@ -17854,6 +17854,7 @@ MonoBehaviour:
   - {fileID: 792851248633016917, guid: ea3d597bae199ef4bba7019ce135659e, type: 3}
   platforms: {fileID: 1154480190769385664, guid: 32e0e4dc93399854e923618253c7c38d, type: 3}
   floorFire: {fileID: 4536691720510892599, guid: a550ff2b7d16dfb4e8ec10d1721b3f98, type: 3}
+  fireExplosion: {fileID: 4123185374693520864, guid: d1044349bc64c024082659f9d295a26b, type: 3}
   player: {fileID: 437452796}
 --- !u!4 &1348428425
 Transform:
@@ -18380,6 +18381,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32e0e4dc93399854e923618253c7c38d, type: 3}
+--- !u!1001 &6727123479614498879
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.5795
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509045442135996741, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123185374693520864, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_Name
+      value: FireExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123185374693520864, guid: d1044349bc64c024082659f9d295a26b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d1044349bc64c024082659f9d295a26b, type: 3}
 --- !u!1001 &8123384046105741440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18561,6 +18623,7 @@ SceneRoots:
   - {fileID: 1449710243}
   - {fileID: 8123384046105741440}
   - {fileID: 8681172556110172903}
+  - {fileID: 6727123479614498879}
   - {fileID: 1334316791}
   - {fileID: 1046256882}
   - {fileID: 1607628677231605071}

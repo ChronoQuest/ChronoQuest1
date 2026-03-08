@@ -12,6 +12,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public List<GameObject> enemyList;
     public GameObject platforms;
     public GameObject floorFire;
+    public GameObject fireExplosion;
     public Transform player;
     private bool isRewinding;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,6 +41,13 @@ public class BossAttackManager : MonoBehaviour, IRewindable
         if (isRewinding) return;
         float randX = Random.Range(-12f, 2.5f) * facingDirection;
         Instantiate(homingFireball, new Vector3(randX,6f,0f), homingFireball.transform.rotation);
+    }
+    public void spawnFireExplosion(int facingDirection)
+    {
+        if (isRewinding) return;
+        float randX = Random.Range(-12f, 2.5f) * facingDirection;
+        float randY = Random.Range(-5.7f, -0.9f);
+        Instantiate(fireExplosion, new Vector3(randX,randY,0f), fireExplosion.transform.rotation);
     }
 
     public void spawnFireColumns(int facingDirection)
