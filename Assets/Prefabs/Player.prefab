@@ -143,11 +143,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.97
+      value: -3.88
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.45
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -233,6 +233,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2585457603464037882}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8686103127953602408}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4777569780141679609}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2571558052936654661}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
 --- !u!4 &4991978750263448100 stripped
 Transform:
@@ -267,7 +276,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -333,9 +342,10 @@ MonoBehaviour:
   jumpBufferTime: 0.2
   moveSpeed: 5
   jumpForce: 12
+  knockbackTime: 0.5
   totalJumpFrames: 8
   dashSpeed: 20
-  dashDuration: 0.25
+  dashDuration: 0.3
   dashCooldown: 1
   dashPhaseLayers:
     serializedVersion: 2
@@ -364,6 +374,7 @@ MonoBehaviour:
   moveLeftKey: 15
   moveRightKey: 18
   jumpKey: 1
+  tutorialManager: {fileID: 0}
 --- !u!114 &340241791458222048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,6 +535,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TimeRewind.PlayerRewindController
   rewindKey: 32
   rewindHoldThreshold: 0
+  minRewindDuration: 0.25
+  releaseFramesRequired: 2
   manaDrainPerSecond: 10
 --- !u!66 &2945315806622364923
 CompositeCollider2D:
@@ -582,10 +595,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d18f9d8a38c744b6b79578532626dcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerHealth
-  maxHealth: 5
+  maxHealth: 10
   iFrameDuration: 2
   flashSpeed: 0.1
-  currentHealth: 4
+  currentHealth: 10
+  vibrationLowFrequency: 0.5
+  vibrationHighFrequency: 0.8
+  vibrationDuration: 0.2
+  gameOverUI: {fileID: 0}
 --- !u!114 &1513486163522757522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,6 +664,7 @@ MonoBehaviour:
   cooldown: 0.4
   recoilForce: 8
   recoilDuration: 0.2
+  latestSpell: {fileID: 0}
 --- !u!114 &744927932359359601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerCombat
   meleeRange: 1.33
-  meleeDamage: 1
+  meleeDamage: 2
   attackOffset: 1
   topAttackOffset: 2
   spellPrefab: {fileID: 6294899724744691538, guid: 4369f0b2705eacc438c5255f58e30c51, type: 3}
@@ -722,3 +740,67 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.48, y: 0.58}
   m_Direction: 0
+--- !u!114 &8686103127953602408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5236253385447438913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250c5650d7b8d48b194ca3f002826b1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerSafetyNet
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  unsafeTag: Trap
+  recordInterval: 0.1
+  respawnDelay: 3
+  boxWidth: 0.7
+  boxHeight: 0.2
+  offset: {x: -0.2, y: -0.85}
+--- !u!114 &4777569780141679609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5236253385447438913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d021fdd0521760445bfb99a3f080a3d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindEffects
+  postProcessVolume: {fileID: 0}
+  rewindSaturation: -50
+  rewindChromaticAberration: 0.5
+  rewindVignetteIntensity: 0.4
+  effectTransitionSpeed: 5
+  rewindTintColor: {r: 0.5, g: 0.7, b: 1, a: 0.2}
+  rewindBurstDuration: 1
+  burstSaturation: -100
+  burstChromaticAberration: 0.8
+  burstVignetteIntensity: 0.6
+  burstTintColor: {r: 0.6, g: 0.85, b: 1, a: 0.35}
+  audioSource: {fileID: 0}
+  rewindLoopSound: {fileID: 0}
+  rewindStartSound: {fileID: 0}
+  rewindEndSound: {fileID: 0}
+  progressBar: {fileID: 0}
+  rewindIndicator: {fileID: 0}
+--- !u!114 &2571558052936654661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5236253385447438913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ea977a7cd7344deb9715d8b8c6e82d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::HitFlash
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashDuration: 0.1
