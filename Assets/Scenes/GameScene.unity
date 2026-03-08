@@ -1405,9 +1405,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: health
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1103437997}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: knockbackResistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5531599089896343868, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
       propertyPath: m_Name
       value: SkeletonArcher
