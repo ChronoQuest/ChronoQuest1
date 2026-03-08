@@ -5859,8 +5859,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c620a3e75c5224b3cbeea6cc571295a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
-  shakeDuration: 0.5
-  shakeIntensity: 0.05
+  shakeDuration: 0.4
+  shakeIntensity: 0.1
   restoreDelay: 5
   physicsCollider: {fileID: 1424034720}
   tilemapRenderer: {fileID: 1424034719}
@@ -110861,8 +110861,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c620a3e75c5224b3cbeea6cc571295a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
-  shakeDuration: 0.5
-  shakeIntensity: 0.05
+  shakeDuration: 0.3
+  shakeIntensity: 0.1
   restoreDelay: 5
   physicsCollider: {fileID: 846227798}
   tilemapRenderer: {fileID: 846227797}
@@ -505262,11 +505262,11 @@ PrefabInstance:
       objectReference: {fileID: 1406895534}
     - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50.8
+      value: -4.83
       objectReference: {fileID: 0}
     - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 39.6
+      value: -2.04
       objectReference: {fileID: 0}
     - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -506418,8 +506418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c620a3e75c5224b3cbeea6cc571295a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
-  shakeDuration: 0.5
-  shakeIntensity: 0.05
+  shakeDuration: 0.4
+  shakeIntensity: 0.1
   restoreDelay: 5
   physicsCollider: {fileID: 725604300}
   tilemapRenderer: {fileID: 725604296}
