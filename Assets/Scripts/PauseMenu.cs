@@ -1,61 +1,88 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; 
-using UnityEngine.InputSystem; 
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject container; 
+    public GameObject container;
     public static bool isPaused = false;
     public int escapePressed = 0;
-    
+
+    [Header("UI Navigation")]
+    [SerializeField] private GameObject firstSelectedButton;
+
     void Update()
     {
-        if (Keyboard.current?.escapeKey.wasPressedThisFrame == true || Gamepad.current?.startButton.wasPressedThisFrame == true)
-        {
-            if (isPaused) 
-                Resume(); 
-            else
-                Pause(); 
-                DataCollectionService.Instance?.RecordPause();
-        }
-    } 
+        bool pausePressed =
+            Keyboard.current.escapeKey.wasPressedThisFrame ||
+            (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame);
 
-    public void Pause()
-    {
-        Debug.Log("Pausing game");
-        isPaused = true; 
-        container.SetActive(true); 
-        Time.timeScale = 0f; 
+        if (pausePressed)
+        {
+            TogglePause();
+        }
+
+        // Allow controller B / Circle to resume
+        if (isPaused && Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame)
+        {
+            ResumeButton();
+        }
     }
 
-    public void Resume()
+    void TogglePause()
     {
-        Debug.Log("Resuming game");
-        isPaused = false; 
-        container.SetActive(false); 
-        Time.timeScale = 1f; 
+        if (isPaused)
+            ResumeButton();
+        else
+            PauseGame();
+    }
+
+    void PauseGame()
+    {
+        isPaused = true;
+        container.SetActive(true);
+        Time.timeScale = 0f;
+
+        escapePressed++;
+
+        DataCollectionService.Instance?.RecordPause();
+
+        // Focus first UI button for controller navigation
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelectedButton);
     }
 
     public void PauseButton()
     {
-        Pause(); 
-        DataCollectionService.Instance?.RecordPause();
+        PauseGame();
     }
 
     public void ResumeButton()
     {
-        Resume(); 
+        isPaused = false;
+        container.SetActive(false);
+        Time.timeScale = 1f;
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void MainMenuButton()
     {
-        Resume(); 
-        SceneManager.LoadScene("TitleScreen"); 
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        if (container != null)
+            container.SetActive(false);
+
+        SceneManager.LoadScene("TitleScreen");
     }
 
     public void RestartButton()
     {
-        Resume(); 
-        SceneManager.LoadScene("GameScene"); 
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene("GameScene");
     }
 }

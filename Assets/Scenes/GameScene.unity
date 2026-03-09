@@ -228,6 +228,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
+--- !u!1 &312907606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2291509841592735764, guid: c749eb2aed7674224a923043109f15da, type: 3}
+  m_PrefabInstance: {fileID: 3765684241865112175}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &312907614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312907606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7fcdb0b8e874d6793a5e749d4ae79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1001 &330783853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1071,6 +1091,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: knockbackTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: tutorialManager
       value: 
       objectReference: {fileID: 419607659}
@@ -1081,6 +1105,9 @@ PrefabInstance:
     - target: {fileID: 1893749182792678861, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_SortingOrder
       value: 5
+    - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: postProcessVolume
@@ -1584,9 +1611,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: health
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1103437997}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: knockbackResistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5531599089896343868, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
       propertyPath: m_Name
       value: SkeletonArcher
@@ -114484,26 +114519,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 256754504867725843, guid: c749eb2aed7674224a923043109f15da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3765684241865112177}
+    - targetCorrespondingSourceObject: {fileID: 2291509841592735764, guid: c749eb2aed7674224a923043109f15da, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 312907614}
   m_SourcePrefab: {fileID: 100100000, guid: c749eb2aed7674224a923043109f15da, type: 3}
---- !u!1 &3765684241865112176 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 256754504867725843, guid: c749eb2aed7674224a923043109f15da, type: 3}
-  m_PrefabInstance: {fileID: 3765684241865112175}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3765684241865112177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3765684241865112176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c7fcdb0b8e874d6793a5e749d4ae79b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TrapDamage
-  damage: 1
-  knockbackForce: 5
 --- !u!1001 &7296222224498140105
 PrefabInstance:
   m_ObjectHideFlags: 0
