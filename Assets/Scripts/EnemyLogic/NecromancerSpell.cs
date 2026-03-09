@@ -43,8 +43,8 @@ public class NecromancerSpell : MonoBehaviour, IRewindable
         isActive = true;
         elapsedLifetime = 0f;
         rb.linearVelocity = direction.normalized * speed;
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = direction.x < 0;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
         StartCoroutine(EnableColliderNextFrame());
     }
 
