@@ -77,18 +77,19 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformMelee()
     {
+
+        float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
+        if (Gamepad.current != null) moveInput += Gamepad.current.leftStick.x.ReadValue();
+
+        if (moveInput > 0.1f) spriteRenderer.flipX = false;
+        else if (moveInput < -0.1f) spriteRenderer.flipX = true;
+
         isAttacking = true;
         DataCollectionService.Instance?.RecordMeleeAttempt();
+
         if (Time.time - lastAttackTime > comboResetTime)
         {
             comboStep = 0;
-        }
-
-        float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
-        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-        if (moveInput != 0 && (spellSys == null || !spellSys.isCasting)) 
-        {
-            spriteRenderer.flipX = (moveInput < 0);
         }
         
         float dir = spriteRenderer.flipX ? -1f : 1f;
@@ -133,6 +134,7 @@ public class PlayerCombat : MonoBehaviour
             }
         }
         lastAttackTime = Time.time;
+        CancelInvoke(nameof(ResetAttackFlag));
         Invoke(nameof(ResetAttackFlag), comboResetTime);
     }
     private void ResetAttackFlag()

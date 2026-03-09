@@ -493,8 +493,10 @@ public class PlayerPlatformer : MonoBehaviour
 
     void FlipSprite()
     {
+        PlayerCombat combat = GetComponent<PlayerCombat>();
         PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-        if (spellSys != null && spellSys.isCasting) return;
+        //if (spellSys != null && spellSys.isCasting) return;
+        if ((spellSys != null && spellSys.isCasting) || (combat != null && combat.isAttacking)) return;
 
         if (horizontalInput > 0.1f) spriteRenderer.flipX = false;
         else if (horizontalInput < -0.1f) spriteRenderer.flipX = true;
