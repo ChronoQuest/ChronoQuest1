@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 2208035217881589895}
   - component: {fileID: 5275606794825206045}
   - component: {fileID: 1048562369388960493}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GhostEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e82b44244b53e84e941b62a4868e0e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::GhostEnemy
-  health: 3
+  health: 6
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6

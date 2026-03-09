@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using TimeRewind;
+using UnityEngine.InputSystem;
 
 public class PlayerHealth : MonoBehaviour, IRewindable
 {
@@ -18,6 +19,11 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     [Header("Debug")]
     [Range(0, 20)]
     [SerializeField] private int currentHealth;
+
+    [Header("Controller Vibration")]
+    [SerializeField] private float vibrationLowFrequency = 0.5f;
+    [SerializeField] private float vibrationHighFrequency = 0.8f;
+    [SerializeField] private float vibrationDuration = 0.2f;
 
     // References
     private SpriteRenderer spriteRenderer;
@@ -69,6 +75,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         {
             TimeRewindManager.Instance.Unregister(this);
         }
+        if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0f, 0f);
     }
 
     private void OnValidate()
@@ -106,7 +113,6 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateUI();
-
         if (currentHealth <= 0)
         {
             Die();
@@ -116,7 +122,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             // Start the cooldown routine
             StartCoroutine(InvincibilityRoutine());
         }
-
+        StartCoroutine(GamepadVibration());
         CameraShake shaker = Camera.main.GetComponent<CameraShake>();
         if (shaker != null)
         {
@@ -237,6 +243,15 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         }
 
         isInvincible = false;
+    }
+    private IEnumerator GamepadVibration()
+    {
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(vibrationLowFrequency, vibrationHighFrequency);
+            yield return new WaitForSeconds(vibrationDuration);
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
+        }
     }
 
     public void OnStartRewind()
