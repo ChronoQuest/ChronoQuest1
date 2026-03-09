@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::SpellProjectile
   speed: 15
   lifetime: 3
-  damage: 11
+  damage: 6
   knockbackStrength: 6
 --- !u!95 &4762639282576488643
 Animator:

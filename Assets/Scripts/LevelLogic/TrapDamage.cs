@@ -8,7 +8,8 @@ public class TrapDamage : MonoBehaviour
 {
     [Header("Settings")]
     public int damage = 1;
-    public float knockbackForce = 5f;
+    public float knockbackForce = 8f;   // Horizontal push
+    public float upwardForce = 6f;      // Vertical arc force
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -33,12 +34,19 @@ public class TrapDamage : MonoBehaviour
 
         if (knockbackForce > 0f)
         {
-            Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
-            if (playerRb != null)
+            PlayerPlatformer player = other.GetComponent<PlayerPlatformer>();
+            if (player != null)
             {
-                Vector2 direction = (otherPosition - transform.position).normalized;
-                playerRb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
+                float horizontalDir = Mathf.Sign(otherPosition.x - transform.position.x);
+
+                Vector2 knockback = new Vector2(
+                    horizontalDir * knockbackForce,
+                    upwardForce
+                );
+
+                player.ApplyKnockback(knockback);
             }
+
         }
     }
 }
