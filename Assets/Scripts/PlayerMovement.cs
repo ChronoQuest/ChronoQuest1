@@ -134,6 +134,9 @@ public class PlayerPlatformer : MonoBehaviour
         float gp = 0f;
         if (Gamepad.current != null)
             gp = Gamepad.current.leftStick.x.ReadValue();
+
+            if (Mathf.Abs(gp) < 0.1f)
+                gp = 0f; 
         horizontalInput = Mathf.Clamp(kb + gp, -1f, 1f);
 
         if (Mathf.Abs(horizontalInput) > 0.1f)
@@ -168,6 +171,8 @@ public class PlayerPlatformer : MonoBehaviour
         // freezing animation when movement not allowed
         if (!IsActionAllowed(PlayerAction.Movement))
         {
+            horizontalInput = 0f;
+            
             if (anim != null)
             {
                 anim.SetFloat("Speed", 0f); 
@@ -484,8 +489,6 @@ public class PlayerPlatformer : MonoBehaviour
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
             if (!_isRewinding) anim.SetTrigger("Dash");
         }
-
-        tutorialManager?.OnPlayerDash();
         
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
