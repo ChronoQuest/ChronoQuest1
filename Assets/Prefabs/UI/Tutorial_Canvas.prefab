@@ -304,7 +304,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press N to activate the rain spell.
+  m_text: Press Y to activate the rain spell.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -718,6 +718,99 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2178403502751665197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3137278511816492364}
+  - component: {fileID: 9027110046762638563}
+  - component: {fileID: 6924415106093661232}
+  m_Layer: 0
+  m_Name: RewindArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3137278511816492364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178403502751665197}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1217.9, y: -720.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5049569664104439327}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &9027110046762638563
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178403502751665197}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -4.0529175, y: 0.3512268}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 26.56688, y: 17.959297}
+  m_EdgeRadius: 0
+--- !u!114 &6924415106093661232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178403502751665197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc84a9fc3f6734e7f933ebff715dad83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
+  hintType: 8
+  tutorial: {fileID: 3131234995556985550}
 --- !u!1 &2251540583270073725
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,7 +952,7 @@ MonoBehaviour:
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
   panToEnemyDelay: 0.3
-  focusDuration: 0.5
+  focusDuration: 0.3
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
@@ -1927,7 +2020,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.2895851, y: -0.7227011}
+  m_Offset: {x: 1.5511475, y: -0.7227011}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1937,7 +2030,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.436821, y: 4.809042}
+  m_Size: {x: 2.9136963, y: 4.809042}
   m_EdgeRadius: 0
 --- !u!114 &5114495701097518166
 MonoBehaviour:
@@ -1969,7 +2062,7 @@ MonoBehaviour:
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
   panToEnemyDelay: 0.3
-  focusDuration: 1.2
+  focusDuration: 0.5
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
@@ -2382,6 +2475,7 @@ RectTransform:
   - {fileID: 9067789146171115659}
   - {fileID: 8747742423655325373}
   - {fileID: 5375548511722503122}
+  - {fileID: 3137278511816492364}
   m_Father: {fileID: 1748531016957598062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

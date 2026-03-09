@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Collections; 
+using System.Collections.Generic; 
 
 public class TutorialManager : MonoBehaviour
 {
@@ -86,6 +87,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     private float previousZoom;
     private CameraFollow2D cam; 
+    private bool inRewindArea = false;
+    private Dictionary<Rigidbody2D, RigidbodyType2D> frozenBodies = new Dictionary<Rigidbody2D, RigidbodyType2D>(); 
+    Dictionary<MonoBehaviour, bool> frozenEnemies = new Dictionary<MonoBehaviour, bool>();
     #endregion
 
     void Start()
@@ -228,6 +232,44 @@ public class TutorialManager : MonoBehaviour
     {
         player.allowedActions = PlayerAction.All;
     }
+
+    /* void FreezeNearbyObject(float radius)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(player.transform.position, radius);
+
+        foreach (var hit in hits)
+        {
+            Rigidbody2D rb = hit.attachedRigidbody; 
+
+            if (rb == null) continue;
+            if (rb == player.GetComponent<Rigidbody2D>()) continue;
+
+            // only freeze dynamic bodies
+            if (rb.bodyType != RigidbodyType2D.Dynamic) continue;
+
+            // only record once
+            if (!frozenBodies.ContainsKey(rb))
+            {
+                frozenBodies.Add(rb, rb.bodyType);
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+                rb.bodyType = RigidbodyType2D.FreezeAll;
+            }
+        }
+    }
+
+    void UnfreezeNearbyObjects()
+    {
+        foreach (var pair in frozenBodies)
+        {
+            if (pair.Key != null)
+            {
+                pair.Key.constraints = pair.Value; 
+            }
+        }
+
+        frozenBodies.Clear(); 
+    } */ 
     #endregion
 
     #region Attack Tutorial Area
@@ -293,18 +335,9 @@ public class TutorialManager : MonoBehaviour
             return; 
         }
 
-        if (current == 3 && !rewindCompleted)
+        if (current < previousHealth && !rewindCompleted && inRewindArea)
         {
-            SetStep(TutorialStep.Rewind); 
-
-            rewindFollow.SetTarget(player.transform);
-            rewindFollow.enabled = true;
-
-            if (cam != null)
-            {
-                previousZoom = Camera.main.orthographicSize;
-                cam.SetZoom(previousZoom - 1f);
-            } 
+            TryTriggerRewindHint(); 
         }
        
        previousHealth = current; 
@@ -325,6 +358,7 @@ public class TutorialManager : MonoBehaviour
             cam.SetZoom(previousZoom);
         }
 
+        // UnfreezeNearbyObjects(); 
         OnPlayerRewind();
     }   
     #endregion
@@ -357,6 +391,35 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.WallJump) return;
 
         SetStep(TutorialStep.WallJump);
+    }
+
+    public void SetInRewindRegion(bool value)
+    {
+        inRewindArea = value; 
+
+        if (value && playerHealth.CurrentHealth < playerHealth.MaxHealth && !rewindCompleted)
+        {
+            TryTriggerRewindHint();
+            // FreezeNearbyObject(20f); 
+        }
+    }
+
+    private void TryTriggerRewindHint()
+    {
+        if (!inRewindArea) return; 
+        if (rewindCompleted) return;
+        if (currentStep == TutorialStep.Rewind) return;
+
+        SetStep(TutorialStep.Rewind);
+
+        rewindFollow.SetTarget(player.transform); 
+        rewindFollow.enabled = true;
+
+        if (cam != null)
+        {
+            previousZoom = Camera.main.orthographicSize;
+            cam.SetZoom(previousZoom - 1.5f);
+        }
     }
 
     public void OnPlayerSpell()

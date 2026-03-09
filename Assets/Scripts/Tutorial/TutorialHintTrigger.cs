@@ -10,7 +10,8 @@ public class TutorialHintTrigger : MonoBehaviour
         WallJumpSuccess, 
         Attack,
         HideAttack,
-        RainSpell
+        RainSpell,
+        RewindRegion
     }
 
     [SerializeField] private HintType hintType; 
@@ -52,6 +53,19 @@ public class TutorialHintTrigger : MonoBehaviour
             case HintType.RainSpell:
                 tutorial.TriggerRainSpell(); 
                 break;
+            case HintType.RewindRegion:
+                tutorial.SetInRewindRegion(true);
+                break;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return; 
+
+        if (hintType == HintType.RewindRegion)
+        {
+            tutorial.SetInRewindRegion(false); 
         }
     }
 }
