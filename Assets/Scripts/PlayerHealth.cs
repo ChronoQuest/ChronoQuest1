@@ -113,6 +113,20 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateUI();
+
+        if (_rb != null && currentHealth > 0)
+        {
+        
+            Collider2D enemy = Physics2D.OverlapCircle(transform.position, 2f, LayerMask.GetMask("Enemy"));
+            float knockbackDir = transform.position.x < (enemy != null ? enemy.transform.position.x : transform.position.x + 1) ? -1f : 1f;
+
+            _rb.linearVelocity = Vector2.zero; 
+            _rb.AddForce(new Vector2(knockbackDir * 12f, 7f), ForceMode2D.Impulse);
+
+            var movement = GetComponent<PlayerPlatformer>();
+            if (movement != null) movement.TriggerKnockbackLock(0.2f);
+        }
+
         if (currentHealth <= 0)
         {
             Die();
