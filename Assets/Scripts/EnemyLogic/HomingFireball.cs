@@ -127,8 +127,10 @@ public class HomingFireball : MonoBehaviour, IRewindable
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Kinematic;
 
-            transform.position += Vector3.up * 0.85f;
-            _collider.offset = new Vector2(0f, -0.9f);
+            float floorTopY = collision.bounds.max.y;
+
+            transform.position = new Vector3(transform.position.x, floorTopY + 1.35f, transform.position.z);
+            _collider.offset = new Vector2(0f, -1f);
             transform.rotation = Quaternion.identity;
 
             _isExploding = true;
