@@ -16,7 +16,6 @@ public class FireExplosion : MonoBehaviour, IRewindable
     private CircleCollider2D _circleCol;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    private AnimationCurve radiusCurve;
 
     void Start()
     {
@@ -25,7 +24,6 @@ public class FireExplosion : MonoBehaviour, IRewindable
         _circleCol = GetComponent<CircleCollider2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        radiusCurve = new AnimationCurve(new Keyframe(0f, 0.2f), new Keyframe(0.5f, 1f), new Keyframe(1f, 0f));
 
         if (TimeRewindManager.Instance != null)
         {
@@ -68,8 +66,6 @@ public class FireExplosion : MonoBehaviour, IRewindable
                 if (animPercent < 1f)
                 {
                     _circleCol.enabled = true; 
-                    
-                    _circleCol.radius = radiusCurve.Evaluate(animPercent);
                 }
                 else
                 {

@@ -16771,6 +16771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Boss
   health: 250
+  stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
@@ -18009,7 +18010,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0005054027, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -18019,7 +18020,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.71853995, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &1539008224
 Transform:
@@ -18216,7 +18217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 598376732907495502, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9294549
+      value: 0.9997807
       objectReference: {fileID: 0}
     - target: {fileID: 598376732907495502, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
       propertyPath: m_LocalRotation.x
@@ -18228,7 +18229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 598376732907495502, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.36893576
+      value: -0.0209424
       objectReference: {fileID: 0}
     - target: {fileID: 598376732907495502, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -18240,7 +18241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 598376732907495502, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -43.3
+      value: -722.4
       objectReference: {fileID: 0}
     - target: {fileID: 4226470768778562818, guid: 49b674204aa85e8498408b91f2192eb8, type: 3}
       propertyPath: m_Name
