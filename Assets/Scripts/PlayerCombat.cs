@@ -44,6 +44,7 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.isPaused) return;
         bool attackPressed = false;
 
         // 1. Check Mouse Input
@@ -61,7 +62,7 @@ public class PlayerCombat : MonoBehaviour
             PerformMelee();
         }
 
-        if (Input.GetKeyDown(KeyCode.N)) 
+        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) 
         {
             // Costs 20 mana
             if (manaSystem != null && manaSystem.TrySpendMana(20f))

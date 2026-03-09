@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.25490198, g: 0.5921569, b: 0.627451, a: 1}
+    m_SelectedColor: {r: 0.4509804, g: 0.6901961, b: 0.8352941, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -366,9 +366,57 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 96.7269
       objectReference: {fileID: 0}
+    - target: {fileID: 2359172200614776481, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0.63529414
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359172200614776481, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.58431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359172200614776481, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 0.2509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359172200614776481, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.8352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359172200614776481, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2359172200614776481, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.42352942
+      objectReference: {fileID: 0}
     - target: {fileID: 4013186475197007678, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
       propertyPath: m_Name
       value: Pause_Canvas Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820826001626851323, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0.62352943
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820826001626851323, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.57254905
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820826001626851323, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 0.21176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820826001626851323, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.8352941
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820826001626851323, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820826001626851323, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.40784314
       objectReference: {fileID: 0}
     - target: {fileID: 6337808220821782236, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
       propertyPath: m_SizeDelta.y
@@ -378,6 +426,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -282
       objectReference: {fileID: 0}
+    - target: {fileID: 6478127717539707006, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+      propertyPath: firstSelectedButton
+      value: 
+      objectReference: {fileID: 1525330240016606068}
     - target: {fileID: 7628434281692205441, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
       propertyPath: m_SizeDelta.x
       value: 950.9038
@@ -422,6 +474,11 @@ PrefabInstance:
       addedObject: {fileID: 2548807538503145073}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+--- !u!1 &1525330240016606068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7969174558725363000, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
+  m_PrefabInstance: {fileID: 8913536035837589068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2474115680294587954 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6478127717539707006, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
