@@ -82,4 +82,23 @@ public class PlayerStrategyModel : MonoBehaviour
 
         Debug.Log(output);
     }
+
+    // method to return the dominant strategy 
+    public StrategyType GetDominantStrategy()
+    {
+        StrategyType best = StrategyType.AggressivePlayer;          // assigning player to aggressive as fallback option, only cause it's the first enum value
+        float max = 0f;
+
+        foreach (var pair in strategyBeliefs)
+        {
+            if (pair.Value > max)
+            {
+                max = pair.Value;
+                best = pair.Key; 
+            }
+        }
+
+        return best;
+    }
+
 }

@@ -505143,10 +505143,26 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 1768560351}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: dashDuration
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticModel
+      value: 
+      objectReference: {fileID: 1768560351}
+    - target: {fileID: 1505052509055262110, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 1768560351}
+    - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 1768560351}
     - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.88
@@ -505195,6 +505211,10 @@ PrefabInstance:
       propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 1768560351}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -523083,6 +523103,74 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &1768560350
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.54294
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.33374
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7582215004744301488, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_Name
+      value: MLSystems
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+--- !u!114 &1768560351 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4642224583646608178, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+  m_PrefabInstance: {fileID: 1768560350}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b9863c6431a47bb85abc03131f1d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerTacticalModel
 --- !u!1 &1787168624
 GameObject:
   m_ObjectHideFlags: 0
@@ -534206,3 +534294,4 @@ SceneRoots:
   - {fileID: 1389424699}
   - {fileID: 979307008}
   - {fileID: 287170203}
+  - {fileID: 1768560350}

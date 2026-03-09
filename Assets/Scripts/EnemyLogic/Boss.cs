@@ -15,6 +15,7 @@ public class Boss : EnemyBase, IRewindable
     private float restrictiveTimer;
     private float offensiveTimer;
     private float lastDamageTime;
+    public PlayerStrategyModel playerStrategyModel; 
 
     void Start()
     {
@@ -80,29 +81,35 @@ public class Boss : EnemyBase, IRewindable
 
     IEnumerator RestrictiveMove()
     {
-        float rand = Random.value;
-
         while (_isRewinding) yield return null;
 
-        if(rand > 0.5f)
-        {
-            if(rand > 0.75f) yield return StartCoroutine(FireRow());
-            else yield return StartCoroutine(FireWave()); 
-        } 
-        else if (rand > 0.25f) 
-            yield return StartCoroutine(Enemy());
-        else 
+        var strategy = playerStrategyModel.GetDominantStrategy();
+
+        Debug.Log("Boss reacting to strategy: " + strategy); 
+
+        if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
             yield return StartCoroutine(Platforms());
+
+        else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+            yield return StartCoroutine(Enemy());
+        
+        else 
+            yield return StartCoroutine(FireWave()); 
     }
 
     IEnumerator OffensiveMove()
     {
         while (_isRewinding) yield return null;
 
-        if(Random.value > 0.5f)
-            yield return StartCoroutine(Fireballs());
-        else 
+        var strategy = playerStrategyModel.GetDominantStrategy();
+
+        Debug.Log("Boss offensive decision for strategy: " + strategy);
+
+        if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
             yield return StartCoroutine(FireColumns());
+
+        else
+            yield return StartCoroutine(Fireballs());
     }
 
     IEnumerator Fireballs()
