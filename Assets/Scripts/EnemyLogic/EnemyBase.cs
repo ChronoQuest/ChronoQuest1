@@ -34,6 +34,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public bool IsDead => health <= 0;
     protected bool isStunned;
 
+    public bool GetIsStunned() => isStunned;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -61,7 +63,10 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         health -= amount;
         flash?.Flash();
 
-        StartCoroutine(HitStunRoutine(0.2f));
+        if (!isStunned)
+        {
+            StartCoroutine(HitStunRoutine(0.2f));
+        }
         
         if (health <= 0)
         {
@@ -98,9 +103,26 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     {
         isStunned = true;
         isLaunched = false;
-        if (sprite != null) sprite.color = new Color(0.7f, 0.7f, 0.7f);
+
+        if (flash != null)
+        {
+            while (flash.IsFlashing)
+            {
+                yield return null; 
+            }
+        }
+
+        if (sprite != null && !wasDead) 
+            sprite.color = new Color(0.7f, 0.7f, 0.7f);
+
         yield return new WaitForSeconds(duration);
-        if (sprite != null) sprite.color = Color.white;
+
+        if (sprite != null && !wasDead)
+        {
+            if (flash != null && !flash.IsFlashing)
+                sprite.color = Color.white;
+        }
+
         isStunned = false;
     }
 
