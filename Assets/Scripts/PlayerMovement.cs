@@ -218,7 +218,7 @@ public class PlayerPlatformer : MonoBehaviour
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
         //bool isPushingWall = true;
 
-        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall && wallJumpLockoutCounter <= 0)
+        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall && wallJumpLockoutCounter <= 0 && !isWallJumping)
         { 
             float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
             playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
@@ -283,28 +283,13 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void FixedUpdate()
-{
-    if (!IsActionAllowed(PlayerAction.Movement))
     {
-        rb.linearVelocity = Vector2.zero;
-        return;
-    }
+        if (!IsActionAllowed(PlayerAction.Movement))
+        {   
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
     
-    if (GetComponent<PlayerHealth>()?.IsDead == true) return;
-    if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
-
-    PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-    bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
-
-    if (isDashing || isWallSliding || isWallJumping || spellLock) return;
-
-    // 1. Calculate Base Movement (Input)
-    float targetVelocityX = horizontalInput * moveSpeed;
-
-    // 2. CHECK FOR MOVING PLATFORM
-    // We check if we are grounded and what we are standing on
-    if (isGrounded)
-    {
         if (GetComponent<PlayerHealth>()?.IsDead == true) return;
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 
@@ -327,24 +312,23 @@ public class PlayerPlatformer : MonoBehaviour
         if (isGrounded)
         {
             Collider2D groundCol = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        
+    
             if (groundCol != null)
             {
                 // Does the ground have the MovingPlatform script?
                 // (We check parent because usually the collider is a child "Visuals" object)
                 MovingPlatform platform = groundCol.GetComponentInParent<MovingPlatform>();
-            
+        
                 if (platform != null)
                 {
                     // ADD the platform's velocity to the player's target velocity
                     targetVelocityX += platform.CurrentVelocity.x;
-                }
+            }   
             }
         }
 
         // 3. Apply the combined velocity
-     rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
-    }
+        rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
     } 
 
     public void OnJump(InputAction.CallbackContext context)

@@ -493,6 +493,17 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    public void OnPlayerRainSpell()
+    {
+        if (currentStep == TutorialStep.RainSpell && !rainSpellCompleted)
+        {
+            rainSpellCompleted = true;
+            HideHint(rainSpellHint);
+            Debug.Log("Player rain spell tutorial completed");
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
+        }
+    }
+
     public void HideAttackHint()
     {
         CancelInvoke(nameof(HideAttackHint));

@@ -9,10 +9,12 @@ public class RainAttack : MonoBehaviour
     public float spawnHeight = 8f;
     public float delayBetweenShots = 0.1f;
     public LayerMask groundLayer;
+    public TutorialManager tutorialManager; 
 
     // This method will be called by the Animation Event
     public void StartProjectileRain()
     {
+        tutorialManager?.OnPlayerRainSpell();
         StartCoroutine(SpawnRain());
     }
 
