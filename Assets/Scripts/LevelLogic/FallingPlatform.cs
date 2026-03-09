@@ -129,8 +129,45 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
-    }
 
+        // Now that _isFalling is correctly updated by ApplyState, this check works!
+        if (_isFalling)
+        {
+            // If we are basically at the start position, we were likely Shaking.
+            if (Vector3.Distance(transform.position, _startPos) < 0.1f)
+            {
+                // Restart the full sequence (Shake -> Fall)
+                if (_fallRoutine != null) StopCoroutine(_fallRoutine);
+                _fallRoutine = StartCoroutine(FallSequence());
+            }
+            else
+            {
+                // We are deep in the pit. We were Falling.
+                // Resume physics immediately so it doesn't freeze in mid-air.
+                _rb.bodyType = RigidbodyType2D.Dynamic;
+                _rb.gravityScale = 2.5f; 
+                
+                // Ensure collider is OFF so we don't get stuck in the floor
+                if (platformCollider != null) platformCollider.enabled = false;
+
+                // Start a "Rescue Timer" to ensure it respawns eventually
+                if (_fallRoutine != null) StopCoroutine(_fallRoutine);
+                _fallRoutine = StartCoroutine(ResumeFall());
+            }
+        }
+        else
+        {
+            // We rewound to before the player touched it. 
+            // Ensure everything is reset to Idle/Safe state.
+            ResetPlatform();
+        }
+    }
+    private IEnumerator ResumeFall()
+    {
+        // Wait for the remainder of the respawn time
+        yield return new WaitForSeconds(respawnTime);
+        if (!_isRewinding) ResetPlatform();
+    }
     public RewindState CaptureState()
     {
         var state = RewindState.Create(transform.position, transform.rotation, Time.time);
@@ -143,26 +180,18 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         transform.position = state.Position;
         transform.rotation = state.Rotation;
 
-        bool wasFalling = state.GetCustomData<bool>("IsFalling", false);
-        
-        if (wasFalling)
-        {
-            // If we rewind into the middle of a fall, keep falling
-            _isFalling = true;
-            _rb.bodyType = RigidbodyType2D.Dynamic;
-            
-            // Ensure collider is OFF if falling
-            if (platformCollider != null) platformCollider.enabled = false;
-        }
-        else
-        {
-            // If we rewind to before the fall, reset to solid
-            _isFalling = false;
-            _rb.bodyType = RigidbodyType2D.Kinematic;
-            _rb.linearVelocity = Vector2.zero;
-            
-            // Ensure collider is ON if solid
-            if (platformCollider != null) platformCollider.enabled = true;
-        }
+        // 1. UPDATE THE CLASS VARIABLE (Crucial Fix)
+        // We must update this every frame, whether true or false.
+        _isFalling = state.GetCustomData<bool>("IsFalling", false);
+
+        // 2. Force Kinematic DURING rewind
+        // Never set Dynamic here. We don't want gravity fighting the rewind manager.
+        // We only turn Dynamic back on in OnStopRewind.
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        _rb.linearVelocity = Vector2.zero;
+
+        // 3. Visuals: If falling, ghost mode. If not, solid.
+        if (platformCollider != null) 
+            platformCollider.enabled = !_isFalling;
     }
 }

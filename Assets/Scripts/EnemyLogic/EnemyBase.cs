@@ -5,13 +5,18 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(HitFlash))]
+
 public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 {
     [Header("Health")]
     public int health = 3;
 
+    [Header("Stun Settings")]
+    public bool stunOnLand = false; // Toggle this ON in the Inspector for land enemies
+    protected bool isLaunched;
+
     [Header("Knockback")]
-    public float knockbackResistance = 1f; // higher = less knockback
+    public float knockbackResistance = 1f;  // higher = less knockback
     public float knockbackUpMultiplier = 0.8f;
     public System.Action OnDeath;
 
@@ -28,6 +33,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
     public bool IsDead => health <= 0;
     protected bool isStunned;
+
+    public bool GetIsStunned() => isStunned;
 
     protected virtual void Awake()
     {
@@ -56,6 +63,11 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         health -= amount;
         flash?.Flash();
 
+        if (!isStunned)
+        {
+            StartCoroutine(HitStunRoutine(0.2f));
+        }
+        
         if (health <= 0)
         {
             Die();
@@ -67,18 +79,50 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     {
         if (isRewinding || wasDead) return;
 
-        force /= knockbackResistance;
+        //force /= knockbackResistance;
         rb.linearVelocity = Vector2.zero;
 
-        Vector2 finalForce = new Vector2(force.x, Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)) * knockbackUpMultiplier);
-        rb.AddForce(finalForce, ForceMode2D.Impulse);
-        StartCoroutine(HitStunRoutine(0.25f));
+        //Vector2 finalForce = new Vector2(force.x, Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)) * knockbackUpMultiplier);
+        //rb.AddForce(finalForce, ForceMode2D.Impulse);
+        //StartCoroutine(HitStunRoutine(0.25f));
+
+        float horizontalForce = (force.x / knockbackResistance) * 0.6f; 
+        float verticalForce = Mathf.Max(Mathf.Abs(force.x), Mathf.Abs(force.y)) * knockbackUpMultiplier * 0.7f;
+
+        rb.AddForce(new Vector2(horizontalForce, verticalForce), ForceMode2D.Impulse);
+
+        if (stunOnLand){
+            isLaunched = true;
+        }
+        else{
+            StartCoroutine(HitStunRoutine(0.25f));
+        }   
     }
 
-    private System.Collections.IEnumerator HitStunRoutine(float duration)
+    protected System.Collections.IEnumerator HitStunRoutine(float duration)
     {
         isStunned = true;
+        isLaunched = false;
+
+        if (flash != null)
+        {
+            while (flash.IsFlashing)
+            {
+                yield return null; 
+            }
+        }
+
+        if (sprite != null && !wasDead) 
+            sprite.color = new Color(0.7f, 0.7f, 0.7f);
+
         yield return new WaitForSeconds(duration);
+
+        if (sprite != null && !wasDead)
+        {
+            if (flash != null && !flash.IsFlashing)
+                sprite.color = Color.white;
+        }
+
         isStunned = false;
     }
 
