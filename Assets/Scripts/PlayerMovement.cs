@@ -87,6 +87,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     public TutorialManager tutorialManager;
 
+    private float knockbackTimer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -254,42 +256,47 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void FixedUpdate()
-{
-    if (GetComponent<PlayerHealth>()?.IsDead == true) return;
-    if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
-
-
-    PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-    bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
-
-    if (isDashing || isWallSliding || isWallJumping || spellLock || isKnockedBack) return;
-
-    // 1. Calculate Base Movement (Input)
-    float targetVelocityX = horizontalInput * moveSpeed;
-
-    // 2. CHECK FOR MOVING PLATFORM
-    // We check if we are grounded and what we are standing on
-    if (isGrounded)
     {
-        Collider2D groundCol = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        
-        if (groundCol != null)
+        if (GetComponent<PlayerHealth>()?.IsDead == true) return;
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+
+        if (knockbackTimer > 0)
         {
-            // Does the ground have the MovingPlatform script?
-            // (We check parent because usually the collider is a child "Visuals" object)
-            MovingPlatform platform = groundCol.GetComponentInParent<MovingPlatform>();
-            
-            if (platform != null)
+            knockbackTimer -= Time.fixedDeltaTime;
+            return;
+        }
+
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
+
+        if (isDashing || isWallSliding || isWallJumping || spellLock || isKnockedBack) return;
+
+        // 1. Calculate Base Movement (Input)
+        float targetVelocityX = horizontalInput * moveSpeed;
+
+        // 2. CHECK FOR MOVING PLATFORM
+        // We check if we are grounded and what we are standing on
+        if (isGrounded)
+        {
+            Collider2D groundCol = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        
+            if (groundCol != null)
             {
-                // ADD the platform's velocity to the player's target velocity
-                targetVelocityX += platform.CurrentVelocity.x;
+                // Does the ground have the MovingPlatform script?
+                // (We check parent because usually the collider is a child "Visuals" object)
+                MovingPlatform platform = groundCol.GetComponentInParent<MovingPlatform>();
+            
+                if (platform != null)
+                {
+                    // ADD the platform's velocity to the player's target velocity
+                    targetVelocityX += platform.CurrentVelocity.x;
+                }
             }
         }
-    }
 
-    // 3. Apply the combined velocity
-    rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
-}
+        // 3. Apply the combined velocity
+     rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
+    }   
 
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -506,8 +513,10 @@ public class PlayerPlatformer : MonoBehaviour
 
     void FlipSprite()
     {
+        PlayerCombat combat = GetComponent<PlayerCombat>();
         PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
-        if (spellSys != null && spellSys.isCasting) return;
+        //if (spellSys != null && spellSys.isCasting) return;
+        if ((spellSys != null && spellSys.isCasting) || (combat != null && combat.isAttacking)) return;
 
         if (horizontalInput > 0.1f) spriteRenderer.flipX = false;
         else if (horizontalInput < -0.1f) spriteRenderer.flipX = true;
@@ -526,6 +535,11 @@ public class PlayerPlatformer : MonoBehaviour
     void SetFrame(int frame)
     {
         anim.SetFloat("VerticalNormal", frame / totalJumpFrames);
+    }
+
+    public void TriggerKnockbackLock(float duration)
+    {
+        knockbackTimer = duration;
     }
 
     // Visualization for the Ground Check in the Scene View

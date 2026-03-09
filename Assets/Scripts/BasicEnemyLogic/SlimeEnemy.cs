@@ -59,21 +59,30 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
 
     void Start()
     {
-    animator = GetComponent<Animator>();
-    rb = GetComponent<Rigidbody2D>();
-    spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     protected override void Awake()
     {
-    health = 10; // Slime unique HP
-    base.Awake();
+        health = 10; // Slime unique HP
+        base.Awake();
+        stunOnLand = true;
     }
 
 
     void Update()
     {
         // 1. Pause logic if rewinding time or dead
-        if (isRewinding || wasDead) return;
+        if (isRewinding || wasDead || isStunned || isLaunched) return;
+
+        if (isStunned)
+        {
+            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 2f), rb.linearVelocity.y);
+            SetFrame(0); // Reeling frame
+            return; 
+        }
 
         // 2. Update Debug values
         currentVelocityY = rb.linearVelocity.y;
@@ -198,27 +207,33 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
     // --- COLLISION LOGIC ---
     void OnCollisionEnter2D(Collision2D collision)
     {
-    // 1. Hit Player: Attack immediately
-    if (!isMidJumpSequence && !collision.gameObject.CompareTag("Player"))
-    {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-    }
-    if (collision.gameObject.CompareTag("Player"))
-    {
-    playerInContact = true;
-    Attack();
-    return; // EXIT: Do not count Player body as "Ground"
-    }
+        // 1. Hit Player: Attack immediately
+        if (!isMidJumpSequence && !collision.gameObject.CompareTag("Player"))
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            playerInContact = true;
+            Attack();
+            return; // EXIT: Do not count Player body as "Ground"
+        }
 
-    // 2. Hit Environment: Check if it's a floor
-    foreach(ContactPoint2D contact in collision.contacts) {
-    // Only surfaces pointing UP (> 0.7f normal) count as ground.
-    // This ignores walls and steep slopes.
-    if(contact.normal.y > 0.7f) {
-    groundContacts++;
-    isGrounded = true;
-    }
-    }
+        // 2. Hit Environment: Check if it's a floor
+        foreach(ContactPoint2D contact in collision.contacts) {
+            // Only surfaces pointing UP (> 0.7f normal) count as ground.
+            // This ignores walls and steep slopes.
+            if(contact.normal.y > 0.7f) {
+
+                if (isLaunched && stunOnLand)
+                {
+                    StartCoroutine(HitStunRoutine(0.5f));
+                }
+
+                groundContacts++;
+                isGrounded = true;
+            }
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -283,17 +298,22 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
 
     public override void ApplyKnockback(Vector2 force)
     {
+        //StopAllCoroutines();
+        //isMidJumpSequence = false;
+
         if (isMidJumpSequence)
         {
             StopAllCoroutines();
             isMidJumpSequence = false;
-            currentStateLabel = "Stunned/Hit";
         }
-        Vector2 knockbackDir = force.normalized;
-        float knockbackSpeed = 7f; 
-        float upwardPop = 2f;
-        rb.linearVelocity = new Vector2(knockbackDir.x * knockbackSpeed, upwardPop);
-        SetFrame(5); 
+
+        //Vector2 knockbackDir = force.normalized;
+        //float knockbackSpeed = 7f; 
+        //float upwardPop = 2f;
+        //rb.linearVelocity = new Vector2(knockbackDir.x * knockbackSpeed, upwardPop);
+        base.ApplyKnockback(force);
+        SetFrame(0); 
+        currentStateLabel = "Launched";
     }
 
     public override void Die()

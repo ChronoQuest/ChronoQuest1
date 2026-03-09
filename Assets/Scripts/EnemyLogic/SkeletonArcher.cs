@@ -54,7 +54,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
         originalScale = transform.localScale;
-
+        stunOnLand = true;
         BuildArrowPool();
     }
 
@@ -73,7 +73,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     void Update()
     {
-        if (isRewinding || wasDead || isStunned) return;
+        if (isRewinding || wasDead || isStunned || isLaunched) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -93,7 +93,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isStunned) return;
+        if (isRewinding || wasDead || isStunned || isLaunched) return;
 
         switch (currentState)
         {
@@ -134,7 +134,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
     /// </summary>
     public void FireArrow()
     {
-        if (wasDead || isRewinding) return;
+        if (wasDead || isRewinding || isLaunched || isStunned) return;
 
         ArrowProjectile arrow = GetPooledArrow();
         if (arrow == null) return;
@@ -204,6 +204,35 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         }
 
         return state;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if we hit a floor layer or something tagged as ground
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            // If the surface normal is pointing up, it's a floor
+            if (contact.normal.y > 0.7f)
+            {
+                // If we were flying from a knockback, trigger the stun now
+                if (isLaunched && stunOnLand)
+                {
+                    StartCoroutine(HitStunRoutine(0.5f)); // This sets isStunned = true and isLaunched = false
+                }
+            }
+        }
+    }
+
+    public override void ApplyKnockback(Vector2 force)
+    {
+        StopAllCoroutines();
+    
+        base.ApplyKnockback(force);
+
+        if (animator != null) 
+        {
+            animator.SetTrigger("Hit"); 
+        }
     }
 
     public override void ApplyState(RewindState state)
