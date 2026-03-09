@@ -17,6 +17,10 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
 
+    [Header("Knockback")]
+    [SerializeField] private float knockbackTime = 0.2f;
+    private bool isKnockedBack;
+
     [Header("Animation")]
     [SerializeField] private float totalJumpFrames = 9f;
 
@@ -265,7 +269,7 @@ public class PlayerPlatformer : MonoBehaviour
         PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
         bool spellLock = (spellSys != null && spellSys.IsMovementLocked());
 
-        if (isDashing || isWallSliding || isWallJumping || spellLock) return;
+        if (isDashing || isWallSliding || isWallJumping || spellLock || isKnockedBack) return;
 
         // 1. Calculate Base Movement (Input)
         float targetVelocityX = horizontalInput * moveSpeed;
@@ -490,6 +494,22 @@ public class PlayerPlatformer : MonoBehaviour
             }
         }
     }
+    public void ApplyKnockback(Vector2 force)
+    {
+        StartCoroutine(KnockbackRoutine(force));
+    }
+
+    IEnumerator KnockbackRoutine(Vector2 force)
+    {
+        isKnockedBack = true;
+
+        rb.linearVelocity = force;
+
+        yield return new WaitForSeconds(knockbackTime);
+
+        isKnockedBack = false;
+    }
+
 
     void FlipSprite()
     {
