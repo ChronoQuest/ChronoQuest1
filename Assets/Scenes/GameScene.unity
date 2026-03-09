@@ -367,7 +367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38db7959632f7c42b1ca5b465a0fb28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DoorSceneLoader
-  sceneName: FinalBoss
+  sceneName: GameScene_2
+  isExitDoor: 1
 --- !u!70 &362567921
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -797,6 +798,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 388932270}
     m_Modifications:
+    - target: {fileID: 1906348061422560851, guid: 3332d33449639b44dbb1148ec417d162, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6930122694965717508, guid: 3332d33449639b44dbb1148ec417d162, type: 3}
       propertyPath: m_Name
       value: ExitDoor
@@ -1009,6 +1014,10 @@ PrefabInstance:
       propertyPath: playerTacticalModel
       value: 
       objectReference: {fileID: 941216054}
+    - target: {fileID: 7596737112677261011, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 1a2bfbc833ac8534cad1c778965f9d77, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2073,6 +2082,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: meleeDamage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: tutorialManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: postProcessVolume
+      value: 
+      objectReference: {fileID: 1406895534}
+    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
+      objectReference: {fileID: 0}
     - target: {fileID: 3737592762839664790, guid: c749eb2aed7674224a923043109f15da, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -56073,26 +56102,6 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
-    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: meleeDamage
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: tutorialManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: postProcessVolume
-      value: 
-      objectReference: {fileID: 1406895534}
-    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -12
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 392674422154696435, guid: c749eb2aed7674224a923043109f15da, type: 3}
     m_RemovedGameObjects: []
@@ -56101,10 +56110,32 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 362567919}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 256754504867725843, guid: c749eb2aed7674224a923043109f15da, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3765684241865112177}
     - targetCorrespondingSourceObject: {fileID: 2291509841592735764, guid: c749eb2aed7674224a923043109f15da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 312907610}
   m_SourcePrefab: {fileID: 100100000, guid: c749eb2aed7674224a923043109f15da, type: 3}
+--- !u!1 &3765684241865112176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 256754504867725843, guid: c749eb2aed7674224a923043109f15da, type: 3}
+  m_PrefabInstance: {fileID: 3765684241865112175}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3765684241865112177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3765684241865112176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c7fcdb0b8e874d6793a5e749d4ae79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 5
 --- !u!1001 &7296222224498140105
 PrefabInstance:
   m_ObjectHideFlags: 0

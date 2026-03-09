@@ -21,9 +21,11 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     private bool isRewinding = false;
     private RigidbodyType2D originalBodyType;
     private float currentLifetime = 0f;
+    private float startLifetime = 0f;
 
     void Awake()
     {
+        startLifetime = Time.deltaTime;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -188,6 +190,10 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         bool wasHit = hasHit;
         hasHit = state.GetCustomData<bool>("hasHit");
         currentLifetime = state.GetCustomData<float>("lifetime");
+
+        // Comment out these two lines if we want spells to presist after rewinding to before they were spawned in
+        if(currentLifetime - 0.05f <= startLifetime) gameObject.SetActive(false);
+        else gameObject.SetActive(true);
 
         // Revive when rewinding to a state where projectile was still active (like enemies)
         if (wasHit && !hasHit)

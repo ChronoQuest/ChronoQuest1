@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3667404010561340771}
   - component: {fileID: 2525619020289630548}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,9 +79,9 @@ GameObject:
   - component: {fileID: 7262448542793524538}
   - component: {fileID: 7713596864817159871}
   - component: {fileID: 2218417924015169229}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AI_Sleeping_Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,3 +350,4 @@ MonoBehaviour:
   health: 1
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
+  deathAnimationDuration: 0.6

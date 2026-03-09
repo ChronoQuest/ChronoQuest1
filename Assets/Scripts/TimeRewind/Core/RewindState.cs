@@ -110,6 +110,8 @@ namespace TimeRewind
                 result.SetCustomData("Age", Mathf.Lerp(a.GetCustomData<float>("Age", 0f), b.GetCustomData<float>("Age", 0f), t));
                 result.SetCustomData("FullSize", t < 0.5f ? a.GetCustomData<bool>("FullSize", false): b.GetCustomData<bool>("FullSize", false));
 
+                // Trap State 
+                result.SetCustomData("TrapBroken", t < 0.5f ? a.GetCustomData<bool>("TrapBroken", false) : b.GetCustomData<bool>("TrapBroken", false));
                 // Smoothly interpolate the progress floats
                 float aProgress = a.GetCustomData<float>("Progress", 0f);
                 float bProgress = b.GetCustomData<float>("Progress", 0f);

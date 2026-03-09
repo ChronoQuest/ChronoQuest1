@@ -33,6 +33,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerPlatformer movement;
     private SpriteRenderer spriteRenderer;
     public PlayerTacticalModel playerTacticalModel;
+    public bool isAttacking { get; private set; }
 
     void Start(){
         anim = GetComponent<Animator>();
@@ -77,6 +78,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void PerformMelee()
     {
+        isAttacking = true;
         DataCollectionService.Instance?.RecordMeleeAttempt();
         playerTacticalModel.RecordMeleeHit(); 
 
@@ -86,8 +88,12 @@ public class PlayerCombat : MonoBehaviour
         }
 
         float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
-        if (moveInput != 0) spriteRenderer.flipX = (moveInput < 0);
-
+        PlayerSpellSystem spellSys = GetComponent<PlayerSpellSystem>();
+        if (moveInput != 0 && (spellSys == null || !spellSys.isCasting)) 
+        {
+            spriteRenderer.flipX = (moveInput < 0);
+        }
+        
         float dir = spriteRenderer.flipX ? -1f : 1f;
         bool isUp = false;
         bool isDown = false;
@@ -130,6 +136,11 @@ public class PlayerCombat : MonoBehaviour
             }
         }
         lastAttackTime = Time.time;
+        Invoke(nameof(ResetAttackFlag), comboResetTime);
+    }
+    private void ResetAttackFlag()
+    {
+        isAttacking = false;
     }
 
     public void HitEnemy() 

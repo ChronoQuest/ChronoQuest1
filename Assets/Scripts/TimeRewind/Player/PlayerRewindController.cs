@@ -10,14 +10,20 @@ namespace TimeRewind
         [Header("Input")]
         [SerializeField] private Key rewindKey = Key.R;
         [SerializeField] private float rewindHoldThreshold = 0f;
+        [Tooltip("Minimum time rewind runs after starting; prevents a quick tap from starting then immediately stopping.")]
+        [SerializeField] private float minRewindDuration = 0.25f;
+        [Tooltip("Frames input must be released before rewind stops; prevents one-frame glitches from stopping rewind.")]
+        [SerializeField] private int releaseFramesRequired = 2;
 
         [Header("Mana Cost")]
         [SerializeField] private float manaDrainPerSecond = 10f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
+        private float _rewindStartTime;
         private bool _rewindInputHeld;
         private float _rewindHoldTimer;
+        private int _releaseFrameCount;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
         private PlayerMana _playerMana;
@@ -89,9 +95,29 @@ namespace TimeRewind
                 bool canContinue = _playerMana != null 
                     && _playerMana.DrainManaContinuous(manaDrainPerSecond);
 
-                // Stop if player releases input OR runs out of mana
-                if (!_rewindInputHeld || !canContinue)
+                bool minDurationElapsed = (Time.unscaledTime - _rewindStartTime) >= minRewindDuration;
+                if (!canContinue)
+                {
                     TimeRewindManager.Instance.StopRewind();
+                    _releaseFrameCount = 0;
+                }
+                else if (!_rewindInputHeld && minDurationElapsed)
+                {
+                    _releaseFrameCount++;
+                    if (_releaseFrameCount >= releaseFramesRequired)
+                    {
+                        TimeRewindManager.Instance.StopRewind();
+                        _releaseFrameCount = 0;
+                    }
+                }
+                else
+                {
+                    _releaseFrameCount = 0;
+                }
+            }
+            else
+            {
+                _releaseFrameCount = 0;
             }
         }
         
@@ -107,7 +133,9 @@ namespace TimeRewind
             }
             else if (context.canceled)
             {
-                _rewindInputHeld = false;
+                // Ignore cancel while rewinding so UI/focus doesn't falsely release and stop rewind
+                if (!_isRewinding)
+                    _rewindInputHeld = false;
             }
         }
         
@@ -118,6 +146,7 @@ namespace TimeRewind
         public void OnStartRewind()
         {
             _isRewinding = true;
+            _rewindStartTime = Time.unscaledTime;
             DataCollectionService.Instance?.RecordRewindStarted();
             playerTacticalModel.RecordRewind(); 
 
@@ -127,6 +156,7 @@ namespace TimeRewind
             _rb.linearVelocity = Vector2.zero;
             _rb.angularVelocity = 0f;
             if (animator != null) animator.speed = 0;
+            GetComponent<PlayerSafetyNet>()?.CancelRespawn();
         }
         
         public void OnStopRewind()

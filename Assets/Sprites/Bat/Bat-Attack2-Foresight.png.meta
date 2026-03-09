@@ -1,0 +1,403 @@
+fileFormatVersion: 2
+guid: eae00348a27365b488bb634f220ea904
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5877636618906120479
+    second: Bat-Attack2-Foresight_0
+  - first:
+      213: 6929173064352229950
+    second: Bat-Attack2-Foresight_1
+  - first:
+      213: 5050116877847578908
+    second: Bat-Attack2-Foresight_2
+  - first:
+      213: -3750291021067486321
+    second: Bat-Attack2-Foresight_3
+  - first:
+      213: -3804889383518280009
+    second: Bat-Attack2-Foresight_4
+  - first:
+      213: 1422206186250755605
+    second: Bat-Attack2-Foresight_5
+  - first:
+      213: -9120903796132117046
+    second: Bat-Attack2-Foresight_6
+  - first:
+      213: -7852911102743738517
+    second: Bat-Attack2-Foresight_7
+  - first:
+      213: -1460490740976073101
+    second: Bat-Attack2-Foresight_8
+  - first:
+      213: 1369528930382126829
+    second: Bat-Attack2-Foresight_9
+  - first:
+      213: -5258795303044963138
+    second: Bat-Attack2-Foresight_10
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_0
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 23
+        width: 36
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f113ab42d5f819150800000000000000
+      internalID: 5877636618906120479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_1
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 24
+        width: 24
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a6bef803e592060800000000000000
+      internalID: 6929173064352229950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_2
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 25
+        width: 28
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c194f423b8e951640800000000000000
+      internalID: 5050116877847578908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_3
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 26
+        width: 28
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8b7fecaf2a44fbc0800000000000000
+      internalID: -3750291021067486321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_4
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 29
+        width: 27
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b6ecbdc341523bc0800000000000000
+      internalID: -3804889383518280009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_5
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 29
+        width: 26
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51ed6d0cdf0bcb310800000000000000
+      internalID: 1422206186250755605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_6
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 28
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac58801725a0c6180800000000000000
+      internalID: -9120903796132117046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_7
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 29
+        width: 25
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b670d3465fad40390800000000000000
+      internalID: -7852911102743738517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_8
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 27
+        width: 24
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 376cf5ab86b4bbbe0800000000000000
+      internalID: -1460490740976073101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 27
+        width: 24
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee1c0d5e4b810310800000000000000
+      internalID: 1369528930382126829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bat-Attack2-Foresight_10
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 22
+        width: 29
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb4238fb8810507b0800000000000000
+      internalID: -5258795303044963138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Bat-Attack2-Foresight_0: 5877636618906120479
+      Bat-Attack2-Foresight_1: 6929173064352229950
+      Bat-Attack2-Foresight_10: -5258795303044963138
+      Bat-Attack2-Foresight_2: 5050116877847578908
+      Bat-Attack2-Foresight_3: -3750291021067486321
+      Bat-Attack2-Foresight_4: -3804889383518280009
+      Bat-Attack2-Foresight_5: 1422206186250755605
+      Bat-Attack2-Foresight_6: -9120903796132117046
+      Bat-Attack2-Foresight_7: -7852911102743738517
+      Bat-Attack2-Foresight_8: -1460490740976073101
+      Bat-Attack2-Foresight_9: 1369528930382126829
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

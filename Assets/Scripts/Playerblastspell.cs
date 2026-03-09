@@ -30,6 +30,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private float castFailsafeTimer;
     private const float MAX_CAST_TIME = 1.0f;
     public PlayerTacticalModel playerTacticalModel; 
+    public GameObject latestSpell;
 
     void Awake()
     {
@@ -91,9 +92,13 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     void CastSpell()
     {
         if (!spellPrefab || !firePoint) return;
-
         dir = GetCastDirection();
+        
+        if (dir == Vector2.left) sprite.flipX = true;
+        else if (dir == Vector2.right) sprite.flipX = false;
+
         if (anim) anim.SetTrigger(GetCastAnimation(dir));
+        
         isCasting = true;
         castFailsafeTimer = MAX_CAST_TIME;
 
@@ -105,7 +110,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     public void SpawnSpell()
     {
         if (TimeRewindManager.Instance?.IsRewinding == true) return;
-        isCasting = false;
+        //isCasting = false;
+        Invoke(nameof(ReleaseCastLock), 0.15f);
         rb.gravityScale = originalGravity;
         
         // Apply exact velocity instead of AddForce so it's snappy and consistent
@@ -119,6 +125,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         firePoint.localPosition = new Vector3(newX, firePoint.localPosition.y, firePoint.localPosition.z);
         firePoint.rotation = Quaternion.Euler(0, 0, angle);
         GameObject spell = Instantiate(spellPrefab, firePoint.position, firePoint.rotation);
+        latestSpell = spell;
         spell.GetComponent<SpellProjectile>().Init(dir, sprite.flipX);
     }
     // Helper function for the Platformer script to check if it should ignore inputs
@@ -196,5 +203,11 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     {
         // Restore your spell cooldown timer
         nextFireTime = state.GetCustomData<float>("nextFireTime", nextFireTime);
+    }
+
+    private void ReleaseCastLock()
+    {
+        isCasting = false;
+        rb.gravityScale = originalGravity;
     }
 }

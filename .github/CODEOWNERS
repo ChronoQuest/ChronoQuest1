@@ -1,0 +1,26 @@
+# Tech lead oversight
+* @ethanr04
+
+# Spritework
+/Assets/Sprites/ @OliverTchum
+
+# Animations
+/Assets/Animations/ @OliverTchum
+
+# Time rewind
+/Assets/Scripts/TimeRewind/ @qc23151
+
+# Enemy scripts
+/Assets/Scripts/EnemyLogic/ @yi23484
+
+# Tutorial work
+/Assets/Scripts/Tutorial/ @megan-pa
+
+# UI work
+/Assets/Scripts/UI Scripts/ @megan-pa
+
+# Player movement
+/Assets/Scripts/Player* @pabloapca
+
+# AI enemy scripts
+/Assets/Scripts/AdvancedEnemyLogic/ @ethanr04

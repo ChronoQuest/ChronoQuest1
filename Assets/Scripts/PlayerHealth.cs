@@ -23,6 +23,9 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     private SpriteRenderer spriteRenderer;
     private bool isInvincible = false;
     private bool _isRewinding = false;
+    private Rigidbody2D _rb;
+    private float _defaultGravityScale = 1f;
+    private RigidbodyConstraints2D _defaultConstraints = RigidbodyConstraints2D.FreezeRotation;
 
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
@@ -39,7 +42,13 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         // Find the sprite renderer so we can flash it. 
         // "GetComponentInChildren" works even if the sprite is on a child object.
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        animator = GetComponentInChildren<Animator>(); 
+        animator = GetComponentInChildren<Animator>();
+        _rb = GetComponent<Rigidbody2D>();
+        if (_rb != null)
+        {
+            _defaultGravityScale = _rb.gravityScale;
+            _defaultConstraints = _rb.constraints;
+        }
     }
 
     private void Start()
@@ -270,7 +279,23 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             {
                 IsDead = false;
                 if (spriteRenderer != null) spriteRenderer.enabled = true;
-                // Re-enable movement script here if you disabled it in Die()
+
+                var col = GetComponent<Collider2D>();
+                if (col != null) col.enabled = true;
+
+                var playerMovement = GetComponent<PlayerPlatformer>();
+                if (playerMovement != null) playerMovement.enabled = true;
+
+                if (_rb != null)
+                {
+                    _rb.simulated = true;
+                    _rb.gravityScale = _defaultGravityScale;
+                    _rb.constraints = _defaultConstraints;
+                }
+
+                if (animator != null) animator.enabled = true;
+
+                if (gameOverUI != null) gameOverUI.HideGameOver();
             }
 
             // This will tell HeartDisplay.cs to animate the hearts filling/emptying
