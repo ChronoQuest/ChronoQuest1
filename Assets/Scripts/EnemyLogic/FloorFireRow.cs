@@ -18,12 +18,14 @@ public class FloorFireRow : MonoBehaviour, IRewindable
     private Animator animator;
     private bool isEnding = false;
     private BoxCollider2D boxCol;
+    private SpriteRenderer fireSpriteRenderer;
 
     void Start()
     {
         Destroy(gameObject, 12f);
         rb = GetComponent<Rigidbody2D>();
         animator = fireVisual.GetComponent<Animator>();
+        fireSpriteRenderer = fireVisual.GetComponent<SpriteRenderer>();
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
@@ -38,15 +40,22 @@ public class FloorFireRow : MonoBehaviour, IRewindable
     {
         float targetXPos = ((-scale / 2f) + 0.5f) * bossFacingDirection;
 
-        // 1. Scale and move the Hitbox
         if (boxCol != null)
         {
             boxCol.size = new Vector2(scale, 1f); 
             boxCol.offset = new Vector2(targetXPos, 0f); 
         }
 
-        fireVisual.localScale = new Vector3(scale * 0.85f, 20f, 1f);
-        fireVisual.localPosition = new Vector3(targetXPos, 3.2f, 0f);
+        if (fireSpriteRenderer != null && fireSpriteRenderer.sprite != null)
+        {
+            float naturalHeight = 0.95f;
+            
+            fireSpriteRenderer.size = new Vector2(scale, naturalHeight);
+        }
+
+        fireVisual.localScale = Vector3.one; 
+        
+        fireVisual.localPosition = new Vector3(targetXPos, 0.6f, 0f);
     }
 
     void FixedUpdate()
