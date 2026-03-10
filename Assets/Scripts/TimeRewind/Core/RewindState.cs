@@ -96,6 +96,11 @@ namespace TimeRewind
                 result.SetCustomData("hasHit", t < 0.5f ? a.GetCustomData<bool>("hasHit", false) : b.GetCustomData<bool>("hasHit", false));
                 result.SetCustomData("lifetime", Mathf.Lerp(a.GetCustomData<float>("lifetime", 0f), b.GetCustomData<float>("lifetime", 0f), t));
 
+                // NecromancerSpell / ArrowProjectile
+                result.SetCustomData("visible", t < 0.5f ? a.GetCustomData<bool>("visible", false) : b.GetCustomData<bool>("visible", false));
+                result.SetCustomData("isActive", t < 0.5f ? a.GetCustomData<bool>("isActive", false) : b.GetCustomData<bool>("isActive", false));
+                result.SetCustomData("elapsedLifetime", Mathf.Lerp(a.GetCustomData<float>("elapsedLifetime", 0f), b.GetCustomData<float>("elapsedLifetime", 0f), t));
+
                 // PlayerSpellSystem
                 result.SetCustomData("nextFireTime", Mathf.Lerp(a.GetCustomData<float>("nextFireTime", 0f), b.GetCustomData<float>("nextFireTime", 0f), t));
 
