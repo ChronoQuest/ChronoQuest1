@@ -211,7 +211,6 @@ public class Boss : EnemyBase, IRewindable
             else if (rand < 0.5f) currentRes = ResMove.FireWave;
             else if (rand < 0.75f) currentRes = ResMove.Platforms;
             else currentRes = ResMove.Enemy;
-            currentRes = ResMove.Platforms;
         }
     void UpdateCombat()
     {
