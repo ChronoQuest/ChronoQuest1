@@ -1,247 +1,418 @@
 using UnityEngine;
-using System.Collections;
 using TimeRewind;
 
 public class Boss : EnemyBase, IRewindable
 {
-    public float attackCooldown = 1f;
-    public float damageCooldown = 1.5f;
-    public int damage = 1;
     public Transform player;
     public BossAttackManager attackManager;
-
-    private bool _isRewinding;
-    private float mainTimer;
-    private float restrictiveTimer;
-    private float offensiveTimer;
-    private float lastDamageTime;
     public PlayerStrategyModel playerStrategyModel; 
 
+    public int damage = 1;
+    public float damageCooldown = 1.5f;
+    CameraShake cameraShake;
+
+    bool _isRewinding;
+    bool offActionSpawned;
+    bool resActionSpawned;
+    int facingDirection = 1;
+    bool isGrounded;
+    float lastDamageTime;
+
+    enum BossPhase { Idle, Positional, Combat }
+    enum PosMove { None, GroundPound, ChangeSides }
+    enum OffMove { None, Fireballs, FireColumns, HomingFireballs, FireExplosion }
+    enum ResMove { None, FireRow, FireWave, Platforms, Enemy }
+    public bool isDead = false;
+    BossPhase currentPhase;
+    PosMove currentPos;
+    OffMove currentOff;
+    ResMove currentRes;
+
+    // Separate timers so attacks don't block each other
+    float idleTimer;
+    float posTimer;
+    float offTimer;
+    float resTimer;
+
+    int offIndex;
+    int resIndex;
+
+    // Movement Tracking
+    Vector2 moveStart;
+    Vector2 movePeak;
+    Vector2 moveTarget;
+    float finalTargetX;
+    private Vector3 originalScale;
+    private Animator animator;
     void Start()
     {
-        StartCoroutine(AttackLoop());
+        rb = GetComponent<Rigidbody2D>();
+        cameraShake = Camera.main.GetComponent<CameraShake>();
+        originalScale = transform.localScale;
+        animator = GetComponent<Animator>();
+        EndPhase();
     }
 
     void Update()
     {
-        if (player == null) return;
-        if (_isRewinding) return;
-    }
+        if (_isRewinding || player == null || wasDead) return;
 
-    IEnumerator WaitMain(float duration)
-    {
-        mainTimer = 0f;
-        while (mainTimer < duration)
+        switch (currentPhase)
         {
-            if (!_isRewinding) mainTimer += Time.deltaTime;
-            yield return null;
+            case BossPhase.Idle: UpdateIdle(); break;
+            case BossPhase.Positional: UpdatePositional(); break;
+            case BossPhase.Combat: UpdateCombat(); break;
         }
     }
-
-    IEnumerator WaitRestrictive(float duration)
+    void EndPhase()
     {
-        restrictiveTimer = 0f;
-        while (restrictiveTimer < duration)
+        currentPhase = BossPhase.Idle;
+        currentPos = PosMove.None;
+        currentOff = OffMove.None;
+        currentRes = ResMove.None;
+        idleTimer = 0f;
+    }
+
+    void UpdateIdle()
+    {
+        idleTimer += Time.deltaTime;
+        if (idleTimer < 1f) return;
+
+        if (Random.value > 0.7f) StartPositional();
+        else StartCombat();
+    }
+    void StartPositional()
+    {
+        currentPhase = BossPhase.Positional;
+        posTimer = 0f;
+
+        if (Random.value > 0.5f) StartGroundPound();
+        else StartChangeSides();
+    }
+    void UpdatePositional()
+    {
+        if (currentPos == PosMove.GroundPound) UpdateGroundPound();
+        else if (currentPos == PosMove.ChangeSides) UpdateChangeSides();
+    }
+
+    void StartChangeSides()
+    {
+        currentPos = PosMove.ChangeSides;
+        Vector2 start = transform.position;
+        moveStart = start;
+        moveTarget = new Vector2(-start.x, start.y);
+
+        float jumpHeight = 8f;
+        movePeak = start + new Vector2((moveTarget.x - start.x) / 2, jumpHeight);
+    }
+    void UpdateChangeSides()
+    {
+        posTimer += Time.deltaTime;
+        float duration = 1.8f;
+
+        if (posTimer < duration)
         {
-            if (!_isRewinding) restrictiveTimer += Time.deltaTime;
-            yield return null;
+            float t = posTimer / duration;
+            Vector2 a = Vector2.Lerp(moveStart, movePeak, t);
+            Vector2 b = Vector2.Lerp(movePeak, moveTarget, t);
+            rb.MovePosition(Vector2.Lerp(a, b, t));
         }
-    }
-
-    IEnumerator WaitOffensive(float duration)
-    {
-        offensiveTimer = 0f;
-        while (offensiveTimer < duration)
-        {
-            if (!_isRewinding) offensiveTimer += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    IEnumerator AttackLoop()
-    {   
-        while (health > 0)
-        {
-            yield return StartCoroutine(WaitMain(1f));
-            while (_isRewinding) yield return null;
-            yield return StartCoroutine(FullAttack());
-        }
-    }
-
-    IEnumerator FullAttack()
-    {
-        while (_isRewinding) yield return null;
-
-        Coroutine restrict = StartCoroutine(RestrictiveMove());
-        Coroutine attack = StartCoroutine(OffensiveMove());
-
-        yield return restrict;
-        yield return attack;
-    }
-
-    IEnumerator RestrictiveMove()
-    {
-        while (_isRewinding) yield return null;
-
-        var strategy = playerStrategyModel.GetDominantStrategy();
-
-        Debug.Log("Boss reacting to strategy: " + strategy); 
-
-        if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
-            yield return StartCoroutine(Platforms());
-
-        else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
-            yield return StartCoroutine(Enemy());
-        
-        else 
-            yield return StartCoroutine(FireWave()); 
-    }
-
-    IEnumerator OffensiveMove()
-    {
-        while (_isRewinding) yield return null;
-
-        var strategy = playerStrategyModel.GetDominantStrategy();
-
-        Debug.Log("Boss offensive decision for strategy: " + strategy);
-
-        if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
-            yield return StartCoroutine(FireColumns());
-
         else
-            yield return StartCoroutine(Fireballs());
-    }
-
-    IEnumerator Fireballs()
-    {
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        while (_isRewinding) yield return null;
-
-        for(int i = 0; i < 15; i++)
         {
-            if(i % 2 == 0 && playerHealth.CurrentHealth < 3)
-            {
-                yield return StartCoroutine(WaitOffensive(0.5f));
-                continue;
-            }
-            else
-            {
-                if(!_isRewinding) 
-                    attackManager.spawnFireball();
-            }
-
-            yield return StartCoroutine(WaitOffensive(0.5f));
+            rb.MovePosition(moveTarget);
+            facingDirection *= -1;
+            EndPhase();
         }
     }
 
-    IEnumerator FireColumns()
+    void StartGroundPound()
     {
-        while (_isRewinding) yield return null;
-
-        if(!_isRewinding) 
-            attackManager.spawnFireColumns();
-
-        yield return StartCoroutine(WaitOffensive(5f));
+        currentPos = PosMove.GroundPound;
+        finalTargetX = -transform.position.x; 
+        CalculateNextJump();
     }
 
-    IEnumerator FireRow()
+    void CalculateNextJump()
     {
-        while (_isRewinding) yield return null;
+        posTimer = 0f;
+        float jumpHeight = 7f;
+        float lateral = -4f * facingDirection;
 
-        if(!_isRewinding) 
-            attackManager.spawnFireRow();
-
-        yield return StartCoroutine(WaitRestrictive(7f));
-    }
-
-    IEnumerator FireWave()
-    {
-        while (_isRewinding) yield return null;
-
-        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-
-        for(int i = 0; i < 7; i++)
+        if (Mathf.Abs(finalTargetX - transform.position.x) < Mathf.Abs(lateral))
         {
-            if(i % 2 == 0 && playerHealth.CurrentHealth < 3)
+            lateral = finalTargetX - transform.position.x;
+        }
+
+        moveStart = transform.position;
+        movePeak = moveStart + new Vector2(lateral, jumpHeight);
+        moveTarget = new Vector2(movePeak.x, moveStart.y);
+    }
+
+    void UpdateGroundPound()
+    {
+        posTimer += Time.deltaTime;
+        float rise = 0.8f;
+        float fall = 0.4f;
+        float pause = 0.6f; // Pause between jumps
+        float total = rise + fall + pause;
+
+        if (posTimer < rise)
+        {
+            float t = posTimer / rise;
+            rb.MovePosition(Vector2.Lerp(moveStart, movePeak, t));
+            isGrounded = false;
+        }
+        else if (posTimer < rise + fall)
+        {
+            float t = (posTimer - rise) / fall;
+            rb.MovePosition(Vector2.Lerp(movePeak, moveTarget, t));
+        }
+        else
+        {
+            rb.MovePosition(moveTarget);
+
+            if (!isGrounded)
             {
-                yield return StartCoroutine(WaitRestrictive(1f));
-                continue;
-            }
-            else
-            {
-                if(!_isRewinding) 
-                    attackManager.spawnFireWave();
+                cameraShake.Shake(0.25f, 0.2f);
+                isGrounded = true;
             }
 
-            yield return StartCoroutine(WaitRestrictive(1f));
+            // Once the pause is over, check if we loop or end
+            if (posTimer >= total)
+            {
+                if (Mathf.Abs(transform.position.x - finalTargetX) <= 0.1f)
+                {
+                    facingDirection *= -1;
+                    EndPhase();
+                }
+                else
+                {
+                    CalculateNextJump();
+                }
+            }
+        }
+    }
+    void StartCombat()
+        {
+            currentPhase = BossPhase.Combat;
+            offTimer = 0f; resTimer = 0f;
+            offIndex = 0; resIndex = 0;
+            
+            offActionSpawned = false; 
+            resActionSpawned = false;
+            
+            var strategy = playerStrategyModel.GetDominantStrategy();
+
+            Debug.Log("Boss reacting to strategy");
+
+            if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
+            {
+                currentOff = OffMove.FireColumns;
+                currentRes = ResMove.Platforms;
+            }
+            else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+            {
+                currentOff = OffMove.Fireballs;
+                currentRes = ResMove.Enemy;
+            }
+            else 
+            {
+                currentOff = OffMove.HomingFireballs;
+                currentRes = ResMove.FireWave;
+            }
+        }
+
+    void UpdateCombat()
+    {
+        bool offDone = UpdateOffensive();
+        bool resDone = UpdateRestrictive();
+
+        // Idle only when both attacks are done
+        if (offDone && resDone)
+        {
+            EndPhase();
         }
     }
 
-    IEnumerator Platforms()
+    bool UpdateOffensive()
     {
-        while (_isRewinding) yield return null;
-        attackManager.spawnPlatforms();
-        yield return StartCoroutine(WaitRestrictive(0.5f));
-        attackManager.spawnFloorFire();
-        PlatformController platform = FindFirstObjectByType<PlatformController>();
-        while (platform != null && !platform.cycleComplete)
-            yield return null;
-    }
+        offTimer += Time.deltaTime;
+        if (currentOff == OffMove.Fireballs)
+        {
+            if (offIndex >= 15) return true; 
+            PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
+            float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1.0f : 0.5f;
 
-    IEnumerator Enemy()
+            if (offTimer > spawnDelay)
+            {
+                offTimer = 0f;
+                attackManager.spawnFireball(facingDirection);
+                offIndex++;
+            }
+            return false;
+        }
+        else if (currentOff == OffMove.FireColumns)
+        {
+            if (!offActionSpawned) 
+            {
+                attackManager.spawnFireColumns(facingDirection);
+                offActionSpawned = true;
+            }
+            return offTimer > 5f;
+        }
+        else if (currentOff == OffMove.HomingFireballs)
+        {
+            if (offIndex >= 14) return true; 
+            PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
+            float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2f : 1f;
+
+            if (offTimer > spawnDelay)
+            {
+                offTimer = 0f;
+                attackManager.spawnHomingFireball(facingDirection);
+                offIndex++;
+            }
+            return false;
+        }
+        else if (currentOff == OffMove.FireExplosion)
+        {
+            if (offIndex >= 15) return true; 
+            PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
+            float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1f : 0.5f;
+
+            if (offTimer > spawnDelay)
+            {
+                offTimer = 0f;
+                attackManager.spawnFireExplosion(facingDirection);
+                offIndex++;
+            }
+            return false;
+        }
+        return true;
+    }
+    bool UpdateRestrictive()
     {
-        while (_isRewinding) yield return null;
+        resTimer += Time.deltaTime;
 
-        if(!_isRewinding) 
-            attackManager.spawnEnemy();
+        if (currentRes == ResMove.FireRow)
+        {
+            if (!resActionSpawned)
+            {
+                attackManager.spawnFireRow(facingDirection);
+                resActionSpawned = true;
+            }
+            return resTimer > 7f;
+        }
+        else if (currentRes == ResMove.Enemy)
+        {
+            if (!resActionSpawned)
+            {
+                attackManager.spawnEnemy(facingDirection);
+                resActionSpawned = true;
+            }
+            return resTimer > 7f;
+        }
+        else if (currentRes == ResMove.FireWave)
+        {
+            if (resIndex >= 7) return true;
+            PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
+            float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
 
-        yield return StartCoroutine(WaitRestrictive(7f));
+            if (resTimer > spawnDelay)
+            {
+                resTimer = 0f;
+                attackManager.spawnFireWave(facingDirection);
+                resIndex++;
+            }
+            return false;
+        }
+        else if (currentRes == ResMove.Platforms)
+        {
+            if (!resActionSpawned) 
+            {
+                attackManager.spawnPlatforms(facingDirection);
+                attackManager.spawnFloorFire(facingDirection);
+                resActionSpawned = true;
+            }
+            PlatformController platform = FindFirstObjectByType<PlatformController>();
+            return platform == null || platform.cycleComplete;
+        }
+        return true;
     }
-
     void Damage()
     {
         if (Time.time >= lastDamageTime + damageCooldown)
         {
             lastDamageTime = Time.time;
-
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-                playerHealth.ModifyHealth(-damage);
+            PlayerHealth ph = player.GetComponent<PlayerHealth>();
+            if (ph != null) ph.ModifyHealth(-damage);
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            Damage();
+        if (_isRewinding) return;
+        if (col.gameObject.CompareTag("Player")) Damage();
+        if (col.gameObject.CompareTag("Ground")) isGrounded = true;
     }
 
-    public override void OnStartRewind()
-    {
-        base.OnStartRewind();
-        _isRewinding = true;
-    }
 
-    public override void OnStopRewind()
-    {
-        base.OnStopRewind(); 
-        _isRewinding = false;
-    }
+    public override void OnStartRewind() { base.OnStartRewind(); _isRewinding = true; }
+    public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }
 
     public override RewindState CaptureState()
     {
         var state = base.CaptureState();
-        state.SetCustomData("MainTimer", mainTimer);
-        state.SetCustomData("RestrictTimer", restrictiveTimer);
-        state.SetCustomData("OffenseTimer", offensiveTimer);
+
+        state.SetCustomData("Phase", (int)currentPhase);
+        state.SetCustomData("PosType", (int)currentPos);
+        state.SetCustomData("OffType", (int)currentOff);
+        state.SetCustomData("ResType", (int)currentRes);
+
+        state.SetCustomData("IdleTimer", idleTimer);
+        state.SetCustomData("PosTimer", posTimer);
+        state.SetCustomData("OffTimer", offTimer);
+        state.SetCustomData("ResTimer", resTimer);
+
+        state.SetCustomData("OffIndex", offIndex);
+        state.SetCustomData("ResIndex", resIndex);
+        state.SetCustomData("Facing", facingDirection);
+
+        state.SetCustomData("TargetX", finalTargetX);
+        state.SetCustomData("MoveStart", moveStart);
+        state.SetCustomData("MovePeak", movePeak);
+        state.SetCustomData("MoveTarget", moveTarget);
+
+        state.SetCustomData("OffSpawned", offActionSpawned);
+        state.SetCustomData("ResSpawned", resActionSpawned);
+
         return state;
     }
 
     public override void ApplyState(RewindState state)
     {
         base.ApplyState(state);
-        mainTimer = state.GetCustomData<float>("MainTimer", 0f);
-        restrictiveTimer = state.GetCustomData<float>("RestrictTimer", 0f);
-        offensiveTimer = state.GetCustomData<float>("OffenseTimer", 0f);
+
+        currentPhase = (BossPhase)state.GetCustomData<int>("Phase", 0);
+        currentPos = (PosMove)state.GetCustomData<int>("PosType", 0);
+        currentOff = (OffMove)state.GetCustomData<int>("OffType", 0);
+        currentRes = (ResMove)state.GetCustomData<int>("ResType", 0);
+
+        idleTimer = state.GetCustomData<float>("IdleTimer", 0);
+        posTimer = state.GetCustomData<float>("PosTimer", 0);
+        offTimer = state.GetCustomData<float>("OffTimer", 0);
+        resTimer = state.GetCustomData<float>("ResTimer", 0);
+
+        offIndex = state.GetCustomData<int>("OffIndex", 0);
+        resIndex = state.GetCustomData<int>("ResIndex", 0);
+        facingDirection = state.GetCustomData<int>("Facing", 1);
+
+        finalTargetX = state.GetCustomData<float>("TargetX", 0);
+        moveStart = state.GetCustomData<Vector2>("MoveStart", Vector2.zero);
+        movePeak = state.GetCustomData<Vector2>("MovePeak", Vector2.zero);
+        moveTarget = state.GetCustomData<Vector2>("MoveTarget", Vector2.zero);
+
+        offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
+        resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
     }
 }

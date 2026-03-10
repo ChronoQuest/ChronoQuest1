@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class MeleeSkeleton : EnemyBase
+public class MeleeSkeleton : EnemyBase, IBossSpawnable
 {
     [Header("Stats")]
     public float detectionRange = 6f;
@@ -15,7 +15,16 @@ public class MeleeSkeleton : EnemyBase
     public float hitboxRadius = 0.6f;
     public float hitboxOffset = 0.8f;
 
-    public Transform player;
+    [SerializeField] private Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -119,18 +128,33 @@ public class MeleeSkeleton : EnemyBase
 
     public override void Die()
     {
-        wasDead = true;
-        StopAllCoroutines();
         isAttacking = false;
+        animator?.SetTrigger("Die");
+        base.Die();          // handles wasDead, Kinematic, zero velocity, collider, DeathRoutine
+        StopAllCoroutines(); // cancel DeathRoutine so bones stay visible (same as SkeletonArcher)
+    }
 
-        animator.SetTrigger("Die");
-        rb.linearVelocity = Vector2.zero;
-        rb.gravityScale = 0f;
+    // ================= REVIVE =================
 
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
+    [Header("Revive")]
+    public float reviveAnimDuration = 0.9f;
 
-        StartCoroutine(base.DeathRoutine());
+    public override void Revive()
+    {
+        base.Revive();
+        isAttacking = false;
+        isHitStunned = false;
+        rb.gravityScale = 1f; // Die() sets this to 0
+        spriteRenderer.enabled = true;
+        animator?.SetTrigger("Revive");
+        StartCoroutine(ReviveStunRoutine());
+    }
+
+    IEnumerator ReviveStunRoutine()
+    {
+        isHitStunned = true;
+        yield return new WaitForSeconds(reviveAnimDuration);
+        isHitStunned = false;
     }
 
     // ================= REWIND =================
@@ -172,7 +196,7 @@ public class MeleeSkeleton : EnemyBase
         if (spriteRenderer != null)
             spriteRenderer.enabled = state.GetCustomData<bool>("spriteEnabled", true);
 
-        if (animator != null)
+        if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 

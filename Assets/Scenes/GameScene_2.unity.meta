@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/GameScene_2.unity.meta
 guid: e3e537dc1674543899f440117c67236b
+========
+guid: e3a0b98f428633b4aba4b286d26fd2dc
+>>>>>>>> final-boss/attack-assets:Assets/Scenes/FinalBoss.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

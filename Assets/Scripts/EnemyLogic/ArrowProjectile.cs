@@ -14,12 +14,15 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     private int damage;
     private bool isActive;
     private bool isRewinding;
+    private float elapsedLifetime;
+    private RigidbodyType2D originalBodyType;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        originalBodyType = rb.bodyType;
 
         if (TimeRewindManager.Instance != null)
             TimeRewindManager.Instance.Register(this);
@@ -35,23 +38,29 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     {
         damage = arrowDamage;
         isActive = true;
+        elapsedLifetime = 0f;
 
         rb.linearVelocity = direction.normalized * speed;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        StartCoroutine(LifetimeRoutine());
+        StartCoroutine(EnableColliderNextFrame());
     }
 
-    IEnumerator LifetimeRoutine()
+    IEnumerator EnableColliderNextFrame()
     {
         col.enabled = false;
         yield return null;
         col.enabled = true;
+    }
 
-        yield return new WaitForSeconds(lifetime);
-        Deactivate();
+    void Update()
+    {
+        if (!isActive || isRewinding) return;
+        elapsedLifetime += Time.deltaTime;
+        if (elapsedLifetime >= lifetime)
+            Deactivate();
     }
 
     void Deactivate()
@@ -66,6 +75,9 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     {
         if (!isActive) return;
         if (other.isTrigger) return;
+
+        // Pass through enemies
+        if (other.GetComponent<EnemyBase>() != null) return;
 
         PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth != null)
@@ -85,11 +97,13 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
         isRewinding = true;
         StopAllCoroutines();
         rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
     public void OnStopRewind()
     {
         isRewinding = false;
+        rb.bodyType = originalBodyType;
     }
 
     public RewindState CaptureState()
@@ -102,7 +116,9 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
             Time.time
         );
 
+        state.SetCustomData("visible", gameObject.activeSelf);
         state.SetCustomData("isActive", isActive);
+        state.SetCustomData("elapsedLifetime", elapsedLifetime);
         return state;
     }
 
@@ -110,11 +126,17 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     {
         transform.position = state.Position;
         transform.rotation = state.Rotation;
+        rb.linearVelocity = state.Velocity;
 
-        bool shouldBeActive = state.GetCustomData<bool>("isActive");
-        if (shouldBeActive != gameObject.activeSelf)
-            gameObject.SetActive(shouldBeActive);
+        bool shouldBeVisible = state.GetCustomData<bool>("visible");
+        bool wasInactive = !gameObject.activeSelf;
+        if (shouldBeVisible != gameObject.activeSelf)
+            gameObject.SetActive(shouldBeVisible);
 
-        isActive = shouldBeActive;
+        isActive = state.GetCustomData<bool>("isActive");
+        elapsedLifetime = state.GetCustomData<float>("elapsedLifetime");
+
+        if (shouldBeVisible && wasInactive)
+            col.enabled = true;
     }
 }

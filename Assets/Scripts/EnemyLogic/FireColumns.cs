@@ -1,4 +1,4 @@
- using TimeRewind;
+using TimeRewind;
 using UnityEngine;
 public class Firecolumns : MonoBehaviour, IRewindable
 {
@@ -9,23 +9,29 @@ public class Firecolumns : MonoBehaviour, IRewindable
     private bool _isRewinding;
     private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
-    private float nextChangeTime;
+    private float age; 
+    private float changeTimer; 
     private Vector2 currentVelocity;
-    private float startTime;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public int bossFacingDirection;
+    public Transform fireVisualLeft;
+    public Transform fireVisualRight;
+    private Animator animatorLeft;
+    private Animator animatorRight;
+    private bool isEnding = false;
     void Start()
     {
-        //Destroy after 12 seconds (5 seconds pre rewind, 5 seconds post rewind, 1 sec buffer for each)
-        Destroy(gameObject, 12f);
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
         }     
         rb = GetComponent<Rigidbody2D>();
-        startTime = Time.time;
-        nextChangeTime = startTime + 0.2f;
+        animatorLeft = fireVisualLeft.GetComponent<Animator>();
+        animatorRight = fireVisualRight.GetComponent<Animator>();
+        
+        // Initialize our safe timers
+        age = 0f;
+        changeTimer = 0.2f; 
     }
-    // Update is called once per frame
     void Update()
     {
     }
@@ -33,15 +39,35 @@ public class Firecolumns : MonoBehaviour, IRewindable
     void FixedUpdate()
     {
         if(_isRewinding) return;
-        if (Time.time >= nextChangeTime)
+        age += Time.fixedDeltaTime;
+        changeTimer -= Time.fixedDeltaTime;
+        if (changeTimer <= 0f)
         {
             if (Random.value > 0.5f) currentVelocity = new Vector2(-1f, 0f) * moveSpeed;
             else currentVelocity = new Vector2(1f, 0f) * moveSpeed;
-            nextChangeTime = Time.time + timeToChange;
+            
+            changeTimer = timeToChange; // Reset timer
         }
-        if (transform.position.x < -9f) currentVelocity = new Vector2(1f, 0f) * moveSpeed;
-        if (transform.position.x > -1f) currentVelocity = new Vector2(-1f, 0f) * moveSpeed;
-        if(Time.time > startTime + 5f) gameObject.SetActive(false);
+        float minX = Mathf.Min(-9f * bossFacingDirection, -0.2f * bossFacingDirection);
+        float maxX = Mathf.Max(-9f * bossFacingDirection, -0.2f * bossFacingDirection);
+
+        if (transform.position.x < minX) currentVelocity = Vector2.right * moveSpeed;
+        if (transform.position.x > maxX) currentVelocity = Vector2.left * moveSpeed;
+
+        if(age > 4.6f && gameObject.activeSelf &&!isEnding){
+            isEnding = true;
+            if (animatorLeft != null && animatorRight != null)
+            {
+                animatorLeft.SetBool("isEnding", true);
+                animatorRight.SetBool("isEnding", true);
+            }
+        }
+        if(age > 5f) gameObject.SetActive(false);
+
+        
+        // Gameplay Safe Destruction (12 seconds)
+        if(age > 12f) Destroy(gameObject);
+
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }
     void OnDestroy()
@@ -60,7 +86,6 @@ public class Firecolumns : MonoBehaviour, IRewindable
     public void OnStartRewind()
     {
         _isRewinding = true;
-        // Make Rigidbody Kinematic so physics doesn't interfere
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         _originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
@@ -70,18 +95,15 @@ public class Firecolumns : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
-        // Restore physics
         rb.bodyType = _originalBodyType;
         if (_originalBodyType == RigidbodyType2D.Dynamic)
         {
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
-        nextChangeTime = Time.time + timeToChange;
     }
     public RewindState CaptureState()
     {
-        // Create physics state
         var state = RewindState.CreateWithPhysics(
             transform.position,
             transform.rotation,
@@ -89,8 +111,11 @@ public class Firecolumns : MonoBehaviour, IRewindable
             (rb != null) ? rb.angularVelocity : 0f,
             Time.time
         );
-        // Custom state for being active
+        
         state.SetCustomData("IsActive", gameObject.activeSelf);
+        state.SetCustomData("Age", age);
+        state.SetCustomData("ChangeTimer", changeTimer);
+        state.SetCustomData("IsEnding", isEnding);
         return state;
     }
     public void ApplyState(RewindState state)
@@ -98,18 +123,20 @@ public class Firecolumns : MonoBehaviour, IRewindable
         transform.position = state.Position;
         transform.rotation = state.Rotation;
         _lastAppliedState = state;
-        if (state.Timestamp <= startTime + 0.1f)
+        age = state.GetCustomData<float>("Age", 0f);
+        changeTimer = state.GetCustomData<float>("ChangeTimer", 0f);
+        isEnding = state.GetCustomData<bool>("IsEnding", false);
+
+        // If we rewind before the object was born, destroy it
+        if (age <= 0.1f)
         {
             Destroy(gameObject);
             return; 
         }
-        // Custom state, true is default
         bool wasActive = state.GetCustomData<bool>("IsActive", true);
-        // Only change the state if it's different to avoid overhead
         if (gameObject.activeSelf != wasActive)
         {
             gameObject.SetActive(wasActive);
         }
     }
 }
-
