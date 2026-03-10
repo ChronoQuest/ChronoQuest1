@@ -196,6 +196,17 @@ public class GhostEnemy : EnemyBase
     public override void OnStopRewind()
     {
         base.OnStopRewind();
+        isTeleporting = false;
+        isHitStunned = false;
+        if (!wasDead && col != null) col.enabled = true;
+
+        // OnCollisionEnter2D won't fire for pre-existing overlaps after collider is re-enabled,
+        // so manually check if the player is already touching the ghost.
+        if (!wasDead && col != null && player != null)
+        {
+            Collider2D playerCol = player.GetComponent<Collider2D>();
+            isTouchingPlayer = playerCol != null && Physics2D.IsTouching(col, playerCol);
+        }
     }
 
     public override RewindState CaptureState()
@@ -206,6 +217,7 @@ public class GhostEnemy : EnemyBase
         state.SetCustomData("lastTeleportTime", lastTeleportTime);
         state.SetCustomData("colEnabled", col != null && col.enabled);
         state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
+        state.SetCustomData("isTouchingPlayer", isTouchingPlayer);
 
         if (animator != null)
         {
@@ -230,7 +242,9 @@ public class GhostEnemy : EnemyBase
         if (sprite != null)
             sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
 
-        if (animator != null)
+        isTouchingPlayer = state.GetCustomData<bool>("isTouchingPlayer");
+
+        if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 }

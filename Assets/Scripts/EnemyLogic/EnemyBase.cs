@@ -10,6 +10,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 {
     [Header("Health")]
     public int health = 3;
+    [HideInInspector] public int startHealth;
 
     [Header("Stun Settings")]
     public bool stunOnLand = false; // Toggle this ON in the Inspector for land enemies
@@ -30,6 +31,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected RigidbodyType2D originalBodyType;
     protected bool isRewinding;
     protected bool wasDead;
+    protected bool justBecameAlive; // true for one ApplyState frame when transitioning dead→alive
 
     public bool IsDead => health <= 0;
     protected bool isStunned;
@@ -41,8 +43,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         flash = GetComponent<HitFlash>();
-
-  
+        startHealth = health;
+        originalBodyType = rb.bodyType; // captured once — represents alive body type
     }
     protected virtual void OnEnable()
     {
@@ -130,10 +132,10 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void Die()
     {
         wasDead = true;
-        //if (sprite != null) sprite.enabled = false;
+        rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place — prevents falling through floor
+        rb.linearVelocity = Vector2.zero;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
-        rb.linearVelocity = Vector2.zero;
         OnDeath?.Invoke();
         StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us
@@ -146,11 +148,22 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         // Hide the sprite instead of Destroying (so it can be rewound)
         if (sprite != null) sprite.enabled = false;
     }
+    // ================= REVIVE =================
+    public virtual void Revive()
+    {
+        StopAllCoroutines(); // stop any pending DeathRoutine that would re-hide the sprite
+        wasDead = false;
+        health = startHealth;
+        rb.bodyType = originalBodyType;
+        if (sprite != null) sprite.enabled = true;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = true;
+    }
+
     // ================= REWIND =================
     public virtual void OnStartRewind()
     {
         isRewinding = true;
-        originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
     }
@@ -158,7 +171,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void OnStopRewind()
     {
         isRewinding = false;
-        rb.bodyType = originalBodyType;
+        // Restore alive body type if living, keep frozen if still dead
+        rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
 
         // If rewind stopped during a death animation, restart the cleanup coroutine
         // so the sprite gets hidden (StopAllCoroutines in OnStartRewind killed it)
@@ -191,12 +205,26 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         health = state.Health;
         sprite.flipX = state.GetCustomData<bool>("flipX");
 
+        justBecameAlive = false;
+
         if (state.Health > 0 && wasDead)
         {
+            // dead → alive transition
+            justBecameAlive = true;
             wasDead = false;
+            rb.bodyType = originalBodyType;
             if (sprite != null) sprite.enabled = true;
             Collider2D col = GetComponent<Collider2D>();
             if (col != null) col.enabled = true;
+        }
+        else if (state.Health <= 0 && !wasDead)
+        {
+            // alive → dead transition (rewinding past the death event)
+            wasDead = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.linearVelocity = Vector2.zero;
+            Collider2D col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
         }
     }
 }
