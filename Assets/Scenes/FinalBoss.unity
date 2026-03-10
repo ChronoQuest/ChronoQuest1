@@ -52228,7 +52228,6 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 5
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel
       value: 
@@ -52245,12 +52244,10 @@ PrefabInstance:
       propertyPath: playerTacticalModel
       value: 
       objectReference: {fileID: 764895063}
-=======
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: dashPhaseLayers.m_Bits
       value: 1033
       objectReference: {fileID: 0}
->>>>>>> more-boss-attacks
     - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: postProcessVolume
       value: 
@@ -53144,7 +53141,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
 --- !u!1001 &1115957779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53202,7 +53198,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
-=======
 --- !u!1 &1089034089
 GameObject:
   m_ObjectHideFlags: 0
@@ -53234,7 +53229,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> more-boss-attacks
 --- !u!1001 &1334316791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54121,10 +54115,7 @@ SceneRoots:
   - {fileID: 1607628677231605071}
   - {fileID: 119915808}
   - {fileID: 640208528}
-<<<<<<< HEAD
   - {fileID: 1115957779}
-=======
   - {fileID: 719228424}
   - {fileID: 1089034090}
   - {fileID: 1539008224}
->>>>>>> more-boss-attacks
