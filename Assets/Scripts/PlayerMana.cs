@@ -76,6 +76,19 @@ public class PlayerMana : MonoBehaviour
         ModifyMana(-CurrentMana);
         return false;
     }
+
+    // Rewind: drain based on real time so mana cost is constant per second regardless of playback speed
+    public bool DrainManaContinuousUnscaled(float amountPerSecond)
+    {
+        float cost = amountPerSecond * Time.unscaledDeltaTime;
+        if (CurrentMana >= cost)
+        {
+            ModifyMana(-cost);
+            return true;
+        }
+        ModifyMana(-CurrentMana);
+        return false;
+    }
     
     // FOR REWIND SYSTEM: Force set mana to a specific value
     public void SetMana(float value)

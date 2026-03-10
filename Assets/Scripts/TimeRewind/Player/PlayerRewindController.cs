@@ -90,9 +90,9 @@ namespace TimeRewind
             }
             else if (TimeRewindManager.Instance.IsRewinding)
             {
-                // Drain mana every frame while rewinding
+                // Drain mana every frame while rewinding (unscaled so cost is constant per real second)
                 bool canContinue = _playerMana != null 
-                    && _playerMana.DrainManaContinuous(manaDrainPerSecond);
+                    && _playerMana.DrainManaContinuousUnscaled(manaDrainPerSecond);
 
                 bool minDurationElapsed = (Time.unscaledTime - _rewindStartTime) >= minRewindDuration;
                 if (!canContinue)
