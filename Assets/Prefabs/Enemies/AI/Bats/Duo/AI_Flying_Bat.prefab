@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 3521958872914039209}
   - component: {fileID: 2549410938233235704}
   - component: {fileID: 2502081071533185815}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: AI_Flying_Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -955609468180279937, guid: aa8cbc9ea57d9c441bd0e59d59a5bd21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -252,6 +252,13 @@ MonoBehaviour:
   player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
+  sequenceSimilarity: 0
+  foresightThreshold: 0.75
+  dodgeTriggerDistance: 3.4
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  recordInterval: 0.5
   otherBat: {fileID: 7231518081331576005}
   moveSpeed: 5
   detectionRange: 10
@@ -260,6 +267,11 @@ MonoBehaviour:
   currentState: 1
   obstacle: {fileID: 0}
   controlsEnvironment: 0
+  weightDistance: 0.5
+  weightVelocity: 0.2
+  weightAttack: 2
+  minTimelineSize: 4
+  bandWidth: 3
 --- !u!114 &2549410938233235704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +301,7 @@ MonoBehaviour:
   health: 1
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
+  deathAnimationDuration: 0.6
 --- !u!1 &5139049366995625032
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3078392085424940858}
   - component: {fileID: 8458029826484103810}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
