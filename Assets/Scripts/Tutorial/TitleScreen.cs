@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement; 
+using UnityEngine.InputSystem;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class TitleScreen : MonoBehaviour
     {
         float yOffset = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
         rectTransform.anchoredPosition = startPosition + new Vector2(0f, yOffset);
+        if (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame) StartButton();
     }
 
     public void StartButton()
