@@ -29,6 +29,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private float recoilTimer;
     private float castFailsafeTimer;
     private const float MAX_CAST_TIME = 1.0f;
+    private PlayerAction allowedActions;
     public PlayerTacticalModel playerTacticalModel; 
     public GameObject latestSpell;
 
@@ -56,6 +57,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
 
     void Update()
     {
+        if (!player.IsActionAllowed(PlayerAction.Spell))
+            return;
+        
         if (TimeRewind.TimeRewindManager.Instance?.IsRewinding == true)
             return;
         if (recoilTimer > 0)
@@ -127,6 +131,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         GameObject spell = Instantiate(spellPrefab, firePoint.position, firePoint.rotation);
         latestSpell = spell;
         spell.GetComponent<SpellProjectile>().Init(dir, sprite.flipX);
+
+        player.tutorialManager?.OnPlayerSpell();
     }
     // Helper function for the Platformer script to check if it should ignore inputs
     public bool IsMovementLocked()

@@ -5,12 +5,13 @@ public class TutorialHintTrigger : MonoBehaviour
     public enum HintType { 
         Jump, 
         Dash,
-        DoubleJump, 
-        JumpSuccess, 
         Spell, 
         WallJump,
         WallJumpSuccess, 
-        Attack
+        Attack,
+        HideAttack,
+        RainSpell,
+        RewindRegion
     }
 
     [SerializeField] private HintType hintType; 
@@ -34,12 +35,6 @@ public class TutorialHintTrigger : MonoBehaviour
             case HintType.Dash:
                 tutorial.TriggerDashHint(); 
                 break;
-            case HintType.DoubleJump:
-                tutorial.TriggerDoubleJumpHint();
-                break; 
-            case HintType.JumpSuccess: 
-                tutorial.OnJumpSucceeded(); 
-                break; 
             case HintType.Spell:
                 tutorial.TriggerSpellHint(); 
                 break; 
@@ -52,6 +47,25 @@ public class TutorialHintTrigger : MonoBehaviour
             case HintType.Attack:
                 tutorial.TriggerAttackHint();
                 break;
+            case HintType.HideAttack:
+                tutorial.HideAttackHint();
+                break; 
+            case HintType.RainSpell:
+                tutorial.TriggerRainSpell(); 
+                break;
+            case HintType.RewindRegion:
+                tutorial.SetInRewindRegion(true);
+                break;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player")) return; 
+
+        if (hintType == HintType.RewindRegion)
+        {
+            tutorial.SetInRewindRegion(false); 
         }
     }
 }

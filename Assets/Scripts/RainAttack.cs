@@ -10,10 +10,12 @@ public class RainAttack : MonoBehaviour
     public float delayBetweenShots = 0.1f;
     public PlayerTacticalModel playerTacticalModel; 
     public LayerMask groundLayer;
+    public TutorialManager tutorialManager; 
 
     // This method will be called by the Animation Event
     public void StartProjectileRain()
     {
+        tutorialManager?.OnPlayerRainSpell();
         StartCoroutine(SpawnRain());
     }
 

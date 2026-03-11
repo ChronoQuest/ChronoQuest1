@@ -45,6 +45,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (!movement.IsActionAllowed(PlayerAction.Attack))
+            return;
+
         if (PauseMenu.isPaused) return;
         bool attackPressed = false;
 
