@@ -1797,7 +1797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: zoomSize
-      value: 6.5
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: cameraOffset.x
@@ -1805,7 +1805,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: cameraOffset.y
-      value: 1.5
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
+      propertyPath: zoomSmoothOverride
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
+      propertyPath: movementSmoothOverride
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 80e1d6c72f5d046a48e48fddccec6b4f
+guid: 72010869c258f4937b806a3ab3722380
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3359540622702100896
-    second: Rain_attack_indicator_0
+      213: 4057842914184981594
+    second: Rain_Attack_Indicator 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Rain_attack_indicator_0
+      name: Rain_Attack_Indicator 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1195
-        height: 758
+        width: 612
+        height: 388
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0a147a0956c7f9e20800000000000000
-      internalID: 3359540622702100896
+      spriteID: a5ce45e81aa505830800000000000000
+      internalID: 4057842914184981594
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Rain_attack_indicator_0: 3359540622702100896
+      Rain_Attack_Indicator 1_0: 4057842914184981594
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

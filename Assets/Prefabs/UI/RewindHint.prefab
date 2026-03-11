@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -428, y: 245}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -234.79163, y: 255.61243}
+  m_SizeDelta: {x: 91.1007, y: 86.5666}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &85047662351814584
 CanvasRenderer:
@@ -132,8 +132,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10.0631, y: 176}
-  m_SizeDelta: {x: 345.7838, y: 114.8234}
+  m_AnchoredPosition: {x: 41, y: 158}
+  m_SizeDelta: {x: 211.3596, y: 111.2859}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5825969695972424221
 CanvasRenderer:
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hold LT and RT to rewind and restore health. '
+  m_text: "Hold LT and \nRT to rewind."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -270,7 +270,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -4}
+  m_AnchoredPosition: {x: -10, y: -11}
   m_SizeDelta: {x: 640, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6237456083157154611
@@ -344,9 +344,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6879838399642224235}
   - {fileID: 5692509980252733212}
   - {fileID: 7548117816128951934}
+  - {fileID: 6879838399642224235}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -477,8 +477,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10.066, y: 186}
-  m_SizeDelta: {x: 345.79, y: 146.0888}
+  m_AnchoredPosition: {x: -71.971855, y: 178.92503}
+  m_SizeDelta: {x: 469.6017, y: 160.2387}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1580898092765332089
 CanvasRenderer:
