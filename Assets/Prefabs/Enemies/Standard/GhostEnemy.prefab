@@ -201,7 +201,6 @@ MonoBehaviour:
   teleportYOffset: 1
   phaseOutDuration: 1
   phaseInDuration: 1
-  player: {fileID: 0}
 --- !u!95 &1048562369388960493
 Animator:
   serializedVersion: 7

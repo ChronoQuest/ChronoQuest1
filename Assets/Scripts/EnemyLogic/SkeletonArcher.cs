@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TimeRewind;
 
-public class SkeletonArcher : EnemyBase
+public class SkeletonArcher : EnemyBase, IBossSpawnable
 {
     [Header("Detection")]
     public float detectionRange = 8f;
@@ -17,7 +17,16 @@ public class SkeletonArcher : EnemyBase
     public float shootCooldown = 2f;
 
     [Header("References")]
-    public Transform player;
+    [SerializeField] private Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
     public GameObject arrowPrefab;
 
     [Header("Arrow Pool")]
@@ -159,6 +168,25 @@ public class SkeletonArcher : EnemyBase
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
+    // ================= REVIVE =================
+
+    [Header("Revive")]
+    public float reviveAnimDuration = 0.9f;
+
+    public override void Revive()
+    {
+        base.Revive();
+        if (animator != null) animator.SetTrigger("Revive");
+        StartCoroutine(ReviveStunRoutine());
+    }
+
+    IEnumerator ReviveStunRoutine()
+    {
+        isStunned = true;
+        yield return new WaitForSeconds(reviveAnimDuration);
+        isStunned = false;
+    }
+
     // ================= DEATH =================
 
     public override void Die()
@@ -234,7 +262,7 @@ public class SkeletonArcher : EnemyBase
         currentState = (State)state.GetCustomData<int>("EnemyState", (int)State.Idle);
         transform.localScale = state.GetCustomData<Vector3>("FacingDirection", originalScale);
 
-        if (animator != null)
+        if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 }

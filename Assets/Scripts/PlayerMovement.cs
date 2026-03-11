@@ -93,6 +93,7 @@ public class PlayerPlatformer : MonoBehaviour
 
     [Header("Action Permissions")]
     public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
+    public PlayerTacticalModel playerTacticModel; 
 
     private float knockbackTimer;
 
@@ -335,6 +336,8 @@ public class PlayerPlatformer : MonoBehaviour
     {
         if (!IsActionAllowed(PlayerAction.Jump))
             return;
+            
+        playerTacticModel.RecordJump(); 
         
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
@@ -490,6 +493,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     IEnumerator Dash()
     {
+        playerTacticModel.RecordDash(); 
+        
         isDashing = true;
         canDash = false;
 

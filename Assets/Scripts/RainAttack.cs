@@ -8,6 +8,7 @@ public class RainAttack : MonoBehaviour
     public float spawnAreaWidth = 10f;
     public float spawnHeight = 8f;
     public float delayBetweenShots = 0.1f;
+    public PlayerTacticalModel playerTacticalModel; 
     public LayerMask groundLayer;
     public TutorialManager tutorialManager; 
 
@@ -20,6 +21,8 @@ public class RainAttack : MonoBehaviour
 
     private System.Collections.IEnumerator SpawnRain()
     {
+        playerTacticalModel.RecordSpell(); 
+        
         for (int i = 0; i < projectileCount; i++)
         {
             float randomX = Random.Range(-spawnAreaWidth / 2, spawnAreaWidth / 2);
