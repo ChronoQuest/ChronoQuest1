@@ -5,6 +5,7 @@ public class Boss : EnemyBase, IRewindable
 {
     public Transform player;
     public BossAttackManager attackManager;
+    public PlayerStrategyModel playerStrategyModel; 
 
     public int damage = 1;
     public float damageCooldown = 1.5f;
@@ -77,7 +78,7 @@ public class Boss : EnemyBase, IRewindable
         idleTimer += Time.deltaTime;
         if (idleTimer < 1f) return;
 
-        if (Random.value > 0f) StartPositional();
+        if (Random.value > 0.7f) StartPositional();
         else StartCombat();
     }
     void StartPositional()
@@ -199,18 +200,40 @@ public class Boss : EnemyBase, IRewindable
             
             offActionSpawned = false; 
             resActionSpawned = false;
-            float rand = Random.value;
 
-            if (rand < 0.25f)  currentOff = OffMove.Fireballs;
-            else if (rand < 0.5f) currentOff = OffMove.FireColumns;
-            else if (rand < 0.75f) currentOff = OffMove.HomingFireballs;
-            else currentOff = OffMove.FireExplosion;
+            // OLD LOGIC
+            // float rand = Random.value;
 
-            rand = Random.value;
-            if (rand < 0.25f) currentRes = ResMove.FireRow;
-            else if (rand < 0.5f) currentRes = ResMove.FireWave;
-            else if (rand < 0.75f) currentRes = ResMove.Platforms;
-            else currentRes = ResMove.Enemy;
+            // if (rand < 0.25f)  currentOff = OffMove.Fireballs;
+            // else if (rand < 0.5f) currentOff = OffMove.FireColumns;
+            // else if (rand < 0.75f) currentOff = OffMove.HomingFireballs;
+            // else currentOff = OffMove.FireExplosion;
+
+            // rand = Random.value;
+            // if (rand < 0.25f) currentRes = ResMove.FireRow;
+            // else if (rand < 0.5f) currentRes = ResMove.FireWave;
+            // else if (rand < 0.75f) currentRes = ResMove.Platforms;
+            // else currentRes = ResMove.Enemy;
+            
+            var strategy = playerStrategyModel.GetDominantStrategy();
+
+            Debug.Log("Boss reacting to strategy");
+
+            if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
+            {
+                currentOff = OffMove.FireColumns;
+                currentRes = ResMove.Platforms;
+            }
+            else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+            {
+                currentOff = OffMove.Fireballs;
+                currentRes = ResMove.Enemy;
+            }
+            else 
+            {
+                currentOff = OffMove.HomingFireballs;
+                currentRes = ResMove.FireWave;
+            }
         }
     void UpdateCombat()
     {

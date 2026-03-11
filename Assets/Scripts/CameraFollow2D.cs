@@ -13,10 +13,14 @@ public class CameraFollow2D : MonoBehaviour
     private float defaultZoom;
     private float targetZoom;
     private Vector3 shakeOffset;
+    private Vector2 panOffset; 
+    private Vector3 defaultOffset;
 
     private void Awake()
     {
         cameraComponent = GetComponent<Camera>();
+        defaultOffset = offset; 
+
         if (cameraComponent != null)
         {
             defaultZoom = cameraComponent.orthographicSize;
@@ -88,5 +92,16 @@ public class CameraFollow2D : MonoBehaviour
     public void SetSmoothTime(float value)
     {
         smoothTime = Mathf.Max(0.01f, value);
+    }
+
+    public void SetOffset(Vector2 newOffset)
+    {
+        offset.x = newOffset.x;
+        offset.y = newOffset.y;
+    }
+
+    public void ResetOffset()
+    {
+        offset = defaultOffset; 
     }
 }  

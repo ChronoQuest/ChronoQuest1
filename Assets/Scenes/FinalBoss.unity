@@ -52269,6 +52269,7 @@ MonoBehaviour:
   deathAnimationDuration: 0.6
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
+  playerStrategyModel: {fileID: 0}
   damage: 1
   damageCooldown: 1.5
   isDead: 0
@@ -52296,7 +52297,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: maxHealth
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: gameOverUI
@@ -52304,16 +52305,32 @@ PrefabInstance:
       objectReference: {fileID: 640208529}
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: currentHealth
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 764895063}
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticModel
+      value: 
+      objectReference: {fileID: 764895063}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: dashPhaseLayers.m_Bits
       value: 1033
       objectReference: {fileID: 0}
+    - target: {fileID: 1505052509055262110, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 764895063}
     - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 764895063}
     - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: postProcessVolume
       value: 
@@ -52809,6 +52826,19 @@ Sprite:
   m_Bones: []
   m_ScriptableObjects: []
   m_SpriteID: 
+--- !u!114 &764895063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b9863c6431a47bb85abc03131f1d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerTacticalModel
+  gmmModel: {fileID: 0}
 --- !u!1 &893864175
 GameObject:
   m_ObjectHideFlags: 0
