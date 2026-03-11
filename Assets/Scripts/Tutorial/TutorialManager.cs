@@ -232,44 +232,6 @@ public class TutorialManager : MonoBehaviour
     {
         player.allowedActions = PlayerAction.All;
     }
-
-    /* void FreezeNearbyObject(float radius)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(player.transform.position, radius);
-
-        foreach (var hit in hits)
-        {
-            Rigidbody2D rb = hit.attachedRigidbody; 
-
-            if (rb == null) continue;
-            if (rb == player.GetComponent<Rigidbody2D>()) continue;
-
-            // only freeze dynamic bodies
-            if (rb.bodyType != RigidbodyType2D.Dynamic) continue;
-
-            // only record once
-            if (!frozenBodies.ContainsKey(rb))
-            {
-                frozenBodies.Add(rb, rb.bodyType);
-                rb.linearVelocity = Vector2.zero;
-                rb.angularVelocity = 0f;
-                rb.bodyType = RigidbodyType2D.FreezeAll;
-            }
-        }
-    }
-
-    void UnfreezeNearbyObjects()
-    {
-        foreach (var pair in frozenBodies)
-        {
-            if (pair.Key != null)
-            {
-                pair.Key.constraints = pair.Value; 
-            }
-        }
-
-        frozenBodies.Clear(); 
-    } */ 
     #endregion
 
     #region Attack Tutorial Area
