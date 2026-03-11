@@ -369,4 +369,27 @@ public class DataCollectionService : MonoBehaviour
     }
 
     #endregion
+
+    public int DashCount => _dashCount;
+    public int JumpCount => _jumpCount;
+    public int WallJumpCount => _wallJumpCount;
+    public int DoubleJumpCount => _doubleJumpCount;
+    public int RewindActivationCount => _rewindActivationCount;
+    public float RewindDurationSeconds => _rewindDurationSeconds;
+
+    public int MeleeAttacks => _meleeAttacks;
+    public int MeleeHits => _meleeHits;
+    public int SpellCasts => _spellCasts;
+    public int SpellHits => _spellHits;
+    public int RainAttackUses => _rainAttackUses;
+
+    public int DamageTakenTotal => _damageTakenTotal;
+    public int DeathCount => _deathCount;
+
+    public int DoorsEntered => _doorsEntered;
+    public int TrapHits => _trapHits;
+    public int TutorialStepsCompleted => _tutorialStepsCompleted;
+    public int PauseCount => _pauseCount;
+
+    public float SessionDurationSeconds => Time.unscaledTime - _sessionStartTime;
 }

@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.668, y: 139}
-  m_SizeDelta: {x: 417.246, y: 111.4996}
+  m_AnchoredPosition: {x: -10.0631, y: 176}
+  m_SizeDelta: {x: 345.7838, y: 114.8234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5825969695972424221
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your health is running low! \nHold R1 and R2 to rewind. "
+  m_text: 'Hold LT and RT to rewind and restore health. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.7
-  m_fontSizeBase: 41.7
+  m_fontSize: 33.47
+  m_fontSizeBase: 33.47
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   target: {fileID: 0}
-  worldOffset: {x: 0, y: 1.5, z: 0}
+  worldOffset: {x: 0, y: 2.25, z: 0}
 --- !u!225 &6929054210423540996
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -302,8 +302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 24.783, y: 112}
-  m_SizeDelta: {x: 464.9558, y: 211.1454}
+  m_AnchoredPosition: {x: -10.066, y: 186}
+  m_SizeDelta: {x: 345.79, y: 146.0888}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1580898092765332089
 CanvasRenderer:

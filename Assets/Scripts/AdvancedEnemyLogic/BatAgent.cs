@@ -4,7 +4,7 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
 using System.Collections.Generic;
-public class BatEnemyAI : Agent, IRewindable
+public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 {
     private EnemyBase enemy;
     [Header("Mode")]
@@ -16,7 +16,17 @@ public class BatEnemyAI : Agent, IRewindable
     public Transform obstacle;
 
     [Header("References")]
-    public Transform player;
+    [SerializeField] private Transform _player;
+
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
     private PlayerCombat playerCombat;
     private PlayerSpellSystem playerSpells;
     [Header("Basic behaviour variables")]
@@ -77,7 +87,6 @@ public class BatEnemyAI : Agent, IRewindable
     private int highestAttackThisInterval = 0;
     public static bool batDiedPreviously = false;
 
-
     void Start()
     {
         enemy = GetComponent<EnemyBase>();
@@ -126,7 +135,7 @@ public class BatEnemyAI : Agent, IRewindable
             if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(state);
             sequenceSimilarity = CalculateDTWSimilarity();
-            Debug.Log("Timeline similarity: " + sequenceSimilarity);
+            //Debug.Log("Timeline similarity: " + sequenceSimilarity);
             highestAttackThisInterval = 0;
             recordTimer = 0f;
         }
@@ -359,25 +368,40 @@ public class BatEnemyAI : Agent, IRewindable
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (isDead) return;
+        if (isDead || playerCollider == null)
+        {
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            return;
+        }
         Vector2 toPlayer = playerCollider.bounds.center - transform.position;
-        // Limit values so works in large rooms. 
         sensor.AddObservation(Mathf.Clamp(toPlayer.x, -20f, 20f));
         sensor.AddObservation(Mathf.Clamp(toPlayer.y, -20f, 20f));
-
-        if(otherBat != null){
+        if (otherBat != null)
+        {
             Vector2 otherBatToPlayer = playerCollider.bounds.center - otherBat.transform.position;
             sensor.AddObservation(Mathf.Clamp(otherBatToPlayer.x, -20f, 20f));
             sensor.AddObservation(Mathf.Clamp(otherBatToPlayer.y, -20f, 20f));
-        } else
+        }
+        else
         {
             sensor.AddObservation(20f);
             sensor.AddObservation(20f);
         }
-        
-        // Let the bat know its velocity
-        sensor.AddObservation(rb.linearVelocity.x);
-        sensor.AddObservation(rb.linearVelocity.y);
+        if (rb != null)
+        {
+            sensor.AddObservation(rb.linearVelocity.x);
+            sensor.AddObservation(rb.linearVelocity.y);
+        }
+        else
+        {
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -568,7 +592,7 @@ public class BatEnemyAI : Agent, IRewindable
     {
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            Debug.Log("Enemy attacks!");
+            //Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
             animator.SetTrigger("Attack");
 
@@ -596,7 +620,7 @@ public class BatEnemyAI : Agent, IRewindable
 private void HandleDeath()
     {
         if (isRewinding) return;
-        Debug.Log("Bat death triggered");
+        //Debug.Log("Bat death triggered");
         
         isDead = true;
         batDiedPreviously = true;
