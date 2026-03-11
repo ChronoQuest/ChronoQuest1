@@ -86,6 +86,7 @@ public class PlayerPlatformer : MonoBehaviour
     private bool isLanding;
 
     public TutorialManager tutorialManager;
+    public PlayerTacticalModel playerTacticModel; 
 
     private float knockbackTimer;
 
@@ -300,6 +301,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        playerTacticModel.RecordJump(); 
+        
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
@@ -446,6 +449,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     IEnumerator Dash()
     {
+        playerTacticModel.RecordDash(); 
+        
         isDashing = true;
         canDash = false;
 

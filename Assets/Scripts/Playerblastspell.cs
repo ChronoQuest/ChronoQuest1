@@ -29,6 +29,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private float recoilTimer;
     private float castFailsafeTimer;
     private const float MAX_CAST_TIME = 1.0f;
+    public PlayerTacticalModel playerTacticalModel; 
     public GameObject latestSpell;
 
     void Awake()
@@ -79,6 +80,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
                 CastSpell();
                 nextFireTime = Time.time + cooldown;
                 DataCollectionService.Instance?.RecordSpellCast();
+                playerTacticalModel.RecordSpell(); 
             }
             else 
             {

@@ -208,7 +208,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 351ab7d03814cd74686ad135c0793d60, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: BatBrain
@@ -249,24 +249,23 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   trainingMode: 0
-  player: {fileID: 0}
+  controlsEnvironment: 0
+  otherBat: {fileID: 7231518081331576005}
+  obstacle: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
-  sequenceSimilarity: 0
+  moveSpeed: 3
+  detectionRange: 12
+  damage: 1
+  attackCooldown: 1.5
+  currentState: 1
   foresightThreshold: 0.75
   dodgeTriggerDistance: 3.4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 4096
   recordInterval: 0.5
-  otherBat: {fileID: 7231518081331576005}
-  moveSpeed: 5
-  detectionRange: 10
-  damage: 1
-  attackCooldown: 1.5
-  currentState: 1
-  obstacle: {fileID: 0}
-  controlsEnvironment: 0
+  futureLookaheadSteps: 6
   weightDistance: 0.5
   weightVelocity: 0.2
   weightAttack: 2
