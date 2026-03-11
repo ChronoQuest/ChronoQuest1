@@ -77,7 +77,7 @@ public class Boss : EnemyBase, IRewindable
         idleTimer += Time.deltaTime;
         if (idleTimer < 1f) return;
 
-        if (Random.value > 0.7f) StartPositional();
+        if (Random.value > 0f) StartPositional();
         else StartCombat();
     }
     void StartPositional()

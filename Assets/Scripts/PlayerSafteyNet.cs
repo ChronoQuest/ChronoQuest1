@@ -72,9 +72,10 @@ public class PlayerSafetyNet : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
+            Debug.Log(hit);
             if (hit.gameObject == gameObject) continue;
             if (hit.CompareTag(unsafeTag)) return false; 
-            if (!hit.isTrigger) foundSolidGround = true;
+            foundSolidGround = true;
         }
 
         return foundSolidGround;
