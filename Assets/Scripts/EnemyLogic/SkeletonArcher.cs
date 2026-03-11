@@ -12,6 +12,10 @@ public class SkeletonArcher : EnemyBase
     [Header("Movement")]
     public float retreatSpeed = 2f;
 
+    [Header("Behavior")]
+    [Tooltip("If true, the skeleton will not retreat and will shoot from its position.")]
+    public bool isStatic = false;
+
     [Header("Shooting")]
     public int damage = 1;
     public float shootCooldown = 2f;
@@ -71,7 +75,7 @@ public class SkeletonArcher : EnemyBase
 
         if (dist > detectionRange)
             currentState = State.Idle;
-        else if (dist < safeDistance)
+        else if (!isStatic && dist < safeDistance)
             currentState = State.Retreat;
         else if (dist <= shootRange)
             currentState = State.Shoot;

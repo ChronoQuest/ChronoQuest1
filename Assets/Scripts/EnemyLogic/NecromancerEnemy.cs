@@ -141,6 +141,7 @@ public class NecromancerEnemy : EnemyBase
     {
         isReviving = true;
         rb.linearVelocity = Vector2.zero;
+        yield return new WaitForSeconds(reviveCooldown);
         animator?.SetTrigger("Revive");
         // ReviveMinion() is called by Animation Event mid-clip
         yield return new WaitForSeconds(reviveAnimDuration);

@@ -388,7 +388,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Player_AirSlash_Down
-  m_Speed: 1
+  m_Speed: 1.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2296199180765155849}
@@ -1633,7 +1633,7 @@ AnimatorStateMachine:
     m_Position: {x: 1360, y: -230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2181184184678392793}
-    m_Position: {x: 50, y: 340, z: 0}
+    m_Position: {x: 60, y: 380, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5799525712488683936}
     m_Position: {x: 940, y: -10, z: 0}

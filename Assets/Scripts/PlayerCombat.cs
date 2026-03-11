@@ -153,7 +153,7 @@ public class PlayerCombat : MonoBehaviour
         // Check if the current animation is an "Upward" attack
 
         bool isUpAttack = state.IsName("Player_TopSlash") || state.IsName("Player_AirSlash_Up") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlash_Up");
-        bool isDownAttack = state.IsName("Player_AirSlashDown") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlashDown");
+        bool isDownAttack = state.IsName("Player_AirSlash_Down") || anim.GetNextAnimatorStateInfo(0).IsName("Player_AirSlash_Down");
 
         if (isUpAttack)
         {
