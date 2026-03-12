@@ -52269,7 +52269,7 @@ MonoBehaviour:
   deathAnimationDuration: 0.6
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
-  playerStrategyModel: {fileID: 0}
+  playerStrategyModel: {fileID: 659603002}
   damage: 1
   damageCooldown: 1.5
   isDead: 0
@@ -52523,6 +52523,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e80baff5ccf20404699aa937f723dfaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::GameOverUI
+--- !u!1001 &659603001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.5953
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 18.4534
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869472570071237673, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7582215004744301488, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+      propertyPath: m_Name
+      value: MLSystems
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+--- !u!114 &659603002 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5270201071711876727, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+  m_PrefabInstance: {fileID: 659603001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91bf2bbc83a0d4d6e88af6ac62a90c12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerStrategyModel
 --- !u!1 &719228422
 GameObject:
   m_ObjectHideFlags: 0
@@ -54225,3 +54293,4 @@ SceneRoots:
   - {fileID: 1089034090}
   - {fileID: 1539008224}
   - {fileID: 164367450}
+  - {fileID: 659603001}
