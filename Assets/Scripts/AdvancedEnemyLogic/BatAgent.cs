@@ -54,6 +54,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     private Animator animator;
     private float lastAttackTime;
     private Vector3 originalScale;
+    private bool hasForesight = false;
+    public float dodgeTriggerDistance = 3.4f;
+    public float dodgeCooldown = 1.0f;
+    private float dodgeCooldownTimer = 0f;
 
     void Start()
     {
@@ -88,6 +92,42 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     void Update()
     {
         if (isDead || isRewinding || trainingMode) return;
+        if (dodgeCooldownTimer > 0)
+        {
+            dodgeCooldownTimer -= Time.deltaTime;
+        }
+        if (hasForesight && !isDodging && dodgeCooldownTimer <= 0)
+        {
+            CheckDodgeTriggers();
+        }
+    }
+    private void CheckDodgeTriggers()
+    {
+        if (IsThreatClose())
+        {
+            // We just need a generic approach direction if the update loop catches it first
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+            TriggerForesightDodge(approachDirection);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isDead || isRewinding) return;
+
+        if (isDodging)
+        {
+            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
+            
+            dodgeTimer -= Time.fixedDeltaTime;
+            
+            if (dodgeTimer <= 0) 
+            {
+                isDodging = false;
+                rb.linearVelocity = Vector2.zero;
+                RequestDecision();
+            }
+        }
     }
 
     // ---------------------- IForesightEnemy Implementation ----------------------
@@ -98,20 +138,25 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         return 0;
     }
 
-    public void PerformForesightDodge(Vector2 attackDirection) => TriggerForesightDodge(attackDirection);
-    public void PerformForesightLunge(Vector2 approachDirection) => TriggerForesightLunge(approachDirection);
-    public void SetForesightState(bool hasForesight)
+    public void PerformForesightDodge(Vector2 attackDirection) 
     {
+        if (IsThreatClose()) TriggerForesightDodge(attackDirection);
+    }
+    public void PerformForesightLunge(Vector2 approachDirection) => TriggerForesightLunge(approachDirection);
+    public void SetForesightState(bool state)
+    {
+        hasForesight = state;
         animator.SetBool("hasForesight", hasForesight);
     }
     public bool IsDead() => isDead;
     public bool IsRewinding() => isRewinding;
     public void TriggerForesightDodge(Vector2 attackDirection)
     {
-        if (isDodging || isDead || isRewinding) return;
+        if (isDodging || isDead || isRewinding || dodgeCooldownTimer > 0) return;
         
         isDodging = true;
         dodgeTimer = dodgeDuration;
+        dodgeCooldownTimer = dodgeCooldown;
 
         Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
         Vector2 dir2 = -dir1; 
@@ -133,10 +178,27 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     }
     public void TriggerForesightLunge(Vector2 approachDirection)
     {
-        if (isDodging || isDead || isRewinding) return;
+        if (isDodging || isDead || isRewinding || dodgeCooldownTimer > 0) return;
+        
         isDodging = true;
         dodgeTimer = dodgeDuration;
+        dodgeCooldownTimer = dodgeCooldown;
         calculatedDodgeVector = approachDirection;
+    }
+
+    private bool IsThreatClose()
+    {
+        if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
+            return true;
+
+        GameObject spellObj = playerSpells.latestSpell;
+        if (spellObj != null)
+        {
+            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f)
+                return true;
+        }
+
+        return false;
     }
 
     // ---------------------- ---------------------- ----------------------
@@ -241,21 +303,15 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (isDead) return;
+        if (isDead || isDodging) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
         
         if (!trainingMode && distToPlayer > detectionRange)
         {
             if (currentState == State.Sleeping) currentState = State.Sleeping;
-            else {
+            else 
+            {
                 currentState = State.Idle;
-                if (isDodging)
-                    {
-                        rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
-                        dodgeTimer -= Time.deltaTime;
-                        if (dodgeTimer <= 0) isDodging = false;
-                        return;
-                    }
                 Hover();
             }
             return;
@@ -264,19 +320,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         
         currentState = State.Chase;
 
-        if (isDodging)
-        {
-            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
-            dodgeTimer -= Time.deltaTime;
-            if (dodgeTimer <= 0) isDodging = false;
-            return;
-        }
-
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
         Vector2 dir = new Vector2(moveX, moveY); 
-
         rb.linearVelocity = dir * moveSpeed; 
 
         FacePlayer();
@@ -390,6 +437,12 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         
         StopAllCoroutines();
         rewindStartTime = Time.time;
+
+        isDodging = false;
+        hasForesight = false;
+        dodgeTimer = 0f;
+        dodgeCooldownTimer = 0f;
+        animator.SetBool("hasForesight", false);
         
         animator.ResetTrigger("die");
         animator.ResetTrigger("Attack");
