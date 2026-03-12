@@ -5,7 +5,7 @@ public class ForesightSystem : MonoBehaviour
     private IForesightEnemy enemy;
     public float foresightThreshold = 0.75f;
     public float dodgeTriggerDistance = 3.4f;
-    private int memorySize = 75;
+    private int memorySize = 50;
     private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
     private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
     private int bestMatchIndex = -1;
@@ -20,18 +20,20 @@ public class ForesightSystem : MonoBehaviour
     }
 
     public enum ForesightTactics { Dodge, Lunge }
-    public int futureLookaheadSteps = 10;
+    public int futureLookaheadSteps = 20;
     public float weightDistance = 0.5f;
     public float weightVelocity = 0.2f;
     public float weightAttack = 2.0f;
     public int minTimelineSize = 3;
     public int bandWidth = 6;
     private int highestAttackThisInterval = 0;
-    public static bool enemyDamagedPreviously = false;
-    public float recordInterval = 0.1f;
+    private bool enemyDamagedPreviously = false;
+    public float recordInterval = 0.3f;
     private float recordTimer = 0f;
     private float sequenceSimilarity = 0f;
     private bool hasForesight = false;
+    private ForesightTactics? lockedTactic = null;
+    private int lockedAttackIndex = -1;
 
     void Awake()
     {
@@ -43,7 +45,7 @@ public class ForesightSystem : MonoBehaviour
 
     void Update()
     {
-        if (enemy.IsDead() || enemy.IsRewinding()) return;
+        if (enemy.IsDead() || enemy.IsRewinding() || enemy.IsPerformingForesightAction()) return;
 
         int currentAttackState = enemy.GetPlayerAttackState();
         if (currentAttackState > highestAttackThisInterval) 
@@ -59,6 +61,7 @@ public class ForesightSystem : MonoBehaviour
             currentTimeline.Enqueue(state);
             
             sequenceSimilarity = CalculateDTWSimilarity();
+            Debug.Log("SEQUENCE SIMILARITY: " + sequenceSimilarity);
             if (sequenceSimilarity >= foresightThreshold)
             {
                 if (!hasForesight)
@@ -68,12 +71,9 @@ public class ForesightSystem : MonoBehaviour
                 }
 
                 ForesightTactics tactic = DetermineForesightAction();
-                Vector2 approachDirection = (enemy.player.position - transform.position).normalized;
-
-                if (tactic == ForesightTactics.Dodge) 
-                    enemy.PerformForesightDodge(approachDirection);
-                else if (tactic == ForesightTactics.Lunge) 
-                    enemy.PerformForesightLunge(approachDirection);
+                if (tactic == ForesightTactics.Dodge) enemy.ExecuteDodge();
+                else if (tactic == ForesightTactics.Lunge) enemy.ExecuteLunge();
+                Debug.Log("doing: " + tactic);
             }
             else
             {
@@ -88,7 +88,11 @@ public class ForesightSystem : MonoBehaviour
             highestAttackThisInterval = 0;
             recordTimer = 0f;
         }
-    }    
+    }
+    public void NotifyDamage()
+    {
+        enemyDamagedPreviously = true;
+    }
     private PlayerState GetCurrentPlayerState()
     {
         PlayerState state = new PlayerState();
@@ -198,26 +202,30 @@ public class ForesightSystem : MonoBehaviour
     // }
     ForesightTactics DetermineForesightAction()
     {
-        if (highestAttackThisInterval > 0 || enemyDamagedPreviously)
-            return ForesightTactics.Dodge;
-
-        if (bestMatchIndex < 0) 
-            return ForesightTactics.Lunge;
-
+        if (lockedTactic != null)
+        {   
+            // Add a 1.2second buffer between unlocking so attack has time to move to enemy
+            if (bestMatchIndex < lockedAttackIndex + 4) return lockedTactic.Value;
+            else lockedTactic = null;
+        }
+        bool attacking = enemy.GetPlayerAttackState() > 0;
+        if (attacking || enemyDamagedPreviously) return ForesightTactics.Dodge;
+        int nextIndex = bestMatchIndex + 1;
         var previousArray = previousTimeline.ToArray();
-
-        for (int i = bestMatchIndex; i < bestMatchIndex + futureLookaheadSteps; i++)
+        // Look ahead into the future
+        for (int i = nextIndex; i < nextIndex + futureLookaheadSteps; i++)
         {
-            if (i >= previousArray.Length)
-                break;
+            // Stop looking if we hit the end of the recorded present
+            if (i >= previousArray.Length) break; 
 
-            if (previousArray[i].attackType > 0)
+            if (previousArray[i].attackType > 0) 
             {
+                lockedTactic = ForesightTactics.Dodge;
+                lockedAttackIndex = i;
                 return ForesightTactics.Dodge;
             }
         }
-
-        return ForesightTactics.Lunge;
+        return ForesightTactics.Lunge; 
     }
     public void HandleRewindStop(int statesErased)
     {

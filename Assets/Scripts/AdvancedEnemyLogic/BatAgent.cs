@@ -54,10 +54,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     private Vector3 originalScale;
     private bool hasForesight = false;
     public float dodgeTriggerDistance = 3.4f;
-    public float dodgeCooldown = 1.0f;
-    private float dodgeCooldownTimer = 0f;
-    public float lungeCooldown = 2.0f;
-    private float lungeCooldownTimer = 0f;
     public GameObject foresightGlow;
 
     void Start()
@@ -93,21 +89,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     void Update()
     {
         if (isDead || isRewinding || trainingMode || enemy.GetIsStunned()) return;
-        if (dodgeCooldownTimer > 0) dodgeCooldownTimer -= Time.deltaTime;
-        if (lungeCooldownTimer > 0) lungeCooldownTimer -= Time.deltaTime;
-        if (hasForesight && !isDodging && dodgeCooldownTimer <= 0)
-        {
-            CheckDodgeTriggers();
-        }
-    }
-    private void CheckDodgeTriggers()
-    {
-        if (IsThreatClose())
-        {
-            // We just need a generic approach direction if the update loop catches it first
-            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
-            TriggerForesightDodge(approachDirection);
-        }
     }
 
     void FixedUpdate()
@@ -116,7 +97,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         if (isDodging)
         {
-            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 4f);
+            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             
             dodgeTimer -= Time.fixedDeltaTime;
             
@@ -137,11 +118,38 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         return 0;
     }
 
-    public void PerformForesightDodge(Vector2 attackDirection) 
+    public void ExecuteLunge()
     {
-        if (IsThreatClose()) TriggerForesightDodge(attackDirection);
+        animator.SetBool("hasForesight", true);
+        foresightGlow.SetActive(true);
+        if (!isDodging)
+        {
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+            TriggerForesightLunge(approachDirection);
+        }
     }
-    public void PerformForesightLunge(Vector2 approachDirection) => TriggerForesightLunge(approachDirection);
+
+    public void ExecuteDodge()
+    {
+        animator.SetBool("hasForesight", true);
+        foresightGlow.SetActive(true);
+        GameObject spellObj = playerSpells.latestSpell;
+
+        if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
+        {
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+                
+            TriggerForesightDodge(approachDirection);
+        }
+        if (!isDodging && spellObj != null)
+        {
+            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f){
+                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                TriggerForesightDodge(approachDirection);
+            }
+        }
+    }
     public void SetForesightState(bool state)
     {
         hasForesight = state;
@@ -152,57 +160,47 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public bool IsRewinding() => isRewinding;
     public void TriggerForesightDodge(Vector2 attackDirection)
     {
-        if (isDead || isRewinding || dodgeCooldownTimer > 0) return;
-
-        Debug.Log("FORESIGHT DODGE");
-        
+        if (isDodging || isDead || isRewinding) return;
+        hasForesight = true;
         isDodging = true;
         dodgeTimer = dodgeDuration;
-        dodgeCooldownTimer = dodgeCooldown;
 
+        // Calculate both potential perpendicular escape routes
         Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
-        Vector2 dir2 = -dir1; 
+        Vector2 dir2 = -dir1; // The exact opposite direction
 
-        float estimatedDodgeDistance = moveSpeed * 4f * dodgeDuration;
-        float radius = GetComponent<Collider2D>().bounds.extents.x;
+        // Calculate how far the bat will travel during the dodge
+        float estimatedDodgeDistance = moveSpeed * 3f * dodgeDuration;
 
-        RaycastHit2D hit1 = Physics2D.CircleCast(transform.position, radius, dir1, estimatedDodgeDistance, obstacleLayer);
-        RaycastHit2D hit2 = Physics2D.CircleCast(transform.position, radius, dir2, estimatedDodgeDistance, obstacleLayer);
+        // Cast a ray in both directions to look for walls
+        RaycastHit2D hit1 = Physics2D.Raycast(transform.position, dir1, estimatedDodgeDistance, obstacleLayer);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, dir2, estimatedDodgeDistance, obstacleLayer);
 
         float clearance1 = hit1.collider != null ? hit1.distance : float.MaxValue;
         float clearance2 = hit2.collider != null ? hit2.distance : float.MaxValue;
 
+        // Pick the direction that has more space
         if (clearance1 > clearance2) calculatedDodgeVector = dir1;
         else if (clearance2 > clearance1) calculatedDodgeVector = dir2;
         else
         {
+            // Random fallback
             calculatedDodgeVector = Random.value > 0.5f ? dir1 : dir2;
         }
     }
+
     public void TriggerForesightLunge(Vector2 approachDirection)
     {
-        if (isDodging || isDead || isRewinding || lungeCooldownTimer > 0) return;
-        Debug.Log("FORESIGHT ");
-        
+        if (isDodging || isDead || isRewinding) return;
+        hasForesight = true;
         isDodging = true;
         dodgeTimer = dodgeDuration;
-        lungeCooldownTimer = lungeCooldown;
+
         calculatedDodgeVector = approachDirection;
     }
-
-    private bool IsThreatClose()
+    public bool IsPerformingForesightAction()
     {
-        if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
-            return true;
-
-        GameObject spellObj = playerSpells.latestSpell;
-        if (spellObj != null)
-        {
-            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f)
-                return true;
-        }
-
-        return false;
+        return isDodging;
     }
 
     // ---------------------- ---------------------- ----------------------
@@ -307,27 +305,45 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (isDead || isDodging || enemy.GetIsStunned()) return;
+        if (isDead || enemy.GetIsStunned()) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
         
         if (!trainingMode && distToPlayer > detectionRange)
         {
+            // If the enemy is sleeping and outside range, continue to sleep
             if (currentState == State.Sleeping) currentState = State.Sleeping;
-            else 
-            {
+            // If awake, continue to be awake
+            else {
                 currentState = State.Idle;
+                if (isDodging)
+                    {
+                        rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
+                        dodgeTimer -= Time.deltaTime;
+                        if (dodgeTimer <= 0) isDodging = false;
+                        return;
+                    }
                 Hover();
             }
             return;
         }
+        // Sleeping bat has been awoken!
         if (currentState == State.Sleeping) detectionRange += 5;
         
         currentState = State.Chase;
+
+        if (isDodging)
+        {
+            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
+            dodgeTimer -= Time.deltaTime;
+            if (dodgeTimer <= 0) isDodging = false;
+            return;
+        }
 
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
         Vector2 dir = new Vector2(moveX, moveY); 
+
         rb.linearVelocity = dir * moveSpeed; 
 
         FacePlayer();
@@ -335,16 +351,22 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         if (trainingMode)
         {
+            // Make sure speed is taken into account (longer, less reward)
             AddReward(-0.001f);
+            // Reset and punish if bat gets too far away
             if(distToPlayer > 25f)
             {
                 AddReward(-0.5f);
                 EndEpisode();
-                if(otherBat != null && partnerAgent.StepCount > 0){
-                    partnerAgent.EndEpisode();
+                if(otherBat != null){
+                    if (partnerAgent.StepCount > 0)
+                    {
+                        partnerAgent.EndEpisode();
+                    }
                 }
                 return;
             }
+            // Reward for being close to player
             AddReward(-0.0005f * distToPlayer);
         }
     }
@@ -413,7 +435,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public void TakeDamage(int amount)
     {
         enemy.TakeDamage(amount);
-        if (foresightSystem != null) ForesightSystem.enemyDamagedPreviously = true; 
+        if (foresightSystem != null) foresightSystem.NotifyDamage();
     }
 
     void FacePlayer()
@@ -450,8 +472,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         isDodging = false;
         hasForesight = false;
         dodgeTimer = 0f;
-        dodgeCooldownTimer = 0f;
-        lungeCooldownTimer = 0f;
         animator.SetBool("hasForesight", false);
         foresightGlow.SetActive(false);
         
@@ -474,7 +494,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (foresightSystem != null)
         {
             // Calculate how much time passed in the real world while we were rewinding
-            float timeRewound = Time.time - rewindStartTime; 
+            float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime;
             int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
             foresightSystem.HandleRewindStop(statesErased);
         }
