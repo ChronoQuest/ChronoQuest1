@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 7262448542793524538}
   - component: {fileID: 7713596864817159871}
   - component: {fileID: 2218417924015169229}
+  - component: {fileID: -9034027625024298445}
   m_Layer: 10
   m_Name: AI_Sleeping_Bat
   m_TagString: Enemy
@@ -310,17 +311,20 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   trainingMode: 0
-  player: {fileID: 0}
+  controlsEnvironment: 0
+  otherBat: {fileID: 0}
+  obstacle: {fileID: 0}
+  _player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
-  otherBat: {fileID: 0}
   moveSpeed: 5
   detectionRange: 5
   damage: 1
   attackCooldown: 1.5
   currentState: 0
-  obstacle: {fileID: 0}
-  controlsEnvironment: 0
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &7713596864817159871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +352,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::EnemyBase
   health: 1
+  startHealth: 0
+  stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+--- !u!114 &-9034027625024298445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994668768586841926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::ForesightSystem
+  foresightThreshold: 0.7
+  dodgeTriggerDistance: 3.4
+  futureLookaheadSteps: 6
+  weightDistance: 0.5
+  weightVelocity: 0.2
+  weightAttack: 2
+  minTimelineSize: 2
+  bandWidth: 3
+  recordInterval: 0.3

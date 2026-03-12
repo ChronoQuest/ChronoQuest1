@@ -206,13 +206,42 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 331558826}
   m_SourcePrefab: {fileID: 100100000, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
 --- !u!4 &331558824 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
   m_PrefabInstance: {fileID: 331558823}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &331558825 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+  m_PrefabInstance: {fileID: 331558823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &331558826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331558825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::ForesightSystem
+  foresightThreshold: 0.7
+  dodgeTriggerDistance: 3.4
+  futureLookaheadSteps: 6
+  weightDistance: 0.5
+  weightVelocity: 0.2
+  weightAttack: 2
+  minTimelineSize: 2
+  bandWidth: 3
+  recordInterval: 0.3
 --- !u!1001 &362461656
 PrefabInstance:
   m_ObjectHideFlags: 0

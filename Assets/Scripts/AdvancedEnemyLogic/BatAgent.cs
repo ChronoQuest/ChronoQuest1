@@ -3,10 +3,12 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
-using System.Collections.Generic;
-public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
+
+// 1. Add IForesightEnemy to the interface list
+public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 {
     private EnemyBase enemy;
+    private ForesightSystem foresightSystem;
     [Header("Mode")]
     public bool trainingMode = false;
     [Header("ML Agent Variables")]
@@ -30,8 +32,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     private PlayerCombat playerCombat;
     private PlayerSpellSystem playerSpells;
     [Header("Basic behaviour variables")]
-    public float hoverFrequency = 2f; // Bob speed
-    public float hoverAmplitude = 0.5f; // Max bob height
+    public float hoverFrequency = 2f; 
+    public float hoverAmplitude = 0.5f; 
     public float moveSpeed = 5f;
     public float detectionRange = 1f;
     public int damage = 1;
@@ -40,55 +42,23 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     public State currentState = State.Idle;
     private bool isRewinding = false;
     private bool isDead = false;
-    private bool isDodging = false;
-    private bool hasForesight;
+    private bool isDodging = false;    
     private float dodgeDuration = 0.5f;
     private float dodgeTimer = 0f;
     private Vector2 calculatedDodgeVector;
-    private float sequenceSimilarity = 0f;
-    [Header("Foresight AI Variables")]
-    public float foresightThreshold = 0.75f;
-    public float dodgeTriggerDistance = 3.4f;
-    // So the bat won't dodge into walls and floors!
     public LayerMask obstacleLayer;
-    private int memorySize = 50;
-    private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
-    private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
     private float rewindStartTime;
-    public float recordInterval = 0.3f;
-    private float recordTimer = 0f;
     private Collider2D playerCollider;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private Animator animator;
     private float lastAttackTime;
     private Vector3 originalScale;
-    // Possible 'tactics' a player could be employing
-    public struct PlayerState
-    {
-        public Vector2 relativeDirection;
-        public float distance;
-        public Vector2 velocity;
-        public int attackType; // 0: Not attacking, 1: Melee, 2: Spell
-    }
-
-    public enum ForesightTactics { Dodge, Lunge }
-    public int futureLookaheadSteps = 6;
-    public float weightDistance = 0.5f;
-    public float weightVelocity = 0.2f;
-    
-    public float weightAttack = 2.0f;
-    // Controlls how many player states we look at when determining similarity
-    // public int windowSize = 4; - Only used by Hamming Weight func
-    // We need at least minTimelineSize samples before we consider foresight
-    public int minTimelineSize = 2;
-    public int bandWidth = 3;
-    private int highestAttackThisInterval = 0;
-    public static bool batDiedPreviously = false;
 
     void Start()
     {
         enemy = GetComponent<EnemyBase>();
+        foresightSystem = GetComponent<ForesightSystem>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         enemy.OnDeath += HandleDeath;
         if (TimeRewindManager.Instance != null)
@@ -106,9 +76,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("die");
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
-        // Immediately get a player state
-        PlayerState state = GetCurrentPlayerState();
-        currentTimeline.Enqueue(state);
     }
     void OnDestroy()
     {
@@ -121,187 +88,65 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     void Update()
     {
         if (isDead || isRewinding || trainingMode) return;
+    }
 
-        if (playerCombat.isAttacking) highestAttackThisInterval = 1;
-        else if (playerSpells.isCasting) highestAttackThisInterval = 2;
+    // ---------------------- IForesightEnemy Implementation ----------------------
+    public int GetPlayerAttackState()
+    {
+        if (playerCombat != null && playerCombat.isAttacking) return 1;
+        if (playerSpells != null && playerSpells.isCasting) return 2;
+        return 0;
+    }
 
-        recordTimer += Time.deltaTime;
-        if (recordTimer >= recordInterval)
-        {
-            // Record state of the player
-            PlayerState state = GetCurrentPlayerState();
-            state.attackType = highestAttackThisInterval;
-            if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
-            currentTimeline.Enqueue(state);
-            sequenceSimilarity = CalculateDTWSimilarity();
-            //Debug.Log("Timeline similarity: " + sequenceSimilarity);
-            highestAttackThisInterval = 0;
-            recordTimer = 0f;
-        }
+    public void PerformForesightDodge(Vector2 attackDirection) => TriggerForesightDodge(attackDirection);
+    public void PerformForesightLunge(Vector2 approachDirection) => TriggerForesightLunge(approachDirection);
+    public void SetForesightState(bool hasForesight)
+    {
+        animator.SetBool("hasForesight", hasForesight);
+    }
+    public bool IsDead() => isDead;
+    public bool IsRewinding() => isRewinding;
+    public void TriggerForesightDodge(Vector2 attackDirection)
+    {
+        if (isDodging || isDead || isRewinding) return;
+        
+        isDodging = true;
+        dodgeTimer = dodgeDuration;
 
-        // Player is behaving similarly (within a threshold) to before
-        if (sequenceSimilarity >= foresightThreshold)
-        {
-            if (!hasForesight)
-            {
-                hasForesight = true;
-                animator.SetBool("hasForesight", true);
-            }
+        Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
+        Vector2 dir2 = -dir1; 
 
-            ForesightTactics tactic = DetermineForesightAction();
+        float estimatedDodgeDistance = moveSpeed * 2f * dodgeDuration;
 
-            if (tactic == ForesightTactics.Dodge) ExecuteDodge();
-            else if (tactic == ForesightTactics.Lunge) ExecuteLunge();
-        }
+        RaycastHit2D hit1 = Physics2D.Raycast(transform.position, dir1, estimatedDodgeDistance, obstacleLayer);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, dir2, estimatedDodgeDistance, obstacleLayer);
+
+        float clearance1 = hit1.collider != null ? hit1.distance : float.MaxValue;
+        float clearance2 = hit2.collider != null ? hit2.distance : float.MaxValue;
+
+        if (clearance1 > clearance2) calculatedDodgeVector = dir1;
+        else if (clearance2 > clearance1) calculatedDodgeVector = dir2;
         else
         {
-            // Player is behaving differently
-            if (hasForesight && !isDodging)
-            {
-                hasForesight = false;
-                animator.SetBool("hasForesight", false);
-            }
+            calculatedDodgeVector = Random.value > 0.5f ? dir1 : dir2;
         }
     }
-
-    void ExecuteLunge()
+    public void TriggerForesightLunge(Vector2 approachDirection)
     {
-        if (!isDodging)
-        {
-            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
-            TriggerForesightLunge(approachDirection);
-        }
+        if (isDodging || isDead || isRewinding) return;
+        isDodging = true;
+        dodgeTimer = dodgeDuration;
+        calculatedDodgeVector = approachDirection;
     }
 
-    void ExecuteDodge()
-    {
-        GameObject spellObj = playerSpells.latestSpell;
+    // ---------------------- ---------------------- ----------------------
 
-        if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
-        {
-            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
-                
-            TriggerForesightDodge(approachDirection);
-        }
-        if (!isDodging && spellObj != null)
-        {
-            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f){
-                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
-                Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
-                TriggerForesightDodge(approachDirection);
-            }
-        }
-    }
-
-    // Heuristic for calculating distance between tactics
-    float GetPlayerStateDistance(PlayerState a, PlayerState b)
-    {
-        // Differences squared
-        float distDiffSq = Mathf.Pow(a.distance - b.distance, 2);
-        float velDiffSq = (a.velocity - b.velocity).sqrMagnitude;
-        float attackDiffSq = Mathf.Pow(a.attackType - b.attackType, 2);
-        
-        // Weighted distance: attacking is most important, then distance, then velocity
-        float distance = Mathf.Sqrt(
-            (weightDistance * distDiffSq) + 
-            (weightVelocity * velDiffSq) +
-            (weightAttack * attackDiffSq)
-        );
-
-        return distance;
-    }
-
-    ForesightTactics DetermineForesightAction()
-    {
-        if (playerCombat.isAttacking || playerSpells.isCasting || batDiedPreviously) return ForesightTactics.Dodge;
-        int nextIndex = currentTimeline.Count; 
-        var previousArray = previousTimeline.ToArray();
-        // Look ahead into the future
-        for (int i = nextIndex; i < nextIndex + futureLookaheadSteps; i++)
-        {
-            // Stop looking if we hit the end of the recorded present
-            if (i >= previousArray.Length) break; 
-
-            if (previousArray[i].attackType > 0) 
-            {
-                return ForesightTactics.Dodge;
-            }
-        }
-        return ForesightTactics.Lunge; 
-    }
-    // Use Dynamic Time Warp algorithm to calculate similarity between current and previous timeline
-    float CalculateDTWSimilarity()
-    {
-        // We need both timelines to have at least the window size number of samples
-        if (currentTimeline.Count < minTimelineSize || previousTimeline.Count < minTimelineSize) return 0f;
-
-        // If we reach an unobserved point in time, we can't trigger foresight
-        if (currentTimeline.Count > previousTimeline.Count) return 0f;
-
-        // Convert both queues into arrays for easier manipulation
-        var current = currentTimeline.ToArray();
-        var previous = previousTimeline.ToArray();
-        int c_len = current.Length;
-        int p_len = previous.Length;
-
-        // Band must be able to reach the final cell!
-        int w = Mathf.Max(bandWidth, Mathf.Abs(c_len - p_len));
-
-        float[,] dtw = new float[c_len + 1, p_len + 1];
-
-        // Initialise table
-        for (int i = 0; i <= c_len; i++)
-            for (int j = 0; j <= p_len; j++)
-                dtw[i, j] = float.PositiveInfinity;
-
-        dtw[0, 0] = 0;
-
-        // Populate matrix, using Sakoe-Chiba Band
-        for (int i = 1; i <= c_len; i++)
-            {
-                // Calculate dynamic start and end bounds for the inner loop
-                int startJ = Mathf.Max(1, i - w);
-                int endJ = Mathf.Min(p_len, i + w);
-
-                for (int j = startJ; j <= endJ; j++)
-                {
-                    float cost = GetPlayerStateDistance(current[i - 1], previous[j - 1]);
-                    // D(i,j) = d(i,j) + min(D(i-1,j), D(i,j-1), D(i-1,j-1))
-                    dtw[i, j] = cost + Mathf.Min(dtw[i - 1, j], Mathf.Min(dtw[i, j - 1], dtw[i - 1, j - 1]));
-                }
-            }
-        // Normalise score
-        float averageCost = dtw[c_len, p_len] / (c_len + p_len); 
-        return 1.0f - Mathf.Clamp01(averageCost / 2.0f); // 2.0f is your "error tolerance" per step
-    }
-
-    // Old Hamming-weight distance function
-    // float CalculateSimilarity()
-    // {
-    //     if (currentTimeline.Count < windowSize || previousTimeline.Count < windowSize)
-    //         return 0f;
-
-    //     var currentArray = currentTimeline.ToArray();
-    //     var previousArray = previousTimeline.ToArray();
-
-    //     int matches = 0;
-    //     for (int i = 0; i < windowSize; i++)
-    //     {
-    //         PlayerTactic current = currentArray[currentArray.Length - 1 - i];
-    //         PlayerTactic previous = previousArray[previousArray.Length - 1 - i];
-    //         if (current == previous) matches++;
-    //     }
-
-    //     return (float)matches / windowSize;
-    // }
     public override void OnEpisodeBegin()
     {
         isDead = false;
         if (trainingMode)
         {
-            // Disable gravity
             rb.gravityScale = 0f;
-            // Start bat in a random position every time, in the air
             float randBatX = Random.Range(-6f, 13f);
             float randBatY = Random.Range(-2f, 8f);
             transform.localPosition = new Vector2(randBatX, randBatY);
@@ -309,10 +154,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
             if (controlsEnvironment)
             {
-                // Move the obstacle to a random location
                 float randX;
                 float randY = Random.Range(-4f, 2f);
-                // 50% chance to flip obstacle
                 Vector3 newScale = obstacle.localScale;
                 if (Random.value > 0.5f) {
                     newScale.x = -1f;
@@ -324,21 +167,17 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
                 obstacle.localScale = newScale; 
                 obstacle.localPosition = new Vector2(randX, randY);
 
-                // Spawn the player in a random position, just above the floor
                 Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
                 playerRb.linearVelocity = Vector2.zero;
                 playerRb.angularVelocity = 0f;
                 float randPlayerX;
                 float randPlayerY;
                 
-                // 50% chance to be in the air
                 if (Random.value > 0.7f) 
                 {
-                    // 70% chance to be on a platform in the air
                     if(Random.value > 0.3f)
                     {
                         randPlayerY = randY + 6f;
-                        // Account for flipping of obstacle
                         if(newScale.x == 1){
                             randPlayerX = Random.Range(randX - 1.5f, randX + 1.5f) + 5f;
                         }
@@ -346,7 +185,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
                         {
                             randPlayerX = Random.Range(randX - 1.5f, randX + 1.5f) + 3f;
                         }
-                    // 30% chance to be flying (mid jump)
                     } else {
                         randPlayerX = Random.Range(-6f, 13f);
                         randPlayerY = Random.Range(0f, 6f);
@@ -408,9 +246,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
         
         if (!trainingMode && distToPlayer > detectionRange)
         {
-            // If the enemy is sleeping and outside range, continue to sleep
             if (currentState == State.Sleeping) currentState = State.Sleeping;
-            // If awake, continue to be awake
             else {
                 currentState = State.Idle;
                 if (isDodging)
@@ -424,7 +260,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
             }
             return;
         }
-        // Sleeping bat has been awoken!
         if (currentState == State.Sleeping) detectionRange += 5;
         
         currentState = State.Chase;
@@ -449,85 +284,22 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
         if (trainingMode)
         {
-            // Make sure speed is taken into account (longer, less reward)
             AddReward(-0.001f);
-            // Reset and punish if bat gets too far away
             if(distToPlayer > 25f)
             {
                 AddReward(-0.5f);
                 EndEpisode();
-                if(otherBat != null){
-                    if (partnerAgent.StepCount > 0)
-                    {
-                        partnerAgent.EndEpisode();
-                    }
+                if(otherBat != null && partnerAgent.StepCount > 0){
+                    partnerAgent.EndEpisode();
                 }
                 return;
             }
-            // Reward for being close to player
             AddReward(-0.0005f * distToPlayer);
         }
     }
 
-    public void TriggerForesightDodge(Vector2 attackDirection)
-    {
-        if (isDodging || isDead || isRewinding) return;
-        hasForesight = true;
-        isDodging = true;
-        dodgeTimer = dodgeDuration;
-
-        animator.SetBool("hasForesight", true);
-
-        // Calculate both potential perpendicular escape routes
-        Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
-        Vector2 dir2 = -dir1; // The exact opposite direction
-
-        // Calculate how far the bat will travel during the dodge
-        float estimatedDodgeDistance = moveSpeed * 2f * dodgeDuration;
-
-        // Cast a ray in both directions to look for walls
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position, dir1, estimatedDodgeDistance, obstacleLayer);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, dir2, estimatedDodgeDistance, obstacleLayer);
-
-        float clearance1 = hit1.collider != null ? hit1.distance : float.MaxValue;
-        float clearance2 = hit2.collider != null ? hit2.distance : float.MaxValue;
-
-        // Pick the direction that has more space
-        if (clearance1 > clearance2) calculatedDodgeVector = dir1;
-        else if (clearance2 > clearance1) calculatedDodgeVector = dir2;
-        else
-        {
-            // Random fallback
-            calculatedDodgeVector = Random.value > 0.5f ? dir1 : dir2;
-        }
-    }
-
-    public void TriggerForesightLunge(Vector2 approachDirection)
-    {
-        if (isDodging || isDead || isRewinding) return;
-        hasForesight = true;
-        isDodging = true;
-        dodgeTimer = dodgeDuration;
-
-        animator.SetBool("hasForesight", true);
-
-        calculatedDodgeVector = approachDirection;
-    }
-
-    private PlayerState GetCurrentPlayerState()
-    {
-        PlayerState state = new PlayerState();
-        Vector2 offset = player.position - transform.position;
-        state.relativeDirection = offset.normalized;
-        state.distance = offset.magnitude;
-        Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-        state.velocity = playerRb.linearVelocity;
-        state.attackType = 0; // Assign in update
-        return state;
-    }
     void Hover()
     {
-        // Simple Sine wave bobbing effect
         float newY = Mathf.Sin(Time.time * hoverFrequency) * hoverAmplitude;
         rb.linearVelocity = new Vector2(0, newY); 
     }
@@ -544,20 +316,15 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
                     if (batOffsetX * otherBatOffsetX < 0f) 
                     {
-                        // Extra reward for flank
                         AddReward(1.0f);
                     }
                 }
                 AddReward(1.0f);
                 EndEpisode();
-                if(otherBat != null){
-                    if (partnerAgent.StepCount > 0)
-                    {
-                        partnerAgent.EndEpisode();
-                    }
+                if(otherBat != null && partnerAgent.StepCount > 0){
+                    partnerAgent.EndEpisode();
                 }
             }
-            // We don't want the bats to crash into walls
             if (collision.gameObject.CompareTag("Ground"))
             {
                 AddReward(-0.01f);
@@ -572,20 +339,15 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
             rb.linearVelocity = Vector2.zero; 
             Attack();
         }
-        if (trainingMode)
+        if (trainingMode && collision.gameObject.CompareTag("Ground"))
         {
-            // If the bat is touching a wall, punish them continuously
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                AddReward(-0.01f);
-            }
+            AddReward(-0.01f);
         }
     }
     void Attack()
     {
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            //Debug.Log("Enemy attacks!");
             lastAttackTime = Time.time;
             animator.SetTrigger("Attack");
 
@@ -605,13 +367,12 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
-private void HandleDeath()
+    private void HandleDeath()
     {
         if (isRewinding) return;
-        //Debug.Log("Bat death triggered");
         
         isDead = true;
-        batDiedPreviously = true;
+        ForesightSystem.enemyDiedPreviously = true; // Update static variable on the system!
         
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
@@ -628,14 +389,7 @@ private void HandleDeath()
         enemy.OnStartRewind();
         
         StopAllCoroutines();
-
         rewindStartTime = Time.time;
-
-        // if (currentTimeline.Count > 0)
-        // {
-        //     previousTimeline = new Queue<PlayerState>(currentTimeline);
-        //     currentTimeline.Clear();
-        // }
         
         animator.ResetTrigger("die");
         animator.ResetTrigger("Attack");
@@ -651,28 +405,15 @@ private void HandleDeath()
         if (isDead)
         {
             spriteRenderer.enabled = false;
-        }
-
-        float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime; 
-        int statesErased = Mathf.RoundToInt(timeRewound / recordInterval);
+        }        
         
-        statesErased = Mathf.Clamp(statesErased, 0, currentTimeline.Count);
-        var currentArray = currentTimeline.ToArray();
-        
-        previousTimeline.Clear();
-        int startIndex = currentArray.Length - statesErased;
-        for (int i = startIndex; i < currentArray.Length; i++)
+        if (foresightSystem != null)
         {
-            previousTimeline.Enqueue(currentArray[i]);
+            // Calculate how much time passed in the real world while we were rewinding
+            float timeRewound = Time.time - rewindStartTime; 
+            int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
+            foresightSystem.HandleRewindStop(statesErased);
         }
-
-        // Wipe current timeline
-        currentTimeline.Clear();
-        // Immediately get a player state
-        PlayerState state = GetCurrentPlayerState();
-        currentTimeline.Enqueue(state);
-        
-        recordTimer = 0f; 
     }
 
     public RewindState CaptureState()
