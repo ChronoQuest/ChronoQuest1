@@ -52,6 +52,18 @@ namespace TimeRewind
         [Header("Rewind Time Scale")]
         [Tooltip("Global timeScale while rewinding (1 = normal, 0.3 = strong slow-motion)")]
         [SerializeField] private float rewindSlowTimeScale = 0.5f;
+
+        [Header("Dynamic Playback (Idle Fast-Forward)")]
+        [Tooltip("Minimum contiguous stationary time (seconds) in recorded history to treat as idle and speed up rewind")]
+        [SerializeField] private float idleFastForwardThresholdSeconds = 1.5f;
+        [Tooltip("Rewind speed multiplier when inside an idle segment")]
+        [SerializeField] private float idlePlaybackMultiplier = 2.5f;
+        [Tooltip("Rate per second at which playback multiplier moves toward target for smooth transition")]
+        [SerializeField] private float playbackTransitionSpeed = 3f;
+        [Tooltip("Position delta below this = stationary")]
+        [SerializeField] private float idlePositionThreshold = 0.01f;
+        [Tooltip("Rotation delta in degrees below this = stationary")]
+        [SerializeField] private float idleRotationThresholdDegrees = 0.1f;
         
         #endregion
 
@@ -67,6 +79,8 @@ namespace TimeRewind
         
         // Cached time scale used during rewind so we can restore it afterwards
         private float _cachedTimeScale = 1f;
+
+        private float _currentPlaybackMultiplier = 1f;
         
         #endregion
 
@@ -240,7 +254,8 @@ namespace TimeRewind
             _isRewinding = true;
             // _currentRewindTime = Time.time;
             _currentRewindTime = GetNewestRecordedTime(); 
-            
+            _currentPlaybackMultiplier = 1f;
+
             if (enableDebugLogs)
                 Debug.Log($"[TimeRewind] Rewind STARTED at time {_currentRewindTime:F2}");
             
@@ -358,9 +373,22 @@ namespace TimeRewind
         private void UpdateRewind()
         {
             if (PauseMenu.isPaused)
-                return; 
-            
-            _currentRewindTime -= Time.deltaTime * rewindSpeed;
+                return;
+
+            float targetMultiplier = 1f;
+            if (TryGetPlayerBuffer(out var playerBuffer) && playerBuffer.Count >= 2)
+            {
+                var idleSegments = GetIdleSegments(playerBuffer);
+                if (IsTimeInIdleSegment(_currentRewindTime, idleSegments))
+                    targetMultiplier = idlePlaybackMultiplier;
+            }
+
+            _currentPlaybackMultiplier = Mathf.MoveTowards(
+                _currentPlaybackMultiplier,
+                targetMultiplier,
+                playbackTransitionSpeed * Time.deltaTime);
+
+            _currentRewindTime -= Time.deltaTime * rewindSpeed * _currentPlaybackMultiplier;
             
             float oldestTime = GetOldestRecordedTime();
             
@@ -419,6 +447,77 @@ namespace TimeRewind
             }
         }
         
+        private bool TryGetPlayerBuffer(out RewindBuffer<RewindState> buffer)
+        {
+            buffer = null;
+            if (_rewindables == null)
+                return false;
+            foreach (var kvp in _rewindables)
+            {
+                if (kvp.Key is PlayerRewindController)
+                {
+                    buffer = kvp.Value;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool AreStatesStationary(RewindState a, RewindState b)
+        {
+            if (Vector3.Distance(a.Position, b.Position) > idlePositionThreshold)
+                return false;
+            if (Quaternion.Angle(a.Rotation, b.Rotation) > idleRotationThresholdDegrees)
+                return false;
+            return true;
+        }
+
+        private List<(float start, float end)> GetIdleSegments(RewindBuffer<RewindState> playerBuffer)
+        {
+            var segments = new List<(float start, float end)>();
+            int runStart = -1;
+            for (int i = 0; i < playerBuffer.Count - 1; i++)
+            {
+                var a = playerBuffer.Get(i);
+                var b = playerBuffer.Get(i + 1);
+                if (AreStatesStationary(a, b))
+                {
+                    if (runStart < 0)
+                        runStart = i;
+                }
+                else
+                {
+                    if (runStart >= 0)
+                    {
+                        float tStart = playerBuffer.Get(runStart).Timestamp;
+                        float tEnd = playerBuffer.Get(i).Timestamp;
+                        if (tEnd - tStart >= idleFastForwardThresholdSeconds)
+                            segments.Add((tStart, tEnd));
+                        runStart = -1;
+                    }
+                }
+            }
+            if (runStart >= 0)
+            {
+                float tStart = playerBuffer.Get(runStart).Timestamp;
+                float tEnd = playerBuffer.Get(playerBuffer.Count - 1).Timestamp;
+                if (tEnd - tStart >= idleFastForwardThresholdSeconds)
+                    segments.Add((tStart, tEnd));
+            }
+            return segments;
+        }
+
+        private static bool IsTimeInIdleSegment(float time, List<(float start, float end)> segments)
+        {
+            for (int i = 0; i < segments.Count; i++)
+            {
+                var (start, end) = segments[i];
+                if (time >= start && time <= end)
+                    return true;
+            }
+            return false;
+        }
+
         private float GetOldestRecordedTime()
         {
             float oldestTime = float.MaxValue;
