@@ -63,6 +63,7 @@ namespace TimeRewind
         private float _recordTimer;
         private float _recordInterval;
         private bool _initialized;
+        private bool _recordingEnabled = true; 
         
         // Cached time scale used during rewind so we can restore it afterwards
         private float _cachedTimeScale = 1f;
@@ -175,7 +176,7 @@ namespace TimeRewind
         
         private void FixedUpdate()
         {
-            if (!_isRewinding)
+            if (!_isRewinding && _recordingEnabled)
             {
                 UpdateRecording();
             }
@@ -237,7 +238,8 @@ namespace TimeRewind
             Time.timeScale = rewindSlowTimeScale;
             
             _isRewinding = true;
-            _currentRewindTime = Time.time;
+            // _currentRewindTime = Time.time;
+            _currentRewindTime = GetNewestRecordedTime(); 
             
             if (enableDebugLogs)
                 Debug.Log($"[TimeRewind] Rewind STARTED at time {_currentRewindTime:F2}");
@@ -285,6 +287,27 @@ namespace TimeRewind
             {
                 buffer.Clear();
             }
+        }
+
+        public void PauseRecording()
+        {
+            _recordingEnabled = false;
+
+            if (enableDebugLogs)
+            {
+                Debug.Log("[TimeRewind] Recording paused");
+            }
+        }
+
+        public void ResumeRecording()
+        {
+            _recordingEnabled = true; 
+
+            if (enableDebugLogs)
+            {
+                Debug.Log("[TimeRewind] Recording resumed");
+            }
+
         }
         
         #endregion

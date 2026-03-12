@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -126250, y: -73061.99}
+  m_AnchoredPosition: {x: -126284, y: -73061.99}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &396464260761444849
@@ -959,7 +959,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -4.0529175, y: 0.3512268}
+  m_Offset: {x: -2.8582134, y: 0.3512268}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -969,7 +969,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 26.56688, y: 17.959297}
+  m_Size: {x: 24.177471, y: 17.959297}
   m_EdgeRadius: 0
 --- !u!114 &6924415106093661232
 MonoBehaviour:
@@ -1452,7 +1452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125963, y: -73049.38}
+  m_AnchoredPosition: {x: -125993, y: -73049.38}
   m_SizeDelta: {x: 406.99, y: 142.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1463384873686907592
@@ -3036,7 +3036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -125866, y: -73028}
+  m_AnchoredPosition: {x: -125900, y: -73028}
   m_SizeDelta: {x: 171.82, y: 50.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6922431293659790873
@@ -3740,7 +3740,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.5174675, y: -0.8862616}
+  m_Offset: {x: 0.5558548, y: -0.8862616}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3750,7 +3750,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.2941208, y: 0.5564711}
+  m_Size: {x: 1.2173462, y: 0.5564711}
   m_EdgeRadius: 0
 --- !u!114 &5195402331689389110
 MonoBehaviour:

@@ -87,9 +87,13 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     private float previousZoom;
     private CameraFollow2D cam; 
-    private bool inRewindArea = false;
-    private Dictionary<Rigidbody2D, RigidbodyType2D> frozenBodies = new Dictionary<Rigidbody2D, RigidbodyType2D>(); 
-    Dictionary<MonoBehaviour, bool> frozenEnemies = new Dictionary<MonoBehaviour, bool>();
+    private bool inRewindArea = false; 
+
+
+    // dictionaries for freezing enemies during rewind tutorial hint
+    Dictionary<Rigidbody2D, Vector2> slowedBodies = new Dictionary<Rigidbody2D, Vector2>();
+    Dictionary<BatEnemyAI, float> slowedBats = new Dictionary<BatEnemyAI, float>();
+    Dictionary<Animator, float> slowedAnimators = new Dictionary<Animator, float>();
     #endregion
 
     void Start()
@@ -232,6 +236,78 @@ public class TutorialManager : MonoBehaviour
     {
         player.allowedActions = PlayerAction.All;
     }
+
+    // slows enemies when the rewind hint is triggered
+    void SlowingEnemies(float radius, float slowMultiplier)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(player.transform.position, radius);
+
+        foreach (var hit in hits)
+        {
+            if (((1 << hit.gameObject.layer) & enemyLayer) == 0)
+                continue;
+
+            Animator anim = hit.GetComponentInParent<Animator>(); 
+            if (anim != null && !slowedAnimators.ContainsKey(anim))
+            {
+                slowedAnimators.Add(anim, anim.speed);
+                anim.speed *= slowMultiplier; 
+            }
+
+            BatEnemyAI bat = hit.GetComponent<BatEnemyAI>();
+            if (bat != null)
+            {
+                if (!slowedBats.ContainsKey(bat))
+                {
+                    slowedBats.Add(bat, bat.moveSpeed);
+                    bat.moveSpeed *= slowMultiplier; 
+                }
+
+                continue; 
+            }
+            
+            Rigidbody2D rb = hit.attachedRigidbody;
+            if (rb == null) continue;
+
+            if (!slowedBodies.ContainsKey(rb))
+            {
+                slowedBodies.Add(rb, rb.linearVelocity);
+                rb.linearVelocity *= slowMultiplier;
+                rb.angularVelocity *= slowMultiplier; 
+            }
+        }
+    }
+
+    // restores enemy speed after rewind hint is completed
+    void RestoreEnemies()
+    {
+        foreach (var pair in slowedBodies)
+        {
+            if (pair.Key != null)
+            {
+                pair.Key.linearVelocity = pair.Value; 
+            }
+        }
+        slowedBodies.Clear(); 
+
+        foreach (var pair in slowedBats)
+        {
+            if (pair.Key != null)
+            {
+                pair.Key.moveSpeed = pair.Value; 
+            }
+        }
+        slowedBats.Clear(); 
+
+        foreach (var pair in slowedAnimators)
+        {
+            if (pair.Key != null)
+            {
+                pair.Key.speed = pair.Value; 
+            }
+        }
+        slowedAnimators.Clear(); 
+    }
     #endregion
 
     #region Attack Tutorial Area
@@ -313,14 +389,21 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRewindStarted()
     {
+        if (currentStep != TutorialStep.Rewind)
+            return; 
+
+        TimeRewind.TimeRewindManager.Instance?.ResumeRecording(); 
+        
         Debug.Log("REWIND STARTED");
+
+        RestoreEnemies();
+        AllowAll(); 
 
         if (cam != null)
         {
             cam.SetZoom(previousZoom);
         }
 
-        // UnfreezeNearbyObjects(); 
         OnPlayerRewind();
     }   
     #endregion
@@ -331,10 +414,8 @@ public class TutorialManager : MonoBehaviour
     {   
         if (currentStep == TutorialStep.Movement && !moveCompleted)
         {
-            Debug.Log("Hiding movement hint");
             moveCompleted = true; 
             HideHint(movementHint);
-            AllowAll(); 
             Debug.Log("Player movement tutorial complete");
         }
     }
@@ -362,7 +443,6 @@ public class TutorialManager : MonoBehaviour
         if (value && playerHealth.CurrentHealth < playerHealth.MaxHealth && !rewindCompleted)
         {
             TryTriggerRewindHint();
-            // FreezeNearbyObject(20f); 
         }
     }
 
@@ -377,7 +457,7 @@ public class TutorialManager : MonoBehaviour
         rewindFollow.SetTarget(player.transform); 
         rewindFollow.enabled = true;
 
-        if (cam != null)
+        if (currentStep == TutorialStep.Rewind && cam != null)
         {
             previousZoom = Camera.main.orthographicSize;
             cam.SetZoom(previousZoom - 1.5f);
@@ -492,7 +572,6 @@ public class TutorialManager : MonoBehaviour
         // based on the current step, show the corresponding tutorial hint using the typewriter effect
         switch (step)
         {
-            // TODO: testing to ensure these conditions are suitable for the tutorial, may need to be changed
             case TutorialStep.Movement:
                 AllowOnly(PlayerAction.Movement);
                 activeHint = movementHint;
@@ -508,6 +587,9 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(attackText);
                 break;
             case TutorialStep.Rewind:
+                AllowOnly(PlayerAction.Rewind);
+                TimeRewind.TimeRewindManager.Instance?.PauseRecording();
+                SlowingEnemies(20f, 0.15f); 
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
@@ -521,7 +603,7 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(jumpText); 
                 break; 
             case TutorialStep.Dash:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Dash | PlayerAction.Jump);
+                AllowOnly(PlayerAction.Dash | PlayerAction.Movement);
                 activeHint = dashHint;
                 ShowHint(dashHint); 
                 dashText.text = dashMessage;
