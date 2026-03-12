@@ -110,7 +110,7 @@ public class CameraFollow2D : MonoBehaviour
 
     public void ResetOffset()
     {
-        offset = defaultOffset; 
+        targetOffset = defaultOffset; 
     }
 
     public void SetZoomSmoothTime(float value)

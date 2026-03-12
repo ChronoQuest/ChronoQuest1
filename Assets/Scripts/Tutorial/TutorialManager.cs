@@ -390,9 +390,7 @@ public class TutorialManager : MonoBehaviour
     private void HandleRewindStarted()
     {
         if (currentStep != TutorialStep.Rewind)
-            return; 
-
-        TimeRewind.TimeRewindManager.Instance?.ResumeRecording(); 
+            return;  
         
         Debug.Log("REWIND STARTED");
 
@@ -588,7 +586,6 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Rewind:
                 AllowOnly(PlayerAction.Rewind);
-                TimeRewind.TimeRewindManager.Instance?.PauseRecording();
                 SlowingEnemies(20f, 0.15f); 
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
