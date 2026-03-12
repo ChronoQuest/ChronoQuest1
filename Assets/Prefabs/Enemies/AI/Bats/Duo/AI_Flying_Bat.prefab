@@ -254,7 +254,7 @@ MonoBehaviour:
   controlsEnvironment: 0
   otherBat: {fileID: 7231518081331576005}
   obstacle: {fileID: 0}
-  player: {fileID: 0}
+  _player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
   moveSpeed: 3
@@ -262,12 +262,11 @@ MonoBehaviour:
   damage: 1
   attackCooldown: 1.5
   currentState: 1
-  foresightGlow: {fileID: 5655604110447557703}
-  foresightThreshold: 0.75
-  dodgeTriggerDistance: 3.4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 4096
+  dodgeTriggerDistance: 3.4
+  foresightGlow: {fileID: 5655604110447557703}
 --- !u!114 &2549410938233235704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,14 +311,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ForesightSystem
-  foresightThreshold: 0.7
-  dodgeTriggerDistance: 3.4
-  futureLookaheadSteps: 6
+  foresightThreshold: 0.75
+  dodgeTriggerDistance: 4
+  futureLookaheadSteps: 10
   weightDistance: 0.5
   weightVelocity: 0.2
   weightAttack: 2
-  minTimelineSize: 2
-  bandWidth: 3
+  minTimelineSize: 3
+  bandWidth: 6
   recordInterval: 0.3
 --- !u!1 &5139049366995625032
 GameObject:
