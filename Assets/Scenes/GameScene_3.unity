@@ -265,6 +265,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: aabf9a013c9b3d6449f3ee602f316002, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -484,6 +488,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc3abe5eba5194c42a6cf157f1c5eefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SkeletonArcher
+--- !u!1001 &154038367
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4163177188589188182, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_Name
+      value: Health_Pickup (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 133.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 60.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
 --- !u!1001 &169668497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -548,6 +609,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: e2bee97c31fcd0e41a2dc83401bf75a3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -615,9 +680,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1090,6 +1163,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 264e2e2aa46b6834083d3e334747c819, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1180,6 +1257,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 264e2e2aa46b6834083d3e334747c819, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1411,11 +1492,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 39.81601
+      value: 37.9
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.0365524
+      value: -1.69
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1638,6 +1719,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 5cdf0b3a40afb7343883ca6293762d2e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1727,6 +1812,22 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3491139030337275940, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1070194805
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944801926653972985, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
@@ -2268,6 +2369,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 71dc7efa681cabd4e852a004d52cafb7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2324,11 +2429,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.355423
+      value: 24.81
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.87764
+      value: -2.92
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2432,6 +2537,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 06
@@ -2730,6 +2839,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: e1bf0728b910e4c4c9ed78e528405a5c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2812,6 +2925,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 0fc136f3a5a0d8b49811abf61a5c52f1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2957,9 +3074,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3349,6 +3474,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 5629bf9f56ae20241908fee4c73917a1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3581,6 +3710,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 92c074a50c144924f814597e3890f4ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3817,6 +3950,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 939e15750b0551a44b5612603a2d3e86, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3882,6 +4019,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 508d0e35dc3befd41a1e58b6e6c5abac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 508d0e35dc3befd41a1e58b6e6c5abac, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 05 (1)
@@ -3959,6 +4100,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 54a5c1f288ba88a458f0ee20fb290b9d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4152,6 +4297,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: a86624733b0bb364db9304d581cf6e9b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 4967174062416016437, guid: a86624733b0bb364db9304d581cf6e9b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -4271,9 +4420,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4596,12 +4753,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7292622582502913522, guid: 92c074a50c144924f814597e3890f4ba, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 92c074a50c144924f814597e3890f4ba, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7292622582502913522, guid: 92c074a50c144924f814597e3890f4ba, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1070194805
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 92c074a50c144924f814597e3890f4ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4671,6 +4836,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 6e17e8a1e4a7fcc4f91ca7f585dab0cb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4754,6 +4923,10 @@ PrefabInstance:
     - target: {fileID: 7833608697331677662, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_Name
       value: ZoomZone (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
+      propertyPath: zoomSize
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18071,6 +18244,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: 120, y: 43, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 87
+      m_TileSpriteIndex: 89
+      m_TileMatrixIndex: 3
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 121, y: 43, z: 0}
     second:
       serializedVersion: 2
@@ -23916,6 +24099,16 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 53
       m_TileSpriteIndex: 92
+      m_TileMatrixIndex: 1
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 94, y: 49, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 87
+      m_TileSpriteIndex: 89
       m_TileMatrixIndex: 1
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -54167,8 +54360,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: c4c1a4a799582464a9f2f8b757b62ac8, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 84ffddb945a2a7a44b35107b6bc5e026, type: 2}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 2
+    m_Data: {fileID: 11400000, guid: 9b92df0c2b0779d41a7e4f560f461837, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 86ad6aba14b542d4da8869671df862a3, type: 2}
   - m_RefCount: 5
@@ -54428,8 +54621,8 @@ Tilemap:
     m_Data: {fileID: 274030312745944294, guid: 1061b915ffc9af143a59aa0d12c234dd, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -2617937114785531846, guid: 1061b915ffc9af143a59aa0d12c234dd, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 2
+    m_Data: {fileID: 1726452119, guid: 5da750f36e60e0949ba7085b5e1788ce, type: 3}
   - m_RefCount: 14
     m_Data: {fileID: 1365373394, guid: 5da750f36e60e0949ba7085b5e1788ce, type: 3}
   - m_RefCount: 2
@@ -54525,7 +54718,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 18
+  - m_RefCount: 19
     m_Data:
       e00: 1
       e01: 0
@@ -54561,7 +54754,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 0
+  - m_RefCount: 1
     m_Data:
       e00: -1
       e01: 0
@@ -54580,7 +54773,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 4909
+  - m_RefCount: 4911
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -55233,8 +55426,14 @@ CompositeCollider2D:
         Y: 480000000
       - X: 1050000000
         Y: 490000000
-      - X: 940000000
+      - X: 949687488
         Y: 490000000
+      - X: 949687488
+        Y: 490624992
+      - X: 940937472
+        Y: 499687488
+      - X: 940000000
+        Y: 499687488
       - X: 940000000
         Y: 500000000
       - X: 925312512
@@ -55336,6 +55535,12 @@ CompositeCollider2D:
       - X: 1210000000
         Y: 440000000
       - X: 1210000000
+        Y: 439687488
+      - X: 1209062528
+        Y: 439687488
+      - X: 1200312448
+        Y: 430624992
+      - X: 1200312448
         Y: 430000000
       - X: 1150000000
         Y: 430000000
@@ -55363,7 +55568,11 @@ CompositeCollider2D:
       - {x: 46.00003, y: 31}
       - {x: 89, y: 30.999971}
       - {x: 89.00003, y: 30}
-    - - {x: 115, y: 37.00003}
+    - - {x: 116.9375, y: 37.00003}
+      - {x: 115.03124, y: 37.00003}
+      - {x: 115.03122, y: 37.1875}
+      - {x: 115, y: 37.187473}
+      - {x: 114.99998, y: 37}
       - {x: 111, y: 37.00003}
       - {x: 110.99998, y: 37.25}
       - {x: 110.6875, y: 37.25003}
@@ -55548,10 +55757,6 @@ CompositeCollider2D:
       - {x: 117.28123, y: 37.25}
       - {x: 116.99999, y: 37.249992}
       - {x: 116.9375, y: 37.187492}
-      - {x: 116.93748, y: 37}
-      - {x: 115.03124, y: 37.00003}
-      - {x: 115.03122, y: 37.1875}
-      - {x: 115, y: 37.187473}
     - - {x: 95.99997, y: 52}
       - {x: 96.00003, y: 53}
       - {x: 106, y: 53.00003}
@@ -55651,7 +55856,10 @@ CompositeCollider2D:
       - {x: 104.00003, y: 48}
       - {x: 105, y: 48.00003}
       - {x: 104.99997, y: 49}
-      - {x: 94, y: 49.00003}
+      - {x: 94.96875, y: 49.00003}
+      - {x: 94.96874, y: 49.062508}
+      - {x: 94.093735, y: 49.96875}
+      - {x: 94, y: 49.968777}
       - {x: 93.99997, y: 50}
       - {x: 92.53124, y: 49.999992}
       - {x: 92.3125, y: 49.8125}
@@ -55702,7 +55910,10 @@ CompositeCollider2D:
       - {x: 124, y: 43.531258}
       - {x: 123.59374, y: 44}
       - {x: 121, y: 43.999973}
-      - {x: 120.99998, y: 43}
+      - {x: 120.99998, y: 43.96875}
+      - {x: 120.90624, y: 43.968742}
+      - {x: 120.03125, y: 43.06249}
+      - {x: 120.03122, y: 43}
       - {x: 115, y: 43.00003}
       - {x: 114.99998, y: 44}
       - {x: 114, y: 44.00003}
@@ -55921,6 +56132,100 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: 0b23f9036149d6b4ab20baaad5ca1f52, type: 3}
   m_PrefabInstance: {fileID: 930089153}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &922484931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922484933}
+  - component: {fileID: 922484932}
+  m_Layer: 0
+  m_Name: Freeform Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &922484932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922484931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 1
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.048
+  m_Color: {r: 0.2398596, g: 0.23487005, b: 0.24528301, a: 1}
+  m_Intensity: 0.5
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: b725fe4775e0c93f000000000b08f8559d06486a
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 1
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: -1.2199001, y: -8.125, z: 0}
+    m_Extent: {x: 30.072, y: 20.0831, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 6
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -25.292908, y: -22.207487, z: 0}
+  - {x: 22.852562, y: -21.707932, z: 0}
+  - {x: 22.615364, y: -5.0714455, z: 0}
+  - {x: 17.428963, y: -4.9025116, z: 0}
+  - {x: 17.196861, y: 0.8396492, z: 0}
+  - {x: 17.601334, y: 5.958027, z: 0}
+  - {x: 6.2105713, y: 4.77499, z: 0}
+  - {x: -9.116051, y: 5.18087, z: 0}
+  - {x: -13.272697, y: 5.435959, z: 0}
+  - {x: -13.723259, y: 3.7725372, z: 0}
+  - {x: -14.744881, y: 2.1147194, z: 0}
+  - {x: -14.826263, y: 0.039310455, z: 0}
+  - {x: -18.732918, y: -1.5477715, z: 0}
+  - {x: -23.770012, y: -1.4791298, z: 0}
+--- !u!4 &922484933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922484931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 106.24, y: 49.47, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &930089153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55981,6 +56286,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 0b23f9036149d6b4ab20baaad5ca1f52, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 0b23f9036149d6b4ab20baaad5ca1f52, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 03
@@ -56087,9 +56396,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56263,6 +56580,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: 99d8c716fc6c486498fab9b30686f47b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6205563972056059829, guid: 99d8c716fc6c486498fab9b30686f47b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -56401,6 +56722,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 508d0e35dc3befd41a1e58b6e6c5abac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 508d0e35dc3befd41a1e58b6e6c5abac, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 05
@@ -56545,6 +56870,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: e2bee97c31fcd0e41a2dc83401bf75a3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56623,6 +56952,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 264e2e2aa46b6834083d3e334747c819, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56692,6 +57025,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 6ecc87a373424484bbf7c7c59dde7036, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56780,7 +57117,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1324473628}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
 --- !u!114 &1094889223 stripped
@@ -56935,6 +57275,90 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c631741ff7c25045bff1a78433c40e5, type: 3}
+--- !u!1 &1105236304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105236306}
+  - component: {fileID: 1105236305}
+  m_Layer: 0
+  m_Name: Global Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1105236305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105236304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 4
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.9622642, g: 0.8927186, b: 0.82155573, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: b725fe4775e0c93f000000000b08f8559d06486a
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+--- !u!4 &1105236306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105236304}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 101.00571, y: 40.713642, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1110625858
 GameObject:
   m_ObjectHideFlags: 0
@@ -57000,11 +57424,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491139030337275940, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3491139030337275940, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1070194805
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944801926653972985, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5735316943426960261, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_Layer
@@ -57024,11 +57468,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 112.59476
+      value: 112.57
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 47.99978
+      value: 48.06
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57092,6 +57536,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 1300405383520047584, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 2444150312022702965, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -57104,6 +57552,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3004318099413738356, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6237612201534384242, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
@@ -57116,6 +57568,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622581993074016, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7292622581993074046, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -57136,6 +57592,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582053295290, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7292622582149229996, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -57152,6 +57612,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582149229998, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7292622582502913520, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Beam 01
@@ -57216,6 +57680,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622583322078480, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7292622583322078574, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -57230,83 +57698,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7292622582502913521, guid: f2e53299b126eb14ebce61d4bb9b0892, type: 3}
   m_PrefabInstance: {fileID: 1122634327}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1132177155
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_Size.x
-      value: 0.8239114
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_Size.y
-      value: 0.24716252
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.08804427
-      objectReference: {fileID: 0}
-    - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.015363932
-      objectReference: {fileID: 0}
-    - target: {fileID: 7833608697331677662, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_Name
-      value: ZoomZone (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: zoomSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 108.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 38.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
 --- !u!4 &1132321325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1483419064559744378, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
@@ -57485,6 +57876,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 179fbb5164275a14bacf02455e3382f6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -57629,6 +58024,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 7bc0d8a3425b1cc4aa839a3d1b22bcd7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -57703,6 +58102,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: e9f36509d4278484ca48fe5879e8f2e8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -57839,6 +58242,14 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729045677217607131, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1070194805
+      objectReference: {fileID: 0}
     - target: {fileID: 5735316943426960261, guid: 431e51c0b410e5548b0c958cf3d15a71, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -57965,6 +58376,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 98e33e4e97c123f4faba064d5bfd8f7c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 98e33e4e97c123f4faba064d5bfd8f7c, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 01 B
@@ -57978,6 +58393,90 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98e33e4e97c123f4faba064d5bfd8f7c, type: 3}
+--- !u!1 &1324473627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324473628}
+  - component: {fileID: 1324473629}
+  m_Layer: 3
+  m_Name: Spot Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1324473628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324473627}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1941470544}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1324473629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324473627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.990566, g: 0.8242315, b: 0.6494749, a: 1}
+  m_Intensity: 0.5
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: b725fe4775e0c93f000000000b08f8559d06486a
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 1
+  m_PointLightOuterRadius: 5
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1001 &1334960269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57994,6 +58493,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: 99d8c716fc6c486498fab9b30686f47b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6205563972056059829, guid: 99d8c716fc6c486498fab9b30686f47b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -58124,6 +58627,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: d6d7a19e764ffbf43a40224cb8e61136, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -58159,6 +58666,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: be6ea28e4855d4f469f642bd96f54da3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7935089473269195797, guid: be6ea28e4855d4f469f642bd96f54da3, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Wall Cave 01 A (1)
@@ -58344,6 +58855,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 04 (1)
@@ -58455,6 +58970,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 1b8ac58098173034d9b23d9d1d077d3d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -58545,6 +59064,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 4f3f856807c3d2e42973cb2e204b6ced, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -58624,6 +59147,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 7a949dca2c6335544b5fbac2fba367da, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -58822,7 +59349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: zoomSize
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 9023913885555517564, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59282,6 +59809,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: be6ea28e4855d4f469f642bd96f54da3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7935089473269195797, guid: be6ea28e4855d4f469f642bd96f54da3, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Wall Cave 01 A
@@ -59424,6 +59955,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7292622582502913522, guid: 92c074a50c144924f814597e3890f4ba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -59493,6 +60028,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: d6d7a19e764ffbf43a40224cb8e61136, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -59567,6 +60106,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: bc2cc965684ffc74fb8f728b0b648ca1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -59637,6 +60180,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 06 (1)
@@ -59785,11 +60332,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.529358
+      value: 54.04
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.7250252
+      value: -8.15
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59854,6 +60401,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 2294827958487921396, guid: 41a3185c0e6a8814e8e3065ceeceaa77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 2483745226955520851, guid: 41a3185c0e6a8814e8e3065ceeceaa77, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -59866,6 +60417,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4704208409137849798, guid: 41a3185c0e6a8814e8e3065ceeceaa77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7935089473269195797, guid: 41a3185c0e6a8814e8e3065ceeceaa77, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Cage 01 B
@@ -59882,6 +60437,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8042611394871323952, guid: 41a3185c0e6a8814e8e3065ceeceaa77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8246832526595293497, guid: 41a3185c0e6a8814e8e3065ceeceaa77, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -60004,6 +60563,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 76feb5db01577884f87f527fce690711, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -60030,6 +60593,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 2294827958487921396, guid: d4fca8472b218cb46abed5b591cd06bb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 2483745226955520851, guid: d4fca8472b218cb46abed5b591cd06bb, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -60042,6 +60609,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4704208409137849798, guid: d4fca8472b218cb46abed5b591cd06bb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 7935089473269195797, guid: d4fca8472b218cb46abed5b591cd06bb, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Cage 01 C
@@ -60058,6 +60629,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8042611394871323952, guid: d4fca8472b218cb46abed5b591cd06bb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8246832526595293497, guid: d4fca8472b218cb46abed5b591cd06bb, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -60180,6 +60755,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 06
@@ -60332,6 +60911,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 41064b950fa9da94882f99bb5563cc4f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 41064b950fa9da94882f99bb5563cc4f, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 02 A
@@ -60409,6 +60992,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 939e15750b0551a44b5612603a2d3e86, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -60487,9 +61074,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -60736,6 +61331,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 508d0e35dc3befd41a1e58b6e6c5abac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 508d0e35dc3befd41a1e58b6e6c5abac, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 05
@@ -60827,6 +61426,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 3491139030337275940, guid: 99d8c716fc6c486498fab9b30686f47b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6205563972056059829, guid: 99d8c716fc6c486498fab9b30686f47b, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -60973,6 +61576,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 4c330f7f1a865114e9eb8722d9b4f9c5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -61047,6 +61654,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 5b7eacb4e61c93144a1e052b463f34a0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -61103,11 +61714,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.948967
+      value: 5.36
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.1021233
+      value: 13.89
       objectReference: {fileID: 0}
     - target: {fileID: 9072807208709021889, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_LocalPosition.z
@@ -61274,6 +61885,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 04
@@ -61309,8 +61924,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1941470544}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: moveSpeed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: reviveCooldown
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: ledgeCheckOffset
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: minions.Array.size
@@ -61491,9 +62118,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -455337,9 +455972,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -455460,6 +456103,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 8f4c4bc1677dc334abee6b4b567467ec, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -455538,6 +456185,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 4029444947252226282, guid: 41064b950fa9da94882f99bb5563cc4f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 8321558922072611146, guid: 41064b950fa9da94882f99bb5563cc4f, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Wall Deco - Dent 02 A
@@ -455567,6 +456218,14 @@ PrefabInstance:
     - target: {fileID: 390456860282783827, guid: 8341fc961bf8c83428539c3811570a87, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Skull 02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238976967054070700, guid: 8341fc961bf8c83428539c3811570a87, type: 3}
+      propertyPath: m_LinearDamping
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238976967054070700, guid: 8341fc961bf8c83428539c3811570a87, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1024
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 8341fc961bf8c83428539c3811570a87, type: 3}
       propertyPath: m_LocalPosition.x
@@ -455608,6 +456267,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: 8341fc961bf8c83428539c3811570a87, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -455682,6 +456345,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1070194805
       objectReference: {fileID: 0}
+    - target: {fileID: 8930051543745126958, guid: c151e798e115fe94b9c3b5bcad2db15e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -455880,9 +456547,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: detectionRange
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -456032,6 +456707,169 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: 98e33e4e97c123f4faba064d5bfd8f7c, type: 3}
   m_PrefabInstance: {fileID: 1314726836}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2120305800
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4163177188589188182, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_Name
+      value: Health_Pickup (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 113.984695
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.48724
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5801702434955149063, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 772c241dcdcdf42729e97f3222dca646, type: 3}
+--- !u!1 &2130751780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2130751782}
+  - component: {fileID: 2130751784}
+  - component: {fileID: 2130751783}
+  m_Layer: 0
+  m_Name: Cave Entrance Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2130751782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130751780}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 106.3, y: 49.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &2130751783
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130751780}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1.3874817, y: 8.168671}
+      - {x: -14.056182, y: 9.260609}
+      - {x: -16.107689, y: 6.088009}
+      - {x: -16.260315, y: 0.80810165}
+      - {x: -28.425941, y: -3.771103}
+      - {x: -29.144783, y: -11.156147}
+      - {x: 25.877031, y: -12.23539}
+      - {x: 25.283371, y: -8.985039}
+      - {x: 22.631851, y: -4.544029}
+      - {x: 22.12313, y: 8.105587}
+      - {x: 3.379157, y: 8.287056}
+  m_UseDelaunayMesh: 1
+--- !u!114 &2130751784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130751780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 382aa821b693c438cbaab783730108dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::CaveLightTrigger
+  insideCaveIntensity: 0.6
+  outsideCaveIntensity: 0
+  fadeDuration: 1.5
 --- !u!4 &2135972925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: abb38314e8f9fbf48a3e513d008b8e57, type: 3}
@@ -456288,5 +457126,9 @@ SceneRoots:
   - {fileID: 2088554896}
   - {fileID: 1496024400}
   - {fileID: 847252111}
-  - {fileID: 1132177155}
   - {fileID: 1389424699}
+  - {fileID: 922484933}
+  - {fileID: 1105236306}
+  - {fileID: 2130751782}
+  - {fileID: 154038367}
+  - {fileID: 2120305800}

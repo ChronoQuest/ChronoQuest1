@@ -29,7 +29,6 @@ public class MeleeSkeleton : EnemyBase
 
     protected override void Awake()
     {
-        health = 3;
         knockbackResistance = 3f;
         base.Awake();
     }
