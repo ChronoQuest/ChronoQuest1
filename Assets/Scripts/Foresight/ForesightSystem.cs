@@ -3,11 +3,12 @@ using System.Collections.Generic;
 public class ForesightSystem : MonoBehaviour
 {
     private IForesightEnemy enemy;
-    public float foresightThreshold = 0.70f;
+    public float foresightThreshold = 0.75f;
     public float dodgeTriggerDistance = 3.4f;
-    private int memorySize = 50;
+    private int memorySize = 75;
     private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
     private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
+    private int bestMatchIndex = -1;
 
     // Possible 'tactics' a player could be employing
     public struct PlayerState
@@ -19,15 +20,15 @@ public class ForesightSystem : MonoBehaviour
     }
 
     public enum ForesightTactics { Dodge, Lunge }
-    public int futureLookaheadSteps = 6;
+    public int futureLookaheadSteps = 10;
     public float weightDistance = 0.5f;
     public float weightVelocity = 0.2f;
     public float weightAttack = 2.0f;
-    public int minTimelineSize = 2;
-    public int bandWidth = 3;
+    public int minTimelineSize = 3;
+    public int bandWidth = 6;
     private int highestAttackThisInterval = 0;
-    public static bool enemyDiedPreviously = false;
-    public float recordInterval = 0.3f;
+    public static bool enemyDamagedPreviously = false;
+    public float recordInterval = 0.1f;
     private float recordTimer = 0f;
     private float sequenceSimilarity = 0f;
     private bool hasForesight = false;
@@ -40,7 +41,7 @@ public class ForesightSystem : MonoBehaviour
         currentTimeline.Enqueue(state);
     }
 
-void Update()
+    void Update()
     {
         if (enemy.IsDead() || enemy.IsRewinding()) return;
 
@@ -58,36 +59,36 @@ void Update()
             currentTimeline.Enqueue(state);
             
             sequenceSimilarity = CalculateDTWSimilarity();
+            if (sequenceSimilarity >= foresightThreshold)
+            {
+                if (!hasForesight)
+                {
+                    hasForesight = true;
+                    enemy.SetForesightState(true);
+                }
+
+                ForesightTactics tactic = DetermineForesightAction();
+                Vector2 approachDirection = (enemy.player.position - transform.position).normalized;
+
+                if (tactic == ForesightTactics.Dodge) 
+                    enemy.PerformForesightDodge(approachDirection);
+                else if (tactic == ForesightTactics.Lunge) 
+                    enemy.PerformForesightLunge(approachDirection);
+            }
+            else
+            {
+                // Player is behaving differently
+                if (hasForesight)
+                {
+                    hasForesight = false;
+                    enemy.SetForesightState(false);
+                }
+            }
+
             highestAttackThisInterval = 0;
             recordTimer = 0f;
         }
-
-        if (sequenceSimilarity >= foresightThreshold)
-        {
-            if (!hasForesight)
-            {
-                hasForesight = true;
-                enemy.SetForesightState(true);
-            }
-
-            ForesightTactics tactic = DetermineForesightAction();
-            Vector2 approachDirection = (enemy.player.position - transform.position).normalized;
-
-            if (tactic == ForesightTactics.Dodge) 
-                enemy.PerformForesightDodge(approachDirection);
-            else if (tactic == ForesightTactics.Lunge) 
-                enemy.PerformForesightLunge(approachDirection);
-        }
-        else
-        {
-            // Player is behaving differently
-            if (hasForesight)
-            {
-                hasForesight = false;
-                enemy.SetForesightState(false);
-            }
-        }
-    }
+    }    
     private PlayerState GetCurrentPlayerState()
     {
         PlayerState state = new PlayerState();
@@ -157,9 +158,23 @@ void Update()
                     dtw[i, j] = cost + Mathf.Min(dtw[i - 1, j], Mathf.Min(dtw[i, j - 1], dtw[i - 1, j - 1]));
                 }
             }
-        // Normalise score
-        float averageCost = dtw[c_len, p_len] / (c_len + p_len); 
-        return 1.0f - Mathf.Clamp01(averageCost / 2.0f); // 2.0f is your "error tolerance" per step
+        // Find best match column in final row
+        float bestCost = float.PositiveInfinity;
+        int bestJ = -1;
+
+        for (int j = 1; j <= p_len; j++)
+        {
+            if (dtw[c_len, j] < bestCost)
+            {
+                bestCost = dtw[c_len, j];
+                bestJ = j - 1;
+            }
+        }
+
+        bestMatchIndex = bestJ;
+
+        float averageCost = bestCost / (c_len + p_len);
+        return 1.0f - Mathf.Clamp01(averageCost / 2.0f);
     }
 
     // Old Hamming-weight distance function
@@ -183,25 +198,26 @@ void Update()
     // }
     ForesightTactics DetermineForesightAction()
     {
-        // Use the interface to check if the player is attacking (1 = Melee, 2 = Spell)
-        if (enemy.GetPlayerAttackState() > 0 || enemyDiedPreviously) 
+        if (highestAttackThisInterval > 0 || enemyDamagedPreviously)
             return ForesightTactics.Dodge;
-            
-        int nextIndex = currentTimeline.Count; 
-        var previousArray = previousTimeline.ToArray();
-        
-        // Look ahead into the future
-        for (int i = nextIndex; i < nextIndex + futureLookaheadSteps; i++)
-        {
-            // Stop looking if we hit the end of the recorded present
-            if (i >= previousArray.Length) break; 
 
-            if (previousArray[i].attackType > 0) 
+        if (bestMatchIndex < 0) 
+            return ForesightTactics.Lunge;
+
+        var previousArray = previousTimeline.ToArray();
+
+        for (int i = bestMatchIndex; i < bestMatchIndex + futureLookaheadSteps; i++)
+        {
+            if (i >= previousArray.Length)
+                break;
+
+            if (previousArray[i].attackType > 0)
             {
                 return ForesightTactics.Dodge;
             }
         }
-        return ForesightTactics.Lunge; 
+
+        return ForesightTactics.Lunge;
     }
     public void HandleRewindStop(int statesErased)
     {

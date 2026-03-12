@@ -3,8 +3,6 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using TimeRewind;
-
-// 1. Add IForesightEnemy to the interface list
 public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 {
     private EnemyBase enemy;
@@ -35,7 +33,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public float hoverFrequency = 2f; 
     public float hoverAmplitude = 0.5f; 
     public float moveSpeed = 5f;
-    public float detectionRange = 1f;
+    public float detectionRange = 5f;
     public int damage = 1;
     public float attackCooldown = 1.5f;
     public enum State { Sleeping, Idle, Chase }
@@ -58,6 +56,9 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public float dodgeTriggerDistance = 3.4f;
     public float dodgeCooldown = 1.0f;
     private float dodgeCooldownTimer = 0f;
+    public float lungeCooldown = 2.0f;
+    private float lungeCooldownTimer = 0f;
+    public GameObject foresightGlow;
 
     void Start()
     {
@@ -91,11 +92,9 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     void Update()
     {
-        if (isDead || isRewinding || trainingMode) return;
-        if (dodgeCooldownTimer > 0)
-        {
-            dodgeCooldownTimer -= Time.deltaTime;
-        }
+        if (isDead || isRewinding || trainingMode || enemy.GetIsStunned()) return;
+        if (dodgeCooldownTimer > 0) dodgeCooldownTimer -= Time.deltaTime;
+        if (lungeCooldownTimer > 0) lungeCooldownTimer -= Time.deltaTime;
         if (hasForesight && !isDodging && dodgeCooldownTimer <= 0)
         {
             CheckDodgeTriggers();
@@ -117,7 +116,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         if (isDodging)
         {
-            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 2f);
+            rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 4f);
             
             dodgeTimer -= Time.fixedDeltaTime;
             
@@ -147,12 +146,15 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         hasForesight = state;
         animator.SetBool("hasForesight", hasForesight);
+        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
     }
     public bool IsDead() => isDead;
     public bool IsRewinding() => isRewinding;
     public void TriggerForesightDodge(Vector2 attackDirection)
     {
-        if (isDodging || isDead || isRewinding || dodgeCooldownTimer > 0) return;
+        if (isDead || isRewinding || dodgeCooldownTimer > 0) return;
+
+        Debug.Log("FORESIGHT DODGE");
         
         isDodging = true;
         dodgeTimer = dodgeDuration;
@@ -161,10 +163,11 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
         Vector2 dir2 = -dir1; 
 
-        float estimatedDodgeDistance = moveSpeed * 2f * dodgeDuration;
+        float estimatedDodgeDistance = moveSpeed * 4f * dodgeDuration;
+        float radius = GetComponent<Collider2D>().bounds.extents.x;
 
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position, dir1, estimatedDodgeDistance, obstacleLayer);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position, dir2, estimatedDodgeDistance, obstacleLayer);
+        RaycastHit2D hit1 = Physics2D.CircleCast(transform.position, radius, dir1, estimatedDodgeDistance, obstacleLayer);
+        RaycastHit2D hit2 = Physics2D.CircleCast(transform.position, radius, dir2, estimatedDodgeDistance, obstacleLayer);
 
         float clearance1 = hit1.collider != null ? hit1.distance : float.MaxValue;
         float clearance2 = hit2.collider != null ? hit2.distance : float.MaxValue;
@@ -178,11 +181,12 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     }
     public void TriggerForesightLunge(Vector2 approachDirection)
     {
-        if (isDodging || isDead || isRewinding || dodgeCooldownTimer > 0) return;
+        if (isDodging || isDead || isRewinding || lungeCooldownTimer > 0) return;
+        Debug.Log("FORESIGHT ");
         
         isDodging = true;
         dodgeTimer = dodgeDuration;
-        dodgeCooldownTimer = dodgeCooldown;
+        lungeCooldownTimer = lungeCooldown;
         calculatedDodgeVector = approachDirection;
     }
 
@@ -303,7 +307,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (isDead || isDodging) return;
+        if (isDead || isDodging || enemy.GetIsStunned()) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
         
         if (!trainingMode && distToPlayer > detectionRange)
@@ -406,6 +410,12 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         }
     }
 
+    public void TakeDamage(int amount)
+    {
+        enemy.TakeDamage(amount);
+        if (foresightSystem != null) ForesightSystem.enemyDamagedPreviously = true; 
+    }
+
     void FacePlayer()
     {
         if (player.position.x > transform.position.x)
@@ -419,7 +429,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isRewinding) return;
         
         isDead = true;
-        ForesightSystem.enemyDiedPreviously = true; // Update static variable on the system!
         
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
@@ -442,7 +451,9 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         hasForesight = false;
         dodgeTimer = 0f;
         dodgeCooldownTimer = 0f;
+        lungeCooldownTimer = 0f;
         animator.SetBool("hasForesight", false);
+        foresightGlow.SetActive(false);
         
         animator.ResetTrigger("die");
         animator.ResetTrigger("Attack");
