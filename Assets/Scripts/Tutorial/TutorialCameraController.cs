@@ -20,6 +20,8 @@ public class TutorialCameraController : MonoBehaviour
     private Transform player; 
     private bool isTriggered; 
 
+    private PlayerAction cachedActions; 
+
     private void Awake()
     {
         cameraFollow = Camera.main.GetComponent<CameraFollow2D>();
@@ -35,10 +37,20 @@ public class TutorialCameraController : MonoBehaviour
         isTriggered = true;
         player = p.transform;
 
-        StartCoroutine(CameraPanSequence());
+        // locking player movement 
+        cachedActions = p.allowedActions;
+        p.allowedActions = PlayerAction.None;
+        p.FreezeMovement();
+
+        Animator animator = p.GetComponent<Animator>(); 
+        if (animator != null) {
+            animator.SetBool("IsFrozen", true);
+        }
+
+        StartCoroutine(CameraPanSequence(p));
     }
 
-    private IEnumerator CameraPanSequence()
+    private IEnumerator CameraPanSequence(PlayerPlatformer p)
     {
         yield return new WaitForSeconds(panToEnemyDelay);
 
@@ -53,5 +65,14 @@ public class TutorialCameraController : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         cameraFollow.SetSmoothTime(normalSmoothTime);
+
+        // restore player movement after camera sequence
+        p.allowedActions = cachedActions;
+
+        Animator animator = p.GetComponent<Animator>(); 
+        if (animator != null)
+        {
+            animator.SetBool("IsFrozen", false); 
+        }
     }
 }

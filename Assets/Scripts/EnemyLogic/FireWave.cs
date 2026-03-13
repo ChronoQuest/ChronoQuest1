@@ -9,7 +9,9 @@ public class FireWave : MonoBehaviour, IRewindable
     private RigidbodyType2D _originalBodyType;
     private RewindState _lastAppliedState;
     private Vector2 currentVelocity;
-    public float moveSpeed = 2f;
+    private Animator animator;
+    public float moveSpeed = 10f;
+    public int bossFacingDirection = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +23,7 @@ public class FireWave : MonoBehaviour, IRewindable
             TimeRewindManager.Instance.Register(this);
         }     
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -31,9 +34,13 @@ public class FireWave : MonoBehaviour, IRewindable
     void FixedUpdate()
     {
         if(_isRewinding) return;
-        currentVelocity = new Vector2(-5f, 0f) * moveSpeed;
+        currentVelocity = new Vector2(-bossFacingDirection, 0f) * moveSpeed;
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
-        if(transform.position.x < -15f) gameObject.SetActive(false);
+        float limit = 15f;
+        if (Mathf.Abs(transform.position.x) > limit)
+        {
+            gameObject.SetActive(false);
+        }
     }
     void OnDestroy()
     {
@@ -80,6 +87,12 @@ public class FireWave : MonoBehaviour, IRewindable
             (rb != null) ? rb.angularVelocity : 0f,
             Time.time
         );
+        if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+        {
+            var animState = animator.GetCurrentAnimatorStateInfo(0);
+            state.AnimatorStateHash = animState.fullPathHash;
+            state.AnimatorNormalizedTime = animState.normalizedTime;
+        }
         // Custom state for being active
         state.SetCustomData("IsActive", gameObject.activeSelf);
         return state;
@@ -100,6 +113,10 @@ public class FireWave : MonoBehaviour, IRewindable
         if (gameObject.activeSelf != wasActive)
         {
             gameObject.SetActive(wasActive);
+        }
+        if (animator != null && state.AnimatorStateHash != 0)
+        {
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
         }
     }
 }

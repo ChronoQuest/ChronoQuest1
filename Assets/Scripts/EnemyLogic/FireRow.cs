@@ -10,29 +10,51 @@ public class FireRow : MonoBehaviour, IRewindable
     private RewindState _lastAppliedState;
     private bool fullSizeReached = false;
     public Transform fireVisual;
-    private float startTime;
-    public float maxGrowSize = 17f;
+    public float maxGrowSize = 18f;
     private float currentGrowSize;
+    public int bossFacingDirection = 1;
+    private Animator animator;
+    private bool isEnding = false;
+    public float fireHeight = 2f;
+    [SerializeField] private float verticalOffset = 1.35f;
+    [SerializeField] private float baseHeight;
+    private float currentAge = 0f;
+    private BoxCollider2D boxCol;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        boxCol = GetComponent<BoxCollider2D>();
         //Destroy after 12 seconds (5 seconds pre rewind, 5 seconds post rewind, 1 sec buffer for each)
         Destroy(gameObject, 12f);
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
         }     
+
         rb = GetComponent<Rigidbody2D>();
-        startTime = Time.time;
+        animator = fireVisual.GetComponent<Animator>();
+
         currentGrowSize = 1f;
+
+        // baseY = fireVisual.localPosition.y;
     }
 
     void Grow(float scale)
     {
-        fireVisual.localScale = new Vector3(scale, 1f, 1f);
-        fireVisual.localPosition = new Vector3((-scale / 2f) + 0.5f, 0f, 0f);
+        float yPos = baseHeight + verticalOffset;
+        float hitboxXPos = ((-scale / 2f) + 0.5f) * bossFacingDirection;
+        if (boxCol != null)
+        {
+            boxCol.size = new Vector2(scale, fireHeight); 
+            boxCol.offset = new Vector2(hitboxXPos, yPos);
+        }
+        float maxVisualWidth = 6f;
+        float finalVisualXPos = -10.1f * bossFacingDirection;
+        fireVisual.localScale = new Vector3(maxVisualWidth * -bossFacingDirection, fireHeight, 1f);
+        fireVisual.localPosition = new Vector3(finalVisualXPos, yPos, 0f);
     }
+
     void Update()
     {
     }
@@ -40,22 +62,27 @@ public class FireRow : MonoBehaviour, IRewindable
     void FixedUpdate()
     {
         if (_isRewinding) return;
-        if (!fullSizeReached){
-            if(currentGrowSize < maxGrowSize){
-                Grow(currentGrowSize);
-                currentGrowSize += 0.5f;
-            } else fullSizeReached = true;
+        currentAge += Time.fixedDeltaTime;
+        if(!isEnding && currentGrowSize < maxGrowSize){
+            Grow(currentGrowSize);
+            currentGrowSize += 0.5f;
         }
-        else
-            if(Time.time - startTime > 6f)
+
+        if(!isEnding && currentAge > 5.6f)
+        {
+            isEnding = true;
+            Debug.Log("Fire row ending triggered"); 
+
+            if (animator != null)
             {
-                if(currentGrowSize > 1f){
-                    currentGrowSize -= 0.5f;
-                    // Shrinks instead as we decrease grow size
-                    Grow(currentGrowSize);
-                } else gameObject.SetActive(false);
-        }
+                animator.SetBool("isEnding", true);
+            }
+
+            
+        } else if (currentAge > 6f) gameObject.SetActive(false); 
+
     }
+
     void OnDestroy()
     {
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
@@ -77,7 +104,8 @@ public class FireRow : MonoBehaviour, IRewindable
         _originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
-        rb.angularVelocity = 0f;
+        rb.angularVelocity = 0f; 
+
     }
     public void OnStopRewind()
     {
@@ -89,6 +117,7 @@ public class FireRow : MonoBehaviour, IRewindable
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
+    
     }
     public RewindState CaptureState()
     {
@@ -100,10 +129,16 @@ public class FireRow : MonoBehaviour, IRewindable
             (rb != null) ? rb.angularVelocity : 0f,
             Time.time
         );
-        // Custom state for being active
-        state.SetCustomData("IsActive", gameObject.activeSelf);
+        if (animator != null && animator.GetCurrentAnimatorClipInfo(0).Length > 0)
+        {
+            var animState = animator.GetCurrentAnimatorStateInfo(0);
+            state.AnimatorStateHash = animState.fullPathHash;
+            state.AnimatorNormalizedTime = animState.normalizedTime;
+        }
         state.SetCustomData("GrowSize", currentGrowSize);
         state.SetCustomData("FullSize", fullSizeReached);
+        state.SetCustomData("Age", currentAge);
+        state.SetCustomData("IsEnding", isEnding);
         return state;
     }
     public void ApplyState(RewindState state)
@@ -111,7 +146,7 @@ public class FireRow : MonoBehaviour, IRewindable
         transform.position = state.Position;
         transform.rotation = state.Rotation;
         _lastAppliedState = state;
-        if (state.Timestamp <= startTime + 0.1f)
+        if (state.Timestamp <= currentAge + 0.1f)
         {
             Destroy(gameObject);
             return; 
@@ -123,8 +158,15 @@ public class FireRow : MonoBehaviour, IRewindable
         {
             gameObject.SetActive(wasActive);
         }
+        if (animator != null && state.AnimatorStateHash != 0)
+        {
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+        }
         currentGrowSize = state.GetCustomData<float>("GrowSize", 1f);
         fullSizeReached = state.GetCustomData<bool>("FullSize", false);
+        currentAge = state.GetCustomData<float>("Age", 0f);
+        isEnding = state.GetCustomData<bool>("IsEnding", false);
+        
         Grow(currentGrowSize);
     }
 }

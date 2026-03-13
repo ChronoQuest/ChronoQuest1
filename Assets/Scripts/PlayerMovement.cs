@@ -85,7 +85,15 @@ public class PlayerPlatformer : MonoBehaviour
     private bool wasGrounded;
     private bool isLanding;
 
+    // references and locks for player movement in tutorial
     public TutorialManager tutorialManager;
+    /*public bool canMove = true; 
+    public bool canJump = true;
+    public bool canDash = true; */ 
+
+    [Header("Action Permissions")]
+    public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
+    public PlayerTacticalModel playerTacticModel; 
 
     private float knockbackTimer;
 
@@ -106,7 +114,7 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   
         bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
 
         isGrounded = Physics2D.OverlapCircle(
@@ -133,8 +141,15 @@ public class PlayerPlatformer : MonoBehaviour
         float gp = 0f;
         if (Gamepad.current != null)
             gp = Gamepad.current.leftStick.x.ReadValue();
+
+            if (Mathf.Abs(gp) < 0.1f)
+                gp = 0f; 
         horizontalInput = Mathf.Clamp(kb + gp, -1f, 1f);
 
+        if (Mathf.Abs(horizontalInput) > 0.1f)
+        {
+            tutorialManager?.OnPlayerMoved();
+        }
 
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
@@ -160,6 +175,19 @@ public class PlayerPlatformer : MonoBehaviour
         if (wallJumpLockoutCounter > 0) wallJumpLockoutCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
 
+        // freezing animation when movement not allowed
+        if (!IsActionAllowed(PlayerAction.Movement))
+        {
+            horizontalInput = 0f;
+            
+            if (anim != null)
+            {
+                anim.SetFloat("Speed", 0f); 
+                anim.SetBool("isWallSliding", false); 
+            }
+
+            return; 
+        }
 
         //float direction = spriteRenderer.flipX ? -1f : 1f;
 
@@ -191,7 +219,7 @@ public class PlayerPlatformer : MonoBehaviour
         bool isPushingWall = (horizontalInput > 0 && !spriteRenderer.flipX) || (horizontalInput < 0 && spriteRenderer.flipX);
         //bool isPushingWall = true;
 
-        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall && wallJumpLockoutCounter <= 0)
+        if (isTouchingWall && !isGrounded && rb.linearVelocity.y < 0 && isPushingWall && wallJumpLockoutCounter <= 0 && !isWallJumping)
         { 
             float xOffset = spriteRenderer.flipX ? -0.10f : 0.10f;
             playerCollider.offset = new Vector2(xOffset, playerCollider.offset.y);
@@ -257,6 +285,12 @@ public class PlayerPlatformer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsActionAllowed(PlayerAction.Movement))
+        {   
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+    
         if (GetComponent<PlayerHealth>()?.IsDead == true) return;
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 
@@ -279,27 +313,32 @@ public class PlayerPlatformer : MonoBehaviour
         if (isGrounded)
         {
             Collider2D groundCol = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        
+    
             if (groundCol != null)
             {
                 // Does the ground have the MovingPlatform script?
                 // (We check parent because usually the collider is a child "Visuals" object)
                 MovingPlatform platform = groundCol.GetComponentInParent<MovingPlatform>();
-            
+        
                 if (platform != null)
                 {
                     // ADD the platform's velocity to the player's target velocity
                     targetVelocityX += platform.CurrentVelocity.x;
-                }
+            }   
             }
         }
 
         // 3. Apply the combined velocity
-     rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
-    }   
+        rb.linearVelocity = new Vector2(targetVelocityX, rb.linearVelocity.y);
+    } 
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!IsActionAllowed(PlayerAction.Jump))
+            return;
+            
+        playerTacticModel.RecordJump(); 
+        
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
@@ -413,6 +452,11 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        Debug.Log($"OnDash fired: phase = {context.phase}");
+
+        if (!IsActionAllowed(PlayerAction.Dash))
+            return;
+        
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
@@ -429,6 +473,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     private IEnumerator WallJumpLogic()
     {
+        if (!IsActionAllowed(PlayerAction.WallJump))
+            yield break;
+        
         isWallJumping = true; // Use this to ignore OnMove input in FixedUpdate
         wallCoyoteTimeCounter = 0; // Use it up immediately
 
@@ -446,6 +493,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     IEnumerator Dash()
     {
+        playerTacticModel.RecordDash(); 
+        
         isDashing = true;
         canDash = false;
 
@@ -457,8 +506,6 @@ public class PlayerPlatformer : MonoBehaviour
             anim.ResetTrigger("Jump"); // Clear jump so it doesn't fire after dash
             if (!_isRewinding) anim.SetTrigger("Dash");
         }
-
-        tutorialManager?.OnPlayerDash();
         
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
@@ -571,5 +618,15 @@ public class PlayerPlatformer : MonoBehaviour
     void OnStopRewind()
     {
         _isRewinding = false;
+    }
+
+    public bool IsActionAllowed(PlayerAction action)
+    {
+        return allowedActions.HasFlag(action); 
+    }
+
+    public void FreezeMovement()
+    {
+        rb.linearVelocity = Vector2.zero;
     }
 }
