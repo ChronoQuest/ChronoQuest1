@@ -42,15 +42,15 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: b29f0c03274e8df44a43348122091d07, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: VerticalNormal
   m_MirrorParameter: 
-  m_CycleOffsetParameter: 
+  m_CycleOffsetParameter: VerticalNormal
   m_TimeParameter: VerticalNormal
 --- !u!1107 &-4298930931560114268
 AnimatorStateMachine:
@@ -258,13 +258,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 15c4cc840ec74184daf49f7541321737, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: VerticalNormal
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: VerticalNormal
