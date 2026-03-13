@@ -103,12 +103,12 @@ TextureImporter:
       name: idle_3_foresight_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 94
-        width: 583
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 176
+        y: 178
+        width: 276
+        height: 119
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a454029f79a7f114e985281299e7b0b1
     internalID: 0
     vertices: []
     indices: 

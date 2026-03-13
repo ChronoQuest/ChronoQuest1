@@ -114,7 +114,7 @@ TextureImporter:
         width: 159
         height: 106
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -127,55 +127,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: jump_7_foresight_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 81
-        width: 27
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b59cf2186e3317760800000000000000
-      internalID: 7453795923377768795
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: jump_7_foresight_2
-      rect:
-        serializedVersion: 2
-        x: 124
-        y: 86
-        width: 23
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7e556ba4dd199e1d0800000000000000
-      internalID: -3320962870581766681
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1fb8802a4012a30459dbade24fc77d26
     internalID: 0
     vertices: []
     indices: 

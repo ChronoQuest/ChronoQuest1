@@ -103,12 +103,12 @@ TextureImporter:
       name: jump_5_foresight_0
       rect:
         serializedVersion: 2
-        x: 188
+        x: 210
         y: 137
-        width: 186
-        height: 257
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 179
+        height: 254
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5b3699ec4d554c74cbc05cf034281519
     internalID: 0
     vertices: []
     indices: 
