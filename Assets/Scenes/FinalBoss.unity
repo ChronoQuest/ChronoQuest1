@@ -13544,12 +13544,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 508054503}
+  - component: {fileID: 508054509}
   - component: {fileID: 508054502}
   - component: {fileID: 508054505}
   - component: {fileID: 508054506}
   - component: {fileID: 508054507}
   - component: {fileID: 508054508}
-  - component: {fileID: 508054509}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
