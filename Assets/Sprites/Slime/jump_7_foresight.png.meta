@@ -109,12 +109,12 @@ TextureImporter:
       name: jump_7_foresight_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 159
-        height: 106
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 161
+        y: 172
+        width: 280
+        height: 187
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
