@@ -270,7 +270,12 @@ public class NecromancerEnemy : EnemyBase
         isReviving = false;
         isAttacking = false;
         animator?.SetTrigger("Die");
-        base.Die();          
+        wasDead = true;
+        rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place — prevents falling through floor
+        rb.linearVelocity = Vector2.zero;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+        OnDeath?.Invoke();         
     }
 
     // ================= REWIND =================

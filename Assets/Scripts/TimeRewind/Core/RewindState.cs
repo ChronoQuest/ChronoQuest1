@@ -115,7 +115,9 @@ namespace TimeRewind
                 result.SetCustomData("attackTimer", Mathf.Lerp(a.GetCustomData<float>("attackTimer", 0f), b.GetCustomData<float>("attackTimer", 0f), t));
 
                 result.SetCustomData("localScale", t < 0.5f ? a.GetCustomData<Vector3>("localScale", Vector3.one) : b.GetCustomData<Vector3>("localScale", Vector3.one));
-                
+                // --- UNIQUE SKELETON DATA ---
+                result.SetCustomData("isDying", t < 0.5f ? a.GetCustomData<bool>("isDying", false) : b.GetCustomData<bool>("isDying", false));
+                result.SetCustomData("hasHitFloor", t < 0.5f ? a.GetCustomData<bool>("hasHitFloor", false) : b.GetCustomData<bool>("hasHitFloor", false));
                 // PlayerSpellSystem
                 result.SetCustomData("nextFireTime", Mathf.Lerp(a.GetCustomData<float>("nextFireTime", 0f), b.GetCustomData<float>("nextFireTime", 0f), t));
 
