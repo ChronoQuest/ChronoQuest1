@@ -120,7 +120,10 @@ public class MeleeSkeleton : EnemyBase
         if (wasDead || isDying) return; 
         
         animator?.SetBool("isRunning", false);
-        animator?.SetTrigger("Hit");
+        if (health - amount > 0)
+        {
+            animator?.SetTrigger("Hit");
+        }
         
         base.TakeDamage(amount);
     }
@@ -171,7 +174,6 @@ public class MeleeSkeleton : EnemyBase
         rb.linearVelocity = Vector2.zero; 
         rb.angularVelocity = 0f;
         rb.bodyType = RigidbodyType2D.Kinematic; 
-        rb.gravityScale = 0f;
         
         isDying = false; 
     }
@@ -202,6 +204,12 @@ public class MeleeSkeleton : EnemyBase
         base.OnStartRewind();
         StopAllCoroutines(); 
         isDying = false; 
+    }
+        public override void OnStopRewind()
+    {
+        isRewinding = false;
+        // Restore alive body type if living, keep frozen if still dead
+        rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
     }
 
     public override RewindState CaptureState()

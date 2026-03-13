@@ -24,6 +24,7 @@ public class SkeletonArcher : EnemyBase
     [Header("Shooting")]
     public int damage = 1;
     public float shootCooldown = 2f;
+    private bool isShooting = false;
 
     [Header("References")]
     public Transform player;
@@ -129,7 +130,7 @@ public class SkeletonArcher : EnemyBase
 
     void Retreat()
     {
-        if (player == null) return;
+        if (player == null || isShooting) return;
         Vector2 dir = ((Vector2)transform.position - (Vector2)player.position).normalized;
         rb.linearVelocity = new Vector2(dir.x * retreatSpeed, rb.linearVelocity.y);
         FaceDirection(dir.x);
@@ -138,7 +139,7 @@ public class SkeletonArcher : EnemyBase
     void TryShoot()
     {
         if (Time.time < lastShootTime + shootCooldown) return;
-
+        isShooting=true;
         pendingArrowDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
         FaceDirection(pendingArrowDirection.x);
 
@@ -164,6 +165,7 @@ public class SkeletonArcher : EnemyBase
         arrow.transform.rotation = Quaternion.identity;
         arrow.gameObject.SetActive(true);
         arrow.Launch(pendingArrowDirection, damage);
+        isShooting=false;
     }
 
     ArrowProjectile GetPooledArrow()
@@ -191,7 +193,10 @@ public class SkeletonArcher : EnemyBase
     {
         if (wasDead || isDying) return; 
         
-        animator?.SetTrigger("Hit");
+        if (health - amount > 0)
+        {
+            animator?.SetTrigger("Hit");
+        }
         base.TakeDamage(amount);
     }
 
@@ -286,6 +291,12 @@ public class SkeletonArcher : EnemyBase
         base.OnStartRewind();
         StopAllCoroutines();
         isDying = false; 
+    }
+        public override void OnStopRewind()
+    {
+        isRewinding = false;
+        // Restore alive body type if living, keep frozen if still dead
+        rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
     }
 
     public override RewindState CaptureState()

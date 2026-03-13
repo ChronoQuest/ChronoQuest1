@@ -10153,7 +10153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38db7959632f7c42b1ca5b465a0fb28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DoorSceneLoader
-  sceneName: FinalBoss
+  sceneName: GameScene_3
   isExitDoor: 1
 --- !u!70 &362567921
 CapsuleCollider2D:
@@ -25333,6 +25333,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SkeletonArcher
   health: 3
+  startHealth: 0
+  stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
@@ -25340,12 +25342,18 @@ MonoBehaviour:
   shootRange: 6
   safeDistance: 3
   retreatSpeed: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundDetectionOffset: 1.3
+  isStatic: 0
   damage: 1
   shootCooldown: 2
   player: {fileID: 0}
   arrowPrefab: {fileID: 0}
   arrowPoolSize: 5
   arrowSpawnOffset: {x: 0.3, y: 0.5}
+  reviveAnimDuration: 0.9
   currentState: 0
 --- !u!114 &913987529
 MonoBehaviour:

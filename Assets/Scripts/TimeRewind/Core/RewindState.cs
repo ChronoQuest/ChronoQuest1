@@ -106,6 +106,7 @@ namespace TimeRewind
                 result.SetCustomData("isActive", t < 0.5f ? a.GetCustomData<bool>("isActive", false) : b.GetCustomData<bool>("isActive", false));
                 result.SetCustomData("elapsedLifetime", Mathf.Lerp(a.GetCustomData<float>("elapsedLifetime", 0f), b.GetCustomData<float>("elapsedLifetime", 0f), t));
                 // Necromancer
+                
                 result.SetCustomData("lastReviveTime", Mathf.Lerp(a.GetCustomData<float>("lastReviveTime", 0f), b.GetCustomData<float>("lastReviveTime", 0f), t));
                 result.SetCustomData("isReviving", t < 0.5f ? a.GetCustomData<bool>("isReviving", false) : b.GetCustomData<bool>("isReviving", false));
                 result.SetCustomData("reviveTimer", Mathf.Lerp(a.GetCustomData<float>("reviveTimer", 0f), b.GetCustomData<float>("reviveTimer", 0f), t));
@@ -115,6 +116,25 @@ namespace TimeRewind
                 result.SetCustomData("attackTimer", Mathf.Lerp(a.GetCustomData<float>("attackTimer", 0f), b.GetCustomData<float>("attackTimer", 0f), t));
 
                 result.SetCustomData("localScale", t < 0.5f ? a.GetCustomData<Vector3>("localScale", Vector3.one) : b.GetCustomData<Vector3>("localScale", Vector3.one));
+                // --- NECROMANCER DYNAMIC MINION TIMERS ---
+                float[] aTimers = a.GetCustomData<float[]>("minionDeadTimers");
+                float[] bTimers = b.GetCustomData<float[]>("minionDeadTimers");
+
+                // Smoothly interpolate the time each minion has been dead
+                if (aTimers != null && bTimers != null && aTimers.Length == bTimers.Length) 
+                {
+                    float[] lerpedTimers = new float[aTimers.Length];
+                    for(int i = 0; i < aTimers.Length; i++) 
+                    {
+                        lerpedTimers[i] = Mathf.Lerp(aTimers[i], bTimers[i], t);
+                    }
+                    result.SetCustomData("minionDeadTimers", lerpedTimers);
+                } 
+                else 
+                {
+                    // Fallback if array lengths mismatch
+                    result.SetCustomData("minionDeadTimers", t < 0.5f ? aTimers : bTimers);
+                }
                 // --- UNIQUE SKELETON DATA ---
                 result.SetCustomData("isDying", t < 0.5f ? a.GetCustomData<bool>("isDying", false) : b.GetCustomData<bool>("isDying", false));
                 result.SetCustomData("hasHitFloor", t < 0.5f ? a.GetCustomData<bool>("hasHitFloor", false) : b.GetCustomData<bool>("hasHitFloor", false));
