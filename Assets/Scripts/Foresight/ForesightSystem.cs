@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 public class ForesightSystem : MonoBehaviour
 {
     private IForesightEnemy enemy;
     public float foresightThreshold = 0.75f;
-    public float dodgeTriggerDistance = 3.4f;
     private int memorySize = 50;
     private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
     private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
@@ -73,7 +73,6 @@ public class ForesightSystem : MonoBehaviour
                 ForesightTactics tactic = DetermineForesightAction();
                 if (tactic == ForesightTactics.Dodge) enemy.ExecuteDodge();
                 else if (tactic == ForesightTactics.Lunge) enemy.ExecuteLunge();
-                Debug.Log("doing: " + tactic);
             }
             else
             {
@@ -96,7 +95,7 @@ public class ForesightSystem : MonoBehaviour
     private PlayerState GetCurrentPlayerState()
     {
         PlayerState state = new PlayerState();
-        Vector2 offset = enemy.player.position - transform.position; 
+        Vector2 offset = enemy.player.position - transform.position;
         state.relativeDirection = offset.normalized;
         state.distance = offset.magnitude;
         Rigidbody2D playerRb = enemy.player.GetComponent<Rigidbody2D>();
