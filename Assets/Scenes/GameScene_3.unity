@@ -678,7 +678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 99330456}
   m_Layer: 0
-  m_Name: Bats
+  m_Name: Bats 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -693,7 +693,7 @@ Transform:
   m_GameObject: {fileID: 99330455}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 142.23, y: 37.11, z: 0}
+  m_LocalPosition: {x: 41.799553, y: -24.29219, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -706,7 +706,7 @@ Transform:
   - {fileID: 1061997083}
   - {fileID: 1245925793}
   - {fileID: 2038252476}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 120933621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &113168375 stripped
 Transform:
@@ -839,6 +839,7 @@ Transform:
   - {fileID: 1961529998}
   - {fileID: 1904267838}
   - {fileID: 330572336}
+  - {fileID: 99330456}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &124615683 stripped
@@ -6893,6 +6894,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
+    - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: attackRange
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: detectionRange
       value: 4
@@ -462498,6 +462503,10 @@ PrefabInstance:
       value: 1120
       objectReference: {fileID: 0}
     - target: {fileID: 5649487038772824016, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649487038772824016, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1941470544}
@@ -464077,4 +464086,3 @@ SceneRoots:
   - {fileID: 636880575}
   - {fileID: 153006391}
   - {fileID: 1891641055}
-  - {fileID: 99330456}
