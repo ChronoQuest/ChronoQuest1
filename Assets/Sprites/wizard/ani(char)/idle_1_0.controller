@@ -1117,7 +1117,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Slash
+    m_ConditionEvent: TopSlash
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2181184184678392793}
@@ -1615,7 +1615,7 @@ AnimatorStateMachine:
     m_Position: {x: -260, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4473300799028772634}
-    m_Position: {x: -190, y: 240, z: 0}
+    m_Position: {x: -270, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6822142945593188628}
     m_Position: {x: 970, y: 220, z: 0}
@@ -1645,7 +1645,7 @@ AnimatorStateMachine:
     m_Position: {x: 940, y: -310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4628291961656167759}
-    m_Position: {x: -160, y: 390, z: 0}
+    m_Position: {x: -160, y: 480, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5644586103357192051}
     m_Position: {x: 987.8545, y: 371.4463, z: 0}
