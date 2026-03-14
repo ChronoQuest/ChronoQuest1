@@ -34,6 +34,7 @@ public class ForesightSystem : MonoBehaviour
     private bool hasForesight = false;
     private ForesightTactics? lockedTactic = null;
     private int lockedAttackIndex = -1;
+    private float minDistToPlayer = 30f;
 
     void Awake()
     {
@@ -46,6 +47,8 @@ public class ForesightSystem : MonoBehaviour
     void Update()
     {
         if (enemy.IsDead() || enemy.IsRewinding() || enemy.IsPerformingForesightAction()) return;
+        // If the player is too far away, don't store any info about the player
+        if(enemy.GetDistanceToPlayer() > minDistToPlayer) return;
 
         int currentAttackState = enemy.GetPlayerAttackState();
         if (currentAttackState > highestAttackThisInterval) 

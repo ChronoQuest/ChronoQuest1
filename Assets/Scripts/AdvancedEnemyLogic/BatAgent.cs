@@ -202,6 +202,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         return isDodging;
     }
+    public float GetDistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, playerCollider.bounds.center);
+    }
 
     // ---------------------- ---------------------- ----------------------
 

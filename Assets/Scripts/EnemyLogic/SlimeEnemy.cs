@@ -430,10 +430,12 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             }
         }
     }
+    public float GetDistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, playerCollider.bounds.center);
+    }
     void TriggerForesightDodge(Vector2 attackDirection)
     {
-        if (isMidJumpSequence) return;
-
         Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
         Vector2 dir2 = -dir1;
 
@@ -443,6 +445,11 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         Vector2 dodgeDir = dist1 > dist2 ? dir1 : dir2;
 
         float xDir = Mathf.Sign(dodgeDir.x);
+        
+        // Slime must dodge away from the player
+        float playerSide = Mathf.Sign(player.position.x - transform.position.x);
+        if (xDir == playerSide)
+            xDir *= -1f;
 
         StopAllCoroutines();
         StartCoroutine(JumpRoutine(xDir, 1.3f, 1.5f));
