@@ -8,6 +8,8 @@ public class CameraZoomZone : MonoBehaviour
     [SerializeField] private Vector2 cameraOffset; 
     [SerializeField] private float zoomSmoothOverride = -1f; 
     [SerializeField] private float movementSmoothOverride = -1f; 
+    [SerializeField] private TutorialManager tutorial;
+    [SerializeField] private TutorialManager.TutorialStep requiredStep; 
 
     private void Awake()
     {
@@ -29,6 +31,9 @@ public class CameraZoomZone : MonoBehaviour
         if (other.GetComponent<PlayerPlatformer>() == null)
             return;
 
+        if (tutorial != null && tutorial.currentStep != requiredStep)
+            return; 
+
         if (zoomSmoothOverride > 0f)
             cameraFollow.SetZoomSmoothTime(zoomSmoothOverride);
 
@@ -46,6 +51,9 @@ public class CameraZoomZone : MonoBehaviour
 
         if (other.GetComponent<PlayerPlatformer>() == null)
             return;
+
+        if (tutorial != null && tutorial.currentStep != requiredStep) 
+            return; 
 
         cameraFollow.ResetZoom();
         cameraFollow.ResetOffset(); 

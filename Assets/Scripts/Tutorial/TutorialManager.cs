@@ -15,6 +15,7 @@ public class TutorialManager : MonoBehaviour
         Jump,
         Attack,
         Rewind, 
+        Dodge, 
         Spell, 
         WallJump, 
         RainSpell,
@@ -35,6 +36,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject movementHint;
     public GameObject jumpHint; 
     public GameObject dashHint;
+    public GameObject dodgeHint; 
     public GameObject spellHint; 
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
@@ -48,6 +50,7 @@ public class TutorialManager : MonoBehaviour
     bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
+    bool dodgeCompleted = false; 
     bool spellCompleted = false; 
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 
@@ -58,6 +61,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI rewindText;
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
+    public TextMeshProUGUI dodgeText;
     public TextMeshProUGUI spellText;
     public TextMeshProUGUI wallJumpText; 
     public TextMeshProUGUI rainSpellText; 
@@ -67,6 +71,7 @@ public class TutorialManager : MonoBehaviour
     private string rewindMessage;
     private string jumpMessage; 
     private string dashMessage;  
+    private string dodgeMessage; 
     private string spellMessage;
     private string wallJumpMessage; 
     private string rainSpellMessage; 
@@ -107,6 +112,7 @@ public class TutorialManager : MonoBehaviour
         spellMessage = spellText.text;
         wallJumpMessage = wallJumpText.text;
         rainSpellMessage = rainSpellText.text; 
+        dodgeMessage = dodgeText.text; 
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -140,17 +146,12 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {   
         // if all hints have been completed, tutorial completed 
-        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted && dodgeCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
             DisableHints();
         }
-
-        /* if (rewindCompleted && Time.timeScale != 1f)
-        {
-            Time.timeScale = 1f; 
-        } */ 
     }
 
     #region Fade Effect
@@ -356,12 +357,36 @@ public class TutorialManager : MonoBehaviour
         Invoke(nameof(HideAttackHint), attackHintDuration); 
     }
 
+    public void TriggerSpellHint()
+    {
+        if (spellCompleted) return; 
+        if (currentStep == TutorialStep.Spell) return; 
+
+        SetStep(TutorialStep.Spell);
+    }
+
+    public void TriggerWallJumpHint()
+    {
+        if (wallJumpCompleted) return; 
+        if (currentStep == TutorialStep.WallJump) return;
+
+        SetStep(TutorialStep.WallJump);
+    }
+
     public void TriggerRainSpell()
     {
         if (rainSpellCompleted) return;
         if (currentStep == TutorialStep.RainSpell) return;
 
         SetStep(TutorialStep.RainSpell);
+    }
+
+    public void TriggerDodgeHint()
+    {
+        if (dodgeCompleted) return;
+        if (currentStep == TutorialStep.Dodge) return; 
+
+        SetStep(TutorialStep.Dodge); 
     }
 
     // handles when the health changes, triggers either the rewind or dash hint 
@@ -416,22 +441,6 @@ public class TutorialManager : MonoBehaviour
             HideHint(movementHint);
             Debug.Log("Player movement tutorial complete");
         }
-    }
-
-    public void TriggerSpellHint()
-    {
-        if (spellCompleted) return; 
-        if (currentStep == TutorialStep.Spell) return; 
-
-        SetStep(TutorialStep.Spell);
-    }
-
-    public void TriggerWallJumpHint()
-    {
-        if (wallJumpCompleted) return; 
-        if (currentStep == TutorialStep.WallJump) return;
-
-        SetStep(TutorialStep.WallJump);
     }
 
     public void SetInRewindRegion(bool value)
@@ -544,11 +553,21 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    public void OnPlayerDodge()
+    {
+        if (currentStep == TutorialStep.Dodge && !dodgeCompleted)
+        {
+            dodgeCompleted = true; 
+            HideHint(dodgeHint);
+            Debug.Log("Player dodge tutorial completed"); 
+            DataCollectionService.Instance?.RecordTutorialStepCompleted(); 
+        } 
+    }
+
     public void HideAttackHint()
     {
         CancelInvoke(nameof(HideAttackHint));
         HideHint(attackHint);
-        Debug.Log("Attack hint hidden");
     }
     #endregion
 
@@ -627,6 +646,13 @@ public class TutorialManager : MonoBehaviour
                 rainSpellText.text = rainSpellMessage; 
                 typewriter.StartTyping(rainSpellText); 
                 break;
+            case TutorialStep.Dodge:
+                AllowOnly(PlayerAction.Dash | PlayerAction.Movement); 
+                activeHint = dodgeHint; 
+                ShowHint(dodgeHint);
+                dodgeText.text = dodgeMessage;
+                typewriter.StartTyping(dodgeText);
+                break; 
         }
     }
 
@@ -640,6 +666,7 @@ public class TutorialManager : MonoBehaviour
         HideHint(dashHint); 
         HideHint(spellHint);
         HideHint(wallJumpHint);
+        HideHint(dodgeHint); 
     }
     #endregion
 }
