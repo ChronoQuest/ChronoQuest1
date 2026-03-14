@@ -63,7 +63,7 @@ public class NecromancerEnemy : EnemyBase
 
     protected override void Awake()
     {
-        health = 3;
+       
         base.Awake();
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();

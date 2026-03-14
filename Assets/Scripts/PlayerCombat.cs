@@ -21,9 +21,13 @@ public class PlayerCombat : MonoBehaviour
     public float pogoForce = 12f;
 
     [Header("Combo Settings")]
-    public float comboResetTime = 0.7f;
-    private int comboStep = 0;
-    private float lastAttackTime;
+    [SerializeField] private int comboStep = 0;
+    [SerializeField] private bool queuedAttack;
+
+    [Header("Failsafe Settings")]
+    [Tooltip("Maximum time in seconds an attack can last before forcefully resetting.")]
+    public float attackTimeout = 0.6f; 
+    private float attackTimer = 0f;
 
     [Header("Dependencies")]
     private PlayerMana manaSystem;
@@ -45,6 +49,19 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         if (PauseMenu.isPaused) return;
+
+        // --- THE FAILSAFE TIMER ---
+        if (isAttacking)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer > attackTimeout)
+            {
+                Debug.LogWarning("Attack failsafe triggered! Resetting combat state.");
+                CancelAttack();
+            }
+        }
+    
+
         bool attackPressed = false;
 
         // 1. Check Mouse Input
@@ -59,7 +76,17 @@ public class PlayerCombat : MonoBehaviour
         }
         if (attackPressed)
         {
-            PerformMelee();
+            // If we are NOT attacking, start the combo immediately
+            if (!isAttacking)
+            {
+                comboStep = 0;
+                PerformMelee();
+            }
+            // If we ARE attacking, queue up the next hit
+            else if (!queuedAttack)
+            {
+                queuedAttack = true;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) 
@@ -86,12 +113,10 @@ public class PlayerCombat : MonoBehaviour
         else if (moveInput < -0.1f) spriteRenderer.flipX = true;
 
         isAttacking = true;
+        queuedAttack = false;
+        attackTimer = 0f;
         DataCollectionService.Instance?.RecordMeleeAttempt();
 
-        if (Time.time - lastAttackTime > comboResetTime)
-        {
-            comboStep = 0;
-        }
         
         float dir = spriteRenderer.flipX ? -1f : 1f;
         bool isUp = false;
@@ -114,33 +139,57 @@ public class PlayerCombat : MonoBehaviour
         
         if (isGrounded && !isUp)
         {
-            anim.SetInteger("Combo", comboStep);
-            anim.SetTrigger("Slash");
-
-            float lungePower = (comboStep == 1) ? 6f : 4f; 
-            rb.linearVelocity = new Vector2(dir * lungePower, rb.linearVelocity.y);
-
-            // Cycle combo: 0 -> 1 -> 0
-            comboStep = (comboStep == 0) ? 1 : 0;
+            // --- THE FIX: Force the animation state instantly ---
+            // The "-1, 0f" tells Unity to play it from frame 0, ignoring all transition blending
+            if (comboStep == 0)
+            {
+                anim.Play("Player_Slash", -1, 0f); // <-- CHANGE TO YOUR SLASH 1 STATE NAME
+                rb.linearVelocity = new Vector2(dir * 4f, rb.linearVelocity.y);
+                comboStep = 1;
+            }
+            else
+            {
+                anim.Play("Player_Slash2", -1, 0f); // <-- CHANGE TO YOUR SLASH 2 STATE NAME
+                rb.linearVelocity = new Vector2(dir * 6f, rb.linearVelocity.y);
+                comboStep = 0;
+            }
         }
         else
         {
-            comboStep = 0;
+            comboStep = 0; // Reset combo if we do an air/up attack
             if (isGrounded && isUp) anim.SetTrigger("TopSlash");
             else if (isUp) anim.SetTrigger("AirSlashUp");
             else if (isDown) anim.SetTrigger("AirSlashDown");
-            else {
+            else 
+            {
                 anim.SetTrigger("AirSlashSide");
                 rb.linearVelocity = new Vector2(dir * 3f, rb.linearVelocity.y);
             }
+            isAttacking = false;
         }
-        lastAttackTime = Time.time;
-        CancelInvoke(nameof(ResetAttackFlag));
-        Invoke(nameof(ResetAttackFlag), comboResetTime);
     }
-    private void ResetAttackFlag()
+    public void EndAttack()
+    {
+        // This should be called via an Animation Event near the end of Slash 1 and Slash 2
+        if (queuedAttack)
+        {
+            // If the player mashed the button, instantly fire the next attack in the chain
+            PerformMelee();
+        }
+        else
+        {
+            // If the player stopped mashing, reset everything
+            isAttacking = false;
+            comboStep = 0; 
+        }
+        attackTimer = 0f;
+    }
+    public void CancelAttack()
     {
         isAttacking = false;
+        queuedAttack = false;
+        comboStep = 0;
+        attackTimer = 0f; 
     }
 
     public void HitEnemy() 
