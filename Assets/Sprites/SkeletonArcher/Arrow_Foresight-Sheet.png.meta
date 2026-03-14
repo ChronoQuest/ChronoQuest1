@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: a23ec515951455042a67f4b6bc1d8a6f
+guid: aa5a84686d332e14797694e946c9d1cc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2551121464439468152
-    second: Arrow-Sheet_0
+      213: 5433413714177411897
+    second: Arrow_Foresight-Sheet_0
+  - first:
+      213: 8649436579178069101
+    second: Arrow_Foresight-Sheet_1
+  - first:
+      213: -4519891118119811781
+    second: Arrow_Foresight-Sheet_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +106,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arrow-Sheet_0
+      name: Arrow_Foresight-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,14 +121,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 870f9ca9477676320800000000000000
-      internalID: 2551121464439468152
+      spriteID: 93bc74f4cfc576b40800000000000000
+      internalID: 5433413714177411897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow-Sheet_1
+      name: Arrow_Foresight-Sheet_1
       rect:
         serializedVersion: 2
         x: 30
@@ -135,16 +141,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b412600e9c1e47c4f9ac0a7ea604283e
-      internalID: -1935622409
+      spriteID: d6cbd29fdb8f80870800000000000000
+      internalID: 8649436579178069101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow-Sheet_2
+      name: Arrow_Foresight-Sheet_2
       rect:
         serializedVersion: 2
         x: 60
@@ -157,16 +163,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: b7097348f4497084ba3c3c4bb2ff8943
-      internalID: 384487028
+      spriteID: b358609b9fe1641c0800000000000000
+      internalID: -4519891118119811781
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow-Sheet_3
+      name: Arrow_Foresight-Sheet_3
       rect:
         serializedVersion: 2
         x: 90
@@ -181,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d70e47978945e54a8f7cd4e8e4b1730
-      internalID: -490265834
+      spriteID: b4c785530e9f7d24d9cd7e64c3d1a835
+      internalID: 1433341146
       vertices: []
       indices: 
       edges: []
@@ -191,7 +197,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 865f87feae5e9bf479b953d89912da18
+    spriteID: 2bf89587de078c848ad79264c4a671d7
     internalID: 0
     vertices: []
     indices: 
@@ -201,12 +207,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":30.0,"y":30.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":30.0,"y":30.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Arrow-Sheet_0: 2551121464439468152
-      Arrow-Sheet_1: -1935622409
-      Arrow-Sheet_2: 384487028
-      Arrow-Sheet_3: -490265834
+      Arrow_Foresight-Sheet_0: 5433413714177411897
+      Arrow_Foresight-Sheet_1: 8649436579178069101
+      Arrow_Foresight-Sheet_2: -4519891118119811781
+      Arrow_Foresight-Sheet_3: 1433341146
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
