@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class MeleeSkeleton : EnemyBase
+public class MeleeSkeleton : EnemyBase, IBossSpawnable
 {
     [Header("Stats")]
     public float detectionRange = 6f;
@@ -24,6 +24,16 @@ public class MeleeSkeleton : EnemyBase
     public float reviveAnimDuration = 0.9f;
 
     public Transform player;
+    [SerializeField] private Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;

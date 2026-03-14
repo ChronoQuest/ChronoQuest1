@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class GhostEnemy : EnemyBase
+public class GhostEnemy : EnemyBase, IBossSpawnable
 {
     [Header("Stats")]
     public float detectionRange = 7f;
@@ -21,8 +21,16 @@ public class GhostEnemy : EnemyBase
     public float phaseOutDuration = 0.5f; // match your PhaseOut clip length
     public float phaseInDuration = 0.5f;  // match your PhaseIn clip length
 
-    public Transform player;
-
+    [SerializeField] private Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
+    public void DoubleDetectionRange()
+    {
+        detectionRange *= 2f;
+    }
     private Animator animator;
     private Collider2D col;
     private float lastAttackTime;

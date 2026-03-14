@@ -33,6 +33,7 @@ namespace TimeRewind
         public event Action OnRewindStopped;
         private Animator animator;
         private SpriteRenderer spriteRenderer;
+        public PlayerTacticalModel playerTacticalModel; 
         
         #region Unity Lifecycle
         
@@ -90,9 +91,9 @@ namespace TimeRewind
             }
             else if (TimeRewindManager.Instance.IsRewinding)
             {
-                // Drain mana every frame while rewinding
+                // Drain mana every frame while rewinding (unscaled so cost is constant per real second)
                 bool canContinue = _playerMana != null 
-                    && _playerMana.DrainManaContinuous(manaDrainPerSecond);
+                    && _playerMana.DrainManaContinuousUnscaled(manaDrainPerSecond);
 
                 bool minDurationElapsed = (Time.unscaledTime - _rewindStartTime) >= minRewindDuration;
                 if (!canContinue)
@@ -147,6 +148,8 @@ namespace TimeRewind
             _isRewinding = true;
             _rewindStartTime = Time.unscaledTime;
             DataCollectionService.Instance?.RecordRewindStarted();
+            playerTacticalModel.RecordRewind(); 
+
             OnRewindStarted?.Invoke();
             _originalBodyType = _rb.bodyType;
             _rb.bodyType = RigidbodyType2D.Kinematic;

@@ -36,6 +36,7 @@ public class PlayerCombat : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerPlatformer movement;
     private SpriteRenderer spriteRenderer;
+    public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
 
     void Start(){
@@ -48,6 +49,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        if (!movement.IsActionAllowed(PlayerAction.Attack))
+            return;
+
         if (PauseMenu.isPaused) return;
 
         // --- THE FAILSAFE TIMER ---
@@ -116,6 +120,7 @@ public class PlayerCombat : MonoBehaviour
         queuedAttack = false;
         attackTimer = 0f;
         DataCollectionService.Instance?.RecordMeleeAttempt();
+        playerTacticalModel.RecordMeleeHit(); 
 
         
         float dir = spriteRenderer.flipX ? -1f : 1f;
