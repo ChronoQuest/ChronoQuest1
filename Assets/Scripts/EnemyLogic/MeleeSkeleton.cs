@@ -23,7 +23,6 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
     [Header("Revive")]
     public float reviveAnimDuration = 0.9f;
 
-    public Transform player;
     [SerializeField] private Transform _player;
     public Transform player
     {
