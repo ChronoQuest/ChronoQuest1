@@ -28,6 +28,7 @@ public class ForesightSystem : MonoBehaviour
     public int bandWidth = 6;
     private int highestAttackThisInterval = 0;
     private bool enemyDamagedPreviously = false;
+    private bool damagedThisTimeline = false;
     public float recordInterval = 0.3f;
     private float recordTimer = 0f;
     private float sequenceSimilarity = 0f;
@@ -93,7 +94,7 @@ public class ForesightSystem : MonoBehaviour
     }
     public void NotifyDamage()
     {
-        enemyDamagedPreviously = true;
+        damagedThisTimeline = true;
     }
     private PlayerState GetCurrentPlayerState()
     {
@@ -231,9 +232,11 @@ public class ForesightSystem : MonoBehaviour
     }
     public void HandleRewindStop(int statesErased)
     {
+        enemyDamagedPreviously = damagedThisTimeline;
         // Clamp to avoid out-of-bounds errors
         statesErased = Mathf.Clamp(statesErased, 0, currentTimeline.Count);
         var currentArray = currentTimeline.ToArray();
+        damagedThisTimeline = false;
         
         previousTimeline.Clear();
         int startIndex = currentArray.Length - statesErased;

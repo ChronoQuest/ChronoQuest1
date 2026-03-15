@@ -149,7 +149,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     /// Instead of letting the Animator play automatically, we dictate specific frames
     /// based on physics velocity and timing.
     /// </summary>
-    IEnumerator JumpRoutine(float xDir, float heightMultiplier = 1f, float distanceMultiplier = 1f)
+    IEnumerator JumpRoutine(float xDir, float heightMultiplier = 1f, float distanceMultiplier = 1f, bool dodge = false)
     {
         Vector2 direction = (player.position - transform.position).normalized;
         if (direction.x > 0) spriteRenderer.flipX = false;
@@ -164,6 +164,13 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         SetFrame(2); yield return new WaitForSeconds(animationSpeed);
 
         // Phase 2: Launch
+        int originalLayer = gameObject.layer;
+        Color originalColor = spriteRenderer.color;
+        if(dodge) {
+            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+        }
+        gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
         currentStateLabel = "Launching";
         animator.SetTrigger("hop");
         rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier,hopForce * heightMultiplier);
@@ -206,6 +213,11 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         // Phase 4: Landing (Frames 6-8)
         currentStateLabel = "Landing";
+        if (dodge)
+        {
+            gameObject.layer = originalLayer;
+            spriteRenderer.color = originalColor;
+        }
         // Stop sliding physics
         rb.linearVelocity = Vector2.zero;
 
@@ -380,6 +392,9 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         else transform.localScale = new Vector3(0.74f, 0.64f, 0f);
         animator.SetBool("hasForesight", hasForesight);
         if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        Vector2 direction = (player.position - transform.position).normalized;
+        if (direction.x > 0) spriteRenderer.flipX = false;
+        else if (direction.x < 0) spriteRenderer.flipX = true;
     }
     new public bool IsDead() => wasDead;
     public bool IsRewinding() => isRewinding;
@@ -448,7 +463,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             xDir *= -1f;
 
         StopAllCoroutines();
-        StartCoroutine(JumpRoutine(xDir, 1.3f, 1.5f));
+        StartCoroutine(JumpRoutine(xDir, 1.3f, 1.5f, true));
     }
     public bool IsPerformingForesightAction()
     {
