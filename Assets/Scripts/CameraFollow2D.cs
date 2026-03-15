@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic; 
 
 public class CameraFollow2D : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class CameraFollow2D : MonoBehaviour
     private Vector3 targetOffset;
     private Vector3 offsetVelocity; 
     private Vector2 previousOffset; 
+    private Stack<float> zoomStack = new Stack<float>(); 
 
     private void Awake()
     {
@@ -70,12 +72,18 @@ public class CameraFollow2D : MonoBehaviour
 
     public void SetZoom(float size)
     {
+        zoomStack.Push(targetZoom); 
         targetZoom = size;
     }
 
     public void ResetZoom()
     {
-        targetZoom = defaultZoom;
+        // targetZoom = defaultZoom;
+
+        if (zoomStack.Count > 0)
+            targetZoom = zoomStack.Pop();
+        else
+            targetZoom = defaultZoom;
     }
 
     private void TryAssignPlayerTarget()

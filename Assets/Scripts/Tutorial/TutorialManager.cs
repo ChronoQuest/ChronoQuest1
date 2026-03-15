@@ -53,7 +53,7 @@ public class TutorialManager : MonoBehaviour
     bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
-    bool dodgeCompleted = false; 
+    public bool dodgeCompleted = false; 
     bool spellCompleted = false; 
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 

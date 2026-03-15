@@ -25,14 +25,16 @@ public class CameraZoomZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("ZOOM TRIGGERED"); 
+
         if (cameraFollow == null)
             return;
 
         if (other.GetComponent<PlayerPlatformer>() == null)
             return;
 
-        if (tutorial != null && tutorial.currentStep != requiredStep)
-            return; 
+        // if (tutorial != null && (tutorial.currentStep != requiredStep || tutorial.dodgeCompleted))
+        //     return; 
 
         if (zoomSmoothOverride > 0f)
             cameraFollow.SetZoomSmoothTime(zoomSmoothOverride);
@@ -52,8 +54,20 @@ public class CameraZoomZone : MonoBehaviour
         if (other.GetComponent<PlayerPlatformer>() == null)
             return;
 
-        if (tutorial != null && tutorial.currentStep != requiredStep) 
-            return; 
+        CameraZoomZone[] zones = FindObjectsOfType<CameraZoomZone>();
+
+        foreach (var zone in zones)
+        {
+            if (zone == this) continue;
+
+            Collider2D zoneCollider = zone.GetComponent<Collider2D>();
+
+            if (zoneCollider != null && zoneCollider.bounds.Contains(other.bounds.center))
+            {
+                // player is still inside another zoom zone
+                return;
+            }
+        }
 
         cameraFollow.ResetZoom();
         cameraFollow.ResetOffset(); 
