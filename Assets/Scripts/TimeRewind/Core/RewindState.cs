@@ -100,7 +100,39 @@ namespace TimeRewind
                 result.SetCustomData("visible", t < 0.5f ? a.GetCustomData<bool>("visible", false) : b.GetCustomData<bool>("visible", false));
                 result.SetCustomData("isActive", t < 0.5f ? a.GetCustomData<bool>("isActive", false) : b.GetCustomData<bool>("isActive", false));
                 result.SetCustomData("elapsedLifetime", Mathf.Lerp(a.GetCustomData<float>("elapsedLifetime", 0f), b.GetCustomData<float>("elapsedLifetime", 0f), t));
+                // Necromancer
+                
+                result.SetCustomData("lastReviveTime", Mathf.Lerp(a.GetCustomData<float>("lastReviveTime", 0f), b.GetCustomData<float>("lastReviveTime", 0f), t));
+                result.SetCustomData("isReviving", t < 0.5f ? a.GetCustomData<bool>("isReviving", false) : b.GetCustomData<bool>("isReviving", false));
+                result.SetCustomData("reviveTimer", Mathf.Lerp(a.GetCustomData<float>("reviveTimer", 0f), b.GetCustomData<float>("reviveTimer", 0f), t));
 
+                result.SetCustomData("lastAttackTime", Mathf.Lerp(a.GetCustomData<float>("lastAttackTime", 0f), b.GetCustomData<float>("lastAttackTime", 0f), t));
+                result.SetCustomData("isAttacking", t < 0.5f ? a.GetCustomData<bool>("isAttacking", false) : b.GetCustomData<bool>("isAttacking", false));
+                result.SetCustomData("attackTimer", Mathf.Lerp(a.GetCustomData<float>("attackTimer", 0f), b.GetCustomData<float>("attackTimer", 0f), t));
+
+                result.SetCustomData("localScale", t < 0.5f ? a.GetCustomData<Vector3>("localScale", Vector3.one) : b.GetCustomData<Vector3>("localScale", Vector3.one));
+                // --- NECROMANCER DYNAMIC MINION TIMERS ---
+                float[] aTimers = a.GetCustomData<float[]>("minionDeadTimers");
+                float[] bTimers = b.GetCustomData<float[]>("minionDeadTimers");
+
+                // Smoothly interpolate the time each minion has been dead
+                if (aTimers != null && bTimers != null && aTimers.Length == bTimers.Length) 
+                {
+                    float[] lerpedTimers = new float[aTimers.Length];
+                    for(int i = 0; i < aTimers.Length; i++) 
+                    {
+                        lerpedTimers[i] = Mathf.Lerp(aTimers[i], bTimers[i], t);
+                    }
+                    result.SetCustomData("minionDeadTimers", lerpedTimers);
+                } 
+                else 
+                {
+                    // Fallback if array lengths mismatch
+                    result.SetCustomData("minionDeadTimers", t < 0.5f ? aTimers : bTimers);
+                }
+                // --- UNIQUE SKELETON DATA ---
+                result.SetCustomData("isDying", t < 0.5f ? a.GetCustomData<bool>("isDying", false) : b.GetCustomData<bool>("isDying", false));
+                result.SetCustomData("hasHitFloor", t < 0.5f ? a.GetCustomData<bool>("hasHitFloor", false) : b.GetCustomData<bool>("hasHitFloor", false));
                 // PlayerSpellSystem
                 result.SetCustomData("nextFireTime", Mathf.Lerp(a.GetCustomData<float>("nextFireTime", 0f), b.GetCustomData<float>("nextFireTime", 0f), t));
 
@@ -131,6 +163,10 @@ namespace TimeRewind
                 float bWait = b.GetCustomData<float>("TopWaitProgress", 0f);
                 result.SetCustomData("TopWaitProgress", Mathf.Lerp(aWait, bWait, t));
 
+                // health pickup
+                result.SetCustomData("IsCollected", t < 0.5f ? a.GetCustomData<bool>("IsCollected", false) : b.GetCustomData<bool>("IsCollected", false));
+
+                // Snap the booleans and fixed positions to match state 'a'
                 result.SetCustomData("MovingUp", a.GetCustomData<bool>("MovingUp", true));
                 result.SetCustomData("WaitingAtTop", a.GetCustomData<bool>("WaitingAtTop", false));
                 result.SetCustomData("StartPos", a.GetCustomData<Vector3>("StartPos", a.Position));
