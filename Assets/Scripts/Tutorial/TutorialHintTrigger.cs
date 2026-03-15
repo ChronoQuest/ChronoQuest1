@@ -12,7 +12,8 @@ public class TutorialHintTrigger : MonoBehaviour
         HideAttack,
         RainSpell,
         RewindRegion,
-        Dodge
+        Dodge,
+        SpikeRewind
     }
 
     [SerializeField] private HintType hintType; 
@@ -60,6 +61,9 @@ public class TutorialHintTrigger : MonoBehaviour
             case HintType.Dodge:
                 tutorial.TriggerDodgeHint();
                 break;
+            case HintType.SpikeRewind:
+                tutorial.TriggerSpikeHint();
+                break; 
         }
     }
 

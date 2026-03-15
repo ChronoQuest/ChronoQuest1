@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; 
 using TMPro;
 using System.Collections; 
 using System.Collections.Generic; 
@@ -19,6 +20,7 @@ public class TutorialManager : MonoBehaviour
         Spell, 
         WallJump, 
         RainSpell,
+        SpikeHint, 
         Complete
     }
 
@@ -40,6 +42,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject spellHint; 
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
+    public GameObject spikeHint; 
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
@@ -54,6 +57,7 @@ public class TutorialManager : MonoBehaviour
     bool spellCompleted = false; 
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 
+    bool spikeCompleted = false; 
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -65,6 +69,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI spellText;
     public TextMeshProUGUI wallJumpText; 
     public TextMeshProUGUI rainSpellText; 
+    public TextMeshProUGUI spikeText; 
 
     private string movementMessage;
     private string attackMessage;
@@ -75,6 +80,7 @@ public class TutorialManager : MonoBehaviour
     private string spellMessage;
     private string wallJumpMessage; 
     private string rainSpellMessage; 
+    private string spikeMessage; 
 
     Vector2 lastPlayerPosition; 
     private float gameStartTime; 
@@ -113,6 +119,7 @@ public class TutorialManager : MonoBehaviour
         wallJumpMessage = wallJumpText.text;
         rainSpellMessage = rainSpellText.text; 
         dodgeMessage = dodgeText.text; 
+        spikeMessage = spikeText.text; 
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -125,12 +132,16 @@ public class TutorialManager : MonoBehaviour
         DisableHints();
 
         currentStep = TutorialStep.None;
+
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            player.allowedActions = PlayerAction.Movement; 
+            SetStep(TutorialStep.Movement); 
+        }
+
         moveCompleted = false;
 
-        player.allowedActions = PlayerAction.Movement;
-        SetStep(TutorialStep.Movement); 
-
-         // subscribe to health change event to trigger the rewind hint
+        // subscribe to health change event to trigger the rewind hint
          if (playerHealth != null)
         {
             previousHealth = playerHealth.CurrentHealth;
@@ -146,7 +157,7 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {   
         // if all hints have been completed, tutorial completed 
-        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted && dodgeCompleted)
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted && dodgeCompleted && spikeCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -389,6 +400,14 @@ public class TutorialManager : MonoBehaviour
         SetStep(TutorialStep.Dodge); 
     }
 
+    public void TriggerSpikeHint()
+    {
+        if (spikeCompleted) return; 
+        if (currentStep == TutorialStep.SpikeHint) return; 
+
+        SetStep(TutorialStep.SpikeHint); 
+    }
+
     // handles when the health changes, triggers either the rewind or dash hint 
     private void HandleHealthChanged(int current, int max)
     {
@@ -414,20 +433,28 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRewindStarted()
     {
-        if (currentStep != TutorialStep.Rewind)
+        if (currentStep != TutorialStep.Rewind && currentStep != TutorialStep.SpikeHint)
             return;  
         
         Debug.Log("REWIND STARTED");
 
-        RestoreEnemies();
-        AllowAll(); 
-
-        if (cam != null)
+        if (currentStep == TutorialStep.Rewind)
         {
-            cam.SetZoom(previousZoom);
-        }
+            RestoreEnemies();
+            AllowAll(); 
 
-        OnPlayerRewind();
+            if (cam != null)
+            {
+                cam.SetZoom(previousZoom);
+            }
+
+            OnPlayerRewind();
+        }
+        
+        if (currentStep == TutorialStep.SpikeHint)
+        {
+            OnPlayerSpike(); 
+        }
     }   
     #endregion
 
@@ -564,6 +591,17 @@ public class TutorialManager : MonoBehaviour
         } 
     }
 
+    public void OnPlayerSpike()
+    {
+        if (currentStep == TutorialStep.SpikeHint && !spikeCompleted)
+        {
+            spikeCompleted = true; 
+            HideHint(spikeHint);
+            AllowAll(); 
+            Debug.Log("Player spike tutorial completed"); 
+        }
+    }
+
     public void HideAttackHint()
     {
         CancelInvoke(nameof(HideAttackHint));
@@ -653,6 +691,13 @@ public class TutorialManager : MonoBehaviour
                 dodgeText.text = dodgeMessage;
                 typewriter.StartTyping(dodgeText);
                 break; 
+            case TutorialStep.SpikeHint:
+                AllowOnly(PlayerAction.Rewind | PlayerAction.Movement);
+                activeHint = spikeHint; 
+                ShowHint(spikeHint); 
+                spikeText.text = spikeMessage; 
+                typewriter.StartTyping(spikeText); 
+                break; 
         }
     }
 
@@ -667,6 +712,7 @@ public class TutorialManager : MonoBehaviour
         HideHint(spellHint);
         HideHint(wallJumpHint);
         HideHint(dodgeHint); 
+        HideHint(spikeHint); 
     }
     #endregion
 }
