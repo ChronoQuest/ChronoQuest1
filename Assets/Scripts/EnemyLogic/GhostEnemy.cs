@@ -162,7 +162,8 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
     public void GhostDealDamage()
     {
         if (wasDead || isRewinding || !isTouchingPlayer || player == null) return;
-        player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage);
+        Vector2 kbDir = ((Vector2)player.position - (Vector2)transform.position).normalized;
+        player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage, kbDir);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

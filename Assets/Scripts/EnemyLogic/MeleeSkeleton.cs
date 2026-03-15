@@ -122,7 +122,8 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
 
         if (Vector2.Distance(hitPos, player.position) <= hitboxRadius)
         {
-            player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage);
+            Vector2 kbDir = ((Vector2)player.position - (Vector2)transform.position).normalized;
+            player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage, kbDir);
         }
     }
 

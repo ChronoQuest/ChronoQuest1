@@ -85,7 +85,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         if (Application.isPlaying) UpdateUI();
     }
 
-    public void ModifyHealth(int amount)
+    public void ModifyHealth(int amount, Vector2 knockbackDir = default)
     {
         if (IsDead) return;
         if (_isRewinding) return;
@@ -98,7 +98,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
             // Otherwise, take the damage and start invincibility
             DataCollectionService.Instance?.RecordDamageTaken(-amount);
-            TakeDamage(amount);
+            TakeDamage(amount, knockbackDir);
         }
         
         // 2. HEALING LOGIC (Always allowed)
@@ -108,7 +108,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         }
     }
 
-    private void TakeDamage(int amount)
+    private void TakeDamage(int amount, Vector2 incomingDir = default)
     {
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -116,12 +116,17 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
         if (_rb != null && currentHealth > 0)
         {
-        
-            Collider2D enemy = Physics2D.OverlapCircle(transform.position, 2f, LayerMask.GetMask("Enemy"));
-            float knockbackDir = transform.position.x < (enemy != null ? enemy.transform.position.x : transform.position.x + 1) ? -1f : 1f;
+            float kbX;
+            if (incomingDir != Vector2.zero)
+                kbX = Mathf.Sign(incomingDir.x);
+            else
+            {
+                Collider2D enemy = Physics2D.OverlapCircle(transform.position, 2f, LayerMask.GetMask("Enemy"));
+                kbX = transform.position.x < (enemy != null ? enemy.transform.position.x : transform.position.x + 1) ? -1f : 1f;
+            }
 
-            _rb.linearVelocity = Vector2.zero; 
-            _rb.AddForce(new Vector2(knockbackDir * 12f, 7f), ForceMode2D.Impulse);
+            _rb.linearVelocity = Vector2.zero;
+            _rb.AddForce(new Vector2(kbX * 12f, 7f), ForceMode2D.Impulse);
 
             var movement = GetComponent<PlayerPlatformer>();
             if (movement != null) movement.TriggerKnockbackLock(0.2f);

@@ -171,7 +171,8 @@ public class DeathKnightEnemy : EnemyBase
         float dir = sprite.flipX ? -1f : 1f;
         Vector2 hitPos = (Vector2)transform.position + new Vector2(dir * hitboxOffset, 0);
         if (Vector2.Distance(hitPos, player.position) <= hitboxRadius)
-            player.GetComponent<PlayerHealth>()?.ModifyHealth(-attackDamage);
+            Vector2 kbDir = ((Vector2)player.position - (Vector2)transform.position).normalized;
+            player.GetComponent<PlayerHealth>()?.ModifyHealth(-attackDamage, kbDir);
     }
 
     // ─── Ranged ──────────────────────────────────────────────────────────────

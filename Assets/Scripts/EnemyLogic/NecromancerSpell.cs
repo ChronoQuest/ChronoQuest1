@@ -92,7 +92,7 @@ public class NecromancerSpell : MonoBehaviour, IRewindable
         PlayerHealth ph = other.GetComponent<PlayerHealth>();
         if (ph != null)
         {
-            ph.ModifyHealth(-damage);
+            ph.ModifyHealth(-damage, rb.linearVelocity.normalized);
             Deactivate();
             return;
         }
