@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using TimeRewind;
-using NUnit.Framework;
 
 /// <summary>
 /// Controls the Slime Enemy behavior, including:
@@ -60,9 +59,6 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public float dodgeTriggerDistance = 3.4f;
     public GameObject foresightGlow;
     private bool isDodging = false;    
-    private float dodgeDuration = 0.5f;
-    private float dodgeTimer = 0f;
-    private Vector2 calculatedDodgeVector;
     private ForesightSystem foresightSystem;
     private float rewindStartTime;
 

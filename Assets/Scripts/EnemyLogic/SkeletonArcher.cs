@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TimeRewind;
 
-public class SkeletonArcher : EnemyBase, IBossSpawnable
+public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 {
     [Header("Detection")]
     public float detectionRange = 8f;
@@ -28,7 +28,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         detectionRange *= 2f;
     }
     public GameObject arrowPrefab;
-
     [Header("Arrow Pool")]
     public int arrowPoolSize = 5;
 
@@ -47,12 +46,31 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     private ArrowProjectile[] arrowPool;
     private RewindState? _lastAppliedState;
+    private Collider2D playerCollider;
+    private PlayerCombat playerCombat;
+    private PlayerSpellSystem playerSpells;
+    [Header("Foresight")]
+    public float dodgeTriggerDistance = 5f;
+    public GameObject foresightGlow;
+    private bool isDodging = false;    
+    private float dodgeDuration = 0.5f;
+    private ForesightSystem foresightSystem;
+    private float rewindStartTime;
+    private bool hasForesight = false;
+    private bool isMidJumpSequence = false;
+    private bool isGrounded = true;
+    private SpriteRenderer spriteRenderer;
 
     protected override void Awake()
     {
         base.Awake();
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerCollider = player.GetComponent<Collider2D>();
+        playerCombat = player.GetComponent<PlayerCombat>();
+        playerSpells = player.GetComponent<PlayerSpellSystem>();
+        foresightSystem = GetComponent<ForesightSystem>();
         originalScale = transform.localScale;
         stunOnLand = true;
         BuildArrowPool();
@@ -196,17 +214,135 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         if (animator != null) animator.SetTrigger("Dead");
     }
 
+    // ================= DAMAGE =================
+    public override void TakeDamage(int amount)
+    {
+        if (isDodging) return;
+        base.TakeDamage(amount);
+        if (foresightSystem != null) foresightSystem.NotifyDamage();
+    }
+
+    // =================== IForesightEnemy Implementation ===================
+    public int GetPlayerAttackState()
+    {
+        if (playerCombat != null && playerCombat.isAttacking) return 1;
+        if (playerSpells != null && playerSpells.isCasting) return 2;
+        return 0;
+    }
+    public void SetForesightState(bool state)
+    {
+        hasForesight = state;
+        if(hasForesight) detectionRange *= 2;
+        animator.SetBool("hasForesight", hasForesight);
+        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        Vector2 direction = (player.position - transform.position).normalized;
+        if (direction.x > 0) spriteRenderer.flipX = false;
+        else if (direction.x < 0) spriteRenderer.flipX = true;
+    }
+    new public bool IsDead() => wasDead;
+    public bool IsRewinding() => isRewinding;
+    public void ExecuteLunge()
+    {
+        if (isDodging) return;
+        isDodging = true;
+        if (Time.time < lastShootTime + shootCooldown)
+            return;
+
+        ArrowProjectile arrow = GetPooledArrow();
+        if (arrow == null) return;
+
+        lastShootTime = Time.time;
+
+        Vector3 spawnPos = transform.position + Vector3.up * arrowSpawnOffset.y;
+
+        arrow.transform.position = spawnPos;
+        arrow.gameObject.SetActive(true);
+
+        Vector2 dir = (player.position - transform.position).normalized;
+
+        arrow.LaunchHoming(dir, damage, player);
+        isDodging = false;
+    }
+public void ExecuteDodge()
+    {
+        if (isDodging) return; // Prevent dodging if already in a dodge state
+
+        GameObject spellObj = playerSpells.latestSpell;
+        bool shouldDodge = false;
+
+        // Check if player or spell is close enough to trigger the dodge
+        if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
+        {
+            shouldDodge = true;
+        }
+        else if (spellObj != null)
+        {
+            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            {
+                shouldDodge = true;
+            }
+        }
+
+        if (shouldDodge)
+        {
+            StopAllCoroutines(); 
+            StartCoroutine(PhaseDodgeRoutine());
+        }
+    }
+
+    IEnumerator PhaseDodgeRoutine()
+    {
+        isDodging = true;
+        int originalLayer = gameObject.layer;
+        gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+        
+        animator.SetBool("hasForesight", true);
+        if (foresightGlow != null) foresightGlow.SetActive(true);
+
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+
+        // Do a little jump to show dodging
+        rb.linearVelocity = new Vector2(0f, 3f);
+
+        yield return new WaitForSeconds(dodgeDuration);
+
+        
+        spriteRenderer.color = originalColor;
+        animator.SetBool("hasForesight", false);
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+        gameObject.layer = originalLayer;
+        isDodging = false;
+    }
+    public float GetDistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, playerCollider.bounds.center);
+    }
+    public bool IsPerformingForesightAction()
+    {
+        return isDodging;
+    }
+
     // ================= REWIND =================
 
     public override void OnStartRewind()
     {
         base.OnStartRewind();
+        rewindStartTime = Time.time;
         StopAllCoroutines();
     }
 
     public override void OnStopRewind()
     {
         base.OnStopRewind();
+        if (foresightSystem != null)
+        {
+            // Calculate how much time passed in the real world while we were rewinding
+            float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime;
+            int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
+            foresightSystem.HandleRewindStop(statesErased);
+        }
     }
 
     public override RewindState CaptureState()
@@ -238,12 +374,14 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
                 {
                     StartCoroutine(HitStunRoutine(0.5f)); // This sets isStunned = true and isLaunched = false
                 }
+                isGrounded = true;
             }
         }
     }
 
     public override void ApplyKnockback(Vector2 force)
     {
+        if (isDodging) return;
         StopAllCoroutines();
     
         base.ApplyKnockback(force);

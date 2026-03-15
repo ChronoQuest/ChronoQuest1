@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 2084577653857788803}
   - component: {fileID: 1290270102497991921}
   - component: {fileID: 31513771389696814}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Necromancer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::NecromancerEnemy
   health: 3
   startHealth: 0
+  stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6

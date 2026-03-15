@@ -9,6 +9,7 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     public float lifetime = 5f;
 
     private Rigidbody2D rb;
+    private Animator animator;
     private Collider2D col;
     private SpriteRenderer spriteRenderer;
     private int damage;
@@ -16,16 +17,47 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     private bool isRewinding;
     private float elapsedLifetime;
     private RigidbodyType2D originalBodyType;
+    [Header("Homing")]
+    public bool isHoming = false;
+    public Transform homingTarget;
+    public float homingTurnSpeed = 6f;
+    public float homingTime = 3f;
+    private float homingTimer;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalBodyType = rb.bodyType;
 
         if (TimeRewindManager.Instance != null)
             TimeRewindManager.Instance.Register(this);
+    }
+    void FixedUpdate()
+    {
+        if (!isActive || isRewinding) return;
+
+        if (isHoming)
+            {
+                homingTimer -= Time.fixedDeltaTime;
+                if (homingTimer <= 0f){
+                    isHoming = false;
+                    animator.SetBool("hasForesight", false);
+                }
+            }
+
+        if (isHoming && homingTarget != null)
+        {
+            Vector2 targetDir = ((Vector2)homingTarget.position - rb.position).normalized;
+            Vector2 newVelocity = Vector2.Lerp(rb.linearVelocity.normalized, targetDir, homingTurnSpeed * Time.fixedDeltaTime);
+
+            rb.linearVelocity = newVelocity.normalized * speed * 0.5f;
+
+            float angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
     }
 
     void OnDestroy()
@@ -40,12 +72,25 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
         isActive = true;
         elapsedLifetime = 0f;
 
+        isHoming = false;
+        homingTarget = null;
+
         rb.linearVelocity = direction.normalized * speed;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         StartCoroutine(EnableColliderNextFrame());
+    }
+    public void LaunchHoming(Vector2 direction, int arrowDamage, Transform target)
+    {
+        Launch(direction, arrowDamage);
+
+        homingTimer = homingTime;
+        animator.SetBool("hasForesight", true);
+
+        isHoming = true;
+        homingTarget = target;
     }
 
     IEnumerator EnableColliderNextFrame()
@@ -66,8 +111,11 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     void Deactivate()
     {
         isActive = false;
+        isHoming = false;
+        homingTarget = null;
         rb.linearVelocity = Vector2.zero;
         StopAllCoroutines();
+        animator.SetBool("hasForesight", false);
         gameObject.SetActive(false);
     }
 
@@ -119,6 +167,8 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
         state.SetCustomData("visible", gameObject.activeSelf);
         state.SetCustomData("isActive", isActive);
         state.SetCustomData("elapsedLifetime", elapsedLifetime);
+        state.SetCustomData("IdleTimer", homingTimer);
+        state.SetCustomData("IsFlipped", isHoming);
         return state;
     }
 
@@ -135,6 +185,8 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
 
         isActive = state.GetCustomData<bool>("isActive");
         elapsedLifetime = state.GetCustomData<float>("elapsedLifetime");
+        homingTimer = state.GetCustomData<float>("IdleTimer", 0);
+        isHoming = state.GetCustomData<bool>("IsFlipped", false);
 
         if (shouldBeVisible && wasInactive)
             col.enabled = true;
