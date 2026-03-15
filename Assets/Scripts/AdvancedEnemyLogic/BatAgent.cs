@@ -55,6 +55,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     private bool hasForesight = false;
     public float dodgeTriggerDistance = 3.4f;
     public GameObject foresightGlow;
+    private int originalLayer;
+    private Color originalColor;
 
     void Start()
     {
@@ -76,6 +78,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         animator.ResetTrigger("Chase");
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("die");
+        originalLayer = gameObject.layer;
+        originalColor = spriteRenderer.color;
         if(otherBat != null) partnerAgent = otherBat.GetComponent<BatEnemyAI>();
     }
     void OnDestroy()
@@ -94,9 +98,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     void FixedUpdate()
     {
         if (isDead || isRewinding) return;
-
         if (isDodging)
         {
+            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             
             dodgeTimer -= Time.fixedDeltaTime;
@@ -107,6 +112,11 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
                 rb.linearVelocity = Vector2.zero;
                 RequestDecision();
             }
+        }
+        else
+        {
+            gameObject.layer = originalLayer;
+            spriteRenderer.color = originalColor;
         }
     }
 

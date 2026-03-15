@@ -5101,7 +5101,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 4096
-  dodgeTriggerDistance: 3.4
+  dodgeTriggerDistance: 4
   foresightGlow: {fileID: 7307393893010911180}
 --- !u!114 &2549410938233235704
 MonoBehaviour:
@@ -5148,7 +5148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ForesightSystem
   foresightThreshold: 0.75
-  dodgeTriggerDistance: 4
   futureLookaheadSteps: 10
   weightDistance: 0.5
   weightVelocity: 0.2

@@ -179,6 +179,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         if (spriteRenderer != null) spriteRenderer.enabled = false;
 
         Vector2 targetPos;
+        int originalLayer = gameObject.layer;
 
         if (isLunge)
         {
@@ -189,6 +190,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         }
         else
         {
+            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
             targetPos = (Vector2)transform.position + (escapeDirection * teleportOffset * 1.5f);
             dodgeTimer = dodgeCooldown;
         }
@@ -205,6 +207,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         yield return null;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
         yield return new WaitForSeconds(phaseInDuration);
+        gameObject.layer = originalLayer;
         foresightGlow.SetActive(true);
 
         if (col != null) col.enabled = true;
