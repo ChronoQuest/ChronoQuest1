@@ -200,6 +200,20 @@ public class Boss : EnemyBase, IRewindable
             
             offActionSpawned = false; 
             resActionSpawned = false;
+
+            // OLD LOGIC
+            // float rand = Random.value;
+
+            // if (rand < 0.25f)  currentOff = OffMove.Fireballs;
+            // else if (rand < 0.5f) currentOff = OffMove.FireColumns;
+            // else if (rand < 0.75f) currentOff = OffMove.HomingFireballs;
+            // else currentOff = OffMove.FireExplosion;
+
+            // rand = Random.value;
+            // if (rand < 0.25f) currentRes = ResMove.FireRow;
+            // else if (rand < 0.5f) currentRes = ResMove.FireWave;
+            // else if (rand < 0.75f) currentRes = ResMove.Platforms;
+            // else currentRes = ResMove.Enemy;
             
             var strategy = playerStrategyModel.GetDominantStrategy();
 
@@ -221,7 +235,6 @@ public class Boss : EnemyBase, IRewindable
                 currentRes = ResMove.FireWave;
             }
         }
-
     void UpdateCombat()
     {
         bool offDone = UpdateOffensive();
