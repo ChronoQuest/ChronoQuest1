@@ -92,6 +92,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
+    [SerializeField] private GameObject dodgeZoomZone; 
 
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
@@ -589,11 +590,11 @@ public class TutorialManager : MonoBehaviour
             HideHint(dodgeHint);
             AllowAll(); 
 
-            /* if (cam != null)
+            if (dodgeZoomZone != null)
             {
-                cam.SetZoom(previousZoom); 
-            } */ 
-
+                dodgeZoomZone.SetActive(false);
+            }
+            
             Debug.Log("Player dodge tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted(); 
         } 

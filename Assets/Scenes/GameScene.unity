@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &33719777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7833608697331677662, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
+  m_PrefabInstance: {fileID: 1996427652}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &172740365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2585,6 +2590,10 @@ PrefabInstance:
       propertyPath: rewindFollow
       value: 
       objectReference: {fileID: 2050657091}
+    - target: {fileID: 3131234995556985550, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: dodgeZoomZone
+      value: 
+      objectReference: {fileID: 33719777}
     - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
