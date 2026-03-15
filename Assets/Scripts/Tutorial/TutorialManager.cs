@@ -594,7 +594,7 @@ public class TutorialManager : MonoBehaviour
             {
                 dodgeZoomZone.SetActive(false);
             }
-            
+
             Debug.Log("Player dodge tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted(); 
         } 
@@ -681,6 +681,13 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.WallJump:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump);
+
+                if (cam != null)
+                {
+                    previousZoom = Camera.main.orthographicSize; 
+                    cam.SetZoom(previousZoom - 3f); 
+                }
+
                 activeHint = wallJumpHint; 
                 ShowHint(wallJumpHint);
                 wallJumpText.text = wallJumpMessage;
@@ -696,11 +703,11 @@ public class TutorialManager : MonoBehaviour
             case TutorialStep.Dodge:
                 AllowOnly(PlayerAction.Dash | PlayerAction.Movement); 
 
-                /* if (cam != null)
+                if (cam != null)
                 {
                     previousZoom = Camera.main.orthographicSize; 
                     cam.SetZoom(previousZoom - 3f); 
-                } */ 
+                }
 
                 activeHint = dodgeHint; 
                 ShowHint(dodgeHint);
