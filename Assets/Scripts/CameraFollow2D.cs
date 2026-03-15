@@ -19,6 +19,7 @@ public class CameraFollow2D : MonoBehaviour
     private float defaultSmoothTime; 
     private Vector3 targetOffset;
     private Vector3 offsetVelocity; 
+    private Vector2 previousOffset; 
 
     private void Awake()
     {
@@ -84,7 +85,7 @@ public class CameraFollow2D : MonoBehaviour
             target = player.transform;
     }
     
-    // methods added for tutorial camera movement (spell section)
+    // methods added for tutorial camera movement
     public void SetTemporaryTarget(Transform newTarget)
     {
         target = newTarget; 

@@ -575,6 +575,7 @@ public class TutorialManager : MonoBehaviour
         {
             rainSpellCompleted = true;
             HideHint(rainSpellHint);
+            AllowAll(); 
             Debug.Log("Player rain spell tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -586,6 +587,13 @@ public class TutorialManager : MonoBehaviour
         {
             dodgeCompleted = true; 
             HideHint(dodgeHint);
+            AllowAll(); 
+
+            /* if (cam != null)
+            {
+                cam.SetZoom(previousZoom); 
+            } */ 
+
             Debug.Log("Player dodge tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted(); 
         } 
@@ -686,6 +694,13 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Dodge:
                 AllowOnly(PlayerAction.Dash | PlayerAction.Movement); 
+
+                /* if (cam != null)
+                {
+                    previousZoom = Camera.main.orthographicSize; 
+                    cam.SetZoom(previousZoom - 3f); 
+                } */ 
+
                 activeHint = dodgeHint; 
                 ShowHint(dodgeHint);
                 dodgeText.text = dodgeMessage;

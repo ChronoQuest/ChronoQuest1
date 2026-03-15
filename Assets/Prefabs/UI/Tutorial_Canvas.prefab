@@ -2660,7 +2660,6 @@ GameObject:
   - component: {fileID: 332328111843163485}
   - component: {fileID: 8077420919011297133}
   - component: {fileID: 4851063377680899602}
-  - component: {fileID: 1702771175996819946}
   m_Layer: 0
   m_Name: DodgeTrigger
   m_TagString: Untagged
@@ -2743,26 +2742,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
   hintType: 9
   tutorial: {fileID: 3131234995556985550}
---- !u!114 &1702771175996819946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6458379321506935491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccd768e7c0e8400ab3df55fcaf4cfd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TutorialCameraController
-  cameraFollow: {fileID: 0}
-  enemyFocus: {fileID: 0}
-  tutorialManager: {fileID: 3131234995556985550}
-  panToEnemyDelay: 0.3
-  focusDuration: 1.2
-  panSmoothTime: 0.45
-  normalSmoothTime: 0.15
-  returnSmoothTime: 0.3
 --- !u!1 &6653864586005249810
 GameObject:
   m_ObjectHideFlags: 0
@@ -3734,6 +3713,7 @@ RectTransform:
   - {fileID: 332328111843163485}
   - {fileID: 8747742423655325373}
   - {fileID: 5375548511722503122}
+  - {fileID: 6449220144958273364}
   - {fileID: 3137278511816492364}
   m_Father: {fileID: 1748531016957598062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4288,6 +4268,37 @@ MonoBehaviour:
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
+--- !u!1 &8139095121041009497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6449220144958273364}
+  m_Layer: 0
+  m_Name: DodgeHintFocus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6449220144958273364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8139095121041009497}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1221.6, y: -725.63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5049569664104439327}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8325088784676417247
 GameObject:
   m_ObjectHideFlags: 0
