@@ -324,7 +324,6 @@ public class NecromancerEnemy : EnemyBase
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.bodyType = RigidbodyType2D.Kinematic; 
-        rb.gravityScale = 0f;
         
         isDying = false; 
     }
