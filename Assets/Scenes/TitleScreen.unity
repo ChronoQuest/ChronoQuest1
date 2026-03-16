@@ -910,6 +910,8 @@ GameObject:
   - component: {fileID: 1750678091}
   - component: {fileID: 1750678090}
   - component: {fileID: 1750678089}
+  - component: {fileID: 1750678094}
+  - component: {fileID: 1750678093}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -1038,12 +1040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e28d0fa1e8f0d34cb76368bc0664098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
-  musicSource: {fileID: 1750678090}
-  titleTrack: {fileID: 8300000, guid: 21ae2e534e8b4234aa3764c8741b3683, type: 3}
-  tutorialTrack: {fileID: 8300000, guid: b94b30156e19d3f4cb5f5f18493e96fe, type: 3}
-  bossFightTrack: {fileID: 8300000, guid: 966c8caf0c1feae4f893b8b3b62e3736, type: 3}
-  rewindPitch: -1
-  loopDuringRewind: 1
 --- !u!4 &1750678092
 Transform:
   m_ObjectHideFlags: 0
@@ -1059,6 +1055,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750678093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750678088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f97787f8c94d4d69aece58cc790763a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::DontDestroyOnLoadObject
+--- !u!114 &1750678094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750678088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e915148947f84aa3bc7f6e900975ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
+  musicSource: {fileID: 1750678090}
+  titleTrack: {fileID: 8300000, guid: 84383b211543842b5a7e53127135a3f6, type: 3}
+  tutorialTrack: {fileID: 8300000, guid: 8d8cf156c82f44d82861f2c690fed150, type: 3}
+  bossFightTrack: {fileID: 8300000, guid: 74f2ef2f4e1a843d1b860ce5a5da8939, type: 3}
+  rewindPitch: -1
+  loopDuringRewind: 1
 --- !u!1 &2004735333
 GameObject:
   m_ObjectHideFlags: 0
