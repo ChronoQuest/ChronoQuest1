@@ -399,6 +399,7 @@ MonoBehaviour:
   spikeHint: {fileID: 6958776637608873101}
   player: {fileID: 0}
   playerHealth: {fileID: 0}
+  dodgeCompleted: 0
   typewriter: {fileID: 4599844083613684726}
   movementText: {fileID: 7981839438937259001}
   attackText: {fileID: 3044425037313422236}
@@ -413,6 +414,7 @@ MonoBehaviour:
   attackHintDuration: 3
   rewindFollow: {fileID: 0}
   hintFadeDuration: 0.3
+  dodgeZoomZone: {fileID: 0}
   attackTutorialArea: {fileID: 0}
   enemyLayer:
     serializedVersion: 2
@@ -1661,7 +1663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -122148.01, y: -72419}
+  m_AnchoredPosition: {x: -122034, y: -72419}
   m_SizeDelta: {x: 248.62, y: 53.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4567910734864274679
@@ -2660,6 +2662,7 @@ GameObject:
   - component: {fileID: 332328111843163485}
   - component: {fileID: 8077420919011297133}
   - component: {fileID: 4851063377680899602}
+  - component: {fileID: 8372529966093745439}
   m_Layer: 0
   m_Name: DodgeTrigger
   m_TagString: Untagged
@@ -2676,7 +2679,7 @@ Transform:
   m_GameObject: {fileID: 6458379321506935491}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1225.57, y: -726.52, z: 0}
+  m_LocalPosition: {x: -1224.36, y: -726.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2716,7 +2719,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.8226585, y: -0.9683691}
+  m_Offset: {x: 2.6476364, y: 0.1633898}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2726,7 +2729,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.0002518, y: 0.39225602}
+  m_Size: {x: 1.350296, y: 2.6557739}
   m_EdgeRadius: 0
 --- !u!114 &4851063377680899602
 MonoBehaviour:
@@ -2742,6 +2745,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
   hintType: 9
   tutorial: {fileID: 3131234995556985550}
+--- !u!114 &8372529966093745439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458379321506935491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccd768e7c0e8400ab3df55fcaf4cfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TutorialCameraController
+  cameraFollow: {fileID: 0}
+  enemyFocus: {fileID: 0}
+  tutorialManager: {fileID: 3131234995556985550}
+  panToEnemyDelay: 0
+  focusDuration: 2
+  panSmoothTime: 0
+  normalSmoothTime: 0
+  returnSmoothTime: 0
 --- !u!1 &6653864586005249810
 GameObject:
   m_ObjectHideFlags: 0
@@ -4832,7 +4855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -122152.01, y: -72424.81}
+  m_AnchoredPosition: {x: -122035.93, y: -72424.81}
   m_SizeDelta: {x: 261.32, y: 109.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8771079855955105942
