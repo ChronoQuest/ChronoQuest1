@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System.Collections; 
 using System.Collections.Generic; 
+using TimeRewind;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class TutorialManager : MonoBehaviour
     bool spellCompleted = false; 
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 
+    private RewindMusicController musicController;
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -111,6 +113,13 @@ public class TutorialManager : MonoBehaviour
 
         // track the start of the game, used for the idle check in the movement hint
         gameStartTime = Time.time; 
+
+        // Start tutorial music if a music controller exists in the scene.
+        musicController = FindFirstObjectByType<RewindMusicController>();
+        if (musicController != null)
+        {
+            musicController.PlayTutorialMusic();
+        }
         
         DisableHints();
 
