@@ -254,7 +254,7 @@ MonoBehaviour:
   controlsEnvironment: 0
   otherBat: {fileID: 7231518081331576005}
   obstacle: {fileID: 0}
-  _player: {fileID: 0}
+  player: {fileID: 0}
   hoverFrequency: 2
   hoverAmplitude: 0.5
   moveSpeed: 3
@@ -262,6 +262,9 @@ MonoBehaviour:
   damage: 1
   attackCooldown: 1.5
   currentState: 1
+  foresightGlow: {fileID: 5655604110447557703}
+  foresightThreshold: 0.75
+  dodgeTriggerDistance: 3.4
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 4096
