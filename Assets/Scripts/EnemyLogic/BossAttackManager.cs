@@ -33,19 +33,19 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 10f) * facingDirection;
+        float randX = Random.Range(-12f, 2.5f) * facingDirection;
         Instantiate(fireball, new Vector3(randX,9f,0f), fireball.transform.rotation);
     }
     public void spawnHomingFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 10f) * facingDirection;
+        float randX = Random.Range(-12f, 2.5f) * facingDirection;
         Instantiate(homingFireball, new Vector3(randX,6f,0f), homingFireball.transform.rotation);
     }
     public void spawnFireExplosion(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 10f) * facingDirection;
+        float randX = Random.Range(-12f, 2.5f) * facingDirection;
         float randY = Random.Range(-5.7f, -0.9f);
         Instantiate(fireExplosion, new Vector3(randX,randY,0f), fireExplosion.transform.rotation);
     }
@@ -76,7 +76,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        GameObject wave = Instantiate(fireWave, new Vector3(10f * facingDirection, -6.15f, 0f), transform.rotation);
+        GameObject wave = Instantiate(fireWave, new Vector3(6.5f * facingDirection, -6.15f, 0f), transform.rotation);
         wave.transform.localScale = new Vector3(facingDirection * -2f, 2f, 1f);
         FireWave fw = wave.GetComponent<FireWave>();
         fw.bossFacingDirection = facingDirection;
@@ -104,7 +104,8 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnPlatforms(int facingDirection)
     {
         if (isRewinding) return;
-        Instantiate(platforms, new Vector3(-4f * facingDirection, -5f, -2f), transform.rotation);
+        //Instantiate(platforms, new Vector3(4f * facingDirection, -5f, 1f), transform.rotation);
+        Instantiate(platforms, new Vector3(-4f * facingDirection, -5f, 1f), transform.rotation);
     }
     
 
