@@ -43,7 +43,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
     public GameObject spikeHint; 
-    public GameObject spotlight; 
+    // public GameObject spotlight; 
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
@@ -133,10 +133,10 @@ public class TutorialManager : MonoBehaviour
         
         DisableHints();
 
-        if (spotlight != null)
+        /* if (spotlight != null)
         {
             spotlight.SetActive(false); 
-        }
+        } */ 
 
         currentStep = TutorialStep.None;
 
@@ -547,8 +547,8 @@ public class TutorialManager : MonoBehaviour
         {
             rewindCompleted = true;
 
-            if (spotlight != null) 
-                spotlight.SetActive(false); 
+            /* if (spotlight != null) 
+                spotlight.SetActive(false); */  
 
             rewindFollow.enabled = false;
             HideHint(rewindHint);
