@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using TimeRewind; // Needed to check if player started rewinding
 
 public class PlayerSafetyNet : MonoBehaviour
@@ -10,13 +11,14 @@ public class PlayerSafetyNet : MonoBehaviour
     
     [Tooltip("The tag you put on your Trap objects.")]
     [SerializeField] private string unsafeTag = "Trap"; 
+    private string bossTag = "Boss"; 
 
     [Tooltip("How long you must be on safe ground before it saves")]
     [SerializeField] private float recordInterval = 0.05f; 
 
     [Header("Respawn Settings")]
     [Tooltip("Time to wait before teleporting (gives player chance to rewind)")]
-    [SerializeField] private float respawnDelay = 1.0f; // NEW SETTING
+    [SerializeField] public float respawnDelay = 1.0f; // NEW SETTING
 
     [Header("Detection Box")]
     [SerializeField] private float boxWidth = 0.5f;
@@ -24,6 +26,9 @@ public class PlayerSafetyNet : MonoBehaviour
     [SerializeField] private Vector2 offset = new Vector2(0f, -0.6f);
 
     private Vector3 _lastSafePosition;
+    private List<Vector3> safePositions = new List<Vector3>();
+    private float minDistanceBetweenPoints = 1.0f;
+    private int maxLen = 5;
     private float _safeTimer;
     
     // References
@@ -37,13 +42,13 @@ public class PlayerSafetyNet : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _health = GetComponent<PlayerHealth>();
         _lastSafePosition = transform.position;
+        safePositions.Add(_lastSafePosition);
     }
 
     private void FixedUpdate()
     {
         if (_health.IsDead || _isRespawning) return;
         
-        // If we are currently rewinding, do not update safe position
         if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 
         if (IsCurrentlySafe())
@@ -52,8 +57,20 @@ public class PlayerSafetyNet : MonoBehaviour
             
             if (_safeTimer >= recordInterval)
             {
-                _lastSafePosition = transform.position + Vector3.up * 0.1f;
-                _safeTimer = recordInterval; 
+                Vector3 currentSafeSpot = transform.position + Vector3.up * 0.1f;
+                _lastSafePosition = currentSafeSpot;
+                
+                if (safePositions.Count == 0 || Vector2.Distance(currentSafeSpot, safePositions[safePositions.Count - 1]) >= minDistanceBetweenPoints)
+                {
+                    safePositions.Add(currentSafeSpot);
+                    
+                    if (safePositions.Count > maxLen)
+                    {
+                        safePositions.RemoveAt(0); 
+                    }
+                }
+                
+                _safeTimer = 0f; // Reset timer
             }
         }
         else
@@ -73,8 +90,8 @@ public class PlayerSafetyNet : MonoBehaviour
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject == gameObject) continue;
-            if (hit.CompareTag(unsafeTag)) return false; 
-            if (!hit.isTrigger) foundSolidGround = true;
+            if (hit.CompareTag(unsafeTag)) return false;
+            foundSolidGround = true;
         }
 
         return foundSolidGround;
@@ -106,44 +123,64 @@ public class PlayerSafetyNet : MonoBehaviour
         }
     }
 
-    private IEnumerator RespawnRoutine()
+private IEnumerator RespawnRoutine()
     {
         _isRespawning = true;
 
-        // 1. FREEZE PLAYER (Optional: Keep them in the spikes for a moment)
         if (_rb != null) 
         {
             _rb.linearVelocity = Vector2.zero;
-            _rb.simulated = false; // Freezes them in place
+            _rb.simulated = false; 
         }
 
-        // 2. WAIT FOR DELAY (Grace Period)
         float timer = 0f;
         while (timer < respawnDelay)
         {
             timer += Time.deltaTime;
-
-            // CHECK: Did the player start rewinding during this delay?
             if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding)
             {
-                // Player saved themselves! Cancel everything.
                 if (_rb != null) _rb.simulated = true;
                 _isRespawning = false;
-                yield break; // Exit the coroutine immediately
+                yield break; 
             }
-
             yield return null;
         }
 
-        // 3. TELEPORT (If they didn't rewind)
-        transform.position = _lastSafePosition;
+        transform.position = GetClearRespawnPosition();
 
-        yield return new WaitForSeconds(0.1f); // Tiny pause to stabilize landing
-
+        yield return new WaitForSeconds(0.1f); 
         if (_rb != null) _rb.simulated = true;
         _isRespawning = false;
     }
+    private Vector3 GetClearRespawnPosition()
+    {
+        if (IsPositionClearOfBoss(_lastSafePosition)) return _lastSafePosition;
 
+        for (int i = safePositions.Count - 1; i >= 0; i--)
+        {
+            if (IsPositionClearOfBoss(safePositions[i]))
+            {
+                return safePositions[i];
+            }
+        }
+        GameObject boss = GameObject.FindGameObjectWithTag(bossTag);
+        if (boss != null)
+        {
+            float ejectionDistance = 6f; // How far to shove them sideways
+            float pushDirection = transform.position.x < boss.transform.position.x ? ejectionDistance : -ejectionDistance;
+            return _lastSafePosition + new Vector3(pushDirection, 1f, 0f);
+        }
+        return _lastSafePosition;
+    }
+    private bool IsPositionClearOfBoss(Vector3 pos)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 2f);
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.CompareTag(bossTag)) return false;
+        }
+        return true;
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
