@@ -223,7 +223,7 @@ public class Boss : EnemyBase, IRewindable
     {
         isPlayingAttack = false;
         FacePlayer();
-        facingDirection = player.position.x > transform.position.x ? 1 : -1; 
+        facingDirection = player.position.x > transform.position.x ? -1 : 1; 
 
         currentPhase = BossPhase.Combat;
         offTimer = 0f; resTimer = 0f;

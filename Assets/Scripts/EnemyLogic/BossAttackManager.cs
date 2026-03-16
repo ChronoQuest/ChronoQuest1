@@ -104,7 +104,8 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnPlatforms(int facingDirection)
     {
         if (isRewinding) return;
-        Instantiate(platforms, new Vector3(4f * facingDirection, -5f, 1f), transform.rotation);
+        //Instantiate(platforms, new Vector3(4f * facingDirection, -5f, 1f), transform.rotation);
+        Instantiate(platforms, new Vector3(-4f * facingDirection, -5f, 1f), transform.rotation);
     }
     
 
