@@ -251,7 +251,8 @@ namespace TimeRewind
             Time.timeScale = rewindSlowTimeScale;
             
             _isRewinding = true;
-            _currentRewindTime = Time.time;
+            // _currentRewindTime = Time.time;
+            _currentRewindTime = GetNewestRecordedTime(); 
             _currentPlaybackMultiplier = 1f;
 
             if (enableDebugLogs)
@@ -301,7 +302,6 @@ namespace TimeRewind
                 buffer.Clear();
             }
         }
-        
         #endregion
 
         #region Private Methods
