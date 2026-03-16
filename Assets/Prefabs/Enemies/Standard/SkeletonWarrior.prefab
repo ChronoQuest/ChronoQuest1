@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 3878115214501292766}
   - component: {fileID: 853483887166070529}
   - component: {fileID: 8597023694846177901}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SkeletonWarrior
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

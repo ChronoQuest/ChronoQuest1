@@ -23380,6 +23380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI_Sleeping_Bat
       objectReference: {fileID: 0}
+    - target: {fileID: 3521958872914039209, guid: e89f4f9e425d135499d57c4a01a8f05c, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
     - target: {fileID: 7231518081331576005, guid: e89f4f9e425d135499d57c4a01a8f05c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 82.79861
@@ -26045,6 +26049,8 @@ MonoBehaviour:
   arrowSpawnOffset: {x: 0.3, y: 0.5}
   reviveAnimDuration: 0.9
   currentState: 0
+  dodgeTriggerDistance: 5
+  foresightGlow: {fileID: 0}
 --- !u!114 &913987529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112097,7 +112103,7 @@ Transform:
   m_GameObject: {fileID: 1045806244}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -112149,7 +112155,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1207838135
-  m_SortingLayer: -2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -527538,7 +527544,7 @@ Transform:
   m_GameObject: {fileID: 1840657766}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 60.94385, y: 21.02734, z: 0}
+  m_LocalPosition: {x: 60.94385, y: 21.02734, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
