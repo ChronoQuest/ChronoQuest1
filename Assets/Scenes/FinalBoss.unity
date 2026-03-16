@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &63241256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4642224583646608178, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+  m_PrefabInstance: {fileID: 659603001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b9863c6431a47bb85abc03131f1d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerTacticalModel
 --- !u!1001 &119915808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52606,8 +52617,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 63241256}
     m_RemovedComponents:
     - {fileID: 8686103127953602408, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+    - {fileID: 4777569780141679609, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -53393,7 +53409,6 @@ GameObject:
   - component: {fileID: 893864181}
   - component: {fileID: 893864180}
   - component: {fileID: 893864179}
-  - component: {fileID: 893864178}
   - component: {fileID: 893864177}
   - component: {fileID: 893864183}
   m_Layer: 0
@@ -53436,35 +53451,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d327957ef9034a14fa859fc952b23350, type: 2}
---- !u!114 &893864178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893864175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d021fdd0521760445bfb99a3f080a3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindEffects
-  postProcessVolume: {fileID: 0}
-  rewindSaturation: -50
-  rewindChromaticAberration: 0.5
-  rewindVignetteIntensity: 0.4
-  effectTransitionSpeed: 5
-  rewindTintColor: {r: 0.5, g: 0.7, b: 1, a: 0.2}
-  rewindBurstDuration: 1
-  burstSaturation: -100
-  burstChromaticAberration: 0.8
-  burstVignetteIntensity: 0.6
-  burstTintColor: {r: 0.6, g: 0.85, b: 1, a: 0.35}
-  audioSource: {fileID: 0}
-  rewindLoopSound: {fileID: 0}
-  rewindStartSound: {fileID: 0}
-  rewindEndSound: {fileID: 0}
-  progressBar: {fileID: 0}
-  rewindIndicator: {fileID: 0}
 --- !u!114 &893864179
 MonoBehaviour:
   m_ObjectHideFlags: 0

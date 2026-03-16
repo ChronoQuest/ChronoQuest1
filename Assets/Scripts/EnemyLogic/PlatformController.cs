@@ -5,8 +5,6 @@ public class PlatformController : MonoBehaviour, IRewindable
 {
     private Rigidbody2D rb;
     private bool isRewinding;
-    private RigidbodyType2D originalBodyType;
-
     public float moveHeight = 5f;
     public float duration = 2f;
     public float topWait = 5f;
@@ -80,7 +78,6 @@ public class PlatformController : MonoBehaviour, IRewindable
     public void OnStartRewind()
     {
         isRewinding = true;
-        originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
     }
@@ -88,7 +85,6 @@ public class PlatformController : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         isRewinding = false;
-        rb.bodyType = originalBodyType;
     }
 
     public RewindState CaptureState()
