@@ -39143,6 +39143,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 4316635315353055952, guid: 6fefbb076a560f34db23e13239278ac9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 4852953718282003925, guid: 6fefbb076a560f34db23e13239278ac9, type: 3}
       propertyPath: m_Size.x
       value: 29
@@ -53615,7 +53619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: f259b89509694c84ebfc9033eae19ac3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.2
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: f259b89509694c84ebfc9033eae19ac3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -53659,7 +53663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: f259b89509694c84ebfc9033eae19ac3, type: 3}
       propertyPath: m_SortingLayer
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: f259b89509694c84ebfc9033eae19ac3, type: 3}
       propertyPath: m_SortingLayerID
@@ -54676,7 +54680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 315bc3d49e1cb0948a89aea9fdee1e5c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.3
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 315bc3d49e1cb0948a89aea9fdee1e5c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -54712,7 +54716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 315bc3d49e1cb0948a89aea9fdee1e5c, type: 3}
       propertyPath: m_SortingLayer
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 315bc3d49e1cb0948a89aea9fdee1e5c, type: 3}
       propertyPath: m_SortingLayerID

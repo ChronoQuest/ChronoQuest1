@@ -506575,10 +506575,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF Dungeon Props - Skull 04
       objectReference: {fileID: 0}
-    - target: {fileID: 390456860282783827, guid: 1b8ac58098173034d9b23d9d1d077d3d, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 1b8ac58098173034d9b23d9d1d077d3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -44.22
@@ -523347,10 +523343,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 6689295413001620006, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 7045375336214863149, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -527262,7 +527254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1840657767}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Decor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531238,10 +531230,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF Dungeon Props - Skull 01
       objectReference: {fileID: 0}
-    - target: {fileID: 390456860282783827, guid: 5629bf9f56ae20241908fee4c73917a1, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 5629bf9f56ae20241908fee4c73917a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -55.88385
@@ -532217,10 +532205,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 5735316943426960261, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6689295413001620006, guid: 0eab102a84f26d649876c6762bdc6aed, type: 3}
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
