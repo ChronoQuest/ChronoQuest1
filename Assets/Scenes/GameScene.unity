@@ -1877,7 +1877,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_Size.x
-      value: 0.44881082
+      value: 0.44757956
       objectReference: {fileID: 0}
     - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_Size.y
@@ -1885,7 +1885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_Offset.x
-      value: 0.0826
+      value: 0.083215624
       objectReference: {fileID: 0}
     - target: {fileID: 1738974013343632117, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: m_Offset.y
@@ -2386,7 +2386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: zoomSize
-      value: 5.5
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 8424041264229949836, guid: b666e3aa77dbac541b1c95cec6259bf1, type: 3}
       propertyPath: cameraOffset.x
