@@ -139,7 +139,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         // Trigger Jump if grounded and cooldown is ready
         if (isGrounded && Time.time >= lastHopTime + hopCooldown)
         {
-        StartCoroutine(JumpRoutine(direction.x, 1f, 1f));
+        StartCoroutine(JumpRoutine(direction.x, false, 1f, 1f));
         lastHopTime = Time.time;
         }
     }
@@ -149,7 +149,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     /// Instead of letting the Animator play automatically, we dictate specific frames
     /// based on physics velocity and timing.
     /// </summary>
-    IEnumerator JumpRoutine(float xDir, float heightMultiplier = 1f, float distanceMultiplier = 1f, bool dodge = false)
+    IEnumerator JumpRoutine(float xDir, bool dodge, float heightMultiplier = 1f, float distanceMultiplier = 1f)
     {
         Vector2 direction = (player.position - transform.position).normalized;
         if (direction.x > 0) spriteRenderer.flipX = false;
@@ -170,7 +170,6 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
             spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
         }
-        gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
         currentStateLabel = "Launching";
         animator.SetTrigger("hop");
         rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier,hopForce * heightMultiplier);
@@ -242,6 +241,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         }
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("touched player");
             playerInContact = true;
             Attack();
             return; // EXIT: Do not count Player body as "Ground"
@@ -410,7 +410,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         float xDir = Mathf.Sign(approachDirection.x);
 
         StopAllCoroutines();
-        StartCoroutine(JumpRoutine(xDir, 2f, 2f));
+        StartCoroutine(JumpRoutine(xDir, false, 2f, 2f));
     }
     public void ExecuteDodge()
     {
@@ -463,7 +463,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             xDir *= -1f;
 
         StopAllCoroutines();
-        StartCoroutine(JumpRoutine(xDir, 1.3f, 1.5f, true));
+        StartCoroutine(JumpRoutine(xDir, true, 1.3f, 1.5f));
     }
     public bool IsPerformingForesightAction()
     {
