@@ -12,9 +12,19 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
     [Header("Movement")]
     public float retreatSpeed = 2f;
 
+    [Header("Physics & Environment")]
+    public LayerMask groundLayer;
+    [Tooltip("How far below the skeleton's feet to look for the ground when dying. Increase this if it falls into the floor.")]
+    public float groundDetectionOffset = 1.3f;
+
+    [Header("Behavior")]
+    [Tooltip("If true, the skeleton will not retreat and will shoot from its position.")]
+    public bool isStatic = false;
+
     [Header("Shooting")]
     public int damage = 1;
     public float shootCooldown = 2f;
+    private bool isShooting = false;
 
     [Header("References")]
     [SerializeField] private Transform _player;
@@ -34,11 +44,14 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     [Header("Arrow Spawn")]
     public Vector2 arrowSpawnOffset = new Vector2(0.3f, 0.5f);
+    
+    [Header("Revive")]
+    public float reviveAnimDuration = 0.9f;
 
     private Animator animator;
     private Collider2D col;
 
-    private enum State { Idle, Retreat, Shoot, Hit, Dead }
+    private enum State { Idle, Retreat, Shoot }
     [SerializeField] private State currentState = State.Idle;
 
     private float lastShootTime;
@@ -46,7 +59,11 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
     private Vector2 pendingArrowDirection;
 
     private ArrowProjectile[] arrowPool;
-    private RewindState? _lastAppliedState;
+
+    // --- REWIND SAFE VARIABLES ---
+    private bool isDying = false;
+    private bool isReviving;
+    private float reviveTimer;
 
     protected override void Awake()
     {
@@ -54,7 +71,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
         originalScale = transform.localScale;
-        stunOnLand = true;
+        stunOnLand = true; // Keeps your existing OnCollisionEnter stun logic intact
         BuildArrowPool();
     }
 
@@ -73,14 +90,24 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     void Update()
     {
-        if (isRewinding || wasDead || isStunned || isLaunched) return;
+        if (isRewinding) return;
+
+        // --- TIMER UPDATES ---
+        if (isReviving)
+        {
+            reviveTimer -= Time.deltaTime;
+            if (reviveTimer <= 0) isReviving = false;
+        }
+
+        // If dead, dying, reviving, launched, or stunned -> Do nothing.
+        if (wasDead || isDying || isReviving || isStunned || isLaunched) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
 
         if (dist > detectionRange)
             currentState = State.Idle;
-        else if (dist < safeDistance)
+        else if (!isStatic && dist < safeDistance)
             currentState = State.Retreat;
         else if (dist <= shootRange)
             currentState = State.Shoot;
@@ -93,7 +120,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isStunned || isLaunched) return;
+        if (isRewinding || wasDead || isDying || isReviving || isStunned || isLaunched) return;
 
         switch (currentState)
         {
@@ -112,7 +139,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
     void Retreat()
     {
-        if (player == null) return;
+        if (player == null || isShooting) return;
         Vector2 dir = ((Vector2)transform.position - (Vector2)player.position).normalized;
         rb.linearVelocity = new Vector2(dir.x * retreatSpeed, rb.linearVelocity.y);
         FaceDirection(dir.x);
@@ -121,7 +148,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
     void TryShoot()
     {
         if (Time.time < lastShootTime + shootCooldown) return;
-
+        isShooting=true;
         pendingArrowDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
         FaceDirection(pendingArrowDirection.x);
 
@@ -134,7 +161,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
     /// </summary>
     public void FireArrow()
     {
-        if (wasDead || isRewinding || isLaunched || isStunned) return;
+        if (wasDead || isDying || isRewinding || isLaunched || isStunned) return;
 
         ArrowProjectile arrow = GetPooledArrow();
         if (arrow == null) return;
@@ -147,6 +174,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         arrow.transform.rotation = Quaternion.identity;
         arrow.gameObject.SetActive(true);
         arrow.Launch(pendingArrowDirection, damage);
+        isShooting=false;
     }
 
     ArrowProjectile GetPooledArrow()
@@ -168,32 +196,100 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
-    // ================= REVIVE =================
+    // ================= DAMAGE & STUN =================
 
-    [Header("Revive")]
-    public float reviveAnimDuration = 0.9f;
-
-    public override void Revive()
+    public override void TakeDamage(int amount)
     {
-        base.Revive();
-        if (animator != null) animator.SetTrigger("Revive");
-        StartCoroutine(ReviveStunRoutine());
+        if (wasDead || isDying) return; 
+        
+        if (health - amount > 0)
+        {
+            animator?.SetTrigger("Hit");
+        }
+        base.TakeDamage(amount);
     }
 
-    IEnumerator ReviveStunRoutine()
+    public override void ApplyKnockback(Vector2 force)
     {
-        isStunned = true;
-        yield return new WaitForSeconds(reviveAnimDuration);
-        isStunned = false;
+        // Removed StopAllCoroutines() to prevent breaking the death fall sequence if hit immediately upon death
+        base.ApplyKnockback(force);
+
+        if (animator != null && !isDying) 
+        {
+            animator.SetTrigger("Hit"); 
+        }
     }
 
-    // ================= DEATH =================
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // This keeps your existing airborne landing stun logic intact
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            if (contact.normal.y > 0.7f)
+            {
+                if (isLaunched && stunOnLand)
+                {
+                    StartCoroutine(HitStunRoutine(0.5f)); 
+                }
+            }
+        }
+    }
+
+    // ================= REFACTORED DEATH =================
 
     public override void Die()
     {
-        base.Die();
-        StopAllCoroutines();
+        if (wasDead || isDying) return;
+        
+        wasDead = true;
+        isDying = true;
+        
+        if (animator != null) animator.SetFloat("Speed", 0f);
+        
+        if (col != null) col.enabled = false;
+
+        StartCoroutine(HandleSkeletonDeath());
+    }
+
+    private IEnumerator HandleSkeletonDeath()
+    {
+        // Note: Your original script used "Dead" instead of "Die" for the trigger string. 
         if (animator != null) animator.SetTrigger("Dead");
+
+        if (col != null)
+        {
+            float checkDist = col.bounds.extents.y + groundDetectionOffset;
+            while (!Physics2D.Raycast(transform.position, Vector2.down, checkDist, groundLayer))
+            {
+                yield return null;
+            }
+        }
+
+        rb.linearVelocity = Vector2.zero; 
+        rb.angularVelocity = 0f;
+        rb.bodyType = RigidbodyType2D.Kinematic; 
+        
+        isDying = false; 
+    }
+
+    // ================= REVIVE =================
+
+    public override void Revive()
+    {
+        StopAllCoroutines(); 
+        
+        base.Revive();
+        isDying = false;
+        
+        isReviving = true;
+        reviveTimer = reviveAnimDuration;
+        
+        rb.bodyType = originalBodyType; 
+        rb.gravityScale = 1f; 
+        if (col != null) col.enabled = true;
+        
+        if (sprite != null) sprite.enabled = true;
+        animator?.SetTrigger("Revive");
     }
 
     // ================= REWIND =================
@@ -202,11 +298,13 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
     {
         base.OnStartRewind();
         StopAllCoroutines();
+        isDying = false; 
     }
-
-    public override void OnStopRewind()
+        public override void OnStopRewind()
     {
-        base.OnStopRewind();
+        isRewinding = false;
+        // Restore alive body type if living, keep frozen if still dead
+        rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
     }
 
     public override RewindState CaptureState()
@@ -215,6 +313,14 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
 
         state.SetCustomData("EnemyState", (int)currentState);
         state.SetCustomData("FacingDirection", transform.localScale);
+        
+        state.SetCustomData("isReviving", isReviving);
+        state.SetCustomData("reviveTimer", reviveTimer);
+        
+        state.SetCustomData("isDying", isDying);
+        state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
+        state.SetCustomData("colEnabled", col != null && col.enabled);
+
         if (animator != null)
         {
             AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -225,44 +331,37 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable
         return state;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Check if we hit a floor layer or something tagged as ground
-        foreach (ContactPoint2D contact in collision.contacts)
-        {
-            // If the surface normal is pointing up, it's a floor
-            if (contact.normal.y > 0.7f)
-            {
-                // If we were flying from a knockback, trigger the stun now
-                if (isLaunched && stunOnLand)
-                {
-                    StartCoroutine(HitStunRoutine(0.5f)); // This sets isStunned = true and isLaunched = false
-                }
-            }
-        }
-    }
-
-    public override void ApplyKnockback(Vector2 force)
-    {
-        StopAllCoroutines();
-    
-        base.ApplyKnockback(force);
-
-        if (animator != null) 
-        {
-            animator.SetTrigger("Hit"); 
-        }
-    }
-
     public override void ApplyState(RewindState state)
     {
         base.ApplyState(state);
-        _lastAppliedState = state;
 
         currentState = (State)state.GetCustomData<int>("EnemyState", (int)State.Idle);
         transform.localScale = state.GetCustomData<Vector3>("FacingDirection", originalScale);
+        
+        isReviving = state.GetCustomData<bool>("isReviving");
+        reviveTimer = state.GetCustomData<float>("reviveTimer");
+        
+        isDying = state.GetCustomData<bool>("isDying");
+
+        if (sprite != null)
+            sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
+            
+        if (col != null)
+            col.enabled = state.GetCustomData<bool>("colEnabled", true);
 
         if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw the ground detection raycast
+        Collider2D localCol = GetComponent<Collider2D>(); 
+        if (localCol != null)
+        {
+            Gizmos.color = Color.cyan;
+            float checkDist = localCol.bounds.extents.y + groundDetectionOffset;
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3.down * checkDist));
+        }
     }
 }

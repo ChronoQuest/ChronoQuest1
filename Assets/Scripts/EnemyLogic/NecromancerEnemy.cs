@@ -10,14 +10,25 @@ public class NecromancerEnemy : EnemyBase
     public float safeDistance = 4f;
     public float moveSpeed = 2f;
 
+    [Header("Physics & Environment")]
+    public LayerMask groundLayer;
+    [Tooltip("How far below the feet to look for the ground when dying.")]
+    public float groundDetectionOffset = 1.3f;
+
+    [Header("Ledge Detection")]
+    public float ledgeCheckOffset = 1.5f;
+    public float ledgeCheckDepth = 2f;
+
     [Header("Revive")]
     public float reviveCooldown = 5f;
-    public float reviveAnimDuration = 1.2f; // match NecromancerRevive clip length
+    public float reviveAnimDuration = 1.2f; 
+    [Tooltip("How many seconds a minion must be dead before the Necromancer can revive it.")]
+    public float minionDeadRequiredTime = 3f;
 
     [Header("Attack")]
     public float attackRange = 8f;
     public float attackCooldown = 3f;
-    public float attackAnimDuration = 0.8f; // match NecromancerAttack clip length
+    public float attackAnimDuration = 0.8f; 
     public int attackDamage = 1;
     public GameObject spellPrefab;
     public int spellPoolSize = 3;
@@ -30,20 +41,29 @@ public class NecromancerEnemy : EnemyBase
     private Collider2D col;
     private Vector3 originalScale;
 
+    // --- REWIND SAFE VARIABLES ---
     private float lastReviveTime = -99f;
     private bool isReviving;
+    private float reviveTimer = 0f; 
 
     private NecromancerSpell[] spellPool;
     private float lastAttackTime = -99f;
     private bool isAttacking;
+    private float attackTimer = 0f; 
+    
+    // Dynamic array to track how long each specific minion has been dead
+    private float[] minionDeadTimers;
+
+    private bool isDying = false;
+    
     private Vector2 pendingSpellDirection;
 
     private enum State { Idle, BackAway, Revive, Attack }
-    private State currentState = State.Idle;
+    [SerializeField] private State currentState = State.Idle;
 
     protected override void Awake()
     {
-        health = 3;
+       
         base.Awake();
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
@@ -73,23 +93,80 @@ public class NecromancerEnemy : EnemyBase
 
     void Update()
     {
-        if (isRewinding || wasDead || isReviving || isAttacking) return;
+        if (isRewinding) return;
+
+        // --- TIMER UPDATES ---
+        if (isReviving)
+        {
+            reviveTimer -= Time.deltaTime;
+            if (reviveTimer <= 0)
+            {
+                isReviving = false;
+                lastReviveTime = Time.time;
+            }
+        }
+
+        if (isAttacking)
+        {
+            attackTimer -= Time.deltaTime;
+            if (attackTimer <= 0)
+            {
+                isAttacking = false;
+                lastAttackTime = Time.time;
+            }
+        }
+
+        // --- DYNAMIC MINION DEAD TIMERS ---
+        // Ensure array matches minion count (in case minions are added dynamically)
+        if (minionDeadTimers == null || minionDeadTimers.Length != minions.Count)
+            minionDeadTimers = new float[minions.Count];
+
+        for (int i = 0; i < minions.Count; i++)
+        {
+            if (minions[i] != null && minions[i].IsDead)
+                minionDeadTimers[i] += Time.deltaTime;
+            else
+                minionDeadTimers[i] = 0f; // Reset if alive
+        }
+
+        if (wasDead || isDying || isAttacking || isReviving || isStunned) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
 
         if (CanRevive())
+        {
             currentState = State.Revive;
+        }
         else if (dist > detectionRange)
+        {
             currentState = State.Idle;
+        }
         else if (dist < safeDistance)
-            currentState = State.BackAway;
+        {
+            float retreatDirX = transform.position.x - player.position.x;
+            
+            if (IsNearLedge(retreatDirX))
+            {
+                if (CanAttack())
+                    currentState = State.Attack;
+                else
+                    currentState = State.Idle;
+            }
+            else
+            {
+                currentState = State.BackAway;
+            }
+        }
         else if (dist <= attackRange && CanAttack())
+        {
             currentState = State.Attack;
+        }
         else
+        {
             currentState = State.Idle;
+        }
 
-        // Always face the player when detected
         if (dist <= detectionRange)
             FacePlayer();
 
@@ -98,7 +175,13 @@ public class NecromancerEnemy : EnemyBase
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isStunned || isReviving || isAttacking) return;
+        if (isRewinding || wasDead || isDying || isStunned) return;
+
+        if (isReviving || isAttacking)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
 
         switch (currentState)
         {
@@ -113,58 +196,58 @@ public class NecromancerEnemy : EnemyBase
 
             case State.Revive:
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-                StartCoroutine(ReviveRoutine());
+                StartRevive(); 
                 break;
 
             case State.Attack:
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-                StartCoroutine(AttackRoutine());
+                StartAttack(); 
                 break;
         }
     }
 
-    bool CanRevive()
+    bool IsNearLedge(float desiredMoveDirectionX)
     {
-        return !isReviving
-            && Time.time >= lastReviveTime + reviveCooldown
-            && HasDeadMinion();
+        float dir = Mathf.Sign(desiredMoveDirectionX); 
+        Vector2 checkPosition = (Vector2)transform.position + new Vector2(dir * ledgeCheckOffset, 0);
+        RaycastHit2D hit = Physics2D.Raycast(checkPosition, Vector2.down, ledgeCheckDepth, groundLayer);
+        return hit.collider == null; 
     }
 
-    bool HasDeadMinion()
+    // --- REFACTORED REVIVE CHECKS ---
+    bool CanRevive() => !isReviving && Time.time >= lastReviveTime + reviveCooldown && HasRevivableMinion();
+
+    bool HasRevivableMinion()
     {
-        foreach (var m in minions)
-            if (m != null && m.IsDead) return true;
+        for (int i = 0; i < minions.Count; i++)
+        {
+            // Only return true if a minion has been dead longer than the required time threshold
+            if (minions[i] != null && minions[i].IsDead && minionDeadTimers[i] >= minionDeadRequiredTime) 
+                return true;
+        }
         return false;
     }
 
-    IEnumerator ReviveRoutine()
+    void StartRevive()
     {
         isReviving = true;
-        rb.linearVelocity = Vector2.zero;
+        reviveTimer = reviveAnimDuration;
         animator?.SetTrigger("Revive");
-        // ReviveMinion() is called by Animation Event mid-clip
-        yield return new WaitForSeconds(reviveAnimDuration);
-        lastReviveTime = Time.time;
-        isReviving = false;
     }
 
     bool CanAttack() => !isAttacking && Time.time >= lastAttackTime + attackCooldown;
 
-    IEnumerator AttackRoutine()
+    void StartAttack()
     {
         isAttacking = true;
+        attackTimer = attackAnimDuration;
         pendingSpellDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
         animator?.SetTrigger("Attack");
-        // FireSpell() is called by Animation Event mid-clip
-        yield return new WaitForSeconds(attackAnimDuration);
-        lastAttackTime = Time.time;
-        isAttacking = false;
     }
 
-    // Called by Animation Event on the NecromancerAttack clip at the cast frame
     public void FireSpell()
     {
-        if (wasDead || isRewinding) return;
+        if (wasDead || isDying || isRewinding || isStunned) return;
         NecromancerSpell spell = GetPooledSpell();
         if (spell == null) return;
         spell.transform.position = transform.position;
@@ -172,14 +255,18 @@ public class NecromancerEnemy : EnemyBase
         spell.Launch(pendingSpellDirection, attackDamage);
     }
 
-    // Called by Animation Event on the NecromancerRevive clip at the peak frame
     public void ReviveMinion()
     {
-        if (wasDead || isRewinding) return;
-        foreach (var m in minions)
+        if (wasDead || isDying || isRewinding) return;
+        
+        for (int i = 0; i < minions.Count; i++)
         {
-            if (m != null && m.IsDead)
-                m.Revive();
+            // Only revive the ones that meet the threshold! (Prevents instant-resurrection)
+            if (minions[i] != null && minions[i].IsDead && minionDeadTimers[i] >= minionDeadRequiredTime)
+            {
+                minions[i].Revive();
+                minionDeadTimers[i] = 0f; // Reset their specific death timer
+            }
         }
     }
 
@@ -193,44 +280,104 @@ public class NecromancerEnemy : EnemyBase
 
     public override void TakeDamage(int amount)
     {
-        if (wasDead) return;
-        animator?.SetTrigger("Hit");
+        if (wasDead || isDying) return;
+        
+        animator?.SetBool("isWalking", false);
+        if (health - amount > 0)
+        {
+            animator?.SetTrigger("Hit");
+        }
+        
         base.TakeDamage(amount);
     }
 
+    // ================= REFACTORED DEATH =================
     public override void Die()
     {
-        isReviving = false;
+        if (wasDead || isDying) return;
+        
+        wasDead = true;
+        isDying = true;
         isAttacking = false;
-        animator?.SetTrigger("Die");
-        base.Die();          // handles wasDead, Kinematic, zero velocity, collider, DeathRoutine
-        StopAllCoroutines(); // cancel DeathRoutine so corpse stays visible
+        isReviving = false;
+        animator?.SetBool("isWalking", false);
+        
+        if (col != null) col.enabled = false;
+        OnDeath?.Invoke();         
+        
+        StartCoroutine(HandleNecromancerDeath());
     }
 
-    // ================= REWIND =================
+    private IEnumerator HandleNecromancerDeath()
+    {
+        if (animator != null) animator.SetTrigger("Die");
+
+        if (col != null)
+        {
+            float checkDist = col.bounds.extents.y + groundDetectionOffset;
+            while (!Physics2D.Raycast(transform.position, Vector2.down, checkDist, groundLayer))
+            {
+                yield return null;
+            }
+        }
+
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        rb.bodyType = RigidbodyType2D.Kinematic; 
+        
+        isDying = false; 
+    }
+
+    // ================= REVIVE / REWIND LOGIC =================
+
+    public override void Revive()
+    {
+        StopAllCoroutines(); 
+        
+        base.Revive();
+        isDying = false;
+        isAttacking = false;
+        isReviving = false;
+        
+        rb.bodyType = originalBodyType; 
+        rb.gravityScale = 1f; 
+        if (col != null) col.enabled = true;
+        
+        if (sprite != null) sprite.enabled = true;
+    }
 
     public override void OnStartRewind()
     {
         base.OnStartRewind();
         StopAllCoroutines();
-        isReviving = false;
-        isAttacking = false;
+        isDying = false;
         if (col != null) col.enabled = true;
     }
 
     public override void OnStopRewind()
     {
-        base.OnStopRewind();
-        isReviving = false;
-        isAttacking = false;
+        isRewinding = false;
+        // Restore alive body type if living, keep frozen if still dead
+        rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
     }
 
     public override RewindState CaptureState()
     {
         var state = base.CaptureState();
+        
         state.SetCustomData("lastReviveTime", lastReviveTime);
         state.SetCustomData("isReviving", isReviving);
+        state.SetCustomData("reviveTimer", reviveTimer);
+
         state.SetCustomData("lastAttackTime", lastAttackTime);
+        state.SetCustomData("isAttacking", isAttacking);
+        state.SetCustomData("attackTimer", attackTimer);
+        
+        state.SetCustomData("isDying", isDying);
+        
+        // Save the array of minion dead timers
+        state.SetCustomData("minionDeadTimers", minionDeadTimers != null ? (float[])minionDeadTimers.Clone() : new float[0]);
+
         state.SetCustomData("colEnabled", col != null && col.enabled);
         state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
         state.SetCustomData("localScale", transform.localScale);
@@ -248,9 +395,21 @@ public class NecromancerEnemy : EnemyBase
     public override void ApplyState(RewindState state)
     {
         base.ApplyState(state);
+        
         lastReviveTime = state.GetCustomData<float>("lastReviveTime");
         isReviving = state.GetCustomData<bool>("isReviving");
+        reviveTimer = state.GetCustomData<float>("reviveTimer");
+
         lastAttackTime = state.GetCustomData<float>("lastAttackTime");
+        isAttacking = state.GetCustomData<bool>("isAttacking");
+        attackTimer = state.GetCustomData<float>("attackTimer");
+        
+        isDying = state.GetCustomData<bool>("isDying");
+        
+        // Restore the array of minion dead timers
+        float[] savedTimers = state.GetCustomData<float[]>("minionDeadTimers");
+        if (savedTimers != null) minionDeadTimers = (float[])savedTimers.Clone();
+
         transform.localScale = state.GetCustomData<Vector3>("localScale", originalScale);
 
         if (col != null)
@@ -261,5 +420,23 @@ public class NecromancerEnemy : EnemyBase
 
         if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Vector2 rightCheck = (Vector2)transform.position + new Vector2(ledgeCheckOffset, 0);
+        Vector2 leftCheck = (Vector2)transform.position + new Vector2(-ledgeCheckOffset, 0);
+        Gizmos.DrawLine(rightCheck, rightCheck + Vector2.down * ledgeCheckDepth);
+        Gizmos.DrawLine(leftCheck, leftCheck + Vector2.down * ledgeCheckDepth);
+        
+        // Ground detection Gizmo
+        Collider2D localCol = GetComponent<Collider2D>(); 
+        if (localCol != null)
+        {
+            Gizmos.color = Color.yellow;
+            float groundDist = localCol.bounds.extents.y + groundDetectionOffset;
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3.down * groundDist));
+        }
     }
 }
