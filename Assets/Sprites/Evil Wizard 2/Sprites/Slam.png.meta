@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 9b5f0ee250c53034a8f0fa63445f720c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 335924325867934967
+    second: Slam_0
+  - first:
+      213: -2360095784181793489
+    second: Slam_1
+  - first:
+      213: 1217721581023184320
+    second: Slam_2
+  - first:
+      213: -4554149958561451139
+    second: Slam_3
+  - first:
+      213: 8025382400634129578
+    second: Slam_4
+  - first:
+      213: -6824642097693188143
+    second: Slam_5
+  - first:
+      213: 8409960875397190109
+    second: Slam_6
+  - first:
+      213: 6405666628223289621
+    second: Slam_7
+  - first:
+      213: -2252386534399486801
+    second: Slam_8
+  - first:
+      213: 3771603032921193845
+    second: Slam_9
+  - first:
+      213: -5458580822202026411
+    second: Slam_10
+  - first:
+      213: -5351156411520848105
+    second: Slam_11
+  - first:
+      213: -446854717551575748
+    second: Slam_12
+  - first:
+      213: 1068750981713772690
+    second: Slam_13
+  - first:
+      213: -2174205779870218993
+    second: Slam_14
+  - first:
+      213: 7100254157228252229
+    second: Slam_15
+  - first:
+      213: 1096354767074933452
+    second: Slam_16
+  - first:
+      213: -8444922355278715175
+    second: Slam_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Slam_0
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 8
+        width: 100
+        height: 160
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f455c2056179a400800000000000000
+      internalID: 335924325867934967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_1
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 160
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2d72fb73614f3fd0800000000000000
+      internalID: -2360095784181793489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_2
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 153
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c5c630835736e010800000000000000
+      internalID: 1217721581023184320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_3
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 160
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d73b51addb86cc0c0800000000000000
+      internalID: -4554149958561451139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_4
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 158
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aac0878e5c2ef5f60800000000000000
+      internalID: 8025382400634129578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_5
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 8
+        width: 127
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1df12dfab200a41a0800000000000000
+      internalID: -6824642097693188143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_6
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 8
+        width: 161
+        height: 158
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd19bf8bbde26b470800000000000000
+      internalID: 8409960875397190109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_7
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 152
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 519c2d41cdf75e850800000000000000
+      internalID: 6405666628223289621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_8
+      rect:
+        serializedVersion: 2
+        x: 1184
+        y: 159
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa4de30716aedb0e0800000000000000
+      internalID: -2252386534399486801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_9
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 157
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57dbd03c9fc675430800000000000000
+      internalID: 3771603032921193845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_10
+      rect:
+        serializedVersion: 2
+        x: 1294
+        y: 8
+        width: 92
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55673eab9a93f34b0800000000000000
+      internalID: -5458580822202026411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_11
+      rect:
+        serializedVersion: 2
+        x: 1354
+        y: 155
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71feeb9689fdcb5b0800000000000000
+      internalID: -5351156411520848105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_12
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 134
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3d712e70047cc9f0800000000000000
+      internalID: -446854717551575748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_13
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 8
+        width: 101
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 290466afa57f4de00800000000000000
+      internalID: 1068750981713772690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_14
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 8
+        width: 117
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f050c36dc5ba3d1e0800000000000000
+      internalID: -2174205779870218993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_15
+      rect:
+        serializedVersion: 2
+        x: 1104
+        y: 7
+        width: 101
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54c9498898b298260800000000000000
+      internalID: 7100254157228252229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_16
+      rect:
+        serializedVersion: 2
+        x: 904
+        y: 8
+        width: 128
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccabe471ad8073f00800000000000000
+      internalID: 1096354767074933452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slam_17
+      rect:
+        serializedVersion: 2
+        x: 1025
+        y: 25
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d66bd96cdb9dca80800000000000000
+      internalID: -8444922355278715175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Slam_0: 335924325867934967
+      Slam_1: -2360095784181793489
+      Slam_10: -5458580822202026411
+      Slam_11: -5351156411520848105
+      Slam_12: -446854717551575748
+      Slam_13: 1068750981713772690
+      Slam_14: -2174205779870218993
+      Slam_15: 7100254157228252229
+      Slam_16: 1096354767074933452
+      Slam_17: -8444922355278715175
+      Slam_2: 1217721581023184320
+      Slam_3: -4554149958561451139
+      Slam_4: 8025382400634129578
+      Slam_5: -6824642097693188143
+      Slam_6: 8409960875397190109
+      Slam_7: 6405666628223289621
+      Slam_8: -2252386534399486801
+      Slam_9: 3771603032921193845
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

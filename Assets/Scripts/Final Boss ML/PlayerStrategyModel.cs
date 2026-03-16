@@ -99,6 +99,7 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         return best;
+        //return StrategyType.AbilityFocusedPlayer;
     }
 
 }

@@ -18,6 +18,8 @@ public class Boss : EnemyBase, IRewindable
     bool isGrounded;
     float lastDamageTime;
 
+    bool isPlayingAttack;
+
     enum BossPhase { Idle, Positional, Combat }
     enum PosMove { None, GroundPound, ChangeSides }
     enum OffMove { None, Fireballs, FireColumns, HomingFireballs, FireExplosion }
@@ -45,12 +47,14 @@ public class Boss : EnemyBase, IRewindable
     float finalTargetX;
     private Vector3 originalScale;
     private Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
         originalScale = transform.localScale;
         animator = GetComponent<Animator>();
+        FacePlayer();
         musicController = FindFirstObjectByType<RewindMusicController>();
         if (musicController != null)
         {
@@ -70,6 +74,7 @@ public class Boss : EnemyBase, IRewindable
             case BossPhase.Combat: UpdateCombat(); break;
         }
     }
+
     void EndPhase()
     {
         currentPhase = BossPhase.Idle;
@@ -77,6 +82,17 @@ public class Boss : EnemyBase, IRewindable
         currentOff = OffMove.None;
         currentRes = ResMove.None;
         idleTimer = 0f;
+
+        animator.SetBool("isGrounded", true);
+    }
+
+    void FacePlayer()
+    {
+        if (player == null) return;
+        
+        int dir = player.position.x > transform.position.x ? 1 : -1;
+        
+        transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * dir, originalScale.y, originalScale.z);        
     }
 
     void UpdateIdle()
@@ -87,6 +103,7 @@ public class Boss : EnemyBase, IRewindable
         if (Random.value > 0.7f) StartPositional();
         else StartCombat();
     }
+
     void StartPositional()
     {
         currentPhase = BossPhase.Positional;
@@ -95,6 +112,7 @@ public class Boss : EnemyBase, IRewindable
         if (Random.value > 0.5f) StartGroundPound();
         else StartChangeSides();
     }
+
     void UpdatePositional()
     {
         if (currentPos == PosMove.GroundPound) UpdateGroundPound();
@@ -103,6 +121,9 @@ public class Boss : EnemyBase, IRewindable
 
     void StartChangeSides()
     {
+        animator.SetTrigger("ChangeSides");
+        animator.SetBool("isGrounded", false); 
+
         currentPos = PosMove.ChangeSides;
         Vector2 start = transform.position;
         moveStart = start;
@@ -111,6 +132,7 @@ public class Boss : EnemyBase, IRewindable
         float jumpHeight = 8f;
         movePeak = start + new Vector2((moveTarget.x - start.x) / 2, jumpHeight);
     }
+
     void UpdateChangeSides()
     {
         posTimer += Time.deltaTime;
@@ -152,6 +174,9 @@ public class Boss : EnemyBase, IRewindable
         moveStart = transform.position;
         movePeak = moveStart + new Vector2(lateral, jumpHeight);
         moveTarget = new Vector2(movePeak.x, moveStart.y);
+
+        animator.SetTrigger("GroundPound");
+        animator.SetBool("isGrounded", false);
     }
 
     void UpdateGroundPound()
@@ -181,6 +206,7 @@ public class Boss : EnemyBase, IRewindable
             {
                 cameraShake.Shake(0.25f, 0.2f);
                 isGrounded = true;
+                animator.SetBool("isGrounded", true);
             }
 
             // Once the pause is over, check if we loop or end
@@ -198,49 +224,42 @@ public class Boss : EnemyBase, IRewindable
             }
         }
     }
+
     void StartCombat()
+    {
+        isPlayingAttack = false;
+        FacePlayer();
+        facingDirection = player.position.x > transform.position.x ? -1 : 1; 
+
+        currentPhase = BossPhase.Combat;
+        offTimer = 0f; resTimer = 0f;
+        offIndex = 0; resIndex = 0;
+            
+        offActionSpawned = false; 
+        resActionSpawned = false;
+            
+        var strategy = playerStrategyModel.GetDominantStrategy();
+        Debug.Log($"Strategy: {strategy}"); 
+
+        Debug.Log("Boss reacting to strategy");
+
+        if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
         {
-            currentPhase = BossPhase.Combat;
-            offTimer = 0f; resTimer = 0f;
-            offIndex = 0; resIndex = 0;
-            
-            offActionSpawned = false; 
-            resActionSpawned = false;
-
-            // OLD LOGIC
-            // float rand = Random.value;
-
-            // if (rand < 0.25f)  currentOff = OffMove.Fireballs;
-            // else if (rand < 0.5f) currentOff = OffMove.FireColumns;
-            // else if (rand < 0.75f) currentOff = OffMove.HomingFireballs;
-            // else currentOff = OffMove.FireExplosion;
-
-            // rand = Random.value;
-            // if (rand < 0.25f) currentRes = ResMove.FireRow;
-            // else if (rand < 0.5f) currentRes = ResMove.FireWave;
-            // else if (rand < 0.75f) currentRes = ResMove.Platforms;
-            // else currentRes = ResMove.Enemy;
-            
-            var strategy = playerStrategyModel.GetDominantStrategy();
-
-            Debug.Log("Boss reacting to strategy");
-
-            if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
-            {
-                currentOff = OffMove.FireColumns;
-                currentRes = ResMove.Platforms;
-            }
-            else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
-            {
-                currentOff = OffMove.Fireballs;
-                currentRes = ResMove.Enemy;
-            }
-            else 
-            {
-                currentOff = OffMove.HomingFireballs;
-                currentRes = ResMove.FireWave;
-            }
+            currentOff = OffMove.FireColumns;
+            currentRes = ResMove.Platforms;
         }
+        else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+        {
+            currentOff = OffMove.Fireballs;
+            currentRes = ResMove.Enemy;
+        }
+        else 
+        {
+            currentOff = OffMove.HomingFireballs;
+            currentRes = ResMove.FireWave;
+        }
+    }
+
     void UpdateCombat()
     {
         bool offDone = UpdateOffensive();
@@ -264,8 +283,11 @@ public class Boss : EnemyBase, IRewindable
 
             if (offTimer > spawnDelay)
             {
+                if (isPlayingAttack) return false; 
                 offTimer = 0f;
-                attackManager.spawnFireball(facingDirection);
+                animator.SetTrigger("Attack1");
+                //attackManager.spawnFireball(facingDirection);
+                isPlayingAttack = true; 
                 offIndex++;
             }
             return false;
@@ -274,7 +296,9 @@ public class Boss : EnemyBase, IRewindable
         {
             if (!offActionSpawned) 
             {
-                attackManager.spawnFireColumns(facingDirection);
+                if (isPlayingAttack) return false; 
+                animator.SetTrigger("Attack2");
+                isPlayingAttack = true; 
                 offActionSpawned = true;
             }
             return offTimer > 5f;
@@ -287,8 +311,11 @@ public class Boss : EnemyBase, IRewindable
 
             if (offTimer > spawnDelay)
             {
+                if (isPlayingAttack) return false; 
                 offTimer = 0f;
-                attackManager.spawnHomingFireball(facingDirection);
+                //attackManager.spawnHomingFireball(facingDirection);
+                animator.SetTrigger("Attack1");
+                isPlayingAttack = true; 
                 offIndex++;
             }
             return false;
@@ -301,63 +328,124 @@ public class Boss : EnemyBase, IRewindable
 
             if (offTimer > spawnDelay)
             {
+                if (isPlayingAttack) return false;
                 offTimer = 0f;
-                attackManager.spawnFireExplosion(facingDirection);
+                //attackManager.spawnFireExplosion(facingDirection);
+                animator.SetTrigger("Attack1");
+                isPlayingAttack = true; 
                 offIndex++;
             }
             return false;
         }
         return true;
     }
+
     bool UpdateRestrictive()
     {
         resTimer += Time.deltaTime;
+
+        if (resTimer < 1.5f) return false;
 
         if (currentRes == ResMove.FireRow)
         {
             if (!resActionSpawned)
             {
-                attackManager.spawnFireRow(facingDirection);
+                if (isPlayingAttack) return false; 
+                animator.SetTrigger("Attack2");
+                //attackManager.spawnFireRow(facingDirection);
+                isPlayingAttack = true; 
                 resActionSpawned = true;
             }
-            return resTimer > 7f;
+            return resTimer > 8.5f;
         }
         else if (currentRes == ResMove.Enemy)
         {
             if (!resActionSpawned)
             {
-                attackManager.spawnEnemy(facingDirection);
+                if (isPlayingAttack) return false; 
+                animator.SetTrigger("Attack1");
+                //attackManager.spawnEnemy(facingDirection);
+                isPlayingAttack = true; 
                 resActionSpawned = true;
             }
-            return resTimer > 7f;
+            return resTimer > 8.5f;
         }
         else if (currentRes == ResMove.FireWave)
         {
             if (resIndex >= 7) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
-            float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
+            //float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
+            float spawnDelay = ((playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f) + 1.5f;
 
-            if (resTimer > spawnDelay)
+            if (resTimer > (spawnDelay + 1.5f))
             {
-                resTimer = 0f;
-                attackManager.spawnFireWave(facingDirection);
+                if (isPlayingAttack) return false; 
+                resTimer = 1.5f;
+                animator.SetTrigger("Attack2");
+                //attackManager.spawnFireWave(facingDirection);
+                isPlayingAttack = true; 
                 resIndex++;
             }
             return false;
         }
         else if (currentRes == ResMove.Platforms)
         {
-            if (!resActionSpawned) 
-            {
-                attackManager.spawnPlatforms(facingDirection);
-                attackManager.spawnFloorFire(facingDirection);
-                resActionSpawned = true;
-            }
+            // Platforms, FloorFire and FireColumns are a combined attack — spawned together in AnimEvent_Attack2
             PlatformController platform = FindFirstObjectByType<PlatformController>();
             return platform == null || platform.cycleComplete;
         }
         return true;
     }
+
+    public void AnimEvent_Attack1() 
+    {
+        // Check if we should spawn an Offensive attack
+        if (currentOff == OffMove.Fireballs)
+        {
+            attackManager.spawnFireball(facingDirection);
+        }
+        else if (currentOff == OffMove.HomingFireballs)
+        {
+            attackManager.spawnHomingFireball(facingDirection);
+        }
+
+        // Separately check if we should spawn a Restrictive attack
+        if (currentRes == ResMove.Enemy)
+        {
+            attackManager.spawnEnemy(facingDirection);
+        }
+    }
+
+    public void AnimEvent_Attack2()
+    {
+        // FireColumns + Platforms + FloorFire are a combined attack, spawn all together
+        if (currentOff == OffMove.FireColumns)
+        {
+            attackManager.spawnFireColumns(facingDirection);
+            attackManager.spawnPlatforms(facingDirection);
+            attackManager.spawnFloorFire(facingDirection);
+        }
+        else if (currentOff == OffMove.FireExplosion)
+        {
+            attackManager.spawnFireExplosion(facingDirection);
+        }
+
+        // Separately check if we should spawn a Restrictive attack
+        if (currentRes == ResMove.FireRow)
+        {
+            attackManager.spawnFireRow(facingDirection);
+        }
+        else if (currentRes == ResMove.FireWave)
+        {
+            attackManager.spawnFireWave(facingDirection);
+        }
+    }
+
+    public void AnimEvent_AttackComplete()
+    {
+        isPlayingAttack = false;
+    }
+
     void Damage()
     {
         if (Time.time >= lastDamageTime + damageCooldown)
@@ -372,9 +460,12 @@ public class Boss : EnemyBase, IRewindable
     {
         if (_isRewinding) return;
         if (col.gameObject.CompareTag("Player")) Damage();
-        if (col.gameObject.CompareTag("Ground")) isGrounded = true;
+        if (col.gameObject.CompareTag("Ground")) 
+        {
+            isGrounded = true;
+            animator.SetBool("isGrounded", true);
+        }
     }
-
 
     public override void OnStartRewind() { base.OnStartRewind(); _isRewinding = true; }
     public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }

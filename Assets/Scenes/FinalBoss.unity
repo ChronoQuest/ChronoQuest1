@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &63241256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4642224583646608178, guid: 47ae7722758f14b29a504bcf30d1b28e, type: 3}
+  m_PrefabInstance: {fileID: 659603001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b9863c6431a47bb85abc03131f1d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerTacticalModel
 --- !u!1001 &119915808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52290,6 +52301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508054503}
   - component: {fileID: 508054502}
+  - component: {fileID: 508054509}
   - component: {fileID: 508054505}
   - component: {fileID: 508054506}
   - component: {fileID: 508054507}
@@ -52350,8 +52362,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.45911938, g: 0.12560807, b: 0.12560807, a: 1}
+  m_Sprite: {fileID: -803321122, guid: 836ba81373ddf664c8a192783efe0ecd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -52369,8 +52381,8 @@ Transform:
   m_GameObject: {fileID: 508054501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: -3.3, z: 0.5}
-  m_LocalScale: {x: 8.31, y: 6.72, z: 1}
+  m_LocalPosition: {x: 10.65, y: -4.04, z: -0.5}
+  m_LocalScale: {x: 6.837747, y: 6.2215714, z: 1.1862}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1143889651}
@@ -52410,17 +52422,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.008891374, y: -0.13680814}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.3776006, y: 0.5830605}
   m_EdgeRadius: 0
 --- !u!50 &508054506
 Rigidbody2D:
@@ -52487,6 +52499,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::HitFlash
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+--- !u!95 &508054509
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508054501}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb7c18385ea5d91469f79702a8044b3a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &526924364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52583,8 +52617,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 63241256}
     m_RemovedComponents:
     - {fileID: 8686103127953602408, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+    - {fileID: 4777569780141679609, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -53370,7 +53409,6 @@ GameObject:
   - component: {fileID: 893864181}
   - component: {fileID: 893864180}
   - component: {fileID: 893864179}
-  - component: {fileID: 893864178}
   - component: {fileID: 893864177}
   - component: {fileID: 893864183}
   m_Layer: 0
@@ -53413,35 +53451,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d327957ef9034a14fa859fc952b23350, type: 2}
---- !u!114 &893864178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893864175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d021fdd0521760445bfb99a3f080a3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindEffects
-  postProcessVolume: {fileID: 0}
-  rewindSaturation: -50
-  rewindChromaticAberration: 0.5
-  rewindVignetteIntensity: 0.4
-  effectTransitionSpeed: 5
-  rewindTintColor: {r: 0.5, g: 0.7, b: 1, a: 0.2}
-  rewindBurstDuration: 1
-  burstSaturation: -100
-  burstChromaticAberration: 0.8
-  burstVignetteIntensity: 0.6
-  burstTintColor: {r: 0.6, g: 0.85, b: 1, a: 0.35}
-  audioSource: {fileID: 0}
-  rewindLoopSound: {fileID: 0}
-  rewindStartSound: {fileID: 0}
-  rewindEndSound: {fileID: 0}
-  progressBar: {fileID: 0}
-  rewindIndicator: {fileID: 0}
 --- !u!114 &893864179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53976,8 +53985,8 @@ Transform:
   m_GameObject: {fileID: 1143889650}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.016897313, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0, y: -0.28, z: -10}
+  m_LocalScale: {x: 0.26, y: 0.31, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 508054503}
