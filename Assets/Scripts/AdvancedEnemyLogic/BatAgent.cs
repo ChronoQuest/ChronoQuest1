@@ -33,7 +33,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     public float hoverFrequency = 2f; // Bob speed
     public float hoverAmplitude = 0.5f; // Max bob height
     public float moveSpeed = 5f;
-    public float detectionRange = 1f;
+    public float detectionRange = 5f;
     public int damage = 1;
     public float attackCooldown = 1.5f;
     public enum State { Sleeping, Idle, Chase }
@@ -47,7 +47,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     private Vector2 calculatedDodgeVector;
     private float sequenceSimilarity = 0f;
     [Header("Foresight AI Variables")]
-    public float foresightThreshold = 0.75f;
+    public GameObject foresightGlow;
+    public float foresightThreshold = 0.7f;
     public float dodgeTriggerDistance = 3.4f;
     // So the bat won't dodge into walls and floors!
     public LayerMask obstacleLayer;
@@ -120,7 +121,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
     void Update()
     {
-        if (isDead || isRewinding || trainingMode) return;
+        if (isDead || isRewinding || trainingMode || enemy.GetIsStunned()) return;
 
         if (playerCombat.isAttacking) highestAttackThisInterval = 1;
         else if (playerSpells.isCasting) highestAttackThisInterval = 2;
@@ -145,6 +146,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
             if (!hasForesight)
             {
                 hasForesight = true;
+                if(foresightGlow != null) foresightGlow.SetActive(true);
                 animator.SetBool("hasForesight", true);
             }
 
@@ -159,6 +161,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
             if (hasForesight && !isDodging)
             {
                 hasForesight = false;
+                if(foresightGlow != null) foresightGlow.SetActive(false);
                 animator.SetBool("hasForesight", false);
             }
         }
@@ -403,7 +406,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (isDead) return;
+        if (isDead | enemy.GetIsStunned()) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
         
         if (!trainingMode && distToPlayer > detectionRange)
@@ -473,6 +476,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     {
         if (isDodging || isDead || isRewinding) return;
         hasForesight = true;
+        if(foresightGlow != null) foresightGlow.SetActive(true);
         isDodging = true;
         dodgeTimer = dodgeDuration;
 
@@ -505,7 +509,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
     public void TriggerForesightLunge(Vector2 approachDirection)
     {
         if (isDodging || isDead || isRewinding) return;
+        currentState = State.Chase;
+        animator.SetTrigger("Chase");
         hasForesight = true;
+        if(foresightGlow != null) foresightGlow.SetActive(true);
         isDodging = true;
         dodgeTimer = dodgeDuration;
 
@@ -595,6 +602,11 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable
                 playerHealth.ModifyHealth(-damage);
             }
         }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        enemy.TakeDamage(amount);
     }
 
     void FacePlayer()
