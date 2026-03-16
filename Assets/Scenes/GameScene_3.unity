@@ -463773,6 +463773,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1941470544}
     - target: {fileID: 5649487038772824016, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1941470544}
+    - target: {fileID: 5649487038772824016, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
       propertyPath: isStatic
       value: 1
       objectReference: {fileID: 0}
