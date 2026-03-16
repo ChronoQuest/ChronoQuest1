@@ -43,6 +43,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
     public GameObject spikeHint; 
+    public GameObject spotlight; 
 
     // references to movement and health systems to use for triggering hint pop-ups 
     public PlayerPlatformer player;
@@ -131,6 +132,11 @@ public class TutorialManager : MonoBehaviour
         gameStartTime = Time.time; 
         
         DisableHints();
+
+        if (spotlight != null)
+        {
+            spotlight.SetActive(false); 
+        }
 
         currentStep = TutorialStep.None;
 
@@ -540,6 +546,10 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Rewind && !rewindCompleted)
         {
             rewindCompleted = true;
+
+            if (spotlight != null) 
+                spotlight.SetActive(false); 
+
             rewindFollow.enabled = false;
             HideHint(rewindHint);
 
@@ -653,6 +663,10 @@ public class TutorialManager : MonoBehaviour
             case TutorialStep.Rewind:
                 AllowOnly(PlayerAction.Rewind);
                 SlowingEnemies(20f, 0.15f); 
+
+                /* if (spotlight != null)
+                    spotlight.SetActive(true); */ 
+
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
