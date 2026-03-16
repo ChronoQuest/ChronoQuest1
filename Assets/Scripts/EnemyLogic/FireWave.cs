@@ -36,7 +36,7 @@ public class FireWave : MonoBehaviour, IRewindable
         if(_isRewinding) return;
         currentVelocity = new Vector2(-bossFacingDirection, 0f) * moveSpeed;
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
-        float limit = 15f;
+        float limit = 12f;
         if (Mathf.Abs(transform.position.x) > limit)
         {
             gameObject.SetActive(false);

@@ -239,8 +239,8 @@ public class Boss : EnemyBase, IRewindable
 
         if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
         {
-            currentOff = OffMove.FireColumns;
-            currentRes = ResMove.Platforms;
+            currentOff = OffMove.Fireballs;
+            currentRes = ResMove.FireWave;
         }
         else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
         {
