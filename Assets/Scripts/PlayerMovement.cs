@@ -185,8 +185,6 @@ public class PlayerPlatformer : MonoBehaviour
                 anim.SetFloat("Speed", 0f); 
                 anim.SetBool("isWallSliding", false); 
             }
-
-            return; 
         }
 
         //float direction = spriteRenderer.flipX ? -1f : 1f;
@@ -452,11 +450,14 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        Debug.Log($"OnDash fired: phase = {context.phase}");
+        Debug.Log($"DASH callback: phase={context.phase}, control={context.control}, device={context.control?.device}");
 
         if (!IsActionAllowed(PlayerAction.Dash))
+        {
+            Debug.Log("JUMP blocked: action not allowed");
             return;
-        
+        }
+    
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
         
@@ -499,6 +500,7 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = false;
 
         tutorialManager?.OnPlayerDash();
+        tutorialManager?.OnPlayerDodge(); 
         DataCollectionService.Instance?.RecordDash();
 
         if (anim != null) 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic; 
 
 public class CameraFollow2D : MonoBehaviour
 {
@@ -15,11 +16,20 @@ public class CameraFollow2D : MonoBehaviour
     private Vector3 shakeOffset;
     private Vector2 panOffset; 
     private Vector3 defaultOffset;
+    private float defaultZoomSmoothTime; 
+    private float defaultSmoothTime; 
+    private Vector3 targetOffset;
+    private Vector3 offsetVelocity; 
+    private Vector2 previousOffset; 
+    private Stack<float> zoomStack = new Stack<float>(); 
 
     private void Awake()
     {
         cameraComponent = GetComponent<Camera>();
         defaultOffset = offset; 
+        defaultZoomSmoothTime = zoomSmoothTime; 
+        defaultSmoothTime = smoothTime;
+        targetOffset = offset;  
 
         if (cameraComponent != null)
         {
@@ -44,6 +54,7 @@ public class CameraFollow2D : MonoBehaviour
             return;
         }
 
+        offset = Vector3.SmoothDamp(offset, targetOffset, ref offsetVelocity, smoothTime);
         Vector3 desired = target.position + offset;
         //transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime);
         transform.position = Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime) + shakeOffset;
@@ -61,12 +72,18 @@ public class CameraFollow2D : MonoBehaviour
 
     public void SetZoom(float size)
     {
+        zoomStack.Push(targetZoom); 
         targetZoom = size;
     }
 
     public void ResetZoom()
     {
-        targetZoom = defaultZoom;
+        // targetZoom = defaultZoom;
+
+        if (zoomStack.Count > 0)
+            targetZoom = zoomStack.Pop();
+        else
+            targetZoom = defaultZoom;
     }
 
     private void TryAssignPlayerTarget()
@@ -76,7 +93,7 @@ public class CameraFollow2D : MonoBehaviour
             target = player.transform;
     }
     
-    // methods added for tutorial camera movement (spell section)
+    // methods added for tutorial camera movement
     public void SetTemporaryTarget(Transform newTarget)
     {
         target = newTarget; 
@@ -96,12 +113,27 @@ public class CameraFollow2D : MonoBehaviour
 
     public void SetOffset(Vector2 newOffset)
     {
-        offset.x = newOffset.x;
-        offset.y = newOffset.y;
+        targetOffset.x = newOffset.x;
+        targetOffset.y = newOffset.y;
     }
 
     public void ResetOffset()
     {
-        offset = defaultOffset; 
+        targetOffset = defaultOffset; 
+    }
+
+    public void SetZoomSmoothTime(float value)
+    {
+        zoomSmoothTime = Mathf.Max(0.01f, value);
+    }
+
+    public void ResetZoomSmoothTime()
+    {
+        zoomSmoothTime = defaultZoomSmoothTime;
+    }
+
+    public void ResetSmoothTime()
+    {
+        smoothTime = defaultSmoothTime; 
     }
 }  
