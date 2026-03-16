@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement; 
 using UnityEngine.InputSystem;
+using TimeRewind;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -10,11 +11,19 @@ public class TitleScreen : MonoBehaviour
 
     private RectTransform rectTransform;
     private Vector2 startPosition;
+    private RewindMusicController musicController;
 
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         startPosition = rectTransform.anchoredPosition;     // keeping text in the same position      
+
+        // Try to find a music controller in the scene for title music.
+        musicController = FindFirstObjectByType<RewindMusicController>();
+        if (musicController != null)
+        {
+            musicController.PlayTitleMusic();
+        }
     }
 
     void Update()
