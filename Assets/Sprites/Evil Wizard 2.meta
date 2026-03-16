@@ -1,6 +1,10 @@
 fileFormatVersion: 2
-guid: 2dcc4d7faf961594497e20c8b3b026f4
+<<<<<<<< HEAD:Assets/Sprites/Evil Wizard 2.meta
+guid: b7a60ef7c65465645b90128358bb1e37
 folderAsset: yes
+========
+guid: 066e11854bca24024aa8b94b3febd283
+>>>>>>>> dev:Assets/Scenes/GameScene_3.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

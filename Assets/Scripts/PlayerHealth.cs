@@ -37,6 +37,13 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public int CurrentHealth => currentHealth;
     public bool IsDead { get; private set; }
 
+    public void SetInvincible(bool value)
+    {
+        isInvincible = value;
+        if (!value && spriteRenderer != null)
+            spriteRenderer.enabled = true;
+    }
+
     // Events
     public event Action<int, int> OnHealthChanged;
     public event Action OnDeath;
@@ -84,8 +91,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         if (currentHealth < 0) currentHealth = 0;
         if (Application.isPlaying) UpdateUI();
     }
-
-    public void ModifyHealth(int amount)
+    public void ModifyHealth(int amount, bool applyKnockback = true)
     {
         if (IsDead) return;
         if (_isRewinding) return;
@@ -98,7 +104,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
             // Otherwise, take the damage and start invincibility
             DataCollectionService.Instance?.RecordDamageTaken(-amount);
-            TakeDamage(amount);
+            // Pass the knockback choice down to TakeDamage
+            TakeDamage(amount, applyKnockback);
         }
         
         // 2. HEALING LOGIC (Always allowed)
@@ -108,15 +115,14 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         }
     }
 
-    private void TakeDamage(int amount)
+    private void TakeDamage(int amount, bool applyKnockback = true)
     {
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateUI();
 
-        if (_rb != null && currentHealth > 0)
+        if (_rb != null && currentHealth > 0 && applyKnockback)
         {
-        
             Collider2D enemy = Physics2D.OverlapCircle(transform.position, 2f, LayerMask.GetMask("Enemy"));
             float knockbackDir = transform.position.x < (enemy != null ? enemy.transform.position.x : transform.position.x + 1) ? -1f : 1f;
 
@@ -272,10 +278,12 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {
         _isRewinding = true;
         
-        // Optional: If you want to stop flashing immediately when rewind starts:
         StopAllCoroutines();
         isInvincible = false;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
+
+        var reviveEffect = GetComponent<PlayerReviveEffect>();
+        if (reviveEffect != null && reviveEffect.IsReviving) reviveEffect.Cancel();
     }
 
     public void OnStopRewind()
@@ -325,6 +333,9 @@ public class PlayerHealth : MonoBehaviour, IRewindable
                 if (animator != null) animator.enabled = true;
 
                 if (gameOverUI != null) gameOverUI.HideGameOver();
+
+                var reviveEffect = GetComponent<PlayerReviveEffect>();
+                if (reviveEffect != null) reviveEffect.Play();
             }
 
             // This will tell HeartDisplay.cs to animate the hearts filling/emptying

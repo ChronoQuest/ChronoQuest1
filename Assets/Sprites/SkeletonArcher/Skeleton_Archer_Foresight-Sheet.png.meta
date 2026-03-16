@@ -1,0 +1,1931 @@
+fileFormatVersion: 2
+guid: e2797d6ca9371c747bb52924efa5ed26
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6459337557406530127
+    second: Skeleton_Archer_Foresight-Sheet_0
+  - first:
+      213: -8088892630878897818
+    second: Skeleton_Archer_Foresight-Sheet_1
+  - first:
+      213: -6473322499880726012
+    second: Skeleton_Archer_Foresight-Sheet_2
+  - first:
+      213: 207805238227119245
+    second: Skeleton_Archer_Foresight-Sheet_3
+  - first:
+      213: 3370740221366565998
+    second: Skeleton_Archer_Foresight-Sheet_4
+  - first:
+      213: 854974286791664193
+    second: Skeleton_Archer_Foresight-Sheet_5
+  - first:
+      213: -8251487986718515658
+    second: Skeleton_Archer_Foresight-Sheet_6
+  - first:
+      213: 5765879435403916005
+    second: Skeleton_Archer_Foresight-Sheet_7
+  - first:
+      213: 877541958648737854
+    second: Skeleton_Archer_Foresight-Sheet_8
+  - first:
+      213: -4465906709050259343
+    second: Skeleton_Archer_Foresight-Sheet_9
+  - first:
+      213: 8091872088573086793
+    second: Skeleton_Archer_Foresight-Sheet_10
+  - first:
+      213: -7933269007292048146
+    second: Skeleton_Archer_Foresight-Sheet_11
+  - first:
+      213: 332006731547802037
+    second: Skeleton_Archer_Foresight-Sheet_12
+  - first:
+      213: 4144984171558914390
+    second: Skeleton_Archer_Foresight-Sheet_13
+  - first:
+      213: -1076878449150942955
+    second: Skeleton_Archer_Foresight-Sheet_14
+  - first:
+      213: -4774055346452454518
+    second: Skeleton_Archer_Foresight-Sheet_15
+  - first:
+      213: 7499922498165683491
+    second: Skeleton_Archer_Foresight-Sheet_16
+  - first:
+      213: 601720475965443847
+    second: Skeleton_Archer_Foresight-Sheet_17
+  - first:
+      213: 3258189760369871761
+    second: Skeleton_Archer_Foresight-Sheet_18
+  - first:
+      213: -1552652062702874153
+    second: Skeleton_Archer_Foresight-Sheet_19
+  - first:
+      213: -5773406018903485693
+    second: Skeleton_Archer_Foresight-Sheet_20
+  - first:
+      213: 7060713371840660326
+    second: Skeleton_Archer_Foresight-Sheet_21
+  - first:
+      213: -9039923668188677943
+    second: Skeleton_Archer_Foresight-Sheet_22
+  - first:
+      213: -150627087262840684
+    second: Skeleton_Archer_Foresight-Sheet_23
+  - first:
+      213: 428769547521279788
+    second: Skeleton_Archer_Foresight-Sheet_24
+  - first:
+      213: -7902221855497925743
+    second: Skeleton_Archer_Foresight-Sheet_25
+  - first:
+      213: -7201014782812094580
+    second: Skeleton_Archer_Foresight-Sheet_26
+  - first:
+      213: -504935117120255476
+    second: Skeleton_Archer_Foresight-Sheet_27
+  - first:
+      213: -3546062557490620368
+    second: Skeleton_Archer_Foresight-Sheet_28
+  - first:
+      213: 4147279881592285974
+    second: Skeleton_Archer_Foresight-Sheet_29
+  - first:
+      213: -3983537311650312301
+    second: Skeleton_Archer_Foresight-Sheet_30
+  - first:
+      213: -142618366081745219
+    second: Skeleton_Archer_Foresight-Sheet_31
+  - first:
+      213: -8882018016828376258
+    second: Skeleton_Archer_Foresight-Sheet_32
+  - first:
+      213: 8479342579512640667
+    second: Skeleton_Archer_Foresight-Sheet_33
+  - first:
+      213: -2564382754374319029
+    second: Skeleton_Archer_Foresight-Sheet_34
+  - first:
+      213: 599569434331982792
+    second: Skeleton_Archer_Foresight-Sheet_35
+  - first:
+      213: 491992676685624395
+    second: Skeleton_Archer_Foresight-Sheet_36
+  - first:
+      213: 7775865962017356799
+    second: Skeleton_Archer_Foresight-Sheet_37
+  - first:
+      213: 126988031949996759
+    second: Skeleton_Archer_Foresight-Sheet_38
+  - first:
+      213: -5356373533032352697
+    second: Skeleton_Archer_Foresight-Sheet_39
+  - first:
+      213: 8815629362764540595
+    second: Skeleton_Archer_Foresight-Sheet_40
+  - first:
+      213: 365081105516846254
+    second: Skeleton_Archer_Foresight-Sheet_41
+  - first:
+      213: 7082225766524774681
+    second: Skeleton_Archer_Foresight-Sheet_42
+  - first:
+      213: -5644000447594911137
+    second: Skeleton_Archer_Foresight-Sheet_43
+  - first:
+      213: 7443949461247896693
+    second: Skeleton_Archer_Foresight-Sheet_44
+  - first:
+      213: 5931919802290192047
+    second: Skeleton_Archer_Foresight-Sheet_45
+  - first:
+      213: 906320745204248593
+    second: Skeleton_Archer_Foresight-Sheet_46
+  - first:
+      213: -4776320502780703340
+    second: Skeleton_Archer_Foresight-Sheet_47
+  - first:
+      213: 7167664363626094363
+    second: Skeleton_Archer_Foresight-Sheet_48
+  - first:
+      213: 4870010611208174973
+    second: Skeleton_Archer_Foresight-Sheet_49
+  - first:
+      213: -4535158576759046003
+    second: Skeleton_Archer_Foresight-Sheet_50
+  - first:
+      213: -3562928173859891206
+    second: Skeleton_Archer_Foresight-Sheet_51
+  - first:
+      213: -1933330666133841779
+    second: Skeleton_Archer_Foresight-Sheet_52
+  - first:
+      213: -751343339529251099
+    second: Skeleton_Archer_Foresight-Sheet_53
+  - first:
+      213: -2772245603157118473
+    second: Skeleton_Archer_Foresight-Sheet_54
+  - first:
+      213: 2878941608827094106
+    second: Skeleton_Archer_Foresight-Sheet_55
+  - first:
+      213: 158617412269713041
+    second: Skeleton_Archer_Foresight-Sheet_56
+  - first:
+      213: 8208016574452425395
+    second: Skeleton_Archer_Foresight-Sheet_57
+  - first:
+      213: 6981549255023631037
+    second: Skeleton_Archer_Foresight-Sheet_58
+  - first:
+      213: -3008687680983324212
+    second: Skeleton_Archer_Foresight-Sheet_59
+  - first:
+      213: -37875909963193407
+    second: Skeleton_Archer_Foresight-Sheet_60
+  - first:
+      213: -7454569589353507748
+    second: Skeleton_Archer_Foresight-Sheet_61
+  - first:
+      213: 1785699170053421083
+    second: Skeleton_Archer_Foresight-Sheet_62
+  - first:
+      213: 6402047896350741562
+    second: Skeleton_Archer_Foresight-Sheet_63
+  - first:
+      213: -2468074695321866651
+    second: Skeleton_Archer_Foresight-Sheet_64
+  - first:
+      213: -2589563752761016668
+    second: Skeleton_Archer_Foresight-Sheet_65
+  - first:
+      213: 5910674801141503266
+    second: Skeleton_Archer_Foresight-Sheet_66
+  - first:
+      213: 39580956553185138
+    second: Skeleton_Archer_Foresight-Sheet_67
+  - first:
+      213: 7035423331951978067
+    second: Skeleton_Archer_Foresight-Sheet_68
+  - first:
+      213: 9085553489502759934
+    second: Skeleton_Archer_Foresight-Sheet_69
+  - first:
+      213: 8701339670835560694
+    second: Skeleton_Archer_Foresight-Sheet_70
+  - first:
+      213: -492328222545163943
+    second: Skeleton_Archer_Foresight-Sheet_71
+  - first:
+      213: 2560956617488001619
+    second: Skeleton_Archer_Foresight-Sheet_72
+  - first:
+      213: 931724836706060223
+    second: Skeleton_Archer_Foresight-Sheet_73
+  - first:
+      213: -2641508722524676096
+    second: Skeleton_Archer_Foresight-Sheet_74
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4a3e81194d24a950800000000000000
+      internalID: 6459337557406530127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 669303e420b7ebf80800000000000000
+      internalID: -8088892630878897818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 402d016cb732a26a0800000000000000
+      internalID: -6473322499880726012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8c2efe53c542e200800000000000000
+      internalID: 207805238227119245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6cfca45f5647ce20800000000000000
+      internalID: 3370740221366565998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1426f40859a7ddb00800000000000000
+      internalID: 854974286791664193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63e5d33f463dc7d80800000000000000
+      internalID: -8251487986718515658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e2fafc2cc4840050800000000000000
+      internalID: 5765879435403916005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3032c013c7ad2c00800000000000000
+      internalID: 877541958648737854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 178860f6289e502c0800000000000000
+      internalID: -4465906709050259343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94c0c4fbaca1c4070800000000000000
+      internalID: 8091872088573086793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eecddb0cedd57e190800000000000000
+      internalID: -7933269007292048146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b9f1f00d568b9400800000000000000
+      internalID: 332006731547802037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 659c2699421f58930800000000000000
+      internalID: 4144984171558914390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 511a51c81c82e01f0800000000000000
+      internalID: -1076878449150942955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a83a5a8d4f52fbdb0800000000000000
+      internalID: -4774055346452454518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 325302a96c3151860800000000000000
+      internalID: 7499922498165683491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70fcff7b59db95800800000000000000
+      internalID: 601720475965443847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19b49ad035a673d20800000000000000
+      internalID: 3258189760369871761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d151dedc2fd37ae0800000000000000
+      internalID: -1552652062702874153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 303d72b80ddb0efa0800000000000000
+      internalID: -5773406018903485693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 663c9650761bcf160800000000000000
+      internalID: 7060713371840660326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c8b7f0c15dbb8280800000000000000
+      internalID: -9039923668188677943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4988522567dd8edf0800000000000000
+      internalID: -150627087262840684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c27c28ab1ab43f500800000000000000
+      internalID: 428769547521279788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19bc7b6171ba55290800000000000000
+      internalID: -7902221855497925743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ff528253bd01c90800000000000000
+      internalID: -7201014782812094580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0a4d6daf2c1ef8f0800000000000000
+      internalID: -504935117120255476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 038557d44ead9cec0800000000000000
+      internalID: -3546062557490620368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61bae6e34191e8930800000000000000
+      internalID: 4147279881592285974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39f8195bbe1a7b8c0800000000000000
+      internalID: -3983537311650312301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe30470a51550ef0800000000000000
+      internalID: -142618366081745219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3b33523cabbcb480800000000000000
+      internalID: -8882018016828376258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9402bc862daca570800000000000000
+      internalID: 8479342579512640667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b448169b87b796cd0800000000000000
+      internalID: -2564382754374319029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cb2a8f4939125800800000000000000
+      internalID: 599569434331982792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b44b0f59bb8e3d600800000000000000
+      internalID: 491992676685624395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffb7817e4ec69eb60800000000000000
+      internalID: 7775865962017356799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d20b1731f623c100800000000000000
+      internalID: 126988031949996759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7447d47a6a65aa5b0800000000000000
+      internalID: -5356373533032352697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ba651fb238675a70800000000000000
+      internalID: 8815629362764540595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eacd988c457011500800000000000000
+      internalID: 365081105516846254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 919e3d8bfce194260800000000000000
+      internalID: 7082225766524774681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5aa5f00f7b7ca1b0800000000000000
+      internalID: -5644000447594911137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57c24a368983e4760800000000000000
+      internalID: 7443949461247896693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faebc9ba1a9625250800000000000000
+      internalID: 5931919802290192047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11077767ae5e39c00800000000000000
+      internalID: 906320745204248593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d475a0fc917bdb0800000000000000
+      internalID: -4776320502780703340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1fd82743c8a87360800000000000000
+      internalID: 7167664363626094363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7d327539d0c59340800000000000000
+      internalID: 4870010611208174973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8006308d41ef01c0800000000000000
+      internalID: -4535158576759046003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af799dcf3bfed8ec0800000000000000
+      internalID: -3562928173859891206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8819bb900e6b25e0800000000000000
+      internalID: -1933330666133841779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e6d007a631b295f0800000000000000
+      internalID: -751343339529251099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f17ea9df410789d0800000000000000
+      internalID: -2772245603157118473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a540b33d32e04f720800000000000000
+      internalID: 2878941608827094106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 196278132b5833200800000000000000
+      internalID: 158617412269713041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b261c6269bb8e170800000000000000
+      internalID: 8208016574452425395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dba939fbe0273e060800000000000000
+      internalID: 6981549255023631037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc925eeae7efe36d0800000000000000
+      internalID: -3008687680983324212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c369118f00797ff0800000000000000
+      internalID: -37875909963193407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c549729547c0c8890800000000000000
+      internalID: -7454569589353507748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b187eb22fe318c810800000000000000
+      internalID: 1785699170053421083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a34d50964a4a8d850800000000000000
+      internalID: 6402047896350741562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56ea53a1423afbdd0800000000000000
+      internalID: -2468074695321866651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aeb379ac75001cd0800000000000000
+      internalID: -2589563752761016668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22554e06a6fe60250800000000000000
+      internalID: 5910674801141503266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27709379bae9c8000800000000000000
+      internalID: 39580956553185138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3562e71ce38d2a160800000000000000
+      internalID: 7035423331951978067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 66fe97964ef2ac94c9adfac118654e2e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Skeleton_Archer_Foresight-Sheet_0: 6459337557406530127
+      Skeleton_Archer_Foresight-Sheet_1: -8088892630878897818
+      Skeleton_Archer_Foresight-Sheet_10: 8091872088573086793
+      Skeleton_Archer_Foresight-Sheet_11: -7933269007292048146
+      Skeleton_Archer_Foresight-Sheet_12: 332006731547802037
+      Skeleton_Archer_Foresight-Sheet_13: 4144984171558914390
+      Skeleton_Archer_Foresight-Sheet_14: -1076878449150942955
+      Skeleton_Archer_Foresight-Sheet_15: -4774055346452454518
+      Skeleton_Archer_Foresight-Sheet_16: 7499922498165683491
+      Skeleton_Archer_Foresight-Sheet_17: 601720475965443847
+      Skeleton_Archer_Foresight-Sheet_18: 3258189760369871761
+      Skeleton_Archer_Foresight-Sheet_19: -1552652062702874153
+      Skeleton_Archer_Foresight-Sheet_2: -6473322499880726012
+      Skeleton_Archer_Foresight-Sheet_20: -5773406018903485693
+      Skeleton_Archer_Foresight-Sheet_21: 7060713371840660326
+      Skeleton_Archer_Foresight-Sheet_22: -9039923668188677943
+      Skeleton_Archer_Foresight-Sheet_23: -150627087262840684
+      Skeleton_Archer_Foresight-Sheet_24: 428769547521279788
+      Skeleton_Archer_Foresight-Sheet_25: -7902221855497925743
+      Skeleton_Archer_Foresight-Sheet_26: -7201014782812094580
+      Skeleton_Archer_Foresight-Sheet_27: -504935117120255476
+      Skeleton_Archer_Foresight-Sheet_28: -3546062557490620368
+      Skeleton_Archer_Foresight-Sheet_29: 4147279881592285974
+      Skeleton_Archer_Foresight-Sheet_3: 207805238227119245
+      Skeleton_Archer_Foresight-Sheet_30: -3983537311650312301
+      Skeleton_Archer_Foresight-Sheet_31: -142618366081745219
+      Skeleton_Archer_Foresight-Sheet_32: -8882018016828376258
+      Skeleton_Archer_Foresight-Sheet_33: 8479342579512640667
+      Skeleton_Archer_Foresight-Sheet_34: -2564382754374319029
+      Skeleton_Archer_Foresight-Sheet_35: 599569434331982792
+      Skeleton_Archer_Foresight-Sheet_36: 491992676685624395
+      Skeleton_Archer_Foresight-Sheet_37: 7775865962017356799
+      Skeleton_Archer_Foresight-Sheet_38: 126988031949996759
+      Skeleton_Archer_Foresight-Sheet_39: -5356373533032352697
+      Skeleton_Archer_Foresight-Sheet_4: 3370740221366565998
+      Skeleton_Archer_Foresight-Sheet_40: 8815629362764540595
+      Skeleton_Archer_Foresight-Sheet_41: 365081105516846254
+      Skeleton_Archer_Foresight-Sheet_42: 7082225766524774681
+      Skeleton_Archer_Foresight-Sheet_43: -5644000447594911137
+      Skeleton_Archer_Foresight-Sheet_44: 7443949461247896693
+      Skeleton_Archer_Foresight-Sheet_45: 5931919802290192047
+      Skeleton_Archer_Foresight-Sheet_46: 906320745204248593
+      Skeleton_Archer_Foresight-Sheet_47: -4776320502780703340
+      Skeleton_Archer_Foresight-Sheet_48: 7167664363626094363
+      Skeleton_Archer_Foresight-Sheet_49: 4870010611208174973
+      Skeleton_Archer_Foresight-Sheet_5: 854974286791664193
+      Skeleton_Archer_Foresight-Sheet_50: -4535158576759046003
+      Skeleton_Archer_Foresight-Sheet_51: -3562928173859891206
+      Skeleton_Archer_Foresight-Sheet_52: -1933330666133841779
+      Skeleton_Archer_Foresight-Sheet_53: -751343339529251099
+      Skeleton_Archer_Foresight-Sheet_54: -2772245603157118473
+      Skeleton_Archer_Foresight-Sheet_55: 2878941608827094106
+      Skeleton_Archer_Foresight-Sheet_56: 158617412269713041
+      Skeleton_Archer_Foresight-Sheet_57: 8208016574452425395
+      Skeleton_Archer_Foresight-Sheet_58: 6981549255023631037
+      Skeleton_Archer_Foresight-Sheet_59: -3008687680983324212
+      Skeleton_Archer_Foresight-Sheet_6: -8251487986718515658
+      Skeleton_Archer_Foresight-Sheet_60: -37875909963193407
+      Skeleton_Archer_Foresight-Sheet_61: -7454569589353507748
+      Skeleton_Archer_Foresight-Sheet_62: 1785699170053421083
+      Skeleton_Archer_Foresight-Sheet_63: 6402047896350741562
+      Skeleton_Archer_Foresight-Sheet_64: -2468074695321866651
+      Skeleton_Archer_Foresight-Sheet_65: -2589563752761016668
+      Skeleton_Archer_Foresight-Sheet_66: 5910674801141503266
+      Skeleton_Archer_Foresight-Sheet_67: 39580956553185138
+      Skeleton_Archer_Foresight-Sheet_68: 7035423331951978067
+      Skeleton_Archer_Foresight-Sheet_7: 5765879435403916005
+      Skeleton_Archer_Foresight-Sheet_8: 877541958648737854
+      Skeleton_Archer_Foresight-Sheet_9: -4465906709050259343
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class GhostEnemy : EnemyBase, IBossSpawnable
+public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 {
     [Header("Stats")]
     public float detectionRange = 7f;
@@ -42,6 +42,22 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
 
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
+    private Collider2D playerCollider;
+    private PlayerCombat playerCombat;
+    private PlayerSpellSystem playerSpells;
+    [Header("Foresight")]
+    public float dodgeTriggerDistance = 5f;
+    public GameObject foresightGlow;
+    private bool isDodging = false;    
+    private float dodgeCooldown = 1.5f;
+    private float dodgeTimer = 0f;
+    private float dodgeDuration = 0.5f;
+    private ForesightSystem foresightSystem;
+    private float rewindStartTime;
+    private bool hasForesight = false;
+    private bool isMidJumpSequence = false;
+    private bool isGrounded = true;
+    private SpriteRenderer spriteRenderer;
 
     protected override void Awake()
     {
@@ -53,6 +69,11 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
     {
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerCollider = player.GetComponent<Collider2D>();
+        playerCombat = player.GetComponent<PlayerCombat>();
+        playerSpells = player.GetComponent<PlayerSpellSystem>();
+        foresightSystem = GetComponent<ForesightSystem>();
         rb.gravityScale = 0f;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
@@ -124,6 +145,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
         // Phase out — ghost sinks underground
         animator?.SetTrigger("PhaseOut");
         yield return new WaitForSeconds(phaseOutDuration);
+        if (spriteRenderer != null) spriteRenderer.enabled = false;
 
         // Ghost is now underground in the animation — safe to snap position
         float side = Random.value > 0.5f ? 1f : -1f;
@@ -136,10 +158,67 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
 
         // Phase in
         animator?.SetTrigger("PhaseIn");
+        yield return null; 
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
         yield return new WaitForSeconds(phaseInDuration);
 
         if (col != null) col.enabled = true;
         isTeleporting = false;
+        lastTeleportTime = Time.time;
+    }
+    IEnumerator ForesightTeleportRoutine(bool isLunge, Vector2 escapeDirection)
+    {
+        isDodging = true;
+        isTeleporting = true;
+        rb.linearVelocity = Vector2.zero;
+        if (col != null) col.enabled = false;
+
+        animator?.SetTrigger("PhaseOut");
+        foresightGlow.SetActive(false);
+        yield return new WaitForSeconds(phaseOutDuration);
+        if (spriteRenderer != null) spriteRenderer.enabled = false;
+
+        Vector2 targetPos;
+        int originalLayer = gameObject.layer;
+
+        if (isLunge)
+        {
+            float side = transform.position.x > player.position.x ? 1f : -1f;
+            
+            targetPos = (Vector2)player.position + new Vector2(side * 1.5f, 0.5f);
+            dodgeTimer = dodgeCooldown;
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+            targetPos = (Vector2)transform.position + (escapeDirection * teleportOffset * 1.5f);
+            dodgeTimer = dodgeCooldown;
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(targetPos + Vector2.up * 2f, Vector2.down, 10f, LayerMask.GetMask("Ground"));
+        
+        Vector2 spawnPos = hit.collider != null
+            ? hit.point + Vector2.up * teleportYOffset
+            : targetPos + Vector2.up * teleportYOffset;
+
+        transform.position = spawnPos;
+
+        animator?.SetTrigger("PhaseIn");
+        yield return null;
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
+        yield return new WaitForSeconds(phaseInDuration);
+        gameObject.layer = originalLayer;
+        foresightGlow.SetActive(true);
+
+        if (col != null) col.enabled = true;
+        
+        if (col != null && playerCollider != null)
+        {
+            isTouchingPlayer = Physics2D.IsTouching(col, playerCollider);
+        }
+
+        isTeleporting = false;
+        isDodging = false;
         lastTeleportTime = Time.time;
     }
 
@@ -167,14 +246,11 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            isTouchingPlayer = true;
+        if (collision.gameObject.CompareTag("Player")) isTouchingPlayer = true;
     }
-
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            isTouchingPlayer = false;
+        if (collision.gameObject.CompareTag("Player")) isTouchingPlayer = false;
     }
 
     public override void Die()
@@ -190,11 +266,81 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
         StartCoroutine(base.DeathRoutine());
     }
 
+    // =================== IForesightEnemy Implementation ===================
+    public int GetPlayerAttackState()
+    {
+        if (playerCombat != null && playerCombat.isAttacking) return 1;
+        if (playerSpells != null && playerSpells.isCasting) return 2;
+        return 0;
+    }
+    public void SetForesightState(bool state)
+    {
+        hasForesight = state;
+        //if(hasForesight) detectionRange *= 2;
+        animator.SetBool("hasForesight", hasForesight);
+        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        Vector2 direction = (player.position - transform.position).normalized;
+        if (direction.x > 0) spriteRenderer.flipX = false;
+        else if (direction.x < 0) spriteRenderer.flipX = true;
+    }
+    new public bool IsDead() => wasDead;
+    public bool IsRewinding() => isRewinding;
+    public void ExecuteDodge()
+    {
+        if (wasDead || isRewinding || isTeleporting || isDodging || dodgeTimer > 0) return;
+
+        Vector2 threatPos = playerCollider.bounds.center;
+        GameObject spellObj = playerSpells.latestSpell;
+        bool shouldDodge = false;
+
+        if (spellObj != null)
+        {
+            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+            float spellDist = Vector2.Distance(transform.position, spellPos);
+            float playerDist = Vector2.Distance(transform.position, threatPos);
+
+            if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+            {
+                threatPos = spellPos;
+                shouldDodge = true;
+            }
+        }
+        
+        if (!shouldDodge && Vector2.Distance(transform.position, threatPos) < dodgeTriggerDistance)
+        {
+            shouldDodge = true;
+        }
+
+        if (shouldDodge)
+        {
+            Vector2 escapeDirection = ((Vector2)transform.position - threatPos).normalized;
+            StartCoroutine(ForesightTeleportRoutine(false, escapeDirection));
+        }
+    }
+
+    public void ExecuteLunge()
+    {
+        if (wasDead || isRewinding || isTeleporting || isDodging || dodgeTimer > 0) return;
+        
+        StartCoroutine(ForesightTeleportRoutine(true, Vector2.zero));
+    }
+
+    public float GetDistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, playerCollider.bounds.center);
+    }
+    public bool IsPerformingForesightAction()
+    {
+        return isDodging;
+    }
+
     // ================= REWIND =================
 
     public override void OnStartRewind()
     {
         base.OnStartRewind();
+        dodgeTimer = 0f;
+        rewindStartTime = Time.time;
         StopAllCoroutines();
         isTouchingPlayer = false;
         isTeleporting = false;
@@ -206,6 +352,14 @@ public class GhostEnemy : EnemyBase, IBossSpawnable
         base.OnStopRewind();
         isTeleporting = false;
         isHitStunned = false;
+        isRewinding = false;
+        if (foresightSystem != null)
+        {
+            // Calculate how much time passed in the real world while we were rewinding
+            float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime;
+            int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
+            foresightSystem.HandleRewindStop(statesErased);
+        }
         if (!wasDead && col != null) col.enabled = true;
 
         // OnCollisionEnter2D won't fire for pre-existing overlaps after collider is re-enabled,

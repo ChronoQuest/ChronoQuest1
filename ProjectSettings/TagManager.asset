@@ -10,6 +10,7 @@ TagManager:
   - Spell
   - Trap
   - Trigger
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,10 @@ TagManager:
   - Background
   - Enemy
   - FallingPlatform
-  - 
+  - EnemyDodging
+  - Spell
+  - Ground_Override
+  -
   - 
   - 
   - 

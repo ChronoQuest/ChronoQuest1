@@ -143,11 +143,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.88
+      value: -4.83
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.1
+      value: -2.04
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -349,7 +349,7 @@ MonoBehaviour:
   dashCooldown: 1
   dashPhaseLayers:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 1161
   isDashing: 0
   horizontalInput: 0
   anim: {fileID: 0}
@@ -703,6 +703,9 @@ MonoBehaviour:
   spawnAreaWidth: 10
   spawnHeight: 8
   delayBetweenShots: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!70 &2585457603464037882
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

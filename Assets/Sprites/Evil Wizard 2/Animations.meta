@@ -1,7 +1,12 @@
 fileFormatVersion: 2
-guid: 3dc65cf0097471b498f22514285c03b7
+<<<<<<<< HEAD:Assets/Sprites/Evil Wizard 2/Animations.meta
+guid: fc5d1cdba76647442a9fd96a31ff26bf
 folderAsset: yes
 DefaultImporter:
+========
+guid: 772c241dcdcdf42729e97f3222dca646
+PrefabImporter:
+>>>>>>>> dev:Assets/Prefabs/Health_Pickup.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
