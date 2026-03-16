@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3391948159114428736}
   - component: {fileID: 1170278645737019840}
   - component: {fileID: 1648991664882896443}
+  - component: {fileID: 1473980185050100788}
   m_Layer: 10
   m_Name: Slime
   m_TagString: Enemy
@@ -34,7 +35,8 @@ Transform:
   m_LocalPosition: {x: 2.7601, y: 0.27, z: 0}
   m_LocalScale: {x: 0.7382, y: 0.6337, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 2613411160492561199}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6318921933496376520
@@ -195,6 +197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SlimeEnemy
   health: 3
+  startHealth: 0
+  stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.7
   deathAnimationDuration: 0.6
@@ -209,7 +213,9 @@ MonoBehaviour:
   currentVelocityY: 0
   currentFrameIndex: 0
   currentStateLabel: 
-  player: {fileID: 0}
+  _player: {fileID: 0}
+  dodgeTriggerDistance: 5
+  foresightGlow: {fileID: 4519515984217520292}
 --- !u!114 &1648991664882896443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,3 +230,90 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::HitFlash
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+--- !u!114 &1473980185050100788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6869955167663698504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::ForesightSystem
+  foresightThreshold: 0.75
+  futureLookaheadSteps: 20
+  weightDistance: 0.5
+  weightVelocity: 0.2
+  weightAttack: 2
+  minTimelineSize: 3
+  bandWidth: 6
+  recordInterval: 0.3
+--- !u!1001 &6711298211196461938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6713799350970072654}
+    m_Modifications:
+    - target: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_Name
+      value: Lit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0475463
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+--- !u!4 &2613411160492561199 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+  m_PrefabInstance: {fileID: 6711298211196461938}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4519515984217520292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+  m_PrefabInstance: {fileID: 6711298211196461938}
+  m_PrefabAsset: {fileID: 0}

@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 3878115214501292766}
   - component: {fileID: 853483887166070529}
   - component: {fileID: 8597023694846177901}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SkeletonWarrior
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -19.79, y: -12.46, z: 0}
-  m_LocalScale: {x: 2.973381, y: 3.6251152, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3.679559, y: 4.4860797, z: 1.2375}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MeleeSkeleton
   health: 10
+  startHealth: 0
+  stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 1
@@ -161,6 +163,7 @@ MonoBehaviour:
   hitboxRadius: 0.6
   hitboxOffset: 0.8
   player: {fileID: 0}
+  reviveAnimDuration: 0.9
 --- !u!70 &853483887166070529
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

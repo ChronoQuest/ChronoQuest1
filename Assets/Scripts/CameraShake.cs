@@ -13,7 +13,14 @@ public class CameraShake : MonoBehaviour
 
     public void FlashRed()
     {
-        flashAlpha = 0.4f; // Set the starting brightness
+        flashColor = new Color(1, 0, 0, 0.4f);
+        flashAlpha = 0.4f;
+    }
+
+    public void FlashWhite()
+    {
+        flashColor = new Color(1, 1, 1, 0.4f);
+        flashAlpha = 0.6f;
     }
     
     void Update()
