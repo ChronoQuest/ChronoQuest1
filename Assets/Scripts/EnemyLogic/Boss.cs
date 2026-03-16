@@ -38,6 +38,7 @@ public class Boss : EnemyBase, IRewindable
 
     int offIndex;
     int resIndex;
+    private RewindMusicController musicController;
 
     // Movement Tracking
     Vector2 moveStart;
@@ -54,6 +55,11 @@ public class Boss : EnemyBase, IRewindable
         originalScale = transform.localScale;
         animator = GetComponent<Animator>();
         FacePlayer();
+        musicController = FindFirstObjectByType<RewindMusicController>();
+        if (musicController != null)
+        {
+            musicController.PlayBossFightMusic();
+        }
         EndPhase();
     }
 
