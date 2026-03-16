@@ -693,6 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SkeletonArcher
   health: 3
+  startHealth: 0
   stunOnLand: 0
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
@@ -703,11 +704,12 @@ MonoBehaviour:
   retreatSpeed: 2
   damage: 1
   shootCooldown: 2
-  player: {fileID: 0}
+  _player: {fileID: 0}
   arrowPrefab: {fileID: 0}
   arrowPoolSize: 5
   arrowSpawnOffset: {x: 0.3, y: 0.5}
   currentState: 0
+  reviveAnimDuration: 0.9
 --- !u!114 &913987529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,7 +940,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1558229266}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1106147785}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d18f9d8a38c744b6b79578532626dcd, type: 3}
@@ -954,7 +956,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1558229266}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1106147785}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
@@ -965,12 +967,35 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1558229266}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1106147785}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerMana
+--- !u!1 &1106147785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 1558229266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1106147786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106147785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e28d0fa1e8f0d34cb76368bc0664098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
+  musicSource: {fileID: 0}
+  titleTrack: {fileID: 0}
+  tutorialTrack: {fileID: 0}
+  bossFightTrack: {fileID: 0}
+  rewindPitch: -1
+  loopDuringRewind: 1
 --- !u!114 &1303432475 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1122370122660529387, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
@@ -1146,6 +1171,10 @@ PrefabInstance:
       propertyPath: dashPhaseLayers.m_Bits
       value: 1033
       objectReference: {fileID: 0}
+    - target: {fileID: 1505052509055262110, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 941216054}
     - target: {fileID: 1893749182792678861, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_SortingOrder
       value: 5
@@ -1154,18 +1183,14 @@ PrefabInstance:
       propertyPath: tutorialManager
       value: 
       objectReference: {fileID: 419607659}
-    - target: {fileID: 1505052509055262110, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: playerTacticalModel
-      value: 
-      objectReference: {fileID: 941216054}
-    - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: playerTacticalModel
-      value: 
-      objectReference: {fileID: 941216054}
     - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 941216054}
     - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: postProcessVolume
       value: 
@@ -1218,18 +1243,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: playerTacticalModel
-      value: 
-      objectReference: {fileID: 941216054}
     - target: {fileID: 7596737112677261011, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 1a2bfbc833ac8534cad1c778965f9d77, type: 2}
+    - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: playerTacticalModel
+      value: 
+      objectReference: {fileID: 941216054}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1106147786}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
 --- !u!1 &1618970458
 GameObject:
