@@ -8,7 +8,7 @@ using TimeRewind;
 /// 2. Player detection and damage logic.
 /// 3. Integration with the TimeRewind system.
 /// </summary>
-public class SlimeEnemy : EnemyBase, IBossSpawnable
+public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 {
     [Header("Stats")]
     public float detectionRange = 5f;
@@ -41,7 +41,6 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-
     private float lastAttackTime;
     private float lastHopTime;
     private bool playerInContact = false;
@@ -52,6 +51,16 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
     // Locks the Update loop during the custom Jump Coroutine so we don't interrupt the animation
     private bool isMidJumpSequence = false;
     private float liftoffTime = -1f; // Timestamp of last launch, used to guard OnCollisionStay2D
+    private Collider2D playerCollider;
+    private PlayerCombat playerCombat;
+    private PlayerSpellSystem playerSpells;
+    private bool hasForesight = false;
+    [Header("Foresight")]
+    public float dodgeTriggerDistance = 3.4f;
+    public GameObject foresightGlow;
+    private bool isDodging = false;    
+    private ForesightSystem foresightSystem;
+    private float rewindStartTime;
 
 
     private enum State { Idle, Chase, Attack }
@@ -62,6 +71,10 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerCollider = player.GetComponent<Collider2D>();
+        playerCombat = player.GetComponent<PlayerCombat>();
+        playerSpells = player.GetComponent<PlayerSpellSystem>();
+        foresightSystem = GetComponent<ForesightSystem>();
     }
 
     protected override void Awake()
@@ -126,7 +139,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
         // Trigger Jump if grounded and cooldown is ready
         if (isGrounded && Time.time >= lastHopTime + hopCooldown)
         {
-        StartCoroutine(JumpRoutine(direction.x));
+        StartCoroutine(JumpRoutine(direction.x, false, 1f, 1f));
         lastHopTime = Time.time;
         }
     }
@@ -136,72 +149,86 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
     /// Instead of letting the Animator play automatically, we dictate specific frames
     /// based on physics velocity and timing.
     /// </summary>
-    IEnumerator JumpRoutine(float xDir)
+    IEnumerator JumpRoutine(float xDir, bool dodge, float heightMultiplier = 1f, float distanceMultiplier = 1f)
     {
-    isMidJumpSequence = true; // Take control away from Update()
-    currentStateLabel = "Anticipation";
+        Vector2 direction = (player.position - transform.position).normalized;
+        if (direction.x > 0) spriteRenderer.flipX = false;
+        else if (direction.x < 0) spriteRenderer.flipX = true;
+        isMidJumpSequence = true; // Take control away from Update()
+        currentStateLabel = "Anticipation";
 
-    // Phase 1: Anticipation (Frames 0-2)
-    // Play "Squash/Prepare" frames while still on the ground
-    SetFrame(0); yield return new WaitForSeconds(animationSpeed);
-    SetFrame(1); yield return new WaitForSeconds(animationSpeed);
-    SetFrame(2); yield return new WaitForSeconds(animationSpeed);
+        // Phase 1: Anticipation (Frames 0-2)
+        // Play "Squash/Prepare" frames while still on the ground
+        SetFrame(0); yield return new WaitForSeconds(animationSpeed);
+        SetFrame(1); yield return new WaitForSeconds(animationSpeed);
+        SetFrame(2); yield return new WaitForSeconds(animationSpeed);
 
-    // Phase 2: Launch
-    currentStateLabel = "Launching";
-    animator.SetTrigger("hop");
-    rb.linearVelocity = new Vector2(xDir * moveSpeed, hopForce);
-    isGrounded = false;
-    groundContacts = 0;
-    liftoffTime = Time.time;
-    yield return new WaitForSeconds(0.1f); // Wait to ensure physical liftoff
+        // Phase 2: Launch
+        int originalLayer = gameObject.layer;
+        Color originalColor = spriteRenderer.color;
+        if(dodge) {
+            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+        }
+        currentStateLabel = "Launching";
+        animator.SetTrigger("hop");
+        rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier,hopForce * heightMultiplier);
+        isGrounded = false;
+        groundContacts = 0;
+        liftoffTime = Time.time;
+        yield return new WaitForSeconds(0.1f); // Wait to ensure physical liftoff
 
-    // Phase 3: Air Loop (Physics Driven)
-    float timeAirborne = 0f;
-    float timeMotionless = 0f; // Tracks how long we are stuck on a wall/corner
-    // Loop runs until we hit ground OR get stuck OR timeout (3s)
-    while (!isGrounded && timeMotionless < 0.2f && timeAirborne < 3.0f)
-    {
-    currentStateLabel = "Air (Physics)";
-    float vy = rb.linearVelocity.y;
-    currentVelocityY = vy;
-    timeAirborne += Time.deltaTime;
+        // Phase 3: Air Loop (Physics Driven)
+        float timeAirborne = 0f;
+        float timeMotionless = 0f; // Tracks how long we are stuck on a wall/corner
+        // Loop runs until we hit ground OR get stuck OR timeout (3s)
+        while (!isGrounded && timeMotionless < 0.2f && timeAirborne < 3.0f)
+        {
+            currentStateLabel = "Air (Physics)";
+            float vy = rb.linearVelocity.y;
+            currentVelocityY = vy;
+            timeAirborne += Time.deltaTime;
 
-    // --- STUCK PROTECTION ---
-    // If velocity is near zero (stuck on wall), start a timer to force landing
-    if (Mathf.Abs(vy) < 0.01f)
-    {
-    timeMotionless += Time.deltaTime;
-    }
-    else
-    {
-    timeMotionless = 0f; // Reset if moving
-    }
-    // ------------------------
+            // --- STUCK PROTECTION ---
+            // If velocity is near zero (stuck on wall), start a timer to force landing
+            if (Mathf.Abs(vy) < 0.01f)
+            {
+                timeMotionless += Time.deltaTime;
+            }
+            else
+            {
+                timeMotionless = 0f; // Reset if moving
+            }
+            // ------------------------
 
-    // Manual Frame Selection based on Vertical Velocity
-    if (vy > 1.0f) SetFrame(3); // Rising Fast
-    else if (vy > -1.0f) SetFrame(4); // Peak / Hover (Zero G)
-    else if (vy > -3.0f) SetFrame(5); // Falling
-    else SetFrame(5); // Falling Fast (Clamped to frame 5)
+            // Manual Frame Selection based on Vertical Velocity
+            if (vy > 1.0f) SetFrame(3); // Rising Fast
+            else if (vy > -1.0f) SetFrame(4); // Peak / Hover (Zero G)
+            else if (vy > -3.0f) SetFrame(5); // Falling
+            else SetFrame(5); // Falling Fast (Clamped to frame 5)
 
-    yield return null; // Wait for next frame
-    }
+            yield return null; // Wait for next frame
+        }
 
-    // Phase 4: Landing (Frames 6-8)
-    currentStateLabel = "Landing";
-    // Stop sliding physics
-    rb.linearVelocity = Vector2.zero;
+        // Phase 4: Landing (Frames 6-8)
+        currentStateLabel = "Landing";
+        if (dodge)
+        {
+            gameObject.layer = originalLayer;
+            spriteRenderer.color = originalColor;
+        }
+        // Stop sliding physics
+        rb.linearVelocity = Vector2.zero;
 
-    currentVelocityY = 0f;
-    // Force grounded state so Update() picks it up correctly next frame
-    isGrounded = true;
-    SetFrame(6); yield return new WaitForSeconds(animationSpeed);
-    SetFrame(7); yield return new WaitForSeconds(animationSpeed);
-    SetFrame(8); yield return new WaitForSeconds(animationSpeed);
+        currentVelocityY = 0f;
+        // Force grounded state so Update() picks it up correctly next frame
+        isGrounded = true;
+        SetFrame(6); yield return new WaitForSeconds(animationSpeed);
+        SetFrame(7); yield return new WaitForSeconds(animationSpeed);
+        SetFrame(8); yield return new WaitForSeconds(animationSpeed);
 
-    isMidJumpSequence = false; // Return control to Update()
-    currentStateLabel = "Idle";
+        isMidJumpSequence = false; // Return control to Update()
+        currentStateLabel = "Idle";
     }
 
     // --- COLLISION LOGIC ---
@@ -214,6 +241,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
         }
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("touched player");
             playerInContact = true;
             Attack();
             return; // EXIT: Do not count Player body as "Ground"
@@ -344,7 +372,103 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
 
         // Do not disable script or Destroy - stay registered so rewind can restore us
     }
-     
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+        if (foresightSystem != null) foresightSystem.NotifyDamage();
+    }
+
+    // ---------------------- IForesightEnemy Implementation ----------------------
+    public int GetPlayerAttackState()
+    {
+        if (playerCombat != null && playerCombat.isAttacking) return 1;
+        if (playerSpells != null && playerSpells.isCasting) return 2;
+        return 0;
+    }
+    public void SetForesightState(bool state)
+    {
+        hasForesight = state;
+        if(hasForesight) transform.localScale = new Vector3(0.66f, 0.64f, 0f);
+        else transform.localScale = new Vector3(0.74f, 0.64f, 0f);
+        animator.SetBool("hasForesight", hasForesight);
+        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        Vector2 direction = (player.position - transform.position).normalized;
+        if (direction.x > 0) spriteRenderer.flipX = false;
+        else if (direction.x < 0) spriteRenderer.flipX = true;
+    }
+    new public bool IsDead() => wasDead;
+    public bool IsRewinding() => isRewinding;
+    public void ExecuteLunge()
+    {
+        if (isDodging || !isGrounded || isMidJumpSequence) return;
+
+        animator.SetBool("hasForesight", true);
+        foresightGlow.SetActive(true);
+
+        Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
+
+        float xDir = Mathf.Sign(approachDirection.x);
+
+        StopAllCoroutines();
+        StartCoroutine(JumpRoutine(xDir, false, 2f, 2f));
+    }
+    public void ExecuteDodge()
+    {
+        if (isMidJumpSequence) return; // slime cannot dodge mid-jump
+
+        animator.SetBool("hasForesight", true);
+        foresightGlow.SetActive(true);
+
+        GameObject spellObj = playerSpells.latestSpell;
+
+        if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
+        {
+            Vector2 attackDirection = (playerCollider.bounds.center - transform.position).normalized;
+            TriggerForesightDodge(attackDirection);
+            return;
+        }
+
+        if (spellObj != null)
+        {
+            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+
+            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            {
+                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                Vector2 attackDirection = (spellRb.position - (Vector2)transform.position).normalized;
+
+                TriggerForesightDodge(attackDirection);
+            }
+        }
+    }
+    public float GetDistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, playerCollider.bounds.center);
+    }
+    void TriggerForesightDodge(Vector2 attackDirection)
+    {
+        Vector2 dir1 = new Vector2(-attackDirection.y, attackDirection.x).normalized;
+        Vector2 dir2 = -dir1;
+
+        float dist1 = Physics2D.Raycast(transform.position, dir1, 3f).distance;
+        float dist2 = Physics2D.Raycast(transform.position, dir2, 3f).distance;
+
+        Vector2 dodgeDir = dist1 > dist2 ? dir1 : dir2;
+
+        float xDir = Mathf.Sign(dodgeDir.x);
+        
+        // Slime must dodge away from the player
+        float playerSide = Mathf.Sign(player.position.x - transform.position.x);
+        if (xDir == playerSide)
+            xDir *= -1f;
+
+        StopAllCoroutines();
+        StartCoroutine(JumpRoutine(xDir, true, 1.3f, 1.5f));
+    }
+    public bool IsPerformingForesightAction()
+    {
+        return isDodging;
+    }
 
     // --- REWIND INTERFACE IMPLEMENTATION ---
     // Handles saving and restoring state for the TimeRewind system.
@@ -356,6 +480,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
     StopAllCoroutines();
     isMidJumpSequence = false;
     CancelInvoke();
+    rewindStartTime = Time.time;
 
     // Revive logic
     if (!enabled)
@@ -369,9 +494,15 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable
 
     public override void OnStopRewind()
     {
-    base.OnStopRewind(); // IMPORTANT
-
-    isMidJumpSequence = false;
+        base.OnStopRewind(); // IMPORTANT
+        isMidJumpSequence = false;
+        if (foresightSystem != null)
+        {
+            // Calculate how much time passed in the real world while we were rewinding
+            float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime;
+            int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
+            foresightSystem.HandleRewindStop(statesErased);
+        }
     }
 
     public override RewindState CaptureState()

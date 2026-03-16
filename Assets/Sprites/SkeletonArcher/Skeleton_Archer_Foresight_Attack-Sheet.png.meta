@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: 3c6ffb6927e7d9d42b474932a09866fa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4597314137324687157
+    second: Skeleton_Archer_Foresight-Sheet 1_0
+  - first:
+      213: -2458287600250569733
+    second: Skeleton_Archer_Foresight-Sheet 1_1
+  - first:
+      213: -8209402648665462405
+    second: Skeleton_Archer_Foresight-Sheet 1_2
+  - first:
+      213: -1136565327625767179
+    second: Skeleton_Archer_Foresight-Sheet 1_3
+  - first:
+      213: 3719693802561515607
+    second: Skeleton_Archer_Foresight-Sheet 1_4
+  - first:
+      213: -7856546649372935317
+    second: Skeleton_Archer_Foresight-Sheet 1_5
+  - first:
+      213: -6325244423956269562
+    second: Skeleton_Archer_Foresight-Sheet 1_6
+  - first:
+      213: 601417362026604809
+    second: Skeleton_Archer_Foresight-Sheet 1_7
+  - first:
+      213: -4592884634492413941
+    second: Skeleton_Archer_Foresight-Sheet 1_8
+  - first:
+      213: 1046339456610774593
+    second: Skeleton_Archer_Foresight-Sheet 1_9
+  - first:
+      213: 6475227141450445199
+    second: Skeleton_Archer_Foresight-Sheet 1_10
+  - first:
+      213: 6091799886793829554
+    second: Skeleton_Archer_Foresight-Sheet 1_11
+  - first:
+      213: -1283386788755659269
+    second: Skeleton_Archer_Foresight-Sheet 1_12
+  - first:
+      213: 170530934832219115
+    second: Skeleton_Archer_Foresight-Sheet 1_13
+  - first:
+      213: 567698192387587837
+    second: Skeleton_Archer_Foresight-Sheet 1_14
+  - first:
+      213: -1443420957816199616
+    second: Skeleton_Archer_Foresight-Sheet 1_15
+  - first:
+      213: 5117218297290048644
+    second: Skeleton_Archer_Foresight-Sheet 1_16
+  - first:
+      213: 3468863724327714681
+    second: Skeleton_Archer_Foresight-Sheet 1_17
+  - first:
+      213: 3707055890935497797
+    second: Skeleton_Archer_Foresight-Sheet 1_18
+  - first:
+      213: 8477588255486132003
+    second: Skeleton_Archer_Foresight-Sheet 1_19
+  - first:
+      213: 1187777582370103148
+    second: Skeleton_Archer_Foresight-Sheet 1_20
+  - first:
+      213: -1741332951146713582
+    second: Skeleton_Archer_Foresight-Sheet 1_21
+  - first:
+      213: 1423010784461132451
+    second: Skeleton_Archer_Foresight-Sheet 1_22
+  - first:
+      213: 7713567809053627426
+    second: Skeleton_Archer_Foresight-Sheet 1_23
+  - first:
+      213: 1737531626334836351
+    second: Skeleton_Archer_Foresight-Sheet 1_24
+  - first:
+      213: -3629542347818936259
+    second: Skeleton_Archer_Foresight-Sheet 1_25
+  - first:
+      213: -1635003748122288014
+    second: Skeleton_Archer_Foresight-Sheet 1_26
+  - first:
+      213: -5163015901006880019
+    second: Skeleton_Archer_Foresight-Sheet 1_27
+  - first:
+      213: -5114696159822760916
+    second: Skeleton_Archer_Foresight-Sheet 1_28
+  - first:
+      213: -4353598534815104945
+    second: Skeleton_Archer_Foresight-Sheet 1_29
+  - first:
+      213: 6869371023739388567
+    second: Skeleton_Archer_Foresight-Sheet 1_30
+  - first:
+      213: 6125899487678799846
+    second: Skeleton_Archer_Foresight-Sheet 1_31
+  - first:
+      213: -5112279096692360315
+    second: Skeleton_Archer_Foresight-Sheet 1_32
+  - first:
+      213: -6453395158165206576
+    second: Skeleton_Archer_Foresight-Sheet 1_33
+  - first:
+      213: 7933646988398634013
+    second: Skeleton_Archer_Foresight-Sheet 1_34
+  - first:
+      213: -5757386804087110025
+    second: Skeleton_Archer_Foresight-Sheet 1_35
+  - first:
+      213: -2391727476848807401
+    second: Skeleton_Archer_Foresight-Sheet 1_36
+  - first:
+      213: 633446034532127706
+    second: Skeleton_Archer_Foresight-Sheet 1_37
+  - first:
+      213: 211406145099352460
+    second: Skeleton_Archer_Foresight-Sheet 1_38
+  - first:
+      213: -8427625015727326516
+    second: Skeleton_Archer_Foresight-Sheet 1_39
+  - first:
+      213: 8779925872279793630
+    second: Skeleton_Archer_Foresight-Sheet 1_40
+  - first:
+      213: 8060836955441179319
+    second: Skeleton_Archer_Foresight-Sheet 1_41
+  - first:
+      213: -3177101592716366630
+    second: Skeleton_Archer_Foresight-Sheet 1_42
+  - first:
+      213: -5179199809634819642
+    second: Skeleton_Archer_Foresight-Sheet 1_43
+  - first:
+      213: -538847611704603476
+    second: Skeleton_Archer_Foresight-Sheet 1_44
+  - first:
+      213: -1826978214912102911
+    second: Skeleton_Archer_Foresight-Sheet 1_45
+  - first:
+      213: 4293980844298384954
+    second: Skeleton_Archer_Foresight-Sheet 1_46
+  - first:
+      213: 8178710563803448136
+    second: Skeleton_Archer_Foresight-Sheet 1_47
+  - first:
+      213: -3183854359871714224
+    second: Skeleton_Archer_Foresight-Sheet 1_48
+  - first:
+      213: -4047875645158677237
+    second: Skeleton_Archer_Foresight-Sheet 1_49
+  - first:
+      213: 2827584910828024205
+    second: Skeleton_Archer_Foresight-Sheet 1_50
+  - first:
+      213: 5100385326510511163
+    second: Skeleton_Archer_Foresight-Sheet 1_51
+  - first:
+      213: -1011136279202491408
+    second: Skeleton_Archer_Foresight-Sheet 1_52
+  - first:
+      213: -2183188877381235349
+    second: Skeleton_Archer_Foresight-Sheet 1_53
+  - first:
+      213: 996901341879923573
+    second: Skeleton_Archer_Foresight-Sheet 1_54
+  - first:
+      213: 1754673990900415378
+    second: Skeleton_Archer_Foresight-Sheet 1_55
+  - first:
+      213: 8915215213701549202
+    second: Skeleton_Archer_Foresight-Sheet 1_56
+  - first:
+      213: -452749718299619181
+    second: Skeleton_Archer_Foresight-Sheet 1_57
+  - first:
+      213: 1400114210407232453
+    second: Skeleton_Archer_Foresight-Sheet 1_58
+  - first:
+      213: -5166372690539906212
+    second: Skeleton_Archer_Foresight-Sheet 1_59
+  - first:
+      213: -3479025752284419990
+    second: Skeleton_Archer_Foresight-Sheet 1_60
+  - first:
+      213: -1351764040882045301
+    second: Skeleton_Archer_Foresight-Sheet 1_61
+  - first:
+      213: -8514936418181769875
+    second: Skeleton_Archer_Foresight-Sheet 1_62
+  - first:
+      213: -249306334989608890
+    second: Skeleton_Archer_Foresight-Sheet 1_63
+  - first:
+      213: -364299592117256570
+    second: Skeleton_Archer_Foresight-Sheet 1_64
+  - first:
+      213: -671305075650939501
+    second: Skeleton_Archer_Foresight-Sheet 1_65
+  - first:
+      213: -2553061578107817477
+    second: Skeleton_Archer_Foresight-Sheet 1_66
+  - first:
+      213: 7180064449219897002
+    second: Skeleton_Archer_Foresight-Sheet 1_67
+  - first:
+      213: 7268486915705684782
+    second: Skeleton_Archer_Foresight-Sheet 1_68
+  - first:
+      213: 2583640339922674142
+    second: Skeleton_Archer_Foresight-Sheet 1_69
+  - first:
+      213: 8111842807256465938
+    second: Skeleton_Archer_Foresight-Sheet 1_70
+  - first:
+      213: 4027237787360692011
+    second: Skeleton_Archer_Foresight-Sheet 1_71
+  - first:
+      213: 3703582681859796741
+    second: Skeleton_Archer_Foresight-Sheet 1_72
+  - first:
+      213: -3333384501851822053
+    second: Skeleton_Archer_Foresight-Sheet 1_73
+  - first:
+      213: 4802732450058115419
+    second: Skeleton_Archer_Foresight-Sheet 1_74
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 478e51ab59b741644b3c36812e638a83
+      internalID: 1528981143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3966aea89f526f44ac6fdfdf7dde08a
+      internalID: 1334974175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0fe3144a0e375b47bc1896189f14994
+      internalID: -1744625496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ccac3cb42085394588c2df8db936e53
+      internalID: 112944954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa7c790abe86d5b43a84eb1c0f71e126
+      internalID: -479977537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 146b7c2adc3b4364a80cb24be3d49282
+      internalID: 1085866556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a13c19ec4c7e2a46bc04ec5e8149150
+      internalID: 1718729144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8924d54e8be410c45b5ba4f204c1b03d
+      internalID: -1030842639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Archer_Foresight_Attack-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5330d823502671e49b53fe39bae94b95
+      internalID: 841179218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0e1739f5c1d7b7a4d81bb962ca0f8db2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Skeleton_Archer_Foresight_Attack-Sheet_0: 2044840109
+      Skeleton_Archer_Foresight_Attack-Sheet_1: -241432026
+      Skeleton_Archer_Foresight_Attack-Sheet_10: 1971816691
+      Skeleton_Archer_Foresight_Attack-Sheet_11: -595084552
+      Skeleton_Archer_Foresight_Attack-Sheet_12: 1446339517
+      Skeleton_Archer_Foresight_Attack-Sheet_13: 1731117192
+      Skeleton_Archer_Foresight_Attack-Sheet_14: -743415210
+      Skeleton_Archer_Foresight_Attack-Sheet_15: -57428007
+      Skeleton_Archer_Foresight_Attack-Sheet_16: 1303561240
+      Skeleton_Archer_Foresight_Attack-Sheet_17: -304544736
+      Skeleton_Archer_Foresight_Attack-Sheet_18: 1046023102
+      Skeleton_Archer_Foresight_Attack-Sheet_19: 990516945
+      Skeleton_Archer_Foresight_Attack-Sheet_2: -94106683
+      Skeleton_Archer_Foresight_Attack-Sheet_20: -2048087063
+      Skeleton_Archer_Foresight_Attack-Sheet_21: 1876189092
+      Skeleton_Archer_Foresight_Attack-Sheet_22: 1098242426
+      Skeleton_Archer_Foresight_Attack-Sheet_23: 1990705336
+      Skeleton_Archer_Foresight_Attack-Sheet_24: 1110430410
+      Skeleton_Archer_Foresight_Attack-Sheet_25: 1374739316
+      Skeleton_Archer_Foresight_Attack-Sheet_26: 347547412
+      Skeleton_Archer_Foresight_Attack-Sheet_27: -1858917730
+      Skeleton_Archer_Foresight_Attack-Sheet_28: 359589064
+      Skeleton_Archer_Foresight_Attack-Sheet_29: 248624685
+      Skeleton_Archer_Foresight_Attack-Sheet_3: 855846749
+      Skeleton_Archer_Foresight_Attack-Sheet_30: 576755263
+      Skeleton_Archer_Foresight_Attack-Sheet_31: -1538504295
+      Skeleton_Archer_Foresight_Attack-Sheet_32: -605075507
+      Skeleton_Archer_Foresight_Attack-Sheet_33: 1597451295
+      Skeleton_Archer_Foresight_Attack-Sheet_34: -1981304793
+      Skeleton_Archer_Foresight_Attack-Sheet_35: -762180081
+      Skeleton_Archer_Foresight_Attack-Sheet_36: -788515866
+      Skeleton_Archer_Foresight_Attack-Sheet_37: 1207221868
+      Skeleton_Archer_Foresight_Attack-Sheet_38: -1432581431
+      Skeleton_Archer_Foresight_Attack-Sheet_39: 1644809867
+      Skeleton_Archer_Foresight_Attack-Sheet_4: -1052865362
+      Skeleton_Archer_Foresight_Attack-Sheet_40: -2091044995
+      Skeleton_Archer_Foresight_Attack-Sheet_41: -1579583978
+      Skeleton_Archer_Foresight_Attack-Sheet_42: 768355254
+      Skeleton_Archer_Foresight_Attack-Sheet_43: -1910786946
+      Skeleton_Archer_Foresight_Attack-Sheet_44: 2005883667
+      Skeleton_Archer_Foresight_Attack-Sheet_45: -396284202
+      Skeleton_Archer_Foresight_Attack-Sheet_46: -1006080867
+      Skeleton_Archer_Foresight_Attack-Sheet_47: 492788088
+      Skeleton_Archer_Foresight_Attack-Sheet_48: 1237966105
+      Skeleton_Archer_Foresight_Attack-Sheet_49: -599674681
+      Skeleton_Archer_Foresight_Attack-Sheet_5: -26048548
+      Skeleton_Archer_Foresight_Attack-Sheet_50: 1306394121
+      Skeleton_Archer_Foresight_Attack-Sheet_51: 1900899722
+      Skeleton_Archer_Foresight_Attack-Sheet_52: -90607739
+      Skeleton_Archer_Foresight_Attack-Sheet_53: 493842860
+      Skeleton_Archer_Foresight_Attack-Sheet_54: -631556993
+      Skeleton_Archer_Foresight_Attack-Sheet_55: 1528981143
+      Skeleton_Archer_Foresight_Attack-Sheet_56: 1334974175
+      Skeleton_Archer_Foresight_Attack-Sheet_57: -1744625496
+      Skeleton_Archer_Foresight_Attack-Sheet_58: 112944954
+      Skeleton_Archer_Foresight_Attack-Sheet_59: -479977537
+      Skeleton_Archer_Foresight_Attack-Sheet_6: -272708561
+      Skeleton_Archer_Foresight_Attack-Sheet_60: 1085866556
+      Skeleton_Archer_Foresight_Attack-Sheet_61: 1718729144
+      Skeleton_Archer_Foresight_Attack-Sheet_62: -1030842639
+      Skeleton_Archer_Foresight_Attack-Sheet_63: 841179218
+      Skeleton_Archer_Foresight_Attack-Sheet_64: 2025167848
+      Skeleton_Archer_Foresight_Attack-Sheet_65: 771122823
+      Skeleton_Archer_Foresight_Attack-Sheet_66: 190741789
+      Skeleton_Archer_Foresight_Attack-Sheet_67: 830868105
+      Skeleton_Archer_Foresight_Attack-Sheet_68: 886410200
+      Skeleton_Archer_Foresight_Attack-Sheet_7: 1992077683
+      Skeleton_Archer_Foresight_Attack-Sheet_8: -107812450
+      Skeleton_Archer_Foresight_Attack-Sheet_9: -2110489640
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

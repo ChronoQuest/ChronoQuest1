@@ -1,0 +1,2062 @@
+fileFormatVersion: 2
+guid: 86dc92bbc463d624eb43e707635c230e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5463798498190237479
+    second: Ghost_Foresight-Sheet_0
+  - first:
+      213: 1273174981866371598
+    second: Ghost_Foresight-Sheet_1
+  - first:
+      213: -8947735379832474028
+    second: Ghost_Foresight-Sheet_2
+  - first:
+      213: 3741489363834078889
+    second: Ghost_Foresight-Sheet_3
+  - first:
+      213: -4244970925166816524
+    second: Ghost_Foresight-Sheet_4
+  - first:
+      213: -8561810918276915862
+    second: Ghost_Foresight-Sheet_5
+  - first:
+      213: 5680422454445425584
+    second: Ghost_Foresight-Sheet_6
+  - first:
+      213: 6404290236419505188
+    second: Ghost_Foresight-Sheet_7
+  - first:
+      213: -2120666023216920288
+    second: Ghost_Foresight-Sheet_8
+  - first:
+      213: -4195032667912388540
+    second: Ghost_Foresight-Sheet_9
+  - first:
+      213: 7976693000691473055
+    second: Ghost_Foresight-Sheet_10
+  - first:
+      213: -4099858130643818498
+    second: Ghost_Foresight-Sheet_11
+  - first:
+      213: 1701210762453922601
+    second: Ghost_Foresight-Sheet_12
+  - first:
+      213: -3860518986874162650
+    second: Ghost_Foresight-Sheet_13
+  - first:
+      213: 5419906188865084720
+    second: Ghost_Foresight-Sheet_14
+  - first:
+      213: -3124221779461587970
+    second: Ghost_Foresight-Sheet_15
+  - first:
+      213: -3838242799817152001
+    second: Ghost_Foresight-Sheet_16
+  - first:
+      213: 8896519615089037275
+    second: Ghost_Foresight-Sheet_17
+  - first:
+      213: 2556882418461820232
+    second: Ghost_Foresight-Sheet_18
+  - first:
+      213: -7133542695794445342
+    second: Ghost_Foresight-Sheet_19
+  - first:
+      213: 1780696029404607
+    second: Ghost_Foresight-Sheet_20
+  - first:
+      213: -8930280699547849718
+    second: Ghost_Foresight-Sheet_21
+  - first:
+      213: -5259989093456852561
+    second: Ghost_Foresight-Sheet_22
+  - first:
+      213: -6510805156134160181
+    second: Ghost_Foresight-Sheet_23
+  - first:
+      213: -8047872839665288720
+    second: Ghost_Foresight-Sheet_24
+  - first:
+      213: -1492619633965869985
+    second: Ghost_Foresight-Sheet_25
+  - first:
+      213: 2949459398635028686
+    second: Ghost_Foresight-Sheet_26
+  - first:
+      213: -8036417846156842621
+    second: Ghost_Foresight-Sheet_27
+  - first:
+      213: 566776171790400265
+    second: Ghost_Foresight-Sheet_28
+  - first:
+      213: -7538851618421297717
+    second: Ghost_Foresight-Sheet_29
+  - first:
+      213: -8051758399558161520
+    second: Ghost_Foresight-Sheet_30
+  - first:
+      213: -4283068188347917974
+    second: Ghost_Foresight-Sheet_31
+  - first:
+      213: 1621555876476638967
+    second: Ghost_Foresight-Sheet_32
+  - first:
+      213: -528585844777487373
+    second: Ghost_Foresight-Sheet_33
+  - first:
+      213: 7742376901382958500
+    second: Ghost_Foresight-Sheet_34
+  - first:
+      213: 5683926970955619495
+    second: Ghost_Foresight-Sheet_35
+  - first:
+      213: -2975007776101683923
+    second: Ghost_Foresight-Sheet_36
+  - first:
+      213: -2939694511315978526
+    second: Ghost_Foresight-Sheet_37
+  - first:
+      213: -2025169720750924872
+    second: Ghost_Foresight-Sheet_38
+  - first:
+      213: -6993305374268144267
+    second: Ghost_Foresight-Sheet_39
+  - first:
+      213: 3062495232175598861
+    second: Ghost_Foresight-Sheet_40
+  - first:
+      213: -6783034986408795908
+    second: Ghost_Foresight-Sheet_41
+  - first:
+      213: 7362084710766921251
+    second: Ghost_Foresight-Sheet_42
+  - first:
+      213: 438057487212667573
+    second: Ghost_Foresight-Sheet_43
+  - first:
+      213: 7029816922593710959
+    second: Ghost_Foresight-Sheet_44
+  - first:
+      213: -6385792705499598984
+    second: Ghost_Foresight-Sheet_45
+  - first:
+      213: -4368367864835028546
+    second: Ghost_Foresight-Sheet_46
+  - first:
+      213: -2319717603255061241
+    second: Ghost_Foresight-Sheet_47
+  - first:
+      213: -8175229779805277826
+    second: Ghost_Foresight-Sheet_48
+  - first:
+      213: 6056838029501571015
+    second: Ghost_Foresight-Sheet_49
+  - first:
+      213: 7487632122242731316
+    second: Ghost_Foresight-Sheet_50
+  - first:
+      213: -830133632081636102
+    second: Ghost_Foresight-Sheet_51
+  - first:
+      213: -384089197943459034
+    second: Ghost_Foresight-Sheet_52
+  - first:
+      213: -2268551918162975140
+    second: Ghost_Foresight-Sheet_53
+  - first:
+      213: 4478194881523936640
+    second: Ghost_Foresight-Sheet_54
+  - first:
+      213: -7046779081690320603
+    second: Ghost_Foresight-Sheet_55
+  - first:
+      213: 3218150509983014626
+    second: Ghost_Foresight-Sheet_56
+  - first:
+      213: -6913971248292397309
+    second: Ghost_Foresight-Sheet_57
+  - first:
+      213: 3440591583380544853
+    second: Ghost_Foresight-Sheet_58
+  - first:
+      213: -7511595170422322940
+    second: Ghost_Foresight-Sheet_59
+  - first:
+      213: 597946589199691225
+    second: Ghost_Foresight-Sheet_60
+  - first:
+      213: 927964759791122153
+    second: Ghost_Foresight-Sheet_61
+  - first:
+      213: 8880194428739412816
+    second: Ghost_Foresight-Sheet_62
+  - first:
+      213: -2068127351331721572
+    second: Ghost_Foresight-Sheet_63
+  - first:
+      213: 3656012317858585707
+    second: Ghost_Foresight-Sheet_64
+  - first:
+      213: -9029661056996098969
+    second: Ghost_Foresight-Sheet_65
+  - first:
+      213: 5058951044825928767
+    second: Ghost_Foresight-Sheet_66
+  - first:
+      213: 5379100135618187687
+    second: Ghost_Foresight-Sheet_67
+  - first:
+      213: -3062438090836702812
+    second: Ghost_Foresight-Sheet_68
+  - first:
+      213: -1250830264978815823
+    second: Ghost_Foresight-Sheet_69
+  - first:
+      213: -2461425451211306060
+    second: Ghost_Foresight-Sheet_70
+  - first:
+      213: 5295782892104806207
+    second: Ghost_Foresight-Sheet_71
+  - first:
+      213: -1567195386505166696
+    second: Ghost_Foresight-Sheet_72
+  - first:
+      213: 2975763479269917165
+    second: Ghost_Foresight-Sheet_73
+  - first:
+      213: -2545996833677732547
+    second: Ghost_Foresight-Sheet_74
+  - first:
+      213: -7577306341174439007
+    second: Ghost_Foresight-Sheet_75
+  - first:
+      213: -7983587178873433869
+    second: Ghost_Foresight-Sheet_76
+  - first:
+      213: 2095994737642363069
+    second: Ghost_Foresight-Sheet_77
+  - first:
+      213: 7759363358428245365
+    second: Ghost_Foresight-Sheet_78
+  - first:
+      213: -8991977595771121549
+    second: Ghost_Foresight-Sheet_79
+  - first:
+      213: -8405779130031665186
+    second: Ghost_Foresight-Sheet_80
+  - first:
+      213: -3734937130715950584
+    second: Ghost_Foresight-Sheet_81
+  - first:
+      213: 239246872173683679
+    second: Ghost_Foresight-Sheet_82
+  - first:
+      213: 8458285696683783645
+    second: Ghost_Foresight-Sheet_83
+  - first:
+      213: -5169709645013831234
+    second: Ghost_Foresight-Sheet_84
+  - first:
+      213: 4427104588192600162
+    second: Ghost_Foresight-Sheet_85
+  - first:
+      213: 9029530648338030501
+    second: Ghost_Foresight-Sheet_86
+  - first:
+      213: 8458171224993437004
+    second: Ghost_Foresight-Sheet_87
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72f11f029cf43db40800000000000000
+      internalID: 5463798498190237479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0a3f0386e93ba110800000000000000
+      internalID: 1273174981866371598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 456f3e4441243d380800000000000000
+      internalID: -8947735379832474028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a68b3ec0c07ce330800000000000000
+      internalID: 3741489363834078889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f212933f65d615c0800000000000000
+      internalID: -4244970925166816524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6d1b0e05565e2980800000000000000
+      internalID: -8561810918276915862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b34f5b402ae4de40800000000000000
+      internalID: 5680422454445425584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42c7944e90c90e850800000000000000
+      internalID: 6404290236419505188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0294ae6dc71e192e0800000000000000
+      internalID: -2120666023216920288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4404ce7c30048c5c0800000000000000
+      internalID: -4195032667912388540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9a5f849508e2be60800000000000000
+      internalID: 7976693000691473055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef76a7d80c06a17c0800000000000000
+      internalID: -4099858130643818498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9233320dc2aeb9710800000000000000
+      internalID: 1701210762453922601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 622f6b27f6eac6ac0800000000000000
+      internalID: -3860518986874162650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03d9e3f76ff573b40800000000000000
+      internalID: 5419906188865084720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efb37ab28d884a4d0800000000000000
+      internalID: -3124221779461587970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff9a23b6282dbbac0800000000000000
+      internalID: -3838242799817152001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdf4da24479c67b70800000000000000
+      internalID: 8896519615089037275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 845cbdc330fdb7320800000000000000
+      internalID: 2556882418461820232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e3f61b96b0900d90800000000000000
+      internalID: -7133542695794445342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbd194a9883560000800000000000000
+      internalID: 1780696029404607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0c6ce6b405411480800000000000000
+      internalID: -8930280699547849718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa94312c9c3c007b0800000000000000
+      internalID: -5259989093456852561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc877dac439f4a5a0800000000000000
+      internalID: -6510805156134160181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f97c32ba46305090800000000000000
+      internalID: -8047872839665288720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f54d0b4e956294be0800000000000000
+      internalID: -1492619633965869985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec0041732b59ee820800000000000000
+      internalID: 2949459398635028686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38926353c88e87090800000000000000
+      internalID: -8036417846156842621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90bf8b2ece79dd700800000000000000
+      internalID: 566776171790400265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcdae95456e906790800000000000000
+      internalID: -7538851618421297717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09b61194568624090800000000000000
+      internalID: -8051758399558161520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a691fb4ec2c7f84c0800000000000000
+      internalID: -4283068188347917974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f656d07a7ce08610800000000000000
+      internalID: 1621555876476638967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f3fcb889f51aa8f0800000000000000
+      internalID: -528585844777487373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4adee1c55c2727b60800000000000000
+      internalID: 7742376901382958500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ac5211277d51ee40800000000000000
+      internalID: 5683926970955619495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2d2f6d9036a6b6d0800000000000000
+      internalID: -2975007776101683923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e678d8ca6b1437d0800000000000000
+      internalID: -2939694511315978526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bb93c86ed625e3e0800000000000000
+      internalID: -2025169720750924872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 575cae070d9c2fe90800000000000000
+      internalID: -6993305374268144267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d6728103b208a20800000000000000
+      internalID: 3062495232175598861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf0ae003e91ddd1a0800000000000000
+      internalID: -6783034986408795908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 326c897d9016b2660800000000000000
+      internalID: 7362084710766921251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b2e284b6fa441600800000000000000
+      internalID: 438057487212667573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f635a3bde3dee8160800000000000000
+      internalID: 7029816922593710959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87f6a632e5b1167a0800000000000000
+      internalID: -6385792705499598984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb9c64052907063c0800000000000000
+      internalID: -4368367864835028546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 705f2c65125becfd0800000000000000
+      internalID: -2319717603255061241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e71f28954dfbb8e80800000000000000
+      internalID: -8175229779805277826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cf948ae8163e0450800000000000000
+      internalID: 6056838029501571015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43d05177eb969e760800000000000000
+      internalID: 7487632122242731316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af45baf1cd5ca74f0800000000000000
+      internalID: -830133632081636102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 623f382d8e07baaf0800000000000000
+      internalID: -384089197943459034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c566d5bbc0c7480e0800000000000000
+      internalID: -2268551918162975140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08de43ca48eb52e30800000000000000
+      internalID: 4478194881523936640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 1430
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 521f139b2cfc43e90800000000000000
+      internalID: -7046779081690320603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ee974d96da29ac20800000000000000
+      internalID: 3218150509983014626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30f744e08c3ac00a0800000000000000
+      internalID: -6913971248292397309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55d9898e0df6fbf20800000000000000
+      internalID: 3440591583380544853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 409007a9df371c790800000000000000
+      internalID: -7511595170422322940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dd67eb31455c4800800000000000000
+      internalID: 597946589199691225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e63e6f480bc0ec00800000000000000
+      internalID: 927964759791122153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0536a6d98c9cc3b70800000000000000
+      internalID: 8880194428739412816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9e6a91a1298c43e0800000000000000
+      internalID: -2068127351331721572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6cd96c25d3ccb230800000000000000
+      internalID: 3656012317858585707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76cb19f1c1330b280800000000000000
+      internalID: -9029661056996098969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f34d0fafb21053640800000000000000
+      internalID: 5058951044825928767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a117cad21766aa40800000000000000
+      internalID: 5379100135618187687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a98d0928c80085d0800000000000000
+      internalID: -3062438090836702812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b441ad408824aee0800000000000000
+      internalID: -1250830264978815823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bbc173e79247ddd0800000000000000
+      internalID: -2461425451211306060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3f6f7b6b766e7940800000000000000
+      internalID: 5295782892104806207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_Foresight-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8908abd6914304ae0800000000000000
+      internalID: -1567195386505166696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: ef6c1fe1c6bd2d348bc6507daaca9d4d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Ghost_Foresight-Sheet_0: 5463798498190237479
+      Ghost_Foresight-Sheet_1: 1273174981866371598
+      Ghost_Foresight-Sheet_10: 7976693000691473055
+      Ghost_Foresight-Sheet_11: -4099858130643818498
+      Ghost_Foresight-Sheet_12: 1701210762453922601
+      Ghost_Foresight-Sheet_13: -3860518986874162650
+      Ghost_Foresight-Sheet_14: 5419906188865084720
+      Ghost_Foresight-Sheet_15: -3124221779461587970
+      Ghost_Foresight-Sheet_16: -3838242799817152001
+      Ghost_Foresight-Sheet_17: 8896519615089037275
+      Ghost_Foresight-Sheet_18: 2556882418461820232
+      Ghost_Foresight-Sheet_19: -7133542695794445342
+      Ghost_Foresight-Sheet_2: -8947735379832474028
+      Ghost_Foresight-Sheet_20: 1780696029404607
+      Ghost_Foresight-Sheet_21: -8930280699547849718
+      Ghost_Foresight-Sheet_22: -5259989093456852561
+      Ghost_Foresight-Sheet_23: -6510805156134160181
+      Ghost_Foresight-Sheet_24: -8047872839665288720
+      Ghost_Foresight-Sheet_25: -1492619633965869985
+      Ghost_Foresight-Sheet_26: 2949459398635028686
+      Ghost_Foresight-Sheet_27: -8036417846156842621
+      Ghost_Foresight-Sheet_28: 566776171790400265
+      Ghost_Foresight-Sheet_29: -7538851618421297717
+      Ghost_Foresight-Sheet_3: 3741489363834078889
+      Ghost_Foresight-Sheet_30: -8051758399558161520
+      Ghost_Foresight-Sheet_31: -4283068188347917974
+      Ghost_Foresight-Sheet_32: 1621555876476638967
+      Ghost_Foresight-Sheet_33: -528585844777487373
+      Ghost_Foresight-Sheet_34: 7742376901382958500
+      Ghost_Foresight-Sheet_35: 5683926970955619495
+      Ghost_Foresight-Sheet_36: -2975007776101683923
+      Ghost_Foresight-Sheet_37: -2939694511315978526
+      Ghost_Foresight-Sheet_38: -2025169720750924872
+      Ghost_Foresight-Sheet_39: -6993305374268144267
+      Ghost_Foresight-Sheet_4: -4244970925166816524
+      Ghost_Foresight-Sheet_40: 3062495232175598861
+      Ghost_Foresight-Sheet_41: -6783034986408795908
+      Ghost_Foresight-Sheet_42: 7362084710766921251
+      Ghost_Foresight-Sheet_43: 438057487212667573
+      Ghost_Foresight-Sheet_44: 7029816922593710959
+      Ghost_Foresight-Sheet_45: -6385792705499598984
+      Ghost_Foresight-Sheet_46: -4368367864835028546
+      Ghost_Foresight-Sheet_47: -2319717603255061241
+      Ghost_Foresight-Sheet_48: -8175229779805277826
+      Ghost_Foresight-Sheet_49: 6056838029501571015
+      Ghost_Foresight-Sheet_5: -8561810918276915862
+      Ghost_Foresight-Sheet_50: 7487632122242731316
+      Ghost_Foresight-Sheet_51: -830133632081636102
+      Ghost_Foresight-Sheet_52: -384089197943459034
+      Ghost_Foresight-Sheet_53: -2268551918162975140
+      Ghost_Foresight-Sheet_54: 4478194881523936640
+      Ghost_Foresight-Sheet_55: -7046779081690320603
+      Ghost_Foresight-Sheet_56: 3218150509983014626
+      Ghost_Foresight-Sheet_57: -6913971248292397309
+      Ghost_Foresight-Sheet_58: 3440591583380544853
+      Ghost_Foresight-Sheet_59: -7511595170422322940
+      Ghost_Foresight-Sheet_6: 5680422454445425584
+      Ghost_Foresight-Sheet_60: 597946589199691225
+      Ghost_Foresight-Sheet_61: 927964759791122153
+      Ghost_Foresight-Sheet_62: 8880194428739412816
+      Ghost_Foresight-Sheet_63: -2068127351331721572
+      Ghost_Foresight-Sheet_64: 3656012317858585707
+      Ghost_Foresight-Sheet_65: -9029661056996098969
+      Ghost_Foresight-Sheet_66: 5058951044825928767
+      Ghost_Foresight-Sheet_67: 5379100135618187687
+      Ghost_Foresight-Sheet_68: -3062438090836702812
+      Ghost_Foresight-Sheet_69: -1250830264978815823
+      Ghost_Foresight-Sheet_7: 6404290236419505188
+      Ghost_Foresight-Sheet_70: -2461425451211306060
+      Ghost_Foresight-Sheet_71: 5295782892104806207
+      Ghost_Foresight-Sheet_72: -1567195386505166696
+      Ghost_Foresight-Sheet_8: -2120666023216920288
+      Ghost_Foresight-Sheet_9: -4195032667912388540
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
