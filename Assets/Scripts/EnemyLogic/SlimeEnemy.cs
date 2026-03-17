@@ -85,8 +85,9 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     }
 
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         // 1. Pause logic if rewinding time or dead
         if (isRewinding || wasDead || isStunned || isLaunched) return;
 
@@ -255,7 +256,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
                 if (isLaunched && stunOnLand)
                 {
-                    StartCoroutine(HitStunRoutine(0.5f));
+                    stunTimer = 0.5f;
+                    isLaunched = false;
                 }
 
                 groundContacts++;
