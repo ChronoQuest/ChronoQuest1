@@ -20,7 +20,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     [Header("Hop Settings")]
     public float hopForce = 3f;
     public float hopCooldown = 1f;
-    public float animationSpeed = 0.1f; // Speed for start/end frames
+    public float animationSpeed = 0.0833f; // Speed for start/end frames
 
     [Header("Debug")]
     public float currentVelocityY; // Visible in Inspector to debug falling speed
@@ -160,9 +160,18 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         // Phase 1: Anticipation (Frames 0-2)
         // Play "Squash/Prepare" frames while still on the ground
-        SetFrame(0); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(1); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(2); yield return new WaitForSeconds(animationSpeed);
+        float timer = 0f;
+        float phaseDuration = animationSpeed * 3f; // 3 frames total
+
+        while (timer < phaseDuration)
+        {
+            if (timer < animationSpeed) SetFrame(0);
+            else if (timer < animationSpeed * 2f) SetFrame(1);
+            else SetFrame(2);
+            
+            timer += Time.deltaTime;
+            yield return null; // Wait exactly 1 frame, then check again
+        }
 
         // Phase 2: Launch
         int originalLayer = gameObject.layer;
@@ -173,11 +182,12 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         }
         currentStateLabel = "Launching";
         animator.SetTrigger("hop");
-        rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier,hopForce * heightMultiplier);
+        rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier, hopForce * heightMultiplier);
         isGrounded = false;
         groundContacts = 0;
         liftoffTime = Time.time;
-        yield return new WaitForSeconds(0.1f); // Wait to ensure physical liftoff
+
+        yield return new WaitForFixedUpdate(); 
 
         // Phase 3: Air Loop (Physics Driven)
         float timeAirborne = 0f;
@@ -209,7 +219,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             else SetFrame(5); // Falling Fast (Clamped to frame 5)
 
             yield return null; // Wait for next frame
-        }
+
+        } 
 
         // Phase 4: Landing (Frames 6-8)
         currentStateLabel = "Landing";
@@ -218,17 +229,25 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             gameObject.layer = originalLayer;
             spriteRenderer.color = originalColor;
         }
-        // Stop sliding physics
+
         rb.linearVelocity = Vector2.zero;
-
         currentVelocityY = 0f;
-        // Force grounded state so Update() picks it up correctly next frame
         isGrounded = true;
-        SetFrame(6); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(7); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(8); yield return new WaitForSeconds(animationSpeed);
 
-        isMidJumpSequence = false; // Return control to Update()
+        // Reset timer for the landing phase
+        timer = 0f; 
+
+        while (timer < phaseDuration)
+        {
+            if (timer < animationSpeed) SetFrame(6);
+            else if (timer < animationSpeed * 2f) SetFrame(7);
+            else SetFrame(8);
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isMidJumpSequence = false;
         currentStateLabel = "Idle";
     }
 
