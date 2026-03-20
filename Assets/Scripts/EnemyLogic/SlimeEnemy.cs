@@ -61,10 +61,9 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool isDodging = false;    
     private ForesightSystem foresightSystem;
     private float rewindStartTime;
-
-
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
+    private bool wasStunnedLastFrame = false;
 
     void Start()
     {
@@ -88,14 +87,32 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Update()
     {
         base.Update();
+        bool justGotStunned = isStunned && !wasStunnedLastFrame;
+        wasStunnedLastFrame = isStunned;
+        if (justGotStunned)
+        {
+            animator.Play("Idle", 0, 0f); // snap to start of idle
+            SetFrame(0);
+        }
         // 1. Pause logic if rewinding time or dead
-        if (isRewinding || wasDead || isStunned || isLaunched) return;
+        if (isRewinding || wasDead || isLaunched) return;
+        animator.speed = 1f;
 
         if (isStunned)
         {
-            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 2f), rb.linearVelocity.y);
-            SetFrame(0); // Reeling frame
-            return; 
+            rb.linearVelocity = new Vector2(
+                Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 2f),
+                rb.linearVelocity.y
+            );
+
+            animator.speed = isGrounded ? 0f : 1f;
+
+            if (isGrounded)
+            {
+                SetFrame(0);
+            }
+
+            return;
         }
 
         // 2. Update Debug values
@@ -277,6 +294,11 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
                 {
                     stunTimer = 0.5f;
                     isLaunched = false;
+
+                    animator.Rebind();
+                    animator.Update(0f);
+                    SetFrame(0);
+                    currentState = State.Idle; 
                 }
 
                 groundContacts++;
