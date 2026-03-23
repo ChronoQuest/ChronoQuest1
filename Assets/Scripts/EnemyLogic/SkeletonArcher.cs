@@ -334,10 +334,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public void ExecuteLunge()
     {
         if (isDodging) return;
-        isDodging = true;
         if (Time.time < lastShootTime + shootCooldown)
             return;
-
+        isDodging = true;
         ArrowProjectile arrow = GetPooledArrow();
         if (arrow == null) return;
 
@@ -376,7 +375,6 @@ public void ExecuteDodge()
 
         if (shouldDodge)
         {
-            StopAllCoroutines(); 
             StartCoroutine(PhaseDodgeRoutine());
         }
     }
