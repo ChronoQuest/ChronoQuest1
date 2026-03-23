@@ -35,7 +35,7 @@ public class ForesightSystem : MonoBehaviour
     private bool hasForesight = false;
     private ForesightTactics? lockedTactic = null;
     private int lockedAttackIndex = -1;
-    private float minDistToPlayer = 30f;
+    public float minDistToPlayer = 30f;
 
     void Awake()
     {
