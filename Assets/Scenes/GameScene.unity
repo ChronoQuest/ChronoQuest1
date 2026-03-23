@@ -957,7 +957,8 @@ MonoBehaviour:
   arrowSpawnOffset: {x: 0.3, y: 0.5}
   reviveAnimDuration: 0.9
   currentState: 0
-  reviveAnimDuration: 0.9
+  dodgeTriggerDistance: 5
+  foresightGlow: {fileID: 0}
 --- !u!114 &913987529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1238,12 +1239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e28d0fa1e8f0d34cb76368bc0664098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
-  musicSource: {fileID: 0}
-  titleTrack: {fileID: 0}
-  tutorialTrack: {fileID: 0}
-  bossFightTrack: {fileID: 0}
-  rewindPitch: -1
-  loopDuringRewind: 1
 --- !u!114 &1303432475 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1122370122660529387, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
@@ -3125,6 +3120,30 @@ PrefabInstance:
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 1103437988}
+    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: heartSprites.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: 'heartSprites.Array.data[5]'
+      value: 
+      objectReference: {fileID: -1974208850, guid: 300adb41aa18a4acb98e88c055119ca6, type: 3}
+    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: 'heartSprites.Array.data[6]'
+      value: 
+      objectReference: {fileID: -1974208850, guid: 300adb41aa18a4acb98e88c055119ca6, type: 3}
+    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: 'heartSprites.Array.data[7]'
+      value: 
+      objectReference: {fileID: -1974208850, guid: 300adb41aa18a4acb98e88c055119ca6, type: 3}
+    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: 'heartSprites.Array.data[8]'
+      value: 
+      objectReference: {fileID: -1974208850, guid: 300adb41aa18a4acb98e88c055119ca6, type: 3}
+    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+      propertyPath: 'heartSprites.Array.data[9]'
+      value: 
+      objectReference: {fileID: -1974208850, guid: 300adb41aa18a4acb98e88c055119ca6, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3141,26 +3160,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: meleeDamage
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: tutorialManager
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: postProcessVolume
-      value: 
-      objectReference: {fileID: 1406895534}
-    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -12
-      objectReference: {fileID: 0}
     - target: {fileID: 714258906160817296, guid: c749eb2aed7674224a923043109f15da, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -115560,6 +115559,26 @@ PrefabInstance:
     - target: {fileID: 6913864519040582686, guid: c749eb2aed7674224a923043109f15da, type: 3}
       propertyPath: m_SortingLayerID
       value: 1070194805
+      objectReference: {fileID: 0}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: meleeDamage
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: tutorialManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: postProcessVolume
+      value: 
+      objectReference: {fileID: 1406895534}
+    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 392674422154696435, guid: c749eb2aed7674224a923043109f15da, type: 3}

@@ -103,6 +103,14 @@ public class TutorialManager : MonoBehaviour
     private float previousZoom;
     private CameraFollow2D cam; 
     private bool inRewindArea = false; 
+    private bool rewindZoomApplied = false; 
+
+    // zoom fixes
+    private bool tempZoomActive = false;
+    private float tempZoomPrevious; 
+
+    // unlock system
+    private PlayerAction unlockedActions = PlayerAction.None; 
 
 
     // dictionaries for freezing enemies during rewind tutorial hint
@@ -127,6 +135,7 @@ public class TutorialManager : MonoBehaviour
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
+        player.allowedActions = PlayerAction.None; 
 
         cam = Camera.main.GetComponent<CameraFollow2D>();
 
@@ -141,11 +150,6 @@ public class TutorialManager : MonoBehaviour
         }
         
         DisableHints();
-
-        /* if (spotlight != null)
-        {
-            spotlight.SetActive(false); 
-        } */ 
 
         currentStep = TutorialStep.None;
 
@@ -247,6 +251,30 @@ public class TutorialManager : MonoBehaviour
     }
     #endregion
 
+    #region Zoom Methods
+    void ApplyTempZoom(float amount)
+    {
+        if (cam == null) return; 
+
+        if (!tempZoomActive)
+        {
+            tempZoomPrevious = Camera.main.orthographicSize; 
+            tempZoomActive = true; 
+        }
+
+        cam.SetZoom(tempZoomPrevious - amount); 
+    }
+
+    void RestoreTempZoom()
+    {
+        if (cam == null || !tempZoomActive) return; 
+
+        cam.SetZoom(tempZoomPrevious); 
+        tempZoomActive = false; 
+    }
+ 
+    #endregion
+
     #region Freezing Player Movement
     // method only allows certain acitons to be performed by player
     void AllowOnly(PlayerAction action)
@@ -258,6 +286,12 @@ public class TutorialManager : MonoBehaviour
         {
             player.FreezeMovement();
         }
+    }
+
+    void UnlockAction(PlayerAction action)
+    {
+        unlockedActions |= action; 
+        player.allowedActions |= unlockedActions; 
     }
 
     void AllowAll()
@@ -457,12 +491,7 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Rewind)
         {
             RestoreEnemies();
-            AllowAll(); 
-
-            if (cam != null)
-            {
-                cam.SetZoom(previousZoom);
-            }
+            AllowAll();
 
             OnPlayerRewind();
         }
@@ -506,12 +535,6 @@ public class TutorialManager : MonoBehaviour
 
         rewindFollow.SetTarget(player.transform); 
         rewindFollow.enabled = true;
-
-        if (currentStep == TutorialStep.Rewind && cam != null)
-        {
-            previousZoom = Camera.main.orthographicSize;
-            cam.SetZoom(previousZoom - 1.5f);
-        }
     }
 
     public void OnPlayerSpell()
@@ -554,11 +577,11 @@ public class TutorialManager : MonoBehaviour
     {
         if (currentStep == TutorialStep.Rewind && !rewindCompleted)
         {
-            rewindCompleted = true;
+            rewindCompleted = true; 
 
-            /* if (spotlight != null) 
-                spotlight.SetActive(false); */  
+            RestoreTempZoom(); 
 
+            rewindZoomApplied = false;
             rewindFollow.enabled = false;
             HideHint(rewindHint);
 
@@ -584,6 +607,7 @@ public class TutorialManager : MonoBehaviour
         {
             wallJumpCompleted = true; 
             HideHint(wallJumpHint); 
+            RestoreTempZoom(); 
             Debug.Log("Player wall jump tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -606,6 +630,8 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Dodge && !dodgeCompleted)
         {
             dodgeCompleted = true; 
+            RestoreTempZoom(); 
+
             HideHint(dodgeHint);
             AllowAll(); 
 
@@ -672,10 +698,7 @@ public class TutorialManager : MonoBehaviour
             case TutorialStep.Rewind:
                 AllowOnly(PlayerAction.Rewind);
                 SlowingEnemies(20f, 0.15f); 
-
-                /* if (spotlight != null)
-                    spotlight.SetActive(true); */ 
-
+                ApplyTempZoom(1.5f); 
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
@@ -704,13 +727,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.WallJump:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump);
-
-                if (cam != null)
-                {
-                    previousZoom = Camera.main.orthographicSize; 
-                    cam.SetZoom(previousZoom - 3f); 
-                }
-
+                ApplyTempZoom(3f); 
                 activeHint = wallJumpHint; 
                 ShowHint(wallJumpHint);
                 wallJumpText.text = wallJumpMessage;
@@ -725,13 +742,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Dodge:
                 AllowOnly(PlayerAction.Dash | PlayerAction.Movement); 
-
-                if (cam != null)
-                {
-                    previousZoom = Camera.main.orthographicSize; 
-                    cam.SetZoom(previousZoom - 3f); 
-                }
-
+                ApplyTempZoom(3f); 
                 activeHint = dodgeHint; 
                 ShowHint(dodgeHint);
                 dodgeText.text = dodgeMessage;
