@@ -3,10 +3,12 @@ import platform
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from pathlib import Path
 from sklearn.preprocessing import StandardScaler 
 from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import PCA
+from scipy.stats import norm
 
 # load collected data from gameplay for training
 def get_data_path():
@@ -47,10 +49,76 @@ features = [
 "session_duration_seconds"
 ]
 
+# filtering out useless data
+print("Before filtering:", len(df))
+df = df[df["session_duration_seconds"] > 30]
+print("After filtering:", len(df))
+
 df_numeric = df[features]
 print("Feature count:", df_numeric.shape[1])
 
-# preprocessing/scaling data 
+# TODO: make it so features are rates not counts 
+
+# TODO: move visualisations to a notebook/separate python file
+# proving data is normally distributed
+# ---- DASH COUNT ----- 
+dash_feature = "dash_count"
+data = df_numeric[dash_feature]
+
+sns.histplot(data, kde=False, stat='density')
+mu, std = norm.fit(data)
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+
+plt.plot(x, p, 'r', linewidth=2)
+plt.title(f"{dash_feature} Distribution")
+plt.show()
+
+# ----- JUMP COUNT ----- 
+jump_feature = "jump_count"
+jump_data = df_numeric[jump_feature]
+
+sns.histplot(jump_data, kde=False, stat='density')
+mu, std = norm.fit(jump_data)
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+
+plt.plot(x, p, 'r', linewidth=2)
+plt.title(f"{jump_feature} Distribution")
+plt.show()
+
+# ----- MELEE ATTACKS ------
+melee_features = "melee_attacks"
+melee_data = df_numeric[melee_features]
+
+sns.histplot(melee_data, kde=False, stat='density')
+mu, std = norm.fit(melee_data)
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+
+plt.plot(x, p, 'r', linewidth=2)
+plt.title(f"{melee_features} Distribution")
+plt.show()
+
+# ----- ALL FEATURES ----- 
+sns.histplot(df_numeric, kde=False, stat='density')
+mu, std = norm.fit(melee_data)
+
+xmin, xmax = plt.xlim()
+x = np.linspace(xmin, xmax, 100)
+p = norm.pdf(x, mu, std)
+
+plt.plot(x, p, 'r', linewidth=2)
+plt.title("Feature Distribution")
+plt.show()
+
+# preprocessing/scaling data s
 scaler = StandardScaler()
 X_scaled  = scaler.fit_transform(df_numeric)
 
