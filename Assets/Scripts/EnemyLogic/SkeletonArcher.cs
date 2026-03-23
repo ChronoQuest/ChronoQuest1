@@ -321,8 +321,10 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     }
     public void SetForesightState(bool state)
     {
+        if (hasForesight == state) return; 
         hasForesight = state;
-        if(hasForesight) detectionRange *= 2;
+        if (hasForesight) detectionRange *= 2f;
+        else detectionRange /= 2f; 
         animator.SetBool("hasForesight", hasForesight);
         if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
         Vector2 direction = (player.position - transform.position).normalized;
