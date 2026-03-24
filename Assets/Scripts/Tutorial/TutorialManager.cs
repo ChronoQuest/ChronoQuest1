@@ -108,7 +108,6 @@ public class TutorialManager : MonoBehaviour
     // zoom fixes
     private bool tempZoomActive = false;
     private float tempZoomPrevious; 
-    private float baseZoom; 
 
     // unlock system
     private PlayerAction unlockedActions = PlayerAction.None; 
@@ -139,7 +138,6 @@ public class TutorialManager : MonoBehaviour
         player.allowedActions = PlayerAction.None; 
 
         cam = Camera.main.GetComponent<CameraFollow2D>();
-        baseZoom = Camera.main.orthographicSize; 
 
         // track the start of the game, used for the idle check in the movement hint
         gameStartTime = Time.time; 
@@ -256,23 +254,27 @@ public class TutorialManager : MonoBehaviour
     #region Zoom Methods
     void ApplyTempZoom(float amount)
     {
+        Debug.Log("Applying Zoom"); 
+        
         if (cam == null) return; 
 
-        /* if (!tempZoomActive)
+        if (!tempZoomActive)
         {
             tempZoomPrevious = Camera.main.orthographicSize; 
             tempZoomActive = true; 
-        } */ 
+        } 
 
-        cam.SetZoom(baseZoom - amount); 
+        cam.SetZoom(tempZoomPrevious - amount); 
     }
 
     void RestoreTempZoom()
     {
-        if (cam == null) return; 
+        Debug.Log("Restoring Zoom"); 
+
+        if (cam == null || !tempZoomActive) return; 
 
         cam.SetZoom(tempZoomPrevious); 
-        // tempZoomActive = false; 
+        tempZoomActive = false; 
     }
  
     #endregion
@@ -672,10 +674,12 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == step)
             return;
 
+        // tempZoomActive = false; 
+
         if (activeHint != null || isFading)
         {
-            pendingStep = step; 
-            return; 
+            if (pendingStep != step)   
+                pendingStep = step;
         }
          
         currentStep = step;

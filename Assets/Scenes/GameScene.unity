@@ -279,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_TagString
@@ -841,7 +841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_TagString
@@ -2806,26 +2806,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 261724081663521339, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -715.57
-      objectReference: {fileID: 0}
-    - target: {fileID: 332328111843163485, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1225.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 332328111843163485, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -726.47
-      objectReference: {fileID: 0}
-    - target: {fileID: 1572944161647416378, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_Size.y
-      value: 11.3085165
-      objectReference: {fileID: 0}
-    - target: {fileID: 1572944161647416378, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_Offset.y
-      value: 1.8630719
-      objectReference: {fileID: 0}
     - target: {fileID: 1748531016957598062, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2906,18 +2886,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2802471680164949971, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3131234995556985550, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1103438007}
-    - target: {fileID: 3131234995556985550, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: spotlight
-      value: 
-      objectReference: {fileID: 1796846492}
     - target: {fileID: 3131234995556985550, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: rewindHint
       value: 
@@ -2942,69 +2914,29 @@ PrefabInstance:
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
-    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 4640504266069839161, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
-    - target: {fileID: 4640504266069839161, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4640504266069839161, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requireRewindCompleted
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5298507336715372992, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -71222
-      objectReference: {fileID: 0}
-    - target: {fileID: 5973296348515747410, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7075375123914294033, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
-    - target: {fileID: 7075375123914294033, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7107205087130163612, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -71229
-      objectReference: {fileID: 0}
     - target: {fileID: 7216838555242514512, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
-    - target: {fileID: 7216838555242514512, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7675766193065828641, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: m_Name
       value: Tutorial_Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7676476546382132931, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8372529966093745439, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
-    - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
-      propertyPath: requiredStep
-      value: 9
+    - target: {fileID: 8973123990993129794, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3226,7 +3158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2291509841592735764, guid: c749eb2aed7674224a923043109f15da, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3213466577454277071, guid: c749eb2aed7674224a923043109f15da, type: 3}
       propertyPath: m_TileAssetArray.Array.size

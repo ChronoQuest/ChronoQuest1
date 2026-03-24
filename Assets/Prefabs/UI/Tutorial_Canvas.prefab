@@ -241,7 +241,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -2.953888, y: 1.1274395}
+  m_Offset: {x: -2.953888, y: 1.8630719}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -251,7 +251,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 8.204819, y: 6.7937107}
+  m_Size: {x: 8.204819, y: 11.3085165}
   m_EdgeRadius: 0
 --- !u!114 &6800798999377855791
 MonoBehaviour:
@@ -399,6 +399,7 @@ MonoBehaviour:
   spikeHint: {fileID: 6958776637608873101}
   player: {fileID: 0}
   playerHealth: {fileID: 0}
+  rewindCompleted: 0
   dodgeCompleted: 0
   typewriter: {fileID: 4599844083613684726}
   movementText: {fileID: 7981839438937259001}
@@ -590,7 +591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -121311.23, y: -71437.305}
+  m_AnchoredPosition: {x: -121259, y: -71391}
   m_SizeDelta: {x: 440.53, y: 156.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1855021002606150633
@@ -795,7 +796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -119607, y: -71143}
+  m_AnchoredPosition: {x: -119607, y: -71222}
   m_SizeDelta: {x: 248.62, y: 53.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6449289998332597093
@@ -1131,6 +1132,8 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
+  requireRewindCompleted: 0
+  requiredStep: 3
   panToEnemyDelay: 0.3
   focusDuration: 0.3
   panSmoothTime: 0.45
@@ -1171,7 +1174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -121401, y: -71431.94}
+  m_AnchoredPosition: {x: -121349, y: -71386}
   m_SizeDelta: {x: -2276.38, y: -1315.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8789299376733132982
@@ -1321,7 +1324,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -121202, y: -71417}
+  m_AnchoredPosition: {x: -121153, y: -71370.92}
   m_SizeDelta: {x: 248.62, y: 53.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7687636164966779670
@@ -1800,7 +1803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -127204, y: -73155}
+  m_AnchoredPosition: {x: -127204, y: -73120}
   m_SizeDelta: {x: 211.42, y: 156.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7527875488523953750
@@ -2398,6 +2401,8 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
+  requireRewindCompleted: 0
+  requiredStep: 9
   panToEnemyDelay: 0.3
   focusDuration: 1.2
   panSmoothTime: 0.45
@@ -2679,7 +2684,7 @@ Transform:
   m_GameObject: {fileID: 6458379321506935491}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1224.36, y: -726.52, z: 0}
+  m_LocalPosition: {x: -1225.01, y: -726.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2760,6 +2765,8 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
+  requireRewindCompleted: 0
+  requiredStep: 6
   panToEnemyDelay: 0
   focusDuration: 2
   panSmoothTime: 0
@@ -2874,11 +2881,13 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
-  panToEnemyDelay: 0.3
+  requireRewindCompleted: 1
+  requiredStep: 8
+  panToEnemyDelay: 0
   focusDuration: 0.5
-  panSmoothTime: 0.45
-  normalSmoothTime: 0.15
-  returnSmoothTime: 0.3
+  panSmoothTime: 0
+  normalSmoothTime: 0
+  returnSmoothTime: 0
 --- !u!1 &6775901284056070408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3110,7 +3119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -127706, y: -73214.06}
+  m_AnchoredPosition: {x: -127706, y: -73182}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7877081970433403298
@@ -3560,7 +3569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -127300, y: -73124}
+  m_AnchoredPosition: {x: -127300, y: -73089}
   m_SizeDelta: {x: 382.39, y: 135.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3581812731374656638
@@ -3779,7 +3788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -119606.55, y: -71149.484}
+  m_AnchoredPosition: {x: -119606.55, y: -71229}
   m_SizeDelta: {x: 263.63, y: 111.06}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1815481578932584786
@@ -4091,7 +4100,7 @@ Transform:
   m_GameObject: {fileID: 7846385665883532796}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1215.25, y: -716.7, z: 0}
+  m_LocalPosition: {x: -1215.25, y: -715.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4172,6 +4181,8 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
+  requireRewindCompleted: 0
+  requiredStep: 7
   panToEnemyDelay: 0.3
   focusDuration: 1.2
   panSmoothTime: 0.45
@@ -4286,6 +4297,8 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
+  requireRewindCompleted: 0
+  requiredStep: 2
   panToEnemyDelay: 0.3
   focusDuration: 1
   panSmoothTime: 0.45
@@ -4431,6 +4444,8 @@ MonoBehaviour:
   cameraFollow: {fileID: 0}
   enemyFocus: {fileID: 5375548511722503122}
   tutorialManager: {fileID: 3131234995556985550}
+  requireRewindCompleted: 0
+  requiredStep: 4
   panToEnemyDelay: 0.3
   focusDuration: 2.5
   panSmoothTime: 0.45
@@ -4586,7 +4601,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3434378141627562886
 RectTransform:
   m_ObjectHideFlags: 0
