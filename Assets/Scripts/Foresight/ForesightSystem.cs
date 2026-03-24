@@ -6,12 +6,13 @@ public class ForesightSystem : MonoBehaviour
     private IForesightEnemy enemy;
     public int baselineHistorySize = 30;
     public float anomalyZScore = -1.5f;
-    private Queue<float> historicalCosts = new Queue<float>();
     private int memorySize = 50;
     public float instantTriggerCost = 0.5f;
     private float maxPlayerSpeed = 20f; // Based on dash speed
-    private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
-    private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
+    // Our custom queue data structures
+    private FixedQueue<float> historicalCosts;
+    private FixedQueue<PlayerState> currentTimeline;
+    private FixedQueue<PlayerState> previousTimeline;
     private int bestMatchIndex = -1;
 
     // Possible 'tactics' a player could be employing
@@ -42,6 +43,10 @@ public class ForesightSystem : MonoBehaviour
 
     void Awake()
     {
+        // Pre-allocate memory just once to save performance
+        historicalCosts = new FixedQueue<float>(baselineHistorySize);
+        currentTimeline = new FixedQueue<PlayerState>(memorySize);
+        previousTimeline = new FixedQueue<PlayerState>(memorySize);
         enemy = GetComponent<IForesightEnemy>();
         // Immediately get a player state
         PlayerState state = GetCurrentPlayerState();
@@ -64,7 +69,6 @@ public class ForesightSystem : MonoBehaviour
             PlayerState state = GetCurrentPlayerState();
             state.attackType = highestAttackThisInterval;
             
-            if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(state);
             
             // Only calculate cost if the previous timeline actually exists
@@ -154,11 +158,8 @@ public class ForesightSystem : MonoBehaviour
         // If we reach an unobserved point in time, we can't trigger foresight
         if (currentTimeline.Count > previousTimeline.Count) return 0f;
 
-        // Convert both queues into arrays for easier manipulation
-        var current = currentTimeline.ToArray();
-        var previous = previousTimeline.ToArray();
-        int c_len = current.Length;
-        int p_len = previous.Length;
+        int c_len = currentTimeline.Count;
+        int p_len = previousTimeline.Count;
 
         // Band must be able to reach the final cell!
         int w = Mathf.Max(bandWidth, Mathf.Abs(c_len - p_len));
@@ -181,8 +182,7 @@ public class ForesightSystem : MonoBehaviour
 
                 for (int j = startJ; j <= endJ; j++)
                 {
-                    float cost = GetPlayerStateDistance(current[i - 1], previous[j - 1]);
-                    // D(i,j) = d(i,j) + min(D(i-1,j), D(i,j-1), D(i-1,j-1))
+                    float cost = GetPlayerStateDistance(currentTimeline.Get(i - 1), previousTimeline.Get(j - 1));
                     dtw[i, j] = cost + Mathf.Min(dtw[i - 1, j], Mathf.Min(dtw[i, j - 1], dtw[i - 1, j - 1]));
                 }
             }
@@ -226,9 +226,6 @@ public class ForesightSystem : MonoBehaviour
     // }
     bool EvaluateZScore(float currentCost)
     {
-    if (historicalCosts.Count >= baselineHistorySize) 
-            historicalCosts.Dequeue();
-        
         historicalCosts.Enqueue(currentCost);
 
         // If we don't have enough long term data, use a fallback to favour triggering foresight
@@ -239,13 +236,13 @@ public class ForesightSystem : MonoBehaviour
         }
 
         float sum = 0f;
-        foreach (float cost in historicalCosts) sum += cost;
+        for (int i = 0; i < historicalCosts.Count; i++) sum += historicalCosts.Get(i);
         float mean = sum / historicalCosts.Count;
 
         float sumOfSquares = 0f;
-        foreach (float cost in historicalCosts)
+        for (int i = 0; i < historicalCosts.Count; i++)
         {
-            sumOfSquares += Mathf.Pow(cost - mean, 2);
+            sumOfSquares += Mathf.Pow(historicalCosts.Get(i) - mean, 2);
         }
         float variance = sumOfSquares / historicalCosts.Count;
         float standardDeviation = Mathf.Sqrt(variance);
@@ -271,14 +268,13 @@ public class ForesightSystem : MonoBehaviour
         bool attacking = enemy.GetPlayerAttackState() > 0;
         if (attacking || enemyDamagedPreviously) return ForesightTactics.Dodge;
         int nextIndex = bestMatchIndex + 1;
-        var previousArray = previousTimeline.ToArray();
         // Look ahead into the future
         for (int i = nextIndex; i < nextIndex + futureLookaheadSteps; i++)
         {
             // Stop looking if we hit the end of the recorded present
-            if (i >= previousArray.Length) break; 
+            if (i >= previousTimeline.Count) break; 
 
-            if (previousArray[i].attackType > 0) 
+            if (previousTimeline.Get(i).attackType > 0) 
             {
                 lockedTactic = ForesightTactics.Dodge;
                 lockedAttackIndex = i;
@@ -290,27 +286,66 @@ public class ForesightSystem : MonoBehaviour
     public void HandleRewindStop(int statesErased)
     {
         enemyDamagedPreviously = damagedThisTimeline;
-        // Clamp to avoid out-of-bounds errors
         statesErased = Mathf.Clamp(statesErased, 0, currentTimeline.Count);
-        var currentArray = currentTimeline.ToArray();
         damagedThisTimeline = false;
         
         previousTimeline.Clear();
-        int startIndex = currentArray.Length - statesErased;
+        int startIndex = currentTimeline.Count - statesErased;
         
         // Push the erased "present" states into the "previous" timeline (the remembered future)
-        for (int i = startIndex; i < currentArray.Length; i++)
+        for (int i = startIndex; i < currentTimeline.Count; i++)
         {
-            previousTimeline.Enqueue(currentArray[i]);
+            previousTimeline.Enqueue(currentTimeline.Get(i));
         }
 
-        // Wipe current timeline and start fresh
+        historicalCosts.Clear(); 
         currentTimeline.Clear();
-        // The old timeline is gone, so the mathematical baseline is no longer valid and we wipe that too
-        historicalCosts.Clear();
-        PlayerState state = GetCurrentPlayerState();
-        currentTimeline.Enqueue(state);
+        currentTimeline.Enqueue(GetCurrentPlayerState());
         
         recordTimer = 0f; 
+    }
+}
+
+// A zero-allocation circular buffer to replace/optimise System.Collections.Generic.Queue
+public class FixedQueue<T>
+{
+    private T[] data;
+    private int head;
+    public int Count { get; private set; }
+    public int Capacity => data.Length;
+
+    public FixedQueue(int capacity)
+    {
+        data = new T[capacity];
+        head = 0;
+        Count = 0;
+    }
+
+    public void Enqueue(T item)
+    {
+        if (Count == Capacity)
+        {
+            // If full, overwrite the oldest item and move the head forward
+            data[head] = item;
+            head = (head + 1) % Capacity;
+        }
+        else
+        {
+            // If not full, just add to the end
+            data[(head + Count) % Capacity] = item;
+            Count++;
+        }
+    }
+
+    public void Clear()
+    {
+        head = 0;
+        Count = 0;
+    }
+
+    // Retrieve items from oldest (0) to newest (Count - 1)
+    public T Get(int index)
+    {
+        return data[(head + index) % Capacity];
     }
 }
