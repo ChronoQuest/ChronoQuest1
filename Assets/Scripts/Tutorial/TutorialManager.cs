@@ -732,12 +732,12 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(spellText);
                 break;
             case TutorialStep.WallJump:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump);
+                AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump); 
                 
                 if (rewindCompleted)
                 {
                     ApplyTempZoom(3f); 
-                }
+                } 
 
                 activeHint = wallJumpHint; 
                 ShowHint(wallJumpHint);

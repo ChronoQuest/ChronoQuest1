@@ -42,7 +42,7 @@ public class TutorialCameraController : MonoBehaviour
 
             if (tutorialManager.currentStep != requiredStep)
                 return;
-        }
+        } 
 
         PlayerPlatformer p = other.GetComponent<PlayerPlatformer>();
         if (p == null) return;
@@ -79,7 +79,7 @@ public class TutorialCameraController : MonoBehaviour
 
         cameraFollow.SetSmoothTime(normalSmoothTime);
 
-        cameraFollow.ResetZoom();
+        // cameraFollow.ResetZoom();
         cameraFollow.ResetOffset();
 
         // restore player movement after camera sequence
