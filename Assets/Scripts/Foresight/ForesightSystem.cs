@@ -4,8 +4,12 @@ using System.Linq;
 public class ForesightSystem : MonoBehaviour
 {
     private IForesightEnemy enemy;
-    public float foresightThreshold = 0.75f;
+    public int baselineHistorySize = 30;
+    public float anomalyZScore = -1.5f;
+    private Queue<float> historicalCosts = new Queue<float>();
     private int memorySize = 50;
+    public float instantTriggerCost = 0.5f;
+    private float maxPlayerSpeed = 20f; // Based on dash speed
     private Queue<PlayerState> currentTimeline = new Queue<PlayerState>();
     private Queue<PlayerState> previousTimeline = new Queue<PlayerState>();
     private int bestMatchIndex = -1;
@@ -31,7 +35,6 @@ public class ForesightSystem : MonoBehaviour
     private bool damagedThisTimeline = false;
     public float recordInterval = 0.3f;
     private float recordTimer = 0f;
-    private float sequenceSimilarity = 0f;
     private bool hasForesight = false;
     private ForesightTactics? lockedTactic = null;
     private int lockedAttackIndex = -1;
@@ -64,27 +67,32 @@ public class ForesightSystem : MonoBehaviour
             if (currentTimeline.Count >= memorySize) currentTimeline.Dequeue();
             currentTimeline.Enqueue(state);
             
-            sequenceSimilarity = CalculateDTWSimilarity();
-            Debug.Log("SEQUENCE SIMILARITY: " + sequenceSimilarity);
-            if (sequenceSimilarity >= foresightThreshold)
+            // Only calculate cost if the previous timeline actually exists
+            if (previousTimeline.Count >= minTimelineSize)
             {
-                if (!hasForesight)
-                {
-                    hasForesight = true;
-                    enemy.SetForesightState(true);
-                }
+                float currentCost = CalculateDTWCost();
+                bool isPredictable = EvaluateZScore(currentCost);
 
-                ForesightTactics tactic = DetermineForesightAction();
-                if (tactic == ForesightTactics.Dodge) enemy.ExecuteDodge();
-                else if (tactic == ForesightTactics.Lunge) enemy.ExecuteLunge();
-            }
-            else
-            {
-                // Player is behaving differently
-                if (hasForesight)
+                if (isPredictable)
                 {
-                    hasForesight = false;
-                    enemy.SetForesightState(false);
+                    if (!hasForesight)
+                    {
+                        hasForesight = true;
+                        enemy.SetForesightState(true);
+                    }
+
+                    ForesightTactics tactic = DetermineForesightAction();
+                    if (tactic == ForesightTactics.Dodge) enemy.ExecuteDodge();
+                    else if (tactic == ForesightTactics.Lunge) enemy.ExecuteLunge();
+                }
+                else
+                {
+                    // Player is behaving differently
+                    if (hasForesight)
+                    {
+                        hasForesight = false;
+                        enemy.SetForesightState(false);
+                    }
                 }
             }
 
@@ -107,15 +115,28 @@ public class ForesightSystem : MonoBehaviour
         state.attackType = enemy.GetPlayerAttackState(); 
         return state;
     }
-    // Heuristic for calculating distance between tactics
+    // (Normalised) Heuristic for calculating distance between tactics
     float GetPlayerStateDistance(PlayerState a, PlayerState b)
     {
-        // Differences squared
-        float distDiffSq = Mathf.Pow(a.distance - b.distance, 2);
-        float velDiffSq = (a.velocity - b.velocity).sqrMagnitude;
-        float attackDiffSq = Mathf.Pow(a.attackType - b.attackType, 2);
+        // 1. Normalize Distance (0.0 to 1.0)
+        float normDistA = Mathf.Clamp01(a.distance / minDistToPlayer);
+        float normDistB = Mathf.Clamp01(b.distance / minDistToPlayer);
+        float distDiffSq = Mathf.Pow(normDistA - normDistB, 2);
+
+        // 2. Normalize Velocity (0.0 to 1.0)
+        Vector2 normVelA = a.velocity / maxPlayerSpeed;
+        Vector2 normVelB = b.velocity / maxPlayerSpeed;
+        // Clamp magnitude to 1 just in case physics act up
+        if (normVelA.sqrMagnitude > 1f) normVelA.Normalize();
+        if (normVelB.sqrMagnitude > 1f) normVelB.Normalize();
+        float velDiffSq = (normVelA - normVelB).sqrMagnitude;
+
+        // 3. Normalize Attack (0 to 2 becomes 0.0 to 1.0)
+        float normAttA = a.attackType / 2f;
+        float normAttB = b.attackType / 2f;
+        float attackDiffSq = Mathf.Pow(normAttA - normAttB, 2);
         
-        // Weighted distance: attacking is most important, then distance, then velocity
+        // Weighted distance (Now that everything is 0-1, the weights are 100% accurate)
         float distance = Mathf.Sqrt(
             (weightDistance * distDiffSq) + 
             (weightVelocity * velDiffSq) +
@@ -125,7 +146,7 @@ public class ForesightSystem : MonoBehaviour
         return distance;
     }
     // Use Dynamic Time Warp algorithm to calculate similarity between current and previous timeline
-    float CalculateDTWSimilarity()
+    float CalculateDTWCost()
     {
         // We need both timelines to have at least the window size number of samples
         if (currentTimeline.Count < minTimelineSize || previousTimeline.Count < minTimelineSize) return 0f;
@@ -180,8 +201,8 @@ public class ForesightSystem : MonoBehaviour
 
         bestMatchIndex = bestJ;
 
-        float averageCost = bestCost / (c_len + p_len);
-        return 1.0f - Mathf.Clamp01(averageCost / 2.0f);
+        // Return the raw, average cost per step
+        return bestCost / (c_len + p_len); 
     }
 
     // Old Hamming-weight distance function
@@ -203,6 +224,42 @@ public class ForesightSystem : MonoBehaviour
 
     //     return (float)matches / windowSize;
     // }
+    bool EvaluateZScore(float currentCost)
+    {
+    if (historicalCosts.Count >= baselineHistorySize) 
+            historicalCosts.Dequeue();
+        
+        historicalCosts.Enqueue(currentCost);
+
+        // If we don't have enough long term data, use a fallback to favour triggering foresight
+        if (historicalCosts.Count < 7) 
+        {
+            Debug.Log($"Not enough samples yet, using fallback... Cost: {currentCost:F2} | Threshold: {instantTriggerCost}");
+            return currentCost <= instantTriggerCost;
+        }
+
+        float sum = 0f;
+        foreach (float cost in historicalCosts) sum += cost;
+        float mean = sum / historicalCosts.Count;
+
+        float sumOfSquares = 0f;
+        foreach (float cost in historicalCosts)
+        {
+            sumOfSquares += Mathf.Pow(cost - mean, 2);
+        }
+        float variance = sumOfSquares / historicalCosts.Count;
+        float standardDeviation = Mathf.Sqrt(variance);
+
+        // Prevent division by zero if all costs are perfectly identical
+        if (standardDeviation < 0.0001f) return false;
+
+        float zScore = (currentCost - mean) / standardDeviation;
+
+        Debug.Log($"Cost: {currentCost:F2} | Mean: {mean:F2} | Z-Score: {zScore:F2}");
+
+        // We want the cost to be lower than an anomalous score
+        return zScore <= anomalyZScore;
+    }
     ForesightTactics DetermineForesightAction()
     {
         if (lockedTactic != null)
@@ -249,6 +306,8 @@ public class ForesightSystem : MonoBehaviour
 
         // Wipe current timeline and start fresh
         currentTimeline.Clear();
+        // The old timeline is gone, so the mathematical baseline is no longer valid and we wipe that too
+        historicalCosts.Clear();
         PlayerState state = GetCurrentPlayerState();
         currentTimeline.Enqueue(state);
         
