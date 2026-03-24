@@ -122,25 +122,20 @@ public class ForesightSystem : MonoBehaviour
     // (Normalised) Heuristic for calculating distance between tactics
     float GetPlayerStateDistance(PlayerState a, PlayerState b)
     {
-        // 1. Normalize Distance (0.0 to 1.0)
         float normDistA = Mathf.Clamp01(a.distance / minDistToPlayer);
         float normDistB = Mathf.Clamp01(b.distance / minDistToPlayer);
         float distDiffSq = Mathf.Pow(normDistA - normDistB, 2);
 
-        // 2. Normalize Velocity (0.0 to 1.0)
         Vector2 normVelA = a.velocity / maxPlayerSpeed;
         Vector2 normVelB = b.velocity / maxPlayerSpeed;
-        // Clamp magnitude to 1 just in case physics act up
         if (normVelA.sqrMagnitude > 1f) normVelA.Normalize();
         if (normVelB.sqrMagnitude > 1f) normVelB.Normalize();
         float velDiffSq = (normVelA - normVelB).sqrMagnitude;
 
-        // 3. Normalize Attack (0 to 2 becomes 0.0 to 1.0)
         float normAttA = a.attackType / 2f;
         float normAttB = b.attackType / 2f;
         float attackDiffSq = Mathf.Pow(normAttA - normAttB, 2);
         
-        // Weighted distance (Now that everything is 0-1, the weights are 100% accurate)
         float distance = Mathf.Sqrt(
             (weightDistance * distDiffSq) + 
             (weightVelocity * velDiffSq) +
