@@ -7,6 +7,8 @@ public class TutorialCameraController : MonoBehaviour
     [SerializeField] private CameraFollow2D cameraFollow;
     [SerializeField] private Transform enemyFocus;
     [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private bool requireRewindCompleted = false;
+    [SerializeField] private TutorialManager.TutorialStep requiredStep;
 
     // timing
     [SerializeField] private float panToEnemyDelay = 0.3f;
@@ -30,6 +32,17 @@ public class TutorialCameraController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isTriggered) return;
+        
+        if (tutorialManager != null)
+        {
+            if (requireRewindCompleted && !tutorialManager.rewindCompleted)
+                return;
+            
+            Debug.Log(tutorialManager.rewindCompleted);
+
+            if (tutorialManager.currentStep != requiredStep)
+                return;
+        }
 
         PlayerPlatformer p = other.GetComponent<PlayerPlatformer>();
         if (p == null) return;
@@ -65,6 +78,9 @@ public class TutorialCameraController : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         cameraFollow.SetSmoothTime(normalSmoothTime);
+
+        cameraFollow.ResetZoom();
+        cameraFollow.ResetOffset();
 
         // restore player movement after camera sequence
         p.allowedActions = cachedActions;

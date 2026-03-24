@@ -52,7 +52,7 @@ public class TutorialManager : MonoBehaviour
 
     bool moveCompleted = false;
     bool attackCompleted = false;
-    bool rewindCompleted = false;
+    public bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
     public bool dodgeCompleted = false; 
@@ -108,6 +108,7 @@ public class TutorialManager : MonoBehaviour
     // zoom fixes
     private bool tempZoomActive = false;
     private float tempZoomPrevious; 
+    private float baseZoom; 
 
     // unlock system
     private PlayerAction unlockedActions = PlayerAction.None; 
@@ -138,6 +139,7 @@ public class TutorialManager : MonoBehaviour
         player.allowedActions = PlayerAction.None; 
 
         cam = Camera.main.GetComponent<CameraFollow2D>();
+        baseZoom = Camera.main.orthographicSize; 
 
         // track the start of the game, used for the idle check in the movement hint
         gameStartTime = Time.time; 
@@ -256,21 +258,21 @@ public class TutorialManager : MonoBehaviour
     {
         if (cam == null) return; 
 
-        if (!tempZoomActive)
+        /* if (!tempZoomActive)
         {
             tempZoomPrevious = Camera.main.orthographicSize; 
             tempZoomActive = true; 
-        }
+        } */ 
 
-        cam.SetZoom(tempZoomPrevious - amount); 
+        cam.SetZoom(baseZoom - amount); 
     }
 
     void RestoreTempZoom()
     {
-        if (cam == null || !tempZoomActive) return; 
+        if (cam == null) return; 
 
         cam.SetZoom(tempZoomPrevious); 
-        tempZoomActive = false; 
+        // tempZoomActive = false; 
     }
  
     #endregion
@@ -607,7 +609,7 @@ public class TutorialManager : MonoBehaviour
         {
             wallJumpCompleted = true; 
             HideHint(wallJumpHint); 
-            RestoreTempZoom(); 
+            // RestoreTempZoom(); 
             Debug.Log("Player wall jump tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -727,7 +729,12 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.WallJump:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump);
-                ApplyTempZoom(3f); 
+                
+                if (rewindCompleted)
+                {
+                    ApplyTempZoom(3f); 
+                }
+
                 activeHint = wallJumpHint; 
                 ShowHint(wallJumpHint);
                 wallJumpText.text = wallJumpMessage;
