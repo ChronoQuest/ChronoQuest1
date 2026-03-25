@@ -101,7 +101,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDodging)
         {
             gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
-            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+            if (!enemy.GetIsStunned())
+            {
+                spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+            }
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             
             dodgeTimer -= Time.fixedDeltaTime;
@@ -116,7 +119,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         else
         {
             gameObject.layer = originalLayer;
-            spriteRenderer.color = originalColor;
+            if (!enemy.GetIsStunned())
+            {
+                spriteRenderer.color = originalColor;
+            }
         }
     }
 
