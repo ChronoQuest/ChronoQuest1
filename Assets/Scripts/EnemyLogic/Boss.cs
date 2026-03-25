@@ -63,8 +63,9 @@ public class Boss : EnemyBase, IRewindable
         EndPhase();
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (_isRewinding || player == null || wasDead) return;
 
         switch (currentPhase)

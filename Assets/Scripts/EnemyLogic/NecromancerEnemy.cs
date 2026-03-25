@@ -116,8 +116,9 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         return null;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding) return;
 
         // --- TIMER UPDATES ---

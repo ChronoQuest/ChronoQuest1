@@ -107,8 +107,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         }
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding) return;
 
         // --- TIMER UPDATES ---
@@ -248,7 +249,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             {
                 if (isLaunched && stunOnLand)
                 {
-                    StartCoroutine(HitStunRoutine(0.5f)); 
+                    stunTimer = 0.5f;
+                    isLaunched = false; 
                 }
                 isGrounded = true;
             }

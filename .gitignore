@@ -130,3 +130,4 @@ events.out.tfevents.*
 # ML Agents timers
 *.json
 *timers*
+\Assets\ML-Agents\Timers\
