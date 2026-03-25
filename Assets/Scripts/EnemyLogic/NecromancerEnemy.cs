@@ -53,7 +53,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     public float dodgeTriggerDistance = 5f;
     public GameObject foresightGlow;
     private bool isDodging = false;    
-    private float dodgeDuration = 0.5f;
+    private float dodgeDuration = 0.75f;
     private ForesightSystem foresightSystem;
     private float rewindStartTime;
     private bool hasForesight = false;
@@ -155,7 +155,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                 minionDeadTimers[i] = 0f; // Reset if alive
         }
 
-        if (wasDead || isDying || isAttacking || isReviving || isStunned || isDodging) return;
+        if (wasDead || isDying || isAttacking || isReviving || isStunned || isDodging || isLaunched) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -201,7 +201,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isDying || isStunned || isDodging) return;
+        if (isRewinding || wasDead || isDying || isStunned || isDodging || isLaunched) return;
 
         if (isReviving || isAttacking)
         {
@@ -273,7 +273,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
     public void FireSpell()
     {
-        if (wasDead || isDying || isRewinding || isStunned) return;
+        if (wasDead || isDying || isRewinding || isStunned || isLaunched) return;
         NecromancerSpell spell = GetPooledSpell();
         if (spell == null) return;
         spell.transform.position = transform.position;
@@ -292,6 +292,20 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             {
                 minions[i].Revive();
                 minionDeadTimers[i] = 0f; // Reset their specific death timer
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            if (contact.normal.y > 0.7f)
+            {
+                if (isLaunched && stunOnLand)
+                {
+                    stunTimer = 0.5f;
+                    isLaunched = false; 
+                }
             }
         }
     }
@@ -352,6 +366,16 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         rb.bodyType = RigidbodyType2D.Kinematic; 
         
         isDying = false; 
+    }
+    public override void ApplyKnockback(Vector2 force)
+    {
+        // Removed StopAllCoroutines() to prevent breaking the death fall sequence
+        base.ApplyKnockback(force);
+
+        if (animator != null && !isDying) 
+        {
+            animator.SetTrigger("Hit"); 
+        }
     }
 
     // ================= REVIVE / REWIND LOGIC =================
@@ -478,8 +502,8 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         animator.SetBool("hasForesight", hasForesight);
         if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
         Vector2 direction = (player.position - transform.position).normalized;
-        if (direction.x > 0) spriteRenderer.flipX = false;
-        else if (direction.x < 0) spriteRenderer.flipX = true;
+        if (direction.x > 0) spriteRenderer.flipX = true;
+        else if (direction.x < 0) spriteRenderer.flipX = false;
     }
 
     new public bool IsDead() => wasDead;
@@ -489,10 +513,11 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     public void ExecuteLunge()
     {
         if (isDodging) return;
-        isDodging = true;
         
         if (Time.time < lastAttackTime + attackCooldown)
             return;
+
+        isDodging = true;
 
         lastAttackTime = Time.time;
         Vector2 dir = (player.position - transform.position).normalized;
@@ -536,7 +561,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
         if (shouldDodge)
         {
-            StopAllCoroutines(); 
             StartCoroutine(PhaseDodgeRoutine());
         }
     }
@@ -547,7 +571,8 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         int originalLayer = gameObject.layer;
         gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
         
-        animator.SetBool("hasForesight", true);
+        animator.SetTrigger("DodgeJump");
+
         if (foresightGlow != null) foresightGlow.SetActive(true);
 
         Color originalColor = spriteRenderer.color;
@@ -557,11 +582,14 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         rb.linearVelocity = new Vector2(0f, 3f);
 
         yield return new WaitForSeconds(dodgeDuration);
-
         
         spriteRenderer.color = originalColor;
-        animator.SetBool("hasForesight", false);
-        if (foresightGlow != null) foresightGlow.SetActive(false);
+        
+        if (!hasForesight && foresightGlow != null) 
+        {
+            foresightGlow.SetActive(false);
+        }
+
         gameObject.layer = originalLayer;
         isDodging = false;
     }
