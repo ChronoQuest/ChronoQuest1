@@ -875,6 +875,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat
@@ -953,6 +957,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (7)
@@ -2785,6 +2793,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (3)
@@ -2858,6 +2870,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (3)
@@ -3124,6 +3140,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (50)
@@ -3347,6 +3367,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (6)
@@ -4897,7 +4921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 0fc136f3a5a0d8b49811abf61a5c52f1, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 0fc136f3a5a0d8b49811abf61a5c52f1, type: 3}
       propertyPath: m_SortingOrder
@@ -4905,7 +4929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 0fc136f3a5a0d8b49811abf61a5c52f1, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1070194805
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6528,6 +6552,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (7)
@@ -7508,6 +7536,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (6)
@@ -60428,11 +60460,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 0b2089ea13522e44cac103355f071818, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 0b2089ea13522e44cac103355f071818, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1070194805
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -61208,6 +61240,10 @@ PrefabInstance:
     - target: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: maxMana
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1893749182792678861, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: groundLayer.m_Bits
@@ -63090,6 +63126,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (2)
@@ -63237,6 +63277,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (5)
@@ -63753,6 +63797,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (4)
@@ -63826,6 +63874,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (3)
@@ -65162,6 +65214,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (4)
@@ -65453,6 +65509,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (2)
@@ -65526,6 +65586,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (4)
@@ -65905,6 +65969,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (1)
@@ -66718,6 +66786,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (5)
@@ -67089,7 +67161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: aabf9a013c9b3d6449f3ee602f316002, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: aabf9a013c9b3d6449f3ee602f316002, type: 3}
       propertyPath: m_SortingOrder
@@ -67097,7 +67169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: aabf9a013c9b3d6449f3ee602f316002, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1070194805
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -67859,6 +67931,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (5)
@@ -69393,6 +69469,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (4)
@@ -69627,10 +69707,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: health
-      value: 12
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 1941470544}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: _player
       value: 
       objectReference: {fileID: 1941470544}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
@@ -464572,7 +464656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 4f3f856807c3d2e42973cb2e204b6ced, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 4f3f856807c3d2e42973cb2e204b6ced, type: 3}
       propertyPath: m_SortingOrder
@@ -464580,7 +464664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8930051543745126958, guid: 4f3f856807c3d2e42973cb2e204b6ced, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1070194805
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -464699,6 +464783,10 @@ PrefabInstance:
       propertyPath: m_Model
       value: 
       objectReference: {fileID: 5022602860645237092, guid: 6c499a1467743924db191b9d14f3ed69, type: 3}
+    - target: {fileID: 2502081071533185815, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
       propertyPath: m_Name
       value: AI_Flying_Bat (3)
