@@ -300,20 +300,31 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-            float spellDist = Vector2.Distance(transform.position, spellPos);
-            float playerDist = Vector2.Distance(transform.position, threatPos);
-
-            if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                threatPos = spellPos;
-                shouldDodge = true;
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+                    float spellDist = Vector2.Distance(transform.position, spellPos);
+                    float playerDist = Vector2.Distance(transform.position, threatPos);
+
+                    if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+                    {
+                        threatPos = spellPos;
+                        shouldDodge = true;
+                    }
+                }
             }
         }
         
         if (!shouldDodge && Vector2.Distance(transform.position, threatPos) < dodgeTriggerDistance)
         {
-            shouldDodge = true;
+            if (GetPlayerAttackState() != 0) 
+            {
+                shouldDodge = true;
+            }
         }
 
         if (shouldDodge)

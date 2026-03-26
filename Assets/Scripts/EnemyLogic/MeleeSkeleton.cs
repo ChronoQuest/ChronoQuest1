@@ -366,14 +366,25 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
         {
-            shouldBlock = true;
+            if (GetPlayerAttackState() != 0) 
+            {
+                shouldBlock = true;
+            }
         }
         else if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                shouldBlock = true;
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+                    {
+                        shouldBlock = true;
+                    }
+                }
             }
         }
 

@@ -153,16 +153,28 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
         {
-            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
-                
-            TriggerForesightDodge(approachDirection);
+            if (GetPlayerAttackState() != 0) 
+            {
+                Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;    
+                TriggerForesightDodge(approachDirection);
+            }
         }
         if (!isDodging && spellObj != null)
         {
-            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f){
-                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
-                Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
-                TriggerForesightDodge(approachDirection);
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
+            {
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 0.5f)
+                    {
+                        Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                        Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                        TriggerForesightDodge(approachDirection);
+                    }
+                }
             }
         }
     }

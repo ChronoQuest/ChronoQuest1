@@ -1342,6 +1342,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonWarrior
       objectReference: {fileID: 0}
+    - target: {fileID: 1239436902015136738, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1483419064559744378, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.24
