@@ -1,0 +1,2193 @@
+fileFormatVersion: 2
+guid: e83973188f1d5e148a5f3fcebf34b081
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8209282610278145690
+    second: Skeleton_Warrior_Foresight-Sheet_0
+  - first:
+      213: 2598147055581784490
+    second: Skeleton_Warrior_Foresight-Sheet_1
+  - first:
+      213: 6845858786950824442
+    second: Skeleton_Warrior_Foresight-Sheet_2
+  - first:
+      213: -6263556243835074364
+    second: Skeleton_Warrior_Foresight-Sheet_3
+  - first:
+      213: 3434550969271771363
+    second: Skeleton_Warrior_Foresight-Sheet_4
+  - first:
+      213: -4610328380022419014
+    second: Skeleton_Warrior_Foresight-Sheet_5
+  - first:
+      213: 4618685190264732054
+    second: Skeleton_Warrior_Foresight-Sheet_6
+  - first:
+      213: 5854552662700843682
+    second: Skeleton_Warrior_Foresight-Sheet_7
+  - first:
+      213: -8479106553503038647
+    second: Skeleton_Warrior_Foresight-Sheet_8
+  - first:
+      213: 2972634565030276066
+    second: Skeleton_Warrior_Foresight-Sheet_9
+  - first:
+      213: 1651149390772299394
+    second: Skeleton_Warrior_Foresight-Sheet_10
+  - first:
+      213: 2345351274024796742
+    second: Skeleton_Warrior_Foresight-Sheet_11
+  - first:
+      213: -1474558769750261442
+    second: Skeleton_Warrior_Foresight-Sheet_12
+  - first:
+      213: 398739863955235259
+    second: Skeleton_Warrior_Foresight-Sheet_13
+  - first:
+      213: -4028885498078646022
+    second: Skeleton_Warrior_Foresight-Sheet_14
+  - first:
+      213: -1385623348528140611
+    second: Skeleton_Warrior_Foresight-Sheet_15
+  - first:
+      213: 829331021503143324
+    second: Skeleton_Warrior_Foresight-Sheet_16
+  - first:
+      213: -588314310752787093
+    second: Skeleton_Warrior_Foresight-Sheet_17
+  - first:
+      213: 2462294558097343368
+    second: Skeleton_Warrior_Foresight-Sheet_18
+  - first:
+      213: -6832650071104409548
+    second: Skeleton_Warrior_Foresight-Sheet_19
+  - first:
+      213: 5015042778617537028
+    second: Skeleton_Warrior_Foresight-Sheet_20
+  - first:
+      213: -957974842823510296
+    second: Skeleton_Warrior_Foresight-Sheet_21
+  - first:
+      213: 6031286685792896670
+    second: Skeleton_Warrior_Foresight-Sheet_22
+  - first:
+      213: 7948071386561471307
+    second: Skeleton_Warrior_Foresight-Sheet_23
+  - first:
+      213: -4094766645286962593
+    second: Skeleton_Warrior_Foresight-Sheet_24
+  - first:
+      213: -7354786707630133545
+    second: Skeleton_Warrior_Foresight-Sheet_25
+  - first:
+      213: -4041471228003330842
+    second: Skeleton_Warrior_Foresight-Sheet_26
+  - first:
+      213: 7066303301853862617
+    second: Skeleton_Warrior_Foresight-Sheet_27
+  - first:
+      213: -8527653239941184134
+    second: Skeleton_Warrior_Foresight-Sheet_28
+  - first:
+      213: 3984266242456495961
+    second: Skeleton_Warrior_Foresight-Sheet_29
+  - first:
+      213: 4218934939148762718
+    second: Skeleton_Warrior_Foresight-Sheet_30
+  - first:
+      213: 641530389438378830
+    second: Skeleton_Warrior_Foresight-Sheet_31
+  - first:
+      213: 2492376405867345846
+    second: Skeleton_Warrior_Foresight-Sheet_32
+  - first:
+      213: -229600666154768608
+    second: Skeleton_Warrior_Foresight-Sheet_33
+  - first:
+      213: 6239097255141704770
+    second: Skeleton_Warrior_Foresight-Sheet_34
+  - first:
+      213: 3708205171624327976
+    second: Skeleton_Warrior_Foresight-Sheet_35
+  - first:
+      213: -4300366948203788890
+    second: Skeleton_Warrior_Foresight-Sheet_36
+  - first:
+      213: -495479280316290962
+    second: Skeleton_Warrior_Foresight-Sheet_37
+  - first:
+      213: 4345002079356738706
+    second: Skeleton_Warrior_Foresight-Sheet_38
+  - first:
+      213: -7717871081798718449
+    second: Skeleton_Warrior_Foresight-Sheet_39
+  - first:
+      213: 5450890704267536223
+    second: Skeleton_Warrior_Foresight-Sheet_40
+  - first:
+      213: 1900275235441175653
+    second: Skeleton_Warrior_Foresight-Sheet_41
+  - first:
+      213: -4360832186022945149
+    second: Skeleton_Warrior_Foresight-Sheet_42
+  - first:
+      213: 5198358368875957792
+    second: Skeleton_Warrior_Foresight-Sheet_43
+  - first:
+      213: 219279278244907433
+    second: Skeleton_Warrior_Foresight-Sheet_44
+  - first:
+      213: -3138274407820228931
+    second: Skeleton_Warrior_Foresight-Sheet_45
+  - first:
+      213: -1268200894091733646
+    second: Skeleton_Warrior_Foresight-Sheet_46
+  - first:
+      213: 5432064562781308688
+    second: Skeleton_Warrior_Foresight-Sheet_47
+  - first:
+      213: 2583322924272574393
+    second: Skeleton_Warrior_Foresight-Sheet_48
+  - first:
+      213: -6137300286011993872
+    second: Skeleton_Warrior_Foresight-Sheet_49
+  - first:
+      213: -8645821306155387190
+    second: Skeleton_Warrior_Foresight-Sheet_50
+  - first:
+      213: -4046321431600036936
+    second: Skeleton_Warrior_Foresight-Sheet_51
+  - first:
+      213: 4853212575134390846
+    second: Skeleton_Warrior_Foresight-Sheet_52
+  - first:
+      213: -6645419449887166168
+    second: Skeleton_Warrior_Foresight-Sheet_53
+  - first:
+      213: -9003462824767997689
+    second: Skeleton_Warrior_Foresight-Sheet_54
+  - first:
+      213: 8081884631629407444
+    second: Skeleton_Warrior_Foresight-Sheet_55
+  - first:
+      213: -5606598760447783417
+    second: Skeleton_Warrior_Foresight-Sheet_56
+  - first:
+      213: 9102863484670918366
+    second: Skeleton_Warrior_Foresight-Sheet_57
+  - first:
+      213: 3575924445738836088
+    second: Skeleton_Warrior_Foresight-Sheet_58
+  - first:
+      213: 8730083067012425488
+    second: Skeleton_Warrior_Foresight-Sheet_59
+  - first:
+      213: -1692543875377994473
+    second: Skeleton_Warrior_Foresight-Sheet_60
+  - first:
+      213: 815779794710922107
+    second: Skeleton_Warrior_Foresight-Sheet_61
+  - first:
+      213: -5422439413230599766
+    second: Skeleton_Warrior_Foresight-Sheet_62
+  - first:
+      213: -1452365452425444081
+    second: Skeleton_Warrior_Foresight-Sheet_63
+  - first:
+      213: 8590450939046962422
+    second: Skeleton_Warrior_Foresight-Sheet_64
+  - first:
+      213: -778928330184185404
+    second: Skeleton_Warrior_Foresight-Sheet_65
+  - first:
+      213: -7918774429786067212
+    second: Skeleton_Warrior_Foresight-Sheet_66
+  - first:
+      213: -989985472003062603
+    second: Skeleton_Warrior_Foresight-Sheet_67
+  - first:
+      213: -6776246556271315982
+    second: Skeleton_Warrior_Foresight-Sheet_68
+  - first:
+      213: 3020544485348103494
+    second: Skeleton_Warrior_Foresight-Sheet_69
+  - first:
+      213: 6302312647780354431
+    second: Skeleton_Warrior_Foresight-Sheet_70
+  - first:
+      213: 7515538129598937163
+    second: Skeleton_Warrior_Foresight-Sheet_71
+  - first:
+      213: 6615749463381800830
+    second: Skeleton_Warrior_Foresight-Sheet_72
+  - first:
+      213: -2782085223611864201
+    second: Skeleton_Warrior_Foresight-Sheet_73
+  - first:
+      213: -7620442241506021803
+    second: Skeleton_Warrior_Foresight-Sheet_74
+  - first:
+      213: 1874320534614565847
+    second: Skeleton_Warrior_Foresight-Sheet_75
+  - first:
+      213: 3002840680476548462
+    second: Skeleton_Warrior_Foresight-Sheet_76
+  - first:
+      213: 381200186713323544
+    second: Skeleton_Warrior_Foresight-Sheet_77
+  - first:
+      213: -8218440280045710988
+    second: Skeleton_Warrior_Foresight-Sheet_78
+  - first:
+      213: -7515403626278879053
+    second: Skeleton_Warrior_Foresight-Sheet_79
+  - first:
+      213: -6391551473100244747
+    second: Skeleton_Warrior_Foresight-Sheet_80
+  - first:
+      213: 995635495664230334
+    second: Skeleton_Warrior_Foresight-Sheet_81
+  - first:
+      213: -4989166620898628033
+    second: Skeleton_Warrior_Foresight-Sheet_82
+  - first:
+      213: 3727766144763411318
+    second: Skeleton_Warrior_Foresight-Sheet_83
+  - first:
+      213: 1071235623674638000
+    second: Skeleton_Warrior_Foresight-Sheet_84
+  - first:
+      213: -2488551610597784744
+    second: Skeleton_Warrior_Foresight-Sheet_85
+  - first:
+      213: 6426775673025414381
+    second: Skeleton_Warrior_Foresight-Sheet_86
+  - first:
+      213: 202687834869792151
+    second: Skeleton_Warrior_Foresight-Sheet_87
+  - first:
+      213: -7797489818036474930
+    second: Skeleton_Warrior_Foresight-Sheet_88
+  - first:
+      213: -6882865952238608653
+    second: Skeleton_Warrior_Foresight-Sheet_89
+  - first:
+      213: -2280711339543728576
+    second: Skeleton_Warrior_Foresight-Sheet_90
+  - first:
+      213: -8715231442805499852
+    second: Skeleton_Warrior_Foresight-Sheet_91
+  - first:
+      213: 3214207266817858238
+    second: Skeleton_Warrior_Foresight-Sheet_92
+  - first:
+      213: 2373809184498598654
+    second: Skeleton_Warrior_Foresight-Sheet_93
+  - first:
+      213: -3626597946012025310
+    second: Skeleton_Warrior_Foresight-Sheet_94
+  - first:
+      213: 4185294431783005236
+    second: Skeleton_Warrior_Foresight-Sheet_95
+  - first:
+      213: -7469450826691414102
+    second: Skeleton_Warrior_Foresight-Sheet_96
+  - first:
+      213: 7276389796246589862
+    second: Skeleton_Warrior_Foresight-Sheet_97
+  - first:
+      213: -6744853926893272870
+    second: Skeleton_Warrior_Foresight-Sheet_98
+  - first:
+      213: 4373924738294016079
+    second: Skeleton_Warrior_Foresight-Sheet_99
+  - first:
+      213: 5267133669632472171
+    second: Skeleton_Warrior_Foresight-Sheet_100
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9e9b661a0b3de170800000000000000
+      internalID: 8209282610278145690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa9ed224bf87e0420800000000000000
+      internalID: 2598147055581784490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af1c0babb40610f50800000000000000
+      internalID: 6845858786950824442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 1040
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c8c78f28c06319a0800000000000000
+      internalID: -6263556243835074364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e0ea66d8e9f9af20800000000000000
+      internalID: 3434550969271771363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab19cd2d3c2d400c0800000000000000
+      internalID: -4610328380022419014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 699361fa5bdd81040800000000000000
+      internalID: 4618685190264732054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a2e913c0ac8f3150800000000000000
+      internalID: 5854552662700843682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 943c3c98389245a80800000000000000
+      internalID: -8479106553503038647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eb6daf136be04920800000000000000
+      internalID: 2972634565030276066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 286e51c6f9f0ae610800000000000000
+      internalID: 1651149390772299394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 960
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64202c9be8c5c8020800000000000000
+      internalID: 2345351274024796742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3149988c90598be0800000000000000
+      internalID: -1474558769750261442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb1e6dc2bcb988500800000000000000
+      internalID: 398739863955235259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af0bc464cf58618c0800000000000000
+      internalID: -4028885498078646022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbe2e76e7e645cce0800000000000000
+      internalID: -1385623348528140611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9d18e98b20628b00800000000000000
+      internalID: 829331021503143324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b652d4b5043e5d7f0800000000000000
+      internalID: -588314310752787093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88305c3dad3db2220800000000000000
+      internalID: 2462294558097343368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 430364516fc8d21a0800000000000000
+      internalID: -6832650071104409548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 402e2e816d2099540800000000000000
+      internalID: 5015042778617537028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e67ebdb4f694b2f0800000000000000
+      internalID: -957974842823510296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e968a3d194f63b350800000000000000
+      internalID: 6031286685792896670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b43617db0d83d4e60800000000000000
+      internalID: 7948071386561471307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5a7d8d5e677c27c0800000000000000
+      internalID: -4094766645286962593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dee0fce47c8ee990800000000000000
+      internalID: -7354786707630133545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e456eca45fc9e7c0800000000000000
+      internalID: -4041471228003330842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9da5b260a6d801260800000000000000
+      internalID: 7066303301853862617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a75c8994f80b7a980800000000000000
+      internalID: -8527653239941184134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9572338b905fa4730800000000000000
+      internalID: 3984266242456495961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5e327a69faac8a30800000000000000
+      internalID: 4218934939148762718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e43b71f7d7c27e800800000000000000
+      internalID: 641530389438378830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b7b94ec223b69220800000000000000
+      internalID: 2492376405867345846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 027e6ad196b40dcf0800000000000000
+      internalID: -229600666154768608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24406dbb5e9b59650800000000000000
+      internalID: 6239097255141704770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82b3fe8e4f0367330800000000000000
+      internalID: 3708205171624327976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a58b708b070254c0800000000000000
+      internalID: -4300366948203788890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e686e2f3834bf19f0800000000000000
+      internalID: -495479280316290962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29c5460de5c8c4c30800000000000000
+      internalID: 4345002079356738706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0ca023642d94e490800000000000000
+      internalID: -7717871081798718449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f576859273475ab40800000000000000
+      internalID: 5450890704267536223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56c61ff22422f5a10800000000000000
+      internalID: 1900275235441175653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38e13034b363b73c0800000000000000
+      internalID: -4360832186022945149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02ec708f467442840800000000000000
+      internalID: 5198358368875957792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a9446e77590b0300800000000000000
+      internalID: 219279278244907433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db60d2aad0c9274d0800000000000000
+      internalID: -3138274407820228931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27554db8102766ee0800000000000000
+      internalID: -1268200894091733646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 017419580f1926b40800000000000000
+      internalID: 5432064562781308688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bfd369338ec9d320800000000000000
+      internalID: 2583322924272574393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f01a5c18ede3daa0800000000000000
+      internalID: -6137300286011993872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac6ba1f545fd30880800000000000000
+      internalID: -8645821306155387190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b30e66a81498d7c0800000000000000
+      internalID: -4046321431600036936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a1858af131a5340800000000000000
+      internalID: 4853212575134390846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 821f002283ab6c3a0800000000000000
+      internalID: -6645419449887166168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 709b44563464d0380800000000000000
+      internalID: -9003462824767997689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d4a5f7b04f982070800000000000000
+      internalID: 8081884631629407444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70e4d55e12c5132b0800000000000000
+      internalID: -5606598760447783417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ede3faa3c1ed35e70800000000000000
+      internalID: 9102863484670918366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87026eb565c30a130800000000000000
+      internalID: 3575924445738836088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 017ade4ab4c772970800000000000000
+      internalID: 8730083067012425488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 715e4551050e288e0800000000000000
+      internalID: -1692543875377994473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b738faea66b325b00800000000000000
+      internalID: 815779794710922107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa1005e3510afb4b0800000000000000
+      internalID: -5422439413230599766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f05c124e05928dbe0800000000000000
+      internalID: -1452365452425444081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f4a05a6d99673770800000000000000
+      internalID: 8590450939046962422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c922e58fc0b035f0800000000000000
+      internalID: -778928330184185404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fea7209c9cda1290800000000000000
+      internalID: -7918774429786067212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b4c578557dd242f0800000000000000
+      internalID: -989985472003062603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f3fbfeb8afe5f1a0800000000000000
+      internalID: -6776246556271315982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6455075b4312be920800000000000000
+      internalID: 3020544485348103494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f79466a46ff467750800000000000000
+      internalID: 6302312647780354431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b48f5ae1c1e8c4860800000000000000
+      internalID: 7515538129598937163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e777adfc51ddfcb50800000000000000
+      internalID: 6615749463381800830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77b60cfaa3c0469d0800000000000000
+      internalID: -2782085223611864201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55ee6abf720ce3690800000000000000
+      internalID: -7620442241506021803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d3ebec789ce20a10800000000000000
+      internalID: 1874320534614565847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skeleton_Warrior_Foresight-Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6d95ec60bb3ca920800000000000000
+      internalID: 3002840680476548462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 8928ec8c8b6c66c458d6316f07381b5c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Skeleton_Warrior_Foresight-Sheet_0: 8209282610278145690
+      Skeleton_Warrior_Foresight-Sheet_1: 2598147055581784490
+      Skeleton_Warrior_Foresight-Sheet_10: 1651149390772299394
+      Skeleton_Warrior_Foresight-Sheet_11: 2345351274024796742
+      Skeleton_Warrior_Foresight-Sheet_12: -1474558769750261442
+      Skeleton_Warrior_Foresight-Sheet_13: 398739863955235259
+      Skeleton_Warrior_Foresight-Sheet_14: -4028885498078646022
+      Skeleton_Warrior_Foresight-Sheet_15: -1385623348528140611
+      Skeleton_Warrior_Foresight-Sheet_16: 829331021503143324
+      Skeleton_Warrior_Foresight-Sheet_17: -588314310752787093
+      Skeleton_Warrior_Foresight-Sheet_18: 2462294558097343368
+      Skeleton_Warrior_Foresight-Sheet_19: -6832650071104409548
+      Skeleton_Warrior_Foresight-Sheet_2: 6845858786950824442
+      Skeleton_Warrior_Foresight-Sheet_20: 5015042778617537028
+      Skeleton_Warrior_Foresight-Sheet_21: -957974842823510296
+      Skeleton_Warrior_Foresight-Sheet_22: 6031286685792896670
+      Skeleton_Warrior_Foresight-Sheet_23: 7948071386561471307
+      Skeleton_Warrior_Foresight-Sheet_24: -4094766645286962593
+      Skeleton_Warrior_Foresight-Sheet_25: -7354786707630133545
+      Skeleton_Warrior_Foresight-Sheet_26: -4041471228003330842
+      Skeleton_Warrior_Foresight-Sheet_27: 7066303301853862617
+      Skeleton_Warrior_Foresight-Sheet_28: -8527653239941184134
+      Skeleton_Warrior_Foresight-Sheet_29: 3984266242456495961
+      Skeleton_Warrior_Foresight-Sheet_3: -6263556243835074364
+      Skeleton_Warrior_Foresight-Sheet_30: 4218934939148762718
+      Skeleton_Warrior_Foresight-Sheet_31: 641530389438378830
+      Skeleton_Warrior_Foresight-Sheet_32: 2492376405867345846
+      Skeleton_Warrior_Foresight-Sheet_33: -229600666154768608
+      Skeleton_Warrior_Foresight-Sheet_34: 6239097255141704770
+      Skeleton_Warrior_Foresight-Sheet_35: 3708205171624327976
+      Skeleton_Warrior_Foresight-Sheet_36: -4300366948203788890
+      Skeleton_Warrior_Foresight-Sheet_37: -495479280316290962
+      Skeleton_Warrior_Foresight-Sheet_38: 4345002079356738706
+      Skeleton_Warrior_Foresight-Sheet_39: -7717871081798718449
+      Skeleton_Warrior_Foresight-Sheet_4: 3434550969271771363
+      Skeleton_Warrior_Foresight-Sheet_40: 5450890704267536223
+      Skeleton_Warrior_Foresight-Sheet_41: 1900275235441175653
+      Skeleton_Warrior_Foresight-Sheet_42: -4360832186022945149
+      Skeleton_Warrior_Foresight-Sheet_43: 5198358368875957792
+      Skeleton_Warrior_Foresight-Sheet_44: 219279278244907433
+      Skeleton_Warrior_Foresight-Sheet_45: -3138274407820228931
+      Skeleton_Warrior_Foresight-Sheet_46: -1268200894091733646
+      Skeleton_Warrior_Foresight-Sheet_47: 5432064562781308688
+      Skeleton_Warrior_Foresight-Sheet_48: 2583322924272574393
+      Skeleton_Warrior_Foresight-Sheet_49: -6137300286011993872
+      Skeleton_Warrior_Foresight-Sheet_5: -4610328380022419014
+      Skeleton_Warrior_Foresight-Sheet_50: -8645821306155387190
+      Skeleton_Warrior_Foresight-Sheet_51: -4046321431600036936
+      Skeleton_Warrior_Foresight-Sheet_52: 4853212575134390846
+      Skeleton_Warrior_Foresight-Sheet_53: -6645419449887166168
+      Skeleton_Warrior_Foresight-Sheet_54: -9003462824767997689
+      Skeleton_Warrior_Foresight-Sheet_55: 8081884631629407444
+      Skeleton_Warrior_Foresight-Sheet_56: -5606598760447783417
+      Skeleton_Warrior_Foresight-Sheet_57: 9102863484670918366
+      Skeleton_Warrior_Foresight-Sheet_58: 3575924445738836088
+      Skeleton_Warrior_Foresight-Sheet_59: 8730083067012425488
+      Skeleton_Warrior_Foresight-Sheet_6: 4618685190264732054
+      Skeleton_Warrior_Foresight-Sheet_60: -1692543875377994473
+      Skeleton_Warrior_Foresight-Sheet_61: 815779794710922107
+      Skeleton_Warrior_Foresight-Sheet_62: -5422439413230599766
+      Skeleton_Warrior_Foresight-Sheet_63: -1452365452425444081
+      Skeleton_Warrior_Foresight-Sheet_64: 8590450939046962422
+      Skeleton_Warrior_Foresight-Sheet_65: -778928330184185404
+      Skeleton_Warrior_Foresight-Sheet_66: -7918774429786067212
+      Skeleton_Warrior_Foresight-Sheet_67: -989985472003062603
+      Skeleton_Warrior_Foresight-Sheet_68: -6776246556271315982
+      Skeleton_Warrior_Foresight-Sheet_69: 3020544485348103494
+      Skeleton_Warrior_Foresight-Sheet_7: 5854552662700843682
+      Skeleton_Warrior_Foresight-Sheet_70: 6302312647780354431
+      Skeleton_Warrior_Foresight-Sheet_71: 7515538129598937163
+      Skeleton_Warrior_Foresight-Sheet_72: 6615749463381800830
+      Skeleton_Warrior_Foresight-Sheet_73: -2782085223611864201
+      Skeleton_Warrior_Foresight-Sheet_74: -7620442241506021803
+      Skeleton_Warrior_Foresight-Sheet_75: 1874320534614565847
+      Skeleton_Warrior_Foresight-Sheet_76: 3002840680476548462
+      Skeleton_Warrior_Foresight-Sheet_8: -8479106553503038647
+      Skeleton_Warrior_Foresight-Sheet_9: 2972634565030276066
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
