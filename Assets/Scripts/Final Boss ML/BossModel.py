@@ -10,6 +10,7 @@ from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
 from scipy.stats import norm
+from scipy.spatial.distance import pdist 
 
 # ======= PREPROCESSING =======
 # load collected data from gameplay for training
@@ -236,9 +237,45 @@ plt.xlabel("PC1")
 plt.ylabel("PC2")
 plt.show()
 
+print("\n----- Cluster Distance and Separation -----")
+cluster_centres = []
+for i in np.unique(labels):
+    cluster_points = X_pca[labels == i]
+    centre = cluster_points.mean(axis=0)
+    cluster_centres.append(centre)
+
+cluster_centres = np.array(cluster_centres)
+
+inter_cluster_distances = pdist(cluster_centres)
+print("Inter-cluster distances: ", inter_cluster_distances)
+print("Mean inter-cluster distance: ", np.mean(inter_cluster_distances))
+
+intra_distances = []
+for i in np.unique(labels):
+    cluster_points = X_pca[labels == i]
+    center = cluster_points.mean(axis=0)
+
+    distances = np.linalg.norm(cluster_points - center, axis = 1)
+    intra_distances.extend(distances)
+
+print("Mean intra-cluster distance: ", np.mean(intra_distances))
+
 # evaluating clusters using silhouette score 
 score = silhouette_score(X_scaled, labels)
-print("Silhouette Score:", score)
+print("\n ----- Silhouette Score:", score, " -----")
+
+print("\n-- Silhouette Score for all covariances and cluster sizes --")
+for cov in ["spherical", "diag", "tied", "full"]:
+    print(f"\nCovariance: {cov}")
+    for k in range(2, 8):
+        gmm = GaussianMixture(n_components=k, covariance_type=cov, random_state=42)
+        labels = gmm.fit_predict(X_scaled)
+        score = silhouette_score(X_scaled, labels)
+        print(f"k={k}, silhouette={score}")
+
+# printing how many samples per cluster 
+print("\n")
+print(df_numeric["cluster"].value_counts())
     
 
 # ====== SAVING MODEL =======
@@ -252,10 +289,6 @@ model_data = {
     "scaler_mean": scaler.mean_.tolist(),
     "scaler_scale": scaler.scale_.tolist()
 }
-
-# evaluating clusters using silhouette score 
-score = silhouette_score(X_scaled, labels)
-print("Silhouette Score:", score)
 
 unity_path = Path(__file__).resolve().parents[3] / "Assets" / "StreamingAssets"
 unity_path.mkdir(parents=True, exist_ok=True)
