@@ -544,11 +544,14 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
         GameObject spellObj = playerSpells.latestSpell;
         bool shouldDodge = false;
+        Vector2 jumpMove = new Vector2(0f, 0f);
 
         // Check if player or spell is close enough to trigger the dodge
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
         {
             shouldDodge = true;
+            Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
+            jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
         }
         else if (spellObj != null)
         {
@@ -556,16 +559,18 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
             {
                 shouldDodge = true;
+                // A small, upwards jump
+                jumpMove = new Vector2 (0f, 3f);
             }
         }
 
         if (shouldDodge)
         {
-            StartCoroutine(PhaseDodgeRoutine());
+            StartCoroutine(PhaseDodgeRoutine(jumpMove));
         }
     }
 
-    IEnumerator PhaseDodgeRoutine()
+    IEnumerator PhaseDodgeRoutine(Vector2 jumpMove)
     {
         isDodging = true;
         int originalLayer = gameObject.layer;
@@ -579,7 +584,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
 
         // Do a little jump to show dodging
-        rb.linearVelocity = new Vector2(0f, 3f);
+        rb.linearVelocity = jumpMove;
 
         yield return new WaitForSeconds(dodgeDuration);
         
