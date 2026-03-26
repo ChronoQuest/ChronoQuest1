@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class MeleeSkeleton : EnemyBase, IBossSpawnable
+public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
 {
     [Header("Stats")]
     public float detectionRange = 6f;
@@ -29,6 +29,19 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
         get => _player;
         set => _player = value;
     }
+    [Header("Foresight")]
+    public float dodgeTriggerDistance = 5f;
+    public GameObject foresightGlow;
+    private bool isDodging = false;
+    private float dodgeDuration = 0.75f;
+    private ForesightSystem foresightSystem;
+    private float rewindStartTime;
+    private bool hasForesight = false;
+
+    private Collider2D playerCollider;
+    private PlayerCombat playerCombat;
+    private PlayerSpellSystem playerSpells;
+
     public void DoubleDetectionRange()
     {
         detectionRange *= 2f;
@@ -62,6 +75,10 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        playerCollider = player.GetComponent<Collider2D>();
+        playerCombat = player.GetComponent<PlayerCombat>();
+        playerSpells = player.GetComponent<PlayerSpellSystem>();
+        foresightSystem = GetComponent<ForesightSystem>();
     }
 
     public override void Update()
@@ -82,8 +99,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
             if (reviveTimer <= 0) isReviving = false;
         }
 
-        // If dead, dying, locked in an attack, reviving, or stunned -> Do nothing.
-        if (wasDead || isDying || isAttacking || isReviving || isStunned) return;
+        if (wasDead || isDying || isAttacking || isReviving || isStunned || isDodging) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -127,7 +143,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
 
     public override void TakeDamage(int amount)
     {
-        if (wasDead || isDying) return; 
+        if (wasDead || isDying || isDodging) return; 
         
         animator?.SetBool("isRunning", false);
         if (health - amount > 0)
@@ -172,7 +188,6 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
 
         if (col != null)
         {
-            // We add the groundDetectionOffset here to check slightly lower than the actual collider bounds.
             float checkDist = col.bounds.extents.y + groundDetectionOffset;
             
             while (!Physics2D.Raycast(transform.position, Vector2.down, checkDist, groundLayer))
@@ -212,13 +227,20 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
     public override void OnStartRewind()
     {
         base.OnStartRewind();
+        rewindStartTime = Time.time;
         StopAllCoroutines(); 
         isDying = false; 
     }
-        public override void OnStopRewind()
+
+    public override void OnStopRewind()
     {
+        if (foresightSystem != null)
+        {
+            float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime;
+            int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
+            foresightSystem.HandleRewindStop(statesErased);
+        }
         isRewinding = false;
-        // Restore alive body type if living, keep frozen if still dead
         rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
     }
 
@@ -268,13 +290,139 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
     }
 
+    public int GetPlayerAttackState()
+    {
+        if (playerCombat != null && playerCombat.isAttacking) return 1;
+        if (playerSpells != null && playerSpells.isCasting) return 2;
+        return 0;
+    }
+
+    public void SetForesightState(bool state)
+    {
+        hasForesight = state;
+        if (hasForesight) detectionRange *= 2;
+        animator.SetBool("hasForesight", hasForesight);
+        if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        
+        Vector2 direction = (player.position - transform.position).normalized;
+        if (direction.x > 0) spriteRenderer.flipX = false;
+        else if (direction.x < 0) spriteRenderer.flipX = true;
+    }
+
+    new public bool IsDead() => wasDead;
+    public bool IsRewinding() => isRewinding;
+    
+    public void ExecuteLunge()
+    {
+        if (isDodging || isAttacking) return;
+        
+        if (Time.time < lastAttackTime + attackCooldown)
+            return;
+
+        StartCoroutine(LungeRoutine());
+    }
+
+    private IEnumerator LungeRoutine()
+    {
+        isAttacking = true; 
+        lastAttackTime = Time.time;
+
+        float timer = 0f;
+        float lungeTime = 1f; 
+
+        while (timer < lungeTime)
+        {
+            if (player != null && !wasDead && !isDying && !isStunned)
+            {
+                float dist = Vector2.Distance(transform.position, player.position);
+
+                // Stop lunging and attack if we reach the player
+                if (dist <= attackRange)
+                {
+                    rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                    animator.SetBool("isRunning", false);
+                    StartAttack(); 
+                    yield break;
+                }
+
+                Vector2 dir = (player.position - transform.position).normalized;
+                rb.linearVelocity = new Vector2(dir.x * moveSpeed * 2.5f, rb.linearVelocity.y);
+                
+                spriteRenderer.flipX = dir.x < 0;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        isAttacking = false;
+    }
+
+    public void ExecuteDodge()
+    {
+        if (isDodging) return;
+
+        GameObject spellObj = playerSpells.latestSpell;
+        bool shouldBlock = false;
+
+        if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
+        {
+            shouldBlock = true;
+        }
+        else if (spellObj != null)
+        {
+            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            {
+                shouldBlock = true;
+            }
+        }
+
+        if (shouldBlock)
+        {
+            StartCoroutine(BlockRoutine());
+        }
+    }
+
+    private IEnumerator BlockRoutine()
+    {
+        isDodging = true;
+        
+        float originalKnockbackResist = knockbackResistance;
+        knockbackResistance = 10f; 
+
+        animator?.SetTrigger("Block");
+
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
+        if (foresightGlow != null) foresightGlow.SetActive(true);
+
+        yield return new WaitForSeconds(dodgeDuration);
+        
+        if (!hasForesight && foresightGlow != null) 
+        {
+            foresightGlow.SetActive(false);
+        }
+
+        knockbackResistance = originalKnockbackResist;
+        isDodging = false;
+    }
+
+    public float GetDistanceToPlayer()
+    {
+        return Vector2.Distance(transform.position, playerCollider.bounds.center);
+    }
+
+    public bool IsPerformingForesightAction()
+    {
+        return isDodging;
+    }
+
     void OnDrawGizmosSelected()
     {
         float dir = (spriteRenderer != null && spriteRenderer.flipX) ? -1f : 1f;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere((Vector2)transform.position + new Vector2(dir * hitboxOffset, 0), hitboxRadius);
         
-        // Draw the ground detection raycast so you can easily see it in the Scene view!
         if (col != null)
         {
             Gizmos.color = Color.cyan;
