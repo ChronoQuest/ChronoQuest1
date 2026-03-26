@@ -153,11 +153,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
         {
-            if (GetPlayerAttackState() != 0) 
-            {
-                Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;    
-                TriggerForesightDodge(approachDirection);
-            }
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;    
+            TriggerForesightDodge(approachDirection);
         }
         if (!isDodging && spellObj != null)
         {

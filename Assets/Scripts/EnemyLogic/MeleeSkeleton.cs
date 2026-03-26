@@ -366,10 +366,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
         {
-            if (GetPlayerAttackState() != 0) 
-            {
-                shouldBlock = true;
-            }
+            shouldBlock = true;
         }
         else if (spellObj != null)
         {

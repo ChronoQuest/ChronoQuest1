@@ -466,12 +466,9 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
         {
-            if (GetPlayerAttackState() != 0) 
-            {
-                Vector2 attackDirection = (playerCollider.bounds.center - transform.position).normalized;
-                TriggerForesightDodge(attackDirection);
-                return;
-            }
+            Vector2 attackDirection = (playerCollider.bounds.center - transform.position).normalized;
+            TriggerForesightDodge(attackDirection);
+            return;
         }
 
         if (spellObj != null)

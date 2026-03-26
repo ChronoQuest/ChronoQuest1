@@ -549,12 +549,9 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         // Check if player or spell is close enough to trigger the dodge
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
         {
-            if (GetPlayerAttackState() != 0) 
-            {
-                shouldDodge = true;
-                Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
-                jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
-            }
+            shouldDodge = true;
+            Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
+            jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
         }
         else if (spellObj != null)
         {

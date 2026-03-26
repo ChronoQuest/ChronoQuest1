@@ -321,10 +321,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         
         if (!shouldDodge && Vector2.Distance(transform.position, threatPos) < dodgeTriggerDistance)
         {
-            if (GetPlayerAttackState() != 0) 
-            {
-                shouldDodge = true;
-            }
+            shouldDodge = true;
         }
 
         if (shouldDodge)
