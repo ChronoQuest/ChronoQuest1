@@ -962,7 +962,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -13.690372, y: -4.8984747}
+  m_Offset: {x: -13.711128, y: -1.4116516}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -972,7 +972,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.5132523, y: 3.7629206}
+  m_Size: {x: 2.4717407, y: 10.736567}
   m_EdgeRadius: 0
 --- !u!114 &6924415106093661232
 MonoBehaviour:
@@ -2049,7 +2049,7 @@ Transform:
   m_GameObject: {fileID: 5932735222550352041}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1181.2, y: -697.9, z: 0}
+  m_LocalPosition: {x: -1178.61, y: -697.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2453,7 +2453,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.4547043, y: -0.7227011}
+  m_Offset: {x: 1.4547043, y: 0.2515998}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2463,7 +2463,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.1065826, y: 4.809042}
+  m_Size: {x: 3.1065826, y: 6.7576437}
   m_EdgeRadius: 0
 --- !u!114 &5114495701097518166
 MonoBehaviour:
@@ -3792,7 +3792,7 @@ MonoBehaviour:
   enemyFocus: {fileID: 0}
   tutorialManager: {fileID: 3131234995556985550}
   requireRewindCompleted: 0
-  requiredStep: 7
+  requiredStep: 6
   panToEnemyDelay: 0.3
   focusDuration: 1.2
   panSmoothTime: 0.45
