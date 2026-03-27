@@ -57,7 +57,6 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool hasForesight = false;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 3.4f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private ForesightSystem foresightSystem;
     private float rewindStartTime;

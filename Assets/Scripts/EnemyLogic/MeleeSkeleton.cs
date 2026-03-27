@@ -31,7 +31,6 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     }
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;
     private float dodgeDuration = 0.75f;
     private ForesightSystem foresightSystem;

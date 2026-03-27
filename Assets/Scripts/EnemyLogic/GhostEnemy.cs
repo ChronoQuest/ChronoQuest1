@@ -47,7 +47,6 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private float dodgeCooldown = 1.5f;
     private float dodgeTimer = 0f;

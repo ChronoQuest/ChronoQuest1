@@ -64,7 +64,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private float dodgeDuration = 0.5f;
     private ForesightSystem foresightSystem;
