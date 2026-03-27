@@ -159,6 +159,12 @@ public class TutorialManager : MonoBehaviour
             SetStep(TutorialStep.Movement); 
         }
 
+        if (SceneManager.GetActiveScene().name == "GameScene_2")
+        {
+            player.allowedActions = PlayerAction.SpikeHint;
+            SetStep(TutorialStep.SpikeHint);
+        }
+
         moveCompleted = false;
 
         // subscribe to health change event to trigger the rewind hint
