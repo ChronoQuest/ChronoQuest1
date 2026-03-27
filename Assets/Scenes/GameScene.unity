@@ -957,7 +957,8 @@ MonoBehaviour:
   arrowSpawnOffset: {x: 0.3, y: 0.5}
   reviveAnimDuration: 0.9
   currentState: 0
-  reviveAnimDuration: 0.9
+  dodgeTriggerDistance: 5
+  foresightGlow: {fileID: 0}
 --- !u!114 &913987529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1238,12 +1239,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e28d0fa1e8f0d34cb76368bc0664098, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
-  musicSource: {fileID: 0}
-  titleTrack: {fileID: 0}
-  tutorialTrack: {fileID: 0}
-  bossFightTrack: {fileID: 0}
-  rewindPitch: -1
-  loopDuringRewind: 1
+--- !u!114 &1106147803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106147785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76f155dc9e9d3b499bdd18e07772675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindGhostTrail
+  spawnInterval: 0.045
+  ghostLifetime: 0.35
+  ghostStartColor: {r: 0.35, g: 0.65, b: 1, a: 0.55}
+  ghostEndColor: {r: 0.35, g: 0.65, b: 1, a: 0}
+  ghostScale: {x: 1, y: 1, z: 1}
+  maxActiveGhosts: 24
 --- !u!114 &1303432475 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1122370122660529387, guid: 48103ce565b364c02a9d9eed0239e959, type: 3}
@@ -1514,6 +1527,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1106147786}
+    - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1106147803}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
 --- !u!1 &1618970458
 GameObject:

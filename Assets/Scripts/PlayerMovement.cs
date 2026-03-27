@@ -24,6 +24,10 @@ public class PlayerPlatformer : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private float totalJumpFrames = 9f;
 
+    [Header("Post-Rewind Responsiveness")]
+    [Tooltip("Fraction of normal apparent speed the player keeps during post-rewind slow-mo (0-1, 1 = full speed)")]
+    [SerializeField] private float postRewindResponsiveness = 0.75f;
+
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float dashDuration = 0.2f;
@@ -32,6 +36,8 @@ public class PlayerPlatformer : MonoBehaviour
     private bool canDash = true;
     public bool isDashing;
     private bool _isRewinding = false;
+    private float _postRewindSpeedMultiplier = 1f;
+    private Coroutine _postRewindSlowCoroutine;
     private PlayerRewindController rewindController;
 
     private Rigidbody2D rb;
@@ -96,6 +102,11 @@ public class PlayerPlatformer : MonoBehaviour
     public PlayerTacticalModel playerTacticModel; 
 
     private float knockbackTimer;
+
+    private void OnValidate()
+    {
+        postRewindResponsiveness = Mathf.Clamp(postRewindResponsiveness, 0.1f, 1f);
+    }
 
     private void Awake()
     {
@@ -303,8 +314,7 @@ public class PlayerPlatformer : MonoBehaviour
 
         if (isDashing || isWallSliding || isWallJumping || spellLock || isKnockedBack) return;
 
-        // 1. Calculate Base Movement (Input)
-        float targetVelocityX = horizontalInput * moveSpeed;
+        float targetVelocityX = horizontalInput * moveSpeed * _postRewindSpeedMultiplier;
 
         // 2. CHECK FOR MOVING PLATFORM
         // We check if we are grounded and what we are standing on
@@ -615,11 +625,36 @@ public class PlayerPlatformer : MonoBehaviour
     void OnStartRewind()
     {
         _isRewinding = true;
+
+        if (_postRewindSlowCoroutine != null)
+        {
+            StopCoroutine(_postRewindSlowCoroutine);
+            _postRewindSlowCoroutine = null;
+            SetDashPhasing(false);
+        }
+        _postRewindSpeedMultiplier = 1f;
     }
 
     void OnStopRewind()
     {
         _isRewinding = false;
+        _postRewindSlowCoroutine = StartCoroutine(PostRewindSlowdown());
+    }
+
+    private IEnumerator PostRewindSlowdown()
+    {
+        SetDashPhasing(true);
+
+        while (Time.timeScale < 0.9f)
+        {
+            float ts = Mathf.Max(Time.timeScale, 0.05f);
+            _postRewindSpeedMultiplier = Mathf.Min(postRewindResponsiveness / ts, 8f);
+            yield return null;
+        }
+
+        SetDashPhasing(false);
+        _postRewindSpeedMultiplier = 1f;
+        _postRewindSlowCoroutine = null;
     }
 
     public bool IsActionAllowed(PlayerAction action)
