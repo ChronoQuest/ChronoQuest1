@@ -2,9 +2,11 @@ import json
 import platform
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from pathlib import Path
 from sklearn.preprocessing import StandardScaler 
 from sklearn.mixture import GaussianMixture
+from sklearn.decomposition import PCA
 
 # load collected data from gameplay for training
 def get_data_path():
@@ -62,13 +64,13 @@ lowest_aic = np.inf
 bic = []
 aic = []
 
-# n_components = range(1, 7)
+n_components = range(1, 7)
 cv_types = ["spherical", "tied", "diag", "full"]
 
 for cv_type in cv_types:
-    #for n_component in n_components:
+    for n_component in n_components:
         gmm = GaussianMixture (
-            n_components=5,
+            n_components=n_component,
             covariance_type=cv_type,
             random_state=42,
             n_init=10
@@ -83,9 +85,11 @@ for cv_type in cv_types:
             lowest_aic = aic[-1]
             best_gmm = gmm
             best_params = {
-                "n_components": 5, 
+                "n_components": n_component, 
                 "covariance_type": cv_type
             }
+
+        print(f"Testing: k={n_component}, cov={cv_type}, BIC={bic[-1]:.2f}")
 
 # printing best model and parameters
 labels = best_gmm.predict(X_scaled)
@@ -100,7 +104,33 @@ print("Corresponding AIC: ", lowest_aic)
 cluster_means = df_numeric.groupby("cluster").mean()
 print("Cluster Means: ", cluster_means)
 
-# saving model details 
+for i, mean in cluster_means.iterrows():
+    print(f"\nCluster {i}:")
+    for feature, value in zip(features, mean):
+        print(f"{feature}: {value:.3f}")
+
+# feature importance using cluster means 
+feature_importance = {}
+
+for feature in cluster_means.columns:
+    values = cluster_means[feature]
+    importance = values.max() - values.min()
+    feature_importance[feature] = importance
+
+sorted_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)
+
+print("\n ----- Feature Importance (by cluster separation) -----")
+for feature, score in sorted_features:
+    print(f"{feature}: {score:.3f}")
+
+# variance and spread for features
+variances = df_numeric.drop(columns=["cluster"]).var()
+variances = variances.sort_values(ascending=False)
+
+print("\n ----- Feature Variance ----- ")
+print(variances)
+    
+# saving GMM details for tactic model
 model_data = {
     "n_components": best_gmm.n_components,
     "n_features": best_gmm.means_.shape[1],
@@ -110,6 +140,16 @@ model_data = {
     "scaler_mean": scaler.mean_.tolist(),
     "scaler_scale": scaler.scale_.tolist()
 }
+
+# pca for visualisation
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=labels)
+plt.title("PCA of Player Behaviour Clusters")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.show()
 
 unity_path = Path(__file__).resolve().parents[3] / "Assets" / "StreamingAssets"
 unity_path.mkdir(parents=True, exist_ok=True)

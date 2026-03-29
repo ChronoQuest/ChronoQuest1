@@ -12,7 +12,6 @@ public class TutorialHintTrigger : MonoBehaviour
         HideAttack,
         RainSpell,
         RewindRegion,
-        Dodge,
         SpikeRewind
     }
 
@@ -56,10 +55,7 @@ public class TutorialHintTrigger : MonoBehaviour
                 tutorial.TriggerRainSpell(); 
                 break;
             case HintType.RewindRegion:
-                tutorial.SetInRewindRegion(true);
-                break;
-            case HintType.Dodge:
-                tutorial.TriggerDodgeHint();
+                tutorial.TryTriggerRewindHint();
                 break;
             case HintType.SpikeRewind:
                 tutorial.TriggerSpikeHint();
@@ -70,10 +66,5 @@ public class TutorialHintTrigger : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return; 
-
-        if (hintType == HintType.RewindRegion)
-        {
-            tutorial.SetInRewindRegion(false); 
-        }
     }
 }

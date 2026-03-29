@@ -26,6 +26,7 @@ public class CameraFollow2D : MonoBehaviour
     private void Awake()
     {
         cameraComponent = GetComponent<Camera>();
+
         defaultOffset = offset; 
         defaultZoomSmoothTime = zoomSmoothTime; 
         defaultSmoothTime = smoothTime;
