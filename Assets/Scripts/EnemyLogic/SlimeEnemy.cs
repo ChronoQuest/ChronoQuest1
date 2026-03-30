@@ -421,6 +421,60 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         if (foresightSystem != null) foresightSystem.NotifyDamage();
     }
 
+    IEnumerator AirborneRecoveryRoutine()
+    {
+        float timeAirborne = 0f;
+        float timeMotionless = 0f; 
+
+        while (!isGrounded && timeMotionless < 0.2f && timeAirborne < 3.0f)
+        {
+            currentStateLabel = "Air (Physics Recovery)";
+            float vy = rb.linearVelocity.y;
+            currentVelocityY = vy;
+            timeAirborne += Time.deltaTime;
+
+            if (Mathf.Abs(vy) < 0.01f) timeMotionless += Time.deltaTime;
+            else timeMotionless = 0f;
+
+            // Manual frame selection
+            if (vy > 1.0f) SetFrame(3); 
+            else if (vy > -1.0f) SetFrame(4); 
+            else if (vy > -3.0f) SetFrame(5); 
+            else SetFrame(5); 
+
+            yield return null; 
+        } 
+
+        currentStateLabel = "Landing";
+        
+        // Safety Reset for layer/color just in case we rewound into a Dodge state
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        spriteRenderer.color = Color.white;
+        isDodging = false;
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+        animator.SetBool("hasForesight", false);
+
+        rb.linearVelocity = Vector2.zero;
+        currentVelocityY = 0f;
+        isGrounded = true;
+
+        float timer = 0f; 
+        float phaseDuration = animationSpeed * 3f;
+
+        while (timer < phaseDuration)
+        {
+            if (timer < animationSpeed) SetFrame(6);
+            else if (timer < animationSpeed * 2f) SetFrame(7);
+            else SetFrame(8);
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isMidJumpSequence = false;
+        currentStateLabel = "Idle";
+    }
+
     // ---------------------- IForesightEnemy Implementation ----------------------
     public int GetPlayerAttackState()
     {
@@ -538,7 +592,10 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void OnStopRewind()
     {
         base.OnStopRewind(); // IMPORTANT
-        isMidJumpSequence = false;
+        if (isMidJumpSequence)
+        {
+            StartCoroutine(AirborneRecoveryRoutine());
+        }
         if (foresightSystem != null)
         {
             // Calculate how much time passed in the real world while we were rewinding
