@@ -485,6 +485,8 @@ public class PlayerPlatformer : MonoBehaviour
         float jumpDirection = spriteRenderer.flipX ? 1f : -1f;
         rb.linearVelocity = new Vector2(jumpDirection * wallJumpPower.x, wallJumpPower.y);
 
+        tutorialManager?.OnPlayerWallJump(); 
+
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
         DataCollectionService.Instance?.RecordJump(true, false);
     
@@ -500,7 +502,6 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = false;
 
         tutorialManager?.OnPlayerDash();
-        tutorialManager?.OnPlayerDodge(); 
         DataCollectionService.Instance?.RecordDash();
 
         if (anim != null) 
