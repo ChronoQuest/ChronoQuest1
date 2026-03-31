@@ -17,7 +17,8 @@ public class TutorialManager : MonoBehaviour
         Jump,
         Attack,
         Rewind, 
-        Spell, 
+        Spell,
+        Foresight,
         WallJump, 
         RainSpell,
         SpikeHint, 
@@ -39,6 +40,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject jumpHint; 
     public GameObject dashHint;
     public GameObject spellHint; 
+    public GameObject foresightHint;
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
     public GameObject spikeHint; 
@@ -54,6 +56,7 @@ public class TutorialManager : MonoBehaviour
     bool jumpCompleted = false;
     bool dashCompleted = false;
     bool spellCompleted = false; 
+    bool foresightCompleted = false;
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 
     private RewindMusicController musicController;
@@ -66,6 +69,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
     public TextMeshProUGUI spellText;
+    public TextMeshProUGUI foresightText;
     public TextMeshProUGUI wallJumpText; 
     public TextMeshProUGUI rainSpellText; 
     public TextMeshProUGUI spikeText; 
@@ -76,6 +80,7 @@ public class TutorialManager : MonoBehaviour
     private string jumpMessage; 
     private string dashMessage;   
     private string spellMessage;
+    private string foresightMessage;
     private string wallJumpMessage; 
     private string rainSpellMessage; 
     private string spikeMessage; 
@@ -87,6 +92,7 @@ public class TutorialManager : MonoBehaviour
     private int previousHealth;
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
+    private bool firstSpellCast = false;
     [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
@@ -98,6 +104,7 @@ public class TutorialManager : MonoBehaviour
     private CameraFollow2D cam; 
     private bool inRewindArea = false; 
     private bool rewindZoomApplied = false; 
+    private bool isWaitingToCompleteForesight = false;
 
     // zoom fixes
     private bool tempZoomActive = false;
@@ -122,6 +129,7 @@ public class TutorialManager : MonoBehaviour
         jumpMessage = jumpText.text; 
         dashMessage = dashText.text; 
         spellMessage = spellText.text;
+        foresightMessage = foresightText.text;
         wallJumpMessage = wallJumpText.text;
         rainSpellMessage = rainSpellText.text; 
         spikeMessage = spikeText.text; 
@@ -173,10 +181,39 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private IEnumerator WaitAndCompleteForesight(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        OnPlayerForesightDemonstrated();
+        isWaitingToCompleteForesight = false; // Reset the flag just in case
+    }
+    private IEnumerator TransitionToRewindHint(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        
+        HideHint(spellHint); 
+        Debug.Log("First spell cast! Triggering manual rewind hint...");
+        TryTriggerRewindHint();
+    }
     void Update()
     {   
+        // Advance from foresight hint if we detect input
+        if (currentStep == TutorialStep.Foresight && !foresightCompleted && !isWaitingToCompleteForesight)
+        {
+            var keyboard = Keyboard.current;
+            var gamepad = Gamepad.current;
+
+            bool continuePressed = (keyboard != null && keyboard.anyKey.wasPressedThisFrame) || 
+                                (gamepad != null && gamepad.buttonSouth.wasPressedThisFrame);
+
+            if (continuePressed)
+            {
+                isWaitingToCompleteForesight = true;
+                StartCoroutine(WaitAndCompleteForesight(1f));
+            }
+        }
         // if all hints have been completed, tutorial completed 
-        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && foresightCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -428,6 +465,13 @@ public class TutorialManager : MonoBehaviour
 
         SetStep(TutorialStep.Spell);
     }
+    public void TriggerForesightHint()
+    {
+        if (foresightCompleted) return; 
+        if (currentStep == TutorialStep.Foresight) return; 
+
+        SetStep(TutorialStep.Foresight);
+    }
 
     public void TriggerWallJumpHint()
     {
@@ -538,10 +582,35 @@ public class TutorialManager : MonoBehaviour
     {
         if (currentStep == TutorialStep.Spell && !spellCompleted)
         {
-            spellCompleted = true; 
-            HideHint(spellHint);
+            // First time casting the spell
+            if (!firstSpellCast)
+            {
+                firstSpellCast = true;
+                
+                StartCoroutine(TransitionToRewindHint(1f));
+            }
+            // Second time casting the spell (after rewinding)
+            else
+            {
+                spellCompleted = true; 
+                HideHint(spellHint);
+                
+                Debug.Log("Player spell tutorial completed");
+                DataCollectionService.Instance?.RecordTutorialStepCompleted();
+
+                TriggerForesightHint(); // Move to Foresight step
+            }
+        }
+    }
+    public void OnPlayerForesightDemonstrated()
+    {
+        if (currentStep == TutorialStep.Foresight && !foresightCompleted)
+        {
+            foresightCompleted = true; 
+            HideHint(foresightHint);
+            RestoreEnemies(); // Restore enemy speed if you slow them down for this hint
             AllowAll(); 
-            Debug.Log("Player spell tutorial completed");
+            Debug.Log("Player foresight tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
@@ -585,6 +654,13 @@ public class TutorialManager : MonoBehaviour
 
             Debug.Log("Player rewind tutorial complete");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
+
+            // If they have cast the first spell, but haven't finished the spell tutorial,
+            // retrigger the spell hint!
+            if (firstSpellCast && !spellCompleted)
+            {
+                TriggerSpellHint();
+            }
         }
     }
 
@@ -705,6 +781,15 @@ public class TutorialManager : MonoBehaviour
                 spellText.text = spellMessage;
                 typewriter.StartTyping(spellText);
                 break;
+            case TutorialStep.Foresight:
+                AllowOnly(PlayerAction.None); // Freeze the player to force them to read it
+                //SlowingEnemies(20f, 0.0f); // Completely freeze enemies while reading
+                //ApplyTempZoom(1.5f);
+                activeHint = foresightHint;
+                ShowHint(foresightHint);
+                foresightText.text = foresightMessage;
+                typewriter.StartTyping(foresightText);
+                break;
             case TutorialStep.WallJump:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump); 
                 
@@ -744,6 +829,7 @@ public class TutorialManager : MonoBehaviour
         HideHint(jumpHint);
         HideHint(dashHint); 
         HideHint(spellHint);
+        HideHint(foresightHint);
         HideHint(wallJumpHint);
         HideHint(spikeHint); 
     }
