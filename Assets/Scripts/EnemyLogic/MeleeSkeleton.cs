@@ -64,8 +64,9 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding) return;
 
         // --- TIMER UPDATES ---

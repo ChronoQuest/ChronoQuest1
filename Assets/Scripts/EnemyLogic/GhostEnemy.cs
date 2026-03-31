@@ -78,8 +78,9 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding || wasDead || isTeleporting) return;
         if (player == null) return;
 
