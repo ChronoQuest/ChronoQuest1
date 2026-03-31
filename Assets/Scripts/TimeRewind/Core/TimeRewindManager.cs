@@ -38,7 +38,7 @@ namespace TimeRewind
         
         [Header("Rewind Settings")]
         [Tooltip("Maximum duration of rewind history in seconds")]
-        [SerializeField] private float maxRewindDuration = 5f;
+        [SerializeField] private float maxRewindDuration = 30f;
         
         [Tooltip("How many states to record per second (higher = smoother but more memory)")]
         [SerializeField] private int recordsPerSecond = 50;
