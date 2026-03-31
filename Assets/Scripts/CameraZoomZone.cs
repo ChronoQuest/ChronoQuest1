@@ -52,9 +52,6 @@ public class CameraZoomZone : MonoBehaviour
         if (other.GetComponent<PlayerPlatformer>() == null)
             return;
 
-        if (tutorial != null && tutorial.currentStep != requiredStep) 
-            return; 
-
         cameraFollow.ResetZoom();
         cameraFollow.ResetOffset(); 
         cameraFollow.ResetZoomSmoothTime();
