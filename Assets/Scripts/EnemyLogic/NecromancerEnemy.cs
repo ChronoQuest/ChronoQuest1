@@ -91,8 +91,9 @@ public class NecromancerEnemy : EnemyBase
         return null;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding) return;
 
         // --- TIMER UPDATES ---
