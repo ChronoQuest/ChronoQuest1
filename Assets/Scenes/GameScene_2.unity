@@ -506246,6 +506246,10 @@ PrefabInstance:
       propertyPath: maxMana
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: passiveRegenRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2363392438989614635, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 256
@@ -506305,6 +506309,10 @@ PrefabInstance:
     - target: {fileID: 7596737112677261011, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_Interpolate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: manaDrainPerSecond
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7893987168415463496, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel

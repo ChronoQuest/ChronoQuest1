@@ -190,8 +190,6 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         _rb.bodyType = RigidbodyType2D.Kinematic;
         _rb.linearVelocity = Vector2.zero;
 
-        // 3. Visuals: If falling, ghost mode. If not, solid.
-        if (platformCollider != null) 
-            platformCollider.enabled = !_isFalling;
+  
     }
 }
