@@ -86,8 +86,8 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         }
 
         // GHOST MODE: Disable collider so it passes through floor/spikes
-        if (platformCollider != null) 
-            platformCollider.enabled = false;
+        // if (platformCollider != null) 
+        //     platformCollider.enabled = false;
 
         // 3. Respawn Timer
         yield return new WaitForSeconds(respawnTime);
@@ -108,8 +108,8 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         transform.rotation = Quaternion.identity;
         
         // Re-enable Collider so player can stand on it again
-        if (platformCollider != null) 
-            platformCollider.enabled = true;
+        // if (platformCollider != null) 
+        //     platformCollider.enabled = true;
     }
 
     // ====================================================
@@ -147,8 +147,6 @@ public class FallingPlatform : MonoBehaviour, IRewindable
                 _rb.bodyType = RigidbodyType2D.Dynamic;
                 _rb.gravityScale = 2.5f; 
                 
-                // Ensure collider is OFF so we don't get stuck in the floor
-                if (platformCollider != null) platformCollider.enabled = false;
 
                 // Start a "Rescue Timer" to ensure it respawns eventually
                 if (_fallRoutine != null) StopCoroutine(_fallRoutine);
