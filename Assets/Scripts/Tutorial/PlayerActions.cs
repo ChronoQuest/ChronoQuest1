@@ -20,6 +20,7 @@ public enum PlayerAction
     Spell = 1 << 5, 
     WallJump = 1 << 6, 
     RainSpell = 1 << 7,
+    SpikeHint = 1 << 8, 
 
     All = ~0 
 }
