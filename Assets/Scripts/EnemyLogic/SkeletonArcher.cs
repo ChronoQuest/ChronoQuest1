@@ -64,7 +64,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private float dodgeDuration = 0.5f;
     private ForesightSystem foresightSystem;
@@ -107,8 +106,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         }
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding) return;
 
         // --- TIMER UPDATES ---
@@ -248,7 +248,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             {
                 if (isLaunched && stunOnLand)
                 {
-                    StartCoroutine(HitStunRoutine(0.5f)); 
+                    stunTimer = 0.5f;
+                    isLaunched = false; 
                 }
                 isGrounded = true;
             }
@@ -354,34 +355,46 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         arrow.LaunchHoming(dir, damage, player);
         isDodging = false;
     }
-public void ExecuteDodge()
+    public void ExecuteDodge()
     {
         if (isDodging) return; // Prevent dodging if already in a dodge state
 
         GameObject spellObj = playerSpells.latestSpell;
         bool shouldDodge = false;
+        Vector2 jumpMove = new Vector2(0f, 0f);
 
         // Check if player or spell is close enough to trigger the dodge
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
         {
             shouldDodge = true;
+            Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
+            jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
         }
         else if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                shouldDodge = true;
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+                    {
+                        shouldDodge = true;
+                        jumpMove = new Vector2 (0f, 3f);
+                    }
+                }
             }
         }
 
         if (shouldDodge)
         {
-            StartCoroutine(PhaseDodgeRoutine());
+            StartCoroutine(PhaseDodgeRoutine(jumpMove));
         }
     }
 
-    IEnumerator PhaseDodgeRoutine()
+    IEnumerator PhaseDodgeRoutine(Vector2 jumpMove)
     {
         isDodging = true;
         int originalLayer = gameObject.layer;
@@ -394,7 +407,7 @@ public void ExecuteDodge()
         spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
 
         // Do a little jump to show dodging
-        rb.linearVelocity = new Vector2(0f, 3f);
+        rb.linearVelocity = jumpMove;
 
         yield return new WaitForSeconds(dodgeDuration);
 

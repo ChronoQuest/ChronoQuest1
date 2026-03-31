@@ -5129,10 +5129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ffd798e8b0244ca9384d018154a4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::EnemyBase
-  health: 7
+  health: 5
   startHealth: 0
   stunOnLand: 0
-  knockbackResistance: 0.5
+  knockbackResistance: 0.3
   knockbackUpMultiplier: 1
   deathAnimationDuration: 0.6
 --- !u!114 &2803759273122063231
@@ -5147,7 +5147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ForesightSystem
-  foresightThreshold: 0.75
+  baselineHistorySize: 30
+  anomalyZScore: -1.5
+  instantTriggerCost: 0.5
   futureLookaheadSteps: 10
   weightDistance: 0.5
   weightVelocity: 0.2
@@ -5155,6 +5157,7 @@ MonoBehaviour:
   minTimelineSize: 3
   bandWidth: 6
   recordInterval: 0.3
+  minDistToPlayer: 30
 --- !u!1 &5139049366995625032
 GameObject:
   m_ObjectHideFlags: 0

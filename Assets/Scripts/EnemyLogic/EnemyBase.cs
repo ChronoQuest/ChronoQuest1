@@ -35,8 +35,10 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
     public bool IsDead => health <= 0;
     protected bool isStunned;
-
+    protected float stunTimer;
     public bool GetIsStunned() => isStunned;
+    protected GameObject foresightGlow;
+    public GameObject ForesightGlow => foresightGlow;
 
     protected virtual void Awake()
     {
@@ -45,6 +47,28 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         flash = GetComponent<HitFlash>();
         startHealth = health;
         originalBodyType = rb.bodyType; // captured once — represents alive body type
+        foresightGlow = transform.Find("Lit")?.gameObject;
+    }
+    public virtual void Update()
+    {
+        if (isRewinding || wasDead) return;
+
+        if (stunTimer > 0f)
+        {
+            isStunned = true;
+            stunTimer -= Time.deltaTime;
+            if (sprite != null && (flash == null || !flash.IsFlashing))
+            {
+                sprite.color = new Color(0.7f, 0.7f, 0.7f);
+            }
+
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                stunTimer = 0f;
+                if (sprite != null) sprite.color = Color.white;
+            }
+        }
     }
     protected virtual void OnEnable()
     {
@@ -67,7 +91,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
         if (!isStunned)
         {
-            StartCoroutine(HitStunRoutine(0.2f));
+            stunTimer = 0.2f;
         }
         
         if (health <= 0)
@@ -97,35 +121,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
             isLaunched = true;
         }
         else{
-            StartCoroutine(HitStunRoutine(0.25f));
+            stunTimer = 0.25f;
         }   
-    }
-
-    protected System.Collections.IEnumerator HitStunRoutine(float duration)
-    {
-        isStunned = true;
-        isLaunched = false;
-
-        if (flash != null)
-        {
-            while (flash.IsFlashing)
-            {
-                yield return null; 
-            }
-        }
-
-        if (sprite != null && !wasDead) 
-            sprite.color = new Color(0.7f, 0.7f, 0.7f);
-
-        yield return new WaitForSeconds(duration);
-
-        if (sprite != null && !wasDead)
-        {
-            if (flash != null && !flash.IsFlashing)
-                sprite.color = Color.white;
-        }
-
-        isStunned = false;
     }
 
     // ================= DEATH =================
@@ -136,6 +133,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         rb.linearVelocity = Vector2.zero;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
+        if (foresightGlow != null) foresightGlow.SetActive(false);
         OnDeath?.Invoke();
         StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us
@@ -193,6 +191,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
         state.Health = health;
         state.SetCustomData("flipX", sprite.flipX);
+        state.SetCustomData("lifetime", stunTimer);
         return state;
     }
 
@@ -204,6 +203,16 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
         health = state.Health;
         sprite.flipX = state.GetCustomData<bool>("flipX");
+        stunTimer = state.GetCustomData<float>("lifetime");
+        isStunned = stunTimer > 0f;
+        if (isStunned && sprite != null) 
+        {
+            sprite.color = new Color(0.7f, 0.7f, 0.7f);
+        }
+        else if (!isStunned && sprite != null)
+        {
+            sprite.color = Color.white;
+        }
 
         justBecameAlive = false;
 
