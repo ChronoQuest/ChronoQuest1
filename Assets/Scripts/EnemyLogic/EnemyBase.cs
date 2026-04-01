@@ -70,6 +70,27 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
             }
         }
     }
+    public virtual void Update()
+    {
+        if (isRewinding || wasDead) return;
+
+        if (stunTimer > 0f)
+        {
+            isStunned = true;
+            stunTimer -= Time.deltaTime;
+            if (sprite != null && (flash == null || !flash.IsFlashing))
+            {
+                sprite.color = new Color(0.7f, 0.7f, 0.7f);
+            }
+
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+                stunTimer = 0f;
+                if (sprite != null) sprite.color = Color.white;
+            }
+        }
+    }
     protected virtual void OnEnable()
     {
         if (TimeRewindManager.Instance != null)
