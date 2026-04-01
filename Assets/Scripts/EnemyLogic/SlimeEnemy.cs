@@ -409,7 +409,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         // 3. Physics Cleanup: Stop X movement but allow gravity (falling death)
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-
+        rb.bodyType = RigidbodyType2D.Kinematic;
         // 4. Disable collider and hide sprite so enemy disappears
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
