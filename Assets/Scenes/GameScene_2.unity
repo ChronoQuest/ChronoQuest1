@@ -23516,6 +23516,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2502081071533185815, guid: e89f4f9e425d135499d57c4a01a8f05c, type: 3}
+      propertyPath: health
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2952847332921199573, guid: e89f4f9e425d135499d57c4a01a8f05c, type: 3}
       propertyPath: m_Name
       value: AI_Sleeping_Bat
@@ -505912,9 +505916,17 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: topAttackOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel
       value: 
       objectReference: {fileID: 1768560351}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: verticalSlashSize.x
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticModel
       value: 

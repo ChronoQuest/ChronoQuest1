@@ -5,10 +5,11 @@ using System.Collections;
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Melee Settings")]
-    public float meleeRange = 3.0f;
+    public float meleeRange = 1.6f;
     public int meleeDamage = 1;
     public float attackOffset = 1.0f; // Distance in front of player
-    public float topAttackOffset = 2.0f; // Offset for attacking upward
+    public float topAttackOffset = 1.0f; // Offset for attacking upward
+    public Vector2 verticalSlashSize = new Vector2(4.0f, 1.5f); // Width and Height
 
     [Header("Spell Settings")]
     public GameObject spellPrefab;
@@ -225,9 +226,9 @@ public class PlayerCombat : MonoBehaviour
             attackPosition += new Vector2(direction * attackOffset, 0);        
         }
         // 2. COLLISION DETECTION
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
+        Collider2D[] hitEnemies = isUpAttack ? Physics2D.OverlapCapsuleAll(attackPosition, verticalSlashSize, CapsuleDirection2D.Horizontal, 0f) : Physics2D.OverlapCircleAll(attackPosition, meleeRange);
         bool hitAnything = false;
-
+        
         foreach (Collider2D enemy in hitEnemies)
         {
             EnemyBase target = enemy.GetComponent<EnemyBase>();
@@ -279,8 +280,11 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPosition, meleeRange);
 
-        Gizmos.color = Color.blue; // Different color for clarity
+
+        Gizmos.color = Color.blue; 
         Vector2 topPos = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
-        Gizmos.DrawWireSphere(topPos, meleeRange);
+        Gizmos.DrawWireCube(topPos, verticalSlashSize);
+
+        
     }
 }
