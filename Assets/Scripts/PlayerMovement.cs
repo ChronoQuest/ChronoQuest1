@@ -502,7 +502,6 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = false;
 
         tutorialManager?.OnPlayerDash();
-        tutorialManager?.OnPlayerDodge(); 
         DataCollectionService.Instance?.RecordDash();
 
         if (anim != null) 

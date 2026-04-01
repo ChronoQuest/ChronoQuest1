@@ -290,6 +290,16 @@ model_data = {
     "scaler_scale": scaler.scale_.tolist()
 }
 
+# pca for visualisation
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
+
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=labels)
+plt.title("PCA of Player Behaviour Clusters")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.show()
+
 unity_path = Path(__file__).resolve().parents[3] / "Assets" / "StreamingAssets"
 unity_path.mkdir(parents=True, exist_ok=True)
 
