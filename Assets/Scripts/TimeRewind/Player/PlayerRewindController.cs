@@ -24,6 +24,7 @@ namespace TimeRewind
         private bool _rewindInputHeld;
         private float _rewindHoldTimer;
         private int _releaseFrameCount;
+        private bool blockRewindInput = false;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
         private PlayerMana _playerMana;
@@ -85,7 +86,7 @@ namespace TimeRewind
             
             bool hasMana = _playerMana != null && _playerMana.CurrentMana > 0f;
 
-            if (_rewindInputHeld && hasMana && !TimeRewindManager.Instance.IsRewinding)
+            if (!blockRewindInput && _rewindInputHeld && hasMana && !TimeRewindManager.Instance.IsRewinding)
             {
                 TimeRewindManager.Instance.StartRewind();
             }
@@ -119,9 +120,18 @@ namespace TimeRewind
             {
                 _releaseFrameCount = 0;
             }
+            
+            if (blockRewindInput && !_rewindInputHeld)
+            {
+                blockRewindInput = false;
+            }
         }
         
         #endregion
+        public void SetRewindBlocked(bool blocked)
+        {
+            blockRewindInput = blocked;
+        }
 
         #region Input Callbacks
         

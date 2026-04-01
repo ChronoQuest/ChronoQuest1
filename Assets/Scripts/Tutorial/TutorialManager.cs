@@ -93,6 +93,7 @@ public class TutorialManager : MonoBehaviour
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
     private bool firstSpellCast = false;
+    private float spellCastTime;
     [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
@@ -178,6 +179,7 @@ public class TutorialManager : MonoBehaviour
 
         if (TimeRewind.TimeRewindManager.Instance != null)
         {
+            TimeRewindManager.Instance.OnRewindStop += HandleRewindStopped;
             TimeRewind.TimeRewindManager.Instance.OnRewindStart += HandleRewindStarted;
         }
     }
@@ -213,6 +215,9 @@ public class TutorialManager : MonoBehaviour
                 StartCoroutine(WaitAndCompleteForesight(1f));
             }
         }
+
+        CheckRewindCompletion();
+
         // if all hints have been completed, tutorial completed 
         if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && foresightCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
         {
@@ -523,6 +528,7 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRewindStarted()
     {
+        //Time.timeScale = 1f;
         if (currentStep != TutorialStep.Rewind && currentStep != TutorialStep.SpikeHint)
             return;  
         
@@ -533,14 +539,21 @@ public class TutorialManager : MonoBehaviour
             RestoreEnemies();
             AllowAll();
 
-            OnPlayerRewind();
+            //OnPlayerRewind();
         }
         
         if (currentStep == TutorialStep.SpikeHint)
         {
             OnPlayerSpike(); 
         }
-    }   
+    }
+    private void HandleRewindStopped()
+    {
+        if (currentStep != TutorialStep.Rewind || rewindCompleted)
+            return;
+        // Player stopped too early!
+        PauseForFailedRewind();
+    }
     #endregion
 
     #region Tutorial Completion Functions
@@ -587,7 +600,9 @@ public class TutorialManager : MonoBehaviour
             if (!firstSpellCast)
             {
                 firstSpellCast = true;
-                
+
+                spellCastTime = Time.time;
+
                 if (spellBlocker != null) spellBlocker.SetActive(false);
                 
                 StartCoroutine(TransitionToRewindHint(1f));
@@ -614,6 +629,7 @@ public class TutorialManager : MonoBehaviour
             RestoreEnemies(); // Restore enemy speed if you slow them down for this hint
             AllowAll(); 
             Debug.Log("Player foresight tutorial completed");
+            player.GetComponent<PlayerRewindController>()?.SetRewindBlocked(false);
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
@@ -642,29 +658,80 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void OnPlayerRewind()
+    // public void OnPlayerRewind()
+    // {
+    //     if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+    //     {
+    //         rewindCompleted = true; 
+
+    //         RestoreTempZoom(); 
+
+    //         rewindZoomApplied = false;
+    //         rewindFollow.enabled = false;
+    //         HideHint(rewindHint);
+    //         AllowAll();
+
+    //         Debug.Log("Player rewind tutorial complete");
+    //         DataCollectionService.Instance?.RecordTutorialStepCompleted();
+
+    //         // If they have cast the first spell, but haven't finished the spell tutorial,
+    //         // retrigger the spell hint!
+    //         if (firstSpellCast && !spellCompleted)
+    //         {
+    //             TriggerSpellHint();
+    //         }
+    //     }
+    // }
+
+    void CheckRewindCompletion()
     {
-        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        if (currentStep != TutorialStep.Rewind || rewindCompleted == true)
+            return;
+
+        var rewindManager = TimeRewind.TimeRewindManager.Instance;
+        if (rewindManager == null || !rewindManager.IsRewinding)
+            return;
+
+        float currentRewindTime = rewindManager.CurrentRewindTime; 
+
+        if (currentRewindTime <= spellCastTime - 1f)
         {
-            rewindCompleted = true; 
-
-            RestoreTempZoom(); 
-
-            rewindZoomApplied = false;
-            rewindFollow.enabled = false;
-            HideHint(rewindHint);
-            AllowAll();
-
-            Debug.Log("Player rewind tutorial complete");
-            DataCollectionService.Instance?.RecordTutorialStepCompleted();
-
-            // If they have cast the first spell, but haven't finished the spell tutorial,
-            // retrigger the spell hint!
-            if (firstSpellCast && !spellCompleted)
+            if (rewindManager != null && rewindManager.IsRewinding)
             {
-                TriggerSpellHint();
+                rewindManager.StopRewind();
             }
+            Time.timeScale = 1f;
+            player.GetComponent<PlayerRewindController>()?.SetRewindBlocked(true);
+            CompleteRewindStep();
         }
+    }
+
+    void CompleteRewindStep()
+    {
+        rewindCompleted = true;
+
+        RestoreTempZoom(); 
+        rewindZoomApplied = false;
+        rewindFollow.enabled = false;
+
+        HideHint(rewindHint);
+        AllowAll();
+
+        Debug.Log("Player rewind tutorial complete");
+
+        DataCollectionService.Instance?.RecordTutorialStepCompleted();
+
+        if (firstSpellCast && !spellCompleted)
+        {
+            TriggerSpellHint();
+        }
+    }
+
+    void PauseForFailedRewind()
+    {
+        Debug.Log("Rewind not far enough — pausing");
+
+        Time.timeScale = 0f;
     }
 
     public void OnPlayerDash()
