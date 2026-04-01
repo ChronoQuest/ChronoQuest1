@@ -100,6 +100,7 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject spellBlocker;
     private float previousZoom;
     private CameraFollow2D cam; 
     private bool inRewindArea = false; 
@@ -586,6 +587,8 @@ public class TutorialManager : MonoBehaviour
             if (!firstSpellCast)
             {
                 firstSpellCast = true;
+                
+                if (spellBlocker != null) spellBlocker.SetActive(false);
                 
                 StartCoroutine(TransitionToRewindHint(1f));
             }

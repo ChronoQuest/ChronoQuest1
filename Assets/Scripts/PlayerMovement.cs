@@ -592,6 +592,12 @@ public class PlayerPlatformer : MonoBehaviour
         knockbackTimer = duration;
     }
 
+    public void ForceFaceRight()
+    {
+        spriteRenderer.flipX = false;
+        playerCollider.offset = new Vector2(-0.06f, playerCollider.offset.y);
+    }
+
     // Visualization for the Ground Check in the Scene View
     private void OnDrawGizmosSelected()
     {
