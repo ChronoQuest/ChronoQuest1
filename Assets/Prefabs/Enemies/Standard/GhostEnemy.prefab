@@ -252,6 +252,7 @@ MonoBehaviour:
   minTimelineSize: 3
   bandWidth: 6
   recordInterval: 0.3
+  minDistToPlayer: 10
 --- !u!114 &4172076355138055662
 MonoBehaviour:
   m_ObjectHideFlags: 0
