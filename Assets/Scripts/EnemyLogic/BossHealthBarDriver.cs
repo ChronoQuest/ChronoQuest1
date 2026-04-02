@@ -44,11 +44,7 @@ public class BossHealthBarDriver : MonoBehaviour
         }
     }
 
-    // ── Public API ────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Call this when the player enters the boss arena / fight triggers.
-    /// </summary>
+    //Call this when the player enters the boss arena / fight triggers.
     public void StartFight()
     {
         if (healthBarUI == null || enemy == null) return;
@@ -57,20 +53,13 @@ public class BossHealthBarDriver : MonoBehaviour
         healthBarUI.Show(bossName, 1);
     }
 
-    /// <summary>
-    /// Call this when the boss transitions to a new phase.
-    /// Refills the bar and updates the phase label.
-    /// </summary>
+    // Refills the bar and updates the phase label.
     public void AdvancePhase(int newPhase)
     {
         if (healthBarUI == null) return;
         healthBarUI.StartNewPhase(newPhase);
     }
 
-    /// <summary>
-    /// Call this from your rewind stop logic or override OnStopRewind on the boss
-    /// to snap the bar to the rewound health value instantly.
-    /// </summary>
     public void SyncAfterRewind()
     {
         if (enemy == null || healthBarUI == null) return;
