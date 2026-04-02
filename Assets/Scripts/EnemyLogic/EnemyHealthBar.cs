@@ -76,6 +76,12 @@ public class EnemyHealthBar : MonoBehaviour
     {
         if (enemy == null) return;
 
+        if (TimeRewind.TimeRewindManager.Instance != null && TimeRewind.TimeRewindManager.Instance.IsRewinding)
+        {
+            if (healthBarRoot.activeSelf) healthBarRoot.SetActive(false);
+            return; 
+        }
+
         int currentHealth = enemy.health;
         bool dead         = enemy.IsDead;
 

@@ -74,7 +74,7 @@ public class BossHealthBar : MonoBehaviour
         gameObject.SetActive(true);
         isVisible = true;
 
-        if (bossNameText != null) bossNameText.text = bossName;
+        if (bossNameText != null) bossNameText.text = bossName.ToUpper();
         SetPhase(phase);
 
         // Snap fill to full before sliding in

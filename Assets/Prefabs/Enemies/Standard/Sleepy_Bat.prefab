@@ -239,7 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::EnemyHealthBar
   fillRect: {fileID: 0}
   healthBarRoot: {fileID: 0}
-  hideWhenFull: 0
+  hideWhenFull: 1
   hideDelay: 2.5
   lerpSpeed: 8
   highHealthColor: {r: 0.18, g: 0.85, b: 0.35, a: 1}
