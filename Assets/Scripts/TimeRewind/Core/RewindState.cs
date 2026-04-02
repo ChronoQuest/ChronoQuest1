@@ -133,6 +133,9 @@ namespace TimeRewind
                 // --- UNIQUE SKELETON DATA ---
                 result.SetCustomData("isDying", t < 0.5f ? a.GetCustomData<bool>("isDying", false) : b.GetCustomData<bool>("isDying", false));
                 result.SetCustomData("hasHitFloor", t < 0.5f ? a.GetCustomData<bool>("hasHitFloor", false) : b.GetCustomData<bool>("hasHitFloor", false));
+                // slime data
+                result.SetCustomData("spriteEnabled", t < 0.5f ? a.GetCustomData<bool>("spriteEnabled", false) : b.GetCustomData<bool>("spriteEnabled", false));
+                result.SetCustomData("isLaunched", t < 0.5f ? a.GetCustomData<bool>("isLaunched", false) : b.GetCustomData<bool>("isLaunched", false));
                 // PlayerSpellSystem
                 result.SetCustomData("nextFireTime", Mathf.Lerp(a.GetCustomData<float>("nextFireTime", 0f), b.GetCustomData<float>("nextFireTime", 0f), t));
 
