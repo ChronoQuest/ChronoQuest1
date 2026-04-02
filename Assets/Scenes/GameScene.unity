@@ -974,6 +974,7 @@ MonoBehaviour:
   reviveAnimDuration: 0.9
   currentState: 0
   dodgeTriggerDistance: 5
+  lockForesightUntilDodge: 0
 --- !u!114 &913987529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2317,6 +2318,14 @@ PrefabInstance:
       propertyPath: _player
       value: 
       objectReference: {fileID: 1103437997}
+    - target: {fileID: 5649487038772824016, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
+      propertyPath: dodgeTriggerDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649487038772824016, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
+      propertyPath: lockForesightUntilDodge
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6898797743481948417, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
       propertyPath: m_Name
       value: SkeletonArcher
