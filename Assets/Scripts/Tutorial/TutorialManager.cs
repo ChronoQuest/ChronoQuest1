@@ -60,7 +60,8 @@ public class TutorialManager : MonoBehaviour
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 
     private RewindMusicController musicController;
-    bool spikeCompleted = false; 
+    bool spikeCompleted = false;
+    public SkeletonArcher tutorialSkeleton;
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -605,6 +606,7 @@ public class TutorialManager : MonoBehaviour
                 spellCastTime = Time.time;
 
                 if (spellBlocker != null) spellBlocker.SetActive(false);
+                if (tutorialSkeleton != null) tutorialSkeleton.canShoot = true;
                 
                 StartCoroutine(TransitionToRewindHint(1f));
             }

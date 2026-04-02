@@ -74,6 +74,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private SpriteRenderer spriteRenderer;
     // Used by skeleton archer in tutorial
     public bool lockForesightUntilDodge = false;
+    public bool canShoot = true;
 
     // --- REWIND SAFE VARIABLES ---
     private bool isDying = false;
@@ -174,6 +175,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void TryShoot()
     {
+        if (!canShoot) return;
         if (Time.time < lastShootTime + shootCooldown) return;
         isShooting=true;
         pendingArrowDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
