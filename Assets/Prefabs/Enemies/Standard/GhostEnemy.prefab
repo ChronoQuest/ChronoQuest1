@@ -250,6 +250,7 @@ MonoBehaviour:
   minTimelineSize: 3
   bandWidth: 6
   recordInterval: 0.3
+  minDistToPlayer: 10
 --- !u!1001 &754764167609402488
 PrefabInstance:
   m_ObjectHideFlags: 0
