@@ -587,6 +587,7 @@ public class TutorialManager : MonoBehaviour
         pendingStep = TutorialStep.None;  
 
         SetStep(TutorialStep.Rewind);
+        Time.timeScale = 0f;
 
         rewindFollow.SetTarget(player.transform); 
         rewindFollow.enabled = true;
