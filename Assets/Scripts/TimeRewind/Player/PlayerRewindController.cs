@@ -43,6 +43,9 @@ namespace TimeRewind
             if (animator == null) animator = GetComponent<Animator>();
             if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
             _playerMana = GetComponent<PlayerMana>();
+
+            if (GetComponent<RewindGhostTrail>() == null)
+                gameObject.AddComponent<RewindGhostTrail>();
         }
         
         private void OnEnable()
