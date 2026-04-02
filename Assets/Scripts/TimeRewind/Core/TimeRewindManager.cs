@@ -1,6 +1,7 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
 namespace TimeRewind
 {
@@ -53,6 +54,24 @@ namespace TimeRewind
         [Tooltip("Global timeScale while rewinding (1 = normal, 0.3 = strong slow-motion)")]
         [SerializeField] private float rewindSlowTimeScale = 0.5f;
 
+        [Header("Dynamic Post-Rewind Slow-Motion")]
+        [Tooltip("TimeScale when exiting rewind mid-air (strongest slow-motion)")]
+        [SerializeField] private float airborneExitTimeScale = 0.08f;
+        [Tooltip("Recovery duration (real seconds) when exiting mid-air")]
+        [SerializeField] private float airborneExitDuration = 2.5f;
+        [Tooltip("TimeScale when exiting rewind on the ground (lighter slow-motion)")]
+        [SerializeField] private float groundedExitTimeScale = 0.3f;
+        [Tooltip("Recovery duration (real seconds) when exiting on ground")]
+        [SerializeField] private float groundedExitDuration = 1.0f;
+        [Tooltip("TimeScale when exiting rewind near enemies (minimal slow-motion)")]
+        [SerializeField] private float combatExitTimeScale = 0.55f;
+        [Tooltip("Recovery duration (real seconds) near enemies")]
+        [SerializeField] private float combatExitDuration = 0.5f;
+        [Tooltip("Layer mask for detecting nearby enemies (combat context)")]
+        [SerializeField] private LayerMask enemyLayer;
+        [Tooltip("Radius around player to scan for enemies")]
+        [SerializeField] private float combatDetectionRadius = 6f;
+
         [Header("Dynamic Playback (Idle Fast-Forward)")]
         [Tooltip("Minimum contiguous stationary time (seconds) in recorded history to treat as idle and speed up rewind")]
         [SerializeField] private float idleFastForwardThresholdSeconds = 1.5f;
@@ -76,8 +95,10 @@ namespace TimeRewind
         private float _recordInterval;
         private bool _initialized;
         
-        // Cached time scale used during rewind so we can restore it afterwards
         private float _cachedTimeScale = 1f;
+        private float _cachedFixedDeltaTime;
+        private Coroutine _postRewindSlowCoroutine;
+        private float _rewindStartUnscaledTime;
 
         private float _currentPlaybackMultiplier = 1f;
         
@@ -246,14 +267,20 @@ namespace TimeRewind
 
             }
 
-                       // Cache current time scale and apply slow-motion during rewind
+            if (_postRewindSlowCoroutine != null)
+            {
+                StopCoroutine(_postRewindSlowCoroutine);
+                _postRewindSlowCoroutine = null;
+            }
+
             _cachedTimeScale = Time.timeScale;
+            _cachedFixedDeltaTime = Time.fixedDeltaTime;
             Time.timeScale = rewindSlowTimeScale;
             
             _isRewinding = true;
-            // _currentRewindTime = Time.time;
             _currentRewindTime = GetNewestRecordedTime(); 
             _currentPlaybackMultiplier = 1f;
+            _rewindStartUnscaledTime = Time.unscaledTime;
 
             if (enableDebugLogs)
                 Debug.Log($"[TimeRewind] Rewind STARTED at time {_currentRewindTime:F2}");
@@ -281,7 +308,13 @@ namespace TimeRewind
             if (_cachedTimeScale <= 0f)
                 _cachedTimeScale = 1f;
 
-            Time.timeScale = _cachedTimeScale;
+            float targetScale = _cachedTimeScale;
+            var (slowScale, duration) = ComputeDynamicSlowdown();
+
+            Time.timeScale = slowScale;
+            Time.fixedDeltaTime = _cachedFixedDeltaTime * slowScale;
+
+            _postRewindSlowCoroutine = StartCoroutine(PostRewindRecovery(slowScale, targetScale, duration));
             
             TrimFutureStates();
             
@@ -293,6 +326,25 @@ namespace TimeRewind
             }
             
             OnRewindStop?.Invoke();
+        }
+
+        private IEnumerator PostRewindRecovery(float fromScale, float toScale, float duration)
+        {
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float scale = Mathf.Lerp(fromScale, toScale, t * t);
+                Time.timeScale = scale;
+                Time.fixedDeltaTime = _cachedFixedDeltaTime * scale;
+                yield return null;
+            }
+
+            Time.timeScale = toScale;
+            Time.fixedDeltaTime = _cachedFixedDeltaTime;
+            _postRewindSlowCoroutine = null;
         }
         
         public void ClearHistory()
@@ -493,6 +545,78 @@ namespace TimeRewind
                     return true;
             }
             return false;
+        }
+
+        private (float timeScale, float duration) ComputeDynamicSlowdown()
+        {
+            bool isGrounded = true;
+            Vector3 playerPos = Vector3.zero;
+            bool foundPlayer = false;
+
+            foreach (var kvp in _rewindables)
+            {
+                if (kvp.Key is PlayerRewindController prc)
+                {
+                    var mb = prc as MonoBehaviour;
+                    if (mb != null)
+                    {
+                        playerPos = mb.transform.position;
+                        foundPlayer = true;
+
+                        var buffer = kvp.Value;
+                        if (buffer.HasStates &&
+                            buffer.GetInterpolationStates(
+                                _currentRewindTime,
+                                s => s.Timestamp,
+                                out var before,
+                                out var after,
+                                out float t))
+                        {
+                            isGrounded = (t < 0.5f ? before : after)
+                                .GetCustomData<bool>("isGrounded", true);
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if (!foundPlayer)
+                return (groundedExitTimeScale, groundedExitDuration);
+
+            bool isInCombat = false;
+            if (combatDetectionRadius > 0f && enemyLayer.value != 0)
+            {
+                var hits = Physics2D.OverlapCircleAll(
+                    playerPos, combatDetectionRadius, enemyLayer);
+                isInCombat = hits != null && hits.Length > 0;
+            }
+
+            float rewindSecs = Time.unscaledTime - _rewindStartUnscaledTime;
+            float durationFactor = Mathf.Clamp01(rewindSecs / maxRewindDuration);
+
+            float baseScale, baseDuration;
+
+            if (isInCombat)
+            {
+                baseScale = combatExitTimeScale;
+                baseDuration = combatExitDuration;
+            }
+            else if (!isGrounded)
+            {
+                baseScale = airborneExitTimeScale;
+                baseDuration = airborneExitDuration;
+            }
+            else
+            {
+                baseScale = groundedExitTimeScale;
+                baseDuration = groundedExitDuration;
+            }
+
+            baseScale  *= Mathf.Lerp(1f, 0.7f, durationFactor);
+            baseDuration *= Mathf.Lerp(1f, 1.3f, durationFactor);
+
+            return (Mathf.Clamp(baseScale, 0.05f, 0.9f),
+                    Mathf.Clamp(baseDuration, 0.3f, 3.5f));
         }
 
         private float GetOldestRecordedTime()
