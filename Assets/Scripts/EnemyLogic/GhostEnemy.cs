@@ -78,8 +78,9 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding || wasDead || isTeleporting) return;
         if (player == null) return;
 
@@ -278,7 +279,11 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         hasForesight = state;
         //if(hasForesight) detectionRange *= 2;
         animator.SetBool("hasForesight", hasForesight);
-        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        if (foresightGlow != null) 
+        {
+            bool shouldGlow = hasForesight && spriteRenderer.enabled;
+            foresightGlow.SetActive(shouldGlow);
+        }
         Vector2 direction = (player.position - transform.position).normalized;
         if (direction.x > 0) spriteRenderer.flipX = false;
         else if (direction.x < 0) spriteRenderer.flipX = true;
@@ -321,7 +326,8 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public void ExecuteLunge()
     {
         if (wasDead || isRewinding || isTeleporting || isDodging || dodgeTimer > 0) return;
-        
+        // Make sure the ghost can't teleport from a large distance away!
+        if (GetDistanceToPlayer() > detectionRange * 1.5f) return;
         StartCoroutine(ForesightTeleportRoutine(true, Vector2.zero));
     }
 
