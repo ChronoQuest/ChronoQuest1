@@ -47,8 +47,8 @@ public class BossHealthBar : MonoBehaviour
             panel.anchoredPosition = hiddenPosition;
         }
 
-        if (fillRect != null && fillRect.parent != null)
-            barFullWidth = fillRect.parent.GetComponent<RectTransform>().sizeDelta.x;
+        // if (fillRect != null && fillRect.parent != null)
+        //     barFullWidth = fillRect.parent.GetComponent<RectTransform>().sizeDelta.x;
 
         gameObject.SetActive(false);
     }
@@ -131,9 +131,13 @@ public class BossHealthBar : MonoBehaviour
     {
         if (fillRect == null) return;
 
-        Vector2 size = fillRect.sizeDelta;
-        size.x = barFullWidth * t;
-        fillRect.sizeDelta = size;
+        // Drive fill via anchorMax so it always grows/shrinks from the left
+        Vector2 max = fillRect.anchorMax;
+        max.x = t;
+        fillRect.anchorMax = max;
+
+        // Clear any sizeDelta offset so anchors do all the work
+        fillRect.sizeDelta = Vector2.zero;
 
         if (fillImage != null)
             fillImage.color = HealthColor(t);
@@ -143,9 +147,10 @@ public class BossHealthBar : MonoBehaviour
     {
         if (delayedFillImage == null) return;
         RectTransform rt = delayedFillImage.rectTransform;
-        Vector2 size = rt.sizeDelta;
-        size.x = barFullWidth * t;
-        rt.sizeDelta = size;
+        Vector2 max = rt.anchorMax;
+        max.x = t;
+        rt.anchorMax = max;
+        rt.sizeDelta = Vector2.zero;
     }
 
     Color HealthColor(float t)

@@ -20,34 +20,38 @@ public class BossHealthBarDriver : MonoBehaviour
     void Start()
     {
         lastKnownHealth = enemy != null ? enemy.health : 0;
+        Debug.Log($"startHealth = {enemy.startHealth}, health = {enemy.health}");
     }
 
     void LateUpdate()
     {
-        if (enemy == null || healthBarUI == null) return;
-        if (!fightStarted) return;
+        if (enemy == null || healthBarUI == null || !fightStarted) return;
 
         int currentHealth = enemy.health;
+        int maxHealth = enemy.startHealth;
+
+        // Guard against uninitialized startHealth
+        if (maxHealth <= 0) return;
 
         if (currentHealth != lastKnownHealth)
         {
             lastKnownHealth = currentHealth;
-            float fraction = Mathf.Clamp01((float)currentHealth / enemy.startHealth);
+            float fraction = Mathf.Clamp01((float)currentHealth / maxHealth);
             healthBarUI.SetHealth(fraction);
         }
 
-        // Hide bar when boss dies
-        if (enemy.IsDead && fightStarted)
+        if (enemy.IsDead)
         {
             fightStarted = false;
+            healthBarUI.SetHealth(0f);
             healthBarUI.Hide();
         }
     }
 
-    //Call this when the player enters the boss arena / fight triggers.
     public void StartFight()
     {
         if (healthBarUI == null || enemy == null) return;
+        if (enemy.startHealth <= 0) return; // not ready yet
         fightStarted = true;
         lastKnownHealth = enemy.health;
         healthBarUI.Show(bossName, 1);
