@@ -699,9 +699,11 @@ public class TutorialManager : MonoBehaviour
 
         if (currentRewindTime <= spellCastTime - 1f)
         {
+            rewindCompleted = true; 
             if (rewindManager != null && rewindManager.IsRewinding)
             {
                 rewindManager.StopRewind();
+                rewindManager.CancelTimeOverrides(); 
             }
             Time.timeScale = 1f;
             player.GetComponent<PlayerRewindController>()?.SetRewindBlocked(true);
@@ -720,6 +722,15 @@ public class TutorialManager : MonoBehaviour
         HideHint(rewindHint);
         AllowAll();
 
+        if (tutorialSkeleton != null)
+        {
+            ForesightSystem foresight = tutorialSkeleton.GetComponent<ForesightSystem>();
+            if (foresight != null)
+            {
+                foresight.ForceInstantForesight();
+            }
+        }
+
         Debug.Log("Player rewind tutorial complete");
 
         DataCollectionService.Instance?.RecordTutorialStepCompleted();
@@ -732,7 +743,18 @@ public class TutorialManager : MonoBehaviour
 
     void PauseForFailedRewind()
     {
-        Debug.Log("Rewind not far enough — pausing");
+        StartCoroutine(ExecuteFailedRewindPause());
+    }
+
+    private IEnumerator ExecuteFailedRewindPause()
+    {
+        yield return null; 
+
+        var rewindManager = TimeRewind.TimeRewindManager.Instance;
+        if (rewindManager != null)
+        {
+            rewindManager.CancelTimeOverrides();
+        }
 
         Time.timeScale = 0f;
     }

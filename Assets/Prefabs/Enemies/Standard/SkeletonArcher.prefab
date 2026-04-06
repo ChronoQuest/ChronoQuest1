@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4663383456807346170}
   - component: {fileID: 5649487038772824016}
   - component: {fileID: 8409450106587196656}
-  m_Layer: 15
+  m_Layer: 10
   m_Name: SkeletonArcher
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -234,7 +234,8 @@ MonoBehaviour:
   reviveAnimDuration: 0.9
   currentState: 0
   dodgeTriggerDistance: 5
-  foresightGlow: {fileID: 9039690140158764317}
+  lockForesightUntilDodge: 0
+  canShoot: 1
 --- !u!114 &8409450106587196656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ForesightSystem
-  foresightThreshold: 0.75
+  baselineHistorySize: 30
+  anomalyZScore: -1.5
+  instantTriggerCost: 0.5
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2
@@ -255,6 +258,7 @@ MonoBehaviour:
   minTimelineSize: 3
   bandWidth: 6
   recordInterval: 0.3
+  minDistToPlayer: 30
 --- !u!1001 &2227231999929351883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -263,9 +267,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2951455475209262563}
     m_Modifications:
+    - target: {fileID: 7028307332708298202, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
       propertyPath: m_Name
       value: Lit
+      objectReference: {fileID: 0}
+    - target: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -315,10 +327,5 @@ PrefabInstance:
 --- !u!4 &7462277686934425238 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
-  m_PrefabInstance: {fileID: 2227231999929351883}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &9039690140158764317 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
   m_PrefabInstance: {fileID: 2227231999929351883}
   m_PrefabAsset: {fileID: 0}

@@ -267,14 +267,20 @@ namespace TimeRewind
 
             }
 
+            if (_postRewindSlowCoroutine == null)
+            {
+                _cachedTimeScale = Time.timeScale;
+                _cachedFixedDeltaTime = Time.fixedDeltaTime;
+                
+                if (_cachedFixedDeltaTime < 0.01f) _cachedFixedDeltaTime = 0.02f;
+                if (_cachedTimeScale <= 0f) _cachedTimeScale = 1f;
+            }
+
             if (_postRewindSlowCoroutine != null)
             {
                 StopCoroutine(_postRewindSlowCoroutine);
                 _postRewindSlowCoroutine = null;
             }
-
-            _cachedTimeScale = Time.timeScale;
-            _cachedFixedDeltaTime = Time.fixedDeltaTime;
             Time.timeScale = rewindSlowTimeScale;
             
             _isRewinding = true;
@@ -345,6 +351,24 @@ namespace TimeRewind
             Time.timeScale = toScale;
             Time.fixedDeltaTime = _cachedFixedDeltaTime;
             _postRewindSlowCoroutine = null;
+        }
+        public void CancelTimeOverrides()
+        {
+            if (_postRewindSlowCoroutine != null)
+            {
+                StopCoroutine(_postRewindSlowCoroutine);
+                _postRewindSlowCoroutine = null;
+            }
+            
+            if (_cachedFixedDeltaTime >= 0.01f) 
+                Time.fixedDeltaTime = _cachedFixedDeltaTime;
+            else 
+                Time.fixedDeltaTime = 0.02f;
+
+            if (_cachedTimeScale > 0f)
+                Time.timeScale = _cachedTimeScale;
+            else
+                Time.timeScale = 1f;
         }
         
         public void ClearHistory()

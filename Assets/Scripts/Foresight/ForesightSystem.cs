@@ -299,6 +299,13 @@ public class ForesightSystem : MonoBehaviour
         
         recordTimer = 0f; 
     }
+    // For use in tutorial
+    public void ForceInstantForesight()
+    {
+        hasForesight = true;
+        enemy.SetForesightState(true);
+        enemy.ExecuteDodge();
+    }
 }
 
 // A zero-allocation circular buffer to replace/optimise System.Collections.Generic.Queue
