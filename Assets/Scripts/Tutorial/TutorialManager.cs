@@ -356,6 +356,11 @@ public class TutorialManager : MonoBehaviour
             if (((1 << hit.gameObject.layer) & enemyLayer) == 0)
                 continue;
 
+            if (tutorialSkeleton != null && hit.GetComponentInParent<SkeletonArcher>() == tutorialSkeleton)
+            {
+                continue;
+            }
+
             Animator anim = hit.GetComponentInParent<Animator>(); 
             if (anim != null && !slowedAnimators.ContainsKey(anim))
             {
@@ -370,8 +375,14 @@ public class TutorialManager : MonoBehaviour
                 {
                     slowedBats.Add(bat, bat.moveSpeed);
                     bat.moveSpeed *= slowMultiplier; 
-                }
 
+                    if (slowMultiplier <= 0f)
+                    {
+                        bat.isTutorialPaused = true;                        
+                        Rigidbody2D batRb = bat.GetComponent<Rigidbody2D>();
+                        if (batRb != null) batRb.linearVelocity = Vector2.zero; 
+                    }
+                }
                 continue; 
             }
             
@@ -404,6 +415,7 @@ public class TutorialManager : MonoBehaviour
             if (pair.Key != null)
             {
                 pair.Key.moveSpeed = pair.Value; 
+                pair.Key.isTutorialPaused = false;
             }
         }
         slowedBats.Clear(); 
@@ -871,6 +883,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Spell:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Spell | PlayerAction.Jump | PlayerAction.Dash);
+                SlowingEnemies(20f, 0.0f);
                 activeHint = spellHint;
                 ShowHint(spellHint);
                 spellText.text = spellMessage;
@@ -878,7 +891,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Foresight:
                 AllowOnly(PlayerAction.None); // Freeze the player to force them to read it
-                //SlowingEnemies(20f, 0.0f); // Completely freeze enemies while reading
+                SlowingEnemies(20f, 0.0f); // Completely freeze enemies while reading
                 //ApplyTempZoom(1.5f);
                 activeHint = foresightHint;
                 ShowHint(foresightHint);

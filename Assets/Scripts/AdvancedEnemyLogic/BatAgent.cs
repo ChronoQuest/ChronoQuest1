@@ -40,7 +40,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public State currentState = State.Idle;
     private bool isRewinding = false;
     private bool isDead = false;
-    private bool isDodging = false;    
+    public bool isTutorialPaused = false;
+    private bool isDodging = false;   
     private float dodgeDuration = 0.5f;
     private float dodgeTimer = 0f;
     private Vector2 calculatedDodgeVector;
@@ -91,12 +92,12 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     void Update()
     {
-        if (isDead || isRewinding || trainingMode || enemy.GetIsStunned()) return;
+        if (isDead || isRewinding || trainingMode || enemy.GetIsStunned() || isTutorialPaused) return;
     }
 
     void FixedUpdate()
     {
-        if (isDead || isRewinding) return;
+        if (isDead || isRewinding || isTutorialPaused) return;
         if (isDodging)
         {
             gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
