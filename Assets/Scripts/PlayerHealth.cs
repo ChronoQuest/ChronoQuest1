@@ -20,6 +20,16 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     [Range(0, 20)]
     [SerializeField] private int currentHealth;
 
+    [Header("Low Health Hint")]
+
+    [Tooltip("Heartbeat starts when health is at or below this value")]
+    [SerializeField] private int lowHealthThreshold = 2;
+
+    [Tooltip("Disable low-health heartbeat while rewinding")]
+    [SerializeField] private bool stopHeartbeatDuringRewind = true;
+
+    private bool hintHeartbeatActive = false;
+
     [Header("Controller Vibration")]
     [SerializeField] private float vibrationLowFrequency = 0.5f;
     [SerializeField] private float vibrationHighFrequency = 0.8f;
@@ -162,6 +172,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     private void UpdateUI()
     {
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        UpdateLowHealthHeartbeat();
     }
 
     private IEnumerator FreezeAnimatorAfterDeath()
@@ -273,10 +285,39 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
     }
+    private void UpdateLowHealthHeartbeat()
+    {
+        if (_isRewinding && stopHeartbeatDuringRewind)
+        {
+            StopHintHeartbeat();
+            return;
+        }
+
+        bool shouldBeat =
+            currentHealth >= 0 &&
+            currentHealth <= lowHealthThreshold &&
+            !IsDead;
+
+        if (shouldBeat && !hintHeartbeatActive)
+        {
+            RewindHaptics.Instance.StartHintHeartbeat(10f);
+            hintHeartbeatActive = true;
+        }
+        else if (!shouldBeat && hintHeartbeatActive)
+        {
+            StopHintHeartbeat();
+        }
+    }
+    private void StopHintHeartbeat()
+    {
+        RewindHaptics.Instance.StopHintHeartbeat();
+        hintHeartbeatActive = false;
+    }
 
     public void OnStartRewind()
     {
         _isRewinding = true;
+        StopHintHeartbeat();
         Gamepad.current.SetMotorSpeeds(0f, 0f);
         StopAllCoroutines();
         isInvincible = false;
