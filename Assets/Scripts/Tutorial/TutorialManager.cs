@@ -32,6 +32,7 @@ public class TutorialManager : MonoBehaviour
     private GameObject activeHint = null;
     private TutorialStep pendingStep = TutorialStep.None;
     private bool isFading = false; 
+    private float baseOrthoSize;
 
     // references to hint UI elements 
     public GameObject rewindHint;
@@ -142,6 +143,7 @@ public class TutorialManager : MonoBehaviour
         player.allowedActions = PlayerAction.None; 
 
         cam = Camera.main.GetComponent<CameraFollow2D>();
+        baseOrthoSize = Camera.main.orthographicSize;
 
         // track the start of the game, used for the idle check in the movement hint
         gameStartTime = Time.time; 
@@ -213,7 +215,7 @@ public class TutorialManager : MonoBehaviour
             if (continuePressed)
             {
                 isWaitingToCompleteForesight = true;
-                StartCoroutine(WaitAndCompleteForesight(1f));
+                StartCoroutine(WaitAndCompleteForesight(2f));
             }
         }
 
@@ -298,16 +300,14 @@ public class TutorialManager : MonoBehaviour
     void ApplyTempZoom(float amount)
     {
         Debug.Log("Applying Zoom"); 
-        
+
         if (cam == null) return; 
 
         if (!tempZoomActive)
         {
-            tempZoomPrevious = Camera.main.orthographicSize; 
             tempZoomActive = true; 
+            cam.SetZoom(cam.TargetZoom - amount); 
         } 
-
-        cam.SetZoom(tempZoomPrevious - amount); 
     }
 
     void RestoreTempZoom()
@@ -315,11 +315,10 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Restoring Zoom"); 
 
         if (cam == null || !tempZoomActive) return; 
-
-        cam.SetZoom(tempZoomPrevious); 
+        cam.ResetZoom(); 
+        
         tempZoomActive = false; 
     }
- 
     #endregion
 
     #region Freezing Player Movement
@@ -788,7 +787,7 @@ public class TutorialManager : MonoBehaviour
         {
             wallJumpCompleted = true; 
             HideHint(wallJumpHint); 
-            // RestoreTempZoom(); 
+            RestoreTempZoom(); 
             Debug.Log("Player wall jump tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -890,9 +889,10 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(spellText);
                 break;
             case TutorialStep.Foresight:
-                AllowOnly(PlayerAction.None); // Freeze the player to force them to read it
-                SlowingEnemies(20f, 0.0f); // Completely freeze enemies while reading
+                // AllowOnly(PlayerAction.None); // Freeze the player to force them to read it
+                // SlowingEnemies(20f, 0.0f); // Completely freeze enemies while reading
                 //ApplyTempZoom(1.5f);
+                AllowAll();
                 activeHint = foresightHint;
                 ShowHint(foresightHint);
                 foresightText.text = foresightMessage;
@@ -903,7 +903,7 @@ public class TutorialManager : MonoBehaviour
                 
                 if (rewindCompleted)
                 {
-                    ApplyTempZoom(3f); 
+                    ApplyTempZoom(1f); 
                 } 
 
                 activeHint = wallJumpHint; 

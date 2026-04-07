@@ -71,6 +71,8 @@ public class CameraFollow2D : MonoBehaviour
         }
     }
 
+    public float TargetZoom => targetZoom;
+
     public void SetZoom(float size)
     {
         zoomStack.Push(targetZoom); 
