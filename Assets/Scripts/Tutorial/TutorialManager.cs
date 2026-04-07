@@ -577,7 +577,7 @@ public class TutorialManager : MonoBehaviour
             rewindCompleted = true; 
 
             RestoreTempZoom(); 
-
+            RewindHaptics.Instance?.StopHintHeartbeat();
             rewindZoomApplied = false;
             rewindFollow.enabled = false;
             HideHint(rewindHint);
@@ -679,6 +679,7 @@ public class TutorialManager : MonoBehaviour
                 AllowOnly(PlayerAction.Rewind);
                 SlowingEnemies(20f, 0.15f); 
                 ApplyTempZoom(1.5f); 
+                RewindHaptics.Instance?.StartHintHeartbeat(10f);
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
@@ -746,6 +747,7 @@ public class TutorialManager : MonoBehaviour
         HideHint(spellHint);
         HideHint(wallJumpHint);
         HideHint(spikeHint); 
+        RewindHaptics.Instance?.StopHintHeartbeat();
     }
     #endregion
 }

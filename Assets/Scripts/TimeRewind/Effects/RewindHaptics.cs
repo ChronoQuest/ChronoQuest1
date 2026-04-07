@@ -12,6 +12,7 @@ public class RewindHaptics : MonoBehaviour
     {
         get
         {
+            if (!Application.isPlaying) return null;
             if (_instance == null)
             {
                 CreateInstance();
