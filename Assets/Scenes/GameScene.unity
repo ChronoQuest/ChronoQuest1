@@ -2938,6 +2938,10 @@ PrefabInstance:
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
+    - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: requiredStep
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 9067789146171115659, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1179
