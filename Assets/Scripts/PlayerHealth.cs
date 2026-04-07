@@ -277,7 +277,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public void OnStartRewind()
     {
         _isRewinding = true;
-        
+        Gamepad.current.SetMotorSpeeds(0f, 0f);
         StopAllCoroutines();
         isInvincible = false;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
@@ -289,6 +289,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
+        Gamepad.current.SetMotorSpeeds(0f, 0f);
     }
 
     public RewindState CaptureState()
