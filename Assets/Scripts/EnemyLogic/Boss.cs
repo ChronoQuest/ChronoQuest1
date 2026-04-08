@@ -61,6 +61,9 @@ public class Boss : EnemyBase, IRewindable
             musicController.PlayBossFightMusic();
         }
         EndPhase();
+        // Start the boss health bar
+        BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
+        if (driver != null) driver.StartFight();
     }
 
     public override void Update()
@@ -469,7 +472,16 @@ public class Boss : EnemyBase, IRewindable
     }
 
     public override void OnStartRewind() { base.OnStartRewind(); _isRewinding = true; }
-    public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }
+    //public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }
+    public override void OnStopRewind() 
+    { 
+        base.OnStopRewind(); 
+        _isRewinding = false; 
+
+        // Snap health bar to rewound health value
+        BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
+        if (driver != null) driver.SyncAfterRewind();
+    }
 
     public override RewindState CaptureState()
     {
@@ -525,5 +537,9 @@ public class Boss : EnemyBase, IRewindable
 
         offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
         resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
+
+        // Keep health bar in sync during rewind scrubbing
+        BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
+        if (driver != null) driver.SyncAfterRewind();
     }
 }
