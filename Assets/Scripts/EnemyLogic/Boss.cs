@@ -44,9 +44,12 @@ public class Boss : EnemyBase, IRewindable
     Vector2 moveStart;
     Vector2 movePeak;
     Vector2 moveTarget;
+    const float ArenaMinX = -11f;
+    const float ArenaMaxX =  11f;
     float finalTargetX;
     private Vector3 originalScale;
     private Animator animator;
+    
 
     void Start()
     {
@@ -131,7 +134,8 @@ public class Boss : EnemyBase, IRewindable
         currentPos = PosMove.ChangeSides;
         Vector2 start = transform.position;
         moveStart = start;
-        moveTarget = new Vector2(-start.x, start.y);
+        //moveTarget = new Vector2(-start.x, start.y);
+        moveTarget = new Vector2(Mathf.Clamp(-start.x, ArenaMinX, ArenaMaxX), start.y);
 
         float jumpHeight = 8f;
         movePeak = start + new Vector2((moveTarget.x - start.x) / 2, jumpHeight);
@@ -160,7 +164,8 @@ public class Boss : EnemyBase, IRewindable
     void StartGroundPound()
     {
         currentPos = PosMove.GroundPound;
-        finalTargetX = -transform.position.x; 
+        //finalTargetX = -transform.position.x; 
+        finalTargetX = Mathf.Clamp(-transform.position.x, ArenaMinX, ArenaMaxX);
         CalculateNextJump();
     }
 
