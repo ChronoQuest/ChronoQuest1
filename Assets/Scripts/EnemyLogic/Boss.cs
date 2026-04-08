@@ -40,6 +40,10 @@ public class Boss : EnemyBase, IRewindable
     int resIndex;
     private RewindMusicController musicController;
 
+    OffMove lastOff = OffMove.None;
+    ResMove lastRes = ResMove.None;
+    int repeatCount = 0;
+
     // Movement Tracking
     Vector2 moveStart;
     Vector2 movePeak;
@@ -107,7 +111,7 @@ public class Boss : EnemyBase, IRewindable
         idleTimer += Time.deltaTime;
         if (idleTimer < 1f) return;
 
-        if (Random.value > 0.7f) StartPositional();
+        if (Random.value > 0.8f) StartPositional();
         else StartCombat();
     }
 
@@ -252,21 +256,86 @@ public class Boss : EnemyBase, IRewindable
 
         Debug.Log("Boss reacting to strategy");
 
-        if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
+        // if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
+        // {
+        //     currentOff = OffMove.FireColumns;
+        //     currentRes = ResMove.Platforms;
+        // }
+        // else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+        // {
+        //     currentOff = OffMove.Fireballs;
+        //     currentRes = ResMove.Enemy;
+        // }
+        // else 
+        // {
+        //     currentOff = OffMove.HomingFireballs;
+        //     currentRes = ResMove.FireWave;
+        // }
+
+        float counterChance = 0.7f; // 70% chance to use counter moves, adjust to taste
+
+        if (Random.value < counterChance)
         {
-            currentOff = OffMove.FireColumns;
-            currentRes = ResMove.Platforms;
+            // Use the counter strategy
+            if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
+            {
+                currentOff = OffMove.FireColumns;
+                currentRes = ResMove.Platforms;
+            }
+            else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+            {
+                currentOff = OffMove.Fireballs;
+                currentRes = ResMove.Enemy;
+            }
+            else
+            {
+                currentOff = OffMove.HomingFireballs;
+                currentRes = ResMove.FireWave;
+            }
         }
-        else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
+        else
         {
-            currentOff = OffMove.Fireballs;
-            currentRes = ResMove.Enemy;
+            // Pick randomly from the other moves
+            OffMove[] otherOff = strategy == PlayerStrategyModel.StrategyType.AggressivePlayer
+                ? new[] { OffMove.Fireballs, OffMove.HomingFireballs, OffMove.FireExplosion }
+                : strategy == PlayerStrategyModel.StrategyType.DefensivePlayer
+                ? new[] { OffMove.FireColumns, OffMove.HomingFireballs, OffMove.FireExplosion }
+                : new[] { OffMove.Fireballs, OffMove.FireColumns, OffMove.FireExplosion };
+
+            ResMove[] otherRes = strategy == PlayerStrategyModel.StrategyType.AggressivePlayer
+                ? new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Enemy }
+                : strategy == PlayerStrategyModel.StrategyType.DefensivePlayer
+                ? new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Platforms }
+                : new[] { ResMove.FireRow, ResMove.Enemy, ResMove.Platforms };
+
+            currentOff = otherOff[Random.Range(0, otherOff.Length)];
+            currentRes = otherRes[Random.Range(0, otherRes.Length)];
         }
-        else 
+
+        //Don't want too much repetition
+        if (currentOff == lastOff && currentRes == lastRes)
         {
-            currentOff = OffMove.HomingFireballs;
-            currentRes = ResMove.FireWave;
+            repeatCount++;
+            if (repeatCount >= 2)
+            {
+                OffMove[] allOff = new[] { OffMove.Fireballs, OffMove.FireColumns, OffMove.HomingFireballs, OffMove.FireExplosion };
+                do { currentOff = allOff[Random.Range(0, allOff.Length)]; }
+                while (currentOff == lastOff);
+
+                ResMove[] allRes = new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Platforms, ResMove.Enemy };
+                do { currentRes = allRes[Random.Range(0, allRes.Length)]; }
+                while (currentRes == lastRes);
+
+                repeatCount = 0;
+            }
         }
+        else
+        {
+            repeatCount = 0;
+        }
+
+        lastOff = currentOff;
+        lastRes = currentRes;
     }
 
     void UpdateCombat()
@@ -381,6 +450,7 @@ public class Boss : EnemyBase, IRewindable
         }
         else if (currentRes == ResMove.FireWave)
         {
+            if (currentOff == OffMove.HomingFireballs) return offIndex >= 14;
             if (resIndex >= 7) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             //float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
@@ -388,7 +458,8 @@ public class Boss : EnemyBase, IRewindable
 
             if (resTimer > (spawnDelay + 1.5f))
             {
-                if (isPlayingAttack) return false; 
+                //if (isPlayingAttack) return false; 
+                if (isPlayingAttack && currentOff != OffMove.HomingFireballs) return false;
                 resTimer = 1.5f;
                 animator.SetTrigger("Attack2");
                 //attackManager.spawnFireWave(facingDirection);
@@ -419,10 +490,18 @@ public class Boss : EnemyBase, IRewindable
         }
 
         // Separately check if we should spawn a Restrictive attack
-        if (currentRes == ResMove.Enemy)
-        {
-            attackManager.spawnEnemy(facingDirection);
-        }
+        // if (currentRes == ResMove.Enemy)
+        // {
+        //     attackManager.spawnEnemy(facingDirection);
+        // }
+
+        if (currentRes == ResMove.Enemy && currentOff != OffMove.Fireballs && currentOff != OffMove.HomingFireballs)
+            attackManager.spawnEnemy(facingDirection); // standalone enemy spawn, no fireball combo
+        else if (currentRes == ResMove.Enemy && offIndex % 3 == 0)
+            attackManager.spawnEnemy(facingDirection); // paired with fireballs, throttled
+
+        if (currentRes == ResMove.FireWave && currentOff == OffMove.HomingFireballs && offIndex % 2 == 0)
+            attackManager.spawnFireWave(facingDirection);
     }
 
     public void AnimEvent_Attack2()
@@ -444,10 +523,12 @@ public class Boss : EnemyBase, IRewindable
         {
             attackManager.spawnFireRow(facingDirection);
         }
-        else if (currentRes == ResMove.FireWave)
-        {
+        // else if (currentRes == ResMove.FireWave)
+        // {
+        //     attackManager.spawnFireWave(facingDirection);
+        // }
+        else if (currentRes == ResMove.FireWave && currentOff != OffMove.HomingFireballs)
             attackManager.spawnFireWave(facingDirection);
-        }
     }
 
     public void AnimEvent_AttackComplete()
