@@ -408,9 +408,8 @@ public class Boss : EnemyBase, IRewindable
             {
                 if (isPlayingAttack) return false;
                 offTimer = 0f;
-                //attackManager.spawnFireExplosion(facingDirection);
-                animator.SetTrigger("Attack1");
-                isPlayingAttack = true; 
+                animator.SetTrigger("Attack2");
+                isPlayingAttack = true;
                 offIndex++;
             }
             return false;
