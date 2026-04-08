@@ -50,13 +50,13 @@ public class RewindHaptics : MonoBehaviour
     public float fastBeatInterval = 0.28f;
 
     [Tooltip("Gap between the two beats - INCREASED for motor spin-down")]
-    public float beatGap = 0.1f; // Changed from 0.1f to 0.2f
+    public float beatGap = 0.1f; 
 
     [Header("Beat Durations")]
 
     // Increased so the motor has physical time to spool up
-    public float strongBeatDuration = 0.12f; // Changed from 0.05f
-    public float weakBeatDuration = 0.08f;   // Changed from 0.03f
+    public float strongBeatDuration = 0.12f; 
+    public float weakBeatDuration = 0.08f;   
 
     [Header("Motor Balance")]
 
@@ -145,17 +145,11 @@ public class RewindHaptics : MonoBehaviour
         switch (mode)
         {
             case HeartMode.ReverseHeartbeat:
-
-                currentRoutine =
-                    StartCoroutine(ReverseHeartbeatRoutine());
-
+                currentRoutine = StartCoroutine(ReverseHeartbeatRoutine());
                 break;
 
             case HeartMode.NormalHeartbeat:
-
-                currentRoutine =
-                    StartCoroutine(NormalHeartbeatRoutine());
-
+                currentRoutine = StartCoroutine(NormalHeartbeatRoutine());
                 break;
         }
     }
@@ -175,7 +169,6 @@ public class RewindHaptics : MonoBehaviour
         }
 
         StopMotors();
-
         activeMode = HeartMode.None;
     }
 
@@ -194,44 +187,21 @@ public class RewindHaptics : MonoBehaviour
             }
 
             float speed = GetRewindSpeed();
-
-            float normalized =
-                Mathf.InverseLerp(0.5f, 4f, speed);
-
-            float interval =
-                Mathf.Lerp(
-                    baseBeatInterval,
-                    fastBeatInterval,
-                    normalized
-                );
-
-            float strength =
-                baseStrength *
-                globalStrengthScale;
+            float normalized = Mathf.InverseLerp(0.5f, 4f, speed);
+            float interval = Mathf.Lerp(baseBeatInterval, fastBeatInterval, normalized);
+            float strength = baseStrength * globalStrengthScale;
 
             // dub FIRST (weak)
+            yield return Beat(strength * 0.7f, weakBeatDuration);
 
-            yield return Beat(
-                strength * 0.7f,
-                weakBeatDuration
-            );
-
-            yield return new WaitForSecondsRealtime(
-                beatGap
-            );
+            // Wait Gap
+            yield return PausableWait(beatGap);
 
             // LUB SECOND (strong)
-
-            yield return Beat(
-                strength,
-                strongBeatDuration
-            );
+            yield return Beat(strength, strongBeatDuration);
 
             // Speed-scaled pause
-
-            yield return new WaitForSecondsRealtime(
-                interval
-            );
+            yield return PausableWait(interval);
         }
     }
 
@@ -249,33 +219,19 @@ public class RewindHaptics : MonoBehaviour
                 continue;
             }
 
-            float strength =
-                baseStrength *
-                globalStrengthScale;
+            float strength = baseStrength * globalStrengthScale;
 
             // LUB FIRST (strong)
+            yield return Beat(strength, strongBeatDuration);
 
-            yield return Beat(
-                strength,
-                strongBeatDuration
-            );
-
-            yield return new WaitForSecondsRealtime(
-                beatGap
-            );
+            // Wait Gap
+            yield return PausableWait(beatGap);
 
             // dub SECOND (weak)
-
-            yield return Beat(
-                strength * 0.7f,
-                weakBeatDuration
-            );
+            yield return Beat(strength * 0.7f, weakBeatDuration);
 
             // Long biological pause
-
-            yield return new WaitForSecondsRealtime(
-                baseBeatInterval
-            );
+            yield return PausableWait(baseBeatInterval);
         }
     }
 
@@ -283,27 +239,29 @@ public class RewindHaptics : MonoBehaviour
 
     #region Beat Execution
 
-    private IEnumerator Beat(
-        float strength,
-        float duration)
+    private IEnumerator Beat(float strength, float duration)
     {
-        if (Gamepad.current == null)
+        if (Gamepad.current == null || PauseMenu.isPaused)
             yield break;
 
-        float low =
-            strength * lowMotorWeight;
+        float low = strength * lowMotorWeight;
+        float high = strength * highMotorWeight;
 
-        float high =
-            strength * highMotorWeight;
+        Gamepad.current.SetMotorSpeeds(low, high);
 
-        Gamepad.current.SetMotorSpeeds(
-            low,
-            high
-        );
-
-        yield return new WaitForSecondsRealtime(
-            duration
-        );
+        // Custom timer instead of WaitForSeconds so we can abort mid-beat if paused
+        float timer = 0f;
+        while (timer < duration)
+        {
+            if (PauseMenu.isPaused)
+            {
+                StopMotors();
+                yield break; // Instantly abort this beat if the player pauses
+            }
+            
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
 
         StopMotors();
     }
@@ -312,10 +270,7 @@ public class RewindHaptics : MonoBehaviour
     {
         if (Gamepad.current != null)
         {
-            Gamepad.current.SetMotorSpeeds(
-                0f,
-                0f
-            );
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
     }
 
@@ -325,10 +280,7 @@ public class RewindHaptics : MonoBehaviour
 
     private IEnumerator HintTimeout(float duration)
     {
-        yield return new WaitForSecondsRealtime(
-            duration
-        );
-
+        yield return PausableWait(duration);
         StopHintHeartbeat();
     }
 
@@ -336,10 +288,27 @@ public class RewindHaptics : MonoBehaviour
 
     #region Helpers
 
+    // --- THE FIX: Custom wait routine that freezes the timer when paused ---
+    private IEnumerator PausableWait(float duration)
+    {
+        float timer = 0f;
+        while (timer < duration)
+        {
+            if (PauseMenu.isPaused)
+            {
+                StopMotors(); // Failsafe to ensure motors die while paused
+                yield return null; // Wait a frame but DO NOT advance the timer
+                continue;
+            }
+            
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+    }
+
     private float GetRewindSpeed()
     {
-        var mgr =
-            TimeRewind.TimeRewindManager.Instance;
+        var mgr = TimeRewind.TimeRewindManager.Instance;
 
         if (mgr == null)
             return 1f;

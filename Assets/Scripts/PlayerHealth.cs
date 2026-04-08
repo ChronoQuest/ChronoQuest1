@@ -290,22 +290,26 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         if (_isRewinding && stopHeartbeatDuringRewind)
         {
             StopHintHeartbeat();
+            StopLowHealthLighting();
             return;
         }
 
-        bool shouldBeat =
+        bool shouldTrigger =
             currentHealth >= 0 &&
             currentHealth <= lowHealthThreshold &&
             !IsDead;
 
-        if (shouldBeat && !hintHeartbeatActive)
+        if (shouldTrigger && !hintHeartbeatActive)
         {
-            RewindHaptics.Instance.StartHintHeartbeat(10f);
+            RewindHaptics.Instance.StartHintHeartbeat();
+            StartLowHealthLighting();
+
             hintHeartbeatActive = true;
         }
-        else if (!shouldBeat && hintHeartbeatActive)
+        else if (!shouldTrigger && hintHeartbeatActive)
         {
             StopHintHeartbeat();
+            StopLowHealthLighting();
         }
     }
     private void StopHintHeartbeat()
@@ -313,11 +317,26 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         RewindHaptics.Instance.StopHintHeartbeat();
         hintHeartbeatActive = false;
     }
+    private void StartLowHealthLighting()
+    {
+        if (LowHealthVisualController.Instance != null)
+        {
+            LowHealthVisualController.Instance.StartLowHealthEffect();
+        }
+    }
 
-    public void OnStartRewind()
+    private void StopLowHealthLighting()
+    {
+         if (LowHealthVisualController.Instance != null)
+        {
+            LowHealthVisualController.Instance.StopLowHealthEffect();
+        }
+    }
+        public void OnStartRewind()
     {
         _isRewinding = true;
         StopHintHeartbeat();
+        StopLowHealthLighting();
         Gamepad.current.SetMotorSpeeds(0f, 0f);
         StopAllCoroutines();
         isInvincible = false;
