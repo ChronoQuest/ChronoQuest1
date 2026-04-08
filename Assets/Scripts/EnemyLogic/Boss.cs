@@ -18,7 +18,8 @@ public class Boss : EnemyBase, IRewindable
     bool isGrounded;
     float lastDamageTime;
 
-    bool isPlayingAttack;
+    bool isPlayingAttack1;
+    bool isPlayingAttack2;
 
     enum BossPhase { Idle, Positional, Combat }
     enum PosMove { None, GroundPound, ChangeSides }
@@ -51,6 +52,7 @@ public class Boss : EnemyBase, IRewindable
     const float ArenaMinX = -11f;
     const float ArenaMaxX =  11f;
     float finalTargetX;
+    float jumpLateral;
     private Vector3 originalScale;
     private Animator animator;
     
@@ -168,8 +170,13 @@ public class Boss : EnemyBase, IRewindable
     void StartGroundPound()
     {
         currentPos = PosMove.GroundPound;
-        //finalTargetX = -transform.position.x; 
         finalTargetX = Mathf.Clamp(-transform.position.x, ArenaMinX, ArenaMaxX);
+
+        float totalDist = Mathf.Abs(finalTargetX - transform.position.x);
+        int currentJumps = Mathf.CeilToInt(totalDist / 4f);
+        int newJumps = Mathf.Max(currentJumps - 1, 1);
+        jumpLateral = totalDist / newJumps;
+
         CalculateNextJump();
     }
 
@@ -177,12 +184,9 @@ public class Boss : EnemyBase, IRewindable
     {
         posTimer = 0f;
         float jumpHeight = 7f;
-        float lateral = -4f * facingDirection;
-
-        if (Mathf.Abs(finalTargetX - transform.position.x) < Mathf.Abs(lateral))
-        {
-            lateral = finalTargetX - transform.position.x;
-        }
+        float remaining = Mathf.Abs(finalTargetX - transform.position.x);
+        float step = Mathf.Min(jumpLateral, remaining);
+        float lateral = -step * facingDirection;
 
         moveStart = transform.position;
         movePeak = moveStart + new Vector2(lateral, jumpHeight);
@@ -240,7 +244,8 @@ public class Boss : EnemyBase, IRewindable
 
     void StartCombat()
     {
-        isPlayingAttack = false;
+        isPlayingAttack1 = false;
+        isPlayingAttack2 = false;
         FacePlayer();
         facingDirection = player.position.x > transform.position.x ? -1 : 1; 
 
@@ -355,61 +360,59 @@ public class Boss : EnemyBase, IRewindable
         offTimer += Time.deltaTime;
         if (currentOff == OffMove.Fireballs)
         {
-            if (offIndex >= 15) return true; 
+            if (offIndex >= 15) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1.0f : 0.5f;
 
             if (offTimer > spawnDelay)
             {
-                if (isPlayingAttack) return false; 
+                if (isPlayingAttack1) return false;
                 offTimer = 0f;
                 animator.SetTrigger("Attack1");
-                //attackManager.spawnFireball(facingDirection);
-                isPlayingAttack = true; 
+                isPlayingAttack1 = true;
                 offIndex++;
             }
             return false;
         }
         else if (currentOff == OffMove.FireColumns)
         {
-            if (!offActionSpawned) 
+            if (!offActionSpawned)
             {
-                if (isPlayingAttack) return false; 
+                if (isPlayingAttack2) return false;
                 animator.SetTrigger("Attack2");
-                isPlayingAttack = true; 
+                isPlayingAttack2 = true;
                 offActionSpawned = true;
             }
             return offTimer > 5f;
         }
         else if (currentOff == OffMove.HomingFireballs)
         {
-            if (offIndex >= 14) return true; 
+            if (offIndex >= 14) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2f : 1f;
 
             if (offTimer > spawnDelay)
             {
-                if (isPlayingAttack) return false; 
+                if (isPlayingAttack1) return false;
                 offTimer = 0f;
-                //attackManager.spawnHomingFireball(facingDirection);
                 animator.SetTrigger("Attack1");
-                isPlayingAttack = true; 
+                isPlayingAttack1 = true;
                 offIndex++;
             }
             return false;
         }
         else if (currentOff == OffMove.FireExplosion)
         {
-            if (offIndex >= 15) return true; 
+            if (offIndex >= 15) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1f : 0.5f;
 
             if (offTimer > spawnDelay)
             {
-                if (isPlayingAttack) return false;
+                if (isPlayingAttack2) return false;
                 offTimer = 0f;
                 animator.SetTrigger("Attack2");
-                isPlayingAttack = true;
+                isPlayingAttack2 = true;
                 offIndex++;
             }
             return false;
@@ -427,10 +430,9 @@ public class Boss : EnemyBase, IRewindable
         {
             if (!resActionSpawned)
             {
-                if (isPlayingAttack) return false; 
+                if (isPlayingAttack2) return false;
                 animator.SetTrigger("Attack2");
-                //attackManager.spawnFireRow(facingDirection);
-                isPlayingAttack = true; 
+                isPlayingAttack2 = true;
                 resActionSpawned = true;
             }
             return resTimer > 8.5f;
@@ -439,10 +441,9 @@ public class Boss : EnemyBase, IRewindable
         {
             if (!resActionSpawned)
             {
-                if (isPlayingAttack) return false; 
+                if (isPlayingAttack1) return false;
                 animator.SetTrigger("Attack1");
-                //attackManager.spawnEnemy(facingDirection);
-                isPlayingAttack = true; 
+                isPlayingAttack1 = true;
                 resActionSpawned = true;
             }
             return resTimer > 8.5f;
@@ -452,17 +453,16 @@ public class Boss : EnemyBase, IRewindable
             if (currentOff == OffMove.HomingFireballs) return offIndex >= 14;
             if (resIndex >= 7) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
-            //float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
-            float spawnDelay = ((playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f) + 1.5f;
+            float baseDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
+            float padding = (currentOff == OffMove.Fireballs) ? 0.5f : 1.5f;
+            float spawnDelay = baseDelay + padding;
 
             if (resTimer > (spawnDelay + 1.5f))
             {
-                //if (isPlayingAttack) return false; 
-                if (isPlayingAttack && currentOff != OffMove.HomingFireballs) return false;
+                if (isPlayingAttack2) return false;
                 resTimer = 1.5f;
                 animator.SetTrigger("Attack2");
-                //attackManager.spawnFireWave(facingDirection);
-                isPlayingAttack = true; 
+                isPlayingAttack2 = true;
                 resIndex++;
             }
             return false;
@@ -471,7 +471,8 @@ public class Boss : EnemyBase, IRewindable
         {
             // Platforms, FloorFire and FireColumns are a combined attack — spawned together in AnimEvent_Attack2
             PlatformController platform = FindFirstObjectByType<PlatformController>();
-            return platform == null || platform.cycleComplete;
+            if (platform == null) return currentOff != OffMove.FireColumns;
+            return platform.cycleComplete;
         }
         return true;
     }
@@ -499,8 +500,6 @@ public class Boss : EnemyBase, IRewindable
         else if (currentRes == ResMove.Enemy && offIndex % 3 == 0)
             attackManager.spawnEnemy(facingDirection); // paired with fireballs, throttled
 
-        if (currentRes == ResMove.FireWave && currentOff == OffMove.HomingFireballs && offIndex % 2 == 0)
-            attackManager.spawnFireWave(facingDirection);
     }
 
     public void AnimEvent_Attack2()
@@ -526,13 +525,18 @@ public class Boss : EnemyBase, IRewindable
         // {
         //     attackManager.spawnFireWave(facingDirection);
         // }
-        else if (currentRes == ResMove.FireWave && currentOff != OffMove.HomingFireballs)
+        else if (currentRes == ResMove.FireWave)
             attackManager.spawnFireWave(facingDirection);
     }
 
-    public void AnimEvent_AttackComplete()
+    public void AnimEvent_Attack1Complete()
     {
-        isPlayingAttack = false;
+        isPlayingAttack1 = false;
+    }
+
+    public void AnimEvent_Attack2Complete()
+    {
+        isPlayingAttack2 = false;
     }
 
     void Damage()
