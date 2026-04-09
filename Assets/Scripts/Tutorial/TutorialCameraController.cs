@@ -12,12 +12,16 @@ public class TutorialCameraController : MonoBehaviour
 
     // timing
     [SerializeField] private float panToEnemyDelay = 0.3f;
-    [SerializeField] private float focusDuration = 1.2f;
+    [SerializeField] private float focusDuration = 2.5f;
 
     // camera smoothness
-    [SerializeField] private float panSmoothTime = 0.45f;
+    [SerializeField] private float panSmoothTime = 0.8f;
     [SerializeField] private float normalSmoothTime = 0.15f; 
-    [SerializeField] private float returnSmoothTime = 0.3f;
+    [SerializeField] private float returnSmoothTime = 0.5f;
+
+    // camera framing
+    [SerializeField] private Vector3 focusOffset = Vector3.zero; 
+    [SerializeField] private float targetZoom = 1f;
 
     private Transform player; 
     private bool isTriggered; 
@@ -29,23 +33,21 @@ public class TutorialCameraController : MonoBehaviour
         cameraFollow = Camera.main.GetComponent<CameraFollow2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (isTriggered) return;
         
+        PlayerPlatformer p = other.GetComponent<PlayerPlatformer>();
+        if (p == null) return;
+
         if (tutorialManager != null)
         {
             if (requireRewindCompleted && !tutorialManager.rewindCompleted)
                 return;
             
-            Debug.Log(tutorialManager.rewindCompleted);
-
             if (tutorialManager.currentStep != requiredStep)
                 return;
         } 
-
-        PlayerPlatformer p = other.GetComponent<PlayerPlatformer>();
-        if (p == null) return;
 
         isTriggered = true;
         player = p.transform;
@@ -67,20 +69,26 @@ public class TutorialCameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(panToEnemyDelay);
 
+        // Move to enemy
         cameraFollow.SetSmoothTime(panSmoothTime);
         cameraFollow.SetTemporaryTarget(enemyFocus);
+        
+        // Apply custom offset and zoom
+        if (focusOffset != Vector3.zero) cameraFollow.SetOffset(focusOffset);
+        if (targetZoom != 1f) cameraFollow.SetZoom(targetZoom);
 
         yield return new WaitForSeconds(focusDuration);
 
+        // Return to player
         cameraFollow.SetSmoothTime(returnSmoothTime); 
         cameraFollow.RestoreTarget(player);
 
         yield return new WaitForSeconds(0.4f);
 
+        // Reset camera states
         cameraFollow.SetSmoothTime(normalSmoothTime);
-
-        // cameraFollow.ResetZoom();
         cameraFollow.ResetOffset();
+        if (targetZoom != 1f) cameraFollow.ResetZoom();
 
         // restore player movement after camera sequence
         p.allowedActions = cachedActions;

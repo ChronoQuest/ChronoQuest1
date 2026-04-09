@@ -685,6 +685,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a2bcd804cee143af817fb205cba95a7, type: 3}
+--- !u!4 &486019442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2951455475209262563, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
+  m_PrefabInstance: {fileID: 1801546335}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &503920389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2899,9 +2904,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 352924479}
     - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: enemyFocus
+      value: 
+      objectReference: {fileID: 486019442}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: targetZoom
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: focusDuration
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: focusOffset.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: panSmoothTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: panToEnemyDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: normalSmoothTime
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: returnSmoothTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604169587767148162, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: requireRewindCompleted
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4640504266069839161, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
@@ -2935,12 +2976,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: targetZoom
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1618970463}
     - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: requiredStep
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614638669407349270, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: focusOffset.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9067789146171115659, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: m_LocalPosition.x
