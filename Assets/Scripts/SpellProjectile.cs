@@ -80,6 +80,7 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         // 1. Ignore the Player and dodging enemies entirely
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("EnemyDodging")) return;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Default")) return;
 
         // 2. Check for Enemies / Destructibles
         IDamageable dmg = collision.GetComponent<IDamageable>();
