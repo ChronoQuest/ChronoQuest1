@@ -72,7 +72,7 @@ public class TutorialHintTrigger : MonoBehaviour
                 tutorial.TriggerRainSpell(); 
                 break;
             case HintType.RewindRegion:
-                tutorial.TryTriggerRewindHint();
+                tutorial.TryTriggerFirstRewindHint();
                 break;
             case HintType.SpikeRewind:
                 tutorial.TriggerSpikeHint();

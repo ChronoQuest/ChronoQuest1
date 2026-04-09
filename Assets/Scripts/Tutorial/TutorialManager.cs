@@ -16,6 +16,7 @@ public class TutorialManager : MonoBehaviour
         Dash, 
         Jump,
         Attack,
+        FirstRewind,
         Rewind, 
         Spell,
         Foresight,
@@ -35,6 +36,7 @@ public class TutorialManager : MonoBehaviour
     private float baseOrthoSize;
 
     // references to hint UI elements 
+    public GameObject firstRewindHint;
     public GameObject rewindHint;
     public GameObject attackHint;
     public GameObject movementHint;
@@ -53,6 +55,7 @@ public class TutorialManager : MonoBehaviour
 
     bool moveCompleted = false;
     bool attackCompleted = false;
+    public bool firstRewindCompleted = false;
     public bool rewindCompleted = false;
     bool jumpCompleted = false;
     bool dashCompleted = false;
@@ -67,6 +70,7 @@ public class TutorialManager : MonoBehaviour
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
     public TextMeshProUGUI attackText;
+    public TextMeshProUGUI firstRewindText;
     public TextMeshProUGUI rewindText;
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
@@ -78,6 +82,7 @@ public class TutorialManager : MonoBehaviour
 
     private string movementMessage;
     private string attackMessage;
+    private string firstRewindMessage;
     private string rewindMessage;
     private string jumpMessage; 
     private string dashMessage;   
@@ -129,6 +134,7 @@ public class TutorialManager : MonoBehaviour
         // messages are assigned to the corresponding UI text component 
         movementMessage = movementText.text;
         attackMessage = attackText.text;
+        firstRewindMessage = firstRewindText.text;
         rewindMessage = rewindText.text;
         jumpMessage = jumpText.text; 
         dashMessage = dashText.text; 
@@ -184,6 +190,15 @@ public class TutorialManager : MonoBehaviour
         {
             TimeRewindManager.Instance.OnRewindStop += HandleRewindStopped;
             TimeRewind.TimeRewindManager.Instance.OnRewindStart += HandleRewindStarted;
+        }
+
+        if (tutorialSkeleton != null)
+        {
+            ForesightSystem foresight = tutorialSkeleton.GetComponent<ForesightSystem>();
+            if (foresight != null)
+            {
+                foresight.enabled = false;
+            }
         }
     }
 
@@ -540,21 +555,23 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRewindStarted()
     {
-        //Time.timeScale = 1f;
-        if (currentStep != TutorialStep.Rewind && currentStep != TutorialStep.SpikeHint)
+        // Add FirstRewind to the allowed steps here
+        if (currentStep != TutorialStep.Rewind && currentStep != TutorialStep.SpikeHint && currentStep != TutorialStep.FirstRewind)
             return;  
         
         Debug.Log("REWIND STARTED");
 
-        if (currentStep == TutorialStep.Rewind)
+        // Instantly complete the first rewind step
+        if (currentStep == TutorialStep.FirstRewind)
+        {
+            OnPlayerFirstRewind();
+        }
+        else if (currentStep == TutorialStep.Rewind)
         {
             RestoreEnemies();
             AllowAll();
-
-            //OnPlayerRewind();
         }
-        
-        if (currentStep == TutorialStep.SpikeHint)
+        else if (currentStep == TutorialStep.SpikeHint)
         {
             OnPlayerSpike(); 
         }
@@ -577,6 +594,24 @@ public class TutorialManager : MonoBehaviour
             moveCompleted = true; 
             HideHint(movementHint);
             Debug.Log("Player movement tutorial complete");
+        }
+    }
+    public void OnPlayerFirstRewind()
+    {
+        if (currentStep == TutorialStep.FirstRewind && !firstRewindCompleted)
+        {
+            firstRewindCompleted = true; 
+
+            RestoreTempZoom(); 
+            RestoreEnemies();
+            
+            if (rewindFollow != null)
+                rewindFollow.enabled = false;
+
+            HideHint(firstRewindHint);
+            AllowAll();
+            Debug.Log("Player first rewind tutorial complete");
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
     }
 
@@ -603,6 +638,21 @@ public class TutorialManager : MonoBehaviour
 
         rewindFollow.SetTarget(player.transform); 
         rewindFollow.enabled = true;
+    }
+    public void TryTriggerFirstRewindHint()
+    {
+        if (firstRewindCompleted) return;
+        if (currentStep == TutorialStep.FirstRewind) return;
+
+        pendingStep = TutorialStep.None;  
+
+        SetStep(TutorialStep.FirstRewind);
+
+        if (rewindFollow != null)
+        {
+            rewindFollow.SetTarget(player.transform); 
+            rewindFollow.enabled = true;
+        }
     }
 
     public void OnPlayerSpell()
@@ -738,6 +788,7 @@ public class TutorialManager : MonoBehaviour
             ForesightSystem foresight = tutorialSkeleton.GetComponent<ForesightSystem>();
             if (foresight != null)
             {
+                foresight.enabled = true;
                 foresight.ForceInstantForesight();
             }
         }
@@ -857,6 +908,15 @@ public class TutorialManager : MonoBehaviour
                 attackText.text = attackMessage;
                 typewriter.StartTyping(attackText);
                 break;
+            case TutorialStep.FirstRewind:
+                AllowOnly(PlayerAction.Rewind);
+                SlowingEnemies(20f, 0.15f); 
+                ApplyTempZoom(1.5f); 
+                activeHint = firstRewindHint;
+                ShowHint(firstRewindHint);
+                firstRewindText.text = firstRewindMessage;
+                typewriter.StartTyping(firstRewindText);
+                break;
             case TutorialStep.Rewind:
                 AllowOnly(PlayerAction.Rewind);
                 SlowingEnemies(20f, 0.15f); 
@@ -931,6 +991,7 @@ public class TutorialManager : MonoBehaviour
     // hints are disabled once tutorial is complete
     void DisableHints()
     {
+        HideHint(firstRewindHint);
         HideHint(rewindHint); 
         HideHint(attackHint);
         HideHint(movementHint);
