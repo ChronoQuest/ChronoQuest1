@@ -126,7 +126,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &8060149661176849044
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 784375
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

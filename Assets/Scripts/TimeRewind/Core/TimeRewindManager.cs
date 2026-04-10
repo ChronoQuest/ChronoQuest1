@@ -39,7 +39,7 @@ namespace TimeRewind
         
         [Header("Rewind Settings")]
         [Tooltip("Maximum duration of rewind history in seconds")]
-        [SerializeField] private float maxRewindDuration = 5f;
+        [SerializeField] private float maxRewindDuration = 30f;
         
         [Tooltip("How many states to record per second (higher = smoother but more memory)")]
         [SerializeField] private int recordsPerSecond = 50;
@@ -95,12 +95,16 @@ namespace TimeRewind
         private float _recordInterval;
         private bool _initialized;
         
-        private float _cachedTimeScale = 1f;
+        private const float BaselineTimeScale = 1f;
+        private float _baselineFixedDeltaTime;
+
+        private float _cachedTimeScale = BaselineTimeScale;
         private float _cachedFixedDeltaTime;
         private Coroutine _postRewindSlowCoroutine;
         private float _rewindStartUnscaledTime;
 
         private float _currentPlaybackMultiplier = 1f;
+        private bool _isRecovering;
         
         #endregion
 
@@ -192,9 +196,25 @@ namespace TimeRewind
             _recordInterval = 1f / recordsPerSecond;
             _recordTimer = 0f;
             _initialized = true;
+            _baselineFixedDeltaTime = Time.fixedDeltaTime;
             
             if (enableDebugLogs)
                 Debug.Log("[TimeRewind] Manager initialized");
+        }
+
+        private void OnDisable()
+        {
+            FailSafeRestoreBaseline();
+        }
+
+        private void OnDestroy()
+        {
+            FailSafeRestoreBaseline();
+        }
+
+        private void OnApplicationQuit()
+        {
+            FailSafeRestoreBaseline();
         }
         
         private void Update()
@@ -280,8 +300,17 @@ namespace TimeRewind
             {
                 StopCoroutine(_postRewindSlowCoroutine);
                 _postRewindSlowCoroutine = null;
+                _isRecovering = false;
+                RestoreBaselineTime(); // prevent "carry-over" slow scale becoming the next baseline
             }
-            Time.timeScale = rewindSlowTimeScale;
+
+            EnsureInitialized();
+
+            _cachedTimeScale = BaselineTimeScale;
+
+            float rewindScale = Mathf.Clamp(rewindSlowTimeScale, 0.01f, 1f);
+            Time.timeScale = rewindScale;
+            Time.fixedDeltaTime = _baselineFixedDeltaTime * rewindScale;
             
             _isRewinding = true;
             _currentRewindTime = GetNewestRecordedTime(); 
@@ -312,14 +341,15 @@ namespace TimeRewind
             _isRewinding = false;
 
             if (_cachedTimeScale <= 0f)
-                _cachedTimeScale = 1f;
+                _cachedTimeScale = BaselineTimeScale;
 
             float targetScale = _cachedTimeScale;
             var (slowScale, duration) = ComputeDynamicSlowdown();
 
             Time.timeScale = slowScale;
-            Time.fixedDeltaTime = _cachedFixedDeltaTime * slowScale;
+            Time.fixedDeltaTime = _baselineFixedDeltaTime * slowScale;
 
+            _isRecovering = true;
             _postRewindSlowCoroutine = StartCoroutine(PostRewindRecovery(slowScale, targetScale, duration));
             
             TrimFutureStates();
@@ -337,20 +367,60 @@ namespace TimeRewind
         private IEnumerator PostRewindRecovery(float fromScale, float toScale, float duration)
         {
             float elapsed = 0f;
+            float lastAppliedScale = fromScale;
 
             while (elapsed < duration)
             {
+                // If another system (pause, cutscene, revive slowmo, etc.) overrides timeScale mid-recovery,
+                // abort cleanly and restore fixed timestep so we don't leave physics in a scaled state.
+                if (!Mathf.Approximately(Time.timeScale, lastAppliedScale))
+                {
+                    if (enableDebugLogs)
+                        Debug.Log($"[TimeRewind] Recovery aborted (external timeScale override). timeScale={Time.timeScale:F3}, expected={lastAppliedScale:F3}");
+
+                    Time.fixedDeltaTime = _baselineFixedDeltaTime;
+                    _postRewindSlowCoroutine = null;
+                    _isRecovering = false;
+                    yield break;
+                }
+
                 elapsed += Time.unscaledDeltaTime;
                 float t = Mathf.Clamp01(elapsed / duration);
                 float scale = Mathf.Lerp(fromScale, toScale, t * t);
                 Time.timeScale = scale;
-                Time.fixedDeltaTime = _cachedFixedDeltaTime * scale;
+                Time.fixedDeltaTime = _baselineFixedDeltaTime * scale;
+                lastAppliedScale = scale;
                 yield return null;
             }
 
             Time.timeScale = toScale;
-            Time.fixedDeltaTime = _cachedFixedDeltaTime;
+            Time.fixedDeltaTime = _baselineFixedDeltaTime;
             _postRewindSlowCoroutine = null;
+            _isRecovering = false;
+        }
+
+        private void RestoreBaselineTime()
+        {
+            EnsureInitialized();
+            Time.timeScale = BaselineTimeScale;
+            Time.fixedDeltaTime = _baselineFixedDeltaTime;
+        }
+
+        private void FailSafeRestoreBaseline()
+        {
+            if (!_initialized)
+                return;
+
+            if (_isRewinding || _isRecovering || _postRewindSlowCoroutine != null)
+            {
+                if (enableDebugLogs)
+                    Debug.Log("[TimeRewind] Fail-safe restoring baseline time settings");
+                Time.timeScale = BaselineTimeScale;
+                Time.fixedDeltaTime = _baselineFixedDeltaTime;
+                _isRewinding = false;
+                _isRecovering = false;
+                _postRewindSlowCoroutine = null;
+            }
         }
         public void CancelTimeOverrides()
         {
