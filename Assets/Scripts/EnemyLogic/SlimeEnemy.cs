@@ -85,6 +85,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
     public override void Update()
     {
+        if (isRewinding || wasDead) return;
         base.Update();
         
         bool justFinishedStun = !isStunned && wasStunnedLastFrame;
@@ -316,23 +317,23 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void OnCollisionExit2D(Collision2D collision)
     {
-    if (collision.gameObject.CompareTag("Player"))
-    {
-    playerInContact = false;
-    return;
-    }
+        if (collision.gameObject.CompareTag("Player"))
+            {
+                playerInContact = false;
+                return;
+            }
 
-    // Reduce ground contact count
-    foreach(ContactPoint2D contact in collision.contacts) {
-    if(contact.normal.y > 0.7f) {
-    groundContacts--;
-    }
-    }
-    // Only set grounded to false if NO valid ground contacts remain
-    if (groundContacts <= 0) {
-    isGrounded = false;
-    groundContacts = 0; // Safety reset
-    }
+        // Reduce ground contact count
+        foreach(ContactPoint2D contact in collision.contacts) {
+            if(contact.normal.y > 0.7f) {
+                groundContacts--;
+            }
+        }
+        // Only set grounded to false if NO valid ground contacts remain
+        if (groundContacts <= 0) {
+            isGrounded = false;
+            groundContacts = 0; // Safety reset
+        }
     }
     void OnCollisionStay2D(Collision2D collision)
     {
@@ -377,6 +378,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
     public override void ApplyKnockback(Vector2 force)
     {
+        if (isRewinding || wasDead) return;
+
         if (isMidJumpSequence)
         {
             StopAllCoroutines();
@@ -395,25 +398,28 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         // 1. Critical: Stop any active jump coroutine immediately
         StopAllCoroutines();
         isMidJumpSequence = false;
-
+        animator.speed = 1f; 
+        isStunned = false;
+        stunTimer = 0f;
+        // 2. Play Death Animation
+        animator.SetTrigger("die");
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) 
         {
             PlayerMana pm = p.GetComponent<PlayerMana>();
             if (pm != null) pm.ModifyMana(15f); // Reward 15 mana
         }
-        // 2. Play Death Animation
-        animator.SetTrigger("die");
+        
 
         // 3. Physics Cleanup: Stop X movement but allow gravity (falling death)
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-
+        rb.bodyType = RigidbodyType2D.Kinematic;
         // 4. Disable collider and hide sprite so enemy disappears
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
         
-        StartCoroutine(base.DeathRoutine());
+        base.Die();
 
         // Do not disable script or Destroy - stay registered so rewind can restore us
     }
@@ -619,6 +625,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     state.SetCustomData("isGrounded", isGrounded);
     state.SetCustomData("midJump", isMidJumpSequence);
     state.SetCustomData("frameIndex", currentFrameIndex);
+    state.SetCustomData("isLaunched", isLaunched);
+    state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
     var animState = animator.GetCurrentAnimatorStateInfo(0);
     state.AnimatorStateHash = animState.fullPathHash;
     state.AnimatorNormalizedTime = animState.normalizedTime;
@@ -633,7 +641,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     spriteRenderer.flipX = state.GetCustomData<bool>("flipX");
     isGrounded = state.GetCustomData<bool>("isGrounded");
     isMidJumpSequence = state.GetCustomData<bool>("midJump");
-
+    isLaunched = state.GetCustomData<bool>("isLaunched", false);
+        if (sprite != null) sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
     int frameIndex = state.GetCustomData<int>("frameIndex");
     SetFrame(frameIndex);
 
