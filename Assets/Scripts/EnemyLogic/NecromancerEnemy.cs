@@ -81,6 +81,8 @@ public class NecromancerEnemy : EnemyBase
     public float stuckTimeThreshold = 2.5f;
     [Tooltip("Minimum displacement per stuckTimeThreshold to count as moving.")]
     public float stuckDistanceThreshold = 0.3f;
+    [Tooltip("If the Necromancer has not reached the current waypoint within this many seconds it gives up and enters Final Stand. Set to 0 to disable.")]
+    public float waypointTimeoutDuration = 30f;
 
     // ── Flee Interrupts ───────────────────────────────────────────────────────
     [Header("Flee Interrupts")]
@@ -95,6 +97,8 @@ public class NecromancerEnemy : EnemyBase
     public float reviveAnimDuration = 1.2f;
     [Tooltip("How long a minion must have been dead before it can be revived.")]
     public float minionDeadRequiredTime = 3f;
+    [Tooltip("Health gained by the Necromancer each time it successfully revives a minion. Set to 0 to disable.")]
+    public int   reviveHealthBonus = 1;
 
     // ── Attack ────────────────────────────────────────────────────────────────
     [Header("Attack")]
@@ -118,8 +122,9 @@ public class NecromancerEnemy : EnemyBase
     private Vector3    originalScale;
 
     // Waypoint navigation
-    private int  currentWaypointIndex = 0;
-    private bool finalStand           = false; // true once all waypoints visited — permanent Cornered
+    private int   currentWaypointIndex  = 0;
+    private bool  finalStand            = false; // true once all waypoints visited — permanent Cornered
+    private float waypointFleeTimer     = 0f;    // seconds spent in Flee state toward the current waypoint
 
     // Stuck / cornered
     private float   stuckTimer        = 0f;
@@ -131,7 +136,6 @@ public class NecromancerEnemy : EnemyBase
     private bool  isJumping            = false;
     private float lastJumpTime         = -99f;
     private float seekLaunchDir        = 0f;    // direction we're walking to find a launch spot
-    private bool  jumpAttempted        = false; // true once we've launched — reset on landing
     private float jumpTargetSurfaceY   = float.MinValue; // world Y of the platform we're jumping onto
     private float jumpMoveDir          = 0f;    // horizontal direction to apply once feet clear the surface
 
@@ -171,7 +175,8 @@ public class NecromancerEnemy : EnemyBase
         col           = GetComponent<Collider2D>();
         originalScale = transform.localScale;
         BuildSpellPool();
-        lastCheckedPos = transform.position;
+        lastCheckedPos   = transform.position;
+        waypointFleeTimer = 0f;
         ScheduleNextFleeCast();
     }
 
@@ -251,7 +256,6 @@ public class NecromancerEnemy : EnemyBase
             if (isGrounded)
             {
                 isJumping     = false;  // landed — resume normal movement next frame
-                jumpAttempted = false;  // allow retry if we didn't reach the waypoint
                 seekLaunchDir = 0f;     // re-evaluate seek direction fresh next time
             }
             else
@@ -449,8 +453,7 @@ public class NecromancerEnemy : EnemyBase
                         float platformH2 = GetPlatformEdgeAboveHeight(seekDir);
                         if (platformH2 < 0f) platformH2 = Mathf.Min(yDiff, wallTopScanMax);
                         PerformCalculatedJump(seekDir, platformH2, moveSpeed * 0.4f);
-                        seekLaunchDir  = 0f;   // reset so next seek re-evaluates fresh
-                        jumpAttempted  = true;
+                        seekLaunchDir = 0f;   // reset so next seek re-evaluates fresh
                         return;
                     }
 
@@ -828,6 +831,14 @@ public class NecromancerEnemy : EnemyBase
     {
         if (currentState != State.Flee) { ResetStuckCheck(); return; }
 
+        // Only count time actually spent fleeing — pauses in Wait/Cornered don't penalise.
+        waypointFleeTimer += Time.deltaTime;
+        if (waypointTimeoutDuration > 0f && waypointFleeTimer >= waypointTimeoutDuration)
+        {
+            finalStand = true;
+            return;
+        }
+
         stuckTimer += Time.deltaTime;
         if (stuckTimer < stuckTimeThreshold) return;
 
@@ -926,6 +937,7 @@ public class NecromancerEnemy : EnemyBase
             {
                 minions[i].Revive();
                 minionDeadTimers[i] = 0f;
+                health += reviveHealthBonus;
             }
         }
     }
@@ -939,12 +951,6 @@ public class NecromancerEnemy : EnemyBase
         Vector2 centre = groundCheck != null
             ? (Vector2)groundCheck.position
             : (col != null ? new Vector2(col.bounds.center.x, col.bounds.min.y) : (Vector2)transform.position);
-
-        // Landscape capsule: two end-points separated horizontally by (width - height)
-        // so the capsule spans groundCheckWidth × groundCheckHeight total.
-        float   offset  = Mathf.Max(0f, groundCheckWidth - groundCheckHeight);
-        Vector2 pointA  = centre + Vector2.left  * offset;
-        Vector2 pointB  = centre + Vector2.right * offset;
 
         return Physics2D.OverlapCapsule(centre, new Vector2(groundCheckWidth * 2f, groundCheckHeight * 2f),
             CapsuleDirection2D.Horizontal, 0f, groundLayer) != null;
@@ -964,6 +970,7 @@ public class NecromancerEnemy : EnemyBase
             return;
         }
         currentWaypointIndex++;
+        waypointFleeTimer = 0f;  // reset timeout clock for the new waypoint
     }
 
     void FaceDirection()
@@ -1144,13 +1151,13 @@ public class NecromancerEnemy : EnemyBase
         // ── New fields ────────────────────────────────────────────────────────
         state.SetCustomData("currentWaypointIndex", currentWaypointIndex);
         state.SetCustomData("finalStand",           finalStand);
+        state.SetCustomData("waypointFleeTimer",    waypointFleeTimer);
         state.SetCustomData("stuckTimer",           stuckTimer);
         state.SetCustomData("lastCheckedPos",        (Vector2)lastCheckedPos);
         state.SetCustomData("corneredUntilTime",     corneredUntilTime);
         state.SetCustomData("isJumping",             isJumping);
         state.SetCustomData("lastJumpTime",          lastJumpTime);
         state.SetCustomData("seekLaunchDir",        seekLaunchDir);
-        state.SetCustomData("jumpAttempted",        jumpAttempted);
         state.SetCustomData("jumpTargetSurfaceY",   jumpTargetSurfaceY);
         state.SetCustomData("jumpMoveDir",          jumpMoveDir);
         state.SetCustomData("nextFleeCastTime",      nextFleeCastTime);
@@ -1188,13 +1195,13 @@ public class NecromancerEnemy : EnemyBase
         // ── New fields ────────────────────────────────────────────────────────
         currentWaypointIndex = state.GetCustomData<int>    ("currentWaypointIndex");
         finalStand           = state.GetCustomData<bool>   ("finalStand");
+        waypointFleeTimer    = state.GetCustomData<float>  ("waypointFleeTimer");
         stuckTimer           = state.GetCustomData<float>  ("stuckTimer");
         lastCheckedPos       = state.GetCustomData<Vector2>("lastCheckedPos");
         corneredUntilTime    = state.GetCustomData<float>  ("corneredUntilTime");
         isJumping            = state.GetCustomData<bool>   ("isJumping");
         lastJumpTime         = state.GetCustomData<float>  ("lastJumpTime");
         seekLaunchDir        = state.GetCustomData<float>  ("seekLaunchDir");
-        jumpAttempted        = state.GetCustomData<bool>   ("jumpAttempted");
         jumpTargetSurfaceY   = state.GetCustomData<float>  ("jumpTargetSurfaceY", float.MinValue);
         jumpMoveDir          = state.GetCustomData<float>  ("jumpMoveDir");
         nextFleeCastTime     = state.GetCustomData<float>  ("nextFleeCastTime");
@@ -1288,12 +1295,6 @@ public class NecromancerEnemy : EnemyBase
                 "platform\nscanner", new GUIStyle { normal = { textColor = new Color(0f, 0.8f, 1f) }, fontSize = 9 });
 #endif
 
-            // IsClearAbove rays (white) — ceiling clearance check
-            float castD   = wallTopScanMax + jumpClearanceBuffer;
-            Gizmos.color  = new Color(1f, 1f, 1f, 0.35f);
-            Gizmos.DrawLine(new Vector3(centerX - halfW + 0.05f, topY), new Vector3(centerX - halfW + 0.05f, topY + castD));
-            Gizmos.DrawLine(new Vector3(centerX,                 topY), new Vector3(centerX,                 topY + castD));
-            Gizmos.DrawLine(new Vector3(centerX + halfW - 0.05f, topY), new Vector3(centerX + halfW - 0.05f, topY + castD));
         }
 
         // ── Cornered wall check ───────────────────────────────────────────────
