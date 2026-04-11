@@ -67,7 +67,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireRow(int facingDirection)
     {
         if (isRewinding) return;
-        GameObject fire_row = Instantiate(fireRow, new Vector3(3.35f * facingDirection, -4.25f, 0f), transform.rotation);
+        GameObject fire_row = Instantiate(fireRow, new Vector3(7f * facingDirection, -4.25f, 0f), transform.rotation);
         FireRow fr = fire_row.GetComponent<FireRow>();
         fr.bossFacingDirection = facingDirection;
     }
