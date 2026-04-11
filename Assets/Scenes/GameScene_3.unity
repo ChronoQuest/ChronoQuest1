@@ -1682,6 +1682,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
   m_PrefabInstance: {fileID: 1890627201}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &253942049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 253942052}
+  - component: {fileID: 253942051}
+  - component: {fileID: 253942050}
+  m_Layer: 0
+  m_Name: Necro Waypoint 4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &253942050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253942049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &253942051
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253942049}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.15003204, y: -0.7346287}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.6999359, y: 1.8691292}
+  m_EdgeRadius: 0
+--- !u!4 &253942052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253942049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 109.35, y: 51.64, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &254131317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 390456860282783827, guid: 8f4c4bc1677dc334abee6b4b567467ec, type: 3}
@@ -1899,6 +1990,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6265670936862214329, guid: ce0e18c5c1bce204a8554533338c7c96, type: 3}
   m_PrefabInstance: {fileID: 288622703}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &294835430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 294835433}
+  - component: {fileID: 294835432}
+  - component: {fileID: 294835431}
+  m_Layer: 0
+  m_Name: Necro Waypoint 9
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &294835431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294835430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &294835432
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294835430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.07364845}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1.8809624}
+  m_EdgeRadius: 0
+--- !u!4 &294835433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294835430}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 94.89, y: 60.03, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &315668818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2139,7 +2321,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1070194805
-  m_SortingLayer: 0
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1460111806, guid: daa359c07b4be2f47b477ca2857b031a, type: 3}
@@ -5530,6 +5712,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6132359615026448990, guid: 5629bf9f56ae20241908fee4c73917a1, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1024
+      objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 5629bf9f56ae20241908fee4c73917a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.06
@@ -5589,6 +5775,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7292622582502913521, guid: 264e2e2aa46b6834083d3e334747c819, type: 3}
   m_PrefabInstance: {fileID: 371745922}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &618719110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 618719111}
+  - component: {fileID: 618719113}
+  - component: {fileID: 618719112}
+  m_Layer: 0
+  m_Name: Necro Waypoint 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &618719111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618719110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 106.89, y: 45.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &618719112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618719110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &618719113
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618719110}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.074970245, y: 0.5048218}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.1837997, y: 1.933075}
+  m_EdgeRadius: 0
 --- !u!1001 &622734090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5673,6 +5950,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
   m_PrefabInstance: {fileID: 804861059}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &633904349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 633904352}
+  - component: {fileID: 633904351}
+  - component: {fileID: 633904350}
+  m_Layer: 0
+  m_Name: Necro Waypoint 7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &633904350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633904349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &633904351
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633904349}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.12317085}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1.680645}
+  m_EdgeRadius: 0
+--- !u!4 &633904352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633904349}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 118.46, y: 59.82, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &636880573
 GameObject:
   m_ObjectHideFlags: 0
@@ -6594,6 +6962,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
   m_PrefabInstance: {fileID: 403386823}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &714560554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 714560557}
+  - component: {fileID: 714560556}
+  - component: {fileID: 714560555}
+  m_Layer: 0
+  m_Name: Necro Waypoint 10
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &714560555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714560554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &714560556
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714560554}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.38669395}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1.8914452}
+  m_EdgeRadius: 0
+--- !u!4 &714560557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714560554}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 71.15, y: 60.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &715694378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5801702434955149063, guid: ecf3a233ec7bbe343a48e9d8ab6b5aa2, type: 3}
@@ -7569,6 +8028,97 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+--- !u!1 &810405937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 810405940}
+  - component: {fileID: 810405939}
+  - component: {fileID: 810405938}
+  m_Layer: 0
+  m_Name: Necro Waypoint 6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &810405938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810405937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &810405939
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810405937}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.58459663}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 2.1691933}
+  m_EdgeRadius: 0
+--- !u!4 &810405940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810405937}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 115.33, y: 53.49, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &813150801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31611,6 +32161,16 @@ Tilemap:
       m_TileIndex: 70
       m_TileSpriteIndex: 70
       m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 111, y: 53, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 93
+      m_TileSpriteIndex: 109
+      m_TileMatrixIndex: 1
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -58013,7 +58573,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 9c324152b92346349b5a958da337f305, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 6e99252a232914546b920c2adb2380e5, type: 2}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 29ce97af4d71ff84091fed7ca18d5146, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: dbafe8c53b29a7e45bf2cc421becc6d4, type: 2}
@@ -58302,7 +58862,7 @@ Tilemap:
     m_Data: {fileID: -2036820868, guid: 9b639766cca19b8448c0b6024f5e3552, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1511300062, guid: 9b639766cca19b8448c0b6024f5e3552, type: 3}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 2091173724, guid: 5da750f36e60e0949ba7085b5e1788ce, type: 3}
   - m_RefCount: 5
     m_Data: {fileID: -1982643478, guid: 9b639766cca19b8448c0b6024f5e3552, type: 3}
@@ -58359,7 +58919,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 26
+  - m_RefCount: 27
     m_Data:
       e00: 1
       e01: 0
@@ -58414,7 +58974,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 4952
+  - m_RefCount: 4953
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -59070,6 +59630,20 @@ CompositeCollider2D:
       - X: 1120000000
         Y: 540000000
       - X: 1120000000
+        Y: 539687488
+      - X: 1119062528
+        Y: 539687488
+      - X: 1115000064
+        Y: 535624992
+      - X: 1114687488
+        Y: 534687488
+      - X: 1114687488
+        Y: 532500000
+      - X: 1112187520
+        Y: 532500000
+      - X: 1110312448
+        Y: 530624992
+      - X: 1110312448
         Y: 530000000
       - X: 1110000000
         Y: 530000000
@@ -59542,7 +60116,14 @@ CompositeCollider2D:
       - {x: 114, y: 53.00003}
       - {x: 113.99998, y: 54}
       - {x: 112, y: 53.99997}
-      - {x: 111.99998, y: 53}
+      - {x: 111.99998, y: 53.96875}
+      - {x: 111.90624, y: 53.968742}
+      - {x: 111.50001, y: 53.562492}
+      - {x: 111.46875, y: 53.468746}
+      - {x: 111.46873, y: 53.25}
+      - {x: 111.21874, y: 53.249992}
+      - {x: 111.03124, y: 53.06249}
+      - {x: 111.03122, y: 53}
       - {x: 111, y: 52.999973}
       - {x: 110.99998, y: 52}
       - {x: 110, y: 51.999973}
@@ -61181,6 +61762,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: iFrameDuration
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 340241791458222048, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_UIInputModule
       value: 
@@ -63549,13 +64134,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF Dungeon Props - Skull 03
       objectReference: {fileID: 0}
+    - target: {fileID: 4838956556827162365, guid: 179fbb5164275a14bacf02455e3382f6, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 33792
+      objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 179fbb5164275a14bacf02455e3382f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.16
+      value: 5.03
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 179fbb5164275a14bacf02455e3382f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.66
+      value: 11.564
       objectReference: {fileID: 0}
     - target: {fileID: 6265670936862214329, guid: 179fbb5164275a14bacf02455e3382f6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -63834,6 +64423,97 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
+--- !u!1 &1264336056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1264336059}
+  - component: {fileID: 1264336058}
+  - component: {fileID: 1264336057}
+  m_Layer: 0
+  m_Name: Necro Waypoint 5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1264336057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264336056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &1264336058
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264336056}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.58459663}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 2.1691933}
+  m_EdgeRadius: 0
+--- !u!4 &1264336059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264336056}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 113.23, y: 55.39, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1272526739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65685,6 +66365,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6265670936862214329, guid: 7a949dca2c6335544b5fbac2fba367da, type: 3}
   m_PrefabInstance: {fileID: 1488394143}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1489746918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1489746919}
+  - component: {fileID: 1489746921}
+  - component: {fileID: 1489746920}
+  m_Layer: 0
+  m_Name: Necro Waypoint 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1489746919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489746918}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 122.28, y: 44.69, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1489746920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489746918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &1489746921
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489746918}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.43995094}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 2.2318687}
+  m_EdgeRadius: 0
 --- !u!1001 &1495919250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68542,6 +69313,97 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
   m_PrefabInstance: {fileID: 1520232182}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1781204746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1781204747}
+  - component: {fileID: 1781204749}
+  - component: {fileID: 1781204748}
+  m_Layer: 0
+  m_Name: Necro Waypoint 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1781204747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781204746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 126.43, y: 38.42, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1781204748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781204746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &1781204749
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781204746}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.23943329, y: -0.08045578}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0434875, y: 1.6687164}
+  m_EdgeRadius: 0
 --- !u!4 &1784461355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6265670936862214329, guid: fd4e7a4f0c991f24fae1dceb9059ed54, type: 3}
@@ -69642,12 +70504,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 120933621}
     m_Modifications:
     - target: {fileID: 31513771389696814, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 1a2bfbc833ac8534cad1c778965f9d77, type: 2}
+    - target: {fileID: 31513771389696814, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 1024
+      value: 1088
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: health
-      value: 12
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: player
@@ -69655,7 +70521,15 @@ PrefabInstance:
       objectReference: {fileID: 1941470544}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: moveSpeed
-      value: 3
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: groundCheck
+      value: 
+      objectReference: {fileID: 2077079866}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: maxJumpForce
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: maxJumpHeight
@@ -69670,8 +70544,40 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: wallTopScanMax
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: waypointRadius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: jumpUpThreshold
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: maxFleeDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: groundCheckWidth
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: ledgeCheckOffset
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: groundCheckHeight
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: groundCheckRadius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: wallAheadDistance
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: groundLayer.m_Bits
@@ -69682,8 +70588,24 @@ PrefabInstance:
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: resumeFleeDistance
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: jumpClearanceBuffer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: closeJumpExtraHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: jumpClearancePadding
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: midAirSpeedMultiplier
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: 'minions.Array.data[0]'
@@ -69726,6 +70648,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 12521199}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: closeJumpProximityDist
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: highJumpClearanceBonus
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: minionDeadRequiredTime
       value: 3.5
       objectReference: {fileID: 0}
@@ -69749,6 +70679,54 @@ PrefabInstance:
       propertyPath: 'minions.Array.data[14]'
       value: 
       objectReference: {fileID: 1988842298}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: highJumpHeightThreshold
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: fleeWaypoints.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1781204748}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1489746920}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 618719112}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[3]'
+      value: 
+      objectReference: {fileID: 253942050}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1264336057}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[5]'
+      value: 
+      objectReference: {fileID: 810405938}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[6]'
+      value: 
+      objectReference: {fileID: 633904350}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[7]'
+      value: 
+      objectReference: {fileID: 2071966182}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[8]'
+      value: 
+      objectReference: {fileID: 294835431}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'fleeWaypoints.Array.data[9]'
+      value: 
+      objectReference: {fileID: 714560555}
     - target: {fileID: 2742979974419632661, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_Name
       value: Necromancer
@@ -69759,23 +70737,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.0347147
+      value: 3.5303755
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4.5118337
+      value: 3.9478545
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2125
+      value: 1.0609375
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.23
+      value: -5.37
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: -22.22
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -69813,9 +70791,16 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8624491679893478738, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2077079866}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
 --- !u!4 &1904267838 stripped
@@ -70087,7 +71072,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1207838135
-  m_SortingLayer: 0
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
@@ -464530,6 +465515,128 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+--- !u!1 &2071966181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2071966184}
+  - component: {fileID: 2071966183}
+  - component: {fileID: 2071966182}
+  m_Layer: 0
+  m_Name: Necro Waypoint 8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2071966182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071966181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b54d0dddef884afe930973f2942a556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WaypointZone
+--- !u!61 &2071966183
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071966181}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.58459663}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 2.1691933}
+  m_EdgeRadius: 0
+--- !u!4 &2071966184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071966181}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 107.2, y: 60.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2077079865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2077079866}
+  m_Layer: 10
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2077079866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077079865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0147, y: -0.2764, z: 0}
+  m_LocalScale: {x: 0.8875, y: 0.8875, z: 0.8875}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1904267838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2084491193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -465109,7 +466216,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1070194805
-  m_SortingLayer: 0
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1508333913, guid: daa359c07b4be2f47b477ca2857b031a, type: 3}
@@ -465385,3 +466492,13 @@ SceneRoots:
   - {fileID: 153006391}
   - {fileID: 1891641055}
   - {fileID: 1858329325}
+  - {fileID: 1781204747}
+  - {fileID: 1489746919}
+  - {fileID: 618719111}
+  - {fileID: 253942052}
+  - {fileID: 1264336059}
+  - {fileID: 810405940}
+  - {fileID: 633904352}
+  - {fileID: 2071966184}
+  - {fileID: 294835433}
+  - {fileID: 714560557}
