@@ -57,10 +57,6 @@ public class NecromancerEnemy : EnemyBase
     public float totalJumpFrames = 9f;
     [Tooltip("Speed multiplier applied to horizontal movement while airborne (gap-jump momentum and post-clearance steering).")]
     public float midAirSpeedMultiplier = 1.8f;
-    [Tooltip("Obstacle height (above feet) at or above which the high-jump clearance bonus is applied.")]
-    public float highJumpHeightThreshold = 2f;
-    [Tooltip("Extra clearance buffer added on top of jumpClearanceBuffer for obstacles at or above highJumpHeightThreshold. Compensates for physics imprecision near maxJumpForce.")]
-    public float highJumpClearanceBonus = 0.5f;
     [Tooltip("How far left and right FindLaunchPositionDir scans (in world units) to find a clear vertical column to jump from. Independent of wallTopScanMax.")]
     public float launchSeekRange = 20f;
 
@@ -675,9 +671,8 @@ public class NecromancerEnemy : EnemyBase
             // Use the actual surface Y from the hit, not the probe start — avoids the
             // up-to-wallTopScanStep*2 overestimate that causes excess jump force.
             float heightAboveFeet = hit.point.y - footY;
-            float g     = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale;
-            float bonus = heightAboveFeet >= highJumpHeightThreshold ? highJumpClearanceBonus : 0f;
-            float vy    = Mathf.Sqrt(2f * g * (heightAboveFeet + jumpClearanceBuffer + bonus));
+            float g  = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale;
+            float vy = Mathf.Sqrt(2f * g * (heightAboveFeet + jumpClearanceBuffer));
             if (vy <= maxJumpForce)
                 return heightAboveFeet;
             else
@@ -714,10 +709,7 @@ public class NecromancerEnemy : EnemyBase
     /// </summary>
     void PerformCalculatedJump(float moveDir, float obstacleTopHeight, float hSpeed)
     {
-        // High obstacles get extra clearance on top of the base buffer to compensate
-        // for physics imprecision when the required impulse approaches maxJumpForce.
-        float bonus       = obstacleTopHeight >= highJumpHeightThreshold ? highJumpClearanceBonus : 0f;
-        float clearHeight = obstacleTopHeight + jumpClearanceBuffer + bonus;
+        float clearHeight = obstacleTopHeight + jumpClearanceBuffer;
 
         float g  = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale;
         float vy = Mathf.Sqrt(2f * g * clearHeight);
@@ -937,7 +929,8 @@ public class NecromancerEnemy : EnemyBase
             {
                 minions[i].Revive();
                 minionDeadTimers[i] = 0f;
-                health += reviveHealthBonus;
+                if (health < startHealth)
+                    health = Mathf.Min(health + reviveHealthBonus, startHealth);
             }
         }
     }
@@ -975,7 +968,7 @@ public class NecromancerEnemy : EnemyBase
 
     void FaceDirection()
     {
-        if (currentState == State.Wait || currentState == State.Cornered)
+        if (currentState == State.Wait || currentState == State.Cornered || isAttacking)
         {
             FacePlayer();
         }
@@ -1425,9 +1418,7 @@ public class NecromancerEnemy : EnemyBase
                             float wallTop = GetWallTopHeight(mDir);
                             if (wallTop >= 0f)
                             {
-                                float bonus  = wallTop >= highJumpHeightThreshold ? highJumpClearanceBonus : 0f;
-                                float clearH = wallTop + jumpClearanceBuffer + bonus;
-                                launchVy = Mathf.Min(Mathf.Sqrt(2f * g * clearH), maxJumpForce);
+                                launchVy = Mathf.Min(Mathf.Sqrt(2f * g * (wallTop + jumpClearanceBuffer)), maxJumpForce);
                                 surfY    = col.bounds.min.y + wallTop;
                             }
                             break;
@@ -1437,17 +1428,13 @@ public class NecromancerEnemy : EnemyBase
                         {
                             float platformH = GetPlatformEdgeAboveHeight(mDir);
                             if (platformH < 0f) platformH = Mathf.Min(yDiff, wallTopScanMax);
-                            float bonus  = platformH >= highJumpHeightThreshold ? highJumpClearanceBonus : 0f;
-                            float clearH = platformH + jumpClearanceBuffer + bonus;
-                            launchVy = Mathf.Min(Mathf.Sqrt(2f * g * clearH), maxJumpForce);
+                            launchVy = Mathf.Min(Mathf.Sqrt(2f * g * (platformH + jumpClearanceBuffer)), maxJumpForce);
                             surfY    = col.bounds.min.y + platformH;
                             break;
                         }
                         case NavDecision.JumpGap:
                         {
-                            float bonus  = jumpClearanceBuffer >= highJumpHeightThreshold ? highJumpClearanceBonus : 0f;
-                            float clearH = jumpClearanceBuffer + bonus;
-                            launchVy = Mathf.Min(Mathf.Sqrt(2f * g * clearH), maxJumpForce);
+                            launchVy = Mathf.Min(Mathf.Sqrt(2f * g * jumpClearanceBuffer), maxJumpForce);
                             surfY    = col.bounds.min.y;   // horizontal starts immediately
                             break;
                         }
