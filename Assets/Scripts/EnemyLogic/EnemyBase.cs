@@ -12,6 +12,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public int health = 3;
     [HideInInspector] public int startHealth;
 
+    private EnemyHealthBar _healthBar;
+
     [Header("Stun Settings")]
     public bool stunOnLand = false; // Toggle this ON in the Inspector for land enemies
     protected bool isLaunched;
@@ -45,6 +47,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         flash = GetComponent<HitFlash>();
         startHealth = health;
         originalBodyType = rb.bodyType; // captured once — represents alive body type
+        _healthBar = GetComponent<EnemyHealthBar>();
     }
     public virtual void Update()
     {
@@ -152,6 +155,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         if (sprite != null) sprite.enabled = true;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
+
+        _healthBar?.SyncImmediate();
     }
 
     // ================= REWIND =================

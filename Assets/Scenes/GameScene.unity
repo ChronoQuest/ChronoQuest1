@@ -1484,16 +1484,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: meleeRange
-      value: 1.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: meleeDamage
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: topAttackOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel
       value: 
       objectReference: {fileID: 941216054}
+    - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: verticalSlashSize.x
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: knockbackTime
       value: 0.5
@@ -1502,6 +1510,10 @@ PrefabInstance:
       propertyPath: tutorialManager
       value: 
       objectReference: {fileID: 419607659}
+    - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: groundCheckRadius
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticModel
       value: 
@@ -1514,6 +1526,10 @@ PrefabInstance:
       propertyPath: playerTacticalModel
       value: 
       objectReference: {fileID: 941216054}
+    - target: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: passiveRegenRate
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1893749182792678861, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_SortingOrder
       value: 5
@@ -2785,6 +2801,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 272570894508567222, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: m_Size.x
+      value: 2.3281536
+      objectReference: {fileID: 0}
+    - target: {fileID: 272570894508567222, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
+      propertyPath: m_Offset.x
+      value: 1.8449812
+      objectReference: {fileID: 0}
     - target: {fileID: 1748531016957598062, guid: 399808743033140d09b6ec9375a54c6b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
