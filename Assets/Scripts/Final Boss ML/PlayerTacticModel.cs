@@ -53,12 +53,6 @@ public class PlayerTacticalModel : MonoBehaviour
     // calculates player tactic score based on events recorded in the game
     void DetermineTactics()
     {
-        /* float aggressive = meleeHits;
-        float evasive = dashCount * 0.6f + jumpCount * 0.4f; 
-        float ability = spellCount; 
-        float rewindReliance = rewindCount; 
-        float cautious = damageTaken * 0.6f + rewindCount * 0.4f; */ 
-
         float[] features = BuildFeatureVector();
         float[] clusterProbs = gmmModel.PredictProba(features); 
 
