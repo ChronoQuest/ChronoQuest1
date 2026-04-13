@@ -67,9 +67,16 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireRow(int facingDirection)
     {
         if (isRewinding) return;
-        GameObject fire_row = Instantiate(fireRow, new Vector3(7f * facingDirection, -4.25f, 0f), transform.rotation);
+        // Spawn a big persistent fire explosion in front of the boss as the visual source
+        GameObject explosion = Instantiate(fireExplosion, new Vector3(7.5f * facingDirection, -3f, 0f), fireExplosion.transform.rotation);
+        explosion.transform.localScale = new Vector3(2f, 2f, 1f);
+        FireExplosion fe = explosion.GetComponent<FireExplosion>();
+        fe.persistent = true;
+        // Fire row extends out from the explosion
+        GameObject fire_row = Instantiate(fireRow, new Vector3(6f * facingDirection, -4.25f, 0f), transform.rotation);
         FireRow fr = fire_row.GetComponent<FireRow>();
         fr.bossFacingDirection = facingDirection;
+        fr.sourceExplosion = explosion;
     }
 
     public void spawnFireWave(int facingDirection)
