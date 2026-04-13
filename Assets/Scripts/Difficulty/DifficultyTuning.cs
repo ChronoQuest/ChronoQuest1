@@ -14,10 +14,10 @@ public class DifficultyTuning : ScriptableObject
     [Tooltip("Scenes where tutorial safety rules can apply. Only GameScene is the tutorial; other levels stay normal.")]
     public string[] tutorialSceneNames = new[] { "GameScene" };
 
-    [Tooltip("If true, tutorial safety triggers when deathCount >= 1 OR timeInSceneSeconds >= threshold.")]
+    [Tooltip("If true, tutorial safety can be activated in tutorial scenes (set when the player dies in tutorial).")]
     public bool tutorialSafetyEnabled = true;
 
-    [Tooltip("Tutorial safety triggers if time in the current tutorial scene exceeds this threshold.")]
+    [Tooltip("Deprecated (not used). Tutorial safety no longer auto-triggers by time in scene.")]
     public float tutorialTimeThresholdSeconds = 360f;
 
     [Tooltip("Enemy HP multiplier in tutorial scenes while tutorial safety is active.")]

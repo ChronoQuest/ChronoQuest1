@@ -232,10 +232,14 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
 
-        // Persist globally: once the player has died, keep falling platforms forgiving
-        // regardless of tutorial context (read by FallingPlatform/MovingFallingPlatform).
-        PlayerPrefs.SetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 1);
-        PlayerPrefs.Save();
+        // Only set safety if the player dies during the tutorial.
+        // Platforms read this PlayerPrefs key globally, so a tutorial death can keep later
+        // falling-platform sections forgiving even outside tutorial scenes.
+        if (DynamicDifficultyManager.IsTutorialSceneContextActive())
+        {
+            PlayerPrefs.SetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 1);
+            PlayerPrefs.Save();
+        }
 
         Debug.Log("Player Died");
 

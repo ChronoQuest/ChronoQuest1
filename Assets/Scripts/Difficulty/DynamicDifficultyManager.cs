@@ -341,18 +341,9 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         var t = GetTuning();
         if (!t.tutorialSafetyEnabled) return false;
 
-        if (PlayerPrefs.GetInt(TutorialSafetyPlayerPrefsKey, 0) == 1)
-            return true;
-
-        // Do not use DataCollectionService.DeathCount — it includes deaths in non-tutorial levels.
-
-        if (elapsed >= t.tutorialTimeThresholdSeconds)
-        {
-            PlayerPrefs.SetInt(TutorialSafetyPlayerPrefsKey, 1);
-            PlayerPrefs.Save();
-            return true;
-        }
-        return false;
+        // Safety is activated explicitly by the player dying in a tutorial scene (see PlayerHealth).
+        // Do not auto-enable by time-in-scene; if the player never dies, hazards/platforms should behave normally.
+        return PlayerPrefs.GetInt(TutorialSafetyPlayerPrefsKey, 0) == 1;
     }
 
     private bool IsTutorialSafetySceneActive(out float elapsedInScene)
