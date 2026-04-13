@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using TimeRewind;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour, IRewindable
 {
@@ -230,6 +231,12 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         IsDead = true;
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
+
+        // Persist globally: once the player has died, keep falling platforms forgiving
+        // regardless of tutorial context (read by FallingPlatform/MovingFallingPlatform).
+        PlayerPrefs.SetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 1);
+        PlayerPrefs.Save();
+
         Debug.Log("Player Died");
 
         StartCoroutine(HandleDeath()); 

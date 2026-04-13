@@ -50,10 +50,49 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
 
         if (platformCollider == null) 
             platformCollider = GetComponent<Collider2D>();
+
+        RefreshTutorialSafetyLock();
+    }
+
+    private void Start()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged += HandleDifficultyChanged;
+        HandleDifficultyChanged();
+    }
+
+    private void OnDestroy()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged -= HandleDifficultyChanged;
+    }
+
+    private void HandleDifficultyChanged()
+    {
+        RefreshTutorialSafetyLock();
     }
 
     private void OnEnable() => TimeRewindManager.Instance?.Register(this);
     private void OnDisable() => TimeRewindManager.Instance?.Unregister(this);
+
+    private bool _safetyLocked;
+
+    private void RefreshTutorialSafetyLock()
+    {
+        if (_safetyLocked) return;
+
+        int prefVal = PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0);
+        bool managerSafety = DynamicDifficultyManager.Instance != null && DynamicDifficultyManager.Instance.TutorialSafetyActive;
+
+        if (prefVal == 1)
+        {
+            _safetyLocked = true;
+            return;
+        }
+
+        if (managerSafety)
+            _safetyLocked = true;
+    }
 
     private void FixedUpdate()
     {
@@ -98,6 +137,9 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        RefreshTutorialSafetyLock();
+        if (_safetyLocked) return;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             // Check if player is on top (using contact normal)
