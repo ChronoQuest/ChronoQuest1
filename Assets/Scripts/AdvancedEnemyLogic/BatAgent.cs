@@ -58,7 +58,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public float dodgeTriggerDistance = 3.4f;
     private int originalLayer;
     private Color originalColor;
-
+    public bool tutorialBat = false;
+    private bool hasDoneTutorialLunge = false;
     void Start()
     {
         enemy = GetComponent<EnemyBase>();
@@ -152,7 +153,22 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         animator.SetBool("hasForesight", true);
         enemy.ForesightGlow?.SetActive(true);
-        if (!isDodging)
+        if (tutorialBat && !hasDoneTutorialLunge)
+            {
+                detectionRange = 8f;
+                
+                Vector2 targetPos = new Vector2(46.5f, -3f);
+                
+                Vector2 approachDirection = (targetPos - (Vector2)transform.position).normalized;
+                TriggerForesightLunge(approachDirection);
+                
+                player.position = new Vector3(43f, -2.5f, player.position.z);
+                Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+                if (playerRb != null) playerRb.linearVelocity = Vector2.zero; 
+
+                hasDoneTutorialLunge = true;
+            }
+        else if (!isDodging && !tutorialBat)
         {
             Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
             TriggerForesightLunge(approachDirection);
@@ -352,6 +368,15 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         if (isDead || enemy.GetIsStunned()) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
+        if (tutorialBat)
+        {
+            if (!isDodging)
+            {
+                Hover();
+                FacePlayer();
+            }
+            return;
+        }
         
         if (!trainingMode && distToPlayer > detectionRange)
         {
@@ -482,6 +507,11 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     public void TakeDamage(int amount)
     {
+        if (tutorialBat)
+        {
+            tutorialBat = false;
+            hasDoneTutorialLunge = false;
+        }
         enemy.TakeDamage(amount);
         if (foresightSystem != null) foresightSystem.NotifyDamage();
     }

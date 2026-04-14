@@ -201,7 +201,7 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.Foresight && !foresightCompleted && !isWaitingToCompleteForesight)
         {
             isWaitingToCompleteForesight = true;
-            StartCoroutine(WaitAndCompleteForesight(2f));
+            StartCoroutine(WaitAndCompleteForesight(4f));
         }
 
         // if all hints have been completed, tutorial completed 
@@ -630,11 +630,13 @@ public class TutorialManager : MonoBehaviour
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
             if (tutorialBat != null)
             {
-                ForesightSystem batForesight = tutorialBat.GetComponent<ForesightSystem>();
-                if (batForesight != null)
-                {
-                    batForesight.enabled = false; 
-                }
+                // ForesightSystem batForesight = tutorialBat.GetComponent<ForesightSystem>();
+                // if (batForesight != null)
+                // {
+                //     batForesight.enabled = false; 
+                // }
+                tutorialBat.SetForesightState(false);
+                tutorialBat.tutorialBat = false;
             }
         }
     }
@@ -821,7 +823,7 @@ public class TutorialManager : MonoBehaviour
             case TutorialStep.Foresight:
                 //AllowOnly(PlayerAction.None); // Freeze the player to force them to read it
                 //SlowingEnemies(20f, 0.15f); // Completely freeze enemies while reading
-                //ApplyTempZoom(1.5f);
+                ApplyTempZoom(1.5f);
                 AllowAll();
                 activeHint = foresightHint;
                 ShowHint(foresightHint);
