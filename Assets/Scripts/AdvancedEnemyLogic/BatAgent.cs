@@ -154,24 +154,45 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         animator.SetBool("hasForesight", true);
         enemy.ForesightGlow?.SetActive(true);
         if (tutorialBat && !hasDoneTutorialLunge)
-            {
-                detectionRange = 8f;
-                
-                Vector2 targetPos = new Vector2(46.5f, -3f);
-                
-                Vector2 approachDirection = (targetPos - (Vector2)transform.position).normalized;
-                TriggerForesightLunge(approachDirection);
-                
-                player.position = new Vector3(43f, -2.5f, player.position.z);
-                Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
-                if (playerRb != null) playerRb.linearVelocity = Vector2.zero; 
+        {
+            detectionRange = 8f;
+            
+            Vector2 targetPos = new Vector2(46.5f, -2.3f); 
+        
+            Vector2 distanceToTarget = targetPos - (Vector2)transform.position;
+            float maximumTravelDistance = (moveSpeed * 3f) * dodgeDuration;
+            Vector2 approachDirection = distanceToTarget / maximumTravelDistance; 
+            
+            TriggerForesightLunge(approachDirection);
+            
+            Vector3 playerSafeSpot = new Vector3(43f, -2.5f, player.position.z);
+            StartCoroutine(DelayedTutorialTeleport(playerSafeSpot));
 
-                hasDoneTutorialLunge = true;
-            }
+            hasDoneTutorialLunge = true;
+        }
         else if (!isDodging && !tutorialBat)
         {
             Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
             TriggerForesightLunge(approachDirection);
+        }
+    }
+    private System.Collections.IEnumerator DelayedTutorialTeleport(Vector3 teleportDestination)
+    {
+        yield return new WaitForSeconds(dodgeDuration * 0.65f);
+
+        if (!isDead && !isRewinding)
+        {
+            Vector3 previousPlayerPosition = player.position;
+
+            player.position = teleportDestination;
+            Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+            if (playerRb != null) playerRb.linearVelocity = Vector2.zero; 
+            
+            TimeRewind.RewindGhostTrail ghostTrail = player.GetComponent<TimeRewind.RewindGhostTrail>();
+            if (ghostTrail != null)
+            {
+                ghostTrail.TriggerTeleportWarp(previousPlayerPosition, teleportDestination);
+            }
         }
     }
 
