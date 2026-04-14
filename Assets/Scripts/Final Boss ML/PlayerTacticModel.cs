@@ -74,18 +74,18 @@ public class PlayerTacticalModel : MonoBehaviour
 
     float[] BuildFeatureVector()
     {
-        var data = DataCollectionService.Instance;
+       // use the current window duration (e.g. up to 5 seconds)
+        float duration = Mathf.Max(timer, 0.001f);
 
-        float duration = data.SessionDurationSeconds;
-        float dashRate = data.DashCount / duration; 
-        float jumpRate = (data.JumpCount + data.WallJumpCount + data.DoubleJumpCount) / duration;
-        float meleeRate = data.MeleeAttacks / duration;
-        float spellRate = data.SpellCasts / duration;
-        float rewindRate = data.RewindActivationCount / duration;
-        float damageRate = data.DamageTakenTotal / duration;
-        
-        float meleeAccuracy = data.MeleeHits / (data.MeleeAttacks + 0.00001f);
-        float spellAccuracy = data.SpellHits / (data.SpellCasts + 0.00001f); 
+        float dashRate   = dashCount / duration;
+        float jumpRate   = (jumpCount + wallJumpCount) / duration;
+        float meleeRate  = meleeHits / duration;   
+        float spellRate  = spellCount / duration;
+        float rewindRate = rewindCount / duration;
+        float damageRate = damageTaken / duration;
+
+        float meleeAccuracy = meleeHits / (meleeHits + 1f);
+        float spellAccuracy = spellCount / (spellCount + 1f);
 
         return new float[]
         {
