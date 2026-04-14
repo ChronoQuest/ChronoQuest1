@@ -33,7 +33,11 @@ def feature_engineering(df):
     df["damage_rate"] = df["damage_taken_total"] / df["session_duration_seconds"]
 
     df["melee_accuracy"] = df["melee_hits"] / (df["melee_attacks"] + 1e-5)
-    df["spell_accuracy"] = df["spell_hits"] / (df["spell_casts"] + 1e-5)
+    df["spell_accuracy"] = np.where(
+        df["spell_casts"] > 0, 
+        df["spell_hits"] / df["spell_casts"],
+        0
+    )
 
     return df
 

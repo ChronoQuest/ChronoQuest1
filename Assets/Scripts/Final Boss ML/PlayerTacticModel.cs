@@ -7,8 +7,6 @@ public class PlayerTacticalModel : MonoBehaviour
     {
         Aggressive, 
         Evasive,
-        Ability, 
-        RewindReliance,
         Cautious
     }
     
@@ -54,14 +52,22 @@ public class PlayerTacticalModel : MonoBehaviour
     void DetermineTactics()
     {
         float[] features = BuildFeatureVector();
-        float[] clusterProbs = gmmModel.PredictProba(features); 
+        float[] clusterProbs = gmmModel.PredictProba(features);
+
+        List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
+
+        foreach (var key in keys)
+        {
+            tacticBeliefs[key] = 0f;
+        }  
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = clusterProbs[0]; 
-        tacticBeliefs[TacticType.Evasive] = clusterProbs[1];
-        tacticBeliefs[TacticType.Ability] = clusterProbs[2];
-        tacticBeliefs[TacticType.RewindReliance] = clusterProbs[3]; 
-        tacticBeliefs[TacticType.Cautious] = clusterProbs[4];
+        tacticBeliefs[TacticType.Aggressive] = clusterProbs[2]; 
+        tacticBeliefs[TacticType.Evasive] = clusterProbs[3];
+        tacticBeliefs[TacticType.Cautious] = clusterProbs[0];
+
+        tacticBeliefs[TacticType.Aggressive] += 0.5f * clusterProbs[1];
+        tacticBeliefs[TacticType.Evasive] += 0.5f * clusterProbs[1];
 
         NormaliseBeliefs(); 
     }
@@ -70,30 +76,27 @@ public class PlayerTacticalModel : MonoBehaviour
     {
         var data = DataCollectionService.Instance;
 
+        float duration = data.SessionDurationSeconds;
+        float dashRate = data.DashCount / duration; 
+        float jumpRate = (data.JumpCount + data.WallJumpCount + data.DoubleJumpCount) / duration;
+        float meleeRate = data.MeleeAttacks / duration;
+        float spellRate = data.SpellCasts / duration;
+        float rewindRate = data.RewindActivationCount / duration;
+        float damageRate = data.DamageTakenTotal / duration;
+        
+        float meleeAccuracy = data.MeleeHits / (data.MeleeAttacks + 0.00001f);
+        float spellAccuracy = data.SpellHits / (data.SpellCasts + 0.00001f); 
+
         return new float[]
         {
-            data.DashCount,
-            data.JumpCount,
-            data.WallJumpCount,
-            data.DoubleJumpCount,
-            data.RewindActivationCount,
-            data.RewindDurationSeconds,
-
-            data.MeleeAttacks,
-            data.MeleeHits,
-            data.SpellCasts,
-            data.SpellHits,
-            data.RainAttackUses,
-
-            data.DamageTakenTotal,
-            data.DeathCount,
-
-            data.DoorsEntered,
-            data.TrapHits,
-            data.TutorialStepsCompleted,
-            data.PauseCount,
-
-            data.SessionDurationSeconds
+            dashRate,
+            jumpRate,
+            meleeRate,
+            spellRate,
+            rewindRate,
+            damageRate,
+            meleeAccuracy, 
+            spellAccuracy
         };
     }
 

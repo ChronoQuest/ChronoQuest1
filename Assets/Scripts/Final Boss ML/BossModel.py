@@ -28,7 +28,7 @@ lowest_aic = np.inf
 bic = []
 aic = []
 
-n_components = range(1, 7)
+n_components = range(2, 5)
 cv_types = ["spherical", "tied", "diag", "full"]
 
 for cv_type in cv_types:
