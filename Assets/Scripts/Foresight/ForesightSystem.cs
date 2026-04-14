@@ -304,7 +304,8 @@ public class ForesightSystem : MonoBehaviour
     {
         hasForesight = true;
         enemy.SetForesightState(true);
-        enemy.ExecuteDodge();
+        // enemy.ExecuteDodge();
+        enemy.ExecuteLunge();
     }
 }
 

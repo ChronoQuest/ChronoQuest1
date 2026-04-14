@@ -10,6 +10,7 @@ public class CameraZoomZone : MonoBehaviour
     [SerializeField] private float movementSmoothOverride = -1f; 
     [SerializeField] private TutorialManager tutorial;
     [SerializeField] private TutorialManager.TutorialStep requiredStep; 
+    private bool isActive = false;
 
     private void Awake()
     {
@@ -25,33 +26,40 @@ public class CameraZoomZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (cameraFollow == null)
-            return;
-
-        if (other.GetComponent<PlayerPlatformer>() == null)
+        if (cameraFollow == null || other.GetComponent<PlayerPlatformer>() == null)
             return;
 
         if (tutorial != null && tutorial.currentStep != requiredStep)
             return;
 
-        if (zoomSmoothOverride > 0f)
-            cameraFollow.SetZoomSmoothTime(zoomSmoothOverride);
+        if (!isActive)
+        {
+            isActive = true;
 
-        if (movementSmoothOverride > 0f)
-            cameraFollow.SetSmoothTime(movementSmoothOverride); 
+            if (zoomSmoothOverride > 0f)
+                cameraFollow.SetZoomSmoothTime(zoomSmoothOverride);
 
-        cameraFollow.SetZoom(zoomSize);
-        cameraFollow.SetOffset(cameraOffset); 
+            if (movementSmoothOverride > 0f)
+                cameraFollow.SetSmoothTime(movementSmoothOverride); 
+
+            cameraFollow.SetZoom(zoomSize);
+            cameraFollow.SetOffset(cameraOffset); 
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (cameraFollow == null)
+        if (cameraFollow == null || other.GetComponent<PlayerPlatformer>() == null)
             return;
 
-        if (other.GetComponent<PlayerPlatformer>() == null)
-            return;
+        var rewindController = other.GetComponent<TimeRewind.PlayerRewindController>();
+        if (rewindController != null && rewindController.IsRewinding)
+        {
+            return; 
+        }
 
+        isActive = false;
+        
         cameraFollow.ResetZoom();
         cameraFollow.ResetOffset(); 
         cameraFollow.ResetZoomSmoothTime();

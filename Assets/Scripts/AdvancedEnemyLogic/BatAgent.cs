@@ -41,7 +41,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     private bool isRewinding = false;
     private bool isDead = false;
     public bool isTutorialPaused = false;
-    private bool isDodging = false;   
+    private bool isDodging = false;
+    private bool isEvasiveDodge = false; 
     private float dodgeDuration = 0.5f;
     private float dodgeTimer = 0f;
     private Vector2 calculatedDodgeVector;
@@ -100,11 +101,23 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDead || isRewinding || isTutorialPaused) return;
         if (isDodging)
         {
-            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
-            if (!enemy.GetIsStunned())
+            if (isEvasiveDodge)
             {
-                spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+                gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+                if (!enemy.GetIsStunned())
+                {
+                    spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+                }
             }
+            else
+            {
+                gameObject.layer = originalLayer;
+                if (!enemy.GetIsStunned())
+                {
+                    spriteRenderer.color = originalColor;
+                }
+            }
+
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             
             dodgeTimer -= Time.fixedDeltaTime;
@@ -112,6 +125,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
             if (dodgeTimer <= 0) 
             {
                 isDodging = false;
+                isEvasiveDodge = false; // Reset flag
                 rb.linearVelocity = Vector2.zero;
                 RequestDecision();
             }
@@ -188,6 +202,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDodging || isDead || isRewinding) return;
         hasForesight = true;
         isDodging = true;
+        isEvasiveDodge = true;
         dodgeTimer = dodgeDuration;
 
         // Calculate both potential perpendicular escape routes
@@ -219,6 +234,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDodging || isDead || isRewinding) return;
         hasForesight = true;
         isDodging = true;
+        isEvasiveDodge = false;
         dodgeTimer = dodgeDuration;
 
         calculatedDodgeVector = approachDirection;
@@ -364,7 +380,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         {
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             dodgeTimer -= Time.deltaTime;
-            if (dodgeTimer <= 0) isDodging = false;
+            if (dodgeTimer <= 0) {
+                isDodging = false;
+                isEvasiveDodge = false;
+            }
             return;
         }
 
@@ -500,6 +519,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         isDodging = false;
         hasForesight = false;
+        isEvasiveDodge = false;
         dodgeTimer = 0f;
         animator.SetBool("hasForesight", false);
         enemy.ForesightGlow?.SetActive(false);
