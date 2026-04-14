@@ -10,7 +10,7 @@ public class FireRow : MonoBehaviour, IRewindable
     private RewindState _lastAppliedState;
     private bool fullSizeReached = false;
     public Transform fireVisual;
-    public float maxGrowSize = 18f;
+    public float maxGrowSize = 21.5f;
     private float currentGrowSize;
     public int bossFacingDirection = 1;
     private Animator animator;
@@ -20,6 +20,7 @@ public class FireRow : MonoBehaviour, IRewindable
     [SerializeField] private float baseHeight;
     private float currentAge = 0f;
     private BoxCollider2D boxCol;
+    [HideInInspector] public GameObject sourceExplosion;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -79,12 +80,17 @@ public class FireRow : MonoBehaviour, IRewindable
             }
 
             
-        } else if (currentAge > 6f) gameObject.SetActive(false); 
+        } else if (currentAge > 6f)
+        {
+            if (sourceExplosion != null) Destroy(sourceExplosion);
+            gameObject.SetActive(false);
+        }
 
     }
 
     void OnDestroy()
     {
+        if (sourceExplosion != null) Destroy(sourceExplosion);
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
     }
     void OnTriggerEnter2D(Collider2D collision)

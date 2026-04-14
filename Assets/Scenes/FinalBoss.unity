@@ -55003,6 +55003,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3915337612286683321, guid: 689016a0676ac84418b2fb60afb9d0c4, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 14752ed6a1259b74f98fb816362d5cc7, type: 2}
     - target: {fileID: 8350819984362886484, guid: 689016a0676ac84418b2fb60afb9d0c4, type: 3}
       propertyPath: m_Name
       value: FireRow
