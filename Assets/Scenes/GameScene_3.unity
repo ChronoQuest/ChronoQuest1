@@ -63239,6 +63239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1105236306}
   - component: {fileID: 1105236305}
+  - component: {fileID: 1105236307}
   m_Layer: 0
   m_Name: Global Light 2D
   m_TagString: Untagged
@@ -63313,6 +63314,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1105236307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105236304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75eca3db666fb4681857d3e71a367202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::LowHealthVisualController
+  postProcessVolume: {fileID: 527099164}
+  playerPulseLight: {fileID: 1324473629}
+  globalLight: {fileID: 1105236305}
+  pulseSpeed: 6.2
+  darkIntensity: 0.3
+  maxLightIntensity: 0.6
+  playerLightMax: 1.2
+  vignetteMax: 0.55
+  vignetteMin: 0.45
+  blurMax: 0.8
 --- !u!1 &1110625858
 GameObject:
   m_ObjectHideFlags: 0

@@ -94,6 +94,7 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject[] rainSpellEnemies;
     private float previousZoom;
     private CameraFollow2D cam; 
     private bool inRewindArea = false; 
@@ -441,6 +442,10 @@ public class TutorialManager : MonoBehaviour
     {
         if (rainSpellCompleted) return;
         if (currentStep == TutorialStep.RainSpell) return;
+
+        if (rainSpellEnemies != null)
+            foreach (var enemy in rainSpellEnemies)
+                if (enemy != null) enemy.SetActive(true);
 
         SetStep(TutorialStep.RainSpell);
     }
