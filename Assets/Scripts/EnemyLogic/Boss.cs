@@ -425,10 +425,9 @@ public class Boss : EnemyBase, IRewindable
         resTimer += Time.deltaTime;
 
         if (resTimer < 1.5f) return false;
-
-        if (currentRes == ResMove.FireRow)
+        else if (currentRes == ResMove.FireRow)
         {
-            if (!resActionSpawned)
+            if (!resActionSpawned && resTimer > 1.5f && resTimer < 1.6f)
             {
                 if (isPlayingAttack2) return false;
                 animator.SetTrigger("Attack2");

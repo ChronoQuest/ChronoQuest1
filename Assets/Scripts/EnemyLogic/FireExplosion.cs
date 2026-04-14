@@ -32,6 +32,11 @@ public class FireExplosion : MonoBehaviour, IRewindable
             TimeRewindManager.Instance.Register(this);
         }
 
+            if (persistent && _animator != null)
+        {
+            _animator.Play("fire_explosion_idle", 0, 0f);
+        }
+
         EvaluateState(); 
     }
 

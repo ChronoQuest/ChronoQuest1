@@ -68,7 +68,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
         // Spawn a big persistent fire explosion in front of the boss as the visual source
-        GameObject explosion = Instantiate(fireExplosion, new Vector3(7.5f * facingDirection, -3f, 0f), fireExplosion.transform.rotation);
+        GameObject explosion = Instantiate(fireExplosion, new Vector3(6.9f * facingDirection, -3f, -0.25f), fireExplosion.transform.rotation);
         explosion.transform.localScale = new Vector3(2f, 2f, 1f);
         FireExplosion fe = explosion.GetComponent<FireExplosion>();
         fe.persistent = true;
