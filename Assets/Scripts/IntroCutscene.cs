@@ -163,6 +163,10 @@ public class IntroCutscene : MonoBehaviour
              "are visible during rewind.")]
     [SerializeField] private RewindGhostTrail rewindGhostTrail;
 
+    [Tooltip("Global Volume used for the rewind screen effect. Assign the intro scene's " +
+             "'RewindVolume' object here so the visual treatment applies to the whole scene.")]
+    [SerializeField] private Volume rewindPostProcessVolume;
+
     [Tooltip("How many seconds of rewind history must be buffered before the " +
              "boss is allowed to deliver the killing blow. This ensures the " +
              "rewind actually has something to play back. Must be > 0. " +
@@ -258,6 +262,7 @@ public class IntroCutscene : MonoBehaviour
     private TimeRewindManager rewindManager;
     private Camera mainCamera;
     private RewindEffects rewindEffects;
+    private RewindableAnimator bossAnimatorRewindable;
     
 
     // ---------------------------------------------------------------------
@@ -280,8 +285,9 @@ public class IntroCutscene : MonoBehaviour
                 Debug.Log("[IntroCutscene] Added RewindEffects component to main camera");
             }
             
-            // Find or create a post-processing volume for the RewindEffects
-            var volume = FindFirstObjectByType<Volume>();
+            // Use the intro scene's dedicated rewind volume so the effect applies
+            // consistently to the whole camera output, not whichever Volume is found first.
+            var volume = ResolveRewindVolume();
             if (volume != null)
             {
                 // Ensure volume has the required post-processing components
@@ -309,6 +315,8 @@ public class IntroCutscene : MonoBehaviour
                 Debug.Log("[IntroCutscene] Added RewindGhostTrail component to player for visual feedback");
             }
         }
+
+        EnsureBossAnimatorRewindable();
 
         // Hide any HUD/UI the designer dragged in.
         if (uiToHide != null)
@@ -487,6 +495,12 @@ public class IntroCutscene : MonoBehaviour
                              "Boss rewind may not work properly.");
         }
 
+        if (bossAnimatorRewindable != null)
+        {
+            rewindManager.Register(bossAnimatorRewindable);
+            Debug.Log("[IntroCutscene] Registered boss animator rewind helper");
+        }
+
         // Wait until the buffer has accumulated enough history.
         float timeout = requiredRewindHistorySeconds + 3f; // safety ceiling
         float waited  = 0f;
@@ -621,9 +635,7 @@ public class IntroCutscene : MonoBehaviour
             yield break;
         }
 
-        // Restore full time-scale before the video so it plays at normal speed
-        // regardless of any lingering slow-motion from the rewind recovery.
-        Time.timeScale = 1f;
+        PrepareForVideoPlayback();
 
         if (rewindVideoCanvas != null)
             rewindVideoCanvas.SetActive(true);
@@ -639,25 +651,9 @@ public class IntroCutscene : MonoBehaviour
         rewindVideoPlayer.Play();
 
         while (rewindVideoPlayer.isPlaying)
-        {
-            if (AnySkipInputPressed())
-            {
-                rewindVideoPlayer.Stop();
-                break;
-            }
             yield return null;
-        }
 
         yield return new WaitForSeconds(postVideoDelay);
-    }
-
-    private bool AnySkipInputPressed()
-    {
-        if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
-            return true;
-        if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)
-            return true;
-        return Input.anyKeyDown;
     }
 
     // ---------------------------------------------------------------------
@@ -717,13 +713,19 @@ public class IntroCutscene : MonoBehaviour
     private void SetBossRunning(bool running)
     {
         if (bossAnimator != null && !string.IsNullOrEmpty(bossRunBoolParam))
+        {
             bossAnimator.SetBool(bossRunBoolParam, running);
+            bossAnimator.Update(0f);
+        }
     }
 
     private void TriggerBossAttack()
     {
         if (bossAnimator != null && !string.IsNullOrEmpty(bossAttackTriggerParam))
+        {
             bossAnimator.SetTrigger(bossAttackTriggerParam);
+            bossAnimator.Update(0f);
+        }
     }
 
     // ---------------------------------------------------------------------
@@ -734,6 +736,7 @@ public class IntroCutscene : MonoBehaviour
     {
         if (cutsceneEnded) return;
         cutsceneEnded = true;
+        ResetTimeStateForNextScene();
         SceneManager.LoadScene(nextSceneName, LoadSceneMode.Single);
     }
 
@@ -762,6 +765,7 @@ public class IntroCutscene : MonoBehaviour
                 if (mb == this) continue;
                 if (mb is PlayerInput) continue;
                 if (mb is CutsceneSignalReceiver) continue;
+                if (mb is RewindGhostTrail) continue;
                 // Disable PlayerRewindController's input handling to prevent interference
                 // with the automatic cutscene rewind. We'll re-enable it after the rewind.
                 if (playerRewindController != null && mb == playerRewindController)
@@ -809,6 +813,72 @@ public class IntroCutscene : MonoBehaviour
             if (p.name == name && p.type == type) return true;
         }
         return false;
+    }
+
+    private Volume ResolveRewindVolume()
+    {
+        if (rewindPostProcessVolume != null)
+            return rewindPostProcessVolume;
+
+        Volume[] volumes = FindObjectsByType<Volume>(FindObjectsSortMode.None);
+        foreach (Volume volume in volumes)
+        {
+            if (volume != null && volume.isGlobal && volume.gameObject.name == "RewindVolume")
+                return volume;
+        }
+
+        foreach (Volume volume in volumes)
+        {
+            if (volume != null && volume.isGlobal)
+                return volume;
+        }
+
+        return null;
+    }
+
+    private void EnsureBossAnimatorRewindable()
+    {
+        if (bossAnimator == null)
+            return;
+
+        bossAnimatorRewindable = bossAnimator.GetComponent<RewindableAnimator>();
+        if (bossAnimatorRewindable == null)
+        {
+            bossAnimatorRewindable = bossAnimator.gameObject.AddComponent<RewindableAnimator>();
+            Debug.Log("[IntroCutscene] Added RewindableAnimator to boss for animation rewind support");
+        }
+
+        bossAnimatorRewindable.enabled = true;
+    }
+
+    private void ResetTimeStateForNextScene()
+    {
+        if (rewindManager != null)
+        {
+            if (rewindManager.IsRewinding)
+                rewindManager.StopRewind();
+
+            rewindManager.StopAllCoroutines();
+            rewindManager.ClearHistory();
+        }
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+    }
+
+    private void BlockAllPlayerInputForVideo()
+    {
+        if (playerInput != null)
+            playerInput.enabled = false;
+
+        if (playerRewindController != null)
+            playerRewindController.enabled = false;
+    }
+
+    private void PrepareForVideoPlayback()
+    {
+        BlockAllPlayerInputForVideo();
+        ResetTimeStateForNextScene();
     }
 
     /// <summary>

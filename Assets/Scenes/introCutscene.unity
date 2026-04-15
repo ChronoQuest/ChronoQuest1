@@ -53111,7 +53111,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &702790743
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55066,10 +55066,12 @@ MonoBehaviour:
   playerDeathTriggerParam: Die
   playerRewindController: {fileID: 1416134381}
   bossRewindable: {fileID: 508054507}
+  rewindGhostTrail: {fileID: 0}
+  rewindPostProcessVolume: {fileID: 0}
   requiredRewindHistorySeconds: 2.5
   rewindDuration: 3.5
-  rewindPromptText: {fileID: 0}
-  rewindPromptUI: {fileID: 0}
+  rewindPromptText: {fileID: 967904490}
+  rewindPromptUI: {fileID: 702790742}
   rewindVideoCanvas: {fileID: 811342378}
   rewindVideoPlayer: {fileID: 1163472512}
   rewindVideoClip: {fileID: 32900000, guid: f7f7c5219ebcf8643bf87830866764a7, type: 3}
