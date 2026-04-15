@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7526830359728117006}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4767038335820027567}
   - component: {fileID: 3291232316779297655}
   - component: {fileID: 5138650307241577681}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DeathKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,9 +261,4 @@ MonoBehaviour:
   rangedAttackDamage: 1
   orbPrefab: {fileID: 6102471626110407818, guid: 47e0b86ffd382fb4c96f9bca4a7a7c41, type: 3}
   orbPoolSize: 3
-  groundCheck: {fileID: 7526830359728117006}
-  groundCheckRadius: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
   player: {fileID: 0}
