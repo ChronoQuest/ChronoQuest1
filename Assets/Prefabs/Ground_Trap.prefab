@@ -373,9 +373,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7783654383387295705}
-  - component: {fileID: 8627374357755539209}
   - component: {fileID: 456984896762459827}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,19 +396,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4919341022614657071}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8627374357755539209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5432908892989840470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09136b9246b394c9182ea4c577ecc5e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TrapTrigger
-  parentTrap: {fileID: 8724316986295171821}
 --- !u!61 &456984896762459827
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -772,14 +758,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7285556244341015640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e5f70ca3b5ef46c8801c1bbc350a86f, type: 3}
+  m_Script: {fileID: 11500000, guid: c620a3e75c5224b3cbeea6cc571295a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::CrumblingFloor
   shakeDuration: 0.5
   shakeIntensity: 0.05
   restoreDelay: 5
-  physicsCollider: {fileID: 8216476520199624945}
-  tilemapRenderer: {fileID: 4967101035792231873}
+  physicsCollider: {fileID: 0}
+  tilemapRenderer: {fileID: 0}
   breakParticles: {fileID: 0}
 --- !u!1 &7290812963910815141
 GameObject:
@@ -1686,7 +1672,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2733471299145027805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
+  m_Script: {fileID: 11500000, guid: 95a4c9cdb684b4a918adba6555e8d762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
   damageAmount: 1

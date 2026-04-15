@@ -54,7 +54,6 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     private Vector3 originalScale;
     private bool hasForesight = false;
     public float dodgeTriggerDistance = 3.4f;
-    public GameObject foresightGlow;
     private int originalLayer;
     private Color originalColor;
 
@@ -101,7 +100,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDodging)
         {
             gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
-            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+            if (!enemy.GetIsStunned())
+            {
+                spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+            }
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             
             dodgeTimer -= Time.fixedDeltaTime;
@@ -116,7 +118,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         else
         {
             gameObject.layer = originalLayer;
-            spriteRenderer.color = originalColor;
+            if (!enemy.GetIsStunned())
+            {
+                spriteRenderer.color = originalColor;
+            }
         }
     }
 
@@ -131,7 +136,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public void ExecuteLunge()
     {
         animator.SetBool("hasForesight", true);
-        foresightGlow.SetActive(true);
+        enemy.ForesightGlow?.SetActive(true);
         if (!isDodging)
         {
             Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
@@ -142,21 +147,30 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public void ExecuteDodge()
     {
         animator.SetBool("hasForesight", true);
-        foresightGlow.SetActive(true);
+        enemy.ForesightGlow?.SetActive(true);
         GameObject spellObj = playerSpells.latestSpell;
 
         if (!isDodging && Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance)
         {
-            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
-                
+            Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;    
             TriggerForesightDodge(approachDirection);
         }
         if (!isDodging && spellObj != null)
         {
-            if (Vector2.Distance(transform.position, spellObj.GetComponent<Collider2D>().bounds.center) < dodgeTriggerDistance + 0.5f){
-                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
-                Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
-                TriggerForesightDodge(approachDirection);
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
+            {
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 0.5f)
+                    {
+                        Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                        Vector2 approachDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                        TriggerForesightDodge(approachDirection);
+                    }
+                }
             }
         }
     }
@@ -164,7 +178,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         hasForesight = state;
         animator.SetBool("hasForesight", hasForesight);
-        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        enemy.ForesightGlow?.SetActive(hasForesight);
     }
     public bool IsDead() => isDead;
     public bool IsRewinding() => isRewinding;
@@ -487,7 +501,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         hasForesight = false;
         dodgeTimer = 0f;
         animator.SetBool("hasForesight", false);
-        foresightGlow.SetActive(false);
+        enemy.ForesightGlow?.SetActive(false);
         
         animator.ResetTrigger("die");
         animator.ResetTrigger("Attack");
