@@ -157,7 +157,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         {
             detectionRange = 8f;
             
-            Vector2 targetPos = new Vector2(46.5f, -2.3f); 
+            //Vector2 targetPos = new Vector2(46.5f, -2.3f);
+            Vector2 targetPos = playerCollider.bounds.center;
         
             Vector2 distanceToTarget = targetPos - (Vector2)transform.position;
             float maximumTravelDistance = (moveSpeed * 3f) * dodgeDuration;

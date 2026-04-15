@@ -630,13 +630,14 @@ public class TutorialManager : MonoBehaviour
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
             if (tutorialBat != null)
             {
-                // ForesightSystem batForesight = tutorialBat.GetComponent<ForesightSystem>();
-                // if (batForesight != null)
-                // {
-                //     batForesight.enabled = false; 
-                // }
                 tutorialBat.SetForesightState(false);
                 tutorialBat.tutorialBat = false;
+                // Fully disable bat foresight for the rest of the tutorial
+                ForesightSystem batForesight = tutorialBat.GetComponent<ForesightSystem>();
+                if (batForesight != null)
+                {
+                    batForesight.enabled = false; 
+                }
             }
         }
     }
