@@ -157,17 +157,28 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         {
             detectionRange = 8f;
             
-            //Vector2 targetPos = new Vector2(46.5f, -2.3f);
             Vector2 targetPos = playerCollider.bounds.center;
-        
+
             Vector2 distanceToTarget = targetPos - (Vector2)transform.position;
             float maximumTravelDistance = (moveSpeed * 3f) * dodgeDuration;
             Vector2 approachDirection = distanceToTarget / maximumTravelDistance; 
             
             TriggerForesightLunge(approachDirection);
             
-            Vector3 playerSafeSpot = new Vector3(43f, -2.5f, player.position.z);
-            StartCoroutine(DelayedTutorialTeleport(playerSafeSpot));
+            Vector3 primarySafeSpot = new Vector3(43f, -2.5f, player.position.z);
+            Vector3 backupSafeSpot  = new Vector3(47f, -2.5f, player.position.z);
+
+            float safeSpotThreshold = 0.75f;
+
+            Vector3 chosenSafeSpot = primarySafeSpot;
+
+            // If player is already near the primary safe spot, use backup instead
+            if (Vector2.Distance(playerCollider.bounds.center, primarySafeSpot) < safeSpotThreshold)
+            {
+                chosenSafeSpot = backupSafeSpot;
+            }
+
+            StartCoroutine(DelayedTutorialTeleport(chosenSafeSpot));
 
             hasDoneTutorialLunge = true;
         }
