@@ -39,11 +39,16 @@ public class PlayerStrategyModel : MonoBehaviour
      
     void DetermineStrategy()
     {
+        foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
+        {
+            strategyBeliefs[strategy] = 0f; 
+        }
+        
         var tactics = playerTacticalModel.tacticBeliefs; 
 
-        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive] * 0.7f + tactics[PlayerTacticalModel.TacticType.Evasive] * 0.3f;
-        float defensive = tactics[PlayerTacticalModel.TacticType.RewindReliance] * 0.6f + tactics[PlayerTacticalModel.TacticType.Cautious] * 0.4f;
-        float ability = tactics[PlayerTacticalModel.TacticType.Ability]; 
+        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
+        float defensive = tactics[PlayerTacticalModel.TacticType.Evasive];
+        float ability = tactics[PlayerTacticalModel.TacticType.Cautious]; 
 
         strategyBeliefs[StrategyType.AggressivePlayer] += aggressive;
         strategyBeliefs[StrategyType.DefensivePlayer] += defensive;
@@ -87,7 +92,7 @@ public class PlayerStrategyModel : MonoBehaviour
     public StrategyType GetDominantStrategy()
     {
         StrategyType best = StrategyType.AggressivePlayer;          // assigning player to aggressive as fallback option, only cause it's the first enum value
-        float max = 0f;
+        float max = float.MinValue;
 
         foreach (var pair in strategyBeliefs)
         {
@@ -99,7 +104,5 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         return best;
-        //return StrategyType.AbilityFocusedPlayer;
     }
-
 }
