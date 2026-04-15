@@ -12,19 +12,11 @@ public class TutorialCameraController : MonoBehaviour
 
     [SerializeField] private float panToEnemyDelay = 0.3f;
     [SerializeField] private float focusDuration = 1.2f;
-    [SerializeField] private float panBlendTime = 0.45f;
-    [SerializeField] private float returnBlendTime = 0.3f;
     [SerializeField] private int focusPriority = 30;
     [SerializeField] private float focusZoomSize = 4f;
 
-    private CinemachineBrain brain;
     private bool isTriggered;
     private PlayerAction cachedActions;
-
-    private void Awake()
-    {
-        brain = Camera.main.GetComponent<CinemachineBrain>();
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -63,19 +55,17 @@ public class TutorialCameraController : MonoBehaviour
         if (enemyFocus != null)
             focusCamera.Target.TrackingTarget = enemyFocus;
         focusCamera.Lens.OrthographicSize = focusZoomSize;
-        brain.DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Styles.EaseInOut, panBlendTime);
         focusCamera.Priority = focusPriority;
 
         yield return new WaitForSeconds(focusDuration);
 
-        // Return to player
-        brain.DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Styles.EaseInOut, returnBlendTime);
+        // Return — CinemachineBrain blend settings handle the transition
         focusCamera.Priority = 0;
 
-        yield return new WaitForSeconds(returnBlendTime + 0.1f);
-
-        // Restore default blend
-        brain.DefaultBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Styles.EaseInOut, 0.2f);
+        // Wait for the blend back to finish before restoring player control
+        var brain = Camera.main.GetComponent<CinemachineBrain>();
+        float blendTime = brain != null ? brain.DefaultBlend.Time : 0.3f;
+        yield return new WaitForSeconds(blendTime + 0.1f);
 
         p.allowedActions = cachedActions;
 
