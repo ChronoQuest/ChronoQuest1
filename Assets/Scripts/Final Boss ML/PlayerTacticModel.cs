@@ -16,6 +16,7 @@ public class PlayerTacticalModel : MonoBehaviour
     // counts for events during gameplay to determine tactic 
     private float dashCount; 
     private float spellCount;
+    private float rainSpellCount; 
     private float meleeHits;
     private float jumpCount;
     private float rewindCount; 
