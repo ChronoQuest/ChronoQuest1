@@ -621,8 +621,9 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.RainSpell && !rainSpellCompleted)
         {
             rainSpellCompleted = true;
+            RestoreEnemies();
             HideHint(rainSpellHint);
-            AllowAll(); 
+            AllowAll();
             Debug.Log("Player rain spell tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -725,11 +726,12 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(wallJumpText);
                 break;
             case TutorialStep.RainSpell:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell); 
+                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell);
+                SlowingEnemies(20f, 0.15f);
                 activeHint = rainSpellHint;
                 ShowHint(rainSpellHint);
-                rainSpellText.text = rainSpellMessage; 
-                typewriter.StartTyping(rainSpellText); 
+                rainSpellText.text = rainSpellMessage;
+                typewriter.StartTyping(rainSpellText);
                 break;
             case TutorialStep.SpikeHint:
                 AllowOnly(PlayerAction.Rewind | PlayerAction.Movement);
