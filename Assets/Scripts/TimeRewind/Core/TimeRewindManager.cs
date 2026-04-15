@@ -111,7 +111,7 @@ namespace TimeRewind
         
         public bool IsRewinding => _isRewinding;
         public float CurrentRewindTime => _currentRewindTime;
-        
+        public float RewindSpeed => rewindSpeed;
         public bool CanRewind
         {
             get
@@ -303,6 +303,7 @@ namespace TimeRewind
             Time.fixedDeltaTime = _baselineFixedDeltaTime * rewindScale;
             
             _isRewinding = true;
+            RewindHaptics.Instance?.StartRewindPulse();
             _currentRewindTime = GetNewestRecordedTime(); 
             _currentPlaybackMultiplier = 1f;
             _rewindStartUnscaledTime = Time.unscaledTime;
@@ -329,6 +330,7 @@ namespace TimeRewind
                 return;
             
             _isRewinding = false;
+            RewindHaptics.Instance?.StopRewindPulse();
 
             if (_cachedTimeScale <= 0f)
                 _cachedTimeScale = BaselineTimeScale;

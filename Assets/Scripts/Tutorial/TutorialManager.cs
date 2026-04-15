@@ -94,6 +94,7 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject[] rainSpellEnemies;
     private float previousZoom;
     private CameraFollow2D cam; 
     private bool inRewindArea = false; 
@@ -442,6 +443,10 @@ public class TutorialManager : MonoBehaviour
         if (rainSpellCompleted) return;
         if (currentStep == TutorialStep.RainSpell) return;
 
+        if (rainSpellEnemies != null)
+            foreach (var enemy in rainSpellEnemies)
+                if (enemy != null) enemy.SetActive(true);
+
         SetStep(TutorialStep.RainSpell);
     }
 
@@ -577,7 +582,7 @@ public class TutorialManager : MonoBehaviour
             rewindCompleted = true; 
 
             RestoreTempZoom(); 
-
+            RewindHaptics.Instance?.StopHintHeartbeat();
             rewindZoomApplied = false;
             rewindFollow.enabled = false;
             HideHint(rewindHint);
@@ -616,8 +621,9 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.RainSpell && !rainSpellCompleted)
         {
             rainSpellCompleted = true;
+            RestoreEnemies();
             HideHint(rainSpellHint);
-            AllowAll(); 
+            AllowAll();
             Debug.Log("Player rain spell tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -679,6 +685,7 @@ public class TutorialManager : MonoBehaviour
                 AllowOnly(PlayerAction.Rewind);
                 SlowingEnemies(20f, 0.15f); 
                 ApplyTempZoom(1.5f); 
+                RewindHaptics.Instance?.StartHintHeartbeat(10f);
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
@@ -719,11 +726,12 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(wallJumpText);
                 break;
             case TutorialStep.RainSpell:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell); 
+                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell);
+                SlowingEnemies(20f, 0.15f);
                 activeHint = rainSpellHint;
                 ShowHint(rainSpellHint);
-                rainSpellText.text = rainSpellMessage; 
-                typewriter.StartTyping(rainSpellText); 
+                rainSpellText.text = rainSpellMessage;
+                typewriter.StartTyping(rainSpellText);
                 break;
             case TutorialStep.SpikeHint:
                 AllowOnly(PlayerAction.Rewind | PlayerAction.Movement);
@@ -746,6 +754,7 @@ public class TutorialManager : MonoBehaviour
         HideHint(spellHint);
         HideHint(wallJumpHint);
         HideHint(spikeHint); 
+        RewindHaptics.Instance?.StopHintHeartbeat();
     }
     #endregion
 }

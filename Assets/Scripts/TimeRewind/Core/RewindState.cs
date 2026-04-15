@@ -101,16 +101,27 @@ namespace TimeRewind
                 result.SetCustomData("isActive", t < 0.5f ? a.GetCustomData<bool>("isActive", false) : b.GetCustomData<bool>("isActive", false));
                 result.SetCustomData("elapsedLifetime", Mathf.Lerp(a.GetCustomData<float>("elapsedLifetime", 0f), b.GetCustomData<float>("elapsedLifetime", 0f), t));
                 // Necromancer
-                
-                result.SetCustomData("lastReviveTime", Mathf.Lerp(a.GetCustomData<float>("lastReviveTime", 0f), b.GetCustomData<float>("lastReviveTime", 0f), t));
-                result.SetCustomData("isReviving", t < 0.5f ? a.GetCustomData<bool>("isReviving", false) : b.GetCustomData<bool>("isReviving", false));
-                result.SetCustomData("reviveTimer", Mathf.Lerp(a.GetCustomData<float>("reviveTimer", 0f), b.GetCustomData<float>("reviveTimer", 0f), t));
+                result.SetCustomData("lastReviveTime",  Mathf.Lerp(a.GetCustomData<float>("lastReviveTime", 0f), b.GetCustomData<float>("lastReviveTime", 0f), t));
+                result.SetCustomData("isReviving",      t < 0.5f ? a.GetCustomData<bool>("isReviving", false) : b.GetCustomData<bool>("isReviving", false));
+                result.SetCustomData("reviveTimer",     Mathf.Lerp(a.GetCustomData<float>("reviveTimer", 0f), b.GetCustomData<float>("reviveTimer", 0f), t));
+                result.SetCustomData("lastAttackTime",  Mathf.Lerp(a.GetCustomData<float>("lastAttackTime", 0f), b.GetCustomData<float>("lastAttackTime", 0f), t));
+                result.SetCustomData("isAttacking",     t < 0.5f ? a.GetCustomData<bool>("isAttacking", false) : b.GetCustomData<bool>("isAttacking", false));
+                result.SetCustomData("attackTimer",     Mathf.Lerp(a.GetCustomData<float>("attackTimer", 0f), b.GetCustomData<float>("attackTimer", 0f), t));
+                result.SetCustomData("localScale",      t < 0.5f ? a.GetCustomData<Vector3>("localScale", Vector3.one) : b.GetCustomData<Vector3>("localScale", Vector3.one));
 
-                result.SetCustomData("lastAttackTime", Mathf.Lerp(a.GetCustomData<float>("lastAttackTime", 0f), b.GetCustomData<float>("lastAttackTime", 0f), t));
-                result.SetCustomData("isAttacking", t < 0.5f ? a.GetCustomData<bool>("isAttacking", false) : b.GetCustomData<bool>("isAttacking", false));
-                result.SetCustomData("attackTimer", Mathf.Lerp(a.GetCustomData<float>("attackTimer", 0f), b.GetCustomData<float>("attackTimer", 0f), t));
-
-                result.SetCustomData("localScale", t < 0.5f ? a.GetCustomData<Vector3>("localScale", Vector3.one) : b.GetCustomData<Vector3>("localScale", Vector3.one));
+                // Necromancer navigation state
+                result.SetCustomData("currentWaypointIndex", t < 0.5f ? a.GetCustomData<int>("currentWaypointIndex", 0) : b.GetCustomData<int>("currentWaypointIndex", 0));
+                result.SetCustomData("finalStand",           t < 0.5f ? a.GetCustomData<bool>("finalStand", false) : b.GetCustomData<bool>("finalStand", false));
+                result.SetCustomData("stuckTimer",           Mathf.Lerp(a.GetCustomData<float>("stuckTimer", 0f), b.GetCustomData<float>("stuckTimer", 0f), t));
+                result.SetCustomData("lastCheckedPos",       Vector2.Lerp(a.GetCustomData<Vector2>("lastCheckedPos", Vector2.zero), b.GetCustomData<Vector2>("lastCheckedPos", Vector2.zero), t));
+                result.SetCustomData("corneredUntilTime",    Mathf.Lerp(a.GetCustomData<float>("corneredUntilTime", 0f), b.GetCustomData<float>("corneredUntilTime", 0f), t));
+                result.SetCustomData("isJumping",            t < 0.5f ? a.GetCustomData<bool>("isJumping", false) : b.GetCustomData<bool>("isJumping", false));
+                result.SetCustomData("lastJumpTime",         Mathf.Lerp(a.GetCustomData<float>("lastJumpTime", -99f), b.GetCustomData<float>("lastJumpTime", -99f), t));
+                result.SetCustomData("seekLaunchDir",        t < 0.5f ? a.GetCustomData<float>("seekLaunchDir", 0f) : b.GetCustomData<float>("seekLaunchDir", 0f));
+                result.SetCustomData("jumpTargetSurfaceY",   Mathf.Lerp(a.GetCustomData<float>("jumpTargetSurfaceY", float.MinValue), b.GetCustomData<float>("jumpTargetSurfaceY", float.MinValue), t));
+                result.SetCustomData("jumpMoveDir",          t < 0.5f ? a.GetCustomData<float>("jumpMoveDir", 0f) : b.GetCustomData<float>("jumpMoveDir", 0f));
+                result.SetCustomData("nextFleeCastTime",     Mathf.Lerp(a.GetCustomData<float>("nextFleeCastTime", 0f), b.GetCustomData<float>("nextFleeCastTime", 0f), t));
+                result.SetCustomData("waypointFleeTimer",    Mathf.Lerp(a.GetCustomData<float>("waypointFleeTimer", 0f), b.GetCustomData<float>("waypointFleeTimer", 0f), t));
                 // --- NECROMANCER DYNAMIC MINION TIMERS ---
                 float[] aTimers = a.GetCustomData<float[]>("minionDeadTimers");
                 float[] bTimers = b.GetCustomData<float[]>("minionDeadTimers");

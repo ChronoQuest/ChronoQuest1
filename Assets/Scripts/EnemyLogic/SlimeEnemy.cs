@@ -78,7 +78,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
     protected override void Awake()
     {
-        health = 10; // Slime unique HP
+    
         base.Awake();
         stunOnLand = true;
     }

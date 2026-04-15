@@ -21,6 +21,16 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     [Range(0, 20)]
     [SerializeField] private int currentHealth;
 
+    [Header("Low Health Hint")]
+
+    [Tooltip("Heartbeat starts when health is at or below this value")]
+    [SerializeField] private int lowHealthThreshold = 2;
+
+    [Tooltip("Disable low-health heartbeat while rewinding")]
+    [SerializeField] private bool stopHeartbeatDuringRewind = true;
+
+    private bool hintHeartbeatActive = false;
+
     [Header("Controller Vibration")]
     [SerializeField] private float vibrationLowFrequency = 0.5f;
     [SerializeField] private float vibrationHighFrequency = 0.8f;
@@ -163,6 +173,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     private void UpdateUI()
     {
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        UpdateLowHealthHeartbeat();
     }
 
     private IEnumerator FreezeAnimatorAfterDeath()
@@ -284,10 +296,58 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
     }
+    private void UpdateLowHealthHeartbeat()
+    {
+        if (_isRewinding && stopHeartbeatDuringRewind)
+        {
+            StopHintHeartbeat();
+            StopLowHealthLighting();
+            return;
+        }
 
-    public void OnStartRewind()
+        bool shouldTrigger =
+            currentHealth >= 0 &&
+            currentHealth <= lowHealthThreshold &&
+            !IsDead;
+
+        if (shouldTrigger && !hintHeartbeatActive)
+        {
+            RewindHaptics.Instance.StartHintHeartbeat();
+            StartLowHealthLighting();
+
+            hintHeartbeatActive = true;
+        }
+        else if (!shouldTrigger && hintHeartbeatActive)
+        {
+            StopHintHeartbeat();
+            StopLowHealthLighting();
+        }
+    }
+    private void StopHintHeartbeat()
+    {
+        RewindHaptics.Instance.StopHintHeartbeat();
+        hintHeartbeatActive = false;
+    }
+    private void StartLowHealthLighting()
+    {
+        if (LowHealthVisualController.Instance != null)
+        {
+            LowHealthVisualController.Instance.StartLowHealthEffect();
+        }
+    }
+
+    private void StopLowHealthLighting()
+    {
+         if (LowHealthVisualController.Instance != null)
+        {
+            LowHealthVisualController.Instance.StopLowHealthEffect();
+        }
+    }
+        public void OnStartRewind()
     {
         _isRewinding = true;
+        StopHintHeartbeat();
+        StopLowHealthLighting();
         Gamepad.current.SetMotorSpeeds(0f, 0f);
         StopAllCoroutines();
         isInvincible = false;

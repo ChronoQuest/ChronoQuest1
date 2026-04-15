@@ -18,13 +18,22 @@ public class DoorSceneLoader : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (isExitDoor) {
+            if (isExitDoor)
+            {
+                if (SceneManager.GetActiveScene().name == "GameScene_3")
+                {
+                    var necromancer = FindFirstObjectByType<NecromancerEnemy>();
+                    if (necromancer != null && !necromancer.IsDead)
+                        return;
+                }
+
                 DataCollectionService.Instance?.RecordDoorEntered(sceneName);
                 DataCollectionService.Instance?.SaveSessionAndStartNew();
                 animator.SetBool("IsOpened", true);
                 StartCoroutine(Transition(other.gameObject));
             }
-            else{
+            else
+            {
                 animator.SetBool("IsOpened", false);
             }
         }
