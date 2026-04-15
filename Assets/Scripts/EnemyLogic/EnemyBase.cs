@@ -39,6 +39,8 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected bool isStunned;
     protected float stunTimer;
     public bool GetIsStunned() => isStunned;
+    protected GameObject foresightGlow;
+    public GameObject ForesightGlow => foresightGlow;
 
     protected virtual void Awake()
     {
@@ -47,6 +49,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         flash = GetComponent<HitFlash>();
         startHealth = health;
         originalBodyType = rb.bodyType; // captured once — represents alive body type
+        foresightGlow = transform.Find("Lit")?.gameObject;
         _healthBar = GetComponent<EnemyHealthBar>();
     }
     public virtual void Update()
@@ -133,6 +136,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         rb.linearVelocity = Vector2.zero;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
+        if (foresightGlow != null) foresightGlow.SetActive(false);
         OnDeath?.Invoke();
         StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us
