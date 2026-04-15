@@ -23,6 +23,10 @@ public class TutorialCameraController : MonoBehaviour
     [SerializeField] private Vector3 focusOffset = Vector3.zero; 
     [SerializeField] private float targetZoom = 1f;
 
+    // enemy freezing
+    [SerializeField] private bool freezeEnemiesDuringPan = false;
+    [SerializeField] private float enemyFreezeRadius = 20f;
+
     private Transform player; 
     private bool isTriggered; 
 
@@ -56,6 +60,11 @@ public class TutorialCameraController : MonoBehaviour
         cachedActions = p.allowedActions;
         p.allowedActions = PlayerAction.None;
         p.FreezeMovement();
+
+        if (freezeEnemiesDuringPan && tutorialManager != null)
+        {
+            tutorialManager.SlowingEnemies(enemyFreezeRadius, 0f);
+        }
 
         Animator animator = p.GetComponent<Animator>(); 
         if (animator != null) {
@@ -97,6 +106,10 @@ public class TutorialCameraController : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("IsFrozen", false); 
+        }
+        if (freezeEnemiesDuringPan && tutorialManager != null)
+        {
+            tutorialManager.RestoreEnemies();
         }
     }
 }

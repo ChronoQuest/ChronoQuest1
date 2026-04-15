@@ -331,7 +331,7 @@ public class TutorialManager : MonoBehaviour
     }
 
     // slows enemies when the rewind hint is triggered
-    void SlowingEnemies(float radius, float slowMultiplier)
+    public void SlowingEnemies(float radius, float slowMultiplier)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(player.transform.position, radius);
 
@@ -383,7 +383,7 @@ public class TutorialManager : MonoBehaviour
     }
 
     // restores enemy speed after rewind hint is completed
-    void RestoreEnemies()
+    public void RestoreEnemies()
     {
         foreach (var pair in slowedBodies)
         {

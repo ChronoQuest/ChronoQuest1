@@ -393,12 +393,15 @@ MonoBehaviour:
   jumpHint: {fileID: 6132451415413535089}
   dashHint: {fileID: 7283594710246134844}
   spellHint: {fileID: 5973296348515747410}
+  foresightHint: {fileID: 0}
   wallJumpHint: {fileID: 7676476546382132931}
   rainSpellHint: {fileID: 8501428325112573455}
   spikeHint: {fileID: 6958776637608873101}
   player: {fileID: 0}
   playerHealth: {fileID: 0}
   rewindCompleted: 0
+  tutorialSkeleton: {fileID: 0}
+  tutorialBat: {fileID: 0}
   typewriter: {fileID: 4599844083613684726}
   movementText: {fileID: 7981839438937259001}
   attackText: {fileID: 3044425037313422236}
@@ -406,6 +409,7 @@ MonoBehaviour:
   jumpText: {fileID: 6093351540476728622}
   dashText: {fileID: 3186726506785929503}
   spellText: {fileID: 4985222457338112005}
+  foresightText: {fileID: 0}
   wallJumpText: {fileID: 7294679534389271437}
   rainSpellText: {fileID: 73479954724827768}
   spikeText: {fileID: 1887087493695341084}
@@ -416,6 +420,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 1024
+  spellBlocker: {fileID: 0}
 --- !u!1 &1299846480786670909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1140,8 @@ MonoBehaviour:
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
+  focusOffset: {x: 0, y: 0, z: 0}
+  targetZoom: 1
 --- !u!1 &3081661546385914239
 GameObject:
   m_ObjectHideFlags: 0
@@ -2137,6 +2144,8 @@ MonoBehaviour:
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
+  focusOffset: {x: 0, y: 0, z: 0}
+  targetZoom: 1
 --- !u!1 &5973296348515747410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2501,6 +2510,8 @@ MonoBehaviour:
   panSmoothTime: 0
   normalSmoothTime: 0
   returnSmoothTime: 0
+  focusOffset: {x: 0, y: 0, z: 0}
+  targetZoom: 1
 --- !u!1 &6775901284056070408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,7 +3704,6 @@ GameObject:
   - component: {fileID: 261724081663521339}
   - component: {fileID: 1664391132929351288}
   - component: {fileID: 5195402331689389110}
-  - component: {fileID: 3604169587767148162}
   m_Layer: 0
   m_Name: SpellTrigger
   m_TagString: Untagged
@@ -3776,28 +3786,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
   hintType: 2
   tutorial: {fileID: 3131234995556985550}
---- !u!114 &3604169587767148162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7846385665883532796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccd768e7c0e8400ab3df55fcaf4cfd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::TutorialCameraController
-  cameraFollow: {fileID: 0}
-  enemyFocus: {fileID: 0}
-  tutorialManager: {fileID: 3131234995556985550}
-  requireRewindCompleted: 0
-  requiredStep: 6
-  panToEnemyDelay: 0.3
-  focusDuration: 1.2
-  panSmoothTime: 0.45
-  normalSmoothTime: 0.15
-  returnSmoothTime: 0.3
 --- !u!1 &7968298397550428223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3914,6 +3902,8 @@ MonoBehaviour:
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
+  focusOffset: {x: 0, y: 0, z: 0}
+  targetZoom: 1
 --- !u!1 &8325088784676417247
 GameObject:
   m_ObjectHideFlags: 0
@@ -4030,6 +4020,8 @@ MonoBehaviour:
   panSmoothTime: 0.45
   normalSmoothTime: 0.15
   returnSmoothTime: 0.3
+  focusOffset: {x: 0, y: 0, z: 0}
+  targetZoom: 1
 --- !u!1 &8501428325112573455
 GameObject:
   m_ObjectHideFlags: 0
