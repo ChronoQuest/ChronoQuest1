@@ -86,6 +86,8 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         Debug.Log(output);
+
+        // TODO: add functionality to record all strategies in a session
     }
 
     // method to return the dominant strategy 

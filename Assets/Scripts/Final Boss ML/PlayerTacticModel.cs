@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerTacticalModel : MonoBehaviour
 {
+    // TODO: potentially modify to make four clusters and add the balanced tactic
     public enum TacticType
     {
         Aggressive, 
@@ -28,6 +29,8 @@ public class PlayerTacticalModel : MonoBehaviour
     private float timer = 0f; 
 
     public GMMModel gmmModel; 
+    public NeuralNetwork neuralModel;
+    public bool useNeural = false; 
 
     void Start()
     {
@@ -53,7 +56,13 @@ public class PlayerTacticalModel : MonoBehaviour
     void DetermineTactics()
     {
         float[] features = BuildFeatureVector();
-        float[] clusterProbs = gmmModel.PredictProba(features);
+        
+        float[] probs;
+
+        if (useNeural)
+            probs = neuralModel.Predict(features);
+        else
+            probs = gmmModel.PredictProba(features);
 
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 
@@ -63,12 +72,12 @@ public class PlayerTacticalModel : MonoBehaviour
         }  
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = clusterProbs[2]; 
-        tacticBeliefs[TacticType.Evasive] = clusterProbs[3];
-        tacticBeliefs[TacticType.Cautious] = clusterProbs[0];
+        tacticBeliefs[TacticType.Aggressive] = probs[2]; 
+        tacticBeliefs[TacticType.Evasive] = probs[3];
+        tacticBeliefs[TacticType.Cautious] = probs[0];
 
-        tacticBeliefs[TacticType.Aggressive] += 0.5f * clusterProbs[1];
-        tacticBeliefs[TacticType.Evasive] += 0.5f * clusterProbs[1];
+        tacticBeliefs[TacticType.Aggressive] += 0.5f * probs[1];
+        tacticBeliefs[TacticType.Evasive] += 0.5f * probs[1];
 
         NormaliseBeliefs(); 
     }
@@ -141,8 +150,11 @@ public class PlayerTacticalModel : MonoBehaviour
         }
 
         Debug.Log(output);
+
+        // TODO: add functionality to record the tactics in a session 
     }
 
+    // TODO: record rain spells, wall jumps - check if any actions are missing generally 
     // recording events and incrementing counters
     public void RecordDash()
     {
