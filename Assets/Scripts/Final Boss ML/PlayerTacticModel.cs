@@ -7,8 +7,6 @@ public class PlayerTacticalModel : MonoBehaviour
     {
         Aggressive, 
         Evasive,
-        Ability, 
-        RewindReliance,
         Cautious
     }
     
@@ -18,6 +16,7 @@ public class PlayerTacticalModel : MonoBehaviour
     // counts for events during gameplay to determine tactic 
     private float dashCount; 
     private float spellCount;
+    private float rainSpellCount; 
     private float meleeHits;
     private float jumpCount;
     private float rewindCount; 
@@ -53,53 +52,52 @@ public class PlayerTacticalModel : MonoBehaviour
     // calculates player tactic score based on events recorded in the game
     void DetermineTactics()
     {
-        /* float aggressive = meleeHits;
-        float evasive = dashCount * 0.6f + jumpCount * 0.4f; 
-        float ability = spellCount; 
-        float rewindReliance = rewindCount; 
-        float cautious = damageTaken * 0.6f + rewindCount * 0.4f; */ 
-
         float[] features = BuildFeatureVector();
-        float[] clusterProbs = gmmModel.PredictProba(features); 
+        float[] clusterProbs = gmmModel.PredictProba(features);
+
+        List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
+
+        foreach (var key in keys)
+        {
+            tacticBeliefs[key] = 0f;
+        }  
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = clusterProbs[0]; 
-        tacticBeliefs[TacticType.Evasive] = clusterProbs[1];
-        tacticBeliefs[TacticType.Ability] = clusterProbs[2];
-        tacticBeliefs[TacticType.RewindReliance] = clusterProbs[3]; 
-        tacticBeliefs[TacticType.Cautious] = clusterProbs[4];
+        tacticBeliefs[TacticType.Aggressive] = clusterProbs[2]; 
+        tacticBeliefs[TacticType.Evasive] = clusterProbs[3];
+        tacticBeliefs[TacticType.Cautious] = clusterProbs[0];
+
+        tacticBeliefs[TacticType.Aggressive] += 0.5f * clusterProbs[1];
+        tacticBeliefs[TacticType.Evasive] += 0.5f * clusterProbs[1];
 
         NormaliseBeliefs(); 
     }
 
     float[] BuildFeatureVector()
     {
-        var data = DataCollectionService.Instance;
+       // use the current window duration (e.g. up to 5 seconds)
+        float duration = Mathf.Max(timer, 0.001f);
+
+        float dashRate   = dashCount / duration;
+        float jumpRate   = (jumpCount + wallJumpCount) / duration;
+        float meleeRate  = meleeHits / duration;   
+        float spellRate  = spellCount / duration;
+        float rewindRate = rewindCount / duration;
+        float damageRate = damageTaken / duration;
+
+        float meleeAccuracy = meleeHits / (meleeHits + 1f);
+        float spellAccuracy = spellCount / (spellCount + 1f);
 
         return new float[]
         {
-            data.DashCount,
-            data.JumpCount,
-            data.WallJumpCount,
-            data.DoubleJumpCount,
-            data.RewindActivationCount,
-            data.RewindDurationSeconds,
-
-            data.MeleeAttacks,
-            data.MeleeHits,
-            data.SpellCasts,
-            data.SpellHits,
-            data.RainAttackUses,
-
-            data.DamageTakenTotal,
-            data.DeathCount,
-
-            data.DoorsEntered,
-            data.TrapHits,
-            data.TutorialStepsCompleted,
-            data.PauseCount,
-
-            data.SessionDurationSeconds
+            dashRate,
+            jumpRate,
+            meleeRate,
+            spellRate,
+            rewindRate,
+            damageRate,
+            meleeAccuracy, 
+            spellAccuracy
         };
     }
 

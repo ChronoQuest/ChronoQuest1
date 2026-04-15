@@ -84,13 +84,18 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        foresightSystem = GetComponent<ForesightSystem>();
+        originalScale = transform.localScale;
+        stunOnLand = true;
+        BuildArrowPool();
+    }
+
+    void ResolvePlayerRefs()
+    {
+        if (playerCollider != null || player == null) return;
         playerCollider = player.GetComponent<Collider2D>();
         playerCombat = player.GetComponent<PlayerCombat>();
         playerSpells = player.GetComponent<PlayerSpellSystem>();
-        foresightSystem = GetComponent<ForesightSystem>();
-        originalScale = transform.localScale;
-        stunOnLand = true; // Keeps your existing OnCollisionEnter stun logic intact
-        BuildArrowPool();
     }
 
     void BuildArrowPool()
@@ -121,6 +126,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         // If dead, dying, reviving, launched, or stunned -> Do nothing.
         if (wasDead || isDying || isReviving || isStunned || isLaunched) return;
         if (player == null) return;
+        ResolvePlayerRefs();
 
         float dist = Vector2.Distance(transform.position, player.position);
 
@@ -316,6 +322,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     // =================== IForesightEnemy Implementation ===================
     public int GetPlayerAttackState()
     {
+        ResolvePlayerRefs();
         if (playerCombat != null && playerCombat.isAttacking) return 1;
         if (playerSpells != null && playerSpells.isCasting) return 2;
         return 0;
@@ -358,8 +365,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public void ExecuteDodge()
     {
         if (isDodging) return; // Prevent dodging if already in a dodge state
+        ResolvePlayerRefs();
 
-        GameObject spellObj = playerSpells.latestSpell;
+        GameObject spellObj = playerSpells != null ? playerSpells.latestSpell : null;
         bool shouldDodge = false;
         Vector2 jumpMove = new Vector2(0f, 0f);
 
@@ -420,6 +428,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     }
     public float GetDistanceToPlayer()
     {
+        ResolvePlayerRefs();
+        if (playerCollider == null) return float.MaxValue;
         return Vector2.Distance(transform.position, playerCollider.bounds.center);
     }
     public bool IsPerformingForesightAction()
