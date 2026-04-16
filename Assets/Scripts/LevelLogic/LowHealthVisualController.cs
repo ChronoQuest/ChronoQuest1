@@ -60,10 +60,9 @@ public class LowHealthVisualController : MonoBehaviour
             profile.TryGet(out colorAdjust);
             profile.TryGet(out depthOfField);
 
-            if (depthOfField != null)
-            {
-                depthOfField.active = false;
-            }
+            if (depthOfField != null) depthOfField.active = false;
+            if (vignette != null) vignette.active = false;
+            if (colorAdjust != null) colorAdjust.active = false;
         }
 
         if (globalLight != null)
@@ -78,11 +77,9 @@ public class LowHealthVisualController : MonoBehaviour
         if (pulseRoutine != null)
             return;
             
-        if (depthOfField != null)
-        {
-            depthOfField.active = true;
-            depthOfField.gaussianMaxRadius.value = MIN_BLUR;
-        }
+        if (depthOfField != null) { depthOfField.active = true; depthOfField.gaussianMaxRadius.value = MIN_BLUR; }
+        if (vignette != null) vignette.active = true;
+        if (colorAdjust != null) colorAdjust.active = true;
 
         pulseRoutine = StartCoroutine(PulseRoutine());
     }
@@ -192,10 +189,8 @@ public class LowHealthVisualController : MonoBehaviour
         }
 
         // Final cleanup
-        if (depthOfField != null)
-        {
-            depthOfField.gaussianMaxRadius.value = MIN_BLUR;
-            depthOfField.active = false;
-        }
+        if (depthOfField != null) { depthOfField.gaussianMaxRadius.value = MIN_BLUR; depthOfField.active = false; }
+        if (vignette != null) vignette.active = false;
+        if (colorAdjust != null) colorAdjust.active = false;
     }
 }
