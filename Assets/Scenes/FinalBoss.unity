@@ -3281,7 +3281,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.15723258, g: 0.15723258, b: 0.15723258, a: 1}
@@ -52462,6 +52462,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1143889651}
+  - {fileID: 887291605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &508054505
@@ -52607,7 +52608,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e35a9e5d8d5c81745be7da1a6d29f776, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: NewAssembly::BossHealthBarDriver
   healthBarUI: {fileID: 887291609}
   bossName: THE WATCHER
@@ -52641,7 +52642,7 @@ PrefabInstance:
       objectReference: {fileID: 764895063}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: dashPhaseLayers.m_Bits
-      value: 1033
+      value: 1161
       objectReference: {fileID: 0}
     - target: {fileID: 1505052509055262110, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel
@@ -54415,7 +54416,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -55726,7 +55727,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.64779866, g: 0, b: 0.39396092, a: 1}
