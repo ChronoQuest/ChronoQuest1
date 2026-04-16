@@ -38,6 +38,6 @@ public class TitleScreen : MonoBehaviour
         // Clear persisted tutorial safety so falling platforms behave normally on a fresh run.
         PlayerPrefs.DeleteKey(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("GameScene"); 
+        SceneManager.LoadScene("introCutscene");
     }
 }
