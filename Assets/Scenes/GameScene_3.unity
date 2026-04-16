@@ -63178,25 +63178,37 @@ PrefabInstance:
       propertyPath: playerTacticalModel
       value: 
       objectReference: {fileID: 623015297}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4777569780141679609, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1324473628}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1941470556}
+    - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1941470555}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
 --- !u!114 &1094889223 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1094889222}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1094889224}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d18f9d8a38c744b6b79578532626dcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerHealth
+--- !u!1 &1094889224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 1094889222}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1100503252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -465293,7 +465305,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1094889222}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1094889224}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
@@ -465304,6 +465316,60 @@ CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 2585457603464037882, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1094889222}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1941470555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094889224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1005ecb8ae254b68bc7df679871a9bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerFallHint
+  fallVelocityThreshold: -16
+  fallTimeThreshold: 1
+--- !u!114 &1941470556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094889224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58397a93b959d4aeca887aa2b60d47eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PlayerReviveEffect
+  hitstopDuration: 0.12
+  slowMotionScale: 0.015
+  slowMotionDuration: 3
+  shakeDuration: 0.25
+  shakeMagnitude: 0.2
+  launchShakeDuration: 0.2
+  launchShakeMagnitude: 0.3
+  shockwaveRadius: 6
+  shockwaveForce: 20
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashFadeDuration: 0.3
+  scalePeak: 1.2
+  scalePulseDuration: 0.35
+  ghostCount: 8
+  ghostSpacing: 0.06
+  ghostFadeDuration: 0.4
+  ghostTint: {r: 0.6, g: 0.85, b: 1, a: 0.6}
+  rumbleLowFreq: 0.6
+  rumbleHighFreq: 0.9
+  rumbleDuration: 0.3
+  invincibilityDuration: 1.5
+  invincibilityFlashSpeed: 0.08
+  healOnRevive: 1
+  launchImpulse: 4
+  movementLockDuration: 0.25
+  reviveSFX: {fileID: 0}
+  sfxVolume: 1
+  reviveAudioSource: {fileID: 0}
 --- !u!1 &1955402002 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2455767372189120468, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
