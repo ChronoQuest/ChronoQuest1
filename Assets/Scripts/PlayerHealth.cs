@@ -36,6 +36,9 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public bool IsDead { get; private set; }
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip hitClip;
 
     public void SetInvincible(bool value)
     {
@@ -117,6 +120,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
     private void TakeDamage(int amount, bool applyKnockback = true)
     {
+        if (sfxSource != null && hitClip != null)
+        {
+            sfxSource.PlayOneShot(hitClip);
+        }
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateUI();

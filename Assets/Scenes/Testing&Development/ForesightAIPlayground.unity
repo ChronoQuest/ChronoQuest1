@@ -473,9 +473,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: hitClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 854c2649d7e14594f95a2d747d2e5a03, type: 3}
+    - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: maxHealth
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      propertyPath: sfxSource
+      value: 
+      objectReference: {fileID: 1953615431}
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: gameOverUI
       value: 
@@ -1342,6 +1350,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerMana
+--- !u!82 &1953615431 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3874733905380553684, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 569088409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2123877077
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -101,6 +101,12 @@ public class PlayerPlatformer : MonoBehaviour
     public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
     public PlayerTacticalModel playerTacticModel; 
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip jumpShortClip;
+    [SerializeField] private AudioClip jumpLongClip;
+    [SerializeField] private AudioClip dashClip;
+
     private float knockbackTimer;
 
     private void OnValidate()
@@ -385,6 +391,12 @@ public class PlayerPlatformer : MonoBehaviour
         coyoteTimeCounter = 0f;
         anim.SetTrigger("Jump");
 
+        if (sfxSource != null)
+        {
+            AudioClip clipToPlay = (extraJumpsRemaining == 0) ? jumpLongClip : jumpShortClip;
+            sfxSource.PlayOneShot(clipToPlay);
+        }
+
         if (extraJumpsRemaining>0)
         {
             anim.SetBool("isGrounded", true); 
@@ -498,6 +510,11 @@ public class PlayerPlatformer : MonoBehaviour
         tutorialManager?.OnPlayerWallJump(); 
 
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
+        if (sfxSource != null)
+        {
+            AudioClip clipToPlay = (extraJumpsRemaining == 0) ? jumpLongClip : jumpShortClip;
+            sfxSource.PlayOneShot(clipToPlay);
+        }
         DataCollectionService.Instance?.RecordJump(true, false);
     
         yield return new WaitForSeconds(wallJumpDuration);    
@@ -510,6 +527,10 @@ public class PlayerPlatformer : MonoBehaviour
         
         isDashing = true;
         canDash = false;
+        if (sfxSource != null && dashClip != null)
+        {
+            sfxSource.PlayOneShot(dashClip);
+        }
 
         tutorialManager?.OnPlayerDash();
         DataCollectionService.Instance?.RecordDash();

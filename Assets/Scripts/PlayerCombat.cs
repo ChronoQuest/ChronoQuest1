@@ -40,6 +40,11 @@ public class PlayerCombat : MonoBehaviour
     public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
 
+    [Header("Combat Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip[] meleeSwings;
+    [SerializeField] private AudioClip magicRainClip;
+
     void Start(){
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -100,6 +105,7 @@ public class PlayerCombat : MonoBehaviour
             if (manaSystem != null && manaSystem.TrySpendMana(20f))
             {
                 anim.SetTrigger("RainAttack");
+                if (sfxSource != null && magicRainClip != null) sfxSource.PlayOneShot(magicRainClip);
             }
             else
             {
@@ -120,6 +126,11 @@ public class PlayerCombat : MonoBehaviour
         isAttacking = true;
         queuedAttack = false;
         attackTimer = 0f;
+        if (sfxSource != null && meleeSwings.Length > 0)
+        {
+            int randomIndex = Random.Range(0, meleeSwings.Length);
+            sfxSource.PlayOneShot(meleeSwings[randomIndex]);
+        }
         DataCollectionService.Instance?.RecordMeleeAttempt();
         playerTacticalModel.RecordMeleeHit(); 
 

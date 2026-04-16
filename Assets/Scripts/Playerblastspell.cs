@@ -32,6 +32,11 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private PlayerAction allowedActions;
     public PlayerTacticalModel playerTacticalModel; 
     public GameObject latestSpell;
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource chargeSource;
+    [SerializeField] private AudioClip spellChargeClip;
+    [SerializeField] private AudioClip spellBlastClip;
 
     void Awake()
     {
@@ -73,6 +78,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
             {
                 isCasting = false;
                 rb.gravityScale = originalGravity;
+                if (chargeSource != null) chargeSource.Stop();
                 Debug.LogWarning("Spell animation interrupted! Failsafe restored gravity.");
             }
         }
@@ -106,6 +112,11 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         isCasting = true;
         castFailsafeTimer = MAX_CAST_TIME;
 
+        if (chargeSource != null && spellChargeClip != null)
+        {
+            chargeSource.clip = spellChargeClip;
+            chargeSource.Play();
+        }
 
         originalGravity = rb.gravityScale;
         rb.gravityScale = 0f; // Disable gravity so they float mid-air
@@ -117,6 +128,15 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         //isCasting = false;
         Invoke(nameof(ReleaseCastLock), 0.15f);
         rb.gravityScale = originalGravity;
+
+        if (chargeSource != null && chargeSource.isPlaying)
+        {
+            chargeSource.Stop();
+        }
+        if (sfxSource != null && spellBlastClip != null)
+        {
+            sfxSource.PlayOneShot(spellBlastClip);
+        }
         
         // Apply exact velocity instead of AddForce so it's snappy and consistent
         rb.linearVelocity = -dir * recoilForce;
@@ -191,6 +211,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         {
             isCasting = false;
             rb.gravityScale = originalGravity;
+            if (chargeSource != null) chargeSource.Stop();
         }
         recoilTimer = 0f;
     }
