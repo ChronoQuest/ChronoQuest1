@@ -10,8 +10,9 @@ public class PlayerReviveEffect : MonoBehaviour
     [SerializeField] private float hitstopDuration = 0.12f;
 
     [Header("Slow Motion")]
-    [SerializeField] private float slowMotionScale = 0.03f;
-    [SerializeField] private float slowMotionDuration = 2.0f;
+    // This effect is primarily used for "rewind out of death" and should feel heavy/intentional.
+    [SerializeField] private float slowMotionScale = 0.015f;
+    [SerializeField] private float slowMotionDuration = 3.0f;
 
     [Header("Camera Shake")]
     [SerializeField] private float shakeDuration = 0.25f;

@@ -2,15 +2,32 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TimeRewind;
+using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
     public GameObject content; 
+    [Header("Rewind After Death Hint")]
+    [SerializeField] private TextMeshProUGUI rewindAfterDeathText;
+    [SerializeField] private string rewindAvailableMessage = "Hold Rewind to rewind out of death";
+    [SerializeField] private string rewindNotEnoughManaMessage = "Not enough mana to rewind after death";
     public float fadeDuration = 1.5f; 
     private float fadeTimer = 0f; 
     private bool isFading = false;
     private bool hasFinished = false;
+
+    private void Awake()
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+        if (content != null)
+            content.SetActive(false);
+    }
 
     // ---- fading effect ---- 
     void Update()
@@ -19,13 +36,16 @@ public class GameOverUI : MonoBehaviour
         {
             fadeTimer += Time.unscaledDeltaTime;
             
-            canvasGroup.alpha = Mathf.Clamp01(fadeTimer / fadeDuration); 
+            if (canvasGroup != null)
+                canvasGroup.alpha = Mathf.Clamp01(fadeTimer / fadeDuration); 
 
             if (fadeTimer >= fadeDuration)
             {
                 FinishFade(); 
             }
         }
+
+        UpdateRewindAfterDeathHint();
     }
 
     private void OnEnable()
@@ -42,8 +62,20 @@ public class GameOverUI : MonoBehaviour
 
     public void ShowGameOver()
     {
+        hasFinished = false;
         isFading = true; 
         fadeTimer = 0f; 
+
+        if (content != null)
+            content.SetActive(false);
+        if (canvasGroup != null)
+        {
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.alpha = 0f;
+        }
+
+        UpdateRewindAfterDeathHint(forceShow: true);
     }
 
     /// <summary>
@@ -57,10 +89,14 @@ public class GameOverUI : MonoBehaviour
         hasFinished = false;
         isFading = false;
         fadeTimer = 0f;
-        canvasGroup.alpha = 0f;
-        content.SetActive(false);
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+        if (content != null)
+            content.SetActive(false);
         Time.timeScale = 1f;
     }
 
@@ -69,10 +105,14 @@ public class GameOverUI : MonoBehaviour
         hasFinished = true; 
         isFading = false;
 
-        content.SetActive(true); 
+        if (content != null)
+            content.SetActive(true); 
 
-        canvasGroup.interactable = true; 
-        canvasGroup.blocksRaycasts = true; 
+        if (canvasGroup != null)
+        {
+            canvasGroup.interactable = true; 
+            canvasGroup.blocksRaycasts = true; 
+        }
         
         // Pause gameplay once the fade has completed, but not while the player is rewinding
         if (TimeRewindManager.Instance == null || !TimeRewindManager.Instance.IsRewinding)
@@ -85,6 +125,52 @@ public class GameOverUI : MonoBehaviour
         var playerHealth = FindFirstObjectByType<PlayerHealth>();
         if (playerHealth != null && playerHealth.IsDead)
             Time.timeScale = 0f;
+    }
+
+    private void UpdateRewindAfterDeathHint(bool forceShow = false)
+    {
+        if (rewindAfterDeathText == null)
+            return;
+
+        var playerHealth = FindFirstObjectByType<PlayerHealth>();
+        if (playerHealth == null || !playerHealth.IsDead)
+        {
+            if (!forceShow)
+                rewindAfterDeathText.enabled = false;
+            return;
+        }
+
+        // Only show the hint while dead (including during fade-in).
+        rewindAfterDeathText.enabled = true;
+
+        var rewindController = FindFirstObjectByType<TimeRewind.PlayerRewindController>();
+        var mana = playerHealth.GetComponent<PlayerMana>();
+
+        bool canRewind = false;
+        float required = 0f;
+
+        if (rewindController != null)
+        {
+            required = rewindController.MinManaToStartRewindWhenDead;
+            canRewind = rewindController.CanStartRewindWhenDeadNow();
+        }
+        else if (mana != null)
+        {
+            // Fallback if controller can't be found: allow if there's any mana.
+            canRewind = mana.CurrentMana > 0f;
+        }
+
+        if (canRewind)
+        {
+            rewindAfterDeathText.text = rewindAvailableMessage;
+        }
+        else
+        {
+            if (required > 0.001f)
+                rewindAfterDeathText.text = $"{rewindNotEnoughManaMessage} (need {required:0} mana)";
+            else
+                rewindAfterDeathText.text = rewindNotEnoughManaMessage;
+        }
     }
 
     // ---- button event methods ---- 
