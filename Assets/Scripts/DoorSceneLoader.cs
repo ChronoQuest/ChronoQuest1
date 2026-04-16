@@ -23,7 +23,7 @@ public class DoorSceneLoader : MonoBehaviour
                 if (SceneManager.GetActiveScene().name == "GameScene_3")
                 {
                     var necromancer = FindFirstObjectByType<NecromancerEnemy>();
-                    if (necromancer != null && !necromancer.IsDead)
+                    if (necromancer != null && !necromancer.IsDead())
                         return;
                 }
 

@@ -143,6 +143,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     private PlayerCombat playerCombat;
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
+    public float detectionRange = 5f;
     public float dodgeTriggerDistance = 5f;
     private bool isDodging = false;
     private float dodgeDuration = 0.75f;
