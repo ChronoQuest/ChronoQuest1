@@ -1391,6 +1391,8 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         return isDodging;
     }
 
+    Transform IForesightEnemy.player => player;
+
     // ──────────────────────────────────────────────────────────────────────────
     //  GIZMOS
     // ──────────────────────────────────────────────────────────────────────────
