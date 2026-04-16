@@ -653,8 +653,17 @@ public class IntroCutscene : MonoBehaviour
         if (dialogueText == null || dialogueLines == null || dialogueLines.Length == 0)
             yield break;
 
+        // Activate the dialogue container and its parent canvas (if hidden).
         if (dialogueContainer != null)
+        {
+            Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
+            if (parentCanvas != null)
+                parentCanvas.gameObject.SetActive(true);
             dialogueContainer.SetActive(true);
+        }
+
+        // Wait a frame so the canvas and TMP components fully initialize.
+        yield return null;
 
         float cps        = Mathf.Max(1f, dialogueCharactersPerSecond);
         float timePerChar = 1f / cps;
@@ -668,10 +677,21 @@ public class IntroCutscene : MonoBehaviour
                 continue;
             }
 
-            dialogueText.text = "";
-            for (int i = 0; i < line.Length; i++)
+            // Compute the auto-sized font for the full line, then lock it in
+            // so the size stays stable during the typewriter reveal.
+            dialogueText.enableAutoSizing = true;
+            dialogueText.text = line;
+            dialogueText.ForceMeshUpdate();
+            float fittedSize = dialogueText.fontSize;
+
+            dialogueText.enableAutoSizing = false;
+            dialogueText.fontSize = fittedSize;
+            dialogueText.maxVisibleCharacters = 0;
+            yield return null;
+
+            for (int i = 1; i <= line.Length; i++)
             {
-                dialogueText.text = line.Substring(0, i + 1);
+                dialogueText.maxVisibleCharacters = i;
                 yield return new WaitForSeconds(timePerChar);
             }
 
@@ -681,9 +701,16 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(dialoguePauseAfterLastLine);
 
         if (dialogueContainer != null)
+        {
+            Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
+            if (parentCanvas != null)
+                parentCanvas.gameObject.SetActive(false);
             dialogueContainer.SetActive(false);
+        }
 
         dialogueText.text = "";
+        dialogueText.maxVisibleCharacters = int.MaxValue;
+        dialogueText.enableAutoSizing = true;
     }
 
     // ---------------------------------------------------------------------

@@ -35,6 +35,6 @@ public class TitleScreen : MonoBehaviour
 
     public void StartButton()
     {
-        SceneManager.LoadScene("GameScene"); 
+        SceneManager.LoadScene("introCutscene"); 
     }
 }
