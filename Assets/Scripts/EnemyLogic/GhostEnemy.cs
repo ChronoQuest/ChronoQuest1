@@ -47,7 +47,6 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private float dodgeCooldown = 1.5f;
     private float dodgeTimer = 0f;
@@ -300,14 +299,22 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-            float spellDist = Vector2.Distance(transform.position, spellPos);
-            float playerDist = Vector2.Distance(transform.position, threatPos);
-
-            if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                threatPos = spellPos;
-                shouldDodge = true;
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+                    float spellDist = Vector2.Distance(transform.position, spellPos);
+                    float playerDist = Vector2.Distance(transform.position, threatPos);
+
+                    if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+                    {
+                        threatPos = spellPos;
+                        shouldDodge = true;
+                    }
+                }
             }
         }
         

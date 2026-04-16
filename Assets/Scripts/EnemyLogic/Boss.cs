@@ -256,7 +256,8 @@ public class Boss : EnemyBase, IRewindable
         offActionSpawned = false; 
         resActionSpawned = false;
             
-        var strategy = playerStrategyModel.GetDominantStrategy();
+        /* var strategy = playerStrategyModel.GetDominantStrategy();
+
         Debug.Log($"Strategy: {strategy}"); 
 
         Debug.Log("Boss reacting to strategy");
@@ -316,6 +317,33 @@ public class Boss : EnemyBase, IRewindable
             currentOff = otherOff[Random.Range(0, otherOff.Length)];
             currentRes = otherRes[Random.Range(0, otherRes.Length)];
         }
+
+        else if (strategy == playerStrategyModel.StrategyType.AbilityFocusedPlayer)
+        {
+            currentOff = OffMove.HomingFireballs;
+            currentRes = ResMove.FireWave;
+        } */ 
+
+        var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
+
+        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
+        float evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
+        float cautious   = tactics[PlayerTacticalModel.TacticType.Cautious];
+
+        float roll = Random.value;
+
+        if (roll < aggressive)
+        {
+            currentOff = OffMove.FireColumns;
+            currentRes = ResMove.Platforms;
+        }
+        else if (roll < aggressive + evasive)
+        {
+            currentOff = OffMove.Fireballs;
+            currentRes = ResMove.Enemy;     
+        }
+        else
+
 
         //Don't want too much repetition
         if (currentOff == lastOff && currentRes == lastRes)

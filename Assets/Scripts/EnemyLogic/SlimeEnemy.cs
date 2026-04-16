@@ -57,7 +57,6 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool hasForesight = false;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 3.4f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private ForesightSystem foresightSystem;
     private float rewindStartTime;
@@ -536,14 +535,20 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-
-            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
-                Vector2 attackDirection = (spellRb.position - (Vector2)transform.position).normalized;
-
-                TriggerForesightDodge(attackDirection);
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+                    {
+                        Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                        Vector2 attackDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                        TriggerForesightDodge(attackDirection);
+                    }
+                }
             }
         }
     }
