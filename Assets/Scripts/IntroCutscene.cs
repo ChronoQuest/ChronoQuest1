@@ -185,6 +185,12 @@ public class IntroCutscene : MonoBehaviour
     [Tooltip("Canvas or UI element to show during rewind wait")]
     [SerializeField] private GameObject rewindPromptUI;
 
+    [Tooltip("Speed of the soft flicker on the rewind prompt text (cycles per second).")]
+    [SerializeField] private float flickerSpeed = 1.5f;
+    [Tooltip("Minimum alpha the text fades down to during the flicker (0 = fully transparent, 1 = fully opaque).")]
+    [Range(0f, 1f)]
+    [SerializeField] private float flickerMinAlpha = 0.3f;
+
     [Header("Rewind Cutscene Video")]
     [Tooltip("A full-screen RawImage Canvas (or similar overlay GameObject) " +
              "that sits in front of everything. It is hidden at the start " +
@@ -258,6 +264,7 @@ public class IntroCutscene : MonoBehaviour
 
     // Guard so a double-fired signal / end-call can't load the scene twice.
     private bool cutsceneEnded;
+    private Coroutine flickerCoroutine;
 
     private TimeRewindManager rewindManager;
     private Camera mainCamera;
@@ -547,43 +554,47 @@ public class IntroCutscene : MonoBehaviour
         // Show the rewind prompt UI
         if (rewindPromptUI != null)
             rewindPromptUI.SetActive(true);
-        
+
         if (rewindPromptText != null)
             rewindPromptText.text = "PRESS R TO REWIND";
 
-        // Re-enable PlayerInput so the player can press R
-        if (playerInput != null)
-            playerInput.enabled = true;
+        // Start the soft flicker on the prompt text
+        flickerCoroutine = StartCoroutine(FlickerText());
 
-        // Wait for the player to press R (or timeout after rewindDuration)
-        float timer = 0f;
-        bool rewindTriggered = false;
+        // Freeze the game until the player presses R
+        Time.timeScale = 0f;
 
-        while (timer < rewindDuration)
+        // Wait indefinitely for the player to press R
+        var keyboard = Keyboard.current;
+        while (keyboard == null || !keyboard.rKey.wasPressedThisFrame)
         {
-            timer += Time.deltaTime;
-
-            // Check if rewind was triggered (PlayerRewindController.StartRewind sets IsRewinding)
-            if (rewindManager.IsRewinding)
-            {
-                rewindTriggered = true;
-                Debug.Log("[IntroCutscene] Rewind triggered by player!");
-                break;
-            }
-
+            keyboard = Keyboard.current;
             yield return null;
         }
 
-        // Hide the prompt
+        Debug.Log("[IntroCutscene] R pressed — starting rewind!");
+
+        // Stop the flicker and hide the prompt
+        if (flickerCoroutine != null)
+        {
+            StopCoroutine(flickerCoroutine);
+            flickerCoroutine = null;
+        }
+
+        // Reset alpha to full before hiding
+        if (rewindPromptText != null)
+        {
+            Color c = rewindPromptText.color;
+            c.a = 1f;
+            rewindPromptText.color = c;
+        }
+
         if (rewindPromptUI != null)
             rewindPromptUI.SetActive(false);
 
-        // If rewind wasn't manually triggered, auto-trigger it
-        if (!rewindTriggered)
-        {
-            Debug.Log("[IntroCutscene] Timeout - auto-triggering rewind");
-            rewindManager.StartRewind();
-        }
+        // Unfreeze and trigger the rewind
+        Time.timeScale = 1f;
+        rewindManager.StartRewind();
 
         // Let the rewind play out (with all visual effects!)
         float rewindTimer = 0f;
@@ -803,6 +814,27 @@ public class IntroCutscene : MonoBehaviour
                 playerAnimator.Play(playerIdleStateName, 0, 0f);
                 playerAnimator.Update(0f);
             }
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // Text flicker
+    // ---------------------------------------------------------------------
+
+    private IEnumerator FlickerText()
+    {
+        if (rewindPromptText == null) yield break;
+
+        while (true)
+        {
+            float t = (Mathf.Sin(Time.unscaledTime * flickerSpeed * Mathf.PI * 2f) + 1f) * 0.5f;
+            float alpha = Mathf.Lerp(flickerMinAlpha, 1f, t);
+
+            Color c = rewindPromptText.color;
+            c.a = alpha;
+            rewindPromptText.color = c;
+
+            yield return null;
         }
     }
 
