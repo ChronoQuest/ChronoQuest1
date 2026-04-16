@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class FireExplosion : MonoBehaviour, IRewindable
 {
-    public int damage = 1;    
+    public int damage = 1;
     [Header("Explosion Settings")]
     public float maxSize = 3f;
-    public float telegraphDuration = 1.0f; 
-    public float growDuration = 0.2f;      
-    public float shrinkDuration = 0.3f;    
+    public float telegraphDuration = 1.0f;
+    public float growDuration = 0.2f;
+    public float shrinkDuration = 0.3f;
     public float lingerDuration = 0.2f;
+    [HideInInspector] public bool persistent = false;
 
     private float _age = 0f;
     private bool _isRewinding;
@@ -19,7 +20,8 @@ public class FireExplosion : MonoBehaviour, IRewindable
 
     void Start()
     {
-        Destroy(gameObject, telegraphDuration + growDuration + shrinkDuration + lingerDuration + 5f);
+        if (!persistent)
+            Destroy(gameObject, telegraphDuration + growDuration + shrinkDuration + lingerDuration + 5f);
 
         _circleCol = GetComponent<CircleCollider2D>();
         _animator = GetComponent<Animator>();
@@ -28,6 +30,11 @@ public class FireExplosion : MonoBehaviour, IRewindable
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
+        }
+
+            if (persistent && _animator != null)
+        {
+            _animator.Play("fire_explosion_idle", 0, 0f);
         }
 
         EvaluateState(); 
@@ -43,34 +50,50 @@ public class FireExplosion : MonoBehaviour, IRewindable
 
     private void EvaluateState()
     {
-        if (_age < telegraphDuration)
+        float effectiveTelegraph = persistent ? 0f : telegraphDuration;
+
+        if (_age < effectiveTelegraph)
         {
-            _circleCol.enabled = false; 
+            _circleCol.enabled = false;
             if (_animator != null && !_isRewinding) _animator.speed = 0f;
-            
+
             SetVisualScale(0.5f);
             SetAlpha(Mathf.PingPong(_age * 5f, 1f));
         }
         else
         {
-            SetAlpha(1f); 
-            SetVisualScale(1f);
-            
+            SetAlpha(1f);
+            if (!persistent) SetVisualScale(1f);
+
             if (_animator != null)
             {
-                if (!_isRewinding) _animator.speed = 1f;
-
-                AnimatorStateInfo animState = _animator.GetCurrentAnimatorStateInfo(0);
-                float animPercent = animState.normalizedTime;
-
-                if (animPercent < 1f)
+                if (persistent)
                 {
-                    _circleCol.enabled = true; 
+                    // Loop the animation and leave collider off (fire row handles damage)
+                    _circleCol.enabled = false;
+                    if (!_isRewinding) _animator.speed = 1f;
+                    AnimatorStateInfo animState = _animator.GetCurrentAnimatorStateInfo(0);
+                    if (animState.normalizedTime >= 1f)
+                    {
+                        _animator.Play(animState.fullPathHash, 0, 0f);
+                    }
                 }
                 else
                 {
-                    _circleCol.enabled = false;
-                    gameObject.SetActive(false);
+                    if (!_isRewinding) _animator.speed = 1f;
+
+                    AnimatorStateInfo animState = _animator.GetCurrentAnimatorStateInfo(0);
+                    float animPercent = animState.normalizedTime;
+
+                    if (animPercent < 1f)
+                    {
+                        _circleCol.enabled = true;
+                    }
+                    else
+                    {
+                        _circleCol.enabled = false;
+                        gameObject.SetActive(false);
+                    }
                 }
             }
         }
