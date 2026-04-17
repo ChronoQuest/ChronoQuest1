@@ -194,6 +194,12 @@ public class DeathKnightEnemy : EnemyBase
         base.Die();
     }
 
+    public override IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(deathAnimationDuration);
+        // Intentionally leave sprite visible — body stays as a corpse
+    }
+
     // ================= REWIND =================
 
     public override void OnStartRewind()
