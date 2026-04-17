@@ -21,7 +21,7 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     public bool isHoming = false;
     public Transform homingTarget;
     public float homingTurnSpeed = 6f;
-    public float homingTime = 3f;
+    public float homingTime = 1.5f;
     private float homingTimer;
 
     void Awake()
