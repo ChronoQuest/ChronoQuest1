@@ -17,6 +17,8 @@ namespace TimeRewind
 
         [Header("Mana Cost")]
         [SerializeField] private float manaDrainPerSecond = 10f;
+        [Tooltip("Minimum mana required to START rewinding while dead (revive rewind). Prevents confusing 1-frame rewinds.")]
+        [SerializeField] private float minManaToStartRewindWhenDead = 15f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
@@ -27,6 +29,7 @@ namespace TimeRewind
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
         private PlayerMana _playerMana;
+        private PlayerHealth _playerHealth;
         
         public bool IsRewinding => _isRewinding;
         public event Action OnRewindStarted;
@@ -43,6 +46,7 @@ namespace TimeRewind
             if (animator == null) animator = GetComponent<Animator>();
             if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
             _playerMana = GetComponent<PlayerMana>();
+            _playerHealth = GetComponent<PlayerHealth>();
 
             if (GetComponent<RewindGhostTrail>() == null)
                 gameObject.AddComponent<RewindGhostTrail>();
@@ -86,9 +90,10 @@ namespace TimeRewind
             else
                 _rewindHoldTimer = 0f;
             
-            bool hasMana = _playerMana != null && _playerMana.CurrentMana > 0f;
+            bool isDead = _playerHealth != null && _playerHealth.IsDead;
+            bool hasManaForStart = HasManaToStartRewind(isDead);
 
-            if (_rewindInputHeld && hasMana && !TimeRewindManager.Instance.IsRewinding)
+            if (_rewindInputHeld && hasManaForStart && !TimeRewindManager.Instance.IsRewinding)
             {
                 TimeRewindManager.Instance.StartRewind();
             }
@@ -122,6 +127,20 @@ namespace TimeRewind
             {
                 _releaseFrameCount = 0;
             }
+        }
+
+        public float MinManaToStartRewindWhenDead => minManaToStartRewindWhenDead;
+
+        public bool CanStartRewindWhenDeadNow()
+        {
+            return HasManaToStartRewind(isDead: true);
+        }
+
+        private bool HasManaToStartRewind(bool isDead)
+        {
+            if (_playerMana == null) return false;
+            if (!isDead) return _playerMana.CurrentMana > 0f;
+            return _playerMana.CurrentMana >= Mathf.Max(0.01f, minManaToStartRewindWhenDead);
         }
         
         #endregion

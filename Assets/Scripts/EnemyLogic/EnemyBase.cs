@@ -1,6 +1,7 @@
 using UnityEngine;
 using TimeRewind;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -47,6 +48,18 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         flash = GetComponent<HitFlash>();
+
+        float hpMult = 1f;
+        if (DynamicDifficultyManager.Instance != null)
+        {
+            hpMult = DynamicDifficultyManager.Instance.GetEnemyHpMultiplierForScene(SceneManager.GetActiveScene().name);
+        }
+
+        if (hpMult != 1f)
+        {
+            health = Mathf.Max(1, Mathf.RoundToInt(health * hpMult));
+        }
+
         startHealth = health;
         originalBodyType = rb.bodyType; // captured once — represents alive body type
         foresightGlow = transform.Find("Lit")?.gameObject;

@@ -11,6 +11,18 @@ public class TrapDamage : MonoBehaviour
     public float knockbackForce = 8f;   // Horizontal push
     public float upwardForce = 6f;      // Vertical arc force
 
+    private int _defaultDamage;
+
+    private void Awake()
+    {
+        _defaultDamage = damage;
+    }
+
+    public void RestoreDefaultDamage()
+    {
+        damage = _defaultDamage;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         TryDamage(other.gameObject, other.transform.position);

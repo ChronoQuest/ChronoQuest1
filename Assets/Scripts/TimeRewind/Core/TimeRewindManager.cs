@@ -83,6 +83,12 @@ namespace TimeRewind
         [SerializeField] private float idlePositionThreshold = 0.01f;
         [Tooltip("Rotation delta in degrees below this = stationary")]
         [SerializeField] private float idleRotationThresholdDegrees = 0.1f;
+
+        [Header("Dynamic Playback (Arrival Slowdown)")]
+        [Tooltip("Final segment of rewind that plays slower for a controlled 'landing' (seconds of recorded time).")]
+        [SerializeField] private float arrivalSlowWindowSeconds = 0.75f;
+        [Tooltip("Multiplier applied at the very end of the rewind window (lower = slower).")]
+        [SerializeField] private float arrivalMinPlaybackMultiplier = 0.35f;
         
         #endregion
 
@@ -111,7 +117,7 @@ namespace TimeRewind
         
         public bool IsRewinding => _isRewinding;
         public float CurrentRewindTime => _currentRewindTime;
-        
+        public float RewindSpeed => rewindSpeed;
         public bool CanRewind
         {
             get
@@ -303,6 +309,7 @@ namespace TimeRewind
             Time.fixedDeltaTime = _baselineFixedDeltaTime * rewindScale;
             
             _isRewinding = true;
+            RewindHaptics.Instance?.StartRewindPulse();
             _currentRewindTime = GetNewestRecordedTime(); 
             _currentPlaybackMultiplier = 1f;
             _rewindStartUnscaledTime = Time.unscaledTime;
@@ -329,6 +336,7 @@ namespace TimeRewind
                 return;
             
             _isRewinding = false;
+            RewindHaptics.Instance?.StopRewindPulse();
 
             if (_cachedTimeScale <= 0f)
                 _cachedTimeScale = BaselineTimeScale;
@@ -481,9 +489,23 @@ namespace TimeRewind
             _currentPlaybackMultiplier = Mathf.MoveTowards(
                 _currentPlaybackMultiplier,
                 targetMultiplier,
-                playbackTransitionSpeed * Time.deltaTime);
+                playbackTransitionSpeed * Time.unscaledDeltaTime);
 
-            _currentRewindTime -= Time.deltaTime * rewindSpeed * _currentPlaybackMultiplier;
+            float arrivalFactor = 1f;
+            if (arrivalSlowWindowSeconds > 0.001f)
+            {
+                float remaining = RemainingRewindTime;
+                if (remaining < arrivalSlowWindowSeconds)
+                {
+                    float x = Mathf.Clamp01(remaining / arrivalSlowWindowSeconds); // 1 -> far, 0 -> at end
+                    float eased = Mathf.SmoothStep(0f, 1f, x);
+                    float min = Mathf.Clamp(arrivalMinPlaybackMultiplier, 0.05f, 1f);
+                    arrivalFactor = Mathf.Lerp(min, 1f, eased);
+                }
+            }
+
+            // Use unscaled delta so rewind consistency doesn't change with timeScale (game over pause, slowmo, etc.)
+            _currentRewindTime -= Time.unscaledDeltaTime * rewindSpeed * _currentPlaybackMultiplier * arrivalFactor;
             
             float oldestTime = GetOldestRecordedTime();
             
