@@ -139,6 +139,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateUI();
 
+        ScoreManager.Instance.RemovePoints(50); 
+
         if (_rb != null && currentHealth > 0 && applyKnockback)
         {
             Collider2D enemy = Physics2D.OverlapCircle(transform.position, 2f, LayerMask.GetMask("Enemy"));
@@ -201,7 +203,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {
         var playerMovement = GetComponent<PlayerPlatformer>();  
         var rb = GetComponent<Rigidbody2D>();
-        var col = GetComponent<Collider2D>(); 
+        var col = GetComponent<Collider2D>();  
 
         if (col != null) col.enabled = false;
 
@@ -255,6 +257,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         IsDead = true;
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
+        ScoreManager.Instance.RemovePoints(100);
 
         // Only set safety if the player dies during the tutorial.
         // Platforms read this PlayerPrefs key globally, so a tutorial death can keep later
