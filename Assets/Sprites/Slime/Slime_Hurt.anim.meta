@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/UI/ForesightHint.prefab.meta
+guid: b46b87b1d91368446b90230119d678ed
+PrefabImporter:
+========
 guid: b4edff6240557f146a89667556b0bc6b
 NativeFormatImporter:
+>>>>>>>> dev:Assets/Sprites/Slime/Slime_Hurt.anim.meta
   externalObjects: {}
   mainObjectFileID: 7400000
   userData: 

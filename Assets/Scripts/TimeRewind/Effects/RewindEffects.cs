@@ -76,6 +76,7 @@ namespace TimeRewind
         private float _currentEffectWeight;
         private bool _isRewinding;
         private float _burstTimer;
+        private float _currentBurstMaxDuration;
         
         #region Unity Lifecycle
         
@@ -151,6 +152,7 @@ namespace TimeRewind
         {
             _isRewinding = true;
             _burstTimer = rewindBurstDuration;
+            _currentBurstMaxDuration = rewindBurstDuration;
             
             if (audioSource != null && rewindStartSound != null)
             {
@@ -223,8 +225,8 @@ namespace TimeRewind
         private void ApplyPostProcessingEffects()
         {
             float burstWeight = 0f;
-            if (rewindBurstDuration > 0f && _burstTimer > 0f)
-                burstWeight = Mathf.Clamp01(_burstTimer / rewindBurstDuration);
+            if (_currentBurstMaxDuration > 0f && _burstTimer > 0f)
+                burstWeight = Mathf.Clamp01(_burstTimer / _currentBurstMaxDuration);
 
             if (_colorAdjustments != null)
             {
@@ -296,6 +298,12 @@ namespace TimeRewind
         public void SetAudioSource(AudioSource source)
         {
             audioSource = source;
+        }
+
+        public void TriggerTimelineShift(float duration = 0.3f)
+        {
+            _currentBurstMaxDuration = duration;
+            _burstTimer = duration;
         }
         
         #endregion
