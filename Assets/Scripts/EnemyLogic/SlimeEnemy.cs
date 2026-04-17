@@ -63,6 +63,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
     private bool wasStunnedLastFrame = false;
+    private SlimeAudio slimeAudio;
 
     void Start()
     {
@@ -73,6 +74,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         playerCombat = player.GetComponent<PlayerCombat>();
         playerSpells = player.GetComponent<PlayerSpellSystem>();
         foresightSystem = GetComponent<ForesightSystem>();
+        slimeAudio = GetComponent<SlimeAudio>();
     }
 
     protected override void Awake()
@@ -211,6 +213,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         }
         currentStateLabel = "Launching";
         animator.SetTrigger("hop");
+        if (slimeAudio != null) slimeAudio.PlayJumpSquish();
         rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier, hopForce * heightMultiplier);
         isGrounded = false;
         groundContacts = 0;
@@ -262,6 +265,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.linearVelocity = Vector2.zero;
         currentVelocityY = 0f;
         isGrounded = true;
+
+        if (slimeAudio != null) slimeAudio.PlayJumpSquish();
 
         // Reset timer for the landing phase
         timer = 0f; 
@@ -465,6 +470,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.linearVelocity = Vector2.zero;
         currentVelocityY = 0f;
         isGrounded = true;
+
+        if (slimeAudio != null) slimeAudio.PlayJumpSquish();
 
         float timer = 0f; 
         float phaseDuration = animationSpeed * 3f;
