@@ -1,0 +1,819 @@
+fileFormatVersion: 2
+guid: 54ffbb52b2282af4a80a284f2d1e7d29
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 311330099166235776
+    second: forcefield_3_0
+  - first:
+      213: -657630817842760936
+    second: forcefield_3_1
+  - first:
+      213: -8946926558277948920
+    second: forcefield_3_2
+  - first:
+      213: -3893765745484590675
+    second: forcefield_3_3
+  - first:
+      213: -3506635862032873533
+    second: forcefield_3_4
+  - first:
+      213: 443797933232298759
+    second: forcefield_3_5
+  - first:
+      213: 6361805048993846755
+    second: forcefield_3_6
+  - first:
+      213: -2107721157879397732
+    second: forcefield_3_7
+  - first:
+      213: 6070546109906363182
+    second: forcefield_3_8
+  - first:
+      213: -1983802556033614759
+    second: forcefield_3_9
+  - first:
+      213: -4801425851333253617
+    second: forcefield_3_10
+  - first:
+      213: 5636301722734091975
+    second: forcefield_3_11
+  - first:
+      213: 5315971445521227894
+    second: forcefield_3_12
+  - first:
+      213: 5399414732355167703
+    second: forcefield_3_13
+  - first:
+      213: -3488581130904788981
+    second: forcefield_3_14
+  - first:
+      213: 448035707734757792
+    second: forcefield_3_15
+  - first:
+      213: -6150165531470449431
+    second: forcefield_3_16
+  - first:
+      213: 3053432441577444103
+    second: forcefield_3_17
+  - first:
+      213: -5368449158879185539
+    second: forcefield_3_18
+  - first:
+      213: -7749635663456412640
+    second: forcefield_3_19
+  - first:
+      213: -2640484123621908343
+    second: forcefield_3_20
+  - first:
+      213: 4055481780940139627
+    second: forcefield_3_21
+  - first:
+      213: 5161505292787853017
+    second: forcefield_3_22
+  - first:
+      213: -2183060350296635505
+    second: forcefield_3_23
+  - first:
+      213: -8893197864611274028
+    second: forcefield_3_24
+  - first:
+      213: 2414213473749727578
+    second: forcefield_3_25
+  - first:
+      213: -7263194879963168210
+    second: forcefield_3_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: forcefield_3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3
+        width: 255
+        height: 635
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08cc0b06311125400800000000000000
+      internalID: 311330099166235776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_1
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 629
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 813f1256140afd6f0800000000000000
+      internalID: -657630817842760936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_2
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 624
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80aa556b2b126d380800000000000000
+      internalID: -8946926558277948920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_3
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 562
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da19ecd3fa096f9c0800000000000000
+      internalID: -3893765745484590675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_4
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 567
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c782ee234de55fc0800000000000000
+      internalID: -3506635862032873533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_5
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 509
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70b1d527edfa82600800000000000000
+      internalID: 443797933232298759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_6
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 528
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e5909b5cfba94850800000000000000
+      internalID: 6361805048993846755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 467
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c92060b26cedfb2e0800000000000000
+      internalID: -2107721157879397732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_8
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 474
+        width: 15
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2329991689ee3450800000000000000
+      internalID: 6070546109906363182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_9
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 436
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95cba1ff51e1874e0800000000000000
+      internalID: -1983802556033614759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_10
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 424
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0667e390a8ed5db0800000000000000
+      internalID: -4801425851333253617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_11
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 407
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cedc7eed8a283e40800000000000000
+      internalID: 5636301722734091975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_12
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 372
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 670a96e4ddf16c940800000000000000
+      internalID: 5315971445521227894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_13
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 375
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d56a0d77139eea40800000000000000
+      internalID: 5399414732355167703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_14
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 349
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b002a4ad1f1169fc0800000000000000
+      internalID: -3488581130904788981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_15
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 339
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a198363a1eb73600800000000000000
+      internalID: 448035707734757792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_16
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 317
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e43adab80936aaa0800000000000000
+      internalID: -6150165531470449431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_17
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 231
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70390e9b0a8ff5a20800000000000000
+      internalID: 3053432441577444103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_18
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 246
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d75f24aeeef6f75b0800000000000000
+      internalID: -5368449158879185539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_19
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 240
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02c5bf46c63c37490800000000000000
+      internalID: -7749635663456412640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_20
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 234
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9802570fdad1b5bd0800000000000000
+      internalID: -2640484123621908343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_21
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 201
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6c61026137f74830800000000000000
+      internalID: 4055481780940139627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_22
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 175
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d62bea87b951a740800000000000000
+      internalID: 5161505292787853017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_23
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 153
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8744518d2634b1e0800000000000000
+      internalID: -2183060350296635505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 127
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d2259a09a3059480800000000000000
+      internalID: -8893197864611274028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_25
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 70
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5970d20d52018120800000000000000
+      internalID: 2414213473749727578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: forcefield_3_26
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 6
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e220c5d1db2f33b90800000000000000
+      internalID: -7263194879963168210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      forcefield_3_0: 311330099166235776
+      forcefield_3_1: -657630817842760936
+      forcefield_3_10: -4801425851333253617
+      forcefield_3_11: 5636301722734091975
+      forcefield_3_12: 5315971445521227894
+      forcefield_3_13: 5399414732355167703
+      forcefield_3_14: -3488581130904788981
+      forcefield_3_15: 448035707734757792
+      forcefield_3_16: -6150165531470449431
+      forcefield_3_17: 3053432441577444103
+      forcefield_3_18: -5368449158879185539
+      forcefield_3_19: -7749635663456412640
+      forcefield_3_2: -8946926558277948920
+      forcefield_3_20: -2640484123621908343
+      forcefield_3_21: 4055481780940139627
+      forcefield_3_22: 5161505292787853017
+      forcefield_3_23: -2183060350296635505
+      forcefield_3_24: -8893197864611274028
+      forcefield_3_25: 2414213473749727578
+      forcefield_3_26: -7263194879963168210
+      forcefield_3_3: -3893765745484590675
+      forcefield_3_4: -3506635862032873533
+      forcefield_3_5: 443797933232298759
+      forcefield_3_6: 6361805048993846755
+      forcefield_3_7: -2107721157879397732
+      forcefield_3_8: 6070546109906363182
+      forcefield_3_9: -1983802556033614759
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

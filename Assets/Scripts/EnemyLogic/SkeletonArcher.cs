@@ -72,6 +72,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool isMidJumpSequence = false;
     private bool isGrounded = true;
     private SpriteRenderer spriteRenderer;
+    // Used by skeleton archer in tutorial
+    public bool lockForesightUntilDodge = false;
+    public bool canShoot = true;
 
     // --- REWIND SAFE VARIABLES ---
     private bool isDying = false;
@@ -115,6 +118,12 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     {
         base.Update();
         if (isRewinding) return;
+
+        // Always try to dodge if in 'tutorial' mode
+        if (lockForesightUntilDodge && hasForesight && !isDodging)
+        {
+            ExecuteDodge();
+        }
 
         // --- TIMER UPDATES ---
         if (isReviving)
@@ -172,6 +181,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void TryShoot()
     {
+        if (!canShoot) return;
         if (Time.time < lastShootTime + shootCooldown) return;
         isShooting=true;
         pendingArrowDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
@@ -329,6 +339,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     }
     public void SetForesightState(bool state)
     {
+        if (!state && lockForesightUntilDodge) return;
         if (hasForesight == state) return; 
         hasForesight = state;
         if (hasForesight) detectionRange *= 2f;
@@ -378,7 +389,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
             jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
         }
-        else if (spellObj != null)
+        else if (spellObj != null && spellObj.activeInHierarchy)
         {
             SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
             if (spellSprite != null && spellSprite.enabled) 
@@ -405,6 +416,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     IEnumerator PhaseDodgeRoutine(Vector2 jumpMove)
     {
         isDodging = true;
+        lockForesightUntilDodge = false;
         int originalLayer = gameObject.layer;
         gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
         

@@ -5175,11 +5175,12 @@ MonoBehaviour:
   damage: 1
   attackCooldown: 1.5
   currentState: 0
+  isTutorialPaused: 0
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 4096
   dodgeTriggerDistance: 4
-  foresightGlow: {fileID: 7307393893010911180}
+  tutorialBat: 0
 --- !u!114 &2549410938233235704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5374,7 +5375,7 @@ MonoBehaviour:
   m_RayLength: 25
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 4294965640
+    m_Bits: 4294963592
   m_ObservationStacks: 1
   m_AlternatingRayOrder: 1
   m_UseBatchedRaycasts: 0

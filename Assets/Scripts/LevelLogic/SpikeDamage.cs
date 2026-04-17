@@ -7,6 +7,12 @@ public class SpikeDamage : MonoBehaviour
     [Tooltip("If true, sends player back to last safe spot. If false, just damages.")]
     [SerializeField] private bool respawnPlayer = true;
 
+    public int GetDamageAmount() => damageAmount;
+    public void SetDamageAmount(int value) => damageAmount = Mathf.Max(0, value);
+
+    public bool GetRespawnPlayer() => respawnPlayer;
+    public void SetRespawnPlayer(bool value) => respawnPlayer = value;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

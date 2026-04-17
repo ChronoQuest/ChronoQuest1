@@ -14,6 +14,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     public float recoilForce = 8f;
     public float recoilDuration = 0.2f;
 
+    [Header("Mana")]
+    public float manaCost = 15f;
+
     [Header("Dependencies")]
     private PlayerMana manaSystem;
 
@@ -85,7 +88,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         if (player.isDashing) return;
         if (WasCastPressed() && Time.time >= nextFireTime && !isCasting)
         {
-            if (manaSystem != null && manaSystem.TrySpendMana(5f)) 
+            if (manaSystem != null && manaSystem.TrySpendMana(manaCost))
             {
                 CastSpell();
                 nextFireTime = Time.time + cooldown;

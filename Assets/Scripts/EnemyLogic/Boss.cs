@@ -344,6 +344,7 @@ public class Boss : EnemyBase, IRewindable
         }
         else
 
+
         //Don't want too much repetition
         if (currentOff == lastOff && currentRes == lastRes)
         {
@@ -624,6 +625,14 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("OffSpawned", offActionSpawned);
         state.SetCustomData("ResSpawned", resActionSpawned);
 
+        // Capture animator state so walk animation reverses properly during rewind
+        if (animator != null)
+        {
+            AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
+            state.SetCustomData("AnimStateHash", animInfo.fullPathHash);
+            state.SetCustomData("AnimNormalizedTime", animInfo.normalizedTime);
+        }
+
         return state;
     }
 
@@ -652,6 +661,19 @@ public class Boss : EnemyBase, IRewindable
 
         offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
         resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
+
+        // Restore animator state so walk animation plays in reverse during rewind
+        if (animator != null)
+        {
+            int animStateHash = state.GetCustomData<int>("AnimStateHash", 0);
+            float animNormalizedTime = state.GetCustomData<float>("AnimNormalizedTime", 0f);
+            
+            if (animStateHash != 0)
+            {
+                animator.Play(animStateHash, 0, animNormalizedTime);
+            }
+            animator.Update(0f);  // Apply the animation state without time progression
+        }
 
         // Keep health bar in sync during rewind scrubbing
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();

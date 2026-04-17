@@ -1,7 +1,12 @@
 fileFormatVersion: 2
-guid: 0d7b6a2073aab6549a7f84baf24f3087
+<<<<<<<< HEAD:Assets/Audio/Enemy Sounds.meta
+guid: f416931b5501ce4438189a740b8804cf
 folderAsset: yes
 DefaultImporter:
+========
+guid: cb727c8a24d9c4664be8189c455b3593
+PrefabImporter:
+>>>>>>>> foresight-showcase:Assets/VCam_Default.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
