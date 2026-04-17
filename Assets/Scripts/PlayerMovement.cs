@@ -106,6 +106,8 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private AudioClip jumpShortClip;
     [SerializeField] private AudioClip jumpLongClip;
     [SerializeField] private AudioClip dashClip;
+    [SerializeField] private AudioClip[] footstepClips;
+    [SerializeField] private float footstepVolume = 0.4f;
 
     private float knockbackTimer;
 
@@ -257,7 +259,12 @@ public class PlayerPlatformer : MonoBehaviour
         // Update Animator Parameters
         if (anim != null)
         {
-            anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
+            float normalizedSpeed = Mathf.Abs(rb.linearVelocity.x) / moveSpeed;
+            normalizedSpeed = Mathf.Clamp01(normalizedSpeed);
+
+            if (normalizedSpeed < 0.05f) normalizedSpeed = 0f;
+
+            anim.SetFloat("Speed", normalizedSpeed);
             if (!isLanding) 
             {
                 anim.SetBool("isGrounded", isGrounded);
@@ -693,5 +700,14 @@ public class PlayerPlatformer : MonoBehaviour
     public void FreezeMovement()
     {
         rb.linearVelocity = Vector2.zero;
+    }
+    public void PlayFootstep()
+    {
+        if (isGrounded && footstepClips != null && footstepClips.Length > 0 && sfxSource != null)
+        {
+            int randomIndex = Random.Range(0, footstepClips.Length);
+            
+            sfxSource.PlayOneShot(footstepClips[randomIndex], footstepVolume);
+        }
     }
 }

@@ -388,6 +388,13 @@ MonoBehaviour:
   jumpShortClip: {fileID: 8300000, guid: ddd56f8ec506afc4fb0d6fc706394b6f, type: 3}
   jumpLongClip: {fileID: 8300000, guid: f35d2fd7739c57d4086445597255d2f5, type: 3}
   dashClip: {fileID: 8300000, guid: dda31a620eb04e04eac78f9601ad76d0, type: 3}
+  footstepClips:
+  - {fileID: 8300000, guid: 44dfd6aeb96807d4484aac84b9c3a796, type: 3}
+  - {fileID: 8300000, guid: 2a5020b425e9cf048a4fed0e3f5d6bce, type: 3}
+  - {fileID: 8300000, guid: a6421234ad48e7d47a76cd5e6e47daf0, type: 3}
+  - {fileID: 8300000, guid: 6e57e1d21798f76458a7ab68460dfedf, type: 3}
+  - {fileID: 8300000, guid: 603a4677dc83a2d4d8412e9c544e2c03, type: 3}
+  - {fileID: 8300000, guid: 05dd4a27dfdcc69429e8825b61480cca, type: 3}
 --- !u!114 &340241791458222048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +558,7 @@ MonoBehaviour:
   minRewindDuration: 0.25
   releaseFramesRequired: 2
   manaDrainPerSecond: 10
+  minManaToStartRewindWhenDead: 15
   playerTacticalModel: {fileID: 0}
 --- !u!66 &2945315806622364923
 CompositeCollider2D:
@@ -613,12 +621,15 @@ MonoBehaviour:
   iFrameDuration: 2
   flashSpeed: 0.1
   currentHealth: 10
+  lowHealthThreshold: 2
+  stopHeartbeatDuringRewind: 1
   vibrationLowFrequency: 0.5
   vibrationHighFrequency: 0.8
   vibrationDuration: 0.2
   sfxSource: {fileID: 2412794728691430052}
   hitClip: {fileID: 8300000, guid: 854c2649d7e14594f95a2d747d2e5a03, type: 3}
   gameOverUI: {fileID: 0}
+  deathSequenceTimeoutSeconds: 2.5
 --- !u!114 &1513486163522757522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +691,7 @@ MonoBehaviour:
   cooldown: 0.4
   recoilForce: 8
   recoilDuration: 0.2
+  manaCost: 15
   playerTacticalModel: {fileID: 0}
   latestSpell: {fileID: 0}
   sfxSource: {fileID: 2412794728691430052}
@@ -705,6 +717,7 @@ MonoBehaviour:
   verticalSlashSize: {x: 4, y: 1.5}
   spellPrefab: {fileID: 6294899724744691538, guid: 4369f0b2705eacc438c5255f58e30c51, type: 3}
   firePoint: {fileID: 1350468422790798404}
+  rainManaCost: 50
   knockbackStrength: 8
   pogoForce: 12
   comboStep: 0
