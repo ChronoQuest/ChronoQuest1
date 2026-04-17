@@ -381,8 +381,8 @@ MonoBehaviour:
   health: 25
   startHealth: 6
   stunOnLand: 0
-  knockbackResistance: 4
-  knockbackUpMultiplier: 0.8
+  knockbackResistance: 15
+  knockbackUpMultiplier: 0
   deathAnimationDuration: 1.1
   detectionRange: 8
   moveSpeed: 3

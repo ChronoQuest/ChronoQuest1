@@ -76,6 +76,7 @@ public class DeathKnightEnemy : EnemyBase
 
     public override void Update()
     {
+        base.Update();
         if (isRewinding || wasDead) return;
         if (player == null) return;
 
@@ -181,8 +182,9 @@ public class DeathKnightEnemy : EnemyBase
     public override void TakeDamage(int amount)
     {
         if (wasDead) return;
-        animator?.SetTrigger("Hit");
         base.TakeDamage(amount);
+        if (!wasDead)
+            animator?.SetTrigger("Hit");
     }
 
     public override void Die()
@@ -217,7 +219,6 @@ public class DeathKnightEnemy : EnemyBase
     public override RewindState CaptureState()
     {
         var state = base.CaptureState();
-        state.SetCustomData("isAttacking",         isAttacking);
         state.SetCustomData("lastAttackTime",       lastAttackTime);
         state.SetCustomData("lastRangedAttackTime", lastRangedAttackTime);
         state.SetCustomData("spriteEnabled",        sprite != null && sprite.enabled);
@@ -235,7 +236,7 @@ public class DeathKnightEnemy : EnemyBase
     public override void ApplyState(RewindState state)
     {
         base.ApplyState(state);
-        isAttacking          = state.GetCustomData<bool>("isAttacking");
+        isAttacking          = false;
         lastAttackTime       = state.GetCustomData<float>("lastAttackTime");
         lastRangedAttackTime = state.GetCustomData<float>("lastRangedAttackTime");
 
