@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b728ac584da4c764c942197813c094ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DeathKnightEnemy
-  health: 6
+  health: 25
   startHealth: 6
   stunOnLand: 0
   knockbackResistance: 4
