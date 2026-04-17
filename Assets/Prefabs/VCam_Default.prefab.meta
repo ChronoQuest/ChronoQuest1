@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Sprites/Forcefield.meta
+guid: 0d556c51c023e0447a08fc80c7fd1b7a
+folderAsset: yes
+DefaultImporter:
+========
 guid: c226cb5546b4348f58db7233e39ab7dc
 PrefabImporter:
+>>>>>>>> dev:Assets/Prefabs/VCam_Default.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
