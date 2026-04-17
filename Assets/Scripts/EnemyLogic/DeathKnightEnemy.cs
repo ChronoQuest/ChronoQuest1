@@ -42,7 +42,6 @@ public class DeathKnightEnemy : EnemyBase
 
     protected override void Awake()
     {
-        health = 6;
         knockbackResistance = 4f;
         deathAnimationDuration = 1.1f;
         base.Awake();
