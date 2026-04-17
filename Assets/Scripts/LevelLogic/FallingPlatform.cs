@@ -33,13 +33,59 @@ public class FallingPlatform : MonoBehaviour, IRewindable
             platformCollider = GetComponent<Collider2D>();
 
         _startPos = transform.position;
+
+        RefreshTutorialSafetyLock();
+    }
+
+    private void Start()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged += HandleDifficultyChanged;
+        HandleDifficultyChanged();
+    }
+
+    private void OnDestroy()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged -= HandleDifficultyChanged;
+    }
+
+    private void HandleDifficultyChanged()
+    {
+        RefreshTutorialSafetyLock();
     }
 
     private void OnEnable() => TimeRewindManager.Instance?.Register(this);
     private void OnDisable() => TimeRewindManager.Instance?.Unregister(this);
 
+    private bool _safetyLocked;
+
+    /// <summary>
+    /// Physics can call OnCollisionEnter2D before Start(), so this must run from Awake / collision.
+    /// </summary>
+    private void RefreshTutorialSafetyLock()
+    {
+        if (_safetyLocked) return;
+
+        int prefVal = PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0);
+        bool managerSafety = DynamicDifficultyManager.Instance != null && DynamicDifficultyManager.Instance.TutorialSafetyActive;
+
+        if (prefVal == 1)
+        {
+            _safetyLocked = true;
+            return;
+        }
+
+        if (managerSafety)
+            _safetyLocked = true;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        RefreshTutorialSafetyLock();
+        if (_safetyLocked)
+            return;
+
         // Only trigger if Player stands on top
         if (!_isFalling && collision.gameObject.CompareTag("Player"))
         {

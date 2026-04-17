@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using TimeRewind;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour, IRewindable
 {
@@ -20,6 +21,16 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     [Range(0, 20)]
     [SerializeField] private int currentHealth;
 
+    [Header("Low Health Hint")]
+
+    [Tooltip("Heartbeat starts when health is at or below this value")]
+    [SerializeField] private int lowHealthThreshold = 2;
+
+    [Tooltip("Disable low-health heartbeat while rewinding")]
+    [SerializeField] private bool stopHeartbeatDuringRewind = true;
+
+    private bool hintHeartbeatActive = false;
+
     [Header("Controller Vibration")]
     [SerializeField] private float vibrationLowFrequency = 0.5f;
     [SerializeField] private float vibrationHighFrequency = 0.8f;
@@ -32,6 +43,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     private Rigidbody2D _rb;
     private float _defaultGravityScale = 1f;
     private RigidbodyConstraints2D _defaultConstraints = RigidbodyConstraints2D.FreezeRotation;
+    private bool _pendingRewindReviveEffect;
 
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
@@ -49,6 +61,9 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public event Action OnDeath;
     private Animator animator; 
     public GameOverUI gameOverUI;
+    [Header("Death / Game Over")]
+    [Tooltip("Safety timeout so death sequence can't stall forever before showing Game Over.")]
+    [SerializeField] private float deathSequenceTimeoutSeconds = 2.5f;
 
     private void Awake()
     {
@@ -62,6 +77,9 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             _defaultGravityScale = _rb.gravityScale;
             _defaultConstraints = _rb.constraints;
         }
+
+        if (gameOverUI == null)
+            gameOverUI = FindFirstObjectByType<GameOverUI>();
     }
 
     private void Start()
@@ -162,6 +180,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     private void UpdateUI()
     {
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        UpdateLowHealthHeartbeat();
     }
 
     private IEnumerator FreezeAnimatorAfterDeath()
@@ -185,6 +205,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
         if (col != null) col.enabled = false;
 
+        float startUnscaled = Time.unscaledTime;
+
         // sets the death animation to trigger
         if (animator != null)
         {
@@ -194,7 +216,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         // waits until player is grounded
         if (playerMovement != null)
         {
-            while (!playerMovement.isGrounded) 
+            while (!playerMovement.isGrounded && (Time.unscaledTime - startUnscaled) < deathSequenceTimeoutSeconds) 
                 yield return null; 
         }
 
@@ -213,10 +235,13 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
         if (animator != null)
         {
-            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Death"))
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Death") &&
+                   (Time.unscaledTime - startUnscaled) < deathSequenceTimeoutSeconds)
                 yield return null; 
 
-            while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) 
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Death") &&
+                   animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f &&
+                   (Time.unscaledTime - startUnscaled) < (deathSequenceTimeoutSeconds + 2.0f))
                 yield return null; 
         }
 
@@ -230,7 +255,24 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         IsDead = true;
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
+
+        // Only set safety if the player dies during the tutorial.
+        // Platforms read this PlayerPrefs key globally, so a tutorial death can keep later
+        // falling-platform sections forgiving even outside tutorial scenes.
+        if (DynamicDifficultyManager.IsTutorialSceneContextActive())
+        {
+            PlayerPrefs.SetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 1);
+            PlayerPrefs.Save();
+        }
+
         Debug.Log("Player Died");
+
+        // Trigger the Game Over UI immediately so death always leads to game-over,
+        // even if animation/grounding waits stall or get cancelled by rewind.
+        if (gameOverUI == null)
+            gameOverUI = FindFirstObjectByType<GameOverUI>();
+        if (gameOverUI != null)
+            gameOverUI.ShowGameOver();
 
         StartCoroutine(HandleDeath()); 
 
@@ -273,10 +315,58 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
     }
+    private void UpdateLowHealthHeartbeat()
+    {
+        if (_isRewinding && stopHeartbeatDuringRewind)
+        {
+            StopHintHeartbeat();
+            StopLowHealthLighting();
+            return;
+        }
 
-    public void OnStartRewind()
+        bool shouldTrigger =
+            currentHealth >= 0 &&
+            currentHealth <= lowHealthThreshold &&
+            !IsDead;
+
+        if (shouldTrigger && !hintHeartbeatActive)
+        {
+            RewindHaptics.Instance.StartHintHeartbeat();
+            StartLowHealthLighting();
+
+            hintHeartbeatActive = true;
+        }
+        else if (!shouldTrigger && hintHeartbeatActive)
+        {
+            StopHintHeartbeat();
+            StopLowHealthLighting();
+        }
+    }
+    private void StopHintHeartbeat()
+    {
+        RewindHaptics.Instance.StopHintHeartbeat();
+        hintHeartbeatActive = false;
+    }
+    private void StartLowHealthLighting()
+    {
+        if (LowHealthVisualController.Instance != null)
+        {
+            LowHealthVisualController.Instance.StartLowHealthEffect();
+        }
+    }
+
+    private void StopLowHealthLighting()
+    {
+         if (LowHealthVisualController.Instance != null)
+        {
+            LowHealthVisualController.Instance.StopLowHealthEffect();
+        }
+    }
+        public void OnStartRewind()
     {
         _isRewinding = true;
+        StopHintHeartbeat();
+        StopLowHealthLighting();
         if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0f, 0f);
         StopAllCoroutines();
         isInvincible = false;
@@ -290,6 +380,14 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {
         _isRewinding = false;
         if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0f, 0f);
+
+        // If we revived during rewind, play the "getting up" effect on exit so it's visible/consistent.
+        if (_pendingRewindReviveEffect && !IsDead)
+        {
+            _pendingRewindReviveEffect = false;
+            var reviveEffect = GetComponent<PlayerReviveEffect>();
+            if (reviveEffect != null) reviveEffect.Play();
+        }
     }
 
     public RewindState CaptureState()
@@ -335,8 +433,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
                 if (gameOverUI != null) gameOverUI.HideGameOver();
 
-                var reviveEffect = GetComponent<PlayerReviveEffect>();
-                if (reviveEffect != null) reviveEffect.Play();
+                // Defer the revive "getting up" effect until rewind stops so the slow-mo reads clearly.
+                _pendingRewindReviveEffect = true;
             }
 
             // This will tell HeartDisplay.cs to animate the hearts filling/emptying

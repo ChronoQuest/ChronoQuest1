@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Sprites/Forcefield/forcefield.anim.meta
 guid: 1e0061dbb7bfeba4aa552fee3f5649bb
 NativeFormatImporter:
+========
+guid: bba1fdaddf27e40bda38e537fd570859
+PrefabImporter:
+>>>>>>>> dev:Assets/Prefabs/ZoomZone Cam.prefab.meta
   externalObjects: {}
   mainObjectFileID: 7400000
   userData: 

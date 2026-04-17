@@ -15,6 +15,9 @@ public class PlayerCombat : MonoBehaviour
     public GameObject spellPrefab;
     public Transform firePoint;
 
+    [Header("Mana")]
+    public float rainManaCost = 50f;
+
     [Header("Knockback")]
     public float knockbackStrength = 8f;
 
@@ -97,7 +100,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) 
         {
             // Costs 20 mana
-            if (manaSystem != null && manaSystem.TrySpendMana(20f))
+            if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
             {
                 anim.SetTrigger("RainAttack");
             }

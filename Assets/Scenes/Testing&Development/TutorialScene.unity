@@ -958,20 +958,30 @@ MonoBehaviour:
   movementHint: {fileID: 1982164483}
   jumpHint: {fileID: 298495539}
   dashHint: {fileID: 1823453591}
+  spellHint: {fileID: 0}
+  wallJumpHint: {fileID: 0}
+  rainSpellHint: {fileID: 0}
+  spikeHint: {fileID: 0}
   player: {fileID: 1373591020}
   playerHealth: {fileID: 0}
-  enemy: {fileID: 843516803}
-  platform: {fileID: 1799452524}
-  attackDistance: 5
-  jumpDistance: 5.5
+  rewindCompleted: 0
   typewriter: {fileID: 254002545}
   movementText: {fileID: 1200219680}
   attackText: {fileID: 1991257668}
   rewindText: {fileID: 878314921}
   jumpText: {fileID: 1927579444}
   dashText: {fileID: 1854989682}
-  idleTimeThreshold: 2
-  movementGracePeriod: 6
+  spellText: {fileID: 0}
+  wallJumpText: {fileID: 0}
+  rainSpellText: {fileID: 0}
+  spikeText: {fileID: 0}
+  attackHintDuration: 2
+  rewindFollow: {fileID: 0}
+  hintFadeDuration: 0.3
+  attackTutorialArea: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &898589882
 Transform:
   m_ObjectHideFlags: 0
@@ -1314,17 +1324,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  coyoteTime: 0.2
+  jumpBufferTime: 0.1
   moveSpeed: 5
   jumpForce: 10
+  knockbackTime: 0.2
+  totalJumpFrames: 9
+  postRewindResponsiveness: 0.75
+  dashSpeed: 20
+  dashDuration: 0.2
+  dashCooldown: 1
+  dashPhaseLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  isDashing: 0
   horizontalInput: 0
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   groundCheck: {fileID: 2026884031}
   groundCheckRadius: 0.35
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  isGrounded: 0
-  jumpBufferTime: 0.1
+  wallSlideSpeed: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.8
+  isTouchingWall: 0
+  isWallSliding: 0
+  extraJumps: 1
+  wallCoyoteTime: 0.15
+  wallJumpPower: {x: 10, y: 15}
+  wallJumpDuration: 0.2
+  wallJumpLockoutTime: 0.2
+  moveLeftKey: 15
+  moveRightKey: 18
+  jumpKey: 1
   tutorialManager: {fileID: 898589881}
+  allowedActions: -1
+  playerTacticModel: {fileID: 0}
 --- !u!50 &1373591021
 Rigidbody2D:
   serializedVersion: 5
@@ -1410,17 +1449,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformer
+  coyoteTime: 0.2
+  jumpBufferTime: 0.1
   moveSpeed: 5
   jumpForce: 25
+  knockbackTime: 0.2
+  totalJumpFrames: 9
+  postRewindResponsiveness: 0.75
+  dashSpeed: 20
+  dashDuration: 0.2
+  dashCooldown: 1
+  dashPhaseLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  isDashing: 0
   horizontalInput: 0
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
   groundCheck: {fileID: 2026884031}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  isGrounded: 1
-  jumpBufferTime: 0.1
+  wallSlideSpeed: 2
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.8
+  isTouchingWall: 0
+  isWallSliding: 0
+  extraJumps: 1
+  wallCoyoteTime: 0.15
+  wallJumpPower: {x: 10, y: 15}
+  wallJumpDuration: 0.2
+  wallJumpLockoutTime: 0.2
+  moveLeftKey: 15
+  moveRightKey: 18
+  jumpKey: 1
   tutorialManager: {fileID: 898589881}
+  allowedActions: -1
+  playerTacticModel: {fileID: 0}
 --- !u!114 &1373591024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1564,6 +1632,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeRewind.PlayerRewindController
   rewindKey: 32
+  rewindHoldThreshold: 0
+  minRewindDuration: 0.25
+  releaseFramesRequired: 2
+  manaDrainPerSecond: 10
+  playerTacticalModel: {fileID: 0}
 --- !u!1 &1454794536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,12 +1709,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
