@@ -761,10 +761,8 @@ public class Boss : EnemyBase, IRewindable
             Rigidbody2D playerRb = col.gameObject.GetComponent<Rigidbody2D>();
             if (playerRb != null)
             {
-                // Push opposite to boss travel direction so player clears the landing zone
-                float pushDir = -Mathf.Sign(rb.linearVelocity.x);
-                if (Mathf.Approximately(pushDir, 0f))
-                    pushDir = Mathf.Sign(col.transform.position.x - transform.position.x);
+                // Push toward whichever side of the stage has more room
+                float pushDir = col.transform.position.x <= 0f ? 1f : -1f;
                 playerRb.linearVelocity = new Vector2(pushDir * playerPushSpeed, playerRb.linearVelocity.y);
             }
         }

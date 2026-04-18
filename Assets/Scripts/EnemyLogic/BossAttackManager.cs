@@ -42,8 +42,11 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnHomingFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 2.5f) * facingDirection;
-        Instantiate(homingFireball, new Vector3(randX,6f,0f), homingFireball.transform.rotation);
+        float playerX = player != null ? player.position.x : 0f;
+        float spawnX = Random.Range(-12f, 12f);
+        for (int i = 0; i < 8 && Mathf.Abs(spawnX - playerX) < 2f; i++)
+            spawnX = Random.Range(-12f, 12f);
+        Instantiate(homingFireball, new Vector3(spawnX, 6f, 0f), homingFireball.transform.rotation);
     }
     public void spawnFireExplosion(int facingDirection)
     {
