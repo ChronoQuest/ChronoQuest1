@@ -14,6 +14,11 @@ public class Boss : EnemyBase, IRewindable
     bool _isRewinding;
     bool offActionSpawned;
     bool resActionSpawned;
+    // Once-per-phase spawn guards for the two "heavy / one-shot" payloads. FireExplosion and
+    // FireWave spawn per Attack2 event on purpose (interleaving is the intended fantasy); only
+    // the FireColumns bundle and FireRow must never stack within a single combat round.
+    bool bundleSpawned;
+    bool fireRowSpawned;
     int facingDirection = 1;
     bool isGrounded;
     float lastDamageTime;
@@ -92,6 +97,7 @@ public class Boss : EnemyBase, IRewindable
         }
         EndPhase();
         InitializeActionQueue();
+        if (attackManager != null) attackManager.boss = transform;
         // Start the boss health bar
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.StartFight();
@@ -407,8 +413,10 @@ public class Boss : EnemyBase, IRewindable
         offTimer = 0f; resTimer = 0f;
         offIndex = 0; resIndex = 0;
             
-        offActionSpawned = false; 
+        offActionSpawned = false;
         resActionSpawned = false;
+        bundleSpawned = false;
+        fireRowSpawned = false;
             
         /* var strategy = playerStrategyModel.GetDominantStrategy();
 
@@ -618,7 +626,9 @@ public class Boss : EnemyBase, IRewindable
         if (resTimer < 1.5f) return false;
         else if (currentRes == ResMove.FireRow)
         {
-            if (!resActionSpawned && resTimer > 1.5f && resTimer < 1.6f)
+            // Skip the res trigger entirely if FireRow was already spawned by the offensive
+            // side's Attack2 event — prevents the boss playing a cast animation for nothing.
+            if (!fireRowSpawned && !resActionSpawned && resTimer > 1.5f && resTimer < 1.6f)
             {
                 if (isPlayingAttack2) return false;
                 animator.SetTrigger("Attack2");
@@ -694,29 +704,31 @@ public class Boss : EnemyBase, IRewindable
 
     public void AnimEvent_Attack2()
     {
-        // FireColumns + Platforms + FloorFire are a combined attack, spawn all together
-        if (currentOff == OffMove.FireColumns)
+        // Each payload decides its own spawn cadence. Bundle (FireColumns + Platforms +
+        // FloorFire) and FireRow are one-shot per combat phase (stacking them is undodgeable).
+        // FireExplosion and FireWave spawn on every Attack2 event — that's what gives the
+        // "interleaved spells" feeling when both sides use Attack2.
+        if (currentOff == OffMove.FireColumns && !bundleSpawned)
         {
             attackManager.spawnFireColumns(facingDirection);
             attackManager.spawnPlatforms(facingDirection);
             attackManager.spawnFloorFire(facingDirection);
+            bundleSpawned = true;
         }
         else if (currentOff == OffMove.FireExplosion)
         {
             attackManager.spawnFireExplosion(facingDirection);
         }
 
-        // Separately check if we should spawn a Restrictive attack
-        if (currentRes == ResMove.FireRow)
+        if (currentRes == ResMove.FireRow && !fireRowSpawned)
         {
             attackManager.spawnFireRow(facingDirection);
+            fireRowSpawned = true;
         }
-        // else if (currentRes == ResMove.FireWave)
-        // {
-        //     attackManager.spawnFireWave(facingDirection);
-        // }
         else if (currentRes == ResMove.FireWave)
+        {
             attackManager.spawnFireWave(facingDirection);
+        }
     }
 
     public void AnimEvent_Attack1Complete()
@@ -787,6 +799,8 @@ public class Boss : EnemyBase, IRewindable
 
         state.SetCustomData("OffSpawned", offActionSpawned);
         state.SetCustomData("ResSpawned", resActionSpawned);
+        state.SetCustomData("BundleSpawned", bundleSpawned);
+        state.SetCustomData("FireRowSpawned", fireRowSpawned);
 
         state.SetCustomData("NextIsPositional", nextIsPositional);
         state.SetCustomData("NextPosMove", (int)nextPosMove);
@@ -836,6 +850,8 @@ public class Boss : EnemyBase, IRewindable
 
         offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
         resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
+        bundleSpawned = state.GetCustomData<bool>("BundleSpawned", false);
+        fireRowSpawned = state.GetCustomData<bool>("FireRowSpawned", false);
 
         nextIsPositional = state.GetCustomData<bool>("NextIsPositional", false);
         nextPosMove = (PosMove)state.GetCustomData<int>("NextPosMove", 0);

@@ -14,6 +14,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public GameObject floorFire;
     public GameObject fireExplosion;
     public Transform player;
+    public Transform boss;
     private bool isRewinding;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -83,7 +84,8 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        GameObject wave = Instantiate(fireWave, new Vector3(6.5f * facingDirection, -6.15f, 0f), transform.rotation);
+        float spawnX = boss != null ? boss.position.x : 6.5f * facingDirection;
+        GameObject wave = Instantiate(fireWave, new Vector3(spawnX, -6.15f, 0f), transform.rotation);
         wave.transform.localScale = new Vector3(facingDirection * -2f, 2f, 1f);
         FireWave fw = wave.GetComponent<FireWave>();
         fw.bossFacingDirection = facingDirection;
