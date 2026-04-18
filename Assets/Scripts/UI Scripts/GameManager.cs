@@ -1,6 +1,19 @@
 using UnityEngine; 
 using System.Collections;
 
+[System.Serializable]
+public class ScoreEntry
+{
+    public string name;
+    public int score;
+
+    public ScoreEntry(string name, int score)
+    {
+        this.name = name;
+        this.score = score; 
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -9,6 +22,13 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject); 
+    }
+
+    public void LevelComplete()
+    {
+        Debug.Log("Level Complete");
+
+        ScoreManager.Instance.AddPoints(200); 
     }
 
     public void GameOver()
@@ -21,13 +41,29 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator SendScore(string name, int score)
-    {
-        string json = JsonUtility.ToJson(new ScoreEntry(name, score));
+    {  
+        ScoreEntry entry = new ScoreEntry(name, score);
+        string json = JsonUtility.ToJson(entry);
 
         var request = new UnityEngine.Networking.UnityWebRequest(
-            "http://localhost:80/score", "POST"
+            "http://192.168.X.X:8000/score", "POST"
         );
 
-        
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+        request.uploadHandler = new UnityEngine.Networking.UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new UnityEngine.Networking.DownloadHandlerBuffer(); 
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest(); 
+
+        if(request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Failed to send score: " + request.error);
+        }
+        else
+        {
+            Debug.Log("Score sent"); 
+        }
     }
 }

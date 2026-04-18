@@ -68,6 +68,12 @@ public class SpellProjectile : MonoBehaviour, IRewindable
             currentLifetime += Time.deltaTime;
             if (currentLifetime >= lifetime)
             {
+                if (!hasHit)
+                {
+                    ScoreManager.Instance.RemovePoints(50);
+                    Debug.Log("Spell Missed");  
+                }
+                
                 ExecuteImpact();
             }
         }
@@ -76,6 +82,15 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit) return;
+
+        if (collision.CompareTag("Enemy"))
+        {
+            hasHit = true; 
+            collision.GetComponent<EnemyBase>()?.TakeDamage(damage); 
+            ScoreManager.Instance.AddPoints(50); 
+            ExecuteImpact(); 
+            return; 
+        }
         
         // 1. Ignore the Player and dodging enemies entirely
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) return;
@@ -211,5 +226,4 @@ public class SpellProjectile : MonoBehaviour, IRewindable
             anim.Update(0f);
         }
     }
-
 }

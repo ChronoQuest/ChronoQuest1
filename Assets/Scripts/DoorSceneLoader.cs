@@ -27,6 +27,7 @@ public class DoorSceneLoader : MonoBehaviour
                         return;
                 }
 
+                ScoreManager.Instance.AddPoints(200); 
                 DataCollectionService.Instance?.RecordDoorEntered(sceneName);
                 DataCollectionService.Instance?.SaveSessionAndStartNew();
                 animator.SetBool("IsOpened", true);

@@ -150,6 +150,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
         if (foresightGlow != null) foresightGlow.SetActive(false);
+        ScoreManager.Instance.AddPoints(50); 
         OnDeath?.Invoke();
         StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us

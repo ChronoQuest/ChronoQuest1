@@ -1,5 +1,6 @@
 using UnityEngine;
 using TimeRewind;
+using System.Collections;
 
 public class Boss : EnemyBase, IRewindable
 {
@@ -678,5 +679,24 @@ public class Boss : EnemyBase, IRewindable
         // Keep health bar in sync during rewind scrubbing
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.SyncAfterRewind();
+    }
+
+    public override void Die()
+    {
+        if (isDead) return; 
+        isDead = true; 
+
+        StartCoroutine(DeathRoutine()); 
+    }
+
+    IEnumerator DeathRoutine()
+    {
+        Debug.Log("Boss Defeated"); 
+
+        GameManager.Instance.GameOver(); 
+
+        yield return new WaitForSeconds(1f); 
+
+        base.Die(); 
     }
 }

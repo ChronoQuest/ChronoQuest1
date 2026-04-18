@@ -1,28 +1,34 @@
 from fastapi import FastAPI
+from pydantic import BaseModel 
 import json
+import os
 
 app = FastAPI()
 FILE = "leaderboard.json"
 
+# --- data model --- 
+class ScoreEntry(BaseModel):
+    name: str
+    score: int
+
+# --- helpers --- 
 def load_scores():
-    try: 
-        with open(FILE) as f:
-            return json.load(f)
-    except:
-        return []
+    with open(FILE) as f:
+        return json.load(f)
     
 def save(data):
+    if not os.path.exists(FILE):
+        return []
     with open(FILE, "w") as f: 
         json.dump(data, f)
 
-@app.get("/")
-async def root():
-    return{"message": "Hello World"}
+# --- routes --- 
+@app.get("/leaderboard")
+def get_leaderboard():
+    data = load_scores()
+    return data
 
-@app.get("/scores")
-async def get_scores():
-    return{"scores": "scores"}
-
-@app.post("/score_display")
-async def display_scores():
+# TODO: define
+@app.post("/score")
+def add_scores():
     return{"score": "scores"}
