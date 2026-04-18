@@ -10,6 +10,9 @@ public class Boss : EnemyBase, IRewindable
     public int damage = 1;
     public float damageCooldown = 1.5f;
     public float playerPushSpeed = 3f;
+
+    // Belief-driven spell cadence multiplier, refreshed per combat phase from the GMM.
+    float tempoMultiplier = 1f;
     CameraShake cameraShake;
 
     bool _isRewinding;
@@ -183,7 +186,11 @@ public class Boss : EnemyBase, IRewindable
         isPositional = Random.value > 0.8f;
         if (isPositional)
         {
-            posMove = Random.value > 0.5f ? PosMove.GroundPound : PosMove.ChangeSides;
+            // Aggressive players press close → boss relocates (ChangeSides).
+            // Cautious players camp → boss drops on them (GroundPound).
+            ReadBeliefs(out float aggressive, out float _, out float cautious);
+            float groundPoundChance = Mathf.Clamp01(0.5f + 0.3f * cautious - 0.3f * aggressive);
+            posMove = Random.value < groundPoundChance ? PosMove.GroundPound : PosMove.ChangeSides;
             off = OffMove.None;
             res = ResMove.None;
         }
@@ -196,23 +203,7 @@ public class Boss : EnemyBase, IRewindable
 
     void RollCombatMoves(out OffMove off, out ResMove res)
     {
-        // Guard for the very first call from Start(), before other MonoBehaviours may have run.
-        if (playerStrategyModel == null ||
-            playerStrategyModel.playerTacticalModel == null ||
-            playerStrategyModel.playerTacticalModel.tacticBeliefs == null)
-        {
-            off = OffMove.Fireballs;
-            res = ResMove.Enemy;
-            lastOff = off;
-            lastRes = res;
-            return;
-        }
-
-        var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
-
-        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
-        float evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
-        float cautious   = tactics[PlayerTacticalModel.TacticType.Cautious];
+        ReadBeliefs(out float aggressive, out float evasive, out float _);
 
         float roll = Random.value;
 
@@ -257,6 +248,39 @@ public class Boss : EnemyBase, IRewindable
 
         lastOff = off;
         lastRes = res;
+    }
+
+    void ReadBeliefs(out float aggressive, out float evasive, out float cautious)
+    {
+        // TEST OVERRIDE: (1,0,0)=Aggressive, (0,1,0)=Evasive, (0,0,1)=Cautious. Comment out to use the GMM.
+        (aggressive, evasive, cautious) = (0.33f, 0.33f, 0.34f); return;
+
+        if (playerStrategyModel == null ||
+            playerStrategyModel.playerTacticalModel == null ||
+            playerStrategyModel.playerTacticalModel.tacticBeliefs == null)
+        {
+            aggressive = evasive = cautious = 1f / 3f;
+            return;
+        }
+        var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
+        aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
+        evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
+        cautious   = tactics[PlayerTacticalModel.TacticType.Cautious];
+    }
+
+    // Pushes belief-derived tuning into combat timing + targeting. Called once per combat
+    // phase so the feel of the fight matches the GMM's current read on the player.
+    void ApplyBeliefModulation()
+    {
+        ReadBeliefs(out float aggressive, out float evasive, out float cautious);
+
+        // Aggressive + cautious both invite faster pressure; evasive players already move
+        // plenty, so keep their cadence close to the default to avoid over-saturation.
+        tempoMultiplier = Mathf.Clamp(1f - 0.3f * aggressive - 0.15f * cautious, 0.55f, 1.1f);
+
+        // Campers get spawns biased onto them; dashers get more random spread.
+        if (attackManager != null)
+            attackManager.playerTargetBias = Mathf.Clamp01(0.75f + 0.2f * cautious - 0.2f * evasive);
     }
 
     void FacePlayer()
@@ -409,7 +433,9 @@ public class Boss : EnemyBase, IRewindable
         isPlayingAttack1 = false;
         isPlayingAttack2 = false;
         FacePlayer();
-        facingDirection = player.position.x > transform.position.x ? -1 : 1; 
+        facingDirection = player.position.x > transform.position.x ? -1 : 1;
+
+        ApplyBeliefModulation();
 
         currentPhase = BossPhase.Combat;
         offTimer = 0f; resTimer = 0f;
@@ -420,126 +446,6 @@ public class Boss : EnemyBase, IRewindable
         bundleSpawned = false;
         fireRowSpawned = false;
             
-        /* var strategy = playerStrategyModel.GetDominantStrategy();
-
-        Debug.Log($"Strategy: {strategy}"); 
-
-        Debug.Log("Boss reacting to strategy");
-
-        // if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
-        // {
-        //     currentOff = OffMove.FireColumns;
-        //     currentRes = ResMove.Platforms;
-        // }
-        // else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
-        // {
-        //     currentOff = OffMove.Fireballs;
-        //     currentRes = ResMove.Enemy;
-        // }
-        // else 
-        // {
-        //     currentOff = OffMove.HomingFireballs;
-        //     currentRes = ResMove.FireWave;
-        // }
-
-        float counterChance = 0.7f; // 70% chance to use counter moves, adjust to taste
-
-        if (Random.value < counterChance)
-        {
-            // Use the counter strategy
-            if (strategy == PlayerStrategyModel.StrategyType.AggressivePlayer)
-            {
-                currentOff = OffMove.FireColumns;
-                currentRes = ResMove.Platforms;
-            }
-            else if (strategy == PlayerStrategyModel.StrategyType.DefensivePlayer)
-            {
-                currentOff = OffMove.Fireballs;
-                currentRes = ResMove.Enemy;
-            }
-            else
-            {
-                currentOff = OffMove.HomingFireballs;
-                currentRes = ResMove.FireWave;
-            }
-        }
-        else
-        {
-            // Pick randomly from the other moves
-            OffMove[] otherOff = strategy == PlayerStrategyModel.StrategyType.AggressivePlayer
-                ? new[] { OffMove.Fireballs, OffMove.HomingFireballs, OffMove.FireExplosion }
-                : strategy == PlayerStrategyModel.StrategyType.DefensivePlayer
-                ? new[] { OffMove.FireColumns, OffMove.HomingFireballs, OffMove.FireExplosion }
-                : new[] { OffMove.Fireballs, OffMove.FireColumns, OffMove.FireExplosion };
-
-            ResMove[] otherRes = strategy == PlayerStrategyModel.StrategyType.AggressivePlayer
-                ? new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Enemy }
-                : strategy == PlayerStrategyModel.StrategyType.DefensivePlayer
-                ? new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Platforms }
-                : new[] { ResMove.FireRow, ResMove.Enemy, ResMove.Platforms };
-
-            currentOff = otherOff[Random.Range(0, otherOff.Length)];
-            currentRes = otherRes[Random.Range(0, otherRes.Length)];
-        }
-
-        else if (strategy == playerStrategyModel.StrategyType.AbilityFocusedPlayer)
-        {
-            currentOff = OffMove.HomingFireballs;
-            currentRes = ResMove.FireWave;
-        } */ 
-
-        // The random tactics roll and repetition logic that used to live here has been
-        // moved to PreRollCombatMoves() (called from EndPhase). Doing the roll before the
-        // idle phase means rewinding during idle replays the same attack. The original
-        // code is preserved below for reference.
-        /*
-        var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
-
-        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
-        float evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
-        float cautious   = tactics[PlayerTacticalModel.TacticType.Cautious];
-
-        float roll = Random.value;
-
-        if (roll < aggressive)
-        {
-            currentOff = OffMove.FireColumns;
-            currentRes = ResMove.Platforms;
-        }
-        else if (roll < aggressive + evasive)
-        {
-            currentOff = OffMove.Fireballs;
-            currentRes = ResMove.Enemy;
-        }
-        else
-
-
-        //Don't want too much repetition
-        if (currentOff == lastOff && currentRes == lastRes)
-        {
-            repeatCount++;
-            if (repeatCount >= 2)
-            {
-                OffMove[] allOff = new[] { OffMove.Fireballs, OffMove.FireColumns, OffMove.HomingFireballs, OffMove.FireExplosion };
-                do { currentOff = allOff[Random.Range(0, allOff.Length)]; }
-                while (currentOff == lastOff);
-
-                ResMove[] allRes = new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Platforms, ResMove.Enemy };
-                do { currentRes = allRes[Random.Range(0, allRes.Length)]; }
-                while (currentRes == lastRes);
-
-                repeatCount = 0;
-            }
-        }
-        else
-        {
-            repeatCount = 0;
-        }
-
-        lastOff = currentOff;
-        lastRes = currentRes;
-        */
-
         currentOff = nextOff;
         currentRes = nextRes;
     }
@@ -564,6 +470,7 @@ public class Boss : EnemyBase, IRewindable
             if (offIndex >= 15) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1.0f : 0.5f;
+            spawnDelay *= tempoMultiplier;
 
             if (offTimer > spawnDelay)
             {
@@ -597,6 +504,7 @@ public class Boss : EnemyBase, IRewindable
             if (offIndex >= 14) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2f : 1f;
+            spawnDelay *= tempoMultiplier;
 
             if (offTimer > spawnDelay)
             {
@@ -613,6 +521,7 @@ public class Boss : EnemyBase, IRewindable
             if (offIndex >= 15) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float spawnDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 1f : 0.5f;
+            spawnDelay *= tempoMultiplier;
 
             if (offTimer > spawnDelay)
             {
@@ -658,8 +567,6 @@ public class Boss : EnemyBase, IRewindable
         }
         else if (currentRes == ResMove.FireWave)
         {
-            if (currentOff == OffMove.HomingFireballs) return offIndex >= 14;
-            if (resIndex >= 7) return true;
             PlayerHealth playerHealth = attackManager.player.GetComponent<PlayerHealth>();
             float baseDelay = (playerHealth != null && playerHealth.CurrentHealth < 3) ? 2.0f : 1.0f;
             float padding = (currentOff == OffMove.Fireballs) ? 0.5f : 1.5f;
@@ -673,7 +580,10 @@ public class Boss : EnemyBase, IRewindable
                 isPlayingAttack2 = true;
                 resIndex++;
             }
-            return false;
+
+            // Completion: sync to off phase when paired with HomingFireballs; otherwise cap at 7 waves.
+            if (currentOff == OffMove.HomingFireballs) return offIndex >= 14;
+            return resIndex >= 7;
         }
         else if (currentRes == ResMove.Platforms)
         {

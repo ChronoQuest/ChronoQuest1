@@ -15,6 +15,9 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public GameObject fireExplosion;
     public Transform player;
     public Transform boss;
+    // Updated by Boss.ApplyBeliefModulation each phase — cautious players get a higher
+    // chance of spawns landing near them, evasive players get more random spread.
+    public float playerTargetBias = 0.75f;
     private bool isRewinding;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,7 +37,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float spawnX = Random.value < 0.75f
+        float spawnX = Random.value < playerTargetBias
             ? player.position.x + Random.Range(-2f, 2f)
             : Random.Range(-12f, 2.5f) * facingDirection;
         Instantiate(fireball, new Vector3(spawnX, 9f, 0f), fireball.transform.rotation);
@@ -51,7 +54,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireExplosion(int facingDirection)
     {
         if (isRewinding) return;
-        float spawnX = Random.value < 0.75f
+        float spawnX = Random.value < playerTargetBias
             ? player.position.x + Random.Range(-2f, 2f)
             : Random.Range(-12f, 2.5f) * facingDirection;
         float randY = Random.Range(-5.7f, -0.9f);
