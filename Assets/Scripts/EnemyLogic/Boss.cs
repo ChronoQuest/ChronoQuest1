@@ -216,13 +216,10 @@ public class Boss : EnemyBase, IRewindable
 
         float roll = Random.value;
 
-        off = lastOff;
-        res = lastRes;
-
         if (roll < aggressive)
         {
             off = OffMove.FireColumns;
-            res = ResMove.Platforms;
+            res = ResMove.None;
         }
         else if (roll < aggressive + evasive)
         {
@@ -230,7 +227,11 @@ public class Boss : EnemyBase, IRewindable
             res = ResMove.Enemy;
         }
         else
-
+        {
+            // Cautious players camp and rewind — punish with tracking + area denial
+            off = OffMove.HomingFireballs;
+            res = ResMove.FireWave;
+        }
 
         //Don't want too much repetition
         if (off == lastOff && res == lastRes)
@@ -242,7 +243,7 @@ public class Boss : EnemyBase, IRewindable
                 do { off = allOff[Random.Range(0, allOff.Length)]; }
                 while (off == lastOff);
 
-                ResMove[] allRes = new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Platforms, ResMove.Enemy };
+                ResMove[] allRes = new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Enemy };
                 do { res = allRes[Random.Range(0, allRes.Length)]; }
                 while (res == lastRes);
 
@@ -583,6 +584,12 @@ public class Boss : EnemyBase, IRewindable
                 isPlayingAttack2 = true;
                 offActionSpawned = true;
             }
+            // Full bundle mode (no res spell): wait for platforms to finish their cycle.
+            if (currentRes == ResMove.None)
+            {
+                PlatformController platform = FindFirstObjectByType<PlatformController>();
+                if (platform != null && !platform.cycleComplete) return false;
+            }
             return offTimer > 5f;
         }
         else if (currentOff == OffMove.HomingFireballs)
@@ -712,8 +719,13 @@ public class Boss : EnemyBase, IRewindable
         if (currentOff == OffMove.FireColumns && !bundleSpawned)
         {
             attackManager.spawnFireColumns(facingDirection);
-            attackManager.spawnPlatforms(facingDirection);
-            attackManager.spawnFloorFire(facingDirection);
+            // Platforms + floor fire only come along as the full bundle — when no res
+            // spell is paired. Otherwise FireColumns is just the columns alone.
+            if (currentRes == ResMove.None)
+            {
+                attackManager.spawnPlatforms(facingDirection);
+                attackManager.spawnFloorFire(facingDirection);
+            }
             bundleSpawned = true;
         }
         else if (currentOff == OffMove.FireExplosion)
