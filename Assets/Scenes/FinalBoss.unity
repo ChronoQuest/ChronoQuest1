@@ -52561,6 +52561,7 @@ MonoBehaviour:
   playerStrategyModel: {fileID: 659603002}
   damage: 1
   damageCooldown: 1.5
+  playerPushSpeed: 2
   isDead: 0
 --- !u!114 &508054508
 MonoBehaviour:
@@ -54930,6 +54931,7 @@ MonoBehaviour:
   floorFire: {fileID: 4536691720510892599, guid: a550ff2b7d16dfb4e8ec10d1721b3f98, type: 3}
   fireExplosion: {fileID: 4123185374693520864, guid: d1044349bc64c024082659f9d295a26b, type: 3}
   player: {fileID: 437452796}
+  boss: {fileID: 0}
 --- !u!4 &1348428425
 Transform:
   m_ObjectHideFlags: 0

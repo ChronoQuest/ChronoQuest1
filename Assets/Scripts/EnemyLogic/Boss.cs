@@ -9,6 +9,7 @@ public class Boss : EnemyBase, IRewindable
 
     public int damage = 1;
     public float damageCooldown = 1.5f;
+    public float playerPushSpeed = 3f;
     CameraShake cameraShake;
 
     bool _isRewinding;
@@ -754,8 +755,20 @@ public class Boss : EnemyBase, IRewindable
     void OnCollisionEnter2D(Collision2D col)
     {
         if (_isRewinding) return;
-        if (col.gameObject.CompareTag("Player")) Damage();
-        if (col.gameObject.CompareTag("Ground")) 
+        if (col.gameObject.CompareTag("Player"))
+        {
+            Damage();
+            Rigidbody2D playerRb = col.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
+            {
+                // Push opposite to boss travel direction so player clears the landing zone
+                float pushDir = -Mathf.Sign(rb.linearVelocity.x);
+                if (Mathf.Approximately(pushDir, 0f))
+                    pushDir = Mathf.Sign(col.transform.position.x - transform.position.x);
+                playerRb.linearVelocity = new Vector2(pushDir * playerPushSpeed, playerRb.linearVelocity.y);
+            }
+        }
+        if (col.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             animator.SetBool("isGrounded", true);
