@@ -52622,7 +52622,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: maxHealth
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: gameOverUI
@@ -52630,7 +52630,7 @@ PrefabInstance:
       objectReference: {fileID: 640208529}
     - target: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: currentHealth
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 744927932359359601, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel

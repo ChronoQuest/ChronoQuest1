@@ -225,6 +225,9 @@ namespace TimeRewind
                 // Boss bools
                 result.SetCustomData("OffSpawned", t < 0.5f ? a.GetCustomData<bool>("OffSpawned", false) : b.GetCustomData<bool>("OffSpawned", false));
                 result.SetCustomData("ResSpawned", t < 0.5f ? a.GetCustomData<bool>("ResSpawned", false) : b.GetCustomData<bool>("ResSpawned", false));
+
+                // MeleeSkeleton
+                result.SetCustomData("pushOffTimer", Mathf.Lerp(a.GetCustomData<float>("pushOffTimer", 0f), b.GetCustomData<float>("pushOffTimer", 0f), t));
             }
 
             return result;
