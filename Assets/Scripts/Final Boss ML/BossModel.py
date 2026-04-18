@@ -134,15 +134,6 @@ print("Mean intra-cluster distance: ", np.mean(intra_distances))
 score = silhouette_score(X_scaled, labels)
 print("\n ----- Silhouette Score:", score, " -----")
 
-print("\n-- Silhouette Score for all covariances and cluster sizes --")
-for cov in ["spherical", "diag", "tied", "full"]:
-    print(f"\nCovariance: {cov}")
-    for k in range(2, 8):
-        gmm = GaussianMixture(n_components=k, covariance_type=cov, random_state=42)
-        labels = gmm.fit_predict(X_scaled)
-        score = silhouette_score(X_scaled, labels)
-        print(f"k={k}, silhouette={score}")
-
 # printing how many samples per cluster 
 print("\n")
 print(df_numeric["cluster"].value_counts())
