@@ -45,16 +45,36 @@ public class Boss : EnemyBase, IRewindable
     ResMove lastRes = ResMove.None;
     int repeatCount = 0;
 
+    // The boss keeps a 2-deep queue of upcoming actions ("next" and "nextNext"). Both slots
+    // are part of the rewind state, so rewinding past the current attack still preserves the
+    // next attack's identity — forward play will hit the same roll.
+    bool nextIsPositional;
+    PosMove nextPosMove;
+    OffMove nextOff;
+    ResMove nextRes;
+    bool nextNextIsPositional;
+    PosMove nextNextPosMove;
+    OffMove nextNextOff;
+    ResMove nextNextRes;
+
+    // Seconds the boss stays idle between phases. Longer gives the player more room to rewind
+    // into the idle window without losing the pre-rolled attack.
+    const float IdleDuration = 1.5f;
+
     // Movement Tracking
     Vector2 moveStart;
     Vector2 movePeak;
     Vector2 moveTarget;
     const float ArenaMinX = -11f;
     const float ArenaMaxX =  11f;
+    // Safety net: if the boss's x exceeds this (e.g. launched off a stray platform),
+    // it gets teleported back to the matching arena edge.
+    const float OffSceneThreshold = 12f;
     float finalTargetX;
     float jumpLateral;
     private Vector3 originalScale;
     private Animator animator;
+    private float groundedY;
     
 
     void Start()
@@ -62,6 +82,7 @@ public class Boss : EnemyBase, IRewindable
         rb = GetComponent<Rigidbody2D>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
         originalScale = transform.localScale;
+        groundedY = transform.position.y;
         animator = GetComponent<Animator>();
         FacePlayer();
         musicController = FindFirstObjectByType<RewindMusicController>();
@@ -70,6 +91,7 @@ public class Boss : EnemyBase, IRewindable
             musicController.PlayBossFightMusic();
         }
         EndPhase();
+        InitializeActionQueue();
         // Start the boss health bar
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.StartFight();
@@ -80,12 +102,42 @@ public class Boss : EnemyBase, IRewindable
         base.Update();
         if (_isRewinding || player == null || wasDead) return;
 
+        if (Mathf.Abs(transform.position.x) > OffSceneThreshold)
+        {
+            TeleportToSafeEdge();
+            return;
+        }
+
         switch (currentPhase)
         {
             case BossPhase.Idle: UpdateIdle(); break;
             case BossPhase.Positional: UpdatePositional(); break;
             case BossPhase.Combat: UpdateCombat(); break;
         }
+    }
+
+    // Safety net for when stray platforms (or any other hazard) launch the boss off-screen.
+    // Snaps the boss back to the arena edge on the same side it left from, facing inward,
+    // wipes any lingering platforms, and resets to Idle so combat can resume cleanly.
+    void TeleportToSafeEdge()
+    {
+        float edgeX = transform.position.x < 0f ? ArenaMinX : ArenaMaxX;
+        Vector2 pos = new Vector2(edgeX, groundedY);
+
+        rb.linearVelocity = Vector2.zero;
+        rb.position = pos;
+        transform.position = pos;
+        isGrounded = true;
+
+        FacePlayer();
+        facingDirection = player.position.x > transform.position.x ? -1 : 1;
+
+        foreach (var pc in FindObjectsByType<PlatformController>(FindObjectsSortMode.None))
+        {
+            Destroy(pc.gameObject);
+        }
+
+        EndPhase();
     }
 
     void EndPhase()
@@ -97,6 +149,106 @@ public class Boss : EnemyBase, IRewindable
         idleTimer = 0f;
 
         animator.SetBool("isGrounded", true);
+    }
+
+    // Fills both queue slots. Called once from Start so there's always a 2-move lookahead.
+    void InitializeActionQueue()
+    {
+        RollPlan(out nextIsPositional, out nextPosMove, out nextOff, out nextRes);
+        RollPlan(out nextNextIsPositional, out nextNextPosMove, out nextNextOff, out nextNextRes);
+    }
+
+    // Consume the front plan (next*) and shift nextNext into its place; roll a fresh back slot.
+    // Called right after an action is kicked off in UpdateIdle.
+    void AdvanceQueue()
+    {
+        nextIsPositional = nextNextIsPositional;
+        nextPosMove = nextNextPosMove;
+        nextOff = nextNextOff;
+        nextRes = nextNextRes;
+        RollPlan(out nextNextIsPositional, out nextNextPosMove, out nextNextOff, out nextNextRes);
+    }
+
+    // Rolls a single action plan. Positional-vs-combat split, then the specifics.
+    // Writes into out params so the same routine can target either queue slot.
+    void RollPlan(out bool isPositional, out PosMove posMove, out OffMove off, out ResMove res)
+    {
+        isPositional = Random.value > 0.8f;
+        if (isPositional)
+        {
+            posMove = Random.value > 0.5f ? PosMove.GroundPound : PosMove.ChangeSides;
+            off = OffMove.None;
+            res = ResMove.None;
+        }
+        else
+        {
+            posMove = PosMove.None;
+            RollCombatMoves(out off, out res);
+        }
+    }
+
+    void RollCombatMoves(out OffMove off, out ResMove res)
+    {
+        // Guard for the very first call from Start(), before other MonoBehaviours may have run.
+        if (playerStrategyModel == null ||
+            playerStrategyModel.playerTacticalModel == null ||
+            playerStrategyModel.playerTacticalModel.tacticBeliefs == null)
+        {
+            off = OffMove.Fireballs;
+            res = ResMove.Enemy;
+            lastOff = off;
+            lastRes = res;
+            return;
+        }
+
+        var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
+
+        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
+        float evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
+        float cautious   = tactics[PlayerTacticalModel.TacticType.Cautious];
+
+        float roll = Random.value;
+
+        off = lastOff;
+        res = lastRes;
+
+        if (roll < aggressive)
+        {
+            off = OffMove.FireColumns;
+            res = ResMove.Platforms;
+        }
+        else if (roll < aggressive + evasive)
+        {
+            off = OffMove.Fireballs;
+            res = ResMove.Enemy;
+        }
+        else
+
+
+        //Don't want too much repetition
+        if (off == lastOff && res == lastRes)
+        {
+            repeatCount++;
+            if (repeatCount >= 2)
+            {
+                OffMove[] allOff = new[] { OffMove.Fireballs, OffMove.FireColumns, OffMove.HomingFireballs, OffMove.FireExplosion };
+                do { off = allOff[Random.Range(0, allOff.Length)]; }
+                while (off == lastOff);
+
+                ResMove[] allRes = new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Platforms, ResMove.Enemy };
+                do { res = allRes[Random.Range(0, allRes.Length)]; }
+                while (res == lastRes);
+
+                repeatCount = 0;
+            }
+        }
+        else
+        {
+            repeatCount = 0;
+        }
+
+        lastOff = off;
+        lastRes = res;
     }
 
     void FacePlayer()
@@ -111,10 +263,12 @@ public class Boss : EnemyBase, IRewindable
     void UpdateIdle()
     {
         idleTimer += Time.deltaTime;
-        if (idleTimer < 1f) return;
+        if (idleTimer < IdleDuration) return;
 
-        if (Random.value > 0.8f) StartPositional();
+        if (nextIsPositional) StartPositional();
         else StartCombat();
+
+        AdvanceQueue();
     }
 
     void StartPositional()
@@ -122,7 +276,7 @@ public class Boss : EnemyBase, IRewindable
         currentPhase = BossPhase.Positional;
         posTimer = 0f;
 
-        if (Random.value > 0.5f) StartGroundPound();
+        if (nextPosMove == PosMove.GroundPound) StartGroundPound();
         else StartChangeSides();
     }
 
@@ -324,6 +478,11 @@ public class Boss : EnemyBase, IRewindable
             currentRes = ResMove.FireWave;
         } */ 
 
+        // The random tactics roll and repetition logic that used to live here has been
+        // moved to PreRollCombatMoves() (called from EndPhase). Doing the roll before the
+        // idle phase means rewinding during idle replays the same attack. The original
+        // code is preserved below for reference.
+        /*
         var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
 
         float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
@@ -340,7 +499,7 @@ public class Boss : EnemyBase, IRewindable
         else if (roll < aggressive + evasive)
         {
             currentOff = OffMove.Fireballs;
-            currentRes = ResMove.Enemy;     
+            currentRes = ResMove.Enemy;
         }
         else
 
@@ -369,6 +528,10 @@ public class Boss : EnemyBase, IRewindable
 
         lastOff = currentOff;
         lastRes = currentRes;
+        */
+
+        currentOff = nextOff;
+        currentRes = nextRes;
     }
 
     void UpdateCombat()
@@ -625,6 +788,18 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("OffSpawned", offActionSpawned);
         state.SetCustomData("ResSpawned", resActionSpawned);
 
+        state.SetCustomData("NextIsPositional", nextIsPositional);
+        state.SetCustomData("NextPosMove", (int)nextPosMove);
+        state.SetCustomData("NextOff", (int)nextOff);
+        state.SetCustomData("NextRes", (int)nextRes);
+        state.SetCustomData("NextNextIsPositional", nextNextIsPositional);
+        state.SetCustomData("NextNextPosMove", (int)nextNextPosMove);
+        state.SetCustomData("NextNextOff", (int)nextNextOff);
+        state.SetCustomData("NextNextRes", (int)nextNextRes);
+        state.SetCustomData("LastOff", (int)lastOff);
+        state.SetCustomData("LastRes", (int)lastRes);
+        state.SetCustomData("RepeatCount", repeatCount);
+
         // Capture animator state so walk animation reverses properly during rewind
         if (animator != null)
         {
@@ -661,6 +836,18 @@ public class Boss : EnemyBase, IRewindable
 
         offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
         resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
+
+        nextIsPositional = state.GetCustomData<bool>("NextIsPositional", false);
+        nextPosMove = (PosMove)state.GetCustomData<int>("NextPosMove", 0);
+        nextOff = (OffMove)state.GetCustomData<int>("NextOff", 0);
+        nextRes = (ResMove)state.GetCustomData<int>("NextRes", 0);
+        nextNextIsPositional = state.GetCustomData<bool>("NextNextIsPositional", false);
+        nextNextPosMove = (PosMove)state.GetCustomData<int>("NextNextPosMove", 0);
+        nextNextOff = (OffMove)state.GetCustomData<int>("NextNextOff", 0);
+        nextNextRes = (ResMove)state.GetCustomData<int>("NextNextRes", 0);
+        lastOff = (OffMove)state.GetCustomData<int>("LastOff", 0);
+        lastRes = (ResMove)state.GetCustomData<int>("LastRes", 0);
+        repeatCount = state.GetCustomData<int>("RepeatCount", 0);
 
         // Restore animator state so walk animation plays in reverse during rewind
         if (animator != null)
