@@ -267,28 +267,44 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Landed on the player? Arrows are ranged, so the archer otherwise has no way to
-        // damage a player it's standing on. Deal damage + a small nudge so it slides off.
         if (!wasDead && !isDying && !isRewinding && collision.gameObject.CompareTag("Player"))
         {
+            bool skeletonOnPlayer = false;
+            bool playerOnSkeleton = false;
             foreach (ContactPoint2D contact in collision.contacts)
             {
-                if (contact.normal.y > 0.7f)
-                {
-                    PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-                    if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                if (contact.normal.y > 0.7f) skeletonOnPlayer = true;
+                if (contact.normal.y < -0.7f) playerOnSkeleton = true;
+            }
 
-                    float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            if (skeletonOnPlayer)
+            {
+                if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
+                if (Mathf.Approximately(pushDir, 0f))
+                    pushDir = transform.localScale.x >= 0f ? -1f : 1f;
+                rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+                pushOffTimer = pushOffDuration;
+                return;
+            }
+
+            if (playerOnSkeleton)
+            {
+                if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+                if (playerRb != null)
+                {
+                    float pushDir = Mathf.Sign(collision.transform.position.x - transform.position.x);
                     if (Mathf.Approximately(pushDir, 0f))
                         pushDir = transform.localScale.x >= 0f ? -1f : 1f;
-                    rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
-                    pushOffTimer = pushOffDuration;
-                    return;
+                    playerRb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
                 }
             }
         }
 
-        // This keeps your existing airborne landing stun logic intact
+        // Airborne landing stun logic
         foreach (ContactPoint2D contact in collision.contacts)
         {
             if (contact.normal.y > 0.7f)

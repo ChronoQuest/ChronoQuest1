@@ -184,25 +184,38 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         if (wasDead || isDying || isRewinding) return;
         if (!collision.gameObject.CompareTag("Player")) return;
 
-        bool landedOnPlayer = false;
+        bool skeletonOnPlayer = false;
+        bool playerOnSkeleton = false;
         foreach (var contact in collision.contacts)
         {
-            if (contact.normal.y > 0.7f)
-            {
-                landedOnPlayer = true;
-                break;
-            }
+            if (contact.normal.y > 0.7f) skeletonOnPlayer = true;
+            if (contact.normal.y < -0.7f) playerOnSkeleton = true;
         }
-        if (!landedOnPlayer) return;
 
         PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
-        if (playerHealth != null) playerHealth.ModifyHealth(-damage);
 
-        float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
-        if (Mathf.Approximately(pushDir, 0f))
-            pushDir = (spriteRenderer != null && spriteRenderer.flipX) ? 1f : -1f;
-        rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
-        pushOffTimer = pushOffDuration;
+        if (skeletonOnPlayer)
+        {
+            if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+            float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
+            if (Mathf.Approximately(pushDir, 0f))
+                pushDir = (spriteRenderer != null && spriteRenderer.flipX) ? 1f : -1f;
+            rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+            pushOffTimer = pushOffDuration;
+        }
+
+        if (playerOnSkeleton)
+        {
+            if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
+            {
+                float pushDir = Mathf.Sign(collision.transform.position.x - transform.position.x);
+                if (Mathf.Approximately(pushDir, 0f))
+                    pushDir = (spriteRenderer != null && spriteRenderer.flipX) ? -1f : 1f;
+                playerRb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+            }
+        }
     }
 
     // ================= REFACTORED DEATH =================
