@@ -31,7 +31,8 @@ public class Boss : EnemyBase, IRewindable
     bool isPlayingAttack2;
 
     enum BossPhase { Idle, Positional, Combat }
-    enum PosMove { None, GroundPound, ChangeSides }
+    enum PosMove { None, GroundPound, ChangeSides, Melee }
+    enum MeleeSubPhase { WalkToPlayer, Attacking, WalkAway }
     enum OffMove { None, Fireballs, FireColumns, HomingFireballs, FireExplosion }
     enum ResMove { None, FireRow, FireWave, Platforms, Enemy }
     public bool isDead = false;
@@ -87,6 +88,21 @@ public class Boss : EnemyBase, IRewindable
     private Vector3 originalScale;
     private Animator animator;
     private float groundedY;
+
+    // Melee attack state: the boss snapshots the player's x at the start, walks there,
+    // swings, then retreats to the nearest arena edge. All three sub-phases share posTimer.
+    MeleeSubPhase meleeSubPhase;
+    float meleeTargetX;
+    float meleeRetreatX;
+    public float meleeRunSpeed = 35f;
+    public float meleeStopBuffer = 0.6f;
+    // Extra horizontal reach of the swing beyond the stop distance — damage registers
+    // if the player is within (bossHalfWidth + playerHalfWidth + meleeStopBuffer + meleeHitReach).
+    public float meleeHitReach = 1.5f;
+    const float MeleeReachTolerance = 0.15f;
+    const float MeleeSwingDuration = 0.7f;
+    const float MeleeHitTime = 0.3f;
+    bool meleeHitApplied;
     
 
     void Start()
@@ -162,6 +178,7 @@ public class Boss : EnemyBase, IRewindable
         idleTimer = 0f;
 
         animator.SetBool("isGrounded", true);
+        animator.SetBool("isRunning", false);
     }
 
     // Fills both queue slots. Called once from Start so there's always a 2-move lookahead.
@@ -186,14 +203,30 @@ public class Boss : EnemyBase, IRewindable
     // Writes into out params so the same routine can target either queue slot.
     void RollPlan(out bool isPositional, out PosMove posMove, out OffMove off, out ResMove res)
     {
+        // TEST: force every attack to be Melee. Remove this block to restore normal rolls.
+        isPositional = true;
+        posMove = PosMove.Melee;
+        off = OffMove.None;
+        res = ResMove.None;
+        return;
+
         isPositional = Random.value > 0.8f;
         if (isPositional)
         {
             // Aggressive players press close → boss relocates (ChangeSides).
             // Cautious players camp → boss drops on them (GroundPound).
-            ReadBeliefs(out float aggressive, out float _, out float cautious);
-            float groundPoundChance = Mathf.Clamp01(0.5f + 0.3f * cautious - 0.3f * aggressive);
-            posMove = Random.value < groundPoundChance ? PosMove.GroundPound : PosMove.ChangeSides;
+            // Cautious/evasive players who maintain distance invite the Melee chase.
+            ReadBeliefs(out float aggressive, out float evasive, out float cautious);
+            float meleeChance = Mathf.Clamp01(0.33f + 0.2f * cautious + 0.1f * evasive - 0.2f * aggressive);
+            if (Random.value < meleeChance)
+            {
+                posMove = PosMove.Melee;
+            }
+            else
+            {
+                float groundPoundChance = Mathf.Clamp01(0.5f + 0.3f * cautious - 0.3f * aggressive);
+                posMove = Random.value < groundPoundChance ? PosMove.GroundPound : PosMove.ChangeSides;
+            }
             off = OffMove.None;
             res = ResMove.None;
         }
@@ -312,6 +345,7 @@ public class Boss : EnemyBase, IRewindable
         posTimer = 0f;
 
         if (nextPosMove == PosMove.GroundPound) StartGroundPound();
+        else if (nextPosMove == PosMove.Melee) StartMelee();
         else StartChangeSides();
     }
 
@@ -319,6 +353,7 @@ public class Boss : EnemyBase, IRewindable
     {
         if (currentPos == PosMove.GroundPound) UpdateGroundPound();
         else if (currentPos == PosMove.ChangeSides) UpdateChangeSides();
+        else if (currentPos == PosMove.Melee) UpdateMelee();
     }
 
     void StartChangeSides()
@@ -429,6 +464,112 @@ public class Boss : EnemyBase, IRewindable
                 }
             }
         }
+    }
+
+    void StartMelee()
+    {
+        currentPos = PosMove.Melee;
+        meleeSubPhase = MeleeSubPhase.WalkToPlayer;
+        // Snapshot the player's x so the boss commits to a fixed strike point; rewind-friendly
+        // because it's captured in state and we don't re-read player.position mid-attack.
+        float playerX = player.position.x;
+
+        // Pull the strike point back by the sum of the two colliders' half-widths plus a small
+        // buffer, so the boss stops just short of touching the player instead of overrunning them.
+        float bossHalfWidth = 0f;
+        var bossCol = GetComponent<Collider2D>();
+        if (bossCol != null) bossHalfWidth = bossCol.bounds.extents.x;
+        float playerHalfWidth = 0f;
+        var playerCol = player.GetComponent<Collider2D>();
+        if (playerCol != null) playerHalfWidth = playerCol.bounds.extents.x;
+        float approachDir = playerX > transform.position.x ? 1f : -1f;
+        float stopX = playerX - approachDir * (bossHalfWidth + playerHalfWidth + meleeStopBuffer);
+
+        meleeTargetX = Mathf.Clamp(stopX, ArenaMinX + 1f, ArenaMaxX - 1f);
+        posTimer = 0f;
+        meleeHitApplied = false;
+        animator.SetBool("isGrounded", true);
+        animator.SetBool("isRunning", true);
+    }
+
+    void UpdateMelee()
+    {
+        posTimer += Time.deltaTime;
+
+        switch (meleeSubPhase)
+        {
+            case MeleeSubPhase.WalkToPlayer:
+                WalkMeleeTowards(meleeTargetX);
+                if (Mathf.Abs(transform.position.x - meleeTargetX) <= MeleeReachTolerance)
+                {
+                    animator.SetBool("isRunning", false);
+                    animator.SetTrigger("Melee");
+                    meleeSubPhase = MeleeSubPhase.Attacking;
+                    posTimer = 0f;
+                }
+                break;
+
+            case MeleeSubPhase.Attacking:
+                // Partway through the swing, check once if the player is within reach and
+                // apply damage directly — the collision hit no longer fires because the boss
+                // deliberately stops short of the player.
+                if (!meleeHitApplied && posTimer >= MeleeHitTime)
+                {
+                    meleeHitApplied = true;
+                    float bossHalfWidth = 0f;
+                    var bossCol = GetComponent<Collider2D>();
+                    if (bossCol != null) bossHalfWidth = bossCol.bounds.extents.x;
+                    float playerHalfWidth = 0f;
+                    var playerCol = player.GetComponent<Collider2D>();
+                    if (playerCol != null) playerHalfWidth = playerCol.bounds.extents.x;
+                    float dx = Mathf.Abs(player.position.x - transform.position.x);
+                    if (dx <= bossHalfWidth + playerHalfWidth + meleeStopBuffer + meleeHitReach)
+                    {
+                        PlayerHealth ph = player.GetComponent<PlayerHealth>();
+                        if (ph != null) ph.ModifyHealth(-damage);
+                        lastDamageTime = Time.time;
+                    }
+                }
+                if (posTimer >= MeleeSwingDuration)
+                {
+                    meleeRetreatX = transform.position.x <= 0f ? ArenaMinX : ArenaMaxX;
+                    meleeSubPhase = MeleeSubPhase.WalkAway;
+                    posTimer = 0f;
+                    animator.SetBool("isRunning", true);
+                    // Force out of Melee even if the clip hasn't reached its exit time yet —
+                    // otherwise the slowed Melee clip keeps playing while the boss runs back.
+                    animator.Play("Run", 0, 0f);
+                }
+                break;
+
+            case MeleeSubPhase.WalkAway:
+                WalkMeleeTowards(meleeRetreatX);
+                if (Mathf.Abs(transform.position.x - meleeRetreatX) <= MeleeReachTolerance)
+                {
+                    animator.SetBool("isRunning", false);
+                    FacePlayer();
+                    facingDirection = player.position.x > transform.position.x ? -1 : 1;
+                    EndPhase();
+                }
+                break;
+        }
+    }
+
+    // Shared horizontal mover for both melee walk sub-phases. Faces the direction of travel
+    // and clamps to groundedY so the boss can't drift off the floor mid-walk.
+    void WalkMeleeTowards(float targetX)
+    {
+        float delta = targetX - transform.position.x;
+        float dir = delta >= 0f ? 1f : -1f;
+
+        transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * dir, originalScale.y, originalScale.z);
+        facingDirection = dir > 0f ? -1 : 1;
+
+        float step = meleeRunSpeed * Time.deltaTime;
+        float newX = Mathf.Abs(delta) <= step
+            ? targetX
+            : transform.position.x + dir * step;
+        rb.MovePosition(new Vector2(newX, groundedY));
     }
 
     void StartCombat()
@@ -790,6 +931,11 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("MovePeak", movePeak);
         state.SetCustomData("MoveTarget", moveTarget);
 
+        state.SetCustomData("MeleeSub", (int)meleeSubPhase);
+        state.SetCustomData("MeleeTargetX", meleeTargetX);
+        state.SetCustomData("MeleeRetreatX", meleeRetreatX);
+        state.SetCustomData("MeleeHitApplied", meleeHitApplied);
+
         state.SetCustomData("OffSpawned", offActionSpawned);
         state.SetCustomData("ResSpawned", resActionSpawned);
         state.SetCustomData("BundleSpawned", bundleSpawned);
@@ -861,6 +1007,21 @@ public class Boss : EnemyBase, IRewindable
         moveStart = state.GetCustomData<Vector2>("MoveStart", Vector2.zero);
         movePeak = state.GetCustomData<Vector2>("MovePeak", Vector2.zero);
         moveTarget = state.GetCustomData<Vector2>("MoveTarget", Vector2.zero);
+
+        meleeSubPhase = (MeleeSubPhase)state.GetCustomData<int>("MeleeSub", 0);
+        meleeTargetX = state.GetCustomData<float>("MeleeTargetX", 0f);
+        meleeRetreatX = state.GetCustomData<float>("MeleeRetreatX", 0f);
+        meleeHitApplied = state.GetCustomData<bool>("MeleeHitApplied", false);
+
+        // Keep the run-bool in sync with the restored melee state so the walk clip resumes
+        // (or stops) correctly when rewind lands mid-attack.
+        if (animator != null)
+        {
+            bool shouldRun = currentPos == PosMove.Melee &&
+                             (meleeSubPhase == MeleeSubPhase.WalkToPlayer ||
+                              meleeSubPhase == MeleeSubPhase.WalkAway);
+            animator.SetBool("isRunning", shouldRun);
+        }
 
         offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
         resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
