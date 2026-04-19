@@ -40,9 +40,14 @@ def save_scores(data):
         json.dump(data, f, indent=4) '''
 
 # --- routes --- 
-@app.get("/", response_class=HTMLResponse)
+''' @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    return templates.TemplateResponse(name="index.html", context={"request": request})
+    return templates.TemplateResponse(name="index.html", context={"request": request}) '''
+
+@app.get("/")
+def test():
+    import os
+    return {"files": os.listdir()}
 
 @app.get("/leaderboard")
 def get_leaderboard():
@@ -52,3 +57,4 @@ def get_leaderboard():
 def add_scores(score: ScoreEntry):
     leaderboard.append(score)
     leaderboard.sort(key=lambda x: x.score, reverse=True)
+    return {"message": "score added"}
