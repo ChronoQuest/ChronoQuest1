@@ -16,12 +16,12 @@ app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), na
 
 leaderboard = []
 
-''' app.add_middleware(
+app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"]
-) ''' 
+) 
 
 # --- data model --- 
 class ScoreEntry(BaseModel):
@@ -42,7 +42,7 @@ def save_scores(data):
 # --- routes --- 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(name="index.html", context={"request": request})
 
 @app.get("/leaderboard")
 def get_leaderboard():
