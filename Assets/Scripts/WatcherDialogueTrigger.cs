@@ -56,6 +56,8 @@ public class WatcherDialogueTrigger : MonoBehaviour
         if (dialogueText == null || dialogueLines == null || dialogueLines.Length == 0)
             yield break;
 
+        WatcherCommentary.DialogueLocked = true;
+
         if (dialogueContainer != null)
         {
             Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
@@ -102,5 +104,7 @@ public class WatcherDialogueTrigger : MonoBehaviour
         dialogueText.text = "";
         dialogueText.maxVisibleCharacters = int.MaxValue;
         dialogueText.enableAutoSizing = true;
+
+        WatcherCommentary.DialogueLocked = false;
     }
 }

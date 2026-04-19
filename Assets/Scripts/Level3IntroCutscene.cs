@@ -150,6 +150,7 @@ public class Level3IntroCutscene : MonoBehaviour
         if (other.GetComponent<PlayerPlatformer>() == null) return;
 
         cutsceneStarted = true;
+        WatcherCommentary.DialogueLocked = true;
 
         // Hide HUD
         if (uiToHide != null)
@@ -389,6 +390,7 @@ public class Level3IntroCutscene : MonoBehaviour
     {
         if (cutsceneFinished) return;
         cutsceneFinished = true;
+        WatcherCommentary.DialogueLocked = false;
 
         EnablePlayerControl();
 

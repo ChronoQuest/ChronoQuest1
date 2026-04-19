@@ -64,6 +64,8 @@ public class DoorSceneLoader : MonoBehaviour
 
     private IEnumerator PlayLockedDialogue()
     {
+        WatcherCommentary.DialogueLocked = true;
+
         if (lockedDialogueContainer != null)
         {
             Canvas parentCanvas = lockedDialogueContainer.GetComponentInParent<Canvas>(true);
@@ -110,6 +112,8 @@ public class DoorSceneLoader : MonoBehaviour
         lockedDialogueText.text = "";
         lockedDialogueText.maxVisibleCharacters = int.MaxValue;
         lockedDialogueText.enableAutoSizing = true;
+
+        WatcherCommentary.DialogueLocked = false;
     }
 
     private IEnumerator Transition(GameObject player)

@@ -1,18 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TimeRewind;
 
 /// <summary>
-/// Periodically reads the ML model beliefs and difficulty tier to deliver
-/// Watcher commentary about the player's playstyle. Does not freeze the player.
-///
-/// Three comment categories:
-///   1. Playstyle — based on PlayerTacticalModel tactic beliefs (Aggressive/Evasive/Cautious)
-///   2. Rewind awareness — based on rewind frequency, evolves from confused to aware across scenes
-///   3. Skill assessment — based on DynamicDifficultyManager tier, delivered near scene end
-///
-/// Max 2 comments per scene. Will not fire during tutorial hints or Level3 cutscene dialogue.
+/// Reads ML model beliefs and difficulty tier to deliver Watcher commentary.
+/// Event-driven: rewind comments fire after rewinds, skill comments fire after
+/// kills or damage, playstyle comments fire on a poll timer.
+/// Weighted random selection between comment categories.
+/// Max 2 comments per scene. Does not freeze the player.
 /// </summary>
 public class WatcherCommentary : MonoBehaviour
 {
@@ -23,178 +21,314 @@ public class WatcherCommentary : MonoBehaviour
     [SerializeField] private float pauseBetweenLines = 1.0f;
     [SerializeField] private float pauseAfterLastLine = 1.5f;
 
-    [Header("Timing")]
-    [Tooltip("Seconds into the scene before the first comment can trigger.")]
+    [Header("Enable / Disable Comment Types")]
+    [SerializeField] private bool enablePlaystyleComments = true;
+    [SerializeField] private bool enableRewindComments = true;
+    [SerializeField] private bool enableSkillComments = true;
+
+    [Header("Category Weights (higher = more likely to be picked)")]
+    [SerializeField] private float playstyleWeight = 1f;
+    [SerializeField] private float rewindWeight = 1.5f;
+    [SerializeField] private float skillWeight = 1f;
+
+    [Header("Playstyle Timing")]
+    [Tooltip("Seconds into the scene before playstyle polling starts.")]
     [SerializeField] private float initialCooldown = 30f;
-    [Tooltip("How often to poll the ML model for a potential comment.")]
+    [Tooltip("How often to poll the ML model for a playstyle comment.")]
     [SerializeField] private float pollInterval = 20f;
     [Tooltip("Minimum tactic belief to trigger a playstyle comment.")]
     [SerializeField] private float beliefThreshold = 0.55f;
+
+    [Header("Rewind")]
     [Tooltip("Number of rewinds in this scene before a rewind comment can trigger.")]
     [SerializeField] private int rewindCountThreshold = 3;
+    [Tooltip("Delay after rewind ends before the comment plays.")]
+    [SerializeField] private float rewindCommentDelay = 1.5f;
+
+    [Header("Skill")]
+    [Tooltip("Minimum seconds into the scene before skill comments can fire.")]
+    [SerializeField] private float skillMinSceneTime = 45f;
+    [Tooltip("Delay after the triggering event before the skill comment plays.")]
+    [SerializeField] private float skillCommentDelay = 1.5f;
 
     [Header("Limits")]
-    [SerializeField] private int maxCommentsPerScene = 2;
+    [SerializeField] private int maxCommentsPerScene = 3;
+    [Tooltip("Minimum seconds between any two comments.")]
+    [SerializeField] private float commentCooldown = 15f;
 
     // ── State ───────────────────────────────────────────────────────────────
     private int commentsThisScene;
     private float sceneStartTime;
     private float nextPollTime;
+    private float lastCommentTime;
     private bool isPlaying;
-    private int rewindCountAtSceneStart;
 
-    // Track which categories have fired this scene
     private bool playstyleCommentFired;
     private bool rewindCommentFired;
     private bool skillCommentFired;
 
-    // Track rewind awareness across scenes (persists via DontDestroyOnLoad)
+    private int rewindsThisScene;
+
+    // Event subscriptions
+    private PlayerRewindController cachedRewindController;
+    private PlayerHealth cachedPlayerHealth;
+    private List<EnemyBase> subscribedEnemies = new List<EnemyBase>();
+
+    // Rewind awareness persists across scenes via static
     private static int scenesWithHighRewind;
-    private static bool instanceExists;
 
-    private void Awake()
+    // ── Clash detection ─────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Static flag other dialogue scripts set while they're showing text.
+    /// </summary>
+    public static bool DialogueLocked { get; set; }
+
+    /// <summary>
+    /// Call this when the player restarts or returns to the main menu
+    /// to reset all cross-scene Watcher state.
+    /// </summary>
+    public static void ResetAll()
     {
-        if (instanceExists)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instanceExists = true;
-        DontDestroyOnLoad(gameObject);
+        scenesWithHighRewind = 0;
+        DialogueLocked = false;
+    }
 
-        SceneManager.activeSceneChanged += OnSceneChanged;
+    // ── Lifecycle ───────────────────────────────────────────────────────────
+
+    private void Start()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        // Reset cross-scene state when entering title screen or the first level (restart)
+        if (sceneName == "TitleScreen" || sceneName == "GameScene")
+            ResetAll();
+
+        sceneStartTime = Time.time;
+        nextPollTime = Time.time + initialCooldown;
+        lastCommentTime = -commentCooldown; // allow immediate first comment
+        DialogueLocked = false;
+        isPlaying = false;
+
+        Debug.Log($"[WatcherCommentary] Started in {sceneName}");
+
+        HideDialogue();
+        SubscribeToEvents();
     }
 
     private void OnDestroy()
     {
-        if (instanceExists && this != null)
+        UnsubscribeFromEvents();
+    }
+
+    private void SubscribeToEvents()
+    {
+        // Rewind events
+        cachedRewindController = FindFirstObjectByType<PlayerRewindController>();
+        if (cachedRewindController != null)
+            cachedRewindController.OnRewindStopped += OnRewindStopped;
+
+        // Player damage events
+        cachedPlayerHealth = FindFirstObjectByType<PlayerHealth>();
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged += OnPlayerHealthChanged;
+
+        // Enemy death events — subscribe to all enemies in the scene
+        foreach (var enemy in FindObjectsByType<EnemyBase>(FindObjectsSortMode.None))
         {
-            instanceExists = false;
-            SceneManager.activeSceneChanged -= OnSceneChanged;
+            enemy.OnDeath += () => OnEnemyKilled(enemy);
+            subscribedEnemies.Add(enemy);
         }
     }
 
-    private void Start()
+    private void UnsubscribeFromEvents()
     {
-        ResetSceneState();
+        if (cachedRewindController != null)
+            cachedRewindController.OnRewindStopped -= OnRewindStopped;
+
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged -= OnPlayerHealthChanged;
     }
 
-    private void OnSceneChanged(Scene oldScene, Scene newScene)
+    // ── Event handlers ──────────────────────────────────────────────────────
+
+    private void OnRewindStopped()
     {
-        ResetSceneState();
+        rewindsThisScene++;
+
+        if (!enableRewindComments) return;
+        if (rewindCommentFired) return;
+        if (rewindsThisScene < rewindCountThreshold) return;
+        if (!CanComment()) return;
+
+        // Try rewind via weighted selection (but it's the triggered category)
+        StartCoroutine(DelayedRewindComment());
     }
 
-    private void ResetSceneState()
+    private IEnumerator DelayedRewindComment()
     {
-        commentsThisScene = 0;
-        playstyleCommentFired = false;
-        rewindCommentFired = false;
-        skillCommentFired = false;
-        sceneStartTime = Time.time;
-        nextPollTime = Time.time + initialCooldown;
+        yield return new WaitForSeconds(rewindCommentDelay);
 
-        var data = DataCollectionService.Instance;
-        rewindCountAtSceneStart = data != null ? data.RewindActivationCount : 0;
+        if (!CanComment()) yield break;
+        if (rewindCommentFired) yield break;
 
-        // Hide dialogue on scene change
-        HideDialogue();
+        string sceneName = SceneManager.GetActiveScene().name;
+        string[] lines = GetRewindLines(sceneName);
+        if (lines == null) yield break;
+
+        PlayComment(lines);
+        rewindCommentFired = true;
+        scenesWithHighRewind++;
     }
+
+    private void OnPlayerHealthChanged(int current, int max)
+    {
+        if (!enableSkillComments) return;
+        if (skillCommentFired) return;
+        if (Time.time - sceneStartTime < skillMinSceneTime) return;
+        if (!CanComment()) return;
+
+        var ddm = DynamicDifficultyManager.Instance;
+        if (ddm == null) return;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
+
+        // Only trigger on damage (health went down) for bad players
+        if (ddm.CurrentTier == DifficultyTier.Easy)
+        {
+            StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
+        }
+    }
+
+    private void OnEnemyKilled(EnemyBase enemy)
+    {
+        if (!enableSkillComments) return;
+        if (skillCommentFired) return;
+        if (Time.time - sceneStartTime < skillMinSceneTime) return;
+        if (!CanComment()) return;
+
+        var ddm = DynamicDifficultyManager.Instance;
+        if (ddm == null) return;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
+
+        // Trigger on kill for good/normal players
+        if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
+        {
+            StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
+        }
+    }
+
+    private IEnumerator DelayedSkillComment(DifficultyTier tier)
+    {
+        yield return new WaitForSeconds(skillCommentDelay);
+
+        if (!CanComment()) yield break;
+        if (skillCommentFired) yield break;
+
+        string[] lines = GetSkillLines(tier);
+        if (lines == null) yield break;
+
+        PlayComment(lines);
+        skillCommentFired = true;
+    }
+
+    // ── Poll-based playstyle check ──────────────────────────────────────────
 
     private void Update()
     {
+        if (!enablePlaystyleComments) return;
         if (isPlaying) return;
-        if (commentsThisScene >= maxCommentsPerScene) return;
+        if (playstyleCommentFired) return;
+        if (!CanComment()) return;
         if (Time.time < nextPollTime) return;
 
         nextPollTime = Time.time + pollInterval;
 
-        if (IsOtherDialogueActive()) return;
+        if (DialogueLocked) return;
 
-        TryComment();
+        // Use weighted selection: if playstyle is chosen, try it.
+        // If not, we just skip this tick (event-driven categories handle themselves).
+        if (ShouldPickPlaystyle())
+        {
+            TryPlaystyleComment();
+        }
     }
 
-    // ── Comment selection ────────────────────────────────────────────────────
-
-    private void TryComment()
+    /// <summary>
+    /// Weighted coin flip: should we attempt a playstyle comment this tick?
+    /// Only considers playstyle vs "do nothing" — rewind and skill are event-driven.
+    /// Returns true with probability proportional to playstyleWeight.
+    /// </summary>
+    private bool ShouldPickPlaystyle()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
+        // If the other event-driven categories haven't fired yet, they might still
+        // fire, so we scale down the playstyle chance proportionally.
+        float totalWeight = playstyleWeight;
+        if (enableRewindComments && !rewindCommentFired) totalWeight += rewindWeight;
+        if (enableSkillComments && !skillCommentFired) totalWeight += skillWeight;
 
-        // Priority order: rewind (rarer, more impactful), playstyle, skill
-        if (!rewindCommentFired && TryRewindComment(sceneName))
-            return;
-
-        if (!playstyleCommentFired && TryPlaystyleComment(sceneName))
-            return;
-
-        // Skill comment fires after enough time in the scene (near end of level)
-        if (!skillCommentFired && Time.time - sceneStartTime > 60f && TrySkillComment(sceneName))
-            return;
+        float roll = Random.value * totalWeight;
+        return roll < playstyleWeight;
     }
 
-    private bool TryPlaystyleComment(string sceneName)
+    private void TryPlaystyleComment()
     {
         var tacticalModel = FindFirstObjectByType<PlayerTacticalModel>();
-        if (tacticalModel == null) return false;
+        if (tacticalModel == null || tacticalModel.gmmModel == null
+            || tacticalModel.gmmModel.means == null)
+        {
+            // GMM not loaded — Watcher can't read the player
+            PlayComment(new[] { "Hmm... I can't read you.", "What are you?" });
+            playstyleCommentFired = true;
+            return;
+        }
 
-        // Find dominant tactic
+        string sceneName = SceneManager.GetActiveScene().name;
+
         float aggressive = 0f, evasive = 0f, cautious = 0f;
         tacticalModel.tacticBeliefs.TryGetValue(PlayerTacticalModel.TacticType.Aggressive, out aggressive);
         tacticalModel.tacticBeliefs.TryGetValue(PlayerTacticalModel.TacticType.Evasive, out evasive);
         tacticalModel.tacticBeliefs.TryGetValue(PlayerTacticalModel.TacticType.Cautious, out cautious);
 
-        // Need a clear dominant tactic
+        if (aggressive + evasive + cautious < 0.01f) return;
+
         string[] lines = null;
 
-        if (aggressive >= beliefThreshold && aggressive > evasive && aggressive > cautious)
-        {
+        if (aggressive >= evasive && aggressive >= cautious && aggressive >= beliefThreshold)
             lines = GetAggressiveLines(sceneName);
-        }
-        else if (evasive >= beliefThreshold && evasive > aggressive && evasive > cautious)
-        {
+        else if (evasive >= aggressive && evasive >= cautious && evasive >= beliefThreshold)
             lines = GetEvasiveLines(sceneName);
-        }
-        else if (cautious >= beliefThreshold && cautious > aggressive && cautious > evasive)
-        {
+        else if (cautious >= aggressive && cautious >= evasive && cautious >= beliefThreshold)
             lines = GetCautiousLines(sceneName);
+
+        // Fallback after enough time
+        if (lines == null && Time.time - sceneStartTime > 45f)
+        {
+            if (aggressive >= evasive && aggressive >= cautious)
+                lines = GetAggressiveLines(sceneName);
+            else if (evasive >= aggressive && evasive >= cautious)
+                lines = GetEvasiveLines(sceneName);
+            else
+                lines = GetCautiousLines(sceneName);
         }
 
-        if (lines == null) return false;
+        if (lines == null) return;
 
         PlayComment(lines);
         playstyleCommentFired = true;
-        return true;
     }
 
-    private bool TryRewindComment(string sceneName)
+    // ── Shared helpers ──────────────────────────────────────────────────────
+
+    private bool CanComment()
     {
-        var data = DataCollectionService.Instance;
-        if (data == null) return false;
-
-        int rewindsThisScene = data.RewindActivationCount - rewindCountAtSceneStart;
-        if (rewindsThisScene < rewindCountThreshold) return false;
-
-        string[] lines = GetRewindLines(sceneName);
-        if (lines == null) return false;
-
-        PlayComment(lines);
-        rewindCommentFired = true;
-        scenesWithHighRewind++;
-        return true;
-    }
-
-    private bool TrySkillComment(string sceneName)
-    {
-        // Only at end of level 1 or 2
-        if (sceneName != "GameScene" && sceneName != "GameScene_2") return false;
-
-        var ddm = DynamicDifficultyManager.Instance;
-        if (ddm == null) return false;
-
-        string[] lines = GetSkillLines(ddm.CurrentTier);
-        if (lines == null) return false;
-
-        PlayComment(lines);
-        skillCommentFired = true;
+        if (commentsThisScene >= maxCommentsPerScene) return false;
+        if (isPlaying) return false;
+        if (DialogueLocked) return false;
+        if (Time.time - lastCommentTime < commentCooldown) return false;
         return true;
     }
 
@@ -247,11 +381,8 @@ public class WatcherCommentary : MonoBehaviour
 
     private string[] GetRewindLines(string sceneName)
     {
-        // Early scenes: Watcher is confused about what he's sensing
-        // Later scenes: he's figured it out but won't say the word "rewind"
         if (scenesWithHighRewind == 0)
         {
-            // First time noticing — confused
             switch (sceneName)
             {
                 case "GameScene":
@@ -259,17 +390,15 @@ public class WatcherCommentary : MonoBehaviour
                 case "GameScene_2":
                     return new[] { "There it is again... that ripple.", "You're doing something. I can feel it." };
                 default:
-                    return new[] { "That feeling... time bending around you.", "I see what you're doing now." };
+                    return new[] { "That feeling...", "I see what you're doing now." };
             }
         }
         else if (scenesWithHighRewind == 1)
         {
-            // Second time — suspicious, starting to understand
             return new[] { "You think I haven't noticed?", "Whatever you're pulling... it won't work on me." };
         }
         else
         {
-            // Third+ time — fully aware
             return new[] { "I know your tricks now. Every last one.", "Go on then. It changes nothing." };
         }
     }
@@ -283,67 +412,10 @@ public class WatcherCommentary : MonoBehaviour
             case DifficultyTier.Hard:
                 return new[] { "Not bad... not bad at all.", "But your fate is all the same." };
             case DifficultyTier.Normal:
-                return new[] { "Adequate. Nothing more.", "We'll see how long that lasts." };
+                return new[] { "Adequate. Nothing more.", "far from enough to match me..." };
             default:
                 return null;
         }
-    }
-
-    // ── Clash detection ─────────────────────────────────────────────────────
-
-    private bool IsOtherDialogueActive()
-    {
-        // Check tutorial hints
-        var tutorial = FindFirstObjectByType<TutorialManager>();
-        if (tutorial != null && tutorial.currentStep != TutorialManager.TutorialStep.None
-            && tutorial.currentStep != TutorialManager.TutorialStep.Complete)
-            return true;
-
-        // Check Level3 intro cutscene
-        var l3Cutscene = FindFirstObjectByType<Level3IntroCutscene>();
-        if (l3Cutscene != null)
-        {
-            // If the cutscene object exists and is active, check if it's still running
-            // by seeing if the dialogue container is active
-            var field = typeof(Level3IntroCutscene).GetField("cutsceneFinished",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (field != null)
-            {
-                bool finished = (bool)field.GetValue(l3Cutscene);
-                if (!finished) return true;
-            }
-        }
-
-        // Check WatcherDialogueTrigger (death dialogue)
-        var deathDialogue = FindFirstObjectByType<WatcherDialogueTrigger>();
-        if (deathDialogue != null)
-        {
-            // Check if its dialogue container is currently active
-            var containerField = typeof(WatcherDialogueTrigger).GetField("dialogueContainer",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (containerField != null)
-            {
-                var container = containerField.GetValue(deathDialogue) as GameObject;
-                if (container != null && container.activeInHierarchy)
-                    return true;
-            }
-        }
-
-        // Check locked door dialogue
-        var doorLoader = FindFirstObjectByType<DoorSceneLoader>();
-        if (doorLoader != null)
-        {
-            var containerField = typeof(DoorSceneLoader).GetField("lockedDialogueContainer",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (containerField != null)
-            {
-                var container = containerField.GetValue(doorLoader) as GameObject;
-                if (container != null && container.activeInHierarchy)
-                    return true;
-            }
-        }
-
-        return false;
     }
 
     // ── Playback ─────────────────────────────────────────────────────────────
@@ -351,16 +423,20 @@ public class WatcherCommentary : MonoBehaviour
     private void PlayComment(string[] lines)
     {
         commentsThisScene++;
+        lastCommentTime = Time.time;
+        Debug.Log($"[WatcherCommentary] Playing comment ({commentsThisScene}/{maxCommentsPerScene}): \"{lines[0]}\"");
         StartCoroutine(PlayDialogue(lines));
     }
 
     private IEnumerator PlayDialogue(string[] lines)
     {
         isPlaying = true;
+        DialogueLocked = true;
 
         if (dialogueText == null || lines == null || lines.Length == 0)
         {
             isPlaying = false;
+            DialogueLocked = false;
             yield break;
         }
 
@@ -402,6 +478,7 @@ public class WatcherCommentary : MonoBehaviour
 
         HideDialogue();
         isPlaying = false;
+        DialogueLocked = false;
     }
 
     private void HideDialogue()
