@@ -56,9 +56,9 @@ def home(request: Request):
 def home():
     return "<h1>HELLO</h1>'"'''''
 
-'''@app.get("/test-template", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 def test_template(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})'''
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/debug-template")
 def debug_template():
