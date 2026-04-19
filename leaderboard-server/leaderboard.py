@@ -56,9 +56,19 @@ def home(request: Request):
 def home():
     return "<h1>HELLO</h1>'"'''''
 
-@app.get("/test-template", response_class=HTMLResponse)
+'''@app.get("/test-template", response_class=HTMLResponse)
 def test_template(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request})'''
+
+@app.get("/debug-template")
+def debug_template():
+    import os
+    return {
+        "cwd": os.getcwd(),
+        "files_root": os.listdir(),
+        "files_server": os.listdir("leaderboard-server"),
+        "files_templates": os.listdir("leaderboard-server/templates"),
+    }
 
 @app.get("/leaderboard")
 def get_leaderboard():
