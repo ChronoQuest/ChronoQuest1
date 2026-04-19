@@ -9,6 +9,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
 from scipy.stats import norm
 from scipy.spatial.distance import pdist 
 from preprocessing import preprocess
@@ -139,8 +141,59 @@ print("\n")
 print(df_numeric["cluster"].value_counts())
     
 
+# ====== PREDICTIONS ======
+# trying to see how well clusters generalise to unseen data
+X_train, X_test = train_test_split(X_scaled, test_size=0.2, random_state=42)
+
+gmm_eval = GaussianMixture(
+    n_components=best_params["n_components"],
+    covariance_type=best_params["covariance_type"],
+    random_state=42,
+    n_init=10
+)
+
+gmm_eval.fit(X_train)
+
+train_score = gmm_eval.score(X_train)
+test_score = gmm_eval.score(X_test)
+print("\n--- Train/Test Evaluation ---")
+print("Train: ", train_score)
+print("Test: ", test_score)
+
+
+# ====== CROSS VALIDATION ======
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
+cv_scores = []
+
+for train_idx, test_idx in kf.split(X_scaled):
+    X_train, X_test = X_scaled[train_idx], X_scaled[test_idx]
+
+    gmm_cv = GaussianMixture(
+        n_components=best_params["n_components"],
+        covariance_type=best_params["covariance_type"],
+        random_state=42,
+        n_init=10
+    )
+
+    gmm_cv.fit(X_train)
+    cv_scores.append(gmm_cv.score(X_test))
+
+print("\n--- Cross Validation ---")
+print("Scores: ", cv_scores)
+print("Mean CV Score: ", np.mean(cv_scores))
+
+
+# ====== FINAL MODEL ======
+best_gmm.fit(X_scaled)
+
 # ====== SAVING MODEL =======
 # saving GMM details for tactic model
+np.save("X_scaled.npy", X_scaled)
+np.save("labels.npy", labels)
+
+with open("best_params.json", "w") as f:
+    json.dump(best_params, f)
+
 model_data = {
     "n_components": best_gmm.n_components,
     "n_features": best_gmm.means_.shape[1],
