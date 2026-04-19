@@ -1,25 +1,33 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates 
 from pydantic import BaseModel 
 import json
 import os
 
-app = FastAPI()
 FILE = "leaderboard.json"
 
-app.add_middleware(
+app = FastAPI()
+templates = Jinja2Templates(directory="leaderboard-server/templates")
+app.mount("/static", StaticFiles(directory="leaderboard-server/static"), name='static')
+
+leaderboard = []
+
+''' app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"]
-)
+) ''' 
 
 # --- data model --- 
 class ScoreEntry(BaseModel):
     name: str
     score: int
 
-# --- helpers --- 
+''' # --- helpers --- 
 def load_scores():
     if not os.path.exists(FILE):    
         return []
@@ -28,22 +36,18 @@ def load_scores():
     
 def save_scores(data):
     with open(FILE, "w") as f:
-        json.dump(data, f, indent=4)
+        json.dump(data, f, indent=4) '''
 
 # --- routes --- 
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
 @app.get("/leaderboard")
 def get_leaderboard():
-    data = load_scores()
-    return sorted(data, key=lambda x: x["score"], reverse=True)
+    return leaderboard
 
 @app.post("/score")
-def add_scores(entry: ScoreEntry):
-    data = load_scores()
-
-    data.append({
-        "name": entry.name,
-        "score": entry.score
-    })
-
-    save_scores(data)
-    return{"message": "Score added"}
+def add_scores(score: ScoreEntry):
+    leaderboard.append(score)
+    leaderboard.sort(key=lambda x: x.score, reverse=True)
