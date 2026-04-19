@@ -677,9 +677,41 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
+    public override void Die()
+    {
+        if (wasDead) return;
+        wasDead = true;
+        isDead = true;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.linearVelocity = Vector2.zero;
+
+        // Every collider off — body contact, attack hit, everything.
+        foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
+
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+
+        // Any-state → Die transition; the clip's last frame holds because we never clear the bool.
+        if (animator != null) animator.SetBool("Death", true);
+
+        OnDeath?.Invoke();
+        // Intentionally skip DeathRoutine — boss stays visible on the final death frame instead
+        // of vanishing like regular enemies.
+    }
+
+    public override void Revive()
+    {
+        base.Revive();
+        foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+        if (animator != null) animator.SetBool("Death", false);
+        isDead = false;
+
+        BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
+        if (driver != null) driver.StartFight();
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (_isRewinding) return;
+        if (_isRewinding || wasDead) return;
         if (col.gameObject.CompareTag("Player"))
         {
             Damage();
@@ -788,7 +820,28 @@ public class Boss : EnemyBase, IRewindable
 
     public override void ApplyState(RewindState state)
     {
+        bool wasDeadBefore = wasDead;
         base.ApplyState(state);
+
+        // Base handles wasDead + the first collider + sprite; boss needs the Death animator
+        // bool and every collider synced too, plus the health bar re-shown on revive.
+        if (wasDead)
+        {
+            isDead = true;
+            if (animator != null) animator.SetBool("Death", true);
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
+        }
+        else
+        {
+            isDead = false;
+            if (animator != null) animator.SetBool("Death", false);
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+            if (wasDeadBefore)
+            {
+                BossHealthBarDriver reviveDriver = GetComponent<BossHealthBarDriver>();
+                if (reviveDriver != null) reviveDriver.StartFight();
+            }
+        }
 
         currentPhase = (BossPhase)state.GetCustomData<int>("Phase", 0);
         currentPos = (PosMove)state.GetCustomData<int>("PosType", 0);
