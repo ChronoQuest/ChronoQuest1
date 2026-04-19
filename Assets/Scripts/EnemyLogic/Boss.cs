@@ -79,6 +79,9 @@ public class Boss : EnemyBase, IRewindable
     // Safety net: if the boss's x exceeds this (e.g. launched off a stray platform),
     // it gets teleported back to the matching arena edge.
     const float OffSceneThreshold = 12f;
+    // Beyond this |x|, we don't shove the player further toward the edge on a jump-landing hit.
+    const float SafePushEdgeX = 9.5f;
+    const float JumpAttackPushSpeed = 1.5f;
     float finalTargetX;
     float jumpLateral;
     private Vector3 originalScale;
@@ -683,9 +686,34 @@ public class Boss : EnemyBase, IRewindable
             Rigidbody2D playerRb = col.gameObject.GetComponent<Rigidbody2D>();
             if (playerRb != null)
             {
-                // Push toward whichever side of the stage has more room
-                float pushDir = col.transform.position.x <= 0f ? 1f : -1f;
-                playerRb.linearVelocity = new Vector2(pushDir * playerPushSpeed, playerRb.linearVelocity.y);
+                float pushDir;
+                float pushSpeed;
+                bool isJumpAttack = currentPhase == BossPhase.Positional &&
+                                    (currentPos == PosMove.GroundPound || currentPos == PosMove.ChangeSides);
+                if (isJumpAttack)
+                {
+                    // Shove opposite to the boss's horizontal travel so the player clears
+                    // the path of the continuing jump instead of eating a second hit.
+                    float travel = moveTarget.x - moveStart.x;
+                    pushDir = travel >= 0f ? -1f : 1f;
+                    pushSpeed = JumpAttackPushSpeed;
+
+                    // If this direction would send the player past the safe edge, cancel
+                    // the horizontal shove so they can't get knocked off the stage.
+                    float playerX = col.transform.position.x;
+                    if ((pushDir > 0f && playerX > SafePushEdgeX) ||
+                        (pushDir < 0f && playerX < -SafePushEdgeX))
+                    {
+                        pushSpeed = 0f;
+                    }
+                }
+                else
+                {
+                    // Push toward whichever side of the stage has more room
+                    pushDir = col.transform.position.x <= 0f ? 1f : -1f;
+                    pushSpeed = playerPushSpeed;
+                }
+                playerRb.linearVelocity = new Vector2(pushDir * pushSpeed, playerRb.linearVelocity.y);
             }
         }
         if (col.gameObject.CompareTag("Ground"))
