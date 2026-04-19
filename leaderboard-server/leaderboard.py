@@ -14,13 +14,13 @@ app = FastAPI()
 '''templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")''' 
 
-templates = Jinja2Templates(directory="leaderboard-server/templates")
-
 app.mount(
     "/static",
     StaticFiles(directory="leaderboard-server/static"),
     name="static"
 )
+
+templates = Jinja2Templates(directory="leaderboard-server/templates")
 
 leaderboard = []
 
@@ -58,7 +58,11 @@ def home():
 
 @app.get("/", response_class=HTMLResponse)
 def test_template(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html", 
+        context={"request": request}
+    )
 
 @app.get("/debug-template")
 def debug_template():
