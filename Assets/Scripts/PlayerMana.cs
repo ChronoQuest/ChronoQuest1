@@ -14,6 +14,7 @@ public class PlayerMana : MonoBehaviour
     
     // Events: The UI Manager will listen to this to update the blue bar
     public event Action<float> OnManaChanged;
+    public event Action OnManaSpendFailed;
 
     private float _baseManaGainOnHit;
     private float _basePassiveRegenRate;
@@ -77,6 +78,7 @@ public class PlayerMana : MonoBehaviour
             ModifyMana(-cost);
             return true;
         }
+        OnManaSpendFailed?.Invoke();
         return false;
     }
 
