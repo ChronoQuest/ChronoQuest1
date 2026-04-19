@@ -20,8 +20,24 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject); 
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Update()
+    {
+        // TESTING LEADERBOARD
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GameOver(); 
+        }
     }
 
     public void LevelComplete()
@@ -46,7 +62,7 @@ public class GameManager : MonoBehaviour
         string json = JsonUtility.ToJson(entry);
 
         var request = new UnityEngine.Networking.UnityWebRequest(
-            "http://192.168.X.X:8000/score", "POST"
+            "http://127.0.0.1:8000/score", "POST"
         );
 
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
