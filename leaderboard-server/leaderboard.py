@@ -10,8 +10,8 @@ import os
 FILE = "leaderboard.json"
 
 app = FastAPI()
-templates = Jinja2Templates(directory="leaderboard-server/templates")
-app.mount("/static", StaticFiles(directory="leaderboard-server/static"), name='static')
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name='static')
 
 leaderboard = []
 
