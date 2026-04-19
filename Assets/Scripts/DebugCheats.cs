@@ -1,13 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class DebugCheats : MonoBehaviour
 {
-    [Header("Keybinds")]
-    public KeyCode toggleGodModeKey    = KeyCode.F1;
-    public KeyCode toggleInfiniteManaKey = KeyCode.F2;
-    public KeyCode loadBossSceneKey    = KeyCode.F3;
-
     private PlayerHealth playerHealth;
     private PlayerMana   playerMana;
 
@@ -22,14 +18,17 @@ public class DebugCheats : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(toggleGodModeKey))
+        var kb = Keyboard.current;
+        if (kb == null) return;
+
+        if (kb.f1Key.wasPressedThisFrame)
         {
             godModeOn = !godModeOn;
             if (!godModeOn) playerHealth?.SetInvincible(false);
             Debug.Log($"God mode: {godModeOn}");
         }
 
-        if (Input.GetKeyDown(toggleInfiniteManaKey))
+        if (kb.f2Key.wasPressedThisFrame)
         {
             infiniteManaOn = !infiniteManaOn;
             Debug.Log($"Infinite mana: {infiniteManaOn}");
@@ -41,7 +40,7 @@ public class DebugCheats : MonoBehaviour
         if (infiniteManaOn && playerMana != null)
             playerMana.SetMana(playerMana.MaxMana);
 
-        if (Input.GetKeyDown(loadBossSceneKey))
+        if (kb.f3Key.wasPressedThisFrame)
             SceneManager.LoadScene("FinalBoss");
     }
 }
