@@ -48,14 +48,13 @@ def save_scores(data):
         json.dump(data, f, indent=4) '''
 
 # --- routes --- 
-@app.get("/", response_class=HTMLResponse)
+''' @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    return templates.TemplateResponse(name="index.html", context={"request": request}) 
+    return templates.TemplateResponse(name="index.html", context={"request": request}) '''
 
-'''@app.get("/")
-def test():
-    import os
-    return {"files": os.listdir()}'''
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return "<h1>HELLO</h1>'"
 
 @app.get("/leaderboard")
 def get_leaderboard():
