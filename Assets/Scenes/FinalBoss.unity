@@ -3675,17 +3675,6 @@ Sprite:
   m_Bones: []
   m_ScriptableObjects: []
   m_SpriteID: 
---- !u!114 &437452787 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-  m_PrefabInstance: {fileID: 526924364}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416134346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d18f9d8a38c744b6b79578532626dcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerHealth
 --- !u!4 &437452796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
@@ -52611,7 +52600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::BossHealthBarDriver
   healthBarUI: {fileID: 887291609}
-  bossName: Boss
+  bossName: THE WATCHER
 --- !u!1001 &526924364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52642,7 +52631,7 @@ PrefabInstance:
       objectReference: {fileID: 764895063}
     - target: {fileID: 1159119340812288305, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: dashPhaseLayers.m_Bits
-      value: 1033
+      value: 1161
       objectReference: {fileID: 0}
     - target: {fileID: 1505052509055262110, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: playerTacticalModel
@@ -52724,23 +52713,15 @@ PrefabInstance:
     - {fileID: 8686103127953602408, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
     - {fileID: 4777569780141679609, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1331646928}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1416134360}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
---- !u!114 &526924365 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-  m_PrefabInstance: {fileID: 526924364}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416134346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerMana
 --- !u!1001 &584221562
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53564,12 +53545,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -53616,7 +53597,7 @@ MonoBehaviour:
   delayedFillImage: {fileID: 0}
   bossNameText: {fileID: 1227441858}
   phaseText: {fileID: 0}
-  slideDistance: 120
+  slideDistance: 165
   slideInDuration: 0.5
   slideOutDuration: 0.4
   lerpSpeed: 6
@@ -54288,6 +54269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1212820365}
   - component: {fileID: 1212820364}
+  - component: {fileID: 1212820366}
   m_Layer: 0
   m_Name: Global Light 2D
   m_TagString: Untagged
@@ -54362,6 +54344,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1212820366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212820363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75eca3db666fb4681857d3e71a367202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::LowHealthVisualController
+  postProcessVolume: {fileID: 893864177}
+  playerPulseLight: {fileID: 1331646929}
+  globalLight: {fileID: 1212820364}
+  pulseSpeed: 6.2
+  darkIntensity: 0.3
+  maxLightIntensity: 0.6
+  playerLightMax: 1.2
+  vignetteMax: 0.55
+  vignetteMin: 0.45
+  blurMax: 0.8
 --- !u!1 &1227441857
 GameObject:
   m_ObjectHideFlags: 0
@@ -54427,12 +54431,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 24
+  m_fontSizeMax: 96
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -54496,8 +54500,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 35}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 48}
+  m_SizeDelta: {x: 450, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1272402558
 PrefabInstance:
@@ -54679,6 +54683,90 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: 41064b950fa9da94882f99bb5563cc4f, type: 3}
   m_PrefabInstance: {fileID: 1284765850}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1331646927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331646928}
+  - component: {fileID: 1331646929}
+  m_Layer: 3
+  m_Name: LowHealthPlayerLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1331646928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331646927}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.16530347, y: 1.134872, z: 0.15894565}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 437452796}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1331646929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331646927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.990566, g: 0.9301669, b: 0.83637416, a: 1}
+  m_Intensity: 0
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 5
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1001 &1334316791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55055,8 +55143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: 700, y: 20}
+  m_AnchoredPosition: {x: 0, y: 30}
+  m_SizeDelta: {x: 950, y: 28}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1001 &1523655596
 PrefabInstance:
@@ -55334,10 +55422,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health_Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 1282564490297637744, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: playerMana
-      value: 
-      objectReference: {fileID: 526924365}
     - target: {fileID: 3724842226651659153, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -55418,14 +55502,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7276164888348976266, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: playerMana
-      value: 
-      objectReference: {fileID: 526924365}
-    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: playerHealth
-      value: 
-      objectReference: {fileID: 437452787}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

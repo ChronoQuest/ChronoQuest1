@@ -40,7 +40,9 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public State currentState = State.Idle;
     private bool isRewinding = false;
     private bool isDead = false;
-    private bool isDodging = false;    
+    public bool isTutorialPaused = false;
+    private bool isDodging = false;
+    private bool isEvasiveDodge = false; 
     private float dodgeDuration = 0.5f;
     private float dodgeTimer = 0f;
     private Vector2 calculatedDodgeVector;
@@ -56,7 +58,8 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     public float dodgeTriggerDistance = 3.4f;
     private int originalLayer;
     private Color originalColor;
-
+    public bool tutorialBat = false;
+    private bool hasDoneTutorialLunge = false;
     void Start()
     {
         enemy = GetComponent<EnemyBase>();
@@ -91,19 +94,31 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     void Update()
     {
-        if (isDead || isRewinding || trainingMode || enemy.GetIsStunned()) return;
+        if (isDead || isRewinding || trainingMode || enemy.GetIsStunned() || isTutorialPaused) return;
     }
 
     void FixedUpdate()
     {
-        if (isDead || isRewinding) return;
+        if (isDead || isRewinding || isTutorialPaused) return;
         if (isDodging)
         {
-            gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
-            if (!enemy.GetIsStunned())
+            if (isEvasiveDodge)
             {
-                spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+                gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+                if (!enemy.GetIsStunned())
+                {
+                    spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+                }
             }
+            else
+            {
+                gameObject.layer = originalLayer;
+                if (!enemy.GetIsStunned())
+                {
+                    spriteRenderer.color = originalColor;
+                }
+            }
+
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             
             dodgeTimer -= Time.fixedDeltaTime;
@@ -111,6 +126,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
             if (dodgeTimer <= 0) 
             {
                 isDodging = false;
+                isEvasiveDodge = false; // Reset flag
                 rb.linearVelocity = Vector2.zero;
                 RequestDecision();
             }
@@ -137,10 +153,58 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         animator.SetBool("hasForesight", true);
         enemy.ForesightGlow?.SetActive(true);
-        if (!isDodging)
+        if (tutorialBat && !hasDoneTutorialLunge)
+        {
+            detectionRange = 8f;
+            
+            Vector2 targetPos = playerCollider.bounds.center;
+
+            Vector2 distanceToTarget = targetPos - (Vector2)transform.position;
+            float maximumTravelDistance = (moveSpeed * 3f) * dodgeDuration;
+            Vector2 approachDirection = distanceToTarget / maximumTravelDistance; 
+            
+            TriggerForesightLunge(approachDirection);
+            
+            Vector3 primarySafeSpot = new Vector3(43f, -2.5f, player.position.z);
+            Vector3 backupSafeSpot  = new Vector3(47f, -2.5f, player.position.z);
+
+            float safeSpotThreshold = 0.75f;
+
+            Vector3 chosenSafeSpot = primarySafeSpot;
+
+            // If player is already near the primary safe spot, use backup instead
+            if (Vector2.Distance(playerCollider.bounds.center, primarySafeSpot) < safeSpotThreshold)
+            {
+                chosenSafeSpot = backupSafeSpot;
+            }
+
+            StartCoroutine(DelayedTutorialTeleport(chosenSafeSpot));
+
+            hasDoneTutorialLunge = true;
+        }
+        else if (!isDodging && !tutorialBat)
         {
             Vector2 approachDirection = (playerCollider.bounds.center - transform.position).normalized;
             TriggerForesightLunge(approachDirection);
+        }
+    }
+    private System.Collections.IEnumerator DelayedTutorialTeleport(Vector3 teleportDestination)
+    {
+        yield return new WaitForSeconds(dodgeDuration * 0.65f);
+
+        if (!isDead && !isRewinding)
+        {
+            Vector3 previousPlayerPosition = player.position;
+
+            player.position = teleportDestination;
+            Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+            if (playerRb != null) playerRb.linearVelocity = Vector2.zero; 
+            
+            TimeRewind.RewindGhostTrail ghostTrail = player.GetComponent<TimeRewind.RewindGhostTrail>();
+            if (ghostTrail != null)
+            {
+                ghostTrail.TriggerTeleportWarp(previousPlayerPosition, teleportDestination);
+            }
         }
     }
 
@@ -187,6 +251,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDodging || isDead || isRewinding) return;
         hasForesight = true;
         isDodging = true;
+        isEvasiveDodge = true;
         dodgeTimer = dodgeDuration;
 
         // Calculate both potential perpendicular escape routes
@@ -218,6 +283,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (isDodging || isDead || isRewinding) return;
         hasForesight = true;
         isDodging = true;
+        isEvasiveDodge = false;
         dodgeTimer = dodgeDuration;
 
         calculatedDodgeVector = approachDirection;
@@ -335,6 +401,15 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     {
         if (isDead || enemy.GetIsStunned()) return;
         float distToPlayer = Vector2.Distance(transform.position, playerCollider.bounds.center);
+        if (tutorialBat)
+        {
+            if (!isDodging)
+            {
+                Hover();
+                FacePlayer();
+            }
+            return;
+        }
         
         if (!trainingMode && distToPlayer > detectionRange)
         {
@@ -363,7 +438,10 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         {
             rb.linearVelocity = calculatedDodgeVector * (moveSpeed * 3f);
             dodgeTimer -= Time.deltaTime;
-            if (dodgeTimer <= 0) isDodging = false;
+            if (dodgeTimer <= 0) {
+                isDodging = false;
+                isEvasiveDodge = false;
+            }
             return;
         }
 
@@ -462,6 +540,11 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
     public void TakeDamage(int amount)
     {
+        if (tutorialBat)
+        {
+            tutorialBat = false;
+            hasDoneTutorialLunge = false;
+        }
         enemy.TakeDamage(amount);
         if (foresightSystem != null) foresightSystem.NotifyDamage();
     }
@@ -499,6 +582,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
 
         isDodging = false;
         hasForesight = false;
+        isEvasiveDodge = false;
         dodgeTimer = 0f;
         animator.SetBool("hasForesight", false);
         enemy.ForesightGlow?.SetActive(false);

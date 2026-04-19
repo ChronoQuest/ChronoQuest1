@@ -48,7 +48,10 @@ public class HealthPickup : MonoBehaviour, IRewindable
     private void Collect(PlayerHealth player)
     {
         // 1. Apply Health
-        player.ModifyHealth(healAmount);
+        int amount = healAmount;
+        if (DynamicDifficultyManager.Instance != null)
+            amount = DynamicDifficultyManager.Instance.ScaleHealingAmount(healAmount);
+        player.ModifyHealth(amount);
 
         // 2. Play Effects
         if (pickupEffectPrefab != null)

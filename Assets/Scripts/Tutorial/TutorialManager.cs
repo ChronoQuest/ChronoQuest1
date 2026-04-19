@@ -17,7 +17,8 @@ public class TutorialManager : MonoBehaviour
         Jump,
         Attack,
         Rewind, 
-        Spell, 
+        Spell,
+        Foresight,
         WallJump, 
         RainSpell,
         SpikeHint, 
@@ -31,6 +32,7 @@ public class TutorialManager : MonoBehaviour
     private GameObject activeHint = null;
     private TutorialStep pendingStep = TutorialStep.None;
     private bool isFading = false; 
+    private float baseOrthoSize;
 
     // references to hint UI elements 
     public GameObject rewindHint;
@@ -39,6 +41,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject jumpHint; 
     public GameObject dashHint;
     public GameObject spellHint; 
+    public GameObject foresightHint;
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
     public GameObject spikeHint; 
@@ -54,10 +57,14 @@ public class TutorialManager : MonoBehaviour
     bool jumpCompleted = false;
     bool dashCompleted = false;
     bool spellCompleted = false; 
+    bool foresightCompleted = false;
     bool wallJumpCompleted = false; 
     bool rainSpellCompleted = false; 
+    private bool pendingForesightAfterRewind = false;
     private RewindMusicController musicController;
-    bool spikeCompleted = false; 
+    bool spikeCompleted = false;
+    public SkeletonArcher tutorialSkeleton;
+    public BatEnemyAI tutorialBat;
 
     public Typewriter typewriter;
     public TextMeshProUGUI movementText;
@@ -66,6 +73,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI jumpText;
     public TextMeshProUGUI dashText; 
     public TextMeshProUGUI spellText;
+    public TextMeshProUGUI foresightText;
     public TextMeshProUGUI wallJumpText; 
     public TextMeshProUGUI rainSpellText; 
     public TextMeshProUGUI spikeText; 
@@ -76,6 +84,7 @@ public class TutorialManager : MonoBehaviour
     private string jumpMessage; 
     private string dashMessage;   
     private string spellMessage;
+    private string foresightMessage;
     private string wallJumpMessage; 
     private string rainSpellMessage; 
     private string spikeMessage; 
@@ -87,6 +96,8 @@ public class TutorialManager : MonoBehaviour
     private int previousHealth;
     private bool jumpAttempted = false;         
     private bool jumpSucceeded = false; 
+    private bool firstSpellCast = false;
+    private float spellCastTime;
     [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow; 
     [SerializeField] private float hintFadeDuration = 0.3f;
@@ -94,10 +105,13 @@ public class TutorialManager : MonoBehaviour
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject spellBlocker;
+    [SerializeField] private GameObject[] rainSpellEnemies;
     private float previousZoom;
     private CameraFollow2D cam; 
     private bool inRewindArea = false; 
     private bool rewindZoomApplied = false; 
+    private bool isWaitingToCompleteForesight = false;
 
     // zoom fixes
     private bool tempZoomActive = false;
@@ -122,6 +136,7 @@ public class TutorialManager : MonoBehaviour
         jumpMessage = jumpText.text; 
         dashMessage = dashText.text; 
         spellMessage = spellText.text;
+        foresightMessage = foresightText.text;
         wallJumpMessage = wallJumpText.text;
         rainSpellMessage = rainSpellText.text; 
         spikeMessage = spikeText.text; 
@@ -131,6 +146,7 @@ public class TutorialManager : MonoBehaviour
         player.allowedActions = PlayerAction.None; 
 
         cam = Camera.main.GetComponent<CameraFollow2D>();
+        baseOrthoSize = Camera.main.orthographicSize;
 
         // track the start of the game, used for the idle check in the movement hint
         gameStartTime = Time.time; 
@@ -169,14 +185,28 @@ public class TutorialManager : MonoBehaviour
 
         if (TimeRewind.TimeRewindManager.Instance != null)
         {
+            TimeRewindManager.Instance.OnRewindStop += HandleRewindStopped;
             TimeRewind.TimeRewindManager.Instance.OnRewindStart += HandleRewindStarted;
         }
     }
 
+    private IEnumerator WaitAndCompleteForesight(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        OnPlayerForesightDemonstrated();
+        isWaitingToCompleteForesight = false; // Reset the flag just in case
+    }
     void Update()
     {   
+        // Advance from foresight hint if we detect input
+        if (currentStep == TutorialStep.Foresight && !foresightCompleted && !isWaitingToCompleteForesight)
+        {
+            isWaitingToCompleteForesight = true;
+            StartCoroutine(WaitAndCompleteForesight(4f));
+        }
+
         // if all hints have been completed, tutorial completed 
-        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
+        if (moveCompleted && rewindCompleted && jumpCompleted && dashCompleted && spellCompleted && foresightCompleted && attackCompleted && wallJumpCompleted && rainSpellCompleted)
         {
             SetStep(TutorialStep.Complete);
             Debug.Log("Tutorial Complete!");
@@ -275,7 +305,6 @@ public class TutorialManager : MonoBehaviour
         cam.SetZoom(tempZoomPrevious); 
         tempZoomActive = false; 
     }
- 
     #endregion
 
     #region Freezing Player Movement
@@ -303,7 +332,7 @@ public class TutorialManager : MonoBehaviour
     }
 
     // slows enemies when the rewind hint is triggered
-    void SlowingEnemies(float radius, float slowMultiplier)
+    public void SlowingEnemies(float radius, float slowMultiplier)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(player.transform.position, radius);
 
@@ -311,6 +340,11 @@ public class TutorialManager : MonoBehaviour
         {
             if (((1 << hit.gameObject.layer) & enemyLayer) == 0)
                 continue;
+
+            // if (tutorialBat != null && hit.GetComponentInParent<BatEnemyAI>() == tutorialBat)
+            // {
+            //     continue;
+            // }
 
             Animator anim = hit.GetComponentInParent<Animator>(); 
             if (anim != null && !slowedAnimators.ContainsKey(anim))
@@ -326,8 +360,14 @@ public class TutorialManager : MonoBehaviour
                 {
                     slowedBats.Add(bat, bat.moveSpeed);
                     bat.moveSpeed *= slowMultiplier; 
-                }
 
+                    if (slowMultiplier <= 0f)
+                    {
+                        bat.isTutorialPaused = true;                        
+                        Rigidbody2D batRb = bat.GetComponent<Rigidbody2D>();
+                        if (batRb != null) batRb.linearVelocity = Vector2.zero; 
+                    }
+                }
                 continue; 
             }
             
@@ -344,7 +384,7 @@ public class TutorialManager : MonoBehaviour
     }
 
     // restores enemy speed after rewind hint is completed
-    void RestoreEnemies()
+    public void RestoreEnemies()
     {
         foreach (var pair in slowedBodies)
         {
@@ -360,6 +400,7 @@ public class TutorialManager : MonoBehaviour
             if (pair.Key != null)
             {
                 pair.Key.moveSpeed = pair.Value; 
+                pair.Key.isTutorialPaused = false;
             }
         }
         slowedBats.Clear(); 
@@ -428,6 +469,13 @@ public class TutorialManager : MonoBehaviour
 
         SetStep(TutorialStep.Spell);
     }
+    public void TriggerForesightHint()
+    {
+        if (foresightCompleted) return; 
+        if (currentStep == TutorialStep.Foresight) return; 
+
+        SetStep(TutorialStep.Foresight);
+    }
 
     public void TriggerWallJumpHint()
     {
@@ -441,6 +489,10 @@ public class TutorialManager : MonoBehaviour
     {
         if (rainSpellCompleted) return;
         if (currentStep == TutorialStep.RainSpell) return;
+
+        if (rainSpellEnemies != null)
+            foreach (var enemy in rainSpellEnemies)
+                if (enemy != null) enemy.SetActive(true);
 
         SetStep(TutorialStep.RainSpell);
     }
@@ -478,6 +530,7 @@ public class TutorialManager : MonoBehaviour
 
     private void HandleRewindStarted()
     {
+        //Time.timeScale = 1f;
         if (currentStep != TutorialStep.Rewind && currentStep != TutorialStep.SpikeHint)
             return;  
         
@@ -495,7 +548,25 @@ public class TutorialManager : MonoBehaviour
         {
             OnPlayerSpike(); 
         }
-    }   
+    }
+    private void HandleRewindStopped()
+    {
+        if (pendingForesightAfterRewind)
+        {
+            pendingForesightAfterRewind = false;
+
+            if (tutorialBat != null)
+            {
+                ForesightSystem foresight = tutorialBat.GetComponent<ForesightSystem>();
+                if (foresight != null)
+                {
+                    foresight.ForceInstantForesight();
+                }
+            }
+
+            TriggerForesightHint();
+        }
+    }
     #endregion
 
     #region Tutorial Completion Functions
@@ -529,6 +600,7 @@ public class TutorialManager : MonoBehaviour
         pendingStep = TutorialStep.None;  
 
         SetStep(TutorialStep.Rewind);
+        //Time.timeScale = 0f;
 
         rewindFollow.SetTarget(player.transform); 
         rewindFollow.enabled = true;
@@ -538,11 +610,40 @@ public class TutorialManager : MonoBehaviour
     {
         if (currentStep == TutorialStep.Spell && !spellCompleted)
         {
-            spellCompleted = true; 
+            spellCompleted = true;
             HideHint(spellHint);
-            AllowAll(); 
+
             Debug.Log("Player spell tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
+            AllowAll();
+
+            spellCastTime = Time.time;
+            if (spellBlocker != null) spellBlocker.SetActive(false);
+            if (tutorialSkeleton != null) tutorialSkeleton.canShoot = true;
+        }
+    }
+    public void OnPlayerForesightDemonstrated()
+    {
+        if (currentStep == TutorialStep.Foresight && !foresightCompleted)
+        {
+            foresightCompleted = true; 
+            HideHint(foresightHint);
+            RestoreEnemies();
+            AllowAll(); 
+            Debug.Log("Player foresight tutorial completed");
+            player.GetComponent<PlayerRewindController>()?.SetRewindBlocked(false);
+            DataCollectionService.Instance?.RecordTutorialStepCompleted();
+            if (tutorialBat != null)
+            {
+                tutorialBat.SetForesightState(false);
+                tutorialBat.tutorialBat = false;
+                // Fully disable bat foresight for the rest of the tutorial
+                ForesightSystem batForesight = tutorialBat.GetComponent<ForesightSystem>();
+                if (batForesight != null)
+                {
+                    batForesight.enabled = false; 
+                }
+            }
         }
     }
     
@@ -577,7 +678,7 @@ public class TutorialManager : MonoBehaviour
             rewindCompleted = true; 
 
             RestoreTempZoom(); 
-
+            RewindHaptics.Instance?.StopHintHeartbeat();
             rewindZoomApplied = false;
             rewindFollow.enabled = false;
             HideHint(rewindHint);
@@ -585,8 +686,28 @@ public class TutorialManager : MonoBehaviour
 
             Debug.Log("Player rewind tutorial complete");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
+
+            pendingForesightAfterRewind = true;
         }
     }
+
+    // void PauseForFailedRewind()
+    // {
+    //     StartCoroutine(ExecuteFailedRewindPause());
+    // }
+
+    // private IEnumerator ExecuteFailedRewindPause()
+    // {
+    //     yield return null; 
+
+    //     var rewindManager = TimeRewind.TimeRewindManager.Instance;
+    //     if (rewindManager != null)
+    //     {
+    //         rewindManager.CancelTimeOverrides();
+    //     }
+
+    //     Time.timeScale = 0f;
+    // }
 
     public void OnPlayerDash()
     {
@@ -605,7 +726,7 @@ public class TutorialManager : MonoBehaviour
         {
             wallJumpCompleted = true; 
             HideHint(wallJumpHint); 
-            // RestoreTempZoom(); 
+            RestoreTempZoom(); 
             Debug.Log("Player wall jump tutorial completed"); 
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -616,8 +737,9 @@ public class TutorialManager : MonoBehaviour
         if (currentStep == TutorialStep.RainSpell && !rainSpellCompleted)
         {
             rainSpellCompleted = true;
+            RestoreEnemies();
             HideHint(rainSpellHint);
-            AllowAll(); 
+            AllowAll();
             Debug.Log("Player rain spell tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
         }
@@ -679,6 +801,7 @@ public class TutorialManager : MonoBehaviour
                 AllowOnly(PlayerAction.Rewind);
                 SlowingEnemies(20f, 0.15f); 
                 ApplyTempZoom(1.5f); 
+                RewindHaptics.Instance?.StartHintHeartbeat(10f);
                 activeHint = rewindHint;
                 ShowHint(rewindHint);
                 rewindText.text = rewindMessage;
@@ -705,6 +828,16 @@ public class TutorialManager : MonoBehaviour
                 spellText.text = spellMessage;
                 typewriter.StartTyping(spellText);
                 break;
+            case TutorialStep.Foresight:
+                //AllowOnly(PlayerAction.None); // Freeze the player to force them to read it
+                //SlowingEnemies(20f, 0.15f); // Completely freeze enemies while reading
+                ApplyTempZoom(1.5f);
+                AllowAll();
+                activeHint = foresightHint;
+                ShowHint(foresightHint);
+                foresightText.text = foresightMessage;
+                typewriter.StartTyping(foresightText);
+                break;
             case TutorialStep.WallJump:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Jump | PlayerAction.WallJump); 
                 
@@ -719,11 +852,12 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(wallJumpText);
                 break;
             case TutorialStep.RainSpell:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell); 
+                AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell);
+                SlowingEnemies(20f, 0.15f);
                 activeHint = rainSpellHint;
                 ShowHint(rainSpellHint);
-                rainSpellText.text = rainSpellMessage; 
-                typewriter.StartTyping(rainSpellText); 
+                rainSpellText.text = rainSpellMessage;
+                typewriter.StartTyping(rainSpellText);
                 break;
             case TutorialStep.SpikeHint:
                 AllowOnly(PlayerAction.Rewind | PlayerAction.Movement);
@@ -744,8 +878,10 @@ public class TutorialManager : MonoBehaviour
         HideHint(jumpHint);
         HideHint(dashHint); 
         HideHint(spellHint);
+        HideHint(foresightHint);
         HideHint(wallJumpHint);
         HideHint(spikeHint); 
+        RewindHaptics.Instance?.StopHintHeartbeat();
     }
     #endregion
 }

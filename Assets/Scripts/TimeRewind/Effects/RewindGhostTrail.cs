@@ -316,5 +316,28 @@ namespace TimeRewind
                 if (go != null) Destroy(go);
             }
         }
+
+        public void TriggerTeleportWarp(Vector3 startPosition, Vector3 endPosition)
+        {
+            if (_playerSprite == null || _playerSprite.sprite == null) return;
+
+            PathSample startSample = new PathSample
+            {
+                position = startPosition,
+                rotation = _playerSprite.transform.rotation,
+                scale = _playerSprite.transform.lossyScale,
+                sprite = _playerSprite.sprite,
+                flipX = _playerSprite.flipX
+            };
+            SpawnGhostAt(startSample, 0.6f, ghostStartColor);
+
+            PathSample midSample = startSample; 
+            midSample.position = Vector3.Lerp(startPosition, endPosition, 0.5f);
+            
+            Color midColor = ghostStartColor;
+            midColor.a *= 0.5f;
+            
+            SpawnGhostAt(midSample, 0.4f, midColor);
+        }
     }
 }
