@@ -50,11 +50,15 @@ def save_scores(data):
 # --- routes --- 
 ''' @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    return templates.TemplateResponse(name="index.html", context={"request": request}) '''
+    return templates.TemplateResponse(name="index.html", context={"request": request})
 
 @app.get("/", response_class=HTMLResponse)
 def home():
-    return "<h1>HELLO</h1>'"
+    return "<h1>HELLO</h1>'"'''''
+
+@app.get("/test-template", response_class=HTMLResponse)
+def test_template(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/leaderboard")
 def get_leaderboard():
