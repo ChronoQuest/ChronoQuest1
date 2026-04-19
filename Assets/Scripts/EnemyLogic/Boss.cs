@@ -253,7 +253,7 @@ public class Boss : EnemyBase, IRewindable
     void ReadBeliefs(out float aggressive, out float evasive, out float cautious)
     {
         // TEST OVERRIDE: (1,0,0)=Aggressive, (0,1,0)=Evasive, (0,0,1)=Cautious. Comment out to use the GMM.
-        (aggressive, evasive, cautious) = (0.33f, 0.33f, 0.34f); return;
+        //(aggressive, evasive, cautious) = (0.33f, 0.33f, 0.34f); return;
 
         if (playerStrategyModel == null ||
             playerStrategyModel.playerTacticalModel == null ||
