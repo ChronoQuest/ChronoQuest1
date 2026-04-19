@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         string json = JsonUtility.ToJson(entry);
 
         var request = new UnityEngine.Networking.UnityWebRequest(
-            "https://chronoquest1.onrender.com", "POST"
+            "https://chronoquest1.onrender.com/score", "POST"
         );
 
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
