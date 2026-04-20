@@ -42,5 +42,8 @@ public class DebugCheats : MonoBehaviour
 
         if (kb.f3Key.wasPressedThisFrame)
             SceneManager.LoadScene("FinalBoss");
+
+        if (kb.f4Key.wasPressedThisFrame)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
