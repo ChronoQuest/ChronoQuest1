@@ -109,6 +109,9 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float dashVolume = 0.6f;
     [SerializeField] private AudioClip[] footstepClips;
     [SerializeField] private float footstepVolume = 0.4f;
+    [SerializeField] public AudioSource loopingAudioSource; 
+    [SerializeField] public AudioClip wallSlideClip;
+    [SerializeField] public float wallSlideVolume = 0.5f;
 
     private float knockbackTimer;
 
@@ -257,6 +260,24 @@ public class PlayerPlatformer : MonoBehaviour
             if (wallAnimationVisualTimer <= 0)
             {
                 isWallSliding = false;
+            }
+        }
+
+        if (isWallSliding)
+        {
+            if (loopingAudioSource != null && wallSlideClip != null && !loopingAudioSource.isPlaying)
+            {
+                loopingAudioSource.clip = wallSlideClip;
+                loopingAudioSource.pitch = Random.Range(0.8f, 1.2f);
+                loopingAudioSource.volume = wallSlideVolume;
+                loopingAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (loopingAudioSource != null && loopingAudioSource.isPlaying && loopingAudioSource.clip == wallSlideClip)
+            {
+                loopingAudioSource.Stop();
             }
         }
 
@@ -665,6 +686,8 @@ public class PlayerPlatformer : MonoBehaviour
     void OnStartRewind()
     {
         _isRewinding = true;
+
+        if (loopingAudioSource != null) loopingAudioSource.Stop();
 
         if (_postRewindSlowCoroutine != null)
         {
