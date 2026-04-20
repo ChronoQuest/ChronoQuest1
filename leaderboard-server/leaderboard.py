@@ -4,16 +4,18 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates 
 from pydantic import BaseModel 
+from dotenv import load_dotenv
 import json
-import os
+import os 
+import psycopg2
+
+load_dotenv()
 
 FILE = "leaderboard.json"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-app = FastAPI()
-'''templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")''' 
-
+app = FastAPI() 
 app.mount(
     "/static",
     StaticFiles(directory="leaderboard-server/static"),
@@ -22,7 +24,19 @@ app.mount(
 
 templates = Jinja2Templates(directory="leaderboard-server/templates")
 
-leaderboard = []
+conn = psycopg2.connect(DATABASE_URL)
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS scores (
+    id SERIAL PRIMARY KEY,
+    player_name TEXT, 
+    score INTEGER
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+"""
+)
+conn.commit()
 
 app.add_middleware(
     CORSMiddleware,
@@ -36,35 +50,16 @@ class ScoreEntry(BaseModel):
     name: str
     score: int
 
-''' # --- helpers --- 
-def load_scores():
-    if not os.path.exists(FILE):    
-        return []
-    with open(FILE, "r") as f:
-        return json.load(f)
-    
-def save_scores(data):
-    with open(FILE, "w") as f:
-        json.dump(data, f, indent=4) '''
-
 # --- routes --- 
-''' @app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse(name="index.html", context={"request": request})
-
 @app.get("/", response_class=HTMLResponse)
-def home():
-    return "<h1>HELLO</h1>'"'''''
-
-@app.get("/", response_class=HTMLResponse)
-def test_template(request: Request):
+def template(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="index.html", 
         context={"request": request}
     )
 
-@app.get("/debug-template")
+'''@app.get("/debug-template")
 def debug_template():
     import os
     return {
@@ -72,14 +67,27 @@ def debug_template():
         "files_root": os.listdir(),
         "files_server": os.listdir("leaderboard-server"),
         "files_templates": os.listdir("leaderboard-server/templates"),
-    }
+    }'''
 
 @app.get("/leaderboard")
 def get_leaderboard():
-    return leaderboard
+    cursor.execute("""
+        SELECT player_name, score
+        FROM scores
+        ORDER BY score DESC
+        LIMIT 10
+    """)
+
+    rows = cursor.fetchall()
+
+    return [{"name": r[0], "score": r[1]} for r in rows]
 
 @app.post("/score")
-def add_scores(score: ScoreEntry):
-    leaderboard.append(score)
-    leaderboard.sort(key=lambda x: x.score, reverse=True)
+def add_scores(entry: ScoreEntry):
+    cursor.execute(
+        "INSERT INTO scores (player_name, score) VALUES (%s, %s)",
+        (entry.name, entry.score)
+    )
+
+    conn.commit()
     return {"message": "score added"}
