@@ -196,6 +196,9 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+  damageClips:
+  - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
+  damageVolume: 0.5
   detectionRange: 7
   moveSpeed: 2
   attackCooldown: 1
@@ -209,7 +212,6 @@ MonoBehaviour:
   phaseInDuration: 1
   _player: {fileID: 0}
   dodgeTriggerDistance: 5
-  foresightGlow: {fileID: 7629854229215387566}
 --- !u!95 &1048562369388960493
 Animator:
   serializedVersion: 7
@@ -244,7 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ForesightSystem
-  foresightThreshold: 0.75
+  baselineHistorySize: 30
+  anomalyZScore: -1.5
+  instantTriggerCost: 0.5
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2
@@ -548,11 +552,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4819c67d8c7da15429331677a158238a, type: 3}
---- !u!1 &7629854229215387566 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
-  m_PrefabInstance: {fileID: 754764167609402488}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8295234354803274789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}

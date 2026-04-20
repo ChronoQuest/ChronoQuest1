@@ -356,6 +356,9 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.7
   deathAnimationDuration: 0.6
+  damageClips:
+  - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
+  damageVolume: 1
   detectionRange: 5
   loseRange: 15
   moveSpeed: 2
@@ -461,7 +464,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -506,7 +509,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.9
       inSlope: 0
       outSlope: 0
       tangentMode: 0

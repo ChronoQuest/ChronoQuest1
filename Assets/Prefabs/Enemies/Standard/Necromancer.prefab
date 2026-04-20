@@ -180,29 +180,55 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
-  detectionRange: 10
-  safeDistance: 4
+  damageClips:
+  - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
+  damageVolume: 0.5
   moveSpeed: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  groundCheck: {fileID: 0}
+  groundCheckWidth: 0.3
+  groundCheckHeight: 0.1
   groundDetectionOffset: 1.3
-  ledgeCheckOffset: 1.5
-  ledgeCheckDepth: 2
+  fleeWaypoints: []
+  maxFleeDistance: 18
+  resumeFleeDistance: 14
+  maxJumpForce: 20
+  jumpClearanceBuffer: 0.5
+  wallAheadDistance: 0.9
+  wallTopScanStep: 0.25
+  wallTopScanMax: 5
+  jumpCooldown: 0.6
+  jumpUpThreshold: 0.8
+  jumpUpXRange: 2.5
+  totalJumpFrames: 9
+  midAirSpeedMultiplier: 1.8
+  launchSeekRange: 20
+  corneredWallCheckDist: 1.8
+  ledgeDropCheckDist: 3
+  corneredAttackCooldown: 1.2
+  corneredMinDuration: 3
+  stuckTimeThreshold: 2.5
+  stuckDistanceThreshold: 0.3
+  waypointTimeoutDuration: 30
+  fleeCastIntervalMin: 4
+  fleeCastIntervalMax: 9
   reviveCooldown: 5
   reviveAnimDuration: 1.2
   minionDeadRequiredTime: 3
-  attackRange: 8
+  reviveHealthBonus: 1
   attackCooldown: 3
   attackAnimDuration: 0.8
   attackDamage: 1
   spellPrefab: {fileID: 4829135501635859076, guid: 1452b2040651f9d4aac41a3e7c657e75, type: 3}
   spellPoolSize: 6
+  player: {fileID: 0}
   minions:
   - {fileID: 0}
   - {fileID: 0}
+  detectionRange: 10
   dodgeTriggerDistance: 5
-  foresightGlow: {fileID: 455386781381231373}
   currentState: 0
 --- !u!70 &31513771389696814
 CapsuleCollider2D:
@@ -253,7 +279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ForesightSystem
-  foresightThreshold: 0.75
+  baselineHistorySize: 30
+  anomalyZScore: -1.5
+  instantTriggerCost: 0.5
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2
@@ -261,6 +289,30 @@ MonoBehaviour:
   minTimelineSize: 3
   bandWidth: 6
   recordInterval: 0.3
+  minDistToPlayer: 30
+--- !u!114 &7902310529069445977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2742979974419632661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6964993200dc34ca8ac15eb03f0192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::EnemyHealthBar
+  fillRect: {fileID: 0}
+  healthBarRoot: {fileID: 0}
+  hideWhenFull: 1
+  hideDelay: 2.5
+  lerpSpeed: 8
+  highHealthColor: {r: 0.18, g: 0.85, b: 0.35, a: 1}
+  midHealthColor: {r: 1, g: 0.8, b: 0.15, a: 1}
+  lowHealthColor: {r: 0.9, g: 0.18, b: 0.18, a: 1}
+  fillImage: {fileID: 0}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.12
 --- !u!1001 &7334677282613319899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,36 +330,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4819c67d8c7da15429331677a158238a, type: 3}
---- !u!1 &455386781381231373 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
-  m_PrefabInstance: {fileID: 7334677282613319899}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2066558013013780614 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
   m_PrefabInstance: {fileID: 7334677282613319899}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7902310529069445977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2742979974419632661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b6964993200dc34ca8ac15eb03f0192, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::EnemyHealthBar
-  fillRect: {fileID: 754903013716070017}
-  healthBarRoot: {fileID: 7597268323453891496}
-  hideWhenFull: 1
-  hideDelay: 2.5
-  lerpSpeed: 8
-  highHealthColor: {r: 0.18, g: 0.85, b: 0.35, a: 1}
-  midHealthColor: {r: 1, g: 0.8, b: 0.15, a: 1}
-  lowHealthColor: {r: 0.9, g: 0.18, b: 0.18, a: 1}
-  fillImage: {fileID: 2927931694016169679}
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashDuration: 0.12

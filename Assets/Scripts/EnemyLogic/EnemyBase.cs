@@ -27,6 +27,12 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     [Header("Death Settings")]
     public float deathAnimationDuration = 0.6f;
 
+    [Header("Audio")]
+    public AudioClip[] damageClips;
+    [Range(0f, 1f)] public float damageVolume = 0.5f;
+
+    protected AudioSource audioSource;
+
     protected Rigidbody2D rb;
     protected SpriteRenderer sprite;
     protected HitFlash flash;
@@ -59,6 +65,18 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         {
             health = Mathf.Max(1, Mathf.RoundToInt(health * hpMult));
         }
+
+        GameObject hitAudioObj = new GameObject("HitAudio");
+        hitAudioObj.transform.SetParent(transform);
+        hitAudioObj.transform.localPosition = Vector3.zero;
+
+        audioSource = hitAudioObj.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;
+        audioSource.minDistance = 3f;
+        audioSource.maxDistance = 20f;
+        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
 
         startHealth = health;
         originalBodyType = rb.bodyType; // captured once — represents alive body type
@@ -104,6 +122,12 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         if (wasDead) return;
         health -= amount;
         flash?.Flash();
+
+        if (damageClips != null && damageClips.Length > 0 && audioSource != null)
+        {
+            int randomIndex = Random.Range(0, damageClips.Length);
+            audioSource.PlayOneShot(damageClips[randomIndex], damageVolume);
+        }
 
         if (!isStunned)
         {
