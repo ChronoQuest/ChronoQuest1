@@ -31,7 +31,7 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS scores (
     id SERIAL PRIMARY KEY,
     player_name TEXT, 
-    score INTEGER
+    score INTEGER,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """
