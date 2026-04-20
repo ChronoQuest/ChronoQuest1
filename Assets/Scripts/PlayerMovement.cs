@@ -106,6 +106,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private AudioClip jumpShortClip;
     [SerializeField] private AudioClip jumpLongClip;
     [SerializeField] private AudioClip dashClip;
+    [SerializeField] private float dashVolume = 0.6f;
     [SerializeField] private AudioClip[] footstepClips;
     [SerializeField] private float footstepVolume = 0.4f;
 
@@ -536,7 +537,7 @@ public class PlayerPlatformer : MonoBehaviour
         canDash = false;
         if (sfxSource != null && dashClip != null)
         {
-            sfxSource.PlayOneShot(dashClip);
+            sfxSource.PlayOneShot(dashClip, dashVolume);
         }
 
         tutorialManager?.OnPlayerDash();
