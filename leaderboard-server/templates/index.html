@@ -10,18 +10,22 @@
     </head>
 
     <body> 
+        <div class="bg-overlay"></div>
+        
         <h1>ChronoQuest Leaderboard</h1>
 
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboard-table">
-            </tbody>        
-        </table>
+        <div class="leaderboard-container">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-table">
+                </tbody>        
+            </table>
+        </div>
 
         <script>
             async function loadLeaderboard() {
