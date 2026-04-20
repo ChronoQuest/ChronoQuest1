@@ -30,6 +30,19 @@ public class Boss : EnemyBase, IRewindable
     bool isPlayingAttack1;
     bool isPlayingAttack2;
 
+    // Two-phase fight progression. Waiting = pre-dialogue, boss idle, no music/health
+    // bar. Phase1 = dumber equal-weight rolls, no GMM. Phase2 = full GMM-driven behavior.
+    // Intentionally NOT captured in rewind state so rewinding past the 80% threshold
+    // doesn't demote the boss back to Phase1 (which would also re-trigger the dialogue
+    // via the controller's one-way latch).
+    public enum FightStage { Waiting, Phase1, Phase2 }
+    public FightStage fightStage = FightStage.Waiting;
+
+    // Set by BossFightController while a mid-fight dialogue is up, so Update() freezes
+    // the boss without us having to touch Time.timeScale (which would also halt the
+    // player's idle animation). Not rewind-captured — purely transient UI state.
+    public bool dialoguePaused;
+
     enum BossPhase { Idle, Positional, Combat }
     enum PosMove { None, GroundPound, ChangeSides, Melee }
     enum MeleeSubPhase { WalkToPlayer, Attacking, WalkAway }
@@ -114,22 +127,35 @@ public class Boss : EnemyBase, IRewindable
         animator = GetComponent<Animator>();
         FacePlayer();
         musicController = FindFirstObjectByType<RewindMusicController>();
-        if (musicController != null)
-        {
-            musicController.PlayBossFightMusic();
-        }
         EndPhase();
         InitializeActionQueue();
         if (attackManager != null) attackManager.boss = transform;
-        // Start the boss health bar
+        // Music + health bar are deferred to BeginFight() so the intro dialogue plays first.
+    }
+
+    // Called by BossFightController once the intro dialogue completes. Before this
+    // runs, fightStage is Waiting and Update() early-returns, so the boss just stands
+    // idle in the scene with no music and no visible health bar.
+    public void BeginFight(FightStage stage)
+    {
+        fightStage = stage;
+        if (musicController != null) musicController.PlayBossFightMusic();
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.StartFight();
+    }
+
+    // Flip to phase 2 and re-roll the lookahead queue so upcoming plans use the GMM
+    // branch instead of the phase-1 equal-weight roller.
+    public void AdvanceToPhase2()
+    {
+        fightStage = FightStage.Phase2;
+        InitializeActionQueue();
     }
 
     public override void Update()
     {
         base.Update();
-        if (_isRewinding || player == null || wasDead) return;
+        if (fightStage == FightStage.Waiting || dialoguePaused || _isRewinding || player == null || wasDead) return;
 
         if (Mathf.Abs(transform.position.x) > OffSceneThreshold)
         {
@@ -210,6 +236,14 @@ public class Boss : EnemyBase, IRewindable
         res = ResMove.None;
         return;  */
 
+        // Phase 1: dumber roll — same 20% positional split, but every move within each
+        // branch is equally likely and the GMM is not consulted.
+        if (fightStage != FightStage.Phase2)
+        {
+            RollPlanDumb(out isPositional, out posMove, out off, out res);
+            return;
+        }
+
         isPositional = Random.value > 0.8f;
         if (isPositional)
         {
@@ -235,6 +269,28 @@ public class Boss : EnemyBase, IRewindable
             posMove = PosMove.None;
             RollCombatMoves(out off, out res);
         }
+    }
+
+    // Phase-1 roller: 20% positional (equal weight across the three positional moves),
+    // otherwise equal chance among the three canonical off/res pairs that the GMM
+    // would normally bias between. No beliefs read, no tempo modulation.
+    void RollPlanDumb(out bool isPositional, out PosMove posMove, out OffMove off, out ResMove res)
+    {
+        isPositional = Random.value < 0.2f;
+        if (isPositional)
+        {
+            PosMove[] pool = new[] { PosMove.GroundPound, PosMove.ChangeSides, PosMove.Melee };
+            posMove = pool[Random.Range(0, pool.Length)];
+            off = OffMove.None;
+            res = ResMove.None;
+            return;
+        }
+
+        posMove = PosMove.None;
+        int pair = Random.Range(0, 3);
+        if (pair == 0)      { off = OffMove.FireColumns;     res = ResMove.None; }
+        else if (pair == 1) { off = OffMove.Fireballs;       res = ResMove.Enemy; }
+        else                { off = OffMove.HomingFireballs; res = ResMove.FireWave; }
     }
 
     void RollCombatMoves(out OffMove off, out ResMove res)
@@ -579,7 +635,8 @@ public class Boss : EnemyBase, IRewindable
         FacePlayer();
         facingDirection = player.position.x > transform.position.x ? -1 : 1;
 
-        ApplyBeliefModulation();
+        // Phase 1 uses default tempo + targeting (no GMM). Phase 2 pulls from beliefs.
+        if (fightStage == FightStage.Phase2) ApplyBeliefModulation();
 
         currentPhase = BossPhase.Combat;
         offTimer = 0f; resTimer = 0f;
