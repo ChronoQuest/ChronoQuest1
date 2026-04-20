@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         int finalScore = ScoreManager.Instance.GetScore(); 
         string playerName = PlayerPrefs.GetString("playerName", "Player"); 
 
-        StartCoroutine(SendScore("PlayerName", finalScore)); 
+        StartCoroutine(SendScore(playerName, finalScore)); 
     }
 
     IEnumerator SendScore(string name, int score)
