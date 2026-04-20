@@ -63266,17 +63266,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1941470555}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
---- !u!114 &1094889223 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-  m_PrefabInstance: {fileID: 1094889222}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094889224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d18f9d8a38c744b6b79578532626dcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerHealth
 --- !u!1 &1094889224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5236253385447438913, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
@@ -465385,17 +465374,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
   m_PrefabInstance: {fileID: 1094889222}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1941470553 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-  m_PrefabInstance: {fileID: 1094889222}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094889224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerMana
 --- !u!70 &1941470554 stripped
 CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 2585457603464037882, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
@@ -465455,37 +465433,6 @@ MonoBehaviour:
   reviveSFX: {fileID: 0}
   sfxVolume: 1
   reviveAudioSource: {fileID: 0}
---- !u!1 &1955402002 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2455767372189120468, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-  m_PrefabInstance: {fileID: 3212802410766754496}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1955402008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955402002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerMana
-  maxMana: 100
-  manaGainOnHit: 10
-  passiveRegenRate: 0
---- !u!114 &1955402012 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5867909411954793412, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-  m_PrefabInstance: {fileID: 3212802410766754496}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955402002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!4 &1956955328 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7231518081331576005, guid: 55e9609136c3d1348a77853d43d1d5bb, type: 3}
@@ -467104,18 +467051,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health_Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 575883651724719842, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1282564490297637744, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: manaText
-      value: 
-      objectReference: {fileID: 1955402012}
-    - target: {fileID: 1282564490297637744, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: playerMana
-      value: 
-      objectReference: {fileID: 1941470553}
     - target: {fileID: 3724842226651659153, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -467196,22 +467131,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7276164888348976266, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: playerMana
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8031116700763113721, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      propertyPath: playerHealth
-      value: 
-      objectReference: {fileID: 1094889223}
-    m_RemovedComponents:
-    - {fileID: 7276164888348976266, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2455767372189120468, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1955402008}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
 --- !u!1001 &7296222224498140105
 PrefabInstance:

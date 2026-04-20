@@ -19,9 +19,14 @@ public class HeartDisplay : MonoBehaviour
 
     private void Start()
     {
+        if (playerHealth == null)
+            playerHealth = FindFirstObjectByType<PlayerHealth>();
+
         if (playerHealth != null)
+        {
             playerHealth.OnHealthChanged += RefreshDisplay;
             RefreshDisplay(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+        }
     }
 
     private void OnDestroy()
