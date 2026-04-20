@@ -193,9 +193,16 @@ public class DeathKnightEnemy : EnemyBase
         StopAllCoroutines();
         animator?.SetTrigger("Die");
         base.Die();
+        rb.simulated = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         GetComponent<Collider2D>().enabled = true;
+    }
+
+    public override void Revive()
+    {
+        base.Revive();
+        rb.simulated = true;
     }
 
     public override IEnumerator DeathRoutine()
