@@ -175,8 +175,11 @@ public class PlayerPlatformer : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         if (isGrounded && !wasGrounded && !isLanding)
         {
-            StartCoroutine(LandingRoutine());
+            // Capture the downward speed (y is negative, so we use Mathf.Abs or -rb.linearVelocity.y)
+            float impactVelocity = Mathf.Abs(rb.linearVelocity.y); 
+            StartCoroutine(LandingRoutine(impactVelocity));
         }
+        
         wasGrounded = isGrounded;
 
         if (isGrounded && rb.linearVelocity.y <= 0.1f)
@@ -465,9 +468,10 @@ public class PlayerPlatformer : MonoBehaviour
         anim.SetBool("isGrounded", true); // Return to idle
     }
 
-    IEnumerator LandingRoutine()
+    IEnumerator LandingRoutine(float impactForce)
     {
-
+        float calculatedVol = Mathf.Lerp(0.4f, 1.0f, impactForce / 15f);
+        PlayFootstep(calculatedVol);
         SetFrame(6);
         yield return new WaitForSeconds(0.05f);
         SetFrame(7);
@@ -702,13 +706,15 @@ public class PlayerPlatformer : MonoBehaviour
     {
         rb.linearVelocity = Vector2.zero;
     }
-    public void PlayFootstep()
+    public void PlayFootstep(float vol = -1)
     {
+        // Default to footstepVolume if unspecified
+        if (vol == -1) vol = footstepVolume;
         if (isGrounded && footstepClips != null && footstepClips.Length > 0 && sfxSource != null)
         {
             int randomIndex = Random.Range(0, footstepClips.Length);
             
-            sfxSource.PlayOneShot(footstepClips[randomIndex], footstepVolume);
+            sfxSource.PlayOneShot(footstepClips[randomIndex], vol);
         }
     }
 }
