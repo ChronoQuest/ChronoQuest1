@@ -59,16 +59,6 @@ def template(request: Request):
         context={"request": request}
     )
 
-'''@app.get("/debug-template")
-def debug_template():
-    import os
-    return {
-        "cwd": os.getcwd(),
-        "files_root": os.listdir(),
-        "files_server": os.listdir("leaderboard-server"),
-        "files_templates": os.listdir("leaderboard-server/templates"),
-    }'''
-
 @app.get("/leaderboard")
 def get_leaderboard():
     cursor.execute("""
@@ -91,3 +81,9 @@ def add_scores(entry: ScoreEntry):
 
     conn.commit()
     return {"message": "score added"}
+
+@app.get("/test-data")
+def test_data(): 
+    cursor.execute("SELECT * FROM scores ORDER BY timestamp DESC")
+    rows = cursor.fetchall()
+    return {"total_rows": len(rows), "recent_entries": rows}
