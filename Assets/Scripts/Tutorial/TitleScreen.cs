@@ -8,6 +8,7 @@ public class TitleScreen : MonoBehaviour
 {
     public float floatAmplitude = 10f;
     public float floatFrequency = 2f;
+    public TMP_InputField nameInput; 
 
     private RectTransform rectTransform;
     private Vector2 startPosition;
@@ -35,6 +36,15 @@ public class TitleScreen : MonoBehaviour
 
     public void StartButton()
     {
+        string playerName = nameInput.text;
+
+        if (string.IsNullOrEmpty(playerName))
+        {
+            playerName = "Player"; 
+        }
+
+        PlayerPrefs.SetString("playerName", playerName); 
+        
         // Clear persisted tutorial safety so falling platforms behave normally on a fresh run.
         PlayerPrefs.DeleteKey(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey);
         PlayerPrefs.Save();

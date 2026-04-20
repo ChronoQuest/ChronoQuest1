@@ -52,13 +52,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over"); 
 
         int finalScore = ScoreManager.Instance.GetScore(); 
+        string playerName = PlayerPrefs.GetString("playerName", "Player"); 
 
         StartCoroutine(SendScore("PlayerName", finalScore)); 
     }
 
     IEnumerator SendScore(string name, int score)
     {  
-        ScoreEntry entry = new ScoreEntry(name, score);
+        ScoreEntry entry = new ScoreEntry(name, score); 
         string json = JsonUtility.ToJson(entry);
 
         var request = new UnityEngine.Networking.UnityWebRequest(
