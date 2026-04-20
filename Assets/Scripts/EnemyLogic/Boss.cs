@@ -203,12 +203,12 @@ public class Boss : EnemyBase, IRewindable
     // Writes into out params so the same routine can target either queue slot.
     void RollPlan(out bool isPositional, out PosMove posMove, out OffMove off, out ResMove res)
     {
-        // TEST: force every attack to be Melee. Remove this block to restore normal rolls.
+        /* TEST: force every attack to be Melee. Remove this block to restore normal rolls.
         isPositional = true;
         posMove = PosMove.Melee;
         off = OffMove.None;
         res = ResMove.None;
-        return;
+        return;  */
 
         isPositional = Random.value > 0.8f;
         if (isPositional)
