@@ -5215,7 +5215,7 @@ MonoBehaviour:
   deathAnimationDuration: 0.6
   damageClips:
   - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
-  damageVolume: 0.5
+  damageVolume: 1
 --- !u!114 &2803759273122063231
 MonoBehaviour:
   m_ObjectHideFlags: 0
