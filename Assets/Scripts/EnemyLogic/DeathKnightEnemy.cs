@@ -196,7 +196,11 @@ public class DeathKnightEnemy : EnemyBase
         rb.simulated = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-        GetComponent<Collider2D>().enabled = true;
+        Collider2D col = GetComponent<Collider2D>();
+        col.enabled = true;
+        if (player != null)
+            foreach (var pc in player.GetComponents<Collider2D>())
+                Physics2D.IgnoreCollision(col, pc, true);
     }
 
     public override void Revive()
@@ -255,6 +259,17 @@ public class DeathKnightEnemy : EnemyBase
 
         if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+
+        if (justBecameAlive)
+        {
+            rb.simulated = true;
+            if (player != null)
+            {
+                Collider2D col = GetComponent<Collider2D>();
+                foreach (var pc in player.GetComponents<Collider2D>())
+                    Physics2D.IgnoreCollision(col, pc, false);
+            }
+        }
     }
 
     void OnDrawGizmosSelected()
