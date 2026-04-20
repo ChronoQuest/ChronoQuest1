@@ -55,6 +55,9 @@ public class BossFightController : MonoBehaviour
     [Tooltip("Animator bool parameters forced to FALSE on lock (e.g. 'isWallSliding').")]
     [SerializeField] private string[] playerAnimatorBoolsToForceFalse = new string[] { "isWallSliding", "IsFrozen" };
 
+    [Tooltip("Player's PlayerMana — refilled to max when phase 2 starts.")]
+    [SerializeField] private PlayerMana playerMana;
+
     [Header("Dialogue UI")]
     [Tooltip("Root GameObject of the dialogue panel. Hidden at start, activated " +
              "during each dialogue, deactivated when the last line finishes.")]
@@ -148,6 +151,8 @@ public class BossFightController : MonoBehaviour
         // the player's idle animation keeps ticking.
         if (boss != null) boss.dialoguePaused = true;
         LockPlayer();
+        ClearBossAttacks();
+        RefillPlayerMana();
 
         yield return StartCoroutine(PlayDialogue(phase2Lines));
 
@@ -191,6 +196,12 @@ public class BossFightController : MonoBehaviour
             if (mb == this) continue;
             if (mb is PlayerInput) continue;
 
+            // Disabling a MonoBehaviour alone doesn't stop its active coroutines.
+            // RainAttack.SpawnRain would keep spawning drops after `enabled = false`,
+            // so stop it specifically. Calling StopAllCoroutines on every script
+            // instead would also kill PlayerHealth.InvincibilityRoutine mid-flash
+            // and leave the sprite hidden — so we stay surgical.
+            if (mb is RainAttack) mb.StopAllCoroutines();
             mb.enabled = false;
             disabledDuringDialogue.Add(mb);
         }
@@ -240,6 +251,70 @@ public class BossFightController : MonoBehaviour
             playerAnimator.Play(playerIdleStateName, 0, 0f);
             playerAnimator.Update(0f);
         }
+    }
+
+    // Wipes every boss-spawned projectile/hazard currently in the scene so the
+    // phase-2 dialogue starts from a clean slate. Each of these is a self-contained
+    // prefab spawned by BossAttackManager — destroying the GameObject is enough.
+    private void ClearBossAttacks()
+    {
+        DestroyAllOfType<Fireball>();
+        DestroyAllOfType<HomingFireball>();
+        DestroyAllOfType<Firecolumns>();
+        DestroyAllOfType<FireRow>();
+        DestroyAllOfType<FireWave>();
+        DestroyAllOfType<FireExplosion>();
+        DestroyAllOfType<FloorFireRow>();
+        DestroyAllOfType<PlatformController>();
+        // Player spells: SpellProjectile covers the basic blast + each rain drop.
+        // RainAttack is the spawner coroutine — destroying it stops mid-spawn rain
+        // from dropping more projectiles after the dialogue starts.
+        DestroyAllOfType<SpellProjectile>();
+        // RainAttack lives on the player itself, so we can't Destroy its GameObject
+        // without destroying the player. LockPlayer already disables it and stops
+        // its coroutine, so any in-flight rain drops are caught by the SpellProjectile
+        // sweep above and no more will spawn.
+        // Belt-and-suspenders: the SpellPrefab (and rain drops spawned from it) is
+        // tagged "Spell", so wipe by tag too. Catches any spell prefab that happens
+        // not to carry a SpellProjectile component.
+        DestroyAllWithTag("Spell");
+
+        // Wipe any boss-spawned (or otherwise present) regular enemies, but leave
+        // the boss itself alone.
+        foreach (EnemyBase e in FindObjectsByType<EnemyBase>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (e == null) continue;
+            if (e is Boss) continue;
+            Destroy(e.gameObject);
+        }
+    }
+
+    private static void DestroyAllOfType<T>() where T : Component
+    {
+        foreach (T obj in FindObjectsByType<T>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (obj != null) Destroy(obj.gameObject);
+        }
+    }
+
+    private static void DestroyAllWithTag(string tag)
+    {
+        try
+        {
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag(tag))
+            {
+                if (go != null) Destroy(go);
+            }
+        }
+        catch (UnityException)
+        {
+            // Tag not defined in the project — silently skip rather than throwing.
+        }
+    }
+
+    private void RefillPlayerMana()
+    {
+        if (playerMana != null) playerMana.SetMana(playerMana.MaxMana);
     }
 
     private static bool HasAnimatorParam(Animator animator, string name, AnimatorControllerParameterType type)
