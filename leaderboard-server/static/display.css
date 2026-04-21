@@ -40,6 +40,22 @@ td {
     padding: 15px; 
 }
 
+tbody tr {
+    background: rgba(255,255,255,0.02);
+}
+
+tbody tr td {
+    border-top: 10px solid transparent;
+}
+
+tbody tr td:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+tbody tr td:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
 .rank[data-rank="1"]::before{
     content: "🥇 ";
 }
@@ -47,7 +63,7 @@ td {
 tr[data-rank="1"] {
     background: linear-gradient(
         90deg,
-        rgba(255,215,0,0.25),
+        rgba(255, 217, 0, 0.382),
         rgba(255,215,0,0.05)
     );
     box-shadow: 0 0 20px rgba(255,215,0,0.4);
