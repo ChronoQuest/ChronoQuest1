@@ -705,7 +705,7 @@ MonoBehaviour:
   sfxSource: {fileID: 2412794728691430052}
   chargeSource: {fileID: 3874733905380553684}
   spellChargeClip: {fileID: 8300000, guid: 07f23cb4c14d09f4a8d117d8cfe4e48d, type: 3}
-  spellBlastClip: {fileID: 8300000, guid: ce44f556ac2a8204189b5507778dcd03, type: 3}
+  spellBlastClip: {fileID: 8300000, guid: 93a08997cff7c464dafd2a943bd67b89, type: 3}
 --- !u!114 &744927932359359601
 MonoBehaviour:
   m_ObjectHideFlags: 0

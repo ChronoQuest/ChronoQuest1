@@ -36,10 +36,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     public PlayerTacticalModel playerTacticalModel; 
     public GameObject latestSpell;
     [Header("Audio")]
-    [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioSource chargeSource;
     [SerializeField] private AudioClip spellChargeClip;
-    [SerializeField] private AudioClip spellBlastClip;
 
     void Awake()
     {
@@ -135,10 +133,6 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         if (chargeSource != null && chargeSource.isPlaying)
         {
             chargeSource.Stop();
-        }
-        if (sfxSource != null && spellBlastClip != null)
-        {
-            sfxSource.PlayOneShot(spellBlastClip);
         }
         
         // Apply exact velocity instead of AddForce so it's snappy and consistent

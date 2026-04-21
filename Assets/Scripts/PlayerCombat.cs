@@ -47,7 +47,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioClip[] meleeSwings;
     [SerializeField] public float meleeVolume = 0.2f;
-    [SerializeField] private AudioClip magicRainClip;
 
     void Start(){
         anim = GetComponent<Animator>();
@@ -109,7 +108,6 @@ public class PlayerCombat : MonoBehaviour
             if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
             {
                 anim.SetTrigger("RainAttack");
-                if (sfxSource != null && magicRainClip != null) sfxSource.PlayOneShot(magicRainClip);
             }
             else
             {

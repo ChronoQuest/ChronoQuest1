@@ -22,6 +22,12 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     private RigidbodyType2D originalBodyType;
     private float currentLifetime = 0f;
     private float startLifetime = 0f;
+    [Header("Audio")]
+    public AudioClip impactSound;
+    [Range(0f, 1f)] public float impactVolume = 1f;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip spellBlastClip;
+    [SerializeField] public float spellBlastVolume = 0.15f;
 
     void Awake()
     {
@@ -30,6 +36,14 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+        Invoke(nameof(PlaySound), 0f);
+    }
+    void PlaySound()
+    {
+        if (sfxSource != null && spellBlastClip != null)
+        {
+            sfxSource.PlayOneShot(spellBlastClip, spellBlastVolume);
+        }
     }
     void OnEnable()
     {
@@ -79,6 +93,7 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         
         // 1. Ignore the Player and dodging enemies entirely
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) return;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Decorations")) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("EnemyDodging")) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Default")) return;
 
@@ -114,6 +129,10 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     private void ExecuteImpact()
     {
         hasHit = true;
+        if (impactSound != null)
+        {
+            AudioSource.PlayClipAtPoint(impactSound, transform.position, impactVolume);
+        }
         rb.linearVelocity = Vector2.zero; // Stop moving
         anim.SetTrigger("Impact");        // Play explosion
         StartCoroutine(HideAfterImpact(0.3f));
