@@ -796,8 +796,13 @@ public class Boss : EnemyBase, IRewindable
         return true;
     }
 
-    public void AnimEvent_Attack1() 
+    public void AnimEvent_Attack1()
     {
+        // Animator events keep firing even when Update() is gated by dialoguePaused,
+        // so a late Attack1 event could spawn an enemy/fireball mid phase-2 dialogue —
+        // after BossFightController.ClearBossAttacks already wiped the scene.
+        if (dialoguePaused || _isRewinding) return;
+
         // Check if we should spawn an Offensive attack
         if (currentOff == OffMove.Fireballs)
         {
@@ -823,6 +828,8 @@ public class Boss : EnemyBase, IRewindable
 
     public void AnimEvent_Attack2()
     {
+        if (dialoguePaused || _isRewinding) return;
+
         // Each payload decides its own spawn cadence. Bundle (FireColumns + Platforms +
         // FloorFire) and FireRow are one-shot per combat phase (stacking them is undodgeable).
         // FireExplosion and FireWave spawn on every Attack2 event — that's what gives the
