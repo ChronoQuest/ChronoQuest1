@@ -252,6 +252,10 @@ MonoBehaviour:
   baselineHistorySize: 30
   anomalyZScore: -1.5
   instantTriggerCost: 0.5
+  triggerCost: 0.3
+  audioSource: {fileID: 4032850218328781176}
+  foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
+  volume: 0.4
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2

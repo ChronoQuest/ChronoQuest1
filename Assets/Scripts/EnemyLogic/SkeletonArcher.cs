@@ -433,8 +433,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
         
         spriteRenderer.color = originalColor;
-        animator.SetBool("hasForesight", false);
-        if (foresightGlow != null) foresightGlow.SetActive(false);
         gameObject.layer = originalLayer;
         isDodging = false;
     }
