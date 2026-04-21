@@ -567,6 +567,9 @@ MonoBehaviour:
   releaseFramesRequired: 2
   manaDrainPerSecond: 10
   minManaToStartRewindWhenDead: 15
+  sfxSource: {fileID: 2412794728691430052}
+  rewindStartClip: {fileID: 8300000, guid: f17c67edb75418f498366f7b0eb8c566, type: 3}
+  rewindVolume: 0.5
   playerTacticalModel: {fileID: 0}
 --- !u!66 &2945315806622364923
 CompositeCollider2D:
@@ -636,6 +639,10 @@ MonoBehaviour:
   vibrationDuration: 0.2
   sfxSource: {fileID: 2412794728691430052}
   hitClip: {fileID: 8300000, guid: 854c2649d7e14594f95a2d747d2e5a03, type: 3}
+  deathClip: {fileID: 8300000, guid: 468d9ffa09bdaf74fb3b911845394e6e, type: 3}
+  deathVolume: 0.5
+  reviveClip: {fileID: 8300000, guid: 55d4819b293dc434687d0a2c72587166, type: 3}
+  reviveVolume: 0.5
   gameOverUI: {fileID: 0}
   deathSequenceTimeoutSeconds: 2.5
 --- !u!114 &1513486163522757522
@@ -702,10 +709,8 @@ MonoBehaviour:
   manaCost: 15
   playerTacticalModel: {fileID: 0}
   latestSpell: {fileID: 0}
-  sfxSource: {fileID: 2412794728691430052}
   chargeSource: {fileID: 3874733905380553684}
   spellChargeClip: {fileID: 8300000, guid: 07f23cb4c14d09f4a8d117d8cfe4e48d, type: 3}
-  spellBlastClip: {fileID: 8300000, guid: 93a08997cff7c464dafd2a943bd67b89, type: 3}
 --- !u!114 &744927932359359601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,7 +747,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 084df864e5e168045ba9aaf2c51538ea, type: 3}
   - {fileID: 8300000, guid: 610d4f9d2a73fd74080030ce73e5ea7b, type: 3}
   meleeVolume: 0.15
-  magicRainClip: {fileID: 8300000, guid: d2b4710d10c4f2d458545113b937fe04, type: 3}
 --- !u!114 &2363392438989614635
 MonoBehaviour:
   m_ObjectHideFlags: 0

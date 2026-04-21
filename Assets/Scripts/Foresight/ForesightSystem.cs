@@ -8,6 +8,7 @@ public class ForesightSystem : MonoBehaviour
     public float anomalyZScore = -1.5f;
     private int memorySize = 50;
     public float instantTriggerCost = 0.5f;
+    public float triggerCost = 0.3f;
     private float maxPlayerSpeed = 20f; // Based on dash speed
     // Our custom queue data structures
     private FixedQueue<float> historicalCosts;
@@ -243,14 +244,16 @@ public class ForesightSystem : MonoBehaviour
         float standardDeviation = Mathf.Sqrt(variance);
 
         // Prevent division by zero if all costs are perfectly identical
-        if (standardDeviation < 0.0001f) return false;
+        if (standardDeviation < 0.0001f) return currentCost <= triggerCost;
 
         float zScore = (currentCost - mean) / standardDeviation;
 
         Debug.Log($"Cost: {currentCost:F2} | Mean: {mean:F2} | Z-Score: {zScore:F2}");
 
-        // We want the cost to be lower than an anomalous score
-        return zScore <= anomalyZScore;
+        bool isVeryLowCost = currentCost <= triggerCost;
+        bool isStatisticallyLow = zScore <= anomalyZScore;
+        // We want the cost to be lower than an anomalous score OR be very low in cost
+        return isVeryLowCost || isStatisticallyLow;
     }
     ForesightTactics DetermineForesightAction()
     {

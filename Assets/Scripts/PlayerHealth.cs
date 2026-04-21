@@ -51,6 +51,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private float deathVolume = 0.5f;
+    [SerializeField] private AudioClip reviveClip;
+    [SerializeField] private float reviveVolume = 0.5f;
 
     public void SetInvincible(bool value)
     {
@@ -260,6 +264,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {   
         if (IsDead) return; 
         IsDead = true;
+        if (sfxSource != null && deathClip != null)
+        {
+            sfxSource.PlayOneShot(deathClip, deathVolume);
+        }
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
 
@@ -394,6 +402,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             _pendingRewindReviveEffect = false;
             var reviveEffect = GetComponent<PlayerReviveEffect>();
             if (reviveEffect != null) reviveEffect.Play();
+            if (sfxSource != null && reviveClip != null)
+            {
+                sfxSource.PlayOneShot(reviveClip, reviveVolume);
+            }
         }
     }
 
