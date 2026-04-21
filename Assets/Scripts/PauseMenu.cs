@@ -12,6 +12,14 @@ public class PauseMenu : MonoBehaviour
     [Header("UI Navigation")]
     [SerializeField] private GameObject firstSelectedButton;
 
+    private Canvas _canvas;
+
+    void Awake()
+    {
+        _canvas = GetComponent<Canvas>();
+        if (_canvas == null) _canvas = GetComponentInParent<Canvas>();
+    }
+
     void Update()
     {
         bool pausePressed =
@@ -43,6 +51,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         container.SetActive(true);
         Time.timeScale = 0f;
+        if (_canvas != null) _canvas.sortingOrder = 999;
 
         escapePressed++;
 
@@ -63,6 +72,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         container.SetActive(false);
         Time.timeScale = 1f;
+        if (_canvas != null) _canvas.sortingOrder = 0;
 
         EventSystem.current.SetSelectedGameObject(null);
     }
