@@ -95,8 +95,45 @@ public class BossFightController : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float phase2HealthFraction = 0.8f;
 
+    [Header("Phase 2 Playstyle Hint")]
+    [Tooltip("Enable the mid-fight hint that tells the player to change playstyle.")]
+    [SerializeField] private bool enablePlaystyleHint = true;
+    [Tooltip("How many times the player must take damage in Phase 2 before the hint fires.")]
+    [SerializeField] private int hintDamageThreshold = 5;
+    [Tooltip("Minimum seconds into Phase 2 before the hint can trigger.")]
+    [SerializeField] private float hintMinPhase2Time = 15f;
+
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesAggressive = new string[]
+    {
+        "Not a thought in that head... just mindlessly attacking.",
+        "Maybe if you were a little more cautious, you'd stand a chance."
+    };
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesEvasive = new string[]
+    {
+        "All that running and nothing to show for it.",
+        "Stop fleeing and fight back. Hit me if you can."
+    };
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesCautious = new string[]
+    {
+        "You just... stand there. Waiting. Watching.",
+        "Hesitation is death. Come at me before I come at you."
+    };
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesFallback = new string[]
+    {
+        "You're struggling.",
+        "Perhaps a change of approach is in order..."
+    };
+
     private bool fightStarted;
     private bool phase2Triggered;
+    private bool hintTriggered;
+    private int phase2DamageCount;
+    private float phase2StartTime;
+    private PlayerHealth cachedPlayerHealth;
 
     // Scripts we turned off during the current dialogue. Tracked so we only re-enable
     // what we actually disabled (anything already disabled stays that way).
@@ -111,16 +148,34 @@ public class BossFightController : MonoBehaviour
         if (col != null) col.isTrigger = true;
     }
 
+    private void OnDestroy()
+    {
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
+    }
+
     private void Update()
     {
-        if (!fightStarted || phase2Triggered || boss == null) return;
-        if (boss.fightStage != Boss.FightStage.Phase1) return;
-        if (boss.startHealth <= 0) return;
+        if (!fightStarted || boss == null) return;
 
-        if (boss.health <= boss.startHealth * phase2HealthFraction)
+        // Phase 1 → Phase 2 transition
+        if (!phase2Triggered && boss.fightStage == Boss.FightStage.Phase1 && boss.startHealth > 0)
         {
-            phase2Triggered = true;
-            StartCoroutine(RunPhase2Transition());
+            if (boss.health <= boss.startHealth * phase2HealthFraction)
+            {
+                phase2Triggered = true;
+                StartCoroutine(RunPhase2Transition());
+            }
+        }
+
+        // Phase 2 playstyle hint
+        if (enablePlaystyleHint && !hintTriggered && boss.fightStage == Boss.FightStage.Phase2
+            && phase2DamageCount >= hintDamageThreshold
+            && Time.time - phase2StartTime >= hintMinPhase2Time
+            && !boss.dialoguePaused)
+        {
+            hintTriggered = true;
+            StartCoroutine(RunPlaystyleHint());
         }
     }
 
@@ -162,6 +217,111 @@ public class BossFightController : MonoBehaviour
             boss.dialoguePaused = false;
             boss.AdvanceToPhase2();
         }
+
+        // Start tracking damage for the playstyle hint
+        phase2StartTime = Time.time;
+        phase2DamageCount = 0;
+
+        if (cachedPlayerHealth == null && playerScriptsRoot != null)
+            cachedPlayerHealth = playerScriptsRoot.GetComponent<PlayerHealth>();
+        if (cachedPlayerHealth == null)
+            cachedPlayerHealth = FindFirstObjectByType<PlayerHealth>();
+
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged += OnPlayerDamagedInPhase2;
+    }
+
+    private void OnPlayerDamagedInPhase2(int current, int max)
+    {
+        // OnHealthChanged fires for both damage and healing; only count damage
+        phase2DamageCount++;
+    }
+
+    private IEnumerator RunPlaystyleHint()
+    {
+        // Unsubscribe — hint only fires once
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
+
+        // Non-freezing: gameplay continues while the hint types out
+        string[] lines = GetPlaystyleHintLines();
+        yield return StartCoroutine(PlayHintDialogue(lines));
+    }
+
+    /// <summary>
+    /// Lightweight typewriter that does NOT pause the boss or lock the player.
+    /// Shows text over the fight, then hides itself.
+    /// </summary>
+    private IEnumerator PlayHintDialogue(string[] lines)
+    {
+        if (dialogueText == null || lines == null || lines.Length == 0) yield break;
+
+        WatcherCommentary.DialogueLocked = true;
+
+        if (dialogueContainer != null)
+        {
+            Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
+            if (parentCanvas != null) parentCanvas.gameObject.SetActive(true);
+            dialogueContainer.SetActive(true);
+        }
+
+        yield return null;
+
+        float cps = Mathf.Max(1f, charactersPerSecond);
+        float timePerChar = 1f / cps;
+
+        foreach (string line in lines)
+        {
+            if (string.IsNullOrEmpty(line)) continue;
+
+            dialogueText.enableAutoSizing = true;
+            dialogueText.text = line;
+            dialogueText.ForceMeshUpdate();
+            float fitted = dialogueText.fontSize;
+
+            dialogueText.enableAutoSizing = false;
+            dialogueText.fontSize = fitted;
+            dialogueText.maxVisibleCharacters = 0;
+            yield return null;
+
+            for (int i = 1; i <= line.Length; i++)
+            {
+                dialogueText.maxVisibleCharacters = i;
+                yield return new WaitForSeconds(timePerChar);
+            }
+
+            yield return new WaitForSeconds(pauseBetweenLines);
+        }
+
+        yield return new WaitForSeconds(pauseAfterLastLine);
+
+        if (dialogueContainer != null) dialogueContainer.SetActive(false);
+        dialogueText.text = "";
+        dialogueText.maxVisibleCharacters = int.MaxValue;
+        dialogueText.enableAutoSizing = true;
+
+        WatcherCommentary.DialogueLocked = false;
+    }
+
+    private string[] GetPlaystyleHintLines()
+    {
+        if (boss == null || boss.playerStrategyModel == null
+            || boss.playerStrategyModel.playerTacticalModel == null
+            || boss.playerStrategyModel.playerTacticalModel.tacticBeliefs == null)
+            return hintLinesFallback;
+
+        var tactics = boss.playerStrategyModel.playerTacticalModel.tacticBeliefs;
+        float aggressive = 0f, evasive = 0f, cautious = 0f;
+        tactics.TryGetValue(PlayerTacticalModel.TacticType.Aggressive, out aggressive);
+        tactics.TryGetValue(PlayerTacticalModel.TacticType.Evasive, out evasive);
+        tactics.TryGetValue(PlayerTacticalModel.TacticType.Cautious, out cautious);
+
+        if (aggressive >= evasive && aggressive >= cautious)
+            return hintLinesAggressive;
+        else if (evasive >= aggressive && evasive >= cautious)
+            return hintLinesEvasive;
+        else
+            return hintLinesCautious;
     }
 
     // Mirrors IntroCutscene.DisablePlayerControl's script-disable pass. Stops

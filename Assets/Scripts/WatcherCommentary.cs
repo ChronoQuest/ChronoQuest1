@@ -173,7 +173,7 @@ public class WatcherCommentary : MonoBehaviour
         if (rewindCommentFired) yield break;
 
         string sceneName = SceneManager.GetActiveScene().name;
-        string[] lines = GetRewindLines(sceneName);
+        string[] lines = GetRewindLines();
         if (lines == null) yield break;
 
         PlayComment(lines);
@@ -379,23 +379,21 @@ public class WatcherCommentary : MonoBehaviour
         }
     }
 
-    private string[] GetRewindLines(string sceneName)
+    private string[] GetRewindLines()
     {
+        // Awareness must progress in order — later lines only play
+        // if the earlier confused reaction has already happened
         if (scenesWithHighRewind == 0)
         {
-            switch (sceneName)
-            {
-                case "GameScene":
-                    return new[] { "...What was that?", "Something shifted. What trick are you playing?" };
-                case "GameScene_2":
-                    return new[] { "There it is again... that ripple.", "You're doing something. I can feel it." };
-                default:
-                    return new[] { "That feeling...", "I see what you're doing now." };
-            }
+            return new[] { "...What was that?", "Something shifted. What trick are you playing?" };
         }
         else if (scenesWithHighRewind == 1)
         {
-            return new[] { "You think I haven't noticed?", "Whatever you're pulling... it won't work on me." };
+            return new[] { "There it is again... that ripple.", "You're doing something. I can feel it." };
+        }
+        else if (scenesWithHighRewind == 2)
+        {
+            return new[] { "You think I haven't noticed?", "That little trick of yours...","it won't work on me." };
         }
         else
         {

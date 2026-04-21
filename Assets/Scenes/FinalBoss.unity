@@ -3674,7 +3674,7 @@ Sprite:
   m_PhysicsShape: []
   m_Bones: []
   m_ScriptableObjects: []
-  m_SpriteID:
+  m_SpriteID: 
 --- !u!1 &431215190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,6 +3731,7 @@ MonoBehaviour:
   playerAnimatorBoolsToForceFalse:
   - isWallSliding
   - IsFrozen
+  playerMana: {fileID: 0}
   dialogueContainer: {fileID: 1012522301}
   dialogueText: {fileID: 885496328}
   phase1Lines:
@@ -3745,6 +3746,21 @@ MonoBehaviour:
   pauseBetweenLines: 1.2
   pauseAfterLastLine: 0.8
   phase2HealthFraction: 0.8
+  enablePlaystyleHint: 1
+  hintDamageThreshold: 4
+  hintMinPhase2Time: 20
+  hintLinesAggressive:
+  - Not a thought in that head... just mindlessly attacking.
+  - Maybe if you were a little more cautious, you'd stand a chance.
+  hintLinesEvasive:
+  - All that running and nothing to show for it.
+  - Stop fleeing and fight back. Hit me if you can.
+  hintLinesCautious:
+  - You just... stand there. Waiting. Watching.
+  - Hesitation is death. Come at me before I come at you.
+  hintLinesFallback:
+  - You're struggling.
+  - Perhaps a change of approach is in order...
 --- !u!61 &431215193
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3791,17 +3807,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &437452787 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-  m_PrefabInstance: {fileID: 526924364}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416134346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d18f9d8a38c744b6b79578532626dcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerHealth
 --- !u!4 &437452796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4991978750263448100, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
@@ -52855,17 +52860,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1416134360}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
---- !u!114 &526924365 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1513486163522757522, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
-  m_PrefabInstance: {fileID: 526924364}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416134346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feaf90ea109984f90b8abaf4bc464b51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::PlayerMana
 --- !u!114 &526924366 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 340241791458222048, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
@@ -55380,6 +55374,7 @@ MonoBehaviour:
   player: {fileID: 437452796}
   boss: {fileID: 0}
   playerTargetBias: 0.75
+  maxActiveEnemies: 3
 --- !u!4 &1348428425
 Transform:
   m_ObjectHideFlags: 0
