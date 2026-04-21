@@ -16,6 +16,7 @@
             <table border="1">
                 <thead>
                     <tr>
+                        <th>Rank</th>
                         <th>Name</th>
                         <th>Score</th>
                     </tr>
@@ -34,12 +35,18 @@
                 table.innerHTML = "";
 
                 data.forEach(entry => {
-                    const row = `<tr>
+                    const row = document.createElement("tr");
+
+                    row.setAttribute("data-rank", entry.rank);
+
+                    row.innerHTML = `
+                        <td class="rank" data-rank="${entry.rank}">${entry.rank}</td>
                         <td>${entry.name}</td>
                         <td>${entry.score}</td>
-                    </tr>`;
-                    table.innerHTML += row;
-                })
+                    `;
+
+                    table.appendChild(row);
+                });
             }
             
             loadLeaderboard(); 

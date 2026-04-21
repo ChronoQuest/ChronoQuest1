@@ -62,7 +62,10 @@ def template(request: Request):
 @app.get("/leaderboard")
 def get_leaderboard():
     cursor.execute("""
-        SELECT player_name, score
+        SELECT 
+            ROW_NUMBER() OVER (ORDER BY score DESC) AS rank,
+            player_name, 
+            score
         FROM scores
         ORDER BY score DESC
         LIMIT 10
@@ -70,7 +73,7 @@ def get_leaderboard():
 
     rows = cursor.fetchall()
 
-    return [{"name": r[0], "score": r[1]} for r in rows]
+    return [{"rank": r[0], "name": r[1], "score": r[2]} for r in rows]
 
 @app.post("/score")
 def add_scores(entry: ScoreEntry):

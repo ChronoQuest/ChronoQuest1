@@ -40,14 +40,19 @@ td {
     padding: 15px; 
 }
 
-tbody tr:nth-child(1) {
-    background-color: gold;
+.rank[data-rank="1"]::before{
+    content: "🥇 ";
 }
 
-tbody tr:nth-child(2) {
-    background-color: silver;
+tr[data-rank="1"] {
+    background: rgba(255, 215, 0, 0.2); 
+    font-weight: bold; 
 }
 
-tbody tr:nth-child(3) {
-    background-color: rgb(194, 88, 59); 
+.rank[data-rank="2"]::before{
+    content: "🥈 ";
+}
+
+.rank[data-rank="3"]::before{
+    content: "🥉 ";
 }
