@@ -1,0 +1,2199 @@
+fileFormatVersion: 2
+guid: 4290048e78dfb554a9790a6df2abac06
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5734325465813531712
+    second: DeathKnight-Sheet_0
+  - first:
+      213: 2044713030389006758
+    second: DeathKnight-Sheet_1
+  - first:
+      213: -2490213671289921319
+    second: DeathKnight-Sheet_2
+  - first:
+      213: -272658015239503335
+    second: DeathKnight-Sheet_3
+  - first:
+      213: -5293891200495860486
+    second: DeathKnight-Sheet_4
+  - first:
+      213: -6358746475040560451
+    second: DeathKnight-Sheet_5
+  - first:
+      213: 370331586683550223
+    second: DeathKnight-Sheet_6
+  - first:
+      213: -1357749988672566688
+    second: DeathKnight-Sheet_7
+  - first:
+      213: -1392844444930059927
+    second: DeathKnight-Sheet_8
+  - first:
+      213: 6546392262968442134
+    second: DeathKnight-Sheet_9
+  - first:
+      213: 6722912082920539318
+    second: DeathKnight-Sheet_10
+  - first:
+      213: 6421839971569395498
+    second: DeathKnight-Sheet_11
+  - first:
+      213: -2476280637212068778
+    second: DeathKnight-Sheet_12
+  - first:
+      213: -1677205591270448716
+    second: DeathKnight-Sheet_13
+  - first:
+      213: -4901515562909766490
+    second: DeathKnight-Sheet_14
+  - first:
+      213: 4748999765403872851
+    second: DeathKnight-Sheet_15
+  - first:
+      213: 4156809293860987367
+    second: DeathKnight-Sheet_16
+  - first:
+      213: 6528659454370513693
+    second: DeathKnight-Sheet_17
+  - first:
+      213: -6410805171849312660
+    second: DeathKnight-Sheet_18
+  - first:
+      213: -3758497566230414470
+    second: DeathKnight-Sheet_19
+  - first:
+      213: -2839359497454737452
+    second: DeathKnight-Sheet_20
+  - first:
+      213: 6567621034358405977
+    second: DeathKnight-Sheet_21
+  - first:
+      213: 7312983855201382284
+    second: DeathKnight-Sheet_22
+  - first:
+      213: -5582744919676026390
+    second: DeathKnight-Sheet_23
+  - first:
+      213: -709555487471319281
+    second: DeathKnight-Sheet_24
+  - first:
+      213: 7305164204716560893
+    second: DeathKnight-Sheet_25
+  - first:
+      213: -2384480531899424806
+    second: DeathKnight-Sheet_26
+  - first:
+      213: 5646969551224888928
+    second: DeathKnight-Sheet_27
+  - first:
+      213: -7326602356326497785
+    second: DeathKnight-Sheet_28
+  - first:
+      213: -4657227798322321334
+    second: DeathKnight-Sheet_29
+  - first:
+      213: -1888549903272306720
+    second: DeathKnight-Sheet_30
+  - first:
+      213: 8999288626382663539
+    second: DeathKnight-Sheet_31
+  - first:
+      213: -3838100567681738998
+    second: DeathKnight-Sheet_32
+  - first:
+      213: -3921341167331327008
+    second: DeathKnight-Sheet_33
+  - first:
+      213: -7834467436694051777
+    second: DeathKnight-Sheet_34
+  - first:
+      213: 7126995103288313137
+    second: DeathKnight-Sheet_35
+  - first:
+      213: 56834872595256311
+    second: DeathKnight-Sheet_36
+  - first:
+      213: -4717127380239501928
+    second: DeathKnight-Sheet_37
+  - first:
+      213: -3216192734540870318
+    second: DeathKnight-Sheet_38
+  - first:
+      213: -4981389398094193029
+    second: DeathKnight-Sheet_39
+  - first:
+      213: 8562506330520321893
+    second: DeathKnight-Sheet_40
+  - first:
+      213: -1222974319194139964
+    second: DeathKnight-Sheet_41
+  - first:
+      213: -2441112822165652509
+    second: DeathKnight-Sheet_42
+  - first:
+      213: -6476063468079330975
+    second: DeathKnight-Sheet_43
+  - first:
+      213: -890377064206611917
+    second: DeathKnight-Sheet_44
+  - first:
+      213: 2217654824353424061
+    second: DeathKnight-Sheet_45
+  - first:
+      213: 4310113949154965483
+    second: DeathKnight-Sheet_46
+  - first:
+      213: 8481673868109546096
+    second: DeathKnight-Sheet_47
+  - first:
+      213: 1952371091391028310
+    second: DeathKnight-Sheet_48
+  - first:
+      213: 7145979817789416419
+    second: DeathKnight-Sheet_49
+  - first:
+      213: -5638546809705829829
+    second: DeathKnight-Sheet_50
+  - first:
+      213: -8852522854802492308
+    second: DeathKnight-Sheet_51
+  - first:
+      213: 6394294170238733125
+    second: DeathKnight-Sheet_52
+  - first:
+      213: 4393625356215181784
+    second: DeathKnight-Sheet_53
+  - first:
+      213: -4113645465757691463
+    second: DeathKnight-Sheet_54
+  - first:
+      213: 5137208377232995586
+    second: DeathKnight-Sheet_55
+  - first:
+      213: -8080416198750002443
+    second: DeathKnight-Sheet_56
+  - first:
+      213: 2395559690278366886
+    second: DeathKnight-Sheet_57
+  - first:
+      213: 5222082894508644028
+    second: DeathKnight-Sheet_58
+  - first:
+      213: 633212910679026719
+    second: DeathKnight-Sheet_59
+  - first:
+      213: 159888421525557799
+    second: DeathKnight-Sheet_60
+  - first:
+      213: -4467535813043439935
+    second: DeathKnight-Sheet_61
+  - first:
+      213: -5380967962265633477
+    second: DeathKnight-Sheet_62
+  - first:
+      213: -2445305512042285748
+    second: DeathKnight-Sheet_63
+  - first:
+      213: -1072033041868083926
+    second: DeathKnight-Sheet_64
+  - first:
+      213: -3152576454930917918
+    second: DeathKnight-Sheet_65
+  - first:
+      213: 3993218729691094730
+    second: DeathKnight-Sheet_66
+  - first:
+      213: 4794432940859325336
+    second: DeathKnight-Sheet_67
+  - first:
+      213: -6630657922980868711
+    second: DeathKnight-Sheet_68
+  - first:
+      213: 4411608661485881697
+    second: DeathKnight-Sheet_69
+  - first:
+      213: 6166268949280091902
+    second: DeathKnight-Sheet_70
+  - first:
+      213: -6166409171470860418
+    second: DeathKnight-Sheet_71
+  - first:
+      213: -7478465482186516197
+    second: DeathKnight-Sheet_72
+  - first:
+      213: -6143721766896642395
+    second: DeathKnight-Sheet_73
+  - first:
+      213: -1628887476878513966
+    second: DeathKnight-Sheet_74
+  - first:
+      213: 4341749915457169507
+    second: DeathKnight-Sheet_75
+  - first:
+      213: -5431840220173027180
+    second: DeathKnight-Sheet_76
+  - first:
+      213: 3535543750557858500
+    second: DeathKnight-Sheet_77
+  - first:
+      213: -7417252599612864822
+    second: DeathKnight-Sheet_78
+  - first:
+      213: -186587711444784004
+    second: DeathKnight-Sheet_79
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04cba4021aa649f40800000000000000
+      internalID: 5734325465813531712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a103f3faa7406c10800000000000000
+      internalID: 2044713030389006758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d061f31cdbf07dd0800000000000000
+      internalID: -2490213671289921319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9128c70daf2573cf0800000000000000
+      internalID: -272658015239503335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af4c0ea50025886b0800000000000000
+      internalID: -5293891200495860486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbaa07265c131c7a0800000000000000
+      internalID: -6358746475040560451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0a3161bd9ea32500800000000000000
+      internalID: 370331586683550223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06a8167349d482de0800000000000000
+      internalID: -1357749988672566688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96151906b5f9bace0800000000000000
+      internalID: -1392844444930059927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61d7992341579da50800000000000000
+      internalID: 6546392262968442134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b409ae7be49c4d50800000000000000
+      internalID: 6722912082920539318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a276cc50e65fe1950800000000000000
+      internalID: 6421839971569395498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 654fbce51eb72add0800000000000000
+      internalID: -2476280637212068778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b1a605a66e59b8e0800000000000000
+      internalID: -1677205591270448716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ace6bb90915afbb0800000000000000
+      internalID: -4901515562909766490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35eaf471026d7e140800000000000000
+      internalID: 4748999765403872851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e160af6704ffa930800000000000000
+      internalID: 4156809293860987367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d130045fe257a9a50800000000000000
+      internalID: 6528659454370513693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c664faf79ae3807a0800000000000000
+      internalID: -6410805171849312660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7b7aab706227dbc0800000000000000
+      internalID: -3758497566230414470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d72494a4919898d0800000000000000
+      internalID: -2839359497454737452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95bf054b880e42b50800000000000000
+      internalID: 6567621034358405977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8fe1790210fc7560800000000000000
+      internalID: 7312983855201382284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae1081ff21b1682b0800000000000000
+      internalID: -5582744919676026390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f07c7d42b072726f0800000000000000
+      internalID: -709555487471319281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df19708c328216560800000000000000
+      internalID: 7305164204716560893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adfdc4af69f98eed0800000000000000
+      internalID: -2384480531899424806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06ed43e43e01e5e40800000000000000
+      internalID: 5646969551224888928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7028e9499fda25a90800000000000000
+      internalID: -7326602356326497785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a486ce21ef33e5fb0800000000000000
+      internalID: -4657227798322321334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e71bd27ed58ac5e0800000000000000
+      internalID: -1888549903272306720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37f60ce4355e3ec70800000000000000
+      internalID: 8999288626382663539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a07da1b6ed35cbac0800000000000000
+      internalID: -3838100567681738998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e3c9160cf89499c0800000000000000
+      internalID: -3921341167331327008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f346c770061664390800000000000000
+      internalID: -7834467436694051777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 135c277394c28e260800000000000000
+      internalID: 7126995103288313137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f315e7f30be9c000800000000000000
+      internalID: 56834872595256311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8953e8cd3a5698eb0800000000000000
+      internalID: -4717127380239501928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25dcf708fb9cd53d0800000000000000
+      internalID: -3216192734540870318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7ed2b62cbc8edab0800000000000000
+      internalID: -4981389398094193029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56f72b9342224d670800000000000000
+      internalID: 8562506330520321893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c21207165f170fe0800000000000000
+      internalID: -1222974319194139964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3eb3a2262dc6f1ed0800000000000000
+      internalID: -2441112822165652509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1694f3266966026a0800000000000000
+      internalID: -6476063468079330975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33a4fcb07ceb4a3f0800000000000000
+      internalID: -890377064206611917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db264082051b6ce10800000000000000
+      internalID: 2217654824353424061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be776d00dc990db30800000000000000
+      internalID: 4310113949154965483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0720269f175f4b570800000000000000
+      internalID: 8481673868109546096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65c9a1cd927381b10800000000000000
+      internalID: 1952371091391028310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e3e27388ce9b2360800000000000000
+      internalID: 7145979817789416419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3a62160d8bdfb1b0800000000000000
+      internalID: -5638546809705829829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c647871cd55852580800000000000000
+      internalID: -8852522854802492308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54b4e6e5ba81db850800000000000000
+      internalID: 6394294170238733125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d1ea59abfa49fc30800000000000000
+      internalID: 4393625356215181784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b1dd917e3569e6c0800000000000000
+      internalID: -4113645465757691463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 205322e0dc70b4740800000000000000
+      internalID: 5137208377232995586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f2a13477489cdf80800000000000000
+      internalID: -8080416198750002443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ae694998dcbe3120800000000000000
+      internalID: 2395559690278366886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb6d4da89b0987840800000000000000
+      internalID: 5222082894508644028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1ce63099cf99c800800000000000000
+      internalID: 633212910679026719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7229ab81ca9083200800000000000000
+      internalID: 159888421525557799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c6b53a19df1002c0800000000000000
+      internalID: -4467535813043439935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3d366dd526f255b0800000000000000
+      internalID: -5380967962265633477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c453a63b797801ed0800000000000000
+      internalID: -2445305512042285748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2da8f7d0af5f11f0800000000000000
+      internalID: -1072033041868083926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e51594da6ccf34d0800000000000000
+      internalID: -3152576454930917918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ace9ca51743ca6730800000000000000
+      internalID: 3993218729691094730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89bf9539b5f398240800000000000000
+      internalID: 4794432940859325336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99d8891ffbb2bf3a0800000000000000
+      internalID: -6630657922980868711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16907e334be293d30800000000000000
+      internalID: 4411608661485881697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efe6c5760fcf29550800000000000000
+      internalID: 6166268949280091902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7fb4c297838c6aa0800000000000000
+      internalID: -6166409171470860418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b19904d3447273890800000000000000
+      internalID: -7478465482186516197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a65a459a9d1dbaa0800000000000000
+      internalID: -6143721766896642395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d8e29158770569e0800000000000000
+      internalID: -1628887476878513966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36828666b8ef04c30800000000000000
+      internalID: 4341749915457169507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49838ef491a3e94b0800000000000000
+      internalID: -5431840220173027180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_77
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ca7adb1f46c01130800000000000000
+      internalID: 3535543750557858500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_78
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac68bb61f00a01990800000000000000
+      internalID: -7417252599612864822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight-Sheet_79
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7c61eb077b196df0800000000000000
+      internalID: -186587711444784004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 8cd2109286b18904a87e7730354aa364
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":11.0,"y":12.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      DeathKnight-Sheet_0: 5734325465813531712
+      DeathKnight-Sheet_1: 2044713030389006758
+      DeathKnight-Sheet_10: 6722912082920539318
+      DeathKnight-Sheet_11: 6421839971569395498
+      DeathKnight-Sheet_12: -2476280637212068778
+      DeathKnight-Sheet_13: -1677205591270448716
+      DeathKnight-Sheet_14: -4901515562909766490
+      DeathKnight-Sheet_15: 4748999765403872851
+      DeathKnight-Sheet_16: 4156809293860987367
+      DeathKnight-Sheet_17: 6528659454370513693
+      DeathKnight-Sheet_18: -6410805171849312660
+      DeathKnight-Sheet_19: -3758497566230414470
+      DeathKnight-Sheet_2: -2490213671289921319
+      DeathKnight-Sheet_20: -2839359497454737452
+      DeathKnight-Sheet_21: 6567621034358405977
+      DeathKnight-Sheet_22: 7312983855201382284
+      DeathKnight-Sheet_23: -5582744919676026390
+      DeathKnight-Sheet_24: -709555487471319281
+      DeathKnight-Sheet_25: 7305164204716560893
+      DeathKnight-Sheet_26: -2384480531899424806
+      DeathKnight-Sheet_27: 5646969551224888928
+      DeathKnight-Sheet_28: -7326602356326497785
+      DeathKnight-Sheet_29: -4657227798322321334
+      DeathKnight-Sheet_3: -272658015239503335
+      DeathKnight-Sheet_30: -1888549903272306720
+      DeathKnight-Sheet_31: 8999288626382663539
+      DeathKnight-Sheet_32: -3838100567681738998
+      DeathKnight-Sheet_33: -3921341167331327008
+      DeathKnight-Sheet_34: -7834467436694051777
+      DeathKnight-Sheet_35: 7126995103288313137
+      DeathKnight-Sheet_36: 56834872595256311
+      DeathKnight-Sheet_37: -4717127380239501928
+      DeathKnight-Sheet_38: -3216192734540870318
+      DeathKnight-Sheet_39: -4981389398094193029
+      DeathKnight-Sheet_4: -5293891200495860486
+      DeathKnight-Sheet_40: 8562506330520321893
+      DeathKnight-Sheet_41: -1222974319194139964
+      DeathKnight-Sheet_42: -2441112822165652509
+      DeathKnight-Sheet_43: -6476063468079330975
+      DeathKnight-Sheet_44: -890377064206611917
+      DeathKnight-Sheet_45: 2217654824353424061
+      DeathKnight-Sheet_46: 4310113949154965483
+      DeathKnight-Sheet_47: 8481673868109546096
+      DeathKnight-Sheet_48: 1952371091391028310
+      DeathKnight-Sheet_49: 7145979817789416419
+      DeathKnight-Sheet_5: -6358746475040560451
+      DeathKnight-Sheet_50: -5638546809705829829
+      DeathKnight-Sheet_51: -8852522854802492308
+      DeathKnight-Sheet_52: 6394294170238733125
+      DeathKnight-Sheet_53: 4393625356215181784
+      DeathKnight-Sheet_54: -4113645465757691463
+      DeathKnight-Sheet_55: 5137208377232995586
+      DeathKnight-Sheet_56: -8080416198750002443
+      DeathKnight-Sheet_57: 2395559690278366886
+      DeathKnight-Sheet_58: 5222082894508644028
+      DeathKnight-Sheet_59: 633212910679026719
+      DeathKnight-Sheet_6: 370331586683550223
+      DeathKnight-Sheet_60: 159888421525557799
+      DeathKnight-Sheet_61: -4467535813043439935
+      DeathKnight-Sheet_62: -5380967962265633477
+      DeathKnight-Sheet_63: -2445305512042285748
+      DeathKnight-Sheet_64: -1072033041868083926
+      DeathKnight-Sheet_65: -3152576454930917918
+      DeathKnight-Sheet_66: 3993218729691094730
+      DeathKnight-Sheet_67: 4794432940859325336
+      DeathKnight-Sheet_68: -6630657922980868711
+      DeathKnight-Sheet_69: 4411608661485881697
+      DeathKnight-Sheet_7: -1357749988672566688
+      DeathKnight-Sheet_70: 6166268949280091902
+      DeathKnight-Sheet_71: -6166409171470860418
+      DeathKnight-Sheet_72: -7478465482186516197
+      DeathKnight-Sheet_73: -6143721766896642395
+      DeathKnight-Sheet_74: -1628887476878513966
+      DeathKnight-Sheet_75: 4341749915457169507
+      DeathKnight-Sheet_76: -5431840220173027180
+      DeathKnight-Sheet_77: 3535543750557858500
+      DeathKnight-Sheet_78: -7417252599612864822
+      DeathKnight-Sheet_79: -186587711444784004
+      DeathKnight-Sheet_8: -1392844444930059927
+      DeathKnight-Sheet_9: 6546392262968442134
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
