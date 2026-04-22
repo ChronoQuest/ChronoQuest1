@@ -277,20 +277,18 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         if (wasDead || isDying) return;
-        
+
         wasDead = true;
         isDying = true;
-        
+
         if (animator != null) animator.SetFloat("Speed", 0f);
-        
-        if (col != null) col.enabled = false;
+        OnDeath?.Invoke();
 
         StartCoroutine(HandleSkeletonDeath());
     }
 
     private IEnumerator HandleSkeletonDeath()
     {
-        // Note: Your original script used "Dead" instead of "Die" for the trigger string. 
         if (animator != null) animator.SetTrigger("Dead");
 
         if (col != null)
@@ -302,11 +300,12 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             }
         }
 
-        rb.linearVelocity = Vector2.zero; 
+        rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
-        rb.bodyType = RigidbodyType2D.Kinematic; 
-        
-        isDying = false; 
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        if (col != null) col.enabled = false;
+
+        isDying = false;
     }
 
     // ================= REVIVE =================
