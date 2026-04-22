@@ -890,8 +890,9 @@ public class Boss : EnemyBase, IRewindable
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
 
-        // Every collider off — body contact, attack hit, everything.
-        foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
+        // Every collider off — body contact, attack hit, everything. Include children
+        // so any separate hitbox objects parented under the boss also get disabled.
+        foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = false;
 
         if (foresightGlow != null) foresightGlow.SetActive(false);
 
@@ -906,7 +907,7 @@ public class Boss : EnemyBase, IRewindable
     public override void Revive()
     {
         base.Revive();
-        foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+        foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = true;
         if (animator != null) animator.SetBool("Death", false);
         isDead = false;
 
@@ -1039,13 +1040,13 @@ public class Boss : EnemyBase, IRewindable
         {
             isDead = true;
             if (animator != null) animator.SetBool("Death", true);
-            foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
+            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = false;
         }
         else
         {
             isDead = false;
             if (animator != null) animator.SetBool("Death", false);
-            foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = true;
             if (wasDeadBefore)
             {
                 BossHealthBarDriver reviveDriver = GetComponent<BossHealthBarDriver>();
