@@ -50,7 +50,7 @@ class ScoreEntry(BaseModel):
     name: str
     score: int
 
-# --- routes --- 
+# --- leaderboard routes --- 
 @app.get("/", response_class=HTMLResponse)
 def template(request: Request):
     return templates.TemplateResponse(
@@ -85,8 +85,21 @@ def add_scores(entry: ScoreEntry):
     conn.commit()
     return {"message": "score added"}
 
+# --- testing routes --- 
 @app.get("/test-data")
 def test_data(): 
     cursor.execute("SELECT * FROM scores ORDER BY timestamp DESC")
     rows = cursor.fetchall()
     return {"total_rows": len(rows), "recent_entries": rows}
+
+@app.delete("/scores/{name}")
+def delete_score(name: str):
+    cursor.execute("DELETE FROM scores WHERE player_name = %s", (name,))
+    conn.commit()
+    return {"message": f"Deleted scores for {name}"}
+
+@app.delete("/scores")
+def delete_all_scores():
+    cursor.execute("DELETE FROM scores")
+    conn.commit()
+    return{"message": "All scores deleted"}
