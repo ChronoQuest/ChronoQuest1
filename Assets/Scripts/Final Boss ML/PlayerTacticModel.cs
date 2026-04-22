@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerTacticalModel : MonoBehaviour
 {
     // TODO: modify to make four clusters and add the balanced tactic
+    // -- EXPERIMENT EDITS -- 
     public enum TacticType
     {
         Aggressive, 
