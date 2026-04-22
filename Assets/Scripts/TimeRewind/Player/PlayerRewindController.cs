@@ -27,6 +27,10 @@ namespace TimeRewind
         private float _rewindHoldTimer;
         private int _releaseFrameCount;
         private bool blockRewindInput = false;
+        // Set by external systems (e.g. BossFightController) that want to rewind the
+        // player without consuming mana or auto-stopping because the rewind button
+        // isn't held. The external caller is responsible for calling StopRewind.
+        private bool _externalRewindActive;
         private RigidbodyType2D _originalBodyType;
         private RewindState _lastAppliedState;
         private PlayerMana _playerMana;
@@ -94,14 +98,14 @@ namespace TimeRewind
             bool isDead = _playerHealth != null && _playerHealth.IsDead;
             bool hasManaForStart = HasManaToStartRewind(isDead);
 
-            if (_rewindInputHeld && hasManaForStart && !TimeRewindManager.Instance.IsRewinding)
+            if (_rewindInputHeld && hasManaForStart && !TimeRewindManager.Instance.IsRewinding && !_externalRewindActive)
             {
                 TimeRewindManager.Instance.StartRewind();
             }
-            else if (TimeRewindManager.Instance.IsRewinding)
+            else if (TimeRewindManager.Instance.IsRewinding && !_externalRewindActive)
             {
                 // Drain mana every frame while rewinding (unscaled so cost is constant per real second)
-                bool canContinue = _playerMana != null 
+                bool canContinue = _playerMana != null
                     && _playerMana.DrainManaContinuousUnscaled(manaDrainPerSecond);
 
                 bool minDurationElapsed = (Time.unscaledTime - _rewindStartTime) >= minRewindDuration;
@@ -153,6 +157,14 @@ namespace TimeRewind
         public void SetRewindBlocked(bool blocked)
         {
             blockRewindInput = blocked;
+        }
+
+        // Toggle a mode where the rewind is being driven externally (e.g. the boss
+        // forcing the player to rewind). While active, mana isn't drained and the
+        // rewind is not auto-stopped when the player isn't holding the rewind key.
+        public void SetExternalRewindActive(bool active)
+        {
+            _externalRewindActive = active;
         }
 
         #region Input Callbacks

@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TimeRewind;
 
 // Drives the two-phase boss fight flow:
-//   1. Player walks into the trigger on this GameObject.
-//   2. The game locks (Time.timeScale = 0), the phase-1 dialogue types out on an
-//      otherwise-hidden panel. Once it finishes, we unlock and call Boss.BeginFight
-//      so the music and health bar kick in and the fight actually starts.
-//   3. Each frame we watch the boss's health. The first time it drops to or below
-//      phase2HealthFraction of its max, we latch once (phase2Triggered), lock the
-//      game again, play the phase-2 dialogue, then call Boss.AdvanceToPhase2 so
-//      the GMM takes over.
+//   1. Player walks into the trigger on this GameObject. Phase-1 intro dialogue
+//      types out, then Boss.BeginFight kicks off the fight proper.
+//   2. After phase2TimerSeconds of fight time, the boss itself "rewinds" — we
+//      force the shared TimeRewindManager on and drive it until the rewind lands
+//      back at the start of the fight, painted red instead of blue to sell the
+//      idea that the boss is doing the rewinding, not the player. The player's
+//      mana isn't spent during this.
+//   3. Once the rewind lands, we play the phase-2 dialogue and call
+//      Boss.AdvanceToPhase2 so the GMM takes over.
 //
-// The latch is one-way on purpose: if the player rewinds past the 80% threshold
-// we don't want the dialogue to replay. Boss.fightStage is also deliberately not
-// part of the rewind snapshot so Phase2 persists through rewinds.
+// The latch is one-way on purpose: if the player rewinds afterwards we don't
+// want the phase-2 transition to replay. Boss.fightStage is also deliberately
+// not part of the rewind snapshot so Phase2 persists through rewinds.
 [RequireComponent(typeof(Collider2D))]
 public class BossFightController : MonoBehaviour
 {
@@ -33,10 +35,17 @@ public class BossFightController : MonoBehaviour
              "Colliders are left untouched.")]
     [SerializeField] private GameObject playerScriptsRoot;
 
-    [Tooltip("Player's Rigidbody2D — zeroed out and set to kinematic while the " +
-             "dialogue is up so any leftover velocity (e.g. spell recoil) can't " +
-             "push the player off a ledge. Restored to dynamic afterwards.")]
+    [Tooltip("Player's Rigidbody2D — X position is frozen via constraints while " +
+             "the dialogue is up so horizontal velocity (e.g. spell recoil) can't " +
+             "push the player sideways. Y stays unconstrained so gravity still " +
+             "pulls the player down if they were airborne when the dialogue opened.")]
     [SerializeField] private Rigidbody2D playerRigidbody;
+
+    [Tooltip("Player's PlayerPlatformer — used to poll grounded state while the " +
+             "player's scripts are disabled during dialogue, so the animator's " +
+             "isGrounded bool stays truthful and a mid-air lock doesn't look " +
+             "like walking on air.")]
+    [SerializeField] private PlayerPlatformer playerPlatformer;
 
     [Tooltip("Player's Animator — forced to its idle state when dialogue starts " +
              "so the player doesn't stay stuck on the fall/jump/cast frame.")]
@@ -75,13 +84,13 @@ public class BossFightController : MonoBehaviour
         "Placeholder phase 1 line 3."
     };
 
-    [Header("Phase 2 Dialogue (80% health)")]
+    [Header("Phase 2 Dialogue (after boss rewind)")]
     [TextArea(2, 5)]
     [SerializeField] private string[] phase2Lines = new string[]
     {
-        "Placeholder phase 2 line 1.",
-        "Placeholder phase 2 line 2.",
-        "Placeholder phase 2 line 3."
+        "You think only you could do that?",
+        "Placeholder line 2.",
+        "Placeholder line 3."
     };
 
     [Header("Dialogue Pacing")]
@@ -90,13 +99,39 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private float pauseAfterLastLine = 0.8f;
 
     [Header("Phase 2 Trigger")]
-    [Tooltip("Fraction of max health that triggers the phase-2 dialogue + GMM. " +
-             "0.8 = the moment boss health drops to 80% of startHealth.")]
-    [Range(0f, 1f)]
-    [SerializeField] private float phase2HealthFraction = 0.8f;
+    [Tooltip("Seconds of fight time after BeginFight before the boss-driven " +
+             "rewind triggers phase 2.")]
+    [SerializeField] private float phase2TimerSeconds = 25f;
+
+    [Header("Boss Rewind")]
+    [Tooltip("PlayerRewindController on the player. Put into external mode " +
+             "during the boss rewind so mana isn't spent and it doesn't stop " +
+             "because R isn't held.")]
+    [SerializeField] private PlayerRewindController playerRewindController;
+
+    [Tooltip("RewindEffects component. Temporarily swapped to red during the " +
+             "boss rewind, restored to its original blue afterwards.")]
+    [SerializeField] private RewindEffects rewindEffects;
+
+    [Tooltip("Rewind tint color used while the boss is rewinding.")]
+    [SerializeField] private Color bossRewindTint = new Color(1f, 0.55f, 0.55f, 0.2f);
+
+    [Tooltip("Burst tint color used at the start of the boss rewind.")]
+    [SerializeField] private Color bossRewindBurstTint = new Color(1f, 0.45f, 0.45f, 0.35f);
+
+    [Tooltip("RewindGhostTrail on the player. Optional — if left empty we resolve " +
+             "it from playerRewindController at runtime. (PlayerRewindController " +
+             "adds this component in Awake if it isn't already there, which is " +
+             "why you may not be able to drag it in via the Inspector.)")]
+    [SerializeField] private RewindGhostTrail rewindGhostTrail;
+
+    [Tooltip("Boss's SpriteRenderer — used as the ghost trail source during " +
+             "the boss rewind.")]
+    [SerializeField] private SpriteRenderer bossSprite;
 
     private bool fightStarted;
     private bool phase2Triggered;
+    private float fightStartTime;
 
     // Scripts we turned off during the current dialogue. Tracked so we only re-enable
     // what we actually disabled (anything already disabled stays that way).
@@ -115,9 +150,12 @@ public class BossFightController : MonoBehaviour
     {
         if (!fightStarted || phase2Triggered || boss == null) return;
         if (boss.fightStage != Boss.FightStage.Phase1) return;
-        if (boss.startHealth <= 0) return;
 
-        if (boss.health <= boss.startHealth * phase2HealthFraction)
+        // If the player is mid-rewind (their own), wait — starting ours on top
+        // would collide with the manager's already-active rewind state.
+        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+
+        if (Time.time - fightStartTime >= phase2TimerSeconds)
         {
             phase2Triggered = true;
             StartCoroutine(RunPhase2Transition());
@@ -143,13 +181,64 @@ public class BossFightController : MonoBehaviour
 
         UnlockPlayer();
         if (boss != null) boss.BeginFight(Boss.FightStage.Phase1);
+        fightStartTime = Time.time;
     }
 
     private IEnumerator RunPhase2Transition()
     {
-        // Phase 2 dialogue: freeze the boss via its own flag (not Time.timeScale) so
-        // the player's idle animation keeps ticking.
+        // Phase 2 begins with the *boss* rewinding the fight back to the start.
+        // We reuse the existing TimeRewindManager (so player + boss + everything
+        // rewindable winds back together), force it on without touching the
+        // player's mana, and tint it red to signal the boss is driving this.
         if (boss != null) boss.dialoguePaused = true;
+
+        // Kill player input during the rewind. We don't call LockPlayer yet
+        // because it disables every MonoBehaviour on the player — including the
+        // PlayerRewindController we need registered with the rewind manager.
+        if (playerInput != null) playerInput.enabled = false;
+
+        if (playerRewindController != null) playerRewindController.SetExternalRewindActive(true);
+        if (rewindEffects != null) rewindEffects.PushTintOverride(bossRewindTint, bossRewindBurstTint);
+
+        // Resolve the ghost trail lazily: PlayerRewindController.Awake adds it at
+        // runtime, so it's typically not there at edit time and can't be dragged in.
+        if (rewindGhostTrail == null && playerRewindController != null)
+            rewindGhostTrail = playerRewindController.GetComponent<RewindGhostTrail>();
+        if (rewindGhostTrail != null && bossSprite != null) rewindGhostTrail.SetSourceOverride(bossSprite);
+
+        TimeRewindManager manager = TimeRewindManager.Instance;
+        if (manager != null)
+        {
+            manager.StartRewind();
+
+            // Drive the rewind until it lands back at the start of the fight,
+            // or the manager aborts for any reason.
+            while (manager.IsRewinding)
+            {
+                if (manager.CurrentRewindTime <= fightStartTime)
+                {
+                    manager.StopRewind();
+                    break;
+                }
+                yield return null;
+            }
+        }
+
+        if (playerRewindController != null) playerRewindController.SetExternalRewindActive(false);
+        if (rewindGhostTrail != null) rewindGhostTrail.ClearSourceOverride();
+
+        // Wait for the red tint to fully fade out before popping the override —
+        // otherwise the original blue tint would flash back on screen during the
+        // tail of the post-process fade.
+        if (rewindEffects != null)
+        {
+            while (rewindEffects.IsTintVisuallyActive) yield return null;
+            rewindEffects.PopTintOverride();
+        }
+
+        // Give the post-rewind slow-motion a frame to settle before we lock.
+        yield return null;
+
         LockPlayer();
         ClearBossAttacks();
         RefillPlayerMana();
@@ -167,9 +256,11 @@ public class BossFightController : MonoBehaviour
     // Mirrors IntroCutscene.DisablePlayerControl's script-disable pass. Stops
     // movement, attacks, spellcasting, etc. by shutting down every MonoBehaviour on
     // the player root except the two we need alive (this controller and PlayerInput,
-    // which we toggle separately). Also zeroes out the rigidbody and forces the
-    // animator to idle so lingering velocity / mid-air frames don't bleed through.
-    private bool rigidbodyWasDynamic;
+    // which we toggle separately). Freezes the rigidbody's X so the player can't
+    // slide sideways while still letting gravity pull an airborne player down.
+    private RigidbodyConstraints2D originalRigidbodyConstraints;
+    private bool rigidbodyConstraintsCaptured;
+    private Coroutine lockedAnimatorRoutine;
 
     private void LockPlayer()
     {
@@ -177,13 +268,23 @@ public class BossFightController : MonoBehaviour
 
         if (playerRigidbody != null)
         {
-            rigidbodyWasDynamic = playerRigidbody.bodyType == RigidbodyType2D.Dynamic;
-            playerRigidbody.linearVelocity = Vector2.zero;
+            originalRigidbodyConstraints = playerRigidbody.constraints;
+            rigidbodyConstraintsCaptured = true;
+            // Zero X velocity so lingering horizontal motion doesn't bleed through,
+            // but preserve Y so an airborne player can still fall. FreezePositionX
+            // stops any further horizontal drift from collisions/knockback.
+            playerRigidbody.linearVelocity = new Vector2(0f, playerRigidbody.linearVelocity.y);
             playerRigidbody.angularVelocity = 0f;
-            playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
+            playerRigidbody.constraints = originalRigidbodyConstraints | RigidbodyConstraints2D.FreezePositionX;
         }
 
         ForcePlayerIdleAnimation();
+
+        // While the player's scripts are disabled, keep the animator's isGrounded
+        // bool in sync with actual ground contact so a mid-air lock transitions to
+        // idle on landing instead of staying stuck in one frame.
+        if (lockedAnimatorRoutine != null) StopCoroutine(lockedAnimatorRoutine);
+        lockedAnimatorRoutine = StartCoroutine(MaintainLockedAnimator());
 
         if (playerScriptsRoot == null) return;
 
@@ -217,9 +318,34 @@ public class BossFightController : MonoBehaviour
         }
         disabledDuringDialogue.Clear();
 
-        if (playerRigidbody != null && rigidbodyWasDynamic)
+        if (lockedAnimatorRoutine != null)
         {
-            playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
+            StopCoroutine(lockedAnimatorRoutine);
+            lockedAnimatorRoutine = null;
+        }
+
+        if (playerRigidbody != null && rigidbodyConstraintsCaptured)
+        {
+            playerRigidbody.constraints = originalRigidbodyConstraints;
+            rigidbodyConstraintsCaptured = false;
+        }
+    }
+
+    private bool PlayerIsGrounded()
+    {
+        return playerPlatformer != null && playerPlatformer.CheckGrounded();
+    }
+
+    private IEnumerator MaintainLockedAnimator()
+    {
+        while (true)
+        {
+            if (playerAnimator != null &&
+                HasAnimatorParam(playerAnimator, "isGrounded", AnimatorControllerParameterType.Bool))
+            {
+                playerAnimator.SetBool("isGrounded", PlayerIsGrounded());
+            }
+            yield return null;
         }
     }
 
@@ -227,13 +353,18 @@ public class BossFightController : MonoBehaviour
     {
         if (playerAnimator == null) return;
 
+        bool grounded = PlayerIsGrounded();
+
         if (playerAnimatorBoolsToForceTrue != null)
         {
             foreach (string param in playerAnimatorBoolsToForceTrue)
             {
                 if (string.IsNullOrEmpty(param)) continue;
-                if (HasAnimatorParam(playerAnimator, param, AnimatorControllerParameterType.Bool))
-                    playerAnimator.SetBool(param, true);
+                if (!HasAnimatorParam(playerAnimator, param, AnimatorControllerParameterType.Bool)) continue;
+                // isGrounded has to reflect reality — forcing it true while the
+                // player is airborne would play a walking-on-air idle clip.
+                bool value = param == "isGrounded" ? grounded : true;
+                playerAnimator.SetBool(param, value);
             }
         }
         if (playerAnimatorBoolsToForceFalse != null)
@@ -246,7 +377,10 @@ public class BossFightController : MonoBehaviour
             }
         }
 
-        if (!string.IsNullOrEmpty(playerIdleStateName))
+        // Only snap to the grounded idle state when actually grounded; airborne,
+        // leave the animator in whatever fall state it already reached so it
+        // naturally transitions via isGrounded once the player lands.
+        if (grounded && !string.IsNullOrEmpty(playerIdleStateName))
         {
             playerAnimator.Play(playerIdleStateName, 0, 0f);
             playerAnimator.Update(0f);

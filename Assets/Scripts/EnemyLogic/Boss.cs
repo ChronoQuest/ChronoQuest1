@@ -961,12 +961,21 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
-    public override void OnStartRewind() { base.OnStartRewind(); _isRewinding = true; }
+    public override void OnStartRewind()
+    {
+        base.OnStartRewind();
+        _isRewinding = true;
+        // Freeze the animator so Play()/Update(0f) in ApplyState fully drives the
+        // visible state each rewind tick. Without this, the animator keeps
+        // advancing forward between ticks and every state bleeds back to Idle.
+        if (animator != null) animator.speed = 0f;
+    }
     //public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }
-    public override void OnStopRewind() 
-    { 
-        base.OnStopRewind(); 
-        _isRewinding = false; 
+    public override void OnStopRewind()
+    {
+        base.OnStopRewind();
+        _isRewinding = false;
+        if (animator != null) animator.speed = 1f;
 
         // Snap health bar to rewound health value
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
@@ -1018,12 +1027,15 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("LastRes", (int)lastRes);
         state.SetCustomData("RepeatCount", repeatCount);
 
-        // Capture animator state so walk animation reverses properly during rewind
+        // Capture animator state so the boss's animations rewind the same way the
+        // player's do. Use the built-in top-level fields on RewindState — those
+        // survive RewindState.Lerp; custom-data keys do not unless Lerp is taught
+        // about them explicitly.
         if (animator != null)
         {
             AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
-            state.SetCustomData("AnimStateHash", animInfo.fullPathHash);
-            state.SetCustomData("AnimNormalizedTime", animInfo.normalizedTime);
+            state.AnimatorStateHash = animInfo.fullPathHash;
+            state.AnimatorNormalizedTime = animInfo.normalizedTime;
         }
 
         return state;
@@ -1105,17 +1117,16 @@ public class Boss : EnemyBase, IRewindable
         lastRes = (ResMove)state.GetCustomData<int>("LastRes", 0);
         repeatCount = state.GetCustomData<int>("RepeatCount", 0);
 
-        // Restore animator state so walk animation plays in reverse during rewind
-        if (animator != null)
+        // Restore animator state so the boss's animations rewind like the
+        // player's. Bump speed to 1 briefly so Play + Update(0f) actually
+        // commits the state change (speed=0 leaves it uncommitted), then
+        // freeze again so no transitions fire before the next rewind tick.
+        if (animator != null && state.AnimatorStateHash != 0)
         {
-            int animStateHash = state.GetCustomData<int>("AnimStateHash", 0);
-            float animNormalizedTime = state.GetCustomData<float>("AnimNormalizedTime", 0f);
-            
-            if (animStateHash != 0)
-            {
-                animator.Play(animStateHash, 0, animNormalizedTime);
-            }
-            animator.Update(0f);  // Apply the animation state without time progression
+            animator.speed = 1f;
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+            animator.Update(0f);
+            if (_isRewinding) animator.speed = 0f;
         }
 
         // Keep health bar in sync during rewind scrubbing
