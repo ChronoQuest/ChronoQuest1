@@ -21,6 +21,10 @@ public class FireRow : MonoBehaviour, IRewindable
     private float currentAge = 0f;
     private BoxCollider2D boxCol;
     [HideInInspector] public GameObject sourceExplosion;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip fireLoopClip;
+    [Range(0f, 1f)] public float fireVolume = 0.6f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,6 +41,13 @@ public class FireRow : MonoBehaviour, IRewindable
         animator = fireVisual.GetComponent<Animator>();
 
         currentGrowSize = 1f;
+        if (audioSource != null && fireLoopClip != null)
+        {
+            audioSource.clip = fireLoopClip;
+            audioSource.loop = true;
+            audioSource.volume = fireVolume;
+            audioSource.Play();
+        }
 
         // baseY = fireVisual.localPosition.y;
     }
@@ -82,6 +93,7 @@ public class FireRow : MonoBehaviour, IRewindable
             
         } else if (currentAge > 6f)
         {
+            if (audioSource != null) audioSource.Stop();
             if (sourceExplosion != null) Destroy(sourceExplosion);
             gameObject.SetActive(false);
         }
@@ -105,6 +117,7 @@ public class FireRow : MonoBehaviour, IRewindable
     public void OnStartRewind()
     {
         _isRewinding = true;
+        if (audioSource != null) audioSource.Pause();
         // Make Rigidbody Kinematic so physics doesn't interfere
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         _originalBodyType = rb.bodyType;
@@ -116,6 +129,7 @@ public class FireRow : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
+        if (audioSource != null) audioSource.UnPause();
         // Restore physics
         rb.bodyType = _originalBodyType;
         if (_originalBodyType == RigidbodyType2D.Dynamic)

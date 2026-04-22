@@ -12,6 +12,12 @@ public class Fireball : MonoBehaviour, IRewindable
     private Collider2D _collider;
     private float _explosionTimer = 0.5f;
     private bool _isExploding = false;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip fireExplosionClip;
+    [Range(0f, 1f)] public float fireExplosionVolume = 0.5f;
+    public AudioClip fallingClip;
+    [Range(0f, 1f)] public float fallingVolume = 0.5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,6 +31,13 @@ public class Fireball : MonoBehaviour, IRewindable
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         _collider = GetComponent<Collider2D>();
+        if (audioSource != null && fallingClip != null)
+        {
+            audioSource.clip = fallingClip;
+            audioSource.loop = true;
+            audioSource.volume = fallingVolume;
+            audioSource.Play();
+        }
     }
     void Update()
     {
@@ -68,6 +81,9 @@ public class Fireball : MonoBehaviour, IRewindable
             transform.position += Vector3.up * 0.85f;
             _collider.offset = new Vector2(0f, -0.9f);
             transform.rotation = Quaternion.identity;
+
+            if (audioSource != null) audioSource.Stop();
+            if(audioSource != null && fireExplosionClip != null) audioSource.PlayOneShot(fireExplosionClip, fireExplosionVolume);
 
             _isExploding = true;
             _explosionTimer = 0.5f;

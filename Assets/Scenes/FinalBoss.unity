@@ -52545,6 +52545,15 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+  damageClips: []
+  damageVolume: 0.5
+  deathClip: {fileID: 0}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips: []
+  idleVolume: 0.5
+  idleIntervalRange: {x: 3, y: 5}
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
   playerStrategyModel: {fileID: 659603002}
@@ -55091,10 +55100,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3915337612286683321, guid: 689016a0676ac84418b2fb60afb9d0c4, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 14752ed6a1259b74f98fb816362d5cc7, type: 2}
     - target: {fileID: 8350819984362886484, guid: 689016a0676ac84418b2fb60afb9d0c4, type: 3}
       propertyPath: m_Name
       value: FireRow
