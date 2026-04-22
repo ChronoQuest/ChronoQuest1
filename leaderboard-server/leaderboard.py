@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS scores (
     id SERIAL PRIMARY KEY,
     player_name TEXT, 
     score INTEGER,
+    strategy TEXT,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 """
@@ -49,6 +50,7 @@ app.add_middleware(
 class ScoreEntry(BaseModel):
     name: str
     score: int
+    strategy: str
 
 # --- leaderboard routes --- 
 @app.get("/", response_class=HTMLResponse)
@@ -65,7 +67,8 @@ def get_leaderboard():
         SELECT 
             ROW_NUMBER() OVER (ORDER BY score DESC) AS rank,
             player_name, 
-            score
+            score, 
+            strategy
         FROM scores
         ORDER BY score DESC
         LIMIT 10
@@ -73,13 +76,16 @@ def get_leaderboard():
 
     rows = cursor.fetchall()
 
-    return [{"rank": r[0], "name": r[1], "score": r[2]} for r in rows]
+    return [
+        {"rank": r[0], "name": r[1], "score": r[2], "strategy": r[3]} 
+        for r in rows
+    ]
 
 @app.post("/score")
 def add_scores(entry: ScoreEntry):
     cursor.execute(
-        "INSERT INTO scores (player_name, score) VALUES (%s, %s)",
-        (entry.name, entry.score)
+        "INSERT INTO scores (player_name, score, strategy) VALUES (%s, %s)",
+        (entry.name, entry.score, entry.strategy)
     )
 
     conn.commit()
