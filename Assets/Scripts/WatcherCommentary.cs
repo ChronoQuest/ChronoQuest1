@@ -194,8 +194,8 @@ public class WatcherCommentary : MonoBehaviour
         string sceneName = SceneManager.GetActiveScene().name;
         if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
 
-        // Only trigger on damage (health went down) for bad players
-        if (ddm.CurrentTier == DifficultyTier.Easy)
+        // Only trigger on damage (health went down) for struggling players
+        if (ddm.CurrentTier == DifficultyTier.Easy || ddm.CurrentTier == DifficultyTier.VeryEasy)
         {
             StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
         }
@@ -276,9 +276,10 @@ public class WatcherCommentary : MonoBehaviour
 
     private void TryPlaystyleComment()
     {
-        var tacticalModel = FindFirstObjectByType<PlayerTacticalModel>();
-        if (tacticalModel == null || tacticalModel.gmmModel == null
-            || tacticalModel.gmmModel.means == null)
+        var strategyModel = FindFirstObjectByType<PlayerStrategyModel>();
+        if (strategyModel == null || strategyModel.playerTacticalModel == null
+            || strategyModel.playerTacticalModel.gmmModel == null
+            || strategyModel.playerTacticalModel.gmmModel.means == null)
         {
             // GMM not loaded — Watcher can't read the player
             PlayComment(new[] { "Hmm... I can't read you.", "What are you?" });
@@ -288,28 +289,28 @@ public class WatcherCommentary : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        float aggressive = 0f, evasive = 0f, cautious = 0f;
-        tacticalModel.tacticBeliefs.TryGetValue(PlayerTacticalModel.TacticType.Aggressive, out aggressive);
-        tacticalModel.tacticBeliefs.TryGetValue(PlayerTacticalModel.TacticType.Evasive, out evasive);
-        tacticalModel.tacticBeliefs.TryGetValue(PlayerTacticalModel.TacticType.Cautious, out cautious);
+        float aggressive = 0f, defensive = 0f, abilityFocused = 0f;
+        strategyModel.strategyBeliefs.TryGetValue(PlayerStrategyModel.StrategyType.AggressivePlayer, out aggressive);
+        strategyModel.strategyBeliefs.TryGetValue(PlayerStrategyModel.StrategyType.DefensivePlayer, out defensive);
+        strategyModel.strategyBeliefs.TryGetValue(PlayerStrategyModel.StrategyType.AbilityFocusedPlayer, out abilityFocused);
 
-        if (aggressive + evasive + cautious < 0.01f) return;
+        if (aggressive + defensive + abilityFocused < 0.01f) return;
 
         string[] lines = null;
 
-        if (aggressive >= evasive && aggressive >= cautious && aggressive >= beliefThreshold)
+        if (aggressive >= defensive && aggressive >= abilityFocused && aggressive >= beliefThreshold)
             lines = GetAggressiveLines(sceneName);
-        else if (evasive >= aggressive && evasive >= cautious && evasive >= beliefThreshold)
+        else if (defensive >= aggressive && defensive >= abilityFocused && defensive >= beliefThreshold)
             lines = GetEvasiveLines(sceneName);
-        else if (cautious >= aggressive && cautious >= evasive && cautious >= beliefThreshold)
+        else if (abilityFocused >= aggressive && abilityFocused >= defensive && abilityFocused >= beliefThreshold)
             lines = GetCautiousLines(sceneName);
 
         // Fallback after enough time
         if (lines == null && Time.time - sceneStartTime > 45f)
         {
-            if (aggressive >= evasive && aggressive >= cautious)
+            if (aggressive >= defensive && aggressive >= abilityFocused)
                 lines = GetAggressiveLines(sceneName);
-            else if (evasive >= aggressive && evasive >= cautious)
+            else if (defensive >= aggressive && defensive >= abilityFocused)
                 lines = GetEvasiveLines(sceneName);
             else
                 lines = GetCautiousLines(sceneName);
@@ -405,12 +406,14 @@ public class WatcherCommentary : MonoBehaviour
     {
         switch (tier)
         {
+            case DifficultyTier.VeryEasy:
+                return new[] { "This is painful to watch.", "You're barely holding on, aren't you?" };
             case DifficultyTier.Easy:
                 return new[] { "You're struggling, aren't you?", "This is almost too easy to watch." };
-            case DifficultyTier.Hard:
-                return new[] { "Not bad... not bad at all.", "But your fate is all the same." };
             case DifficultyTier.Normal:
                 return new[] { "Adequate. Nothing more.", "far from enough to match me..." };
+            case DifficultyTier.Hard:
+                return new[] { "Not bad... not bad at all.", "But your fate is all the same." };
             default:
                 return null;
         }
