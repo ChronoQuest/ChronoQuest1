@@ -359,6 +359,13 @@ MonoBehaviour:
   damageClips:
   - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
   damageVolume: 1
+  deathClip: {fileID: 8300000, guid: a8150911dce88c9469576db79137bb03, type: 3}
+  deathVolume: 1
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips: []
+  idleVolume: 0.5
+  idleIntervalRange: {x: 3, y: 5}
   detectionRange: 5
   loseRange: 15
   moveSpeed: 2
