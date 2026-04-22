@@ -77,6 +77,21 @@
                 isFirstLoad = false; 
             } 
 
+            function animateScore(el, finalScore) {
+                let current = 0; 
+                const increment = finalScore / 30; 
+
+                const interval = setInterval(() => {
+                    current += increment; 
+                    if (current >= finalScore) {
+                        current = finalScore;
+                        clearInterval(interval); 
+                    }
+
+                    el.innerText = Math.floor(current); 
+                }, 20);
+            }
+
             loadLeaderboard(); 
             setInterval(loadLeaderboard, 2000); 
         </script>
