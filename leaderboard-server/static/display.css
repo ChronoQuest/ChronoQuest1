@@ -22,8 +22,9 @@ body {
 
 .leaderboard-container {
     width: 100%;
-    max-width: 1300px; 
+    max-width: 1150px; 
     margin: 100px auto;
+    margin-top: 20px; 
     background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     padding: 20px;
