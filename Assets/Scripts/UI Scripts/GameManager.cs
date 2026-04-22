@@ -1,4 +1,5 @@
 using UnityEngine; 
+using UnityEngine.SceneManagement; 
 using System.Collections;
 
 [System.Serializable]
@@ -17,6 +18,8 @@ public class ScoreEntry
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private int deathCount = 0;
+    public int maxDeaths = 3; 
 
     void Awake()
     {
@@ -37,6 +40,35 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             GameOver(); 
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        deathCount = 0; 
+    }
+
+    public void PlayerDied()
+    {
+        deathCount++; 
+        Debug.Log("Player died. Count: " + deathCount); 
+
+        if(SceneManager.GetActiveScene().name == "FinalBoss")
+        {
+            if (deathCount >= maxDeaths)
+            {
+                GameOver(); 
+            }
         }
     }
 

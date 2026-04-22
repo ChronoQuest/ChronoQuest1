@@ -258,6 +258,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
         ScoreManager.Instance.RemovePoints(100);
+        GameManager.Instance.PlayerDied(); 
 
         // Only set safety if the player dies during the tutorial.
         // Platforms read this PlayerPrefs key globally, so a tutorial death can keep later
