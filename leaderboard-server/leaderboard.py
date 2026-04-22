@@ -116,18 +116,37 @@ def add_scores(entry: ScoreEntry):
 # --- testing routes --- 
 @app.get("/test-data")
 def test_data(): 
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
     cursor.execute("SELECT * FROM scores ORDER BY timestamp DESC")
     rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
     return {"total_rows": len(rows), "recent_entries": rows}
 
 @app.delete("/scores/{name}")
 def delete_score(name: str):
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
     cursor.execute("DELETE FROM scores WHERE player_name = %s", (name,))
     conn.commit()
+
+    cursor.close()
+    conn.close()
     return {"message": f"Deleted scores for {name}"}
 
 @app.delete("/scores")
 def delete_all_scores():
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
     cursor.execute("DELETE FROM scores")
     conn.commit()
+
+    cursor.close()
+    conn.close()
     return{"message": "All scores deleted"}
