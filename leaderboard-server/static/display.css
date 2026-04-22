@@ -112,10 +112,6 @@ tr[data-rank="1"] {
     content: "🥉 ";
 }
 
-tr:nth-child(1) {
-    background: linear-gradient(90deg, #ffd70033, transparent); 
-}
-
 tr:nth-child(2) {
     background: linear-gradient(90deg, #c0c0c033, transparent); 
 }
