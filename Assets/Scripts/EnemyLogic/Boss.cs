@@ -324,6 +324,7 @@ public class Boss : EnemyBase, IRewindable
             currentRes = ResMove.FireWave;
         } */ 
 
+        // EXPERIMENT CHANGES
         var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
 
         float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
