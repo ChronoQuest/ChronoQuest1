@@ -38,6 +38,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         detectionRange *= 2f;
     }
     public GameObject arrowPrefab;
+    [Header("Audio")]
+    public AudioClip fireClip;
+    public float fireVolume = 1f;
     [Header("Arrow Pool")]
     public int arrowPoolSize = 5;
 
@@ -277,6 +280,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         if (wasDead || isDying) return;
+
+        base.DeathSound();
         
         wasDead = true;
         isDying = true;
@@ -445,6 +450,16 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public bool IsPerformingForesightAction()
     {
         return isDodging;
+    }
+
+    // ================= AUDIO =================
+
+    public void ArrowFireSound()
+    {
+        if(fireClip != null)
+        {
+            base.audioSource.PlayOneShot(fireClip, fireVolume);
+        }
     }
 
     // ================= REWIND =================

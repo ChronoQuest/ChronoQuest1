@@ -204,6 +204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonWarrior (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1239436902015136738, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1483419064559744378, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.0692991
@@ -380,7 +384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6898797743481948417, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -615,7 +619,7 @@ PrefabInstance:
       objectReference: {fileID: 1482813881}
     - target: {fileID: 2412794728691430052, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3521926307116115142, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
       propertyPath: postProcessVolume
@@ -1099,8 +1103,12 @@ PrefabInstance:
       objectReference: {fileID: 1166915399}
     - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: minions.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1290270102497991921, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
+      propertyPath: 'minions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1682076060}
     - target: {fileID: 2742979974419632661, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_Name
       value: Necromancer
@@ -1111,7 +1119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.4920728
+      value: 9.53
       objectReference: {fileID: 0}
     - target: {fileID: 3099714618844641844, guid: 1cd7215b1166b1c4293cd3b814f26ccf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1271,6 +1279,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 784688761}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1682076060 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3878115214501292766, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
+  m_PrefabInstance: {fileID: 320687145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ce4def3b3ed0a408851d92721b9cda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::MeleeSkeleton
 --- !u!1001 &1861538817
 PrefabInstance:
   m_ObjectHideFlags: 0

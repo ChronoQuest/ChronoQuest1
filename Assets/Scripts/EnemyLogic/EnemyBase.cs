@@ -30,6 +30,14 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     [Header("Audio")]
     public AudioClip[] damageClips;
     [Range(0f, 1f)] public float damageVolume = 0.5f;
+    public AudioClip deathClip;
+    [Range(0f, 1f)] public float deathVolume = 0.5f;
+    public AudioClip reviveClip;
+    [Range(0f, 1f)] public float reviveVolume = 0.5f;
+    public AudioClip[] idleClips;
+    [Range(0f, 1f)] public float idleVolume = 0.5f;
+    public Vector2 idleIntervalRange = new Vector2(3f, 5f);
+    private Coroutine idleRoutine;
 
     protected AudioSource audioSource;
 
@@ -106,15 +114,23 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     }
     protected virtual void OnEnable()
     {
-        if (TimeRewindManager.Instance != null)
-            TimeRewindManager.Instance.Register(this);
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
+        if (idleClips != null && idleClips.Length > 0)
+        {
+            idleRoutine = StartCoroutine(IdleSoundLoop());
+        }
     }
 
     protected virtual void OnDisable()
     {
-        if (TimeRewindManager.Instance != null)
-        TimeRewindManager.Instance.Unregister(this);
-}
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
+        if (idleRoutine != null)
+    {
+        StopCoroutine(idleRoutine);
+        idleRoutine = null;
+    }
+        
+    }
     
     // ================= DAMAGE =================
     public virtual void TakeDamage(int amount)
@@ -169,6 +185,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void Die()
     {
         wasDead = true;
+        DeathSound();
         rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place — prevents falling through floor
         rb.linearVelocity = Vector2.zero;
         Collider2D col = GetComponent<Collider2D>();
@@ -177,6 +194,18 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         OnDeath?.Invoke();
         StartCoroutine(DeathRoutine());
         // Do not Destroy - stay registered so rewind can restore us
+    }
+    public void DeathSound()
+    {
+        if (deathClip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(deathClip, deathVolume);
+        }
+        if (idleRoutine != null)
+        {
+            StopCoroutine(idleRoutine);
+            idleRoutine = null;
+        }
     }
     public virtual IEnumerator DeathRoutine()
     {
@@ -191,11 +220,19 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     {
         StopAllCoroutines(); // stop any pending DeathRoutine that would re-hide the sprite
         wasDead = false;
+        if (reviveClip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(reviveClip, reviveVolume);
+        }   
         health = startHealth;
         rb.bodyType = originalBodyType;
         if (sprite != null) sprite.enabled = true;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true;
+        if (idleRoutine == null && idleClips != null && idleClips.Length > 0)
+        {
+            idleRoutine = StartCoroutine(IdleSoundLoop());
+        }
 
         _healthBar?.SyncImmediate();
     }
@@ -276,6 +313,22 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
             rb.linearVelocity = Vector2.zero;
             Collider2D col = GetComponent<Collider2D>();
             if (col != null) col.enabled = false;
+        }
+    }
+    private IEnumerator IdleSoundLoop()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(idleIntervalRange.x, idleIntervalRange.y);
+            yield return new WaitForSeconds(waitTime);
+
+            if (wasDead || isRewinding) continue;
+
+            if (idleClips != null && idleClips.Length > 0 && audioSource != null)
+            {
+                int index = Random.Range(0, idleClips.Length);
+                audioSource.PlayOneShot(idleClips[index], idleVolume);
+            }
         }
     }
 }
