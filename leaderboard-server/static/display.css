@@ -55,15 +55,15 @@ td {
     border: none; 
 }
 
-tr {
+.fade-in {
     opacity: 0;
     transform: translateY(20px); 
-    animation: fadeInUp 0.5s ease forwards; 
+    animation: fadeInUp 0.5s ease forwards;
 }
 
-tr:nth-child(1) { animation-delay: 0.1s;}
-tr:nth-child(2) { animation-delay: 0.2s; }
-tr:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(1) { animation-delay: 0.1s;}
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
 
 @keyframes fadeInUp {
     to {

@@ -27,17 +27,43 @@
         </div>
 
         <script>
+            let previousData = [];
+            let isFirstLoad = true; 
+            
             async function loadLeaderboard() {
                 const response = await fetch("/leaderboard");
                 const data = await response.json(); 
 
+                const hasNewEntry = 
+                    previousData.length === 0 ||
+                    data.length !== previousData.length ||
+                    data.some((entry, i) =>
+                        !previousData[i] ||
+                        entry.name !== previousData[i].name || 
+                        entry.score !== previousData[i].score
+                    ); 
+
+                if (!hasNewEntry && !isFirstLoad) return; 
+                
+                renderLeaderboard(data, hasNewEntry);
+                previousData = data;
+            }
+
+            function renderLeaderboard(data, animate) {
                 const table = document.getElementById("leaderboard-table"); 
                 table.innerHTML = "";
 
-                data.forEach(entry => {
+                data.forEach((entry, index) => {
                     const row = document.createElement("tr");
+                    row.setAttribute("data-rank", entry.rank); 
 
-                    row.setAttribute("data-rank", entry.rank);
+                    const isNew = !previousData.some(p => 
+                        p.name === entry.name && p.score === entry.score
+                    );
+                    
+                    if (isFirstLoad || isNew) {
+                        row.classList.add("fade-in");
+                    }
 
                     row.innerHTML = `
                         <td class="rank" data-rank="${entry.rank}">${entry.rank}</td>
@@ -46,9 +72,11 @@
                     `;
 
                     table.appendChild(row);
-                });
-            }
-            
+                }); 
+
+                isFirstLoad = false; 
+            } 
+
             loadLeaderboard(); 
             setInterval(loadLeaderboard, 2000); 
         </script>
