@@ -33,8 +33,6 @@ public class FallingPlatform : MonoBehaviour, IRewindable
             platformCollider = GetComponent<Collider2D>();
 
         _startPos = transform.position;
-
-        RefreshTutorialSafetyLock();
     }
 
     private void Start()
@@ -52,38 +50,49 @@ public class FallingPlatform : MonoBehaviour, IRewindable
 
     private void HandleDifficultyChanged()
     {
-        RefreshTutorialSafetyLock();
+        if (IsFallLocked())
+            StopFallCoroutineAndResetPose();
     }
 
     private void OnEnable() => TimeRewindManager.Instance?.Register(this);
     private void OnDisable() => TimeRewindManager.Instance?.Unregister(this);
 
-    private bool _safetyLocked;
+    private bool _sectionAssistLocked;
 
-    /// <summary>
-    /// Physics can call OnCollisionEnter2D before Start(), so this must run from Awake / collision.
-    /// </summary>
-    private void RefreshTutorialSafetyLock()
+    public void SetSectionAssistLocked(bool locked) => _sectionAssistLocked = locked;
+
+    /// <summary>Cancels shake/fall and snaps back to the start pose (platforming assist).</summary>
+    public void CancelFallForAssist() => StopFallCoroutineAndResetPose();
+
+    private bool IsFallLocked()
     {
-        if (_safetyLocked) return;
+        if (_sectionAssistLocked) return true;
+        if (PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0) == 1)
+            return true;
+        if (DynamicDifficultyManager.Instance == null) return false;
+        if (DynamicDifficultyManager.Instance.TutorialSafetyActive) return true;
+        return DynamicDifficultyManager.Instance.LockFallingPlatformsForCurrentTier;
+    }
 
-        int prefVal = PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0);
-        bool managerSafety = DynamicDifficultyManager.Instance != null && DynamicDifficultyManager.Instance.TutorialSafetyActive;
-
-        if (prefVal == 1)
+    private void StopFallCoroutineAndResetPose()
+    {
+        if (_fallRoutine != null)
         {
-            _safetyLocked = true;
-            return;
+            StopCoroutine(_fallRoutine);
+            _fallRoutine = null;
         }
 
-        if (managerSafety)
-            _safetyLocked = true;
+        _isFalling = false;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+        transform.position = _startPos;
+        transform.rotation = Quaternion.identity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        RefreshTutorialSafetyLock();
-        if (_safetyLocked)
+        if (IsFallLocked())
             return;
 
         // Only trigger if Player stands on top
@@ -175,6 +184,12 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
+
+        if (IsFallLocked())
+        {
+            StopFallCoroutineAndResetPose();
+            return;
+        }
 
         // Now that _isFalling is correctly updated by ApplyState, this check works!
         if (_isFalling)
