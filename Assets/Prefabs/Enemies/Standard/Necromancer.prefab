@@ -184,6 +184,17 @@ MonoBehaviour:
   damageClips:
   - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
   damageVolume: 1
+  deathClip: {fileID: 8300000, guid: 3de077192d9634640ba60b9ba82be2ba, type: 3}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips:
+  - {fileID: 8300000, guid: e70bae9a8190f24499154c03236454c9, type: 3}
+  - {fileID: 8300000, guid: 9dd8de8078d162e42993663aebd85a23, type: 3}
+  - {fileID: 8300000, guid: 96e6cd48dc30fc3438f69118a578a272, type: 3}
+  - {fileID: 8300000, guid: 3e9336b2f9e69ee46b637fc19537ac63, type: 3}
+  idleVolume: 1
+  idleIntervalRange: {x: 3, y: 5}
   moveSpeed: 2
   groundLayer:
     serializedVersion: 2
@@ -228,6 +239,8 @@ MonoBehaviour:
   minions:
   - {fileID: 0}
   - {fileID: 0}
+  roarClip: {fileID: 8300000, guid: 6e0e392570541d54a805339913668e32, type: 3}
+  roarVolume: 0.5
   detectionRange: 10
   dodgeTriggerDistance: 5
   currentState: 0
@@ -426,6 +439,10 @@ PrefabInstance:
     - target: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
       propertyPath: m_Name
       value: Lit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

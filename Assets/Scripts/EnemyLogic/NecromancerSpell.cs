@@ -18,6 +18,10 @@ public class NecromancerSpell : MonoBehaviour, IRewindable
     private bool isRewinding;
     private float elapsedLifetime;
     private RigidbodyType2D originalBodyType;
+    [SerializeField] private AudioClip spellClip;
+    [SerializeField] private float spellVolume = 1f;
+    [SerializeField] private AudioClip spellExplosionClip;
+    [SerializeField] private float spellExplosionVolume = 0.5f;
 
     void Awake()
     {
@@ -39,6 +43,7 @@ public class NecromancerSpell : MonoBehaviour, IRewindable
 
     public void Launch(Vector2 direction, int spellDamage)
     {
+        if(spellClip != null) AudioSource.PlayClipAtPoint(spellClip, transform.position, spellVolume);
         damage = spellDamage;
         isActive = true;
         elapsedLifetime = 0f;
@@ -77,6 +82,7 @@ public class NecromancerSpell : MonoBehaviour, IRewindable
     {
         if (animator != null)
             animator.SetTrigger("Detonate");
+        if(spellExplosionClip != null) AudioSource.PlayClipAtPoint(spellExplosionClip, transform.position, spellExplosionVolume);
         yield return new WaitForSeconds(detonationDuration);
         gameObject.SetActive(false);
     }
