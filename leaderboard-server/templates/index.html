@@ -79,12 +79,15 @@
                     const row = document.createElement("tr");
                     row.setAttribute("data-rank", entry.rank); 
 
-                    const isNew = !previousData.some(p => 
-                        p.name === entry.name && p.score === entry.score
-                    );
+                    const prevEntry = previousData.find(p => p.name === entry.name); 
+                    const isNew = !prevEntry; 
+                    const scoreChanged = prevEntry && prevEntry.score !== entry.score; 
                     
-                    if (isFirstLoad || isNew) {
+                    if (isFirstLoad) {
                         row.classList.add("fade-in");
+                    } else if(isNew) {
+                        row.classList.add("fade-in");
+                        row.classList.add("new-entry");
                     }
 
                     row.innerHTML = `
@@ -97,7 +100,7 @@
 
                     const scoreCell = row.querySelector(".score"); 
 
-                    if (isFirstLoad || isNew) {
+                    if (isFirstLoad || isNew || scoreChanged) {
                         animateScore(scoreCell, entry.score);
                     } else {
                         scoreCell.innerText = entry.score; 
