@@ -50,11 +50,17 @@ namespace TimeRewind
         [SerializeField] private int maxPathGhosts = 30;
 
         private SpriteRenderer _playerSprite;
+        // Optional alternate sprite source for a single rewind (e.g. the boss
+        // pulling the player back — the trail should retrace the boss's motion,
+        // not the player's). Null means use _playerSprite.
+        private SpriteRenderer _sourceOverride;
         private PlayerRewindController _rewindController;
         private float _spawnTimer;
         private float _pathSampleTimer;
         private bool _isRewinding;
         private bool _isInPostRewindSlow;
+
+        private SpriteRenderer SourceSprite => _sourceOverride != null ? _sourceOverride : _playerSprite;
 
         private readonly List<GhostFrame> _active = new List<GhostFrame>();
         private readonly Queue<GameObject> _pool = new Queue<GameObject>();
@@ -170,7 +176,8 @@ namespace TimeRewind
 
         private void SpawnGhost(float lifetime, Color startColor)
         {
-            if (_playerSprite == null || _playerSprite.sprite == null)
+            SpriteRenderer src = SourceSprite;
+            if (src == null || src.sprite == null)
                 return;
 
             while (_active.Count >= maxActiveGhosts)
@@ -180,19 +187,19 @@ namespace TimeRewind
             }
 
             GameObject ghostObj = GetFromPool();
-            Transform spriteTransform = _playerSprite.transform;
+            Transform spriteTransform = src.transform;
             ghostObj.transform.position = spriteTransform.position;
             ghostObj.transform.rotation = spriteTransform.rotation;
             ghostObj.transform.localScale = spriteTransform.lossyScale;
 
             SpriteRenderer sr = ghostObj.GetComponent<SpriteRenderer>();
-            sr.sprite = _playerSprite.sprite;
-            sr.material = _playerSprite.sharedMaterial;
-            sr.flipX = _playerSprite.flipX;
-            sr.flipY = _playerSprite.flipY;
+            sr.sprite = src.sprite;
+            sr.material = src.sharedMaterial;
+            sr.flipX = src.flipX;
+            sr.flipY = src.flipY;
             sr.color = startColor;
-            sr.sortingLayerID = _playerSprite.sortingLayerID;
-            sr.sortingOrder = _playerSprite.sortingOrder + ghostSortingOffset;
+            sr.sortingLayerID = src.sortingLayerID;
+            sr.sortingOrder = src.sortingOrder + ghostSortingOffset;
 
             ghostObj.SetActive(true);
 
@@ -227,17 +234,18 @@ namespace TimeRewind
 
         private void RecordPathSample()
         {
-            if (_playerSprite == null || _playerSprite.sprite == null)
+            SpriteRenderer src = SourceSprite;
+            if (src == null || src.sprite == null)
                 return;
 
-            Transform t = _playerSprite.transform;
+            Transform t = src.transform;
             _pathSamples.Add(new PathSample
             {
                 position = t.position,
                 rotation = t.rotation,
                 scale    = t.lossyScale,
-                sprite   = _playerSprite.sprite,
-                flipX    = _playerSprite.flipX
+                sprite   = src.sprite,
+                flipX    = src.flipX
             });
         }
 
@@ -283,11 +291,12 @@ namespace TimeRewind
             sr.flipY          = false;
             sr.color          = startColor;
 
-            if (_playerSprite != null)
+            SpriteRenderer srcForStyle = SourceSprite;
+            if (srcForStyle != null)
             {
-                sr.material       = _playerSprite.sharedMaterial;
-                sr.sortingLayerID = _playerSprite.sortingLayerID;
-                sr.sortingOrder   = _playerSprite.sortingOrder + ghostSortingOffset;
+                sr.material       = srcForStyle.sharedMaterial;
+                sr.sortingLayerID = srcForStyle.sortingLayerID;
+                sr.sortingOrder   = srcForStyle.sortingOrder + ghostSortingOffset;
             }
 
             ghostObj.SetActive(true);
@@ -319,25 +328,39 @@ namespace TimeRewind
 
         public void TriggerTeleportWarp(Vector3 startPosition, Vector3 endPosition)
         {
-            if (_playerSprite == null || _playerSprite.sprite == null) return;
+            SpriteRenderer src = SourceSprite;
+            if (src == null || src.sprite == null) return;
 
             PathSample startSample = new PathSample
             {
                 position = startPosition,
-                rotation = _playerSprite.transform.rotation,
-                scale = _playerSprite.transform.lossyScale,
-                sprite = _playerSprite.sprite,
-                flipX = _playerSprite.flipX
+                rotation = src.transform.rotation,
+                scale = src.transform.lossyScale,
+                sprite = src.sprite,
+                flipX = src.flipX
             };
             SpawnGhostAt(startSample, 0.6f, ghostStartColor);
 
-            PathSample midSample = startSample; 
+            PathSample midSample = startSample;
             midSample.position = Vector3.Lerp(startPosition, endPosition, 0.5f);
-            
+
             Color midColor = ghostStartColor;
             midColor.a *= 0.5f;
-            
+
             SpawnGhostAt(midSample, 0.4f, midColor);
+        }
+
+        // Temporarily redirect ghost sampling to a different SpriteRenderer for
+        // one rewind (e.g. the boss-forced rewind). Call before StartRewind and
+        // ClearSourceOverride after the rewind stops. Null clears the override.
+        public void SetSourceOverride(SpriteRenderer source)
+        {
+            _sourceOverride = source;
+        }
+
+        public void ClearSourceOverride()
+        {
+            _sourceOverride = null;
         }
     }
 }

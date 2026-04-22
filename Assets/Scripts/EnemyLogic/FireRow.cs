@@ -166,10 +166,11 @@ public class FireRow : MonoBehaviour, IRewindable
         transform.position = state.Position;
         transform.rotation = state.Rotation;
         _lastAppliedState = state;
-        if (state.Timestamp <= currentAge + 0.1f)
+        float restoredAge = state.GetCustomData<float>("Age", 0f);
+        if (restoredAge <= 0.1f)
         {
             Destroy(gameObject);
-            return; 
+            return;
         }
         // Custom state, true is default
         bool wasActive = state.GetCustomData<bool>("IsActive", true);
@@ -184,7 +185,7 @@ public class FireRow : MonoBehaviour, IRewindable
         }
         currentGrowSize = state.GetCustomData<float>("GrowSize", 1f);
         fullSizeReached = state.GetCustomData<bool>("FullSize", false);
-        currentAge = state.GetCustomData<float>("Age", 0f);
+        currentAge = restoredAge;
         isEnding = state.GetCustomData<bool>("IsEnding", false);
         
         Grow(currentGrowSize);

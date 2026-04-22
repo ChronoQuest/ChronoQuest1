@@ -42,6 +42,7 @@ public class PlayerCombat : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
+    public bool isRainAttacking { get; private set; }
 
     [Header("Combat Audio")]
     [SerializeField] private AudioSource sfxSource;
@@ -87,7 +88,7 @@ public class PlayerCombat : MonoBehaviour
         {
             attackPressed = true;
         }
-        if (attackPressed)
+        if (attackPressed && !isRainAttacking)
         {
             // If we are NOT attacking, start the combo immediately
             if (!isAttacking)
@@ -102,16 +103,21 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) 
+        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame))
         {
-            // Costs 20 mana
-            if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
+            if (!movement.isDashing && !isRainAttacking && movement.isGrounded)
             {
-                anim.SetTrigger("RainAttack");
-            }
-            else
-            {
-                Debug.Log("Not enough mana for Rain Attack!");
+                if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
+                {
+                    // Rain interrupts melee — cancel whatever attack is in progress.
+                    if (isAttacking) CancelAttack();
+                    isRainAttacking = true;
+                    anim.Play("Player_RainAttack_Charge", -1, 0f);
+                }
+                else
+                {
+                    Debug.Log("Not enough mana for Rain Attack!");
+                }
             }
         }
     }
@@ -203,10 +209,16 @@ public class PlayerCombat : MonoBehaviour
     }
     public void CancelAttack()
     {
+        if (isRainAttacking) return;
         isAttacking = false;
         queuedAttack = false;
         comboStep = 0;
-        attackTimer = 0f; 
+        attackTimer = 0f;
+    }
+
+    public void EndRainAttack()
+    {
+        isRainAttacking = false;
     }
 
     public void HitEnemy() 
