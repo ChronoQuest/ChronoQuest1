@@ -24,27 +24,32 @@ app.mount(
 
 templates = Jinja2Templates(directory="leaderboard-server/templates")
 
-conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS scores (
-    id SERIAL PRIMARY KEY,
-    player_name TEXT, 
-    score INTEGER,
-    strategy TEXT,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-"""
-)
-conn.commit()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"]
 ) 
+
+def init_db():
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS scores (
+        id SERIAL PRIMARY KEY,
+        player_name TEXT, 
+        score INTEGER,
+        strategy TEXT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+init_db()
 
 # --- data model --- 
 class ScoreEntry(BaseModel):
@@ -63,6 +68,9 @@ def template(request: Request):
 
 @app.get("/leaderboard")
 def get_leaderboard():
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
     cursor.execute("""
         SELECT 
             ROW_NUMBER() OVER (ORDER BY score DESC) AS rank,
@@ -76,6 +84,9 @@ def get_leaderboard():
 
     rows = cursor.fetchall()
 
+    cursor.close()
+    conn.close()
+
     return [
         {"rank": r[0], "name": r[1], "score": r[2], "strategy": r[3]} 
         for r in rows
@@ -83,12 +94,23 @@ def get_leaderboard():
 
 @app.post("/score")
 def add_scores(entry: ScoreEntry):
-    cursor.execute(
-        "INSERT INTO scores (player_name, score, strategy) VALUES (%s, %s)",
-        (entry.name, entry.score, entry.strategy)
-    )
+    conn = psycopg2.connect(DATABASE_URL)
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute(
+            "INSERT INTO scores (player_name, score, strategy) VALUES (%s, %s, %s)",
+            (entry.name, entry.score, entry.strategy)
+        )
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print("ERROR:", e)
+        raise e
+    finally:
+        cursor.close()
+        conn.close()
 
-    conn.commit()
     return {"message": "score added"}
 
 # --- testing routes --- 
