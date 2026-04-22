@@ -31,9 +31,9 @@ body {
     padding: 20px;
 
     box-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.2),
-        0 0 22px rgba(255, 255, 255, 0.15), 
-        0 0 45px rgba(255, 215, 0, 0.1); 
+        0 0 8px rgba(255, 255, 255, 0.2),
+        0 0 18px rgba(255, 255, 255, 0.15), 
+        0 0 40px rgba(255, 215, 0, 0.1); 
     animation: glowPulse 3s ease-in-out infinite alternate; 
     
     justify-content: center; 
@@ -43,14 +43,14 @@ body {
 @keyframes glowPulse {
     from {
         box-shadow: 
-            0 0 6px rgba(255, 255, 255, 0.15),
-            0 0 16px rgba(255, 255, 255, 0.1),
-            0 0 30px rgba(255, 215, 0, 0.08);
+            0 0 5px rgba(255, 255, 255, 0.15),
+            0 0 14px rgba(255, 255, 255, 0.1),
+            0 0 26px rgba(255, 215, 0, 0.08);
     } to {
         box-shadow: 
-            0 0 12px rgba(255, 255, 255, 0.3),
-            0 0 27px rgba(255, 255, 255, 0.2),
-            0 0 55px rgba(255, 255, 255, 0.15); 
+            0 0 9px rgba(255, 255, 255, 0.3),
+            0 0 24px rgba(255, 255, 255, 0.2),
+            0 0 50px rgba(255, 255, 255, 0.15); 
     }
 }
 
@@ -68,12 +68,14 @@ th {
     padding: 15px; 
     font-size: 25px; 
     border: none;
+    text-align: center; 
 }
 
 td {
     padding: 15px; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border: none; 
+    text-align: center; 
 }
 
 .fade-in {
@@ -139,4 +141,47 @@ tr:nth-child(2) {
 
 tr:nth-child(3) {
     background: linear-gradient(90deg, #cd7f3233, transparent);
+}
+
+.name-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; 
+}
+
+.strategy {
+    font-size: 12px;
+    padding: 4px 10px; 
+    border-radius: 999px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    display: inline-flex;
+    align-items: center; 
+    gap: 5px; 
+
+    backdrop-filter: blur(4px); 
+}
+
+.strategy.aggressive {
+    background: rgba(255, 80, 80, 0.15);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 80, 80, 0.5);
+    box-shadow: 0 0 10px rgba(255, 80, 80, 0.2);
+}
+
+.strategy.defensive {
+    background: rgba(80, 150, 255, 0.15);
+    color: #4da6ff;
+    border: 1px solid rgba(80, 150, 255, 0.5);
+    box-shadow: 0 0 10px rgba(80, 150, 255, 0.2);
+}
+
+.strategy.ability {
+    background: rgba(180, 100, 255, 0.15);
+    color: #b366ff;
+    border: 1px solid rgba(180, 100, 255, 0.5);
+    box-shadow: 0 0 10px rgba(180, 100, 255, 0.2);
 }

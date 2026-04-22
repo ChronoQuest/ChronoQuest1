@@ -71,6 +71,14 @@
                 }, stepTime);
             }
 
+            function getStrategyIcon(strategy) {
+                switch(strategy) {
+                    case "aggressive": return "⚔️";
+                    case "defensive": return "🛡️";
+                    case "ability": return "🪄";
+                }
+            }
+
             function renderLeaderboard(data) {
                 const table = document.getElementById("leaderboard-table"); 
                 table.innerHTML = "";
@@ -92,7 +100,12 @@
 
                     row.innerHTML = `
                         <td class="rank" data-rank="${entry.rank}">${entry.rank}</td>
-                        <td>${entry.name}</td>
+                        <td class="name-cell">
+                            ${entry.name}
+                            <span class="strategy ${entry.strategy}">
+                                ${getStrategyIcon(entry.strategy)} ${entry.strategy}
+                            </span>
+                        </td>
                         <td class="score"></td>
                     `;
 
