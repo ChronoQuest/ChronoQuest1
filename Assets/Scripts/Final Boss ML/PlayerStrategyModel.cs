@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerStrategyModel : MonoBehaviour
 {
+    public static PlayerStrategyModel Instance; 
     public PlayerTacticalModel playerTacticalModel; 
 
     // enum defining the different types of strategies a player could fall into
@@ -17,6 +18,11 @@ public class PlayerStrategyModel : MonoBehaviour
     private float windowDuration = 30f;
     private float timer = 0f; 
 
+    void Awake()
+    {
+        Instance = this; 
+    }
+    
     void Start()
     {
         foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))

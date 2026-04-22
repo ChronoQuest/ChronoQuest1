@@ -7,11 +7,13 @@ public class ScoreEntry
 {
     public string name;
     public int score;
+    public string strategy; 
 
-    public ScoreEntry(string name, int score)
+    public ScoreEntry(string name, int score, string strategy)
     {
         this.name = name;
         this.score = score; 
+        this.strategy = strategy; 
     }
 }
 
@@ -85,13 +87,22 @@ public class GameManager : MonoBehaviour
 
         int finalScore = ScoreManager.Instance.GetScore(); 
         string playerName = PlayerPrefs.GetString("playerName", "Player"); 
+        PlayerStrategyModel.StrategyType strategy = PlayerStrategyModel.Instance.GetDominantStrategy(); 
 
-        StartCoroutine(SendScore(playerName, finalScore)); 
+        string strategyString = strategy switch
+        {
+            PlayerStrategyModel.StrategyType.AggressivePlayer => "aggressive",
+            PlayerStrategyModel.StrategyType.DefensivePlayer => "defensive",
+            PlayerStrategyModel.StrategyType.AbilityFocusedPlayer => "ability",
+            _ => "unknown"
+        };
+
+        StartCoroutine(SendScore(playerName, finalScore, strategyString)); 
     }
 
-    IEnumerator SendScore(string name, int score)
+    IEnumerator SendScore(string name, int score, string strategy)
     {  
-        ScoreEntry entry = new ScoreEntry(name, score); 
+        ScoreEntry entry = new ScoreEntry(name, score, strategy); 
         string json = JsonUtility.ToJson(entry);
 
         var request = new UnityEngine.Networking.UnityWebRequest(
