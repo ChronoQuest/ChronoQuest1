@@ -340,11 +340,11 @@ public class WatcherCommentary : MonoBehaviour
         switch (sceneName)
         {
             case "GameScene":
-                return new[] { "Charging in head-first... bold. Reckless, but bold." };
+                return new[] { "Charging in head-first...","bold..."," ...Reckless, but bold." };
             case "GameScene_2":
-                return new[] { "Still swinging wildly, I see.", "You fight like you've got nothing to lose." };
-            case "GameScene_3":
                 return new[] { "All that fury... and yet here you are, still breathing.", "Impressive, in a brutish sort of way." };
+            case "GameScene_3":
+                return new[] { "Still swinging wildly, I see.", "You fight like you've got nothing to lose." };
             default:
                 return null;
         }

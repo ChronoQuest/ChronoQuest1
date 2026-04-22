@@ -116,10 +116,10 @@ public class BossFightController : MonoBehaviour
         "Stop fleeing and fight back. Hit me if you can."
     };
     [TextArea(2, 5)]
-    [SerializeField] private string[] hintLinesCautious = new string[]
+    [SerializeField] private string[] hintLinesAbilityFocused = new string[]
     {
-        "You just... stand there. Waiting. Watching.",
-        "Hesitation is death. Come at me before I come at you."
+        "Spells won't save you forever, little mage.",
+        "Your magic is predictable. Try something I haven't already seen."
     };
     [TextArea(2, 5)]
     [SerializeField] private string[] hintLinesFallback = new string[]
@@ -325,22 +325,22 @@ public class BossFightController : MonoBehaviour
     private string[] GetPlaystyleHintLines()
     {
         if (boss == null || boss.playerStrategyModel == null
-            || boss.playerStrategyModel.playerTacticalModel == null
-            || boss.playerStrategyModel.playerTacticalModel.tacticBeliefs == null)
+            || boss.playerStrategyModel.strategyBeliefs == null
+            || boss.playerStrategyModel.strategyBeliefs.Count == 0)
             return hintLinesFallback;
 
-        var tactics = boss.playerStrategyModel.playerTacticalModel.tacticBeliefs;
-        float aggressive = 0f, evasive = 0f, cautious = 0f;
-        tactics.TryGetValue(PlayerTacticalModel.TacticType.Aggressive, out aggressive);
-        tactics.TryGetValue(PlayerTacticalModel.TacticType.Evasive, out evasive);
-        tactics.TryGetValue(PlayerTacticalModel.TacticType.Cautious, out cautious);
+        var beliefs = boss.playerStrategyModel.strategyBeliefs;
+        float aggressive = 0f, defensive = 0f, abilityFocused = 0f;
+        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.AggressivePlayer, out aggressive);
+        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.DefensivePlayer, out defensive);
+        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.AbilityFocusedPlayer, out abilityFocused);
 
-        if (aggressive >= evasive && aggressive >= cautious)
+        if (aggressive >= defensive && aggressive >= abilityFocused)
             return hintLinesAggressive;
-        else if (evasive >= aggressive && evasive >= cautious)
+        else if (defensive >= aggressive && defensive >= abilityFocused)
             return hintLinesEvasive;
         else
-            return hintLinesCautious;
+            return hintLinesAbilityFocused;
     }
 
     // Mirrors IntroCutscene.DisablePlayerControl's script-disable pass. Stops

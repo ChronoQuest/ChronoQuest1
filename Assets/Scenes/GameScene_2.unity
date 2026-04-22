@@ -9630,7 +9630,7 @@ MonoBehaviour:
   beliefThreshold: 0.55
   rewindCountThreshold: 3
   rewindCommentDelay: 1.5
-  skillMinSceneTime: 45
+  skillMinSceneTime: 20
   skillCommentDelay: 1.5
   maxCommentsPerScene: 3
   commentCooldown: 15
@@ -32899,6 +32899,9 @@ MonoBehaviour:
   isStatic: 0
   damage: 1
   shootCooldown: 2
+  pushOffXSpeed: 1.5
+  pushOffYSpeed: 1
+  pushOffDuration: 0.25
   _player: {fileID: 936638525}
   arrowPrefab: {fileID: 0}
   arrowPoolSize: 5
