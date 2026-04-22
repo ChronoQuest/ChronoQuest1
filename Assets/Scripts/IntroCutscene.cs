@@ -262,7 +262,7 @@ public class IntroCutscene : MonoBehaviour
     private Camera mainCamera;
     private RewindEffects rewindEffects;
     private RewindableAnimator bossAnimatorRewindable;
-    
+    private RewindMusicController musicController;
 
     // ---------------------------------------------------------------------
     // Unity lifecycle
@@ -271,6 +271,7 @@ public class IntroCutscene : MonoBehaviour
     private void Start()
     {
         rewindManager = TimeRewindManager.Instance;
+        musicController = FindFirstObjectByType<RewindMusicController>();
 
         // Find the main camera and ensure it has RewindEffects for visual feedback
         mainCamera = Camera.main;
@@ -902,6 +903,10 @@ public class IntroCutscene : MonoBehaviour
     {
         BlockAllPlayerInputForVideo();
         ResetTimeStateForNextScene();
+
+        // Keep the music playing in reverse during the video.
+        if (musicController != null)
+            musicController.ForceReversePitch();
     }
 
     /// <summary>

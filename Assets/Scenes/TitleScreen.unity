@@ -1081,8 +1081,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
   musicSource: {fileID: 1750678090}
   titleTrack: {fileID: 8300000, guid: 84383b211543842b5a7e53127135a3f6, type: 3}
-  tutorialTrack: {fileID: 8300000, guid: 8d8cf156c82f44d82861f2c690fed150, type: 3}
+  tutorialTrack: {fileID: 8300000, guid: de62f4324fd114154928a12bc990ac67, type: 3}
   bossFightTrack: {fileID: 8300000, guid: 74f2ef2f4e1a843d1b860ce5a5da8939, type: 3}
+  introCutsceneTrack: {fileID: 8300000, guid: 74f2ef2f4e1a843d1b860ce5a5da8939, type: 3}
+  level2Track: {fileID: 8300000, guid: 4d58febf2e34244ed868075f876a29b8, type: 3}
+  level3Track: {fileID: 8300000, guid: 8d8cf156c82f44d82861f2c690fed150, type: 3}
   rewindPitch: -1
   loopDuringRewind: 1
 --- !u!1 &2004735333
