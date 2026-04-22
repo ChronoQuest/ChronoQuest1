@@ -139,6 +139,9 @@ public class BossFightController : MonoBehaviour
     // what we actually disabled (anything already disabled stays that way).
     private readonly List<MonoBehaviour> disabledDuringDialogue = new List<MonoBehaviour>();
 
+    [Header("Boss Death Dialogue")]
+    [SerializeField] private float deathDialogueDelay = 1.5f;
+
     private void Awake()
     {
         if (dialogueContainer != null) dialogueContainer.SetActive(false);
@@ -146,12 +149,28 @@ public class BossFightController : MonoBehaviour
         // Make sure our own collider is a trigger — otherwise OnTriggerEnter2D never fires.
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
+
+        if (boss != null)
+            boss.OnDeath += OnBossDied;
     }
 
     private void OnDestroy()
     {
         if (cachedPlayerHealth != null)
             cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
+        if (boss != null)
+            boss.OnDeath -= OnBossDied;
+    }
+
+    private void OnBossDied()
+    {
+        StartCoroutine(RunBossDeathDialogue());
+    }
+
+    private IEnumerator RunBossDeathDialogue()
+    {
+        yield return new WaitForSeconds(deathDialogueDelay);
+        yield return StartCoroutine(PlayHintDialogue(new[] { "Impossible..." }));
     }
 
     private void Update()

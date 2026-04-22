@@ -370,11 +370,11 @@ public class WatcherCommentary : MonoBehaviour
         switch (sceneName)
         {
             case "GameScene":
-                return new[] { "Careful, aren't you? Measuring every step.", "It won't help." };
+                return new[] { "A spellcaster... interesting.", "Let's see how long that mana holds." };
             case "GameScene_2":
-                return new[] { "Still tiptoeing around, I see. Patience is a virtue... for the doomed." };
+                return new[] { "Still leaning on your little magic.", "Every spell you cast... I learn something new about you." };
             case "GameScene_3":
-                return new[] { "You think caution will keep you alive?", "How endearing." };
+                return new[] { "You wield your magic like a crutch.", "When it fails you — and it will — what then?" };
             default:
                 return null;
         }
