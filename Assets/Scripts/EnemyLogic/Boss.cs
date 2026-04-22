@@ -116,6 +116,10 @@ public class Boss : EnemyBase, IRewindable
     const float MeleeSwingDuration = 0.7f;
     const float MeleeHitTime = 0.3f;
     bool meleeHitApplied;
+    [Header("Audio")]
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip smashClip;
+    [SerializeField] private float smashVolume = 0.4f;
     
 
     void Start()
@@ -501,6 +505,7 @@ public class Boss : EnemyBase, IRewindable
 
             if (!isGrounded)
             {
+                playSmashSound();
                 cameraShake.Shake(0.25f, 0.2f);
                 isGrounded = true;
                 animator.SetBool("isGrounded", true);
@@ -1132,5 +1137,19 @@ public class Boss : EnemyBase, IRewindable
         // Keep health bar in sync during rewind scrubbing
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.SyncAfterRewind();
+    }
+    public void playJumpSound()
+    {
+        if(base.audioSource != null && jumpClip != null)
+        {
+            base.audioSource.PlayOneShot(jumpClip);
+        }
+    }
+        public void playSmashSound()
+    {
+        if(base.audioSource != null && smashClip != null)
+        {
+            base.audioSource.PlayOneShot(smashClip, smashVolume);
+        }
     }
 }

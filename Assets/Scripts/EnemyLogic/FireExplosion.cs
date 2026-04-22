@@ -27,8 +27,6 @@ public class FireExplosion : MonoBehaviour, IRewindable
     void Start()
     {
         _playedExplosionSfx = false;
-        if (!persistent)
-            Destroy(gameObject, telegraphDuration + growDuration + shrinkDuration + lingerDuration + 5f);
 
         _circleCol = GetComponent<CircleCollider2D>();
         _animator = GetComponent<Animator>();

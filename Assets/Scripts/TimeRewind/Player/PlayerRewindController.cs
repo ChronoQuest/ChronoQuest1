@@ -195,7 +195,7 @@ namespace TimeRewind
         {
             _isRewinding = true;
             _rewindStartTime = Time.unscaledTime;
-            if (sfxSource != null && rewindStartClip != null)
+            if (!_externalRewindActive && sfxSource != null && rewindStartClip != null)
             {
                 sfxSource.PlayOneShot(rewindStartClip, rewindVolume);
             }

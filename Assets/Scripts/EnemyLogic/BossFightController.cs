@@ -128,6 +128,11 @@ public class BossFightController : MonoBehaviour
     [Tooltip("Boss's SpriteRenderer — used as the ghost trail source during " +
              "the boss rewind.")]
     [SerializeField] private SpriteRenderer bossSprite;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip bossRewindStartClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float bossRewindVolume = 1f;
 
     private bool fightStarted;
     private bool phase2Triggered;
@@ -209,6 +214,10 @@ public class BossFightController : MonoBehaviour
         TimeRewindManager manager = TimeRewindManager.Instance;
         if (manager != null)
         {
+            if (audioSource != null && bossRewindStartClip != null)
+            {
+                audioSource.PlayOneShot(bossRewindStartClip, bossRewindVolume);
+            }
             manager.StartRewind();
 
             // Drive the rewind until it lands back at the start of the fight,

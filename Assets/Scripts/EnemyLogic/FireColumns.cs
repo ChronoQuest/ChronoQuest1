@@ -79,10 +79,6 @@ public class Firecolumns : MonoBehaviour, IRewindable
             gameObject.SetActive(false);
         }
 
-        
-        // Gameplay Safe Destruction (12 seconds)
-        if(age > 12f) Destroy(gameObject);
-
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }
     void OnDestroy()

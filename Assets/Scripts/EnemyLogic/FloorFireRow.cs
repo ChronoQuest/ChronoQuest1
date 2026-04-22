@@ -26,7 +26,6 @@ public class FloorFireRow : MonoBehaviour, IRewindable
 
     void Start()
     {
-        Destroy(gameObject, 12f);
         rb = GetComponent<Rigidbody2D>();
         animator = fireVisual.GetComponent<Animator>();
         fireSpriteRenderer = fireVisual.GetComponent<SpriteRenderer>();

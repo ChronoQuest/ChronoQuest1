@@ -21,8 +21,6 @@ public class Fireball : MonoBehaviour, IRewindable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Destroy after 12 seconds (5 seconds pre rewind, 5 seconds post rewind, 1 sec buffer for each)
-        Destroy(gameObject, 12f);
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
