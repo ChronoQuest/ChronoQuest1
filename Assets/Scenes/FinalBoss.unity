@@ -3736,13 +3736,13 @@ MonoBehaviour:
   dialogueContainer: {fileID: 1012522301}
   dialogueText: {fileID: 885496328}
   phase1Lines:
-  - Placeholder phase 1 line 1.
-  - Placeholder phase 1 line 2.
-  - Placeholder phase 1 line 3.
+  - I see, it's you again.
+  - I know your tricks.
+  - This time I will not let you escape.
   phase2Lines:
-  - Placeholder phase 2 line 1.
-  - Placeholder phase 2 line 2.
-  - Placeholder phase 2 line 3.
+  - You thought only you could do that?
+  - My learning is finally complete.
+  - Prepare to DIE
   charactersPerSecond: 30
   pauseBetweenLines: 1.2
   pauseAfterLastLine: 0.8
