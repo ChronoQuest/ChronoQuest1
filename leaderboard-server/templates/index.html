@@ -45,11 +45,33 @@
 
                 if (!hasNewEntry && !isFirstLoad) return; 
                 
-                renderLeaderboard(data, hasNewEntry);
+                renderLeaderboard(data);
                 previousData = data;
             }
 
-            function renderLeaderboard(data, animate) {
+            function animateScore(el, finalScore) {
+                if (el._animating) return; 
+                el._animating = true; 
+                
+                let current = 0; 
+                const duration = 500; 
+                const steps = 30; 
+                const increment = finalScore / steps;
+                const stepTime = duration / steps;  
+
+                const interval = setInterval(() => {
+                    current += increment; 
+
+                    if (current >= finalScore) {
+                        el.innerText = finalScore; 
+                        clearInterval(interval); 
+                    } else {
+                        el.innerText = Math.floor(current); 
+                    }
+                }, stepTime);
+            }
+
+            function renderLeaderboard(data) {
                 const table = document.getElementById("leaderboard-table"); 
                 table.innerHTML = "";
 
@@ -68,28 +90,23 @@
                     row.innerHTML = `
                         <td class="rank" data-rank="${entry.rank}">${entry.rank}</td>
                         <td>${entry.name}</td>
-                        <td>${entry.score}</td>
+                        <td class="score"></td>
                     `;
 
                     table.appendChild(row);
+
+                    const scoreCell = row.querySelector(".score"); 
+
+                    if (isFirstLoad || isNew) {
+                        animateScore(scoreCell, entry.score);
+                    } else {
+                        scoreCell.innerText = entry.score; 
+                    }
+
+                    row.style.animationDelay = `${index * 0.1}s`;
                 }); 
 
                 isFirstLoad = false; 
-            } 
-
-            function animateScore(el, finalScore) {
-                let current = 0; 
-                const increment = finalScore / 30; 
-
-                const interval = setInterval(() => {
-                    current += increment; 
-                    if (current >= finalScore) {
-                        current = finalScore;
-                        clearInterval(interval); 
-                    }
-
-                    el.innerText = Math.floor(current); 
-                }, 20);
             }
 
             loadLeaderboard(); 

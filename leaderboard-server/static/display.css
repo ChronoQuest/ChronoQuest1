@@ -15,7 +15,7 @@ body {
     animation: moveBg 10s infinite alternate;
 }
 
-@keyframes pulseBg {
+@keyframes moveBg {
     from { background-position: 0% 50%; }
     to { background-position: 100% 50%; }
 }
