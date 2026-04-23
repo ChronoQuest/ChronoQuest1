@@ -44,6 +44,10 @@ public class EnemyHealthBar : MonoBehaviour
     // full width of fillRect at scale 1 — captured once so we can set localScale.x
     private float originalFillWidth;
 
+    // Authored local scale of the healthbar root, captured so we can counter-flip
+    // when the enemy's transform.localScale.x flips for facing direction.
+    private Vector3 originalHealthBarLocalScale = Vector3.one;
+
 
     void Awake()
     {
@@ -53,6 +57,9 @@ public class EnemyHealthBar : MonoBehaviour
 
         if (fillRect != null)
             originalFillWidth = fillRect.sizeDelta.x; // store, not used directly; we scale instead
+
+        if (healthBarRoot != null)
+            originalHealthBarLocalScale = healthBarRoot.transform.localScale;
 
         if (healthBarRoot != null && hideWhenFull)
             healthBarRoot.SetActive(false);
@@ -105,6 +112,8 @@ public class EnemyHealthBar : MonoBehaviour
         displayedFill = Mathf.Lerp(displayedFill, targetFill, Time.deltaTime * lerpSpeed);
         ApplyFill(displayedFill);
 
+        CounterFlipHealthBar();
+
         if (hideWhenFull && !isHidden)
         {
             hideTimer -= Time.deltaTime;
@@ -133,6 +142,20 @@ public class EnemyHealthBar : MonoBehaviour
             HideBar();
         else if (!enemy.IsDead)
             ShowBar();
+    }
+
+    // Some enemies face by negating transform.localScale.x; the healthbar is a child
+    // and would otherwise mirror with them. Counter the parent's world flip so the
+    // bar always reads left-to-right.
+    void CounterFlipHealthBar()
+    {
+        if (healthBarRoot == null) return;
+        Transform hbParent = healthBarRoot.transform.parent;
+        float parentLossyX = hbParent != null ? hbParent.lossyScale.x : 1f;
+        float wantSign = parentLossyX < 0f ? -1f : 1f;
+        Vector3 s = originalHealthBarLocalScale;
+        s.x = Mathf.Abs(originalHealthBarLocalScale.x) * wantSign;
+        healthBarRoot.transform.localScale = s;
     }
 
     void ApplyFill(float t)

@@ -196,6 +196,20 @@ namespace TimeRewind
                 result.SetCustomData("ResIndex", t < 0.5f ? a.GetCustomData<int>("ResIndex", 0) : b.GetCustomData<int>("ResIndex", 0));
                 result.SetCustomData("Facing", t < 0.5f ? a.GetCustomData<int>("Facing", 1) : b.GetCustomData<int>("Facing", 1));
 
+                // Boss pre-rolled action queue (two deep). Must be carried through Lerp
+                // verbatim or the boss loses its queued attacks across any rewind.
+                result.SetCustomData("NextIsPositional",     t < 0.5f ? a.GetCustomData<bool>("NextIsPositional", false) : b.GetCustomData<bool>("NextIsPositional", false));
+                result.SetCustomData("NextPosMove",          t < 0.5f ? a.GetCustomData<int>("NextPosMove", 0) : b.GetCustomData<int>("NextPosMove", 0));
+                result.SetCustomData("NextOff",              t < 0.5f ? a.GetCustomData<int>("NextOff", 0) : b.GetCustomData<int>("NextOff", 0));
+                result.SetCustomData("NextRes",              t < 0.5f ? a.GetCustomData<int>("NextRes", 0) : b.GetCustomData<int>("NextRes", 0));
+                result.SetCustomData("NextNextIsPositional", t < 0.5f ? a.GetCustomData<bool>("NextNextIsPositional", false) : b.GetCustomData<bool>("NextNextIsPositional", false));
+                result.SetCustomData("NextNextPosMove",      t < 0.5f ? a.GetCustomData<int>("NextNextPosMove", 0) : b.GetCustomData<int>("NextNextPosMove", 0));
+                result.SetCustomData("NextNextOff",          t < 0.5f ? a.GetCustomData<int>("NextNextOff", 0) : b.GetCustomData<int>("NextNextOff", 0));
+                result.SetCustomData("NextNextRes",          t < 0.5f ? a.GetCustomData<int>("NextNextRes", 0) : b.GetCustomData<int>("NextNextRes", 0));
+                result.SetCustomData("LastOff",              t < 0.5f ? a.GetCustomData<int>("LastOff", 0) : b.GetCustomData<int>("LastOff", 0));
+                result.SetCustomData("LastRes",              t < 0.5f ? a.GetCustomData<int>("LastRes", 0) : b.GetCustomData<int>("LastRes", 0));
+                result.SetCustomData("RepeatCount",          t < 0.5f ? a.GetCustomData<int>("RepeatCount", 0) : b.GetCustomData<int>("RepeatCount", 0));
+
                 // Boss movement targets
                 result.SetCustomData("TargetX", t < 0.5f ? a.GetCustomData<float>("TargetX", 0f) : b.GetCustomData<float>("TargetX", 0f));
                 result.SetCustomData("MoveStart", t < 0.5f ? a.GetCustomData<Vector2>("MoveStart", Vector2.zero) : b.GetCustomData<Vector2>("MoveStart", Vector2.zero));
@@ -211,6 +225,11 @@ namespace TimeRewind
                 // Boss bools
                 result.SetCustomData("OffSpawned", t < 0.5f ? a.GetCustomData<bool>("OffSpawned", false) : b.GetCustomData<bool>("OffSpawned", false));
                 result.SetCustomData("ResSpawned", t < 0.5f ? a.GetCustomData<bool>("ResSpawned", false) : b.GetCustomData<bool>("ResSpawned", false));
+                result.SetCustomData("BundleSpawned", t < 0.5f ? a.GetCustomData<bool>("BundleSpawned", false) : b.GetCustomData<bool>("BundleSpawned", false));
+                result.SetCustomData("FireRowSpawned", t < 0.5f ? a.GetCustomData<bool>("FireRowSpawned", false) : b.GetCustomData<bool>("FireRowSpawned", false));
+
+                // MeleeSkeleton
+                result.SetCustomData("pushOffTimer", Mathf.Lerp(a.GetCustomData<float>("pushOffTimer", 0f), b.GetCustomData<float>("pushOffTimer", 0f), t));
             }
 
             return result;
