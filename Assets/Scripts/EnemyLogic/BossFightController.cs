@@ -19,6 +19,7 @@ using TimeRewind;
 // The latch is one-way on purpose: if the player rewinds afterwards we don't
 // want the phase-2 transition to replay. Boss.fightStage is also deliberately
 // not part of the rewind snapshot so Phase2 persists through rewinds.
+
 [RequireComponent(typeof(Collider2D))]
 public class BossFightController : MonoBehaviour
 {
@@ -452,6 +453,9 @@ public class BossFightController : MonoBehaviour
     private RigidbodyConstraints2D originalRigidbodyConstraints;
     private bool rigidbodyConstraintsCaptured;
     private Coroutine lockedAnimatorRoutine;
+    // which we toggle separately). Also zeroes out the rigidbody and forces the
+    // animator to idle so lingering velocity / mid-air frames don't bleed through.
+    private bool rigidbodyWasDynamic;
 
     private void LockPlayer()
     {
@@ -467,6 +471,10 @@ public class BossFightController : MonoBehaviour
             playerRigidbody.linearVelocity = new Vector2(0f, playerRigidbody.linearVelocity.y);
             playerRigidbody.angularVelocity = 0f;
             playerRigidbody.constraints = originalRigidbodyConstraints | RigidbodyConstraints2D.FreezePositionX;
+            rigidbodyWasDynamic = playerRigidbody.bodyType == RigidbodyType2D.Dynamic;
+            playerRigidbody.linearVelocity = Vector2.zero;
+            playerRigidbody.angularVelocity = 0f;
+            playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
         }
 
         ForcePlayerIdleAnimation();
@@ -537,6 +545,10 @@ public class BossFightController : MonoBehaviour
                 playerAnimator.SetBool("isGrounded", PlayerIsGrounded());
             }
             yield return null;
+            if (playerRigidbody != null && rigidbodyWasDynamic)
+            {
+                playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
+            }
         }
     }
 

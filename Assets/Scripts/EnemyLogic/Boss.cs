@@ -245,8 +245,6 @@ public class Boss : EnemyBase, IRewindable
         res = ResMove.None;
         return; */
 
-        // Phase 1: dumber roll — same 20% positional split, but every move within each
-        // branch is equally likely and the GMM is not consulted.
         if (fightStage != FightStage.Phase2)
         {
             RollPlanDumb(out isPositional, out posMove, out off, out res);
@@ -918,7 +916,7 @@ public class Boss : EnemyBase, IRewindable
     public override void Revive()
     {
         base.Revive();
-        foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = true;
+        foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
         if (animator != null) animator.SetBool("Death", false);
         isDead = false;
 
@@ -1038,6 +1036,18 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("LastRes", (int)lastRes);
         state.SetCustomData("RepeatCount", repeatCount);
 
+        state.SetCustomData("NextIsPositional", nextIsPositional);
+        state.SetCustomData("NextPosMove", (int)nextPosMove);
+        state.SetCustomData("NextOff", (int)nextOff);
+        state.SetCustomData("NextRes", (int)nextRes);
+        state.SetCustomData("NextNextIsPositional", nextNextIsPositional);
+        state.SetCustomData("NextNextPosMove", (int)nextNextPosMove);
+        state.SetCustomData("NextNextOff", (int)nextNextOff);
+        state.SetCustomData("NextNextRes", (int)nextNextRes);
+        state.SetCustomData("LastOff", (int)lastOff);
+        state.SetCustomData("LastRes", (int)lastRes);
+        state.SetCustomData("RepeatCount", repeatCount);
+
         // Capture animator state so the boss's animations rewind the same way the
         // player's do. Use the built-in top-level fields on RewindState — those
         // survive RewindState.Lerp; custom-data keys do not unless Lerp is taught
@@ -1063,13 +1073,13 @@ public class Boss : EnemyBase, IRewindable
         {
             isDead = true;
             if (animator != null) animator.SetBool("Death", true);
-            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = false;
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
         }
         else
         {
             isDead = false;
             if (animator != null) animator.SetBool("Death", false);
-            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = true;
+            foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
             if (wasDeadBefore)
             {
                 BossHealthBarDriver reviveDriver = GetComponent<BossHealthBarDriver>();
@@ -1100,6 +1110,33 @@ public class Boss : EnemyBase, IRewindable
         meleeTargetX = state.GetCustomData<float>("MeleeTargetX", 0f);
         meleeRetreatX = state.GetCustomData<float>("MeleeRetreatX", 0f);
         meleeHitApplied = state.GetCustomData<bool>("MeleeHitApplied", false);
+
+        // Keep the run-bool in sync with the restored melee state so the walk clip resumes
+        // (or stops) correctly when rewind lands mid-attack.
+        if (animator != null)
+        {
+            bool shouldRun = currentPos == PosMove.Melee &&
+                             (meleeSubPhase == MeleeSubPhase.WalkToPlayer ||
+                              meleeSubPhase == MeleeSubPhase.WalkAway);
+            animator.SetBool("isRunning", shouldRun);
+        }
+
+        offActionSpawned = state.GetCustomData<bool>("OffSpawned", false);
+        resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
+        bundleSpawned = state.GetCustomData<bool>("BundleSpawned", false);
+        fireRowSpawned = state.GetCustomData<bool>("FireRowSpawned", false);
+
+        nextIsPositional = state.GetCustomData<bool>("NextIsPositional", false);
+        nextPosMove = (PosMove)state.GetCustomData<int>("NextPosMove", 0);
+        nextOff = (OffMove)state.GetCustomData<int>("NextOff", 0);
+        nextRes = (ResMove)state.GetCustomData<int>("NextRes", 0);
+        nextNextIsPositional = state.GetCustomData<bool>("NextNextIsPositional", false);
+        nextNextPosMove = (PosMove)state.GetCustomData<int>("NextNextPosMove", 0);
+        nextNextOff = (OffMove)state.GetCustomData<int>("NextNextOff", 0);
+        nextNextRes = (ResMove)state.GetCustomData<int>("NextNextRes", 0);
+        lastOff = (OffMove)state.GetCustomData<int>("LastOff", 0);
+        lastRes = (ResMove)state.GetCustomData<int>("LastRes", 0);
+        repeatCount = state.GetCustomData<int>("RepeatCount", 0);
 
         // Keep the run-bool in sync with the restored melee state so the walk clip resumes
         // (or stops) correctly when rewind lands mid-attack.
