@@ -41,16 +41,16 @@ public class DifficultyTuning : ScriptableObject
 
     [Header("Tier thresholds (score)")]
     [Tooltip("Score <= this (more negative = worse play) pushes toward VeryEasy.")]
-    public float veryEasyThreshold = -0.55f;
+    public float veryEasyThreshold = -0.35f;
 
     [Tooltip("Score <= easyThreshold (but above veryEasy band) pushes toward Easy.")]
-    public float easyThreshold = -0.35f;
+    public float easyThreshold = -0.15f;
 
     [Tooltip("Score >= hardThreshold pushes toward Hard.")]
-    public float hardThreshold = 0.35f;
+    public float hardThreshold = 0.15f;
 
     [Tooltip("Extra margin required to switch tiers (prevents flip-flopping).")]
-    public float hysteresisMargin = 0.10f;
+    public float hysteresisMargin = 0.05f;
 
     [Header("Multipliers by tier")]
     public TierMultipliers veryEasy = TierMultipliers.VeryEasyDefaults();

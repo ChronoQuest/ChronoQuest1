@@ -17,8 +17,15 @@ public class PlayerStrategyModel : MonoBehaviour
     private float windowDuration = 30f;
     private float timer = 0f; 
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
+        playerTacticalModel = FindObjectOfType<PlayerTacticalModel>();
+
         foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
         {
             strategyBeliefs[strategy] = 0f; 
@@ -37,6 +44,7 @@ public class PlayerStrategyModel : MonoBehaviour
         }
     }
      
+    // -- EXPERIMENT EDITS --
     void DetermineStrategy()
     {
         foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
@@ -86,6 +94,8 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         Debug.Log(output);
+
+        // TODO: add functionality to record all strategies in a session
     }
 
     // method to return the dominant strategy 
