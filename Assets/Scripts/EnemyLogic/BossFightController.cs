@@ -142,6 +142,19 @@ public class BossFightController : MonoBehaviour
              "the boss rewind.")]
     [SerializeField] private SpriteRenderer bossSprite;
 
+    [Tooltip("Multiplier applied on top of TimeRewindManager.rewindSpeed while " +
+             "the boss is driving the rewind. Higher = faster phase-2 transition. " +
+             "Only affects the boss rewind — player rewinds still use the " +
+             "manager's configured speed.")]
+    [Min(0.1f)]
+    [SerializeField] private float bossRewindSpeedMultiplier = 3f;
+
+    [Tooltip("Read-only preview: approximate real seconds the boss rewind will " +
+             "take given the current multiplier. Actual duration can shift by " +
+             "~30% because idle segments fast-forward and the final 0.75s eases " +
+             "out. Updates in the editor when you tweak the fields above.")]
+    [SerializeField] private float estimatedBossRewindDurationSeconds;
+
     private bool fightStarted;
     private bool phase2Triggered;
     private float fightStartTime;
@@ -149,6 +162,21 @@ public class BossFightController : MonoBehaviour
     // Scripts we turned off during the current dialogue. Tracked so we only re-enable
     // what we actually disabled (anything already disabled stays that way).
     private readonly List<MonoBehaviour> disabledDuringDialogue = new List<MonoBehaviour>();
+
+    // Recomputes the boss-rewind duration preview whenever the Inspector changes
+    // a relevant field. Pulls rewindSpeed from the scene's TimeRewindManager if
+    // present so the estimate stays in sync with the manager's setting; falls
+    // back to the default (1.3) if the manager isn't in the scene yet.
+    private void OnValidate()
+    {
+        float managerSpeed = 1.3f;
+#if UNITY_EDITOR
+        TimeRewindManager mgr = FindFirstObjectByType<TimeRewindManager>();
+        if (mgr != null) managerSpeed = mgr.RewindSpeed;
+#endif
+        float effective = Mathf.Max(0.01f, managerSpeed * bossRewindSpeedMultiplier);
+        estimatedBossRewindDurationSeconds = phase2TimerSeconds / effective;
+    }
 
     private void Awake()
     {
@@ -226,6 +254,10 @@ public class BossFightController : MonoBehaviour
         TimeRewindManager manager = TimeRewindManager.Instance;
         if (manager != null)
         {
+            // Scope the boss-only speed boost around this single rewind. StopRewind
+            // also clears the multiplier as a safety net, but we pair explicitly
+            // so an aborted rewind path doesn't leak into the next player rewind.
+            manager.PushSpeedMultiplier(bossRewindSpeedMultiplier);
             manager.StartRewind();
 
             // Drive the rewind until it lands back at the start of the fight,
@@ -239,6 +271,8 @@ public class BossFightController : MonoBehaviour
                 }
                 yield return null;
             }
+
+            manager.ClearSpeedMultiplier();
         }
 
         if (playerRewindController != null) playerRewindController.SetExternalRewindActive(false);

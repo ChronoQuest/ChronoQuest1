@@ -3756,6 +3756,8 @@ MonoBehaviour:
   bossRewindBurstTint: {r: 1, g: 0.25, b: 0.25, a: 0.45}
   rewindGhostTrail: {fileID: 0}
   bossSprite: {fileID: 508054502}
+  bossRewindSpeedMultiplier: 2
+  estimatedBossRewindDurationSeconds: 9.615385
 --- !u!61 &431215193
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -55580,7 +55582,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d021fdd0521760445bfb99a3f080a3d2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindEffects
 --- !u!114 &1416134380 stripped
 MonoBehaviour:
@@ -55591,7 +55593,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 211c6077ecb9a24478f394aa8e4889f0, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.PlayerRewindController
 --- !u!114 &1416134381 stripped
 MonoBehaviour:
@@ -55602,7 +55604,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformer
 --- !u!1001 &1449710243
 PrefabInstance:
