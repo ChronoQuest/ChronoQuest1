@@ -251,6 +251,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4689540639473076470}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1362906771271589594}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 3e15b658b3b5a8245847bb4e000e387c, type: 3}
 --- !u!4 &4991978750263448100 stripped
 Transform:
@@ -1161,3 +1164,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-1362906771271589594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5236253385447438913}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a935e159e8f52d469a7ac760f65ad1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::DebugCheats
