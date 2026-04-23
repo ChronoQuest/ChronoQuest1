@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::PlayerTacticalModel
   gmmModel: {fileID: 9141565510492581181}
   neuralModel: {fileID: 2470380908138082500}
-  useNeural: 1
+  useNeural: 0
 --- !u!1 &6245179231771419398
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +271,10 @@ PrefabInstance:
     - target: {fileID: 5027198386291128183, guid: 19f6b5f4797fe4b14ba537e2deaadb7e, type: 3}
       propertyPath: m_Name
       value: DataCollectionService
+      objectReference: {fileID: 0}
+    - target: {fileID: 5027198386291128183, guid: 19f6b5f4797fe4b14ba537e2deaadb7e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
