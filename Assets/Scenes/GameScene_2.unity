@@ -556538,9 +556538,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-<<<<<<< HEAD
-  m_SourcePrefab: {fileID: 100100000, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
-=======
   m_SourcePrefab: {fileID: 100100000, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
 --- !u!1 &2034156699
 GameObject:
@@ -556724,7 +556721,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
->>>>>>> dev
 --- !u!1 &2037943555
 GameObject:
   m_ObjectHideFlags: 0
