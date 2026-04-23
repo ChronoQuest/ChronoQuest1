@@ -65,8 +65,45 @@ public class Boss : EnemyBase, IRewindable
     private RewindMusicController musicController;
 
     OffMove lastOff = OffMove.None;
+    OffMove lastLastOff = OffMove.None;
     ResMove lastRes = ResMove.None;
-    int repeatCount = 0;
+
+    // Combat pair pools. Belief read picks a pool; a random pair is drawn from it.
+    // Each pool intentionally contains at least two distinct Off moves so the
+    // "no back-to-back Off" guard always has a fallback without falling out of pool.
+    struct AttackPair { public OffMove off; public ResMove res; }
+
+    static readonly AttackPair[] AggressivePool =
+    {
+        new AttackPair { off = OffMove.FireColumns,   res = ResMove.None },
+        new AttackPair { off = OffMove.FireColumns,   res = ResMove.FireWave },
+        new AttackPair { off = OffMove.FireExplosion, res = ResMove.FireRow },
+    };
+    static readonly AttackPair[] EvasivePool =
+    {
+        new AttackPair { off = OffMove.Fireballs,       res = ResMove.Enemy },
+        new AttackPair { off = OffMove.Fireballs,       res = ResMove.FireWave },
+        new AttackPair { off = OffMove.HomingFireballs, res = ResMove.Enemy },
+    };
+    static readonly AttackPair[] CautiousPool =
+    {
+        new AttackPair { off = OffMove.HomingFireballs, res = ResMove.FireWave },
+        new AttackPair { off = OffMove.HomingFireballs, res = ResMove.FireRow },
+        new AttackPair { off = OffMove.FireExplosion,   res = ResMove.FireWave },
+    };
+    // Picked when no belief axis dominates, or when the spoiler roll fires. Three
+    // distinct Off moves so it's maximally unpredictable.
+    static readonly AttackPair[] MixedPool =
+    {
+        new AttackPair { off = OffMove.FireColumns,     res = ResMove.Enemy },
+        new AttackPair { off = OffMove.Fireballs,       res = ResMove.FireRow },
+        new AttackPair { off = OffMove.HomingFireballs, res = ResMove.None },
+    };
+
+    // If max belief falls below this, treat the player as unreadable and pick from MixedPool.
+    const float AxisDominanceThreshold = 0.40f;
+    // Unconditional "keep them guessing" roll that ignores beliefs entirely.
+    const float SpoilerChance = 0.20f;
 
     // The boss keeps a 2-deep queue of upcoming actions ("next" and "nextNext"). Both slots
     // are part of the rewind state, so rewinding past the current attack still preserves the
@@ -88,11 +125,17 @@ public class Boss : EnemyBase, IRewindable
     Vector2 moveStart;
     Vector2 movePeak;
     Vector2 moveTarget;
-    const float ArenaMinX = -11f;
-    const float ArenaMaxX =  11f;
+    // Pushed to the stage edge (was ±11) so there's no behind-boss strip for
+    // the player to stand on and cheese ranged fights. Positional attacks
+    // (ChangeSides / GroundPound / Melee) and TeleportToSafeEdge all clamp to
+    // these, so their behaviour scales with the bounds — the Melee ±1 buffer
+    // is still 1 unit from the new edge.
+    const float ArenaMinX = -12f;
+    const float ArenaMaxX =  12f;
     // Safety net: if the boss's x exceeds this (e.g. launched off a stray platform),
-    // it gets teleported back to the matching arena edge.
-    const float OffSceneThreshold = 12f;
+    // it gets teleported back to the matching arena edge. Kept one unit past the
+    // clamp so normal movement never trips it.
+    const float OffSceneThreshold = 13f;
     // Beyond this |x|, we don't shove the player further toward the edge on a jump-landing hit.
     const float SafePushEdgeX = 9.5f;
     const float JumpAttackPushSpeed = 1.5f;
@@ -295,51 +338,48 @@ public class Boss : EnemyBase, IRewindable
 
     void RollCombatMoves(out OffMove off, out ResMove res)
     {
-        ReadBeliefs(out float aggressive, out float evasive, out float _);
+        ReadBeliefs(out float aggressive, out float evasive, out float cautious);
 
-        float roll = Random.value;
+        AttackPair[] pool = SelectPool(aggressive, evasive, cautious);
 
-        if (roll < aggressive)
+        // Block only triples (three same Off in a row). Doubles are allowed so each
+        // pool's 2:1 ratio actually manifests — aggressive reads show mostly FireColumns
+        // with FireExplosion breaks, rather than being forced into strict alternation.
+        AttackPair picked = pool[Random.Range(0, pool.Length)];
+        for (int tries = 0; tries < 6 && picked.off == lastOff && picked.off == lastLastOff; tries++)
         {
-            off = OffMove.FireColumns;
-            res = ResMove.None;
+            picked = pool[Random.Range(0, pool.Length)];
         }
-        else if (roll < aggressive + evasive)
+        // Safety fallback: if the pool can't break a triple, pull any differing pair
+        // from MixedPool (shouldn't trigger given pool construction, but guard anyway).
+        if (picked.off == lastOff && picked.off == lastLastOff)
         {
-            off = OffMove.Fireballs;
-            res = ResMove.Enemy;
-        }
-        else
-        {
-            // Cautious players camp and rewind — punish with tracking + area denial
-            off = OffMove.HomingFireballs;
-            res = ResMove.FireWave;
-        }
-
-        //Don't want too much repetition
-        if (off == lastOff && res == lastRes)
-        {
-            repeatCount++;
-            if (repeatCount >= 2)
+            for (int i = 0; i < MixedPool.Length; i++)
             {
-                OffMove[] allOff = new[] { OffMove.Fireballs, OffMove.FireColumns, OffMove.HomingFireballs, OffMove.FireExplosion };
-                do { off = allOff[Random.Range(0, allOff.Length)]; }
-                while (off == lastOff);
-
-                ResMove[] allRes = new[] { ResMove.FireRow, ResMove.FireWave, ResMove.Enemy };
-                do { res = allRes[Random.Range(0, allRes.Length)]; }
-                while (res == lastRes);
-
-                repeatCount = 0;
+                if (MixedPool[i].off != lastOff) { picked = MixedPool[i]; break; }
             }
         }
-        else
-        {
-            repeatCount = 0;
-        }
 
+        off = picked.off;
+        res = picked.res;
+        lastLastOff = lastOff;
         lastOff = off;
         lastRes = res;
+    }
+
+    // Chooses which pair pool to draw from. Spoiler roll fires unconditionally; otherwise,
+    // if no axis clears the dominance threshold, the player is treated as unreadable and
+    // gets MixedPool — avoids the boss committing to a weak read.
+    AttackPair[] SelectPool(float aggressive, float evasive, float cautious)
+    {
+        if (Random.value < SpoilerChance) return MixedPool;
+
+        float max = Mathf.Max(aggressive, Mathf.Max(evasive, cautious));
+        if (max < AxisDominanceThreshold) return MixedPool;
+
+        if (aggressive >= evasive && aggressive >= cautious) return AggressivePool;
+        if (evasive    >= cautious)                          return EvasivePool;
+        return CautiousPool;
     }
 
     void ReadBeliefs(out float aggressive, out float evasive, out float cautious)
@@ -354,6 +394,7 @@ public class Boss : EnemyBase, IRewindable
             aggressive = evasive = cautious = 1f / 3f;
             return;
         }
+
         var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
         aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
         evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
@@ -890,8 +931,9 @@ public class Boss : EnemyBase, IRewindable
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
 
-        // Every collider off — body contact, attack hit, everything.
-        foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
+        // Every collider off — body contact, attack hit, everything. Include children
+        // so any separate hitbox objects parented under the boss also get disabled.
+        foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = false;
 
         if (foresightGlow != null) foresightGlow.SetActive(false);
 
@@ -906,7 +948,7 @@ public class Boss : EnemyBase, IRewindable
     public override void Revive()
     {
         base.Revive();
-        foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+        foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = true;
         if (animator != null) animator.SetBool("Death", false);
         isDead = false;
 
@@ -960,12 +1002,21 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
-    public override void OnStartRewind() { base.OnStartRewind(); _isRewinding = true; }
+    public override void OnStartRewind()
+    {
+        base.OnStartRewind();
+        _isRewinding = true;
+        // Freeze the animator so Play()/Update(0f) in ApplyState fully drives the
+        // visible state each rewind tick. Without this, the animator keeps
+        // advancing forward between ticks and every state bleeds back to Idle.
+        if (animator != null) animator.speed = 0f;
+    }
     //public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }
-    public override void OnStopRewind() 
-    { 
-        base.OnStopRewind(); 
-        _isRewinding = false; 
+    public override void OnStopRewind()
+    {
+        base.OnStopRewind();
+        _isRewinding = false;
+        if (animator != null) animator.speed = 1f;
 
         // Snap health bar to rewound health value
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
@@ -1014,15 +1065,18 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("NextNextOff", (int)nextNextOff);
         state.SetCustomData("NextNextRes", (int)nextNextRes);
         state.SetCustomData("LastOff", (int)lastOff);
+        state.SetCustomData("LastLastOff", (int)lastLastOff);
         state.SetCustomData("LastRes", (int)lastRes);
-        state.SetCustomData("RepeatCount", repeatCount);
 
-        // Capture animator state so walk animation reverses properly during rewind
+        // Capture animator state so the boss's animations rewind the same way the
+        // player's do. Use the built-in top-level fields on RewindState — those
+        // survive RewindState.Lerp; custom-data keys do not unless Lerp is taught
+        // about them explicitly.
         if (animator != null)
         {
             AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
-            state.SetCustomData("AnimStateHash", animInfo.fullPathHash);
-            state.SetCustomData("AnimNormalizedTime", animInfo.normalizedTime);
+            state.AnimatorStateHash = animInfo.fullPathHash;
+            state.AnimatorNormalizedTime = animInfo.normalizedTime;
         }
 
         return state;
@@ -1039,13 +1093,13 @@ public class Boss : EnemyBase, IRewindable
         {
             isDead = true;
             if (animator != null) animator.SetBool("Death", true);
-            foreach (var c in GetComponents<Collider2D>()) c.enabled = false;
+            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = false;
         }
         else
         {
             isDead = false;
             if (animator != null) animator.SetBool("Death", false);
-            foreach (var c in GetComponents<Collider2D>()) c.enabled = true;
+            foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = true;
             if (wasDeadBefore)
             {
                 BossHealthBarDriver reviveDriver = GetComponent<BossHealthBarDriver>();
@@ -1101,20 +1155,19 @@ public class Boss : EnemyBase, IRewindable
         nextNextOff = (OffMove)state.GetCustomData<int>("NextNextOff", 0);
         nextNextRes = (ResMove)state.GetCustomData<int>("NextNextRes", 0);
         lastOff = (OffMove)state.GetCustomData<int>("LastOff", 0);
+        lastLastOff = (OffMove)state.GetCustomData<int>("LastLastOff", 0);
         lastRes = (ResMove)state.GetCustomData<int>("LastRes", 0);
-        repeatCount = state.GetCustomData<int>("RepeatCount", 0);
 
-        // Restore animator state so walk animation plays in reverse during rewind
-        if (animator != null)
+        // Restore animator state so the boss's animations rewind like the
+        // player's. Bump speed to 1 briefly so Play + Update(0f) actually
+        // commits the state change (speed=0 leaves it uncommitted), then
+        // freeze again so no transitions fire before the next rewind tick.
+        if (animator != null && state.AnimatorStateHash != 0)
         {
-            int animStateHash = state.GetCustomData<int>("AnimStateHash", 0);
-            float animNormalizedTime = state.GetCustomData<float>("AnimNormalizedTime", 0f);
-            
-            if (animStateHash != 0)
-            {
-                animator.Play(animStateHash, 0, animNormalizedTime);
-            }
-            animator.Update(0f);  // Apply the animation state without time progression
+            animator.speed = 1f;
+            animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+            animator.Update(0f);
+            if (_isRewinding) animator.speed = 0f;
         }
 
         // Keep health bar in sync during rewind scrubbing
