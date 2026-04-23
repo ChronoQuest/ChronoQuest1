@@ -7699,6 +7699,7 @@ MonoBehaviour:
   fallDelay: 1
   shakeAmount: 0.05
   respawnTime: 2
+  ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 220856467}
 --- !u!50 &220856469
 Rigidbody2D:
@@ -17634,6 +17635,7 @@ MonoBehaviour:
   fallDelay: 1
   shakeAmount: 0.05
   respawnTime: 3
+  ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 494275481}
 --- !u!50 &494275483
 Rigidbody2D:
@@ -26196,6 +26198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1001 &735305232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31764,6 +31769,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &895182336
 GameObject:
   m_ObjectHideFlags: 0
@@ -32052,7 +32060,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 39.33, y: 13.38375, z: 0}
-  m_LocalScale: {x: 17.25721, y: 36.74552, z: 1}
+  m_LocalScale: {x: 22.434372, y: 36.74552, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -32069,7 +32077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b605f32554b147bcb1fed19f403aa347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlatformingSectionAssist
-  assistAfterSeconds: 80
+  assistAfterSeconds: 10
+  logWhenAssistApplied: 1
   fallingPlatforms:
   - {fileID: 1517634018}
   - {fileID: 980998055}
@@ -32079,7 +32088,8 @@ MonoBehaviour:
   - {fileID: 1549788527}
   movingFallingPlatforms: []
   spikes:
-  - {fileID: 0}
+  - {fileID: 966241763}
+  - {fileID: 2091753820}
 --- !u!61 &899002322
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -113293,6 +113303,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
+  damageAmount: 1
+  respawnPlayer: 1
 --- !u!114 &951982566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114265,6 +114277,7 @@ MonoBehaviour:
   fallDelay: 1
   shakeAmount: 0.05
   respawnTime: 3
+  ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 980998060}
 --- !u!50 &980998056
 Rigidbody2D:
@@ -116322,6 +116335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
+  damageAmount: 1
+  respawnPlayer: 1
 --- !u!1 &1033135303
 GameObject:
   m_ObjectHideFlags: 0
@@ -519495,6 +519510,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5f70ca3b5ef46c8801c1bbc350a86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
+  shakeDuration: 0.5
+  shakeIntensity: 0.05
+  restoreDelay: 5
+  physicsCollider: {fileID: 0}
+  tilemapRenderer: {fileID: 0}
+  breakParticles: {fileID: 0}
 --- !u!114 &1309321255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527984,6 +528005,7 @@ MonoBehaviour:
   fallDelay: 1.5
   shakeAmount: 0.1
   respawnTime: 2
+  ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 1549788526}
 --- !u!50 &1549788528
 Rigidbody2D:
@@ -528363,6 +528385,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &1570810903
 GameObject:
   m_ObjectHideFlags: 0
@@ -535123,6 +535148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &1756429731
 GameObject:
   m_ObjectHideFlags: 0
@@ -535854,6 +535882,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!114 &1795284307
 MonoBehaviour:
   m_ObjectHideFlags: 0

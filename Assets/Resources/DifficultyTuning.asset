@@ -21,10 +21,10 @@ MonoBehaviour:
   evaluateEverySeconds: 10
   tierChangeCooldownSeconds: 60
   rollingWindowSeconds: 120
-  veryEasyThreshold: -0.55
-  easyThreshold: -0.35
-  hardThreshold: 0.35
-  hysteresisMargin: 0.1
+  veryEasyThreshold: -0.35
+  easyThreshold: -0.15
+  hardThreshold: 0.15
+  hysteresisMargin: 0.05
   veryEasy:
     manaRegenMultiplier: 1.35
     manaOnHitMultiplier: 1.15

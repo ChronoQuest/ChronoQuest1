@@ -360,8 +360,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         float score = 0f;
         score += Mathf.Clamp((acc - 0.5f) * 1.2f, -0.6f, 0.6f);
         score -= Mathf.Clamp(deathsPerMin * 0.9f, 0f, 1.0f);
-        score -= Mathf.Clamp(damagePerMin / 40f, 0f, 1.0f);
-        score -= Mathf.Clamp(trapsPerMin * 0.25f, 0f, 0.75f);
+        score -= Mathf.Clamp(damagePerMin / 55f, 0f, 1.0f);
+        score -= Mathf.Clamp(trapsPerMin * 0.20f, 0f, 0.60f);
 
         return Mathf.Clamp(score, -1f, 1f);
     }
