@@ -1,247 +1,247 @@
 fileFormatVersion: 2
-guid: 4290048e78dfb554a9790a6df2abac06
+guid: 6a2dda7b8c57735459334b89dc558eea
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5734325465813531712
-    second: DeathKnight-Sheet_0
+      213: 1856677589037662097
+    second: DeathKnight_Foresight-Sheet_0
   - first:
-      213: 2044713030389006758
-    second: DeathKnight-Sheet_1
+      213: 6785583523670546811
+    second: DeathKnight_Foresight-Sheet_1
   - first:
-      213: -2490213671289921319
-    second: DeathKnight-Sheet_2
+      213: -6808766612946570252
+    second: DeathKnight_Foresight-Sheet_2
   - first:
-      213: -272658015239503335
-    second: DeathKnight-Sheet_3
+      213: 99215461726278427
+    second: DeathKnight_Foresight-Sheet_3
   - first:
-      213: -5293891200495860486
-    second: DeathKnight-Sheet_4
+      213: -7621640038951462836
+    second: DeathKnight_Foresight-Sheet_4
   - first:
-      213: -6358746475040560451
-    second: DeathKnight-Sheet_5
+      213: -2879734425746559205
+    second: DeathKnight_Foresight-Sheet_5
   - first:
-      213: 370331586683550223
-    second: DeathKnight-Sheet_6
+      213: 9061132396119831445
+    second: DeathKnight_Foresight-Sheet_6
   - first:
-      213: -1357749988672566688
-    second: DeathKnight-Sheet_7
+      213: -3850619935065324525
+    second: DeathKnight_Foresight-Sheet_7
   - first:
-      213: -1392844444930059927
-    second: DeathKnight-Sheet_8
+      213: 4370108512069911949
+    second: DeathKnight_Foresight-Sheet_8
   - first:
-      213: 6546392262968442134
-    second: DeathKnight-Sheet_9
+      213: 6116759612077929716
+    second: DeathKnight_Foresight-Sheet_9
   - first:
-      213: 6722912082920539318
-    second: DeathKnight-Sheet_10
+      213: -6855749578263245891
+    second: DeathKnight_Foresight-Sheet_10
   - first:
-      213: 6421839971569395498
-    second: DeathKnight-Sheet_11
+      213: -8125477590884014045
+    second: DeathKnight_Foresight-Sheet_11
   - first:
-      213: -2476280637212068778
-    second: DeathKnight-Sheet_12
+      213: -5202525755073557030
+    second: DeathKnight_Foresight-Sheet_12
   - first:
-      213: -1677205591270448716
-    second: DeathKnight-Sheet_13
+      213: 3599956555083580823
+    second: DeathKnight_Foresight-Sheet_13
   - first:
-      213: -4901515562909766490
-    second: DeathKnight-Sheet_14
+      213: -6123682227205614236
+    second: DeathKnight_Foresight-Sheet_14
   - first:
-      213: 4748999765403872851
-    second: DeathKnight-Sheet_15
+      213: 3538602758710650688
+    second: DeathKnight_Foresight-Sheet_15
   - first:
-      213: 4156809293860987367
-    second: DeathKnight-Sheet_16
+      213: 8743479495246190654
+    second: DeathKnight_Foresight-Sheet_16
   - first:
-      213: 6528659454370513693
-    second: DeathKnight-Sheet_17
+      213: -8478357945658889954
+    second: DeathKnight_Foresight-Sheet_17
   - first:
-      213: -6410805171849312660
-    second: DeathKnight-Sheet_18
+      213: 227090441487294950
+    second: DeathKnight_Foresight-Sheet_18
   - first:
-      213: -3758497566230414470
-    second: DeathKnight-Sheet_19
+      213: -1466539484590629030
+    second: DeathKnight_Foresight-Sheet_19
   - first:
-      213: -2839359497454737452
-    second: DeathKnight-Sheet_20
+      213: 1961528414556260645
+    second: DeathKnight_Foresight-Sheet_20
   - first:
-      213: 6567621034358405977
-    second: DeathKnight-Sheet_21
+      213: 3671986069617514235
+    second: DeathKnight_Foresight-Sheet_21
   - first:
-      213: 7312983855201382284
-    second: DeathKnight-Sheet_22
+      213: -4868543843102363396
+    second: DeathKnight_Foresight-Sheet_22
   - first:
-      213: -5582744919676026390
-    second: DeathKnight-Sheet_23
+      213: 5248276566107015494
+    second: DeathKnight_Foresight-Sheet_23
   - first:
-      213: -709555487471319281
-    second: DeathKnight-Sheet_24
+      213: 2921801471251321770
+    second: DeathKnight_Foresight-Sheet_24
   - first:
-      213: 7305164204716560893
-    second: DeathKnight-Sheet_25
+      213: -4266630243988556046
+    second: DeathKnight_Foresight-Sheet_25
   - first:
-      213: -2384480531899424806
-    second: DeathKnight-Sheet_26
+      213: -9054617743934825668
+    second: DeathKnight_Foresight-Sheet_26
   - first:
-      213: 5646969551224888928
-    second: DeathKnight-Sheet_27
+      213: -5339369958481860000
+    second: DeathKnight_Foresight-Sheet_27
   - first:
-      213: -7326602356326497785
-    second: DeathKnight-Sheet_28
+      213: -3287391996634629573
+    second: DeathKnight_Foresight-Sheet_28
   - first:
-      213: -4657227798322321334
-    second: DeathKnight-Sheet_29
+      213: -2979995698281222257
+    second: DeathKnight_Foresight-Sheet_29
   - first:
-      213: -1888549903272306720
-    second: DeathKnight-Sheet_30
+      213: -4622787557088603602
+    second: DeathKnight_Foresight-Sheet_30
   - first:
-      213: 8999288626382663539
-    second: DeathKnight-Sheet_31
+      213: 2406357940114856405
+    second: DeathKnight_Foresight-Sheet_31
   - first:
-      213: -3838100567681738998
-    second: DeathKnight-Sheet_32
+      213: -3122961309993618823
+    second: DeathKnight_Foresight-Sheet_32
   - first:
-      213: -3921341167331327008
-    second: DeathKnight-Sheet_33
+      213: 5078276894794277196
+    second: DeathKnight_Foresight-Sheet_33
   - first:
-      213: -7834467436694051777
-    second: DeathKnight-Sheet_34
+      213: -7074958633073438246
+    second: DeathKnight_Foresight-Sheet_34
   - first:
-      213: 7126995103288313137
-    second: DeathKnight-Sheet_35
+      213: -1077839381313054483
+    second: DeathKnight_Foresight-Sheet_35
   - first:
-      213: 56834872595256311
-    second: DeathKnight-Sheet_36
+      213: -1279952747090559650
+    second: DeathKnight_Foresight-Sheet_36
   - first:
-      213: -4717127380239501928
-    second: DeathKnight-Sheet_37
+      213: -4317357656193727480
+    second: DeathKnight_Foresight-Sheet_37
   - first:
-      213: -3216192734540870318
-    second: DeathKnight-Sheet_38
+      213: -4982094897849079713
+    second: DeathKnight_Foresight-Sheet_38
   - first:
-      213: -4981389398094193029
-    second: DeathKnight-Sheet_39
+      213: -7531151912459542969
+    second: DeathKnight_Foresight-Sheet_39
   - first:
-      213: 8562506330520321893
-    second: DeathKnight-Sheet_40
+      213: -5567658759476336766
+    second: DeathKnight_Foresight-Sheet_40
   - first:
-      213: -1222974319194139964
-    second: DeathKnight-Sheet_41
+      213: -3541259928429710104
+    second: DeathKnight_Foresight-Sheet_41
   - first:
-      213: -2441112822165652509
-    second: DeathKnight-Sheet_42
+      213: -5568889526343914992
+    second: DeathKnight_Foresight-Sheet_42
   - first:
-      213: -6476063468079330975
-    second: DeathKnight-Sheet_43
+      213: -2787541006455914023
+    second: DeathKnight_Foresight-Sheet_43
   - first:
-      213: -890377064206611917
-    second: DeathKnight-Sheet_44
+      213: 6367575883391129712
+    second: DeathKnight_Foresight-Sheet_44
   - first:
-      213: 2217654824353424061
-    second: DeathKnight-Sheet_45
+      213: -9047660750749442503
+    second: DeathKnight_Foresight-Sheet_45
   - first:
-      213: 4310113949154965483
-    second: DeathKnight-Sheet_46
+      213: 1539964506804560101
+    second: DeathKnight_Foresight-Sheet_46
   - first:
-      213: 8481673868109546096
-    second: DeathKnight-Sheet_47
+      213: 2275745904144774196
+    second: DeathKnight_Foresight-Sheet_47
   - first:
-      213: 1952371091391028310
-    second: DeathKnight-Sheet_48
+      213: 7143313653955571352
+    second: DeathKnight_Foresight-Sheet_48
   - first:
-      213: 7145979817789416419
-    second: DeathKnight-Sheet_49
+      213: 1937703103581438809
+    second: DeathKnight_Foresight-Sheet_49
   - first:
-      213: -5638546809705829829
-    second: DeathKnight-Sheet_50
+      213: -1133441351517284027
+    second: DeathKnight_Foresight-Sheet_50
   - first:
-      213: -8852522854802492308
-    second: DeathKnight-Sheet_51
+      213: -296486159908974653
+    second: DeathKnight_Foresight-Sheet_51
   - first:
-      213: 6394294170238733125
-    second: DeathKnight-Sheet_52
+      213: -366606027939686550
+    second: DeathKnight_Foresight-Sheet_52
   - first:
-      213: 4393625356215181784
-    second: DeathKnight-Sheet_53
+      213: -4974347015365350488
+    second: DeathKnight_Foresight-Sheet_53
   - first:
-      213: -4113645465757691463
-    second: DeathKnight-Sheet_54
+      213: 7551597598874972151
+    second: DeathKnight_Foresight-Sheet_54
   - first:
-      213: 5137208377232995586
-    second: DeathKnight-Sheet_55
+      213: 4006236568836371921
+    second: DeathKnight_Foresight-Sheet_55
   - first:
-      213: -8080416198750002443
-    second: DeathKnight-Sheet_56
+      213: 3178979909248447091
+    second: DeathKnight_Foresight-Sheet_56
   - first:
-      213: 2395559690278366886
-    second: DeathKnight-Sheet_57
+      213: 1404982928439257827
+    second: DeathKnight_Foresight-Sheet_57
   - first:
-      213: 5222082894508644028
-    second: DeathKnight-Sheet_58
+      213: 2791682425031609611
+    second: DeathKnight_Foresight-Sheet_58
   - first:
-      213: 633212910679026719
-    second: DeathKnight-Sheet_59
+      213: -6675490785572731396
+    second: DeathKnight_Foresight-Sheet_59
   - first:
-      213: 159888421525557799
-    second: DeathKnight-Sheet_60
+      213: 7746457116614342625
+    second: DeathKnight_Foresight-Sheet_60
   - first:
-      213: -4467535813043439935
-    second: DeathKnight-Sheet_61
+      213: -5777602021348528715
+    second: DeathKnight_Foresight-Sheet_61
   - first:
-      213: -5380967962265633477
-    second: DeathKnight-Sheet_62
+      213: 4362949407930025975
+    second: DeathKnight_Foresight-Sheet_62
   - first:
-      213: -2445305512042285748
-    second: DeathKnight-Sheet_63
+      213: 998027186498367981
+    second: DeathKnight_Foresight-Sheet_63
   - first:
-      213: -1072033041868083926
-    second: DeathKnight-Sheet_64
+      213: -4759740820511863262
+    second: DeathKnight_Foresight-Sheet_64
   - first:
-      213: -3152576454930917918
-    second: DeathKnight-Sheet_65
+      213: 3523003814032434765
+    second: DeathKnight_Foresight-Sheet_65
   - first:
-      213: 3993218729691094730
-    second: DeathKnight-Sheet_66
+      213: 7842665953606527734
+    second: DeathKnight_Foresight-Sheet_66
   - first:
-      213: 4794432940859325336
-    second: DeathKnight-Sheet_67
+      213: -4441609028848484818
+    second: DeathKnight_Foresight-Sheet_67
   - first:
-      213: -6630657922980868711
-    second: DeathKnight-Sheet_68
+      213: 3715896496858260831
+    second: DeathKnight_Foresight-Sheet_68
   - first:
-      213: 4411608661485881697
-    second: DeathKnight-Sheet_69
+      213: 8226069223478339409
+    second: DeathKnight_Foresight-Sheet_69
   - first:
-      213: 6166268949280091902
-    second: DeathKnight-Sheet_70
+      213: -9057132783728662393
+    second: DeathKnight_Foresight-Sheet_70
   - first:
-      213: -6166409171470860418
-    second: DeathKnight-Sheet_71
+      213: -5734527549087783859
+    second: DeathKnight_Foresight-Sheet_71
   - first:
-      213: -7478465482186516197
-    second: DeathKnight-Sheet_72
+      213: -7882065762596137210
+    second: DeathKnight_Foresight-Sheet_72
   - first:
-      213: -6143721766896642395
-    second: DeathKnight-Sheet_73
+      213: -8141243108775837424
+    second: DeathKnight_Foresight-Sheet_73
   - first:
-      213: -1628887476878513966
-    second: DeathKnight-Sheet_74
+      213: 1912053360373140772
+    second: DeathKnight_Foresight-Sheet_74
   - first:
-      213: 4341749915457169507
-    second: DeathKnight-Sheet_75
+      213: -194339850615785435
+    second: DeathKnight_Foresight-Sheet_75
   - first:
-      213: -5431840220173027180
-    second: DeathKnight-Sheet_76
+      213: -1899827033743106304
+    second: DeathKnight_Foresight-Sheet_76
   - first:
-      213: 3535543750557858500
-    second: DeathKnight-Sheet_77
+      213: 4051016359943897725
+    second: DeathKnight_Foresight-Sheet_77
   - first:
-      213: -7417252599612864822
-    second: DeathKnight-Sheet_78
+      213: 3414035458131727998
+    second: DeathKnight_Foresight-Sheet_78
   - first:
-      213: -186587711444784004
-    second: DeathKnight-Sheet_79
+      213: 3072991254421670259
+    second: DeathKnight_Foresight-Sheet_79
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -337,7 +337,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DeathKnight-Sheet_0
+      name: DeathKnight_Foresight-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -352,14 +352,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 04cba4021aa649f40800000000000000
-      internalID: 5734325465813531712
+      spriteID: 19fb40d1e6e34c910800000000000000
+      internalID: 1856677589037662097
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_1
+      name: DeathKnight_Foresight-Sheet_1
       rect:
         serializedVersion: 2
         x: 110
@@ -374,14 +374,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6a103f3faa7406c10800000000000000
-      internalID: 2044713030389006758
+      spriteID: b795022634c3b2e50800000000000000
+      internalID: 6785583523670546811
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_2
+      name: DeathKnight_Foresight-Sheet_2
       rect:
         serializedVersion: 2
         x: 220
@@ -396,14 +396,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9d061f31cdbf07dd0800000000000000
-      internalID: -2490213671289921319
+      spriteID: 4f3b7c407d66281a0800000000000000
+      internalID: -6808766612946570252
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_3
+      name: DeathKnight_Foresight-Sheet_3
       rect:
         serializedVersion: 2
         x: 330
@@ -418,14 +418,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9128c70daf2573cf0800000000000000
-      internalID: -272658015239503335
+      spriteID: b13db60dfeb706100800000000000000
+      internalID: 99215461726278427
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_4
+      name: DeathKnight_Foresight-Sheet_4
       rect:
         serializedVersion: 2
         x: 440
@@ -440,14 +440,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: af4c0ea50025886b0800000000000000
-      internalID: -5293891200495860486
+      spriteID: c48576804ce7a3690800000000000000
+      internalID: -7621640038951462836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_5
+      name: DeathKnight_Foresight-Sheet_5
       rect:
         serializedVersion: 2
         x: 550
@@ -462,14 +462,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dbaa07265c131c7a0800000000000000
-      internalID: -6358746475040560451
+      spriteID: b1fa9e91cc02908d0800000000000000
+      internalID: -2879734425746559205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_6
+      name: DeathKnight_Foresight-Sheet_6
       rect:
         serializedVersion: 2
         x: 660
@@ -484,14 +484,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0a3161bd9ea32500800000000000000
-      internalID: 370331586683550223
+      spriteID: 593b18508eb9fbd70800000000000000
+      internalID: 9061132396119831445
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_7
+      name: DeathKnight_Foresight-Sheet_7
       rect:
         serializedVersion: 2
         x: 770
@@ -506,14 +506,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06a8167349d482de0800000000000000
-      internalID: -1357749988672566688
+      spriteID: 314c46d0299df8ac0800000000000000
+      internalID: -3850619935065324525
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_8
+      name: DeathKnight_Foresight-Sheet_8
       rect:
         serializedVersion: 2
         x: 0
@@ -528,14 +528,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96151906b5f9bace0800000000000000
-      internalID: -1392844444930059927
+      spriteID: d8586d3b98eb5ac30800000000000000
+      internalID: 4370108512069911949
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_9
+      name: DeathKnight_Foresight-Sheet_9
       rect:
         serializedVersion: 2
         x: 110
@@ -550,14 +550,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 61d7992341579da50800000000000000
-      internalID: 6546392262968442134
+      spriteID: 4f47c5e857813e450800000000000000
+      internalID: 6116759612077929716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_10
+      name: DeathKnight_Foresight-Sheet_10
       rect:
         serializedVersion: 2
         x: 220
@@ -572,14 +572,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6b409ae7be49c4d50800000000000000
-      internalID: 6722912082920539318
+      spriteID: dbbc596f41c7bd0a0800000000000000
+      internalID: -6855749578263245891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_11
+      name: DeathKnight_Foresight-Sheet_11
       rect:
         serializedVersion: 2
         x: 330
@@ -594,14 +594,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a276cc50e65fe1950800000000000000
-      internalID: 6421839971569395498
+      spriteID: 32826f48e218c3f80800000000000000
+      internalID: -8125477590884014045
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_12
+      name: DeathKnight_Foresight-Sheet_12
       rect:
         serializedVersion: 2
         x: 440
@@ -616,14 +616,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 654fbce51eb72add0800000000000000
-      internalID: -2476280637212068778
+      spriteID: add0502d36aecc7b0800000000000000
+      internalID: -5202525755073557030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_13
+      name: DeathKnight_Foresight-Sheet_13
       rect:
         serializedVersion: 2
         x: 550
@@ -638,14 +638,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b1a605a66e59b8e0800000000000000
-      internalID: -1677205591270448716
+      spriteID: 7958898d96d95f130800000000000000
+      internalID: 3599956555083580823
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_14
+      name: DeathKnight_Foresight-Sheet_14
       rect:
         serializedVersion: 2
         x: 660
@@ -660,14 +660,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ace6bb90915afbb0800000000000000
-      internalID: -4901515562909766490
+      spriteID: 4655902857f440ba0800000000000000
+      internalID: -6123682227205614236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_15
+      name: DeathKnight_Foresight-Sheet_15
       rect:
         serializedVersion: 2
         x: 770
@@ -682,14 +682,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35eaf471026d7e140800000000000000
-      internalID: 4748999765403872851
+      spriteID: 0476a22f574ab1130800000000000000
+      internalID: 3538602758710650688
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_16
+      name: DeathKnight_Foresight-Sheet_16
       rect:
         serializedVersion: 2
         x: 0
@@ -704,14 +704,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e160af6704ffa930800000000000000
-      internalID: 4156809293860987367
+      spriteID: e389f07a644175970800000000000000
+      internalID: 8743479495246190654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_17
+      name: DeathKnight_Foresight-Sheet_17
       rect:
         serializedVersion: 2
         x: 110
@@ -726,14 +726,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d130045fe257a9a50800000000000000
-      internalID: 6528659454370513693
+      spriteID: e1924626e52d65a80800000000000000
+      internalID: -8478357945658889954
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_18
+      name: DeathKnight_Foresight-Sheet_18
       rect:
         serializedVersion: 2
         x: 220
@@ -748,14 +748,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c664faf79ae3807a0800000000000000
-      internalID: -6410805171849312660
+      spriteID: 6e1acb8ad89c62300800000000000000
+      internalID: 227090441487294950
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_19
+      name: DeathKnight_Foresight-Sheet_19
       rect:
         serializedVersion: 2
         x: 330
@@ -770,14 +770,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a7b7aab706227dbc0800000000000000
-      internalID: -3758497566230414470
+      spriteID: a5f14ebdb1ec5abe0800000000000000
+      internalID: -1466539484590629030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_20
+      name: DeathKnight_Foresight-Sheet_20
       rect:
         serializedVersion: 2
         x: 440
@@ -792,14 +792,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4d72494a4919898d0800000000000000
-      internalID: -2839359497454737452
+      spriteID: 529067e43bfb83b10800000000000000
+      internalID: 1961528414556260645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_21
+      name: DeathKnight_Foresight-Sheet_21
       rect:
         serializedVersion: 2
         x: 550
@@ -814,14 +814,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95bf054b880e42b50800000000000000
-      internalID: 6567621034358405977
+      spriteID: bf61cb310e385f230800000000000000
+      internalID: 3671986069617514235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_22
+      name: DeathKnight_Foresight-Sheet_22
       rect:
         serializedVersion: 2
         x: 660
@@ -836,14 +836,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8fe1790210fc7560800000000000000
-      internalID: 7312983855201382284
+      spriteID: cf0f77a5b257f6cb0800000000000000
+      internalID: -4868543843102363396
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_23
+      name: DeathKnight_Foresight-Sheet_23
       rect:
         serializedVersion: 2
         x: 770
@@ -858,14 +858,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ae1081ff21b1682b0800000000000000
-      internalID: -5582744919676026390
+      spriteID: 649c0d5fabf95d840800000000000000
+      internalID: 5248276566107015494
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_24
+      name: DeathKnight_Foresight-Sheet_24
       rect:
         serializedVersion: 2
         x: 0
@@ -880,14 +880,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f07c7d42b072726f0800000000000000
-      internalID: -709555487471319281
+      spriteID: aa3162e25f25c8820800000000000000
+      internalID: 2921801471251321770
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_25
+      name: DeathKnight_Foresight-Sheet_25
       rect:
         serializedVersion: 2
         x: 110
@@ -902,14 +902,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: df19708c328216560800000000000000
-      internalID: 7305164204716560893
+      spriteID: 2f6bf1f0662e9c4c0800000000000000
+      internalID: -4266630243988556046
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_26
+      name: DeathKnight_Foresight-Sheet_26
       rect:
         serializedVersion: 2
         x: 220
@@ -924,14 +924,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: adfdc4af69f98eed0800000000000000
-      internalID: -2384480531899424806
+      spriteID: c3bd0d3a229875280800000000000000
+      internalID: -9054617743934825668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_27
+      name: DeathKnight_Foresight-Sheet_27
       rect:
         serializedVersion: 2
         x: 330
@@ -946,14 +946,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06ed43e43e01e5e40800000000000000
-      internalID: 5646969551224888928
+      spriteID: 06aeb4cdf4fb6e5b0800000000000000
+      internalID: -5339369958481860000
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_28
+      name: DeathKnight_Foresight-Sheet_28
       rect:
         serializedVersion: 2
         x: 0
@@ -968,14 +968,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7028e9499fda25a90800000000000000
-      internalID: -7326602356326497785
+      spriteID: b3a712b7566d062d0800000000000000
+      internalID: -3287391996634629573
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_29
+      name: DeathKnight_Foresight-Sheet_29
       rect:
         serializedVersion: 2
         x: 110
@@ -990,14 +990,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a486ce21ef33e5fb0800000000000000
-      internalID: -4657227798322321334
+      spriteID: f8f61cb73bde4a6d0800000000000000
+      internalID: -2979995698281222257
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_30
+      name: DeathKnight_Foresight-Sheet_30
       rect:
         serializedVersion: 2
         x: 220
@@ -1012,14 +1012,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e71bd27ed58ac5e0800000000000000
-      internalID: -1888549903272306720
+      spriteID: e2253ab953f88dfb0800000000000000
+      internalID: -4622787557088603602
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_31
+      name: DeathKnight_Foresight-Sheet_31
       rect:
         serializedVersion: 2
         x: 330
@@ -1034,14 +1034,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 37f60ce4355e3ec70800000000000000
-      internalID: 8999288626382663539
+      spriteID: 5d99cfe0cc9156120800000000000000
+      internalID: 2406357940114856405
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_32
+      name: DeathKnight_Foresight-Sheet_32
       rect:
         serializedVersion: 2
         x: 0
@@ -1056,14 +1056,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a07da1b6ed35cbac0800000000000000
-      internalID: -3838100567681738998
+      spriteID: 972ba861c3309a4d0800000000000000
+      internalID: -3122961309993618823
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_33
+      name: DeathKnight_Foresight-Sheet_33
       rect:
         serializedVersion: 2
         x: 110
@@ -1078,14 +1078,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e3c9160cf89499c0800000000000000
-      internalID: -3921341167331327008
+      spriteID: c4169411ee9a97640800000000000000
+      internalID: 5078276894794277196
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_34
+      name: DeathKnight_Foresight-Sheet_34
       rect:
         serializedVersion: 2
         x: 220
@@ -1100,14 +1100,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f346c770061664390800000000000000
-      internalID: -7834467436694051777
+      spriteID: ad11313ab92b0dd90800000000000000
+      internalID: -7074958633073438246
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_35
+      name: DeathKnight_Foresight-Sheet_35
       rect:
         serializedVersion: 2
         x: 330
@@ -1122,14 +1122,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 135c277394c28e260800000000000000
-      internalID: 7126995103288313137
+      spriteID: de898e71bceba01f0800000000000000
+      internalID: -1077839381313054483
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_36
+      name: DeathKnight_Foresight-Sheet_36
       rect:
         serializedVersion: 2
         x: 440
@@ -1144,14 +1144,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7f315e7f30be9c000800000000000000
-      internalID: 56834872595256311
+      spriteID: e5db16c02c1bc3ee0800000000000000
+      internalID: -1279952747090559650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_37
+      name: DeathKnight_Foresight-Sheet_37
       rect:
         serializedVersion: 2
         x: 550
@@ -1166,14 +1166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8953e8cd3a5698eb0800000000000000
-      internalID: -4717127380239501928
+      spriteID: 8048246061aa514c0800000000000000
+      internalID: -4317357656193727480
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_38
+      name: DeathKnight_Foresight-Sheet_38
       rect:
         serializedVersion: 2
         x: 660
@@ -1188,14 +1188,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 25dcf708fb9cd53d0800000000000000
-      internalID: -3216192734540870318
+      spriteID: f586b60361b0cdab0800000000000000
+      internalID: -4982094897849079713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_39
+      name: DeathKnight_Foresight-Sheet_39
       rect:
         serializedVersion: 2
         x: 770
@@ -1210,14 +1210,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b7ed2b62cbc8edab0800000000000000
-      internalID: -4981389398094193029
+      spriteID: 74e5854cc39fb7790800000000000000
+      internalID: -7531151912459542969
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_40
+      name: DeathKnight_Foresight-Sheet_40
       rect:
         serializedVersion: 2
         x: 880
@@ -1232,14 +1232,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 56f72b9342224d670800000000000000
-      internalID: 8562506330520321893
+      spriteID: 28722d26bd3bbb2b0800000000000000
+      internalID: -5567658759476336766
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_41
+      name: DeathKnight_Foresight-Sheet_41
       rect:
         serializedVersion: 2
         x: 990
@@ -1254,14 +1254,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4c21207165f170fe0800000000000000
-      internalID: -1222974319194139964
+      spriteID: 8e43f948bdaeadec0800000000000000
+      internalID: -3541259928429710104
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_42
+      name: DeathKnight_Foresight-Sheet_42
       rect:
         serializedVersion: 2
         x: 1100
@@ -1276,14 +1276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3eb3a2262dc6f1ed0800000000000000
-      internalID: -2441112822165652509
+      spriteID: 01aa0e42b7457b2b0800000000000000
+      internalID: -5568889526343914992
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_43
+      name: DeathKnight_Foresight-Sheet_43
       rect:
         serializedVersion: 2
         x: 0
@@ -1298,14 +1298,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1694f3266966026a0800000000000000
-      internalID: -6476063468079330975
+      spriteID: 9d14c51493aa059d0800000000000000
+      internalID: -2787541006455914023
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_44
+      name: DeathKnight_Foresight-Sheet_44
       rect:
         serializedVersion: 2
         x: 110
@@ -1320,14 +1320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 33a4fcb07ceb4a3f0800000000000000
-      internalID: -890377064206611917
+      spriteID: 0785fd1778c2e5850800000000000000
+      internalID: 6367575883391129712
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_45
+      name: DeathKnight_Foresight-Sheet_45
       rect:
         serializedVersion: 2
         x: 220
@@ -1342,14 +1342,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db264082051b6ce10800000000000000
-      internalID: 2217654824353424061
+      spriteID: 93ed557db70407280800000000000000
+      internalID: -9047660750749442503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_46
+      name: DeathKnight_Foresight-Sheet_46
       rect:
         serializedVersion: 2
         x: 330
@@ -1364,14 +1364,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be776d00dc990db30800000000000000
-      internalID: 4310113949154965483
+      spriteID: 5e0abc25f8d0f5510800000000000000
+      internalID: 1539964506804560101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_47
+      name: DeathKnight_Foresight-Sheet_47
       rect:
         serializedVersion: 2
         x: 440
@@ -1386,14 +1386,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0720269f175f4b570800000000000000
-      internalID: 8481673868109546096
+      spriteID: 4347997a7d2159f10800000000000000
+      internalID: 2275745904144774196
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_48
+      name: DeathKnight_Foresight-Sheet_48
       rect:
         serializedVersion: 2
         x: 550
@@ -1408,14 +1408,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 65c9a1cd927381b10800000000000000
-      internalID: 1952371091391028310
+      spriteID: 89e283fdbe5222360800000000000000
+      internalID: 7143313653955571352
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_49
+      name: DeathKnight_Foresight-Sheet_49
       rect:
         serializedVersion: 2
         x: 660
@@ -1430,14 +1430,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e3e27388ce9b2360800000000000000
-      internalID: 7145979817789416419
+      spriteID: 953c421d4ba14ea10800000000000000
+      internalID: 1937703103581438809
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_50
+      name: DeathKnight_Foresight-Sheet_50
       rect:
         serializedVersion: 2
         x: 770
@@ -1452,14 +1452,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b3a62160d8bdfb1b0800000000000000
-      internalID: -5638546809705829829
+      spriteID: 549d21598153540f0800000000000000
+      internalID: -1133441351517284027
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_51
+      name: DeathKnight_Foresight-Sheet_51
       rect:
         serializedVersion: 2
         x: 880
@@ -1474,14 +1474,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c647871cd55852580800000000000000
-      internalID: -8852522854802492308
+      spriteID: 3cf4ecd886ba2ebf0800000000000000
+      internalID: -296486159908974653
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_52
+      name: DeathKnight_Foresight-Sheet_52
       rect:
         serializedVersion: 2
         x: 990
@@ -1496,14 +1496,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54b4e6e5ba81db850800000000000000
-      internalID: 6394294170238733125
+      spriteID: a67532c82cd89eaf0800000000000000
+      internalID: -366606027939686550
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_53
+      name: DeathKnight_Foresight-Sheet_53
       rect:
         serializedVersion: 2
         x: 1100
@@ -1518,14 +1518,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8d1ea59abfa49fc30800000000000000
-      internalID: 4393625356215181784
+      spriteID: 8abaf97aeb197fab0800000000000000
+      internalID: -4974347015365350488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_54
+      name: DeathKnight_Foresight-Sheet_54
       rect:
         serializedVersion: 2
         x: 0
@@ -1540,14 +1540,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9b1dd917e3569e6c0800000000000000
-      internalID: -4113645465757691463
+      spriteID: 7ffa2af810aacc860800000000000000
+      internalID: 7551597598874972151
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_55
+      name: DeathKnight_Foresight-Sheet_55
       rect:
         serializedVersion: 2
         x: 110
@@ -1562,14 +1562,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 205322e0dc70b4740800000000000000
-      internalID: 5137208377232995586
+      spriteID: 1d5fba3fee2099730800000000000000
+      internalID: 4006236568836371921
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_56
+      name: DeathKnight_Foresight-Sheet_56
       rect:
         serializedVersion: 2
         x: 220
@@ -1584,14 +1584,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5f2a13477489cdf80800000000000000
-      internalID: -8080416198750002443
+      spriteID: 3727bde62610e1c20800000000000000
+      internalID: 3178979909248447091
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_57
+      name: DeathKnight_Foresight-Sheet_57
       rect:
         serializedVersion: 2
         x: 330
@@ -1606,14 +1606,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ae694998dcbe3120800000000000000
-      internalID: 2395559690278366886
+      spriteID: 3ea2c1d87808f7310800000000000000
+      internalID: 1404982928439257827
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_58
+      name: DeathKnight_Foresight-Sheet_58
       rect:
         serializedVersion: 2
         x: 440
@@ -1628,14 +1628,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cb6d4da89b0987840800000000000000
-      internalID: 5222082894508644028
+      spriteID: b0dc5b5ef5c0eb620800000000000000
+      internalID: 2791682425031609611
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_59
+      name: DeathKnight_Foresight-Sheet_59
       rect:
         serializedVersion: 2
         x: 550
@@ -1650,14 +1650,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f1ce63099cf99c800800000000000000
-      internalID: 633212910679026719
+      spriteID: cf54b80bf74eb53a0800000000000000
+      internalID: -6675490785572731396
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_60
+      name: DeathKnight_Foresight-Sheet_60
       rect:
         serializedVersion: 2
         x: 660
@@ -1672,14 +1672,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7229ab81ca9083200800000000000000
-      internalID: 159888421525557799
+      spriteID: 1e7389f74b1f08b60800000000000000
+      internalID: 7746457116614342625
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_61
+      name: DeathKnight_Foresight-Sheet_61
       rect:
         serializedVersion: 2
         x: 0
@@ -1694,14 +1694,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c6b53a19df1002c0800000000000000
-      internalID: -4467535813043439935
+      spriteID: 5bd21f79295d1dfa0800000000000000
+      internalID: -5777602021348528715
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_62
+      name: DeathKnight_Foresight-Sheet_62
       rect:
         serializedVersion: 2
         x: 110
@@ -1716,14 +1716,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b3d366dd526f255b0800000000000000
-      internalID: -5380967962265633477
+      spriteID: 7f78ba0ee5f4c8c30800000000000000
+      internalID: 4362949407930025975
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_63
+      name: DeathKnight_Foresight-Sheet_63
       rect:
         serializedVersion: 2
         x: 220
@@ -1738,14 +1738,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c453a63b797801ed0800000000000000
-      internalID: -2445305512042285748
+      spriteID: de1fa673074b9dd00800000000000000
+      internalID: 998027186498367981
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_64
+      name: DeathKnight_Foresight-Sheet_64
       rect:
         serializedVersion: 2
         x: 330
@@ -1760,14 +1760,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a2da8f7d0af5f11f0800000000000000
-      internalID: -1072033041868083926
+      spriteID: 22ec67221f002fdb0800000000000000
+      internalID: -4759740820511863262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_65
+      name: DeathKnight_Foresight-Sheet_65
       rect:
         serializedVersion: 2
         x: 440
@@ -1782,14 +1782,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2e51594da6ccf34d0800000000000000
-      internalID: -3152576454930917918
+      spriteID: d46efbd9d4934e030800000000000000
+      internalID: 3523003814032434765
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_66
+      name: DeathKnight_Foresight-Sheet_66
       rect:
         serializedVersion: 2
         x: 550
@@ -1804,14 +1804,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ace9ca51743ca6730800000000000000
-      internalID: 3993218729691094730
+      spriteID: 6fa64c0f12fb6dc60800000000000000
+      internalID: 7842665953606527734
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_67
+      name: DeathKnight_Foresight-Sheet_67
       rect:
         serializedVersion: 2
         x: 660
@@ -1826,14 +1826,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 89bf9539b5f398240800000000000000
-      internalID: 4794432940859325336
+      spriteID: e2e7154fe1c3c52c0800000000000000
+      internalID: -4441609028848484818
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_68
+      name: DeathKnight_Foresight-Sheet_68
       rect:
         serializedVersion: 2
         x: 770
@@ -1848,14 +1848,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 99d8891ffbb2bf3a0800000000000000
-      internalID: -6630657922980868711
+      spriteID: f55ea5d1d24819330800000000000000
+      internalID: 3715896496858260831
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_69
+      name: DeathKnight_Foresight-Sheet_69
       rect:
         serializedVersion: 2
         x: 880
@@ -1870,14 +1870,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 16907e334be293d30800000000000000
-      internalID: 4411608661485881697
+      spriteID: 157233b006ed82270800000000000000
+      internalID: 8226069223478339409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_70
+      name: DeathKnight_Foresight-Sheet_70
       rect:
         serializedVersion: 2
         x: 990
@@ -1892,14 +1892,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: efe6c5760fcf29550800000000000000
-      internalID: 6166268949280091902
+      spriteID: 788ee4e48b99e4280800000000000000
+      internalID: -9057132783728662393
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_71
+      name: DeathKnight_Foresight-Sheet_71
       rect:
         serializedVersion: 2
         x: 0
@@ -1914,14 +1914,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e7fb4c297838c6aa0800000000000000
-      internalID: -6166409171470860418
+      spriteID: d446ee1b39dda60b0800000000000000
+      internalID: -5734527549087783859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_72
+      name: DeathKnight_Foresight-Sheet_72
       rect:
         serializedVersion: 2
         x: 110
@@ -1936,14 +1936,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b19904d3447273890800000000000000
-      internalID: -7478465482186516197
+      spriteID: 607503c23f64d9290800000000000000
+      internalID: -7882065762596137210
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_73
+      name: DeathKnight_Foresight-Sheet_73
       rect:
         serializedVersion: 2
         x: 220
@@ -1958,14 +1958,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5a65a459a9d1dbaa0800000000000000
-      internalID: -6143721766896642395
+      spriteID: 011c157d68e740f80800000000000000
+      internalID: -8141243108775837424
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_74
+      name: DeathKnight_Foresight-Sheet_74
       rect:
         serializedVersion: 2
         x: 0
@@ -1980,14 +1980,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2d8e29158770569e0800000000000000
-      internalID: -1628887476878513966
+      spriteID: 42d02a8966af88a10800000000000000
+      internalID: 1912053360373140772
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_75
+      name: DeathKnight_Foresight-Sheet_75
       rect:
         serializedVersion: 2
         x: 110
@@ -2002,14 +2002,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 36828666b8ef04c30800000000000000
-      internalID: 4341749915457169507
+      spriteID: 528f75e7fe09d4df0800000000000000
+      internalID: -194339850615785435
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_76
+      name: DeathKnight_Foresight-Sheet_76
       rect:
         serializedVersion: 2
         x: 220
@@ -2024,14 +2024,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 49838ef491a3e94b0800000000000000
-      internalID: -5431840220173027180
+      spriteID: 00fde07e06572a5e0800000000000000
+      internalID: -1899827033743106304
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_77
+      name: DeathKnight_Foresight-Sheet_77
       rect:
         serializedVersion: 2
         x: 0
@@ -2046,14 +2046,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ca7adb1f46c01130800000000000000
-      internalID: 3535543750557858500
+      spriteID: d7280c98ae9183830800000000000000
+      internalID: 4051016359943897725
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_78
+      name: DeathKnight_Foresight-Sheet_78
       rect:
         serializedVersion: 2
         x: 110
@@ -2068,14 +2068,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ac68bb61f00a01990800000000000000
-      internalID: -7417252599612864822
+      spriteID: e76978c2927116f20800000000000000
+      internalID: 3414035458131727998
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DeathKnight-Sheet_79
+      name: DeathKnight_Foresight-Sheet_79
       rect:
         serializedVersion: 2
         x: 220
@@ -2090,8 +2090,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c7c61eb077b196df0800000000000000
-      internalID: -186587711444784004
+      spriteID: 3798fa5b34575aa20800000000000000
+      internalID: 3072991254421670259
       vertices: []
       indices: 
       edges: []
@@ -2100,7 +2100,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8cd2109286b18904a87e7730354aa364
+    spriteID: a3b8eb2e58c16734490298e567c39185
     internalID: 0
     vertices: []
     indices: 
@@ -2112,86 +2112,86 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":14.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      DeathKnight-Sheet_0: 5734325465813531712
-      DeathKnight-Sheet_1: 2044713030389006758
-      DeathKnight-Sheet_10: 6722912082920539318
-      DeathKnight-Sheet_11: 6421839971569395498
-      DeathKnight-Sheet_12: -2476280637212068778
-      DeathKnight-Sheet_13: -1677205591270448716
-      DeathKnight-Sheet_14: -4901515562909766490
-      DeathKnight-Sheet_15: 4748999765403872851
-      DeathKnight-Sheet_16: 4156809293860987367
-      DeathKnight-Sheet_17: 6528659454370513693
-      DeathKnight-Sheet_18: -6410805171849312660
-      DeathKnight-Sheet_19: -3758497566230414470
-      DeathKnight-Sheet_2: -2490213671289921319
-      DeathKnight-Sheet_20: -2839359497454737452
-      DeathKnight-Sheet_21: 6567621034358405977
-      DeathKnight-Sheet_22: 7312983855201382284
-      DeathKnight-Sheet_23: -5582744919676026390
-      DeathKnight-Sheet_24: -709555487471319281
-      DeathKnight-Sheet_25: 7305164204716560893
-      DeathKnight-Sheet_26: -2384480531899424806
-      DeathKnight-Sheet_27: 5646969551224888928
-      DeathKnight-Sheet_28: -7326602356326497785
-      DeathKnight-Sheet_29: -4657227798322321334
-      DeathKnight-Sheet_3: -272658015239503335
-      DeathKnight-Sheet_30: -1888549903272306720
-      DeathKnight-Sheet_31: 8999288626382663539
-      DeathKnight-Sheet_32: -3838100567681738998
-      DeathKnight-Sheet_33: -3921341167331327008
-      DeathKnight-Sheet_34: -7834467436694051777
-      DeathKnight-Sheet_35: 7126995103288313137
-      DeathKnight-Sheet_36: 56834872595256311
-      DeathKnight-Sheet_37: -4717127380239501928
-      DeathKnight-Sheet_38: -3216192734540870318
-      DeathKnight-Sheet_39: -4981389398094193029
-      DeathKnight-Sheet_4: -5293891200495860486
-      DeathKnight-Sheet_40: 8562506330520321893
-      DeathKnight-Sheet_41: -1222974319194139964
-      DeathKnight-Sheet_42: -2441112822165652509
-      DeathKnight-Sheet_43: -6476063468079330975
-      DeathKnight-Sheet_44: -890377064206611917
-      DeathKnight-Sheet_45: 2217654824353424061
-      DeathKnight-Sheet_46: 4310113949154965483
-      DeathKnight-Sheet_47: 8481673868109546096
-      DeathKnight-Sheet_48: 1952371091391028310
-      DeathKnight-Sheet_49: 7145979817789416419
-      DeathKnight-Sheet_5: -6358746475040560451
-      DeathKnight-Sheet_50: -5638546809705829829
-      DeathKnight-Sheet_51: -8852522854802492308
-      DeathKnight-Sheet_52: 6394294170238733125
-      DeathKnight-Sheet_53: 4393625356215181784
-      DeathKnight-Sheet_54: -4113645465757691463
-      DeathKnight-Sheet_55: 5137208377232995586
-      DeathKnight-Sheet_56: -8080416198750002443
-      DeathKnight-Sheet_57: 2395559690278366886
-      DeathKnight-Sheet_58: 5222082894508644028
-      DeathKnight-Sheet_59: 633212910679026719
-      DeathKnight-Sheet_6: 370331586683550223
-      DeathKnight-Sheet_60: 159888421525557799
-      DeathKnight-Sheet_61: -4467535813043439935
-      DeathKnight-Sheet_62: -5380967962265633477
-      DeathKnight-Sheet_63: -2445305512042285748
-      DeathKnight-Sheet_64: -1072033041868083926
-      DeathKnight-Sheet_65: -3152576454930917918
-      DeathKnight-Sheet_66: 3993218729691094730
-      DeathKnight-Sheet_67: 4794432940859325336
-      DeathKnight-Sheet_68: -6630657922980868711
-      DeathKnight-Sheet_69: 4411608661485881697
-      DeathKnight-Sheet_7: -1357749988672566688
-      DeathKnight-Sheet_70: 6166268949280091902
-      DeathKnight-Sheet_71: -6166409171470860418
-      DeathKnight-Sheet_72: -7478465482186516197
-      DeathKnight-Sheet_73: -6143721766896642395
-      DeathKnight-Sheet_74: -1628887476878513966
-      DeathKnight-Sheet_75: 4341749915457169507
-      DeathKnight-Sheet_76: -5431840220173027180
-      DeathKnight-Sheet_77: 3535543750557858500
-      DeathKnight-Sheet_78: -7417252599612864822
-      DeathKnight-Sheet_79: -186587711444784004
-      DeathKnight-Sheet_8: -1392844444930059927
-      DeathKnight-Sheet_9: 6546392262968442134
+      DeathKnight_Foresight-Sheet_0: 1856677589037662097
+      DeathKnight_Foresight-Sheet_1: 6785583523670546811
+      DeathKnight_Foresight-Sheet_10: -6855749578263245891
+      DeathKnight_Foresight-Sheet_11: -8125477590884014045
+      DeathKnight_Foresight-Sheet_12: -5202525755073557030
+      DeathKnight_Foresight-Sheet_13: 3599956555083580823
+      DeathKnight_Foresight-Sheet_14: -6123682227205614236
+      DeathKnight_Foresight-Sheet_15: 3538602758710650688
+      DeathKnight_Foresight-Sheet_16: 8743479495246190654
+      DeathKnight_Foresight-Sheet_17: -8478357945658889954
+      DeathKnight_Foresight-Sheet_18: 227090441487294950
+      DeathKnight_Foresight-Sheet_19: -1466539484590629030
+      DeathKnight_Foresight-Sheet_2: -6808766612946570252
+      DeathKnight_Foresight-Sheet_20: 1961528414556260645
+      DeathKnight_Foresight-Sheet_21: 3671986069617514235
+      DeathKnight_Foresight-Sheet_22: -4868543843102363396
+      DeathKnight_Foresight-Sheet_23: 5248276566107015494
+      DeathKnight_Foresight-Sheet_24: 2921801471251321770
+      DeathKnight_Foresight-Sheet_25: -4266630243988556046
+      DeathKnight_Foresight-Sheet_26: -9054617743934825668
+      DeathKnight_Foresight-Sheet_27: -5339369958481860000
+      DeathKnight_Foresight-Sheet_28: -3287391996634629573
+      DeathKnight_Foresight-Sheet_29: -2979995698281222257
+      DeathKnight_Foresight-Sheet_3: 99215461726278427
+      DeathKnight_Foresight-Sheet_30: -4622787557088603602
+      DeathKnight_Foresight-Sheet_31: 2406357940114856405
+      DeathKnight_Foresight-Sheet_32: -3122961309993618823
+      DeathKnight_Foresight-Sheet_33: 5078276894794277196
+      DeathKnight_Foresight-Sheet_34: -7074958633073438246
+      DeathKnight_Foresight-Sheet_35: -1077839381313054483
+      DeathKnight_Foresight-Sheet_36: -1279952747090559650
+      DeathKnight_Foresight-Sheet_37: -4317357656193727480
+      DeathKnight_Foresight-Sheet_38: -4982094897849079713
+      DeathKnight_Foresight-Sheet_39: -7531151912459542969
+      DeathKnight_Foresight-Sheet_4: -7621640038951462836
+      DeathKnight_Foresight-Sheet_40: -5567658759476336766
+      DeathKnight_Foresight-Sheet_41: -3541259928429710104
+      DeathKnight_Foresight-Sheet_42: -5568889526343914992
+      DeathKnight_Foresight-Sheet_43: -2787541006455914023
+      DeathKnight_Foresight-Sheet_44: 6367575883391129712
+      DeathKnight_Foresight-Sheet_45: -9047660750749442503
+      DeathKnight_Foresight-Sheet_46: 1539964506804560101
+      DeathKnight_Foresight-Sheet_47: 2275745904144774196
+      DeathKnight_Foresight-Sheet_48: 7143313653955571352
+      DeathKnight_Foresight-Sheet_49: 1937703103581438809
+      DeathKnight_Foresight-Sheet_5: -2879734425746559205
+      DeathKnight_Foresight-Sheet_50: -1133441351517284027
+      DeathKnight_Foresight-Sheet_51: -296486159908974653
+      DeathKnight_Foresight-Sheet_52: -366606027939686550
+      DeathKnight_Foresight-Sheet_53: -4974347015365350488
+      DeathKnight_Foresight-Sheet_54: 7551597598874972151
+      DeathKnight_Foresight-Sheet_55: 4006236568836371921
+      DeathKnight_Foresight-Sheet_56: 3178979909248447091
+      DeathKnight_Foresight-Sheet_57: 1404982928439257827
+      DeathKnight_Foresight-Sheet_58: 2791682425031609611
+      DeathKnight_Foresight-Sheet_59: -6675490785572731396
+      DeathKnight_Foresight-Sheet_6: 9061132396119831445
+      DeathKnight_Foresight-Sheet_60: 7746457116614342625
+      DeathKnight_Foresight-Sheet_61: -5777602021348528715
+      DeathKnight_Foresight-Sheet_62: 4362949407930025975
+      DeathKnight_Foresight-Sheet_63: 998027186498367981
+      DeathKnight_Foresight-Sheet_64: -4759740820511863262
+      DeathKnight_Foresight-Sheet_65: 3523003814032434765
+      DeathKnight_Foresight-Sheet_66: 7842665953606527734
+      DeathKnight_Foresight-Sheet_67: -4441609028848484818
+      DeathKnight_Foresight-Sheet_68: 3715896496858260831
+      DeathKnight_Foresight-Sheet_69: 8226069223478339409
+      DeathKnight_Foresight-Sheet_7: -3850619935065324525
+      DeathKnight_Foresight-Sheet_70: -9057132783728662393
+      DeathKnight_Foresight-Sheet_71: -5734527549087783859
+      DeathKnight_Foresight-Sheet_72: -7882065762596137210
+      DeathKnight_Foresight-Sheet_73: -8141243108775837424
+      DeathKnight_Foresight-Sheet_74: 1912053360373140772
+      DeathKnight_Foresight-Sheet_75: -194339850615785435
+      DeathKnight_Foresight-Sheet_76: -1899827033743106304
+      DeathKnight_Foresight-Sheet_77: 4051016359943897725
+      DeathKnight_Foresight-Sheet_78: 3414035458131727998
+      DeathKnight_Foresight-Sheet_79: 3072991254421670259
+      DeathKnight_Foresight-Sheet_8: 4370108512069911949
+      DeathKnight_Foresight-Sheet_9: 6116759612077929716
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
