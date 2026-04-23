@@ -19,6 +19,10 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
     [Header("References")]
     [SerializeField] private Collider2D platformCollider;
 
+    [Header("Difficulty rules")]
+    [Tooltip("If enabled, this platform will still fall even on VeryEasy/Easy (it ignores the tier-based no-falling rule).")]
+    [SerializeField] private bool ignoreTierNoFallingLock = false;
+
     // State Variables
     private Rigidbody2D _rb;
     private int _targetIndex = 0;
@@ -88,6 +92,7 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
             return true;
         if (DynamicDifficultyManager.Instance == null) return false;
         if (DynamicDifficultyManager.Instance.TutorialSafetyActive) return true;
+        if (ignoreTierNoFallingLock) return false;
         return DynamicDifficultyManager.Instance.LockFallingPlatformsForCurrentTier;
     }
 

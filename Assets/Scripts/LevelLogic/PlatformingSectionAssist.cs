@@ -18,7 +18,7 @@ public class PlatformingSectionAssist : MonoBehaviour
 
     [SerializeField] private FallingPlatform[] fallingPlatforms;
     [SerializeField] private MovingFallingPlatform[] movingFallingPlatforms;
-    [SerializeField] private SpikeDamage[] spikes;
+    [SerializeField] private TrapDamage[] spikes;
 
     private Collider2D _bounds;
     private bool _playerInside;
@@ -34,7 +34,7 @@ public class PlatformingSectionAssist : MonoBehaviour
 
         if (fallingPlatforms == null) fallingPlatforms = System.Array.Empty<FallingPlatform>();
         if (movingFallingPlatforms == null) movingFallingPlatforms = System.Array.Empty<MovingFallingPlatform>();
-        if (spikes == null) spikes = System.Array.Empty<SpikeDamage>();
+        if (spikes == null) spikes = System.Array.Empty<TrapDamage>();
     }
 
     private void Update()
@@ -80,8 +80,8 @@ public class PlatformingSectionAssist : MonoBehaviour
         foreach (var p in movingFallingPlatforms)
         {
             if (p == null) continue;
-            p.CancelFallForAssist();
-            p.SetSectionAssistLocked(true);
+            // Intentionally NOT locked by section assist.
+            // "Runway" style moving/falling platforms should still fall normally even after the assist timer.
         }
 
         foreach (var s in spikes)

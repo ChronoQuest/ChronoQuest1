@@ -10,6 +10,10 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     [SerializeField] private float shakeAmount = 0.05f;
     [SerializeField] private float respawnTime = 3.0f; 
 
+    [Header("Difficulty rules")]
+    [Tooltip("If enabled, this platform will still fall even on VeryEasy/Easy (it ignores the tier-based no-falling rule).")]
+    [SerializeField] private bool ignoreTierNoFallingLock = false;
+
     [Header("References")]
     [Tooltip("Assign the Tilemap Collider or Box Collider here")]
     [SerializeField] private Collider2D platformCollider;
@@ -71,6 +75,7 @@ public class FallingPlatform : MonoBehaviour, IRewindable
             return true;
         if (DynamicDifficultyManager.Instance == null) return false;
         if (DynamicDifficultyManager.Instance.TutorialSafetyActive) return true;
+        if (ignoreTierNoFallingLock) return false;
         return DynamicDifficultyManager.Instance.LockFallingPlatformsForCurrentTier;
     }
 
