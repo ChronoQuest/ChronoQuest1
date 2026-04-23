@@ -98,6 +98,19 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private float pauseBetweenLines = 1.2f;
     [SerializeField] private float pauseAfterLastLine = 0.8f;
 
+    [Header("Phase 2 Final Line Emphasis")]
+    [Tooltip("Characters-per-second used only for the last line of phase 2. Lower = " +
+             "slower delivery for extra weight on the killing-blow beat.")]
+    [SerializeField] private float lastLineCharactersPerSecond = 12f;
+
+    [Tooltip("Per-character shake radius (in text local units) applied to every " +
+             "visible glyph on the final phase 2 line.")]
+    [SerializeField] private float lastLineShakeAmount = 1.5f;
+
+    [Tooltip("Shake radius applied to characters wrapped in <link=heavy> on the " +
+             "final phase 2 line. Use this to emphasise the scariest word.")]
+    [SerializeField] private float lastLineHeavyShakeAmount = 4f;
+
     [Header("Phase 2 Trigger")]
     [Tooltip("Seconds of fight time after BeginFight before the boss-driven " +
              "rewind triggers phase 2.")]
@@ -141,6 +154,10 @@ public class BossFightController : MonoBehaviour
     {
         if (dialogueContainer != null) dialogueContainer.SetActive(false);
 
+        // Force middle-center alignment so multi-line lines stay centered inside
+        // the dialogue box instead of pushing the block up from a top-aligned anchor.
+        if (dialogueText != null) dialogueText.alignment = TextAlignmentOptions.Center;
+
         // Make sure our own collider is a trigger — otherwise OnTriggerEnter2D never fires.
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
@@ -177,7 +194,7 @@ public class BossFightController : MonoBehaviour
         // player's idle animation keeps playing.
         LockPlayer();
 
-        yield return StartCoroutine(PlayDialogue(phase1Lines));
+        yield return StartCoroutine(PlayDialogue(phase1Lines, false));
 
         UnlockPlayer();
         if (boss != null) boss.BeginFight(Boss.FightStage.Phase1);
@@ -243,7 +260,7 @@ public class BossFightController : MonoBehaviour
         ClearBossAttacks();
         RefillPlayerMana();
 
-        yield return StartCoroutine(PlayDialogue(phase2Lines));
+        yield return StartCoroutine(PlayDialogue(phase2Lines, true));
 
         UnlockPlayer();
         if (boss != null)
@@ -462,7 +479,9 @@ public class BossFightController : MonoBehaviour
 
     // Mirrors the typewriter flow in IntroCutscene.PlayIntroDialogue, but uses
     // unscaled time so it keeps running while Time.timeScale is 0.
-    private IEnumerator PlayDialogue(string[] lines)
+    // emphasizeLastLine: slows the typewriter + starts a per-glyph shake on the
+    // final line — used for phase 2's "Prepare to DIE" beat.
+    private IEnumerator PlayDialogue(string[] lines, bool emphasizeLastLine)
     {
         if (dialogueText == null || lines == null || lines.Length == 0) yield break;
 
@@ -475,11 +494,16 @@ public class BossFightController : MonoBehaviour
 
         yield return null;
 
-        float cps = Mathf.Max(1f, charactersPerSecond);
-        float timePerChar = 1f / cps;
+        float baseCps = Mathf.Max(1f, charactersPerSecond);
+        float slowCps = Mathf.Max(1f, lastLineCharactersPerSecond);
+        Coroutine shakeRoutine = null;
 
-        foreach (string line in lines)
+        for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
         {
+            string line = lines[lineIndex];
+            bool emphasise = emphasizeLastLine && lineIndex == lines.Length - 1;
+            float timePerChar = 1f / (emphasise ? slowCps : baseCps);
+
             if (string.IsNullOrEmpty(line))
             {
                 dialogueText.text = "";
@@ -498,7 +522,15 @@ public class BossFightController : MonoBehaviour
             dialogueText.maxVisibleCharacters = 0;
             yield return null;
 
-            for (int i = 1; i <= line.Length; i++)
+            // Rich-text tags (colour, link) inflate line.Length but don't count
+            // toward visible glyphs — drive the typewriter off textInfo so tags
+            // don't cause phantom pauses while the boss "types" invisible markup.
+            dialogueText.ForceMeshUpdate();
+            int glyphCount = dialogueText.textInfo.characterCount;
+
+            if (emphasise) shakeRoutine = StartCoroutine(ShakeDialogueText());
+
+            for (int i = 1; i <= glyphCount; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
                 yield return new WaitForSecondsRealtime(timePerChar);
@@ -509,9 +541,94 @@ public class BossFightController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(pauseAfterLastLine);
 
+        if (shakeRoutine != null)
+        {
+            StopCoroutine(shakeRoutine);
+            shakeRoutine = null;
+        }
+
         if (dialogueContainer != null) dialogueContainer.SetActive(false);
         dialogueText.text = "";
         dialogueText.maxVisibleCharacters = int.MaxValue;
         dialogueText.enableAutoSizing = true;
+    }
+
+    // Per-glyph jitter driven off the TMP character vertex buffer. Characters inside
+    // a <link=heavy> tag get a larger radius so a single word (e.g. "DIE") shakes
+    // more violently than the rest of the line. Runs every frame until stopped;
+    // PlayDialogue cancels it after the final pause.
+    private IEnumerator ShakeDialogueText()
+    {
+        if (dialogueText == null) yield break;
+
+        Vector3[][] baseline = null;
+
+        while (true)
+        {
+            // Rebuild each frame so the freshly-layed-out verts (post typewriter
+            // increment) are our shake origin — otherwise we'd accumulate offsets.
+            dialogueText.ForceMeshUpdate();
+            TMPro.TMP_TextInfo info = dialogueText.textInfo;
+            int meshCount = info.meshInfo.Length;
+
+            if (baseline == null || baseline.Length != meshCount)
+                baseline = new Vector3[meshCount][];
+
+            for (int m = 0; m < meshCount; m++)
+            {
+                Vector3[] src = info.meshInfo[m].vertices;
+                if (baseline[m] == null || baseline[m].Length != src.Length)
+                    baseline[m] = new Vector3[src.Length];
+                System.Array.Copy(src, baseline[m], src.Length);
+            }
+
+            // Find the "heavy" link range if present — those glyphs get the larger
+            // shake radius. Missing link just means the whole line shakes uniformly.
+            int heavyStart = -1;
+            int heavyEnd = -1;
+            for (int l = 0; l < info.linkCount; l++)
+            {
+                TMPro.TMP_LinkInfo link = info.linkInfo[l];
+                if (link.GetLinkID() == "heavy")
+                {
+                    heavyStart = link.linkTextfirstCharacterIndex;
+                    heavyEnd = heavyStart + link.linkTextLength;
+                    break;
+                }
+            }
+
+            int visible = Mathf.Min(dialogueText.maxVisibleCharacters, info.characterCount);
+            for (int c = 0; c < visible; c++)
+            {
+                TMPro.TMP_CharacterInfo ci = info.characterInfo[c];
+                if (!ci.isVisible) continue;
+
+                int m = ci.materialReferenceIndex;
+                int v = ci.vertexIndex;
+
+                float amp = c >= heavyStart && c < heavyEnd
+                    ? lastLineHeavyShakeAmount
+                    : lastLineShakeAmount;
+
+                Vector3 offset = new Vector3(
+                    Random.Range(-amp, amp),
+                    Random.Range(-amp, amp),
+                    0f);
+
+                Vector3[] verts = info.meshInfo[m].vertices;
+                verts[v + 0] = baseline[m][v + 0] + offset;
+                verts[v + 1] = baseline[m][v + 1] + offset;
+                verts[v + 2] = baseline[m][v + 2] + offset;
+                verts[v + 3] = baseline[m][v + 3] + offset;
+            }
+
+            for (int m = 0; m < meshCount; m++)
+            {
+                info.meshInfo[m].mesh.vertices = info.meshInfo[m].vertices;
+                dialogueText.UpdateGeometry(info.meshInfo[m].mesh, m);
+            }
+
+            yield return null;
+        }
     }
 }

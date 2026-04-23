@@ -125,11 +125,17 @@ public class Boss : EnemyBase, IRewindable
     Vector2 moveStart;
     Vector2 movePeak;
     Vector2 moveTarget;
-    const float ArenaMinX = -11f;
-    const float ArenaMaxX =  11f;
+    // Pushed to the stage edge (was ±11) so there's no behind-boss strip for
+    // the player to stand on and cheese ranged fights. Positional attacks
+    // (ChangeSides / GroundPound / Melee) and TeleportToSafeEdge all clamp to
+    // these, so their behaviour scales with the bounds — the Melee ±1 buffer
+    // is still 1 unit from the new edge.
+    const float ArenaMinX = -12f;
+    const float ArenaMaxX =  12f;
     // Safety net: if the boss's x exceeds this (e.g. launched off a stray platform),
-    // it gets teleported back to the matching arena edge.
-    const float OffSceneThreshold = 12f;
+    // it gets teleported back to the matching arena edge. Kept one unit past the
+    // clamp so normal movement never trips it.
+    const float OffSceneThreshold = 13f;
     // Beyond this |x|, we don't shove the player further toward the edge on a jump-landing hit.
     const float SafePushEdgeX = 9.5f;
     const float JumpAttackPushSpeed = 1.5f;
