@@ -18,6 +18,17 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     [Tooltip("Assign the Tilemap Collider or Box Collider here")]
     [SerializeField] private Collider2D platformCollider;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [Tooltip("Rumble sound while the platform shakes before falling.")]
+    [SerializeField] private AudioClip rumbleClip;
+    [Tooltip("Sound when the platform starts falling.")]
+    [SerializeField] private AudioClip fallClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float rumbleVolume = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float fallVolume = 0.7f;
+
     private Rigidbody2D _rb;
     private Vector3 _startPos;
     private bool _isFalling = false;
@@ -117,23 +128,40 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         _isFalling = true;
         float timer = 0f;
 
+        // Start rumble sound
+        if (audioSource != null && rumbleClip != null)
+        {
+            audioSource.clip = rumbleClip;
+            audioSource.loop = true;
+            audioSource.volume = rumbleVolume;
+            audioSource.Play();
+        }
+
         // 1. Shake Phase
         while (timer < fallDelay)
         {
-            if (_isRewinding) yield break; 
+            if (_isRewinding) yield break;
 
             float x = Random.Range(-1f, 1f) * shakeAmount;
-            transform.position = _startPos + new Vector3(x, 0, 0); 
-            
+            transform.position = _startPos + new Vector3(x, 0, 0);
+
             timer += Time.deltaTime;
             yield return null;
         }
 
         // 2. Fall Phase
         transform.position = _startPos; // Snap back to center
-        
+
+        // Stop rumble, play fall sound
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            if (fallClip != null)
+                audioSource.PlayOneShot(fallClip, fallVolume);
+        }
+
         // Physics Fall
-        _rb.bodyType = RigidbodyType2D.Dynamic; 
+        _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.gravityScale = 2.5f; // Fall slightly faster than player for dramatic effect
         
         // Wait 0.5 seconds while falling, so the player rides it down briefly
@@ -180,10 +208,12 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     {
         _isRewinding = true;
         if (_fallRoutine != null) StopCoroutine(_fallRoutine);
-        
+
         // Stop physics immediately so we don't fight the rewind position
         _rb.bodyType = RigidbodyType2D.Kinematic;
         _rb.linearVelocity = Vector2.zero;
+
+        if (audioSource != null) audioSource.Stop();
     }
 
     public void OnStopRewind()
