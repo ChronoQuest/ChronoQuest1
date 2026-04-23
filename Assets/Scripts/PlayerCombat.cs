@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TimeRewind;
 
-public class PlayerCombat : MonoBehaviour
+public class PlayerCombat : MonoBehaviour, IRewindable
 {
     [Header("Melee Settings")]
     public float meleeRange = 1.6f;
@@ -42,6 +43,7 @@ public class PlayerCombat : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
+    public bool isRainAttacking { get; private set; }
 
     void Start(){
         anim = GetComponent<Animator>();
@@ -50,6 +52,37 @@ public class PlayerCombat : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         manaSystem = GetComponent<PlayerMana>();
     }
+
+    void OnEnable()
+    {
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
+    }
+
+    void OnDisable()
+    {
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
+    }
+
+    // Combat flags only clear via animation events (EndAttack, EndRainAttack). When a
+    // rewind yanks the animator away mid-attack those events never fire, leaving the
+    // flags stuck true — which gates both rain recasts and melee. Force-clear on rewind.
+    public void OnStartRewind()
+    {
+        if (isRainAttacking) EndRainAttack();
+        isAttacking = false;
+        queuedAttack = false;
+        comboStep = 0;
+        attackTimer = 0f;
+    }
+
+    public void OnStopRewind() { }
+
+    public RewindState CaptureState()
+    {
+        return RewindState.Create(transform.position, transform.rotation, Time.time);
+    }
+
+    public void ApplyState(RewindState state) { }
 
     void Update()
     {
@@ -82,7 +115,7 @@ public class PlayerCombat : MonoBehaviour
         {
             attackPressed = true;
         }
-        if (attackPressed)
+        if (attackPressed && !isRainAttacking)
         {
             // If we are NOT attacking, start the combo immediately
             if (!isAttacking)
@@ -97,16 +130,21 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) 
+        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame))
         {
-            // Costs 20 mana
-            if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
+            if (!movement.isDashing && !isRainAttacking && movement.isGrounded)
             {
-                anim.SetTrigger("RainAttack");
-            }
-            else
-            {
-                Debug.Log("Not enough mana for Rain Attack!");
+                if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
+                {
+                    // Rain interrupts melee — cancel whatever attack is in progress.
+                    if (isAttacking) CancelAttack();
+                    isRainAttacking = true;
+                    anim.Play("Player_RainAttack_Charge", -1, 0f);
+                }
+                else
+                {
+                    Debug.Log("Not enough mana for Rain Attack!");
+                }
             }
         }
     }
@@ -195,10 +233,16 @@ public class PlayerCombat : MonoBehaviour
     }
     public void CancelAttack()
     {
+        if (isRainAttacking) return;
         isAttacking = false;
         queuedAttack = false;
         comboStep = 0;
-        attackTimer = 0f; 
+        attackTimer = 0f;
+    }
+
+    public void EndRainAttack()
+    {
+        isRainAttacking = false;
     }
 
     public void HitEnemy() 

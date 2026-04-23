@@ -20,6 +20,13 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     public float hitboxRadius = 0.6f;
     public float hitboxOffset = 0.8f;
 
+    [Header("Landed-On-Player Nudge")]
+    // Fired when the skeleton's collider rests on top of the player — small push so it
+    // slides off the head and gravity drops it to real ground.
+    public float pushOffXSpeed = 1.5f;
+    public float pushOffYSpeed = 1f;
+    public float pushOffDuration = 0.25f;
+
     [Header("Revive")]
     public float reviveAnimDuration = 0.9f;
 
@@ -54,6 +61,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     private float lastAttackTime = -99f;
     private bool isAttacking;
     private float attackTimer;
+    private float pushOffTimer;
 
     private bool isReviving;
     private float reviveTimer;
@@ -98,7 +106,9 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
             if (reviveTimer <= 0) isReviving = false;
         }
 
-        if (wasDead || isDying || isAttacking || isReviving || isStunned || isDodging) return;
+        if (pushOffTimer > 0f) pushOffTimer -= Time.deltaTime;
+
+        if (wasDead || isDying || isAttacking || isReviving || isStunned || isDodging || pushOffTimer > 0f) return;
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -163,6 +173,48 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         if (Vector2.Distance(hitPos, player.position) <= hitboxRadius)
         {
             player.GetComponent<PlayerHealth>()?.ModifyHealth(-damage);
+        }
+    }
+
+    // The attack hitbox only probes horizontally (see MeleeHit), so if the skeleton lands
+    // on the player's head it never connects. Catch that case via contact normal and deal
+    // damage + a small nudge so the skeleton slides off rather than walking on the player.
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (wasDead || isDying || isRewinding) return;
+        if (!collision.gameObject.CompareTag("Player")) return;
+
+        bool skeletonOnPlayer = false;
+        bool playerOnSkeleton = false;
+        foreach (var contact in collision.contacts)
+        {
+            if (contact.normal.y > 0.7f) skeletonOnPlayer = true;
+            if (contact.normal.y < -0.7f) playerOnSkeleton = true;
+        }
+
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+        if (skeletonOnPlayer)
+        {
+            if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+            float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
+            if (Mathf.Approximately(pushDir, 0f))
+                pushDir = (spriteRenderer != null && spriteRenderer.flipX) ? 1f : -1f;
+            rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+            pushOffTimer = pushOffDuration;
+        }
+
+        if (playerOnSkeleton)
+        {
+            if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (playerRb != null)
+            {
+                float pushDir = Mathf.Sign(collision.transform.position.x - transform.position.x);
+                if (Mathf.Approximately(pushDir, 0f))
+                    pushDir = (spriteRenderer != null && spriteRenderer.flipX) ? -1f : 1f;
+                playerRb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+            }
         }
     }
 
@@ -249,6 +301,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         
         state.SetCustomData("isAttacking", isAttacking);
         state.SetCustomData("attackTimer", attackTimer);
+        state.SetCustomData("pushOffTimer", pushOffTimer);
         
         state.SetCustomData("isReviving", isReviving);
         state.SetCustomData("reviveTimer", reviveTimer);
@@ -273,6 +326,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         
         isAttacking = state.GetCustomData<bool>("isAttacking");
         attackTimer = state.GetCustomData<float>("attackTimer");
+        pushOffTimer = state.GetCustomData<float>("pushOffTimer");
         
         isReviving = state.GetCustomData<bool>("isReviving");
         reviveTimer = state.GetCustomData<float>("reviveTimer");
