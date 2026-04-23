@@ -229,11 +229,8 @@ public class BossFightController : MonoBehaviour
 
         if (Time.time - fightStartTime >= phase2TimerSeconds)
         {
-            if (boss.health <= boss.startHealth * phase2HealthFraction)
-            {
-                phase2Triggered = true;
-                StartCoroutine(RunPhase2Transition());
-            }
+            phase2Triggered = true;
+            StartCoroutine(RunPhase2Transition());
         }
 
         // Phase 2 playstyle hint
