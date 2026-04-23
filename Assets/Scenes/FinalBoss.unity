@@ -55580,7 +55580,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d021fdd0521760445bfb99a3f080a3d2, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindEffects
 --- !u!114 &1416134380 stripped
 MonoBehaviour:
@@ -55591,7 +55591,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 211c6077ecb9a24478f394aa8e4889f0, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: NewAssembly::TimeRewind.PlayerRewindController
 --- !u!114 &1416134381 stripped
 MonoBehaviour:
@@ -55602,7 +55602,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaafb7039bb85bf4cb0ba1ffc4c87793, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPlatformer
 --- !u!1001 &1449710243
 PrefabInstance:

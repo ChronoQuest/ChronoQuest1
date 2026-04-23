@@ -2,9 +2,11 @@ using UnityEngine;
 
 public enum DifficultyTier
 {
-    Easy = 0,
-    Normal = 1,
-    Hard = 2
+    /// <summary>Strongest assists (lowest enemy HP, platforms may be locked).</summary>
+    VeryEasy = 0,
+    Easy = 1,
+    Normal = 2,
+    Hard = 3
 }
 
 [CreateAssetMenu(menuName = "ChronoQuest/Difficulty Tuning", fileName = "DifficultyTuning")]
@@ -25,7 +27,10 @@ public class DifficultyTuning : ScriptableObject
     public float tutorialEnemyHpMultiplier = 0.75f;
 
     [Header("Tier selection timing")]
-    [Tooltip("How often to re-evaluate difficulty (seconds).")]
+    [Tooltip("How often to capture performance samples for the rolling window (seconds). Uses unscaled time.")]
+    public float sampleEverySeconds = 1f;
+
+    [Tooltip("How often to re-evaluate tier from the rolling window (seconds).")]
     public float evaluateEverySeconds = 10f;
 
     [Tooltip("Minimum seconds between tier changes.")]
@@ -35,7 +40,10 @@ public class DifficultyTuning : ScriptableObject
     public float rollingWindowSeconds = 120f;
 
     [Header("Tier thresholds (score)")]
-    [Tooltip("Score <= easyThreshold pushes toward Easy.")]
+    [Tooltip("Score <= this (more negative = worse play) pushes toward VeryEasy.")]
+    public float veryEasyThreshold = -0.55f;
+
+    [Tooltip("Score <= easyThreshold (but above veryEasy band) pushes toward Easy.")]
     public float easyThreshold = -0.35f;
 
     [Tooltip("Score >= hardThreshold pushes toward Hard.")]
@@ -45,6 +53,7 @@ public class DifficultyTuning : ScriptableObject
     public float hysteresisMargin = 0.10f;
 
     [Header("Multipliers by tier")]
+    public TierMultipliers veryEasy = TierMultipliers.VeryEasyDefaults();
     public TierMultipliers easy = TierMultipliers.EasyDefaults();
     public TierMultipliers normal = TierMultipliers.NormalDefaults();
     public TierMultipliers hard = TierMultipliers.HardDefaults();
@@ -59,6 +68,14 @@ public class DifficultyTuning : ScriptableObject
 
         [Header("Enemy survivability")]
         public float enemyHpMultiplier;
+
+        public static TierMultipliers VeryEasyDefaults() => new TierMultipliers
+        {
+            manaRegenMultiplier = 1.35f,
+            manaOnHitMultiplier = 1.15f,
+            healingMultiplier = 1.35f,
+            enemyHpMultiplier = 0.65f
+        };
 
         public static TierMultipliers EasyDefaults() => new TierMultipliers
         {
@@ -89,6 +106,7 @@ public class DifficultyTuning : ScriptableObject
     {
         return tier switch
         {
+            DifficultyTier.VeryEasy => veryEasy,
             DifficultyTier.Easy => easy,
             DifficultyTier.Hard => hard,
             _ => normal
