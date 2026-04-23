@@ -17,11 +17,16 @@ public class FireExplosion : MonoBehaviour, IRewindable
     private CircleCollider2D _circleCol;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip explosionClip;
+    [Range(0f, 1f)] public float explosionVolume = 0.7f;
+
+    private bool _playedExplosionSfx;
 
     void Start()
     {
-        if (!persistent)
-            Destroy(gameObject, telegraphDuration + growDuration + shrinkDuration + lingerDuration + 5f);
+        _playedExplosionSfx = false;
 
         _circleCol = GetComponent<CircleCollider2D>();
         _animator = GetComponent<Animator>();
@@ -88,6 +93,11 @@ public class FireExplosion : MonoBehaviour, IRewindable
                     if (animPercent < 1f)
                     {
                         _circleCol.enabled = true;
+                        if (!_playedExplosionSfx && audioSource != null && explosionClip != null)
+                        {
+                            _playedExplosionSfx = true;
+                            audioSource.PlayOneShot(explosionClip, explosionVolume);
+                        }
                     }
                     else
                     {
@@ -133,6 +143,7 @@ public class FireExplosion : MonoBehaviour, IRewindable
     {
         _isRewinding = true;
         if (_animator != null) _animator.speed = 0f;
+        _playedExplosionSfx = false;
     }
 
     public void OnStopRewind()

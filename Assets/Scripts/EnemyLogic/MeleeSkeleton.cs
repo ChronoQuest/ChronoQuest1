@@ -223,6 +223,8 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     {
         if (wasDead || isDying) return;
         
+        base.DeathSound();
+        
         wasDead = true;
         isDying = true;
         isAttacking = false;

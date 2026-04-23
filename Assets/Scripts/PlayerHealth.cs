@@ -48,6 +48,13 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
     public bool IsDead { get; private set; }
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private float deathVolume = 0.5f;
+    [SerializeField] private AudioClip reviveClip;
+    [SerializeField] private float reviveVolume = 0.5f;
 
     public void SetInvincible(bool value)
     {
@@ -135,6 +142,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
 
     private void TakeDamage(int amount, bool applyKnockback = true)
     {
+        if (sfxSource != null && hitClip != null)
+        {
+            sfxSource.PlayOneShot(hitClip);
+        }
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UpdateUI();
@@ -253,6 +264,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {   
         if (IsDead) return; 
         IsDead = true;
+        if (sfxSource != null && deathClip != null)
+        {
+            sfxSource.PlayOneShot(deathClip, deathVolume);
+        }
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
 
@@ -387,6 +402,10 @@ public class PlayerHealth : MonoBehaviour, IRewindable
             _pendingRewindReviveEffect = false;
             var reviveEffect = GetComponent<PlayerReviveEffect>();
             if (reviveEffect != null) reviveEffect.Play();
+            if (sfxSource != null && reviveClip != null)
+            {
+                sfxSource.PlayOneShot(reviveClip, reviveVolume);
+            }
         }
     }
 

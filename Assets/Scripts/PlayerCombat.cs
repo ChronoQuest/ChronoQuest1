@@ -45,6 +45,11 @@ public class PlayerCombat : MonoBehaviour, IRewindable
     public bool isAttacking { get; private set; }
     public bool isRainAttacking { get; private set; }
 
+    [Header("Combat Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip[] meleeSwings;
+    [SerializeField] public float meleeVolume = 0.2f;
+
     void Start(){
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -151,7 +156,7 @@ public class PlayerCombat : MonoBehaviour, IRewindable
 
     private void PerformMelee()
     {
-
+        // 1. Handle Sprite Flipping
         float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
         if (Gamepad.current != null) moveInput += Gamepad.current.leftStick.x.ReadValue();
 
@@ -161,49 +166,52 @@ public class PlayerCombat : MonoBehaviour, IRewindable
         isAttacking = true;
         queuedAttack = false;
         attackTimer = 0f;
+
+        if (sfxSource != null && meleeSwings != null && meleeSwings.Length > 0)
+        {
+            int randomIndex = Random.Range(0, meleeSwings.Length);
+            sfxSource.PlayOneShot(meleeSwings[randomIndex], meleeVolume);
+        }
+
         DataCollectionService.Instance?.RecordMeleeAttempt();
         playerTacticalModel.RecordMeleeHit(); 
 
-        
         float dir = spriteRenderer.flipX ? -1f : 1f;
         bool isUp = false;
         bool isDown = false;
 
-        // Check Keyboard Directions
         if (Keyboard.current != null)
         {
             isUp |= Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
             isDown |= Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
         }
 
-        // Check Gamepad Directions (Left Stick or D-Pad)
         if (Gamepad.current != null)
         {
             isUp |= Gamepad.current.leftStick.y.ReadValue() > 0.5f || Gamepad.current.dpad.up.isPressed;
             isDown |= Gamepad.current.leftStick.y.ReadValue() < -0.5f || Gamepad.current.dpad.down.isPressed;
         }
-        bool isGrounded = movement != null && movement.isGrounded;
         
+        bool isGrounded = movement != null && movement.isGrounded;
+
         if (isGrounded && !isUp)
         {
-            // --- THE FIX: Force the animation state instantly ---
-            // The "-1, 0f" tells Unity to play it from frame 0, ignoring all transition blending
             if (comboStep == 0)
             {
-                anim.Play("Player_Slash", -1, 0f); // <-- CHANGE TO YOUR SLASH 1 STATE NAME
+                anim.Play("Player_Slash", -1, 0f); 
                 rb.linearVelocity = new Vector2(dir * 4f, rb.linearVelocity.y);
                 comboStep = 1;
             }
             else
             {
-                anim.Play("Player_Slash2", -1, 0f); // <-- CHANGE TO YOUR SLASH 2 STATE NAME
+                anim.Play("Player_Slash2", -1, 0f); 
                 rb.linearVelocity = new Vector2(dir * 6f, rb.linearVelocity.y);
                 comboStep = 0;
             }
         }
         else
         {
-            comboStep = 0; // Reset combo if we do an air/up attack
+            comboStep = 0; 
             if (isGrounded && isUp) anim.SetTrigger("TopSlash");
             else if (isUp) anim.SetTrigger("AirSlashUp");
             else if (isDown) anim.SetTrigger("AirSlashDown");

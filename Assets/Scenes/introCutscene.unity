@@ -52382,6 +52382,7 @@ GameObject:
   - component: {fileID: 508054507}
   - component: {fileID: 508054508}
   - component: {fileID: 508054510}
+  - component: {fileID: 508054511}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Boss
@@ -52556,12 +52557,41 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+  damageClips: []
+  damageVolume: 0.5
+  deathClip: {fileID: 0}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips: []
+  idleVolume: 0.5
+  idleIntervalRange: {x: 3, y: 5}
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
   playerStrategyModel: {fileID: 659603002}
   damage: 1
   damageCooldown: 1.5
+  playerPushSpeed: 3
+  fightStage: 0
+  dialoguePaused: 0
   isDead: 0
+  meleeRunSpeed: 35
+  meleeStopBuffer: 0.6
+  meleeHitReach: 1.5
+  jumpClip: {fileID: 0}
+  jumpVolume: 1
+  smashClip: {fileID: 0}
+  smashVolume: 0.4
+  swingClip: {fileID: 8300000, guid: 48b1fd71e6fb84847a0a8321541f7b69, type: 3}
+  swingVolume: 0.9
+  footstepClips:
+  - {fileID: 8300000, guid: 1792e0f69674b9e45bd4984dbe3940cb, type: 3}
+  - {fileID: 8300000, guid: 24a13f25c7686954285dc9afdf29b855, type: 3}
+  - {fileID: 8300000, guid: f0bfb6e588de53c45befc3e225b1743a, type: 3}
+  - {fileID: 8300000, guid: 1c04eb9a4dcc12e4a99cc5a8ccfdf0f4, type: 3}
+  - {fileID: 8300000, guid: 343488cbc04993744a85f8449d661264, type: 3}
+  - {fileID: 8300000, guid: 47a44250730d0754bb97b2fc76302f50, type: 3}
+  footstepVolume: 0.5
 --- !u!114 &508054508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52612,6 +52642,103 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::BossHealthBarDriver
   healthBarUI: {fileID: 887291609}
   bossName: Boss
+--- !u!82 &508054511
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508054501}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 25
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &526924364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54847,6 +54974,20 @@ MonoBehaviour:
   dialoguePauseBetweenLines: 1.2
   dialoguePauseAfterLastLine: 0.8
   nextSceneName: GameScene
+  sfxSource: {fileID: 1416134382}
+  hitClip: {fileID: 8300000, guid: 854c2649d7e14594f95a2d747d2e5a03, type: 3}
+  deathClip: {fileID: 8300000, guid: 468d9ffa09bdaf74fb3b911845394e6e, type: 3}
+  deathVolume: 0.25
+  reviveClip: {fileID: 8300000, guid: 55d4819b293dc434687d0a2c72587166, type: 3}
+  reviveVolume: 0.5
+  rewindStartClip: {fileID: 8300000, guid: f17c67edb75418f498366f7b0eb8c566, type: 3}
+  rewindVolume: 1
+  bossAudioSource: {fileID: 508054511}
+  dialogueBlip: {fileID: 8300000, guid: 7207e8e5f559b3044b61955a1f37e708, type: 3}
+  dialogueBlipVolume: 1
+  minPitch: 0.6
+  maxPitch: 0.7
+  charsPerSound: 2
 --- !u!4 &1250081813
 Transform:
   m_ObjectHideFlags: 0
@@ -55184,6 +55325,9 @@ MonoBehaviour:
   floorFire: {fileID: 4536691720510892599, guid: a550ff2b7d16dfb4e8ec10d1721b3f98, type: 3}
   fireExplosion: {fileID: 4123185374693520864, guid: d1044349bc64c024082659f9d295a26b, type: 3}
   player: {fileID: 437452796}
+  boss: {fileID: 0}
+  playerTargetBias: 0.75
+  maxActiveEnemies: 3
 --- !u!4 &1348428425
 Transform:
   m_ObjectHideFlags: 0
@@ -55475,6 +55619,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211c6077ecb9a24478f394aa8e4889f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TimeRewind.PlayerRewindController
+--- !u!82 &1416134382 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2412794728691430052, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 526924364}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1449710243
 PrefabInstance:
   m_ObjectHideFlags: 0

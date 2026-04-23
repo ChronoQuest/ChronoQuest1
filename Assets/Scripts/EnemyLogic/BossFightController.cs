@@ -141,11 +141,22 @@ public class BossFightController : MonoBehaviour
     [Tooltip("Boss's SpriteRenderer — used as the ghost trail source during " +
              "the boss rewind.")]
     [SerializeField] private SpriteRenderer bossSprite;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip bossRewindStartClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float bossRewindVolume = 1f;
+    [SerializeField] private AudioClip dialogueBlip;
+    [SerializeField] private float dialogueBlipVolume = 1.5f;
+    [SerializeField] private float minPitch = 0.6f;
+    [SerializeField] private float maxPitch = 0.7f;
+    [SerializeField] private int charsPerSound = 2;
 
-    [Tooltip("Multiplier applied on top of TimeRewindManager.rewindSpeed while " +
-             "the boss is driving the rewind. Higher = faster phase-2 transition. " +
-             "Only affects the boss rewind — player rewinds still use the " +
-             "manager's configured speed.")]
+    [Header("Boss Rewind")]
+    [Tooltip("PlayerRewindController on the player. Put into external mode " +
+             "during the boss rewind so mana isn't spent and it doesn't stop " +
+             "because R isn't held.")]
+    
     [Min(0.1f)]
     [SerializeField] private float bossRewindSpeedMultiplier = 3f;
 
@@ -158,6 +169,10 @@ public class BossFightController : MonoBehaviour
     private bool fightStarted;
     private bool phase2Triggered;
     private float fightStartTime;
+    private bool hintTriggered;
+    private int phase2DamageCount;
+    private float phase2StartTime;
+    private PlayerHealth cachedPlayerHealth;
 
     // Scripts we turned off during the current dialogue. Tracked so we only re-enable
     // what we actually disabled (anything already disabled stays that way).
@@ -254,6 +269,10 @@ public class BossFightController : MonoBehaviour
         TimeRewindManager manager = TimeRewindManager.Instance;
         if (manager != null)
         {
+            if (audioSource != null && bossRewindStartClip != null)
+            {
+                audioSource.PlayOneShot(bossRewindStartClip, bossRewindVolume);
+            }
             // Scope the boss-only speed boost around this single rewind. StopRewind
             // also clears the multiplier as a safety net, but we pair explicitly
             // so an aborted rewind path doesn't leak into the next player rewind.
@@ -399,7 +418,6 @@ public class BossFightController : MonoBehaviour
             yield return null;
         }
     }
-
     private void ForcePlayerIdleAnimation()
     {
         if (playerAnimator == null) return;
@@ -567,6 +585,13 @@ public class BossFightController : MonoBehaviour
             for (int i = 1; i <= glyphCount; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
+
+                if (audioSource != null && dialogueBlip != null && i % charsPerSound == 0)
+                {
+                    audioSource.pitch = Random.Range(minPitch, maxPitch);
+                    audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
+                }
+
                 yield return new WaitForSecondsRealtime(timePerChar);
             }
 

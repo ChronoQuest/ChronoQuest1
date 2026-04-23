@@ -55,6 +55,13 @@ public class WatcherCommentary : MonoBehaviour
     [SerializeField] private int maxCommentsPerScene = 3;
     [Tooltip("Minimum seconds between any two comments.")]
     [SerializeField] private float commentCooldown = 15f;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip dialogueBlip;
+    [SerializeField] private float dialogueBlipVolume = 1f;
+    [SerializeField] private float minPitch = 0.6f;
+    [SerializeField] private float maxPitch = 0.7f;
+    [SerializeField] private int charsPerSound = 2;
 
     // ── State ───────────────────────────────────────────────────────────────
     private int commentsThisScene;
@@ -469,7 +476,14 @@ public class WatcherCommentary : MonoBehaviour
             for (int i = 1; i <= line.Length; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
-                yield return new WaitForSeconds(timePerChar);
+
+                if (audioSource != null && dialogueBlip != null && i % charsPerSound == 0)
+                {
+                    audioSource.pitch = Random.Range(minPitch, maxPitch);
+                    audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
+                }
+
+                yield return new WaitForSecondsRealtime(timePerChar);
             }
 
             yield return new WaitForSeconds(pauseBetweenLines);

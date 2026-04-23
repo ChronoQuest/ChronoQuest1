@@ -119,6 +119,9 @@ public class TutorialManager : MonoBehaviour
 
     // unlock system
     private PlayerAction unlockedActions = PlayerAction.None; 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip foresightActivationClip;
 
 
     // dictionaries for freezing enemies during rewind tutorial hint
@@ -561,6 +564,10 @@ public class TutorialManager : MonoBehaviour
                 if (foresight != null)
                 {
                     foresight.ForceInstantForesight();
+                }
+                if(audioSource != null && foresightActivationClip != null)
+                {
+                    audioSource.PlayOneShot(foresightActivationClip);
                 }
             }
 

@@ -27,6 +27,13 @@ public class WatcherDialogueTrigger : MonoBehaviour
     [SerializeField] private float pauseAfterLastLine = 1.5f;
     [Tooltip("Delay after the enemy dies before the dialogue starts.")]
     [SerializeField] private float delayBeforeDialogue = 1.5f;
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip dialogueBlip;
+    [SerializeField] private float dialogueBlipVolume = 1f;
+    [SerializeField] private float minPitch = 0.6f;
+    [SerializeField] private float maxPitch = 0.7f;
+    [SerializeField] private int charsPerSound = 2;
 
     private bool hasPlayed;
 
@@ -86,7 +93,13 @@ public class WatcherDialogueTrigger : MonoBehaviour
             for (int i = 1; i <= line.Length; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
-                yield return new WaitForSeconds(timePerChar);
+                if (audioSource != null && dialogueBlip != null && i % charsPerSound == 0)
+                {
+                    audioSource.pitch = Random.Range(minPitch, maxPitch);
+                    audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
+                }
+
+                yield return new WaitForSecondsRealtime(timePerChar);
             }
 
             yield return new WaitForSeconds(pauseBetweenLines);

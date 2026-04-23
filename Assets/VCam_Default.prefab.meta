@@ -1,9 +1,6 @@
 fileFormatVersion: 2
-Assets/Scripts/Final Boss ML/__pycache__/labels.cpython-310.pyc.meta
-guid: ab72d763ee462435eb8959b02ae009a5
-DefaultImporter:
 guid: cb727c8a24d9c4664be8189c455b3593
-PrefabImporter:Assets/VCam_Default.prefab.meta
+PrefabImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 

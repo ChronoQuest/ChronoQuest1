@@ -19,6 +19,10 @@ namespace TimeRewind
         [SerializeField] private float manaDrainPerSecond = 10f;
         [Tooltip("Minimum mana required to START rewinding while dead (revive rewind). Prevents confusing 1-frame rewinds.")]
         [SerializeField] private float minManaToStartRewindWhenDead = 15f;
+        [Header("Effects")]
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip rewindStartClip;
+        [SerializeField] private float rewindVolume = 1f;
         
         private Rigidbody2D _rb;
         private bool _isRewinding;
@@ -191,6 +195,10 @@ namespace TimeRewind
         {
             _isRewinding = true;
             _rewindStartTime = Time.unscaledTime;
+            if (!_externalRewindActive && sfxSource != null && rewindStartClip != null)
+            {
+                sfxSource.PlayOneShot(rewindStartClip, rewindVolume);
+            }
             DataCollectionService.Instance?.RecordRewindStarted();
             playerTacticalModel.RecordRewind(); 
 

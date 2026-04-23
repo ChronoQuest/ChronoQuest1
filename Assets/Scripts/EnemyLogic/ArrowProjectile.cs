@@ -23,6 +23,9 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
     public float homingTurnSpeed = 6f;
     public float homingTime = 1.5f;
     private float homingTimer;
+    [Header("Audio")]
+    public AudioClip impactClip;
+    public float impactVolume = 1f;
 
     void Awake()
     {
@@ -110,6 +113,10 @@ public class ArrowProjectile : MonoBehaviour, IRewindable
 
     void Deactivate()
     {
+        if(impactClip != null)
+        {
+            AudioSource.PlayClipAtPoint(impactClip, transform.position, impactVolume);
+        }
         isActive = false;
         isHoming = false;
         homingTarget = null;

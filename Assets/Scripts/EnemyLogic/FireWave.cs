@@ -12,18 +12,29 @@ public class FireWave : MonoBehaviour, IRewindable
     private Animator animator;
     public float moveSpeed = 10f;
     public int bossFacingDirection = 1;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip fireLoopClip;
+    [Range(0f, 1f)] public float fireVolume = 0.8f;
+    private bool isPlayingLoop = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         startTime = Time.time;
-        // Destroy after 12 seconds (5 seconds pre rewind, 5 seconds post rewind, 1 sec buffer for each)
-        Destroy(gameObject, 12f);
         if (TimeRewindManager.Instance != null)
         {
             TimeRewindManager.Instance.Register(this);
         }     
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        if (audioSource != null && fireLoopClip != null)
+        {
+            audioSource.clip = fireLoopClip;
+            audioSource.loop = true;
+            audioSource.volume = fireVolume;
+            audioSource.Play();
+            isPlayingLoop = true;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -39,6 +50,11 @@ public class FireWave : MonoBehaviour, IRewindable
         float limit = 12f;
         if (Mathf.Abs(transform.position.x) > limit)
         {
+            if (audioSource != null && isPlayingLoop)
+            {
+                audioSource.Stop();
+                isPlayingLoop = false;
+            }
             gameObject.SetActive(false);
         }
     }
@@ -65,6 +81,7 @@ public class FireWave : MonoBehaviour, IRewindable
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
+        if (audioSource != null && isPlayingLoop) audioSource.Pause();
     }
     public void OnStopRewind()
     {
@@ -76,6 +93,7 @@ public class FireWave : MonoBehaviour, IRewindable
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
         }
+        if (audioSource != null && isPlayingLoop) audioSource.UnPause();
     }
     public RewindState CaptureState()
     {

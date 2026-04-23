@@ -159,6 +159,15 @@ public class Boss : EnemyBase, IRewindable
     const float MeleeSwingDuration = 0.7f;
     const float MeleeHitTime = 0.3f;
     bool meleeHitApplied;
+    [Header("Audio")]
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private float jumpVolume = 1f;
+    [SerializeField] private AudioClip smashClip;
+    [SerializeField] private float smashVolume = 0.4f;
+    [SerializeField] private AudioClip swingClip;
+    [SerializeField] private float swingVolume = 0.8f;
+    [SerializeField] private AudioClip[] footstepClips;
+    [SerializeField] private float footstepVolume = 0.5f;
     
 
     void Start()
@@ -277,10 +286,8 @@ public class Boss : EnemyBase, IRewindable
         posMove = PosMove.Melee;
         off = OffMove.None;
         res = ResMove.None;
-        return;  */
+        return; */
 
-        // Phase 1: dumber roll — same 20% positional split, but every move within each
-        // branch is equally likely and the GMM is not consulted.
         if (fightStage != FightStage.Phase2)
         {
             RollPlanDumb(out isPositional, out posMove, out off, out res);
@@ -542,6 +549,7 @@ public class Boss : EnemyBase, IRewindable
 
             if (!isGrounded)
             {
+                playSmashSound();
                 cameraShake.Shake(0.25f, 0.2f);
                 isGrounded = true;
                 animator.SetBool("isGrounded", true);
@@ -928,6 +936,7 @@ public class Boss : EnemyBase, IRewindable
         if (wasDead) return;
         wasDead = true;
         isDead = true;
+        DeathSound();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
 
@@ -1173,5 +1182,37 @@ public class Boss : EnemyBase, IRewindable
         // Keep health bar in sync during rewind scrubbing
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.SyncAfterRewind();
+    }
+    public void playJumpSound()
+    {
+        if(audioSource != null && jumpClip != null)
+        {
+            audioSource.PlayOneShot(jumpClip, jumpVolume);
+        }
+    }
+    public void playSmashSound()
+    {
+        if(audioSource != null && smashClip != null)
+        {
+            audioSource.PlayOneShot(smashClip, smashVolume);
+        }
+    }
+    public void playSwingSound()
+    {
+        if(audioSource != null && swingClip != null)
+        {
+            audioSource.PlayOneShot(swingClip, swingVolume);
+        }
+    }
+    public void PlayFootstep(float vol = -1)
+    {
+        // Default to footstepVolume if unspecified
+        if (vol == -1) vol = footstepVolume;
+        if (footstepClips != null && footstepClips.Length > 0 && audioSource != null)
+        {
+            int randomIndex = Random.Range(0, footstepClips.Length);
+            Debug.Log("HELLO");
+            audioSource.PlayOneShot(footstepClips[randomIndex], vol);
+        }
     }
 }

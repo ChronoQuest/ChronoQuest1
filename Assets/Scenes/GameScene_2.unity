@@ -9586,6 +9586,76 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &270732970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 270732972}
+  - component: {fileID: 270732971}
+  m_Layer: 0
+  m_Name: WatcherCommentary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &270732971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270732970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30095ec2471240dbba9b2fddf1b593d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::WatcherCommentary
+  dialogueContainer: {fileID: 582814390}
+  dialogueText: {fileID: 526018876}
+  charactersPerSecond: 35
+  pauseBetweenLines: 1
+  pauseAfterLastLine: 1.5
+  enablePlaystyleComments: 1
+  enableRewindComments: 1
+  enableSkillComments: 1
+  playstyleWeight: 1
+  rewindWeight: 1.5
+  skillWeight: 1
+  initialCooldown: 30
+  pollInterval: 20
+  beliefThreshold: 0.55
+  rewindCountThreshold: 3
+  rewindCommentDelay: 1.5
+  skillMinSceneTime: 20
+  skillCommentDelay: 1.5
+  maxCommentsPerScene: 3
+  commentCooldown: 15
+  audioSource: {fileID: 1068174379}
+  dialogueBlip: {fileID: 8300000, guid: 7207e8e5f559b3044b61955a1f37e708, type: 3}
+  dialogueBlipVolume: 1
+  minPitch: 0.6
+  maxPitch: 0.7
+  charsPerSound: 2
+--- !u!4 &270732972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270732970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &273376201
 GameObject:
   m_ObjectHideFlags: 0
@@ -32614,6 +32684,15 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+  damageClips: []
+  damageVolume: 0.5
+  deathClip: {fileID: 0}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips: []
+  idleVolume: 0.5
+  idleIntervalRange: {x: 3, y: 5}
   detectionRange: 8
   shootRange: 6
   safeDistance: 3
@@ -32627,6 +32706,8 @@ MonoBehaviour:
   shootCooldown: 2
   _player: {fileID: 936638525}
   arrowPrefab: {fileID: 0}
+  fireClip: {fileID: 0}
+  fireVolume: 1
   arrowPoolSize: 5
   arrowSpawnOffset: {x: 0.3, y: 0.5}
   reviveAnimDuration: 0.9
@@ -511232,6 +511313,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1116170665}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+--- !u!82 &1068174379 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2412794728691430052, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 1068174378}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1069954545
 GameObject:
   m_ObjectHideFlags: 0

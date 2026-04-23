@@ -101,6 +101,18 @@ public class PlayerPlatformer : MonoBehaviour
     public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
     public PlayerTacticalModel playerTacticModel; 
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip jumpShortClip;
+    [SerializeField] private AudioClip jumpLongClip;
+    [SerializeField] private AudioClip dashClip;
+    [SerializeField] private float dashVolume = 0.6f;
+    [SerializeField] private AudioClip[] footstepClips;
+    [SerializeField] private float footstepVolume = 0.4f;
+    [SerializeField] public AudioSource loopingAudioSource; 
+    [SerializeField] public AudioClip wallSlideClip;
+    [SerializeField] public float wallSlideVolume = 0.5f;
+
     private float knockbackTimer;
 
     private void OnValidate()
@@ -175,8 +187,11 @@ public class PlayerPlatformer : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         if (isGrounded && !wasGrounded && !isLanding)
         {
-            StartCoroutine(LandingRoutine());
+            // Capture the downward speed (y is negative, so we use Mathf.Abs or -rb.linearVelocity.y)
+            float impactVelocity = Mathf.Abs(rb.linearVelocity.y); 
+            StartCoroutine(LandingRoutine(impactVelocity));
         }
+        
         wasGrounded = isGrounded;
 
         if (isGrounded && rb.linearVelocity.y <= 0.1f)
@@ -257,10 +272,33 @@ public class PlayerPlatformer : MonoBehaviour
             }
         }
 
+        if (isWallSliding)
+        {
+            if (loopingAudioSource != null && wallSlideClip != null && !loopingAudioSource.isPlaying)
+            {
+                loopingAudioSource.clip = wallSlideClip;
+                loopingAudioSource.pitch = Random.Range(0.8f, 1.2f);
+                loopingAudioSource.volume = wallSlideVolume;
+                loopingAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (loopingAudioSource != null && loopingAudioSource.isPlaying && loopingAudioSource.clip == wallSlideClip)
+            {
+                loopingAudioSource.Stop();
+            }
+        }
+
         // Update Animator Parameters
         if (anim != null)
         {
-            anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
+            float normalizedSpeed = Mathf.Abs(rb.linearVelocity.x) / moveSpeed;
+            normalizedSpeed = Mathf.Clamp01(normalizedSpeed);
+
+            if (normalizedSpeed < 0.05f) normalizedSpeed = 0f;
+
+            anim.SetFloat("Speed", normalizedSpeed);
             if (!isLanding) 
             {
                 anim.SetBool("isGrounded", isGrounded);
@@ -394,6 +432,12 @@ public class PlayerPlatformer : MonoBehaviour
         coyoteTimeCounter = 0f;
         anim.SetTrigger("Jump");
 
+        if (sfxSource != null)
+        {
+            AudioClip clipToPlay = (extraJumpsRemaining == 0) ? jumpLongClip : jumpShortClip;
+            sfxSource.PlayOneShot(clipToPlay);
+        }
+
         if (extraJumpsRemaining>0)
         {
             anim.SetBool("isGrounded", true); 
@@ -454,9 +498,10 @@ public class PlayerPlatformer : MonoBehaviour
         anim.SetBool("isGrounded", true); // Return to idle
     }
 
-    IEnumerator LandingRoutine()
+    IEnumerator LandingRoutine(float impactForce)
     {
-
+        float calculatedVol = Mathf.Lerp(0.4f, 1.0f, impactForce / 15f);
+        PlayFootstep(calculatedVol);
         SetFrame(6);
         yield return new WaitForSeconds(0.05f);
         SetFrame(7);
@@ -507,6 +552,11 @@ public class PlayerPlatformer : MonoBehaviour
         tutorialManager?.OnPlayerWallJump(); 
 
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
+        if (sfxSource != null)
+        {
+            AudioClip clipToPlay = (extraJumpsRemaining == 0) ? jumpLongClip : jumpShortClip;
+            sfxSource.PlayOneShot(clipToPlay);
+        }
         DataCollectionService.Instance?.RecordJump(true, false);
     
         yield return new WaitForSeconds(wallJumpDuration);    
@@ -519,6 +569,10 @@ public class PlayerPlatformer : MonoBehaviour
         
         isDashing = true;
         canDash = false;
+        if (sfxSource != null && dashClip != null)
+        {
+            sfxSource.PlayOneShot(dashClip, dashVolume);
+        }
 
         tutorialManager?.OnPlayerDash();
         DataCollectionService.Instance?.RecordDash();
@@ -642,6 +696,8 @@ public class PlayerPlatformer : MonoBehaviour
     {
         _isRewinding = true;
 
+        if (loopingAudioSource != null) loopingAudioSource.Stop();
+
         if (_postRewindSlowCoroutine != null)
         {
             StopCoroutine(_postRewindSlowCoroutine);
@@ -681,5 +737,16 @@ public class PlayerPlatformer : MonoBehaviour
     public void FreezeMovement()
     {
         rb.linearVelocity = Vector2.zero;
+    }
+    public void PlayFootstep(float vol = -1)
+    {
+        // Default to footstepVolume if unspecified
+        if (vol == -1) vol = footstepVolume;
+        if (isGrounded && footstepClips != null && footstepClips.Length > 0 && sfxSource != null)
+        {
+            int randomIndex = Random.Range(0, footstepClips.Length);
+            
+            sfxSource.PlayOneShot(footstepClips[randomIndex], vol);
+        }
     }
 }
