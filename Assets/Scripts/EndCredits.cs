@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // Watches the boss for death and, after a short pause, rolls end credits:
@@ -23,6 +24,12 @@ public class EndCredits : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
     [Tooltip("Total seconds the credits take to scroll across the screen.")]
     [SerializeField] private float scrollDuration = 20f;
+    [Tooltip("Seconds to hold on a black screen after the credits finish scrolling, before returning to the title.")]
+    [SerializeField] private float postScrollHold = 1.5f;
+
+    [Header("Return To Title")]
+    [Tooltip("Scene to load once the credits finish. Leave empty to stay on the credits screen.")]
+    [SerializeField] private string titleSceneName = "TitleScreen";
 
     [Header("Content")]
     [TextArea(6, 30)]
@@ -89,6 +96,22 @@ public class EndCredits : MonoBehaviour
             float k = Mathf.Clamp01(scrolled / duration);
             textRT.anchoredPosition = new Vector2(0f, Mathf.Lerp(startY, endY, k));
             yield return null;
+        }
+
+        // Hold on black so the last line doesn't instantly cut to the title.
+        float held = 0f;
+        while (held < postScrollHold)
+        {
+            held += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        if (!string.IsNullOrEmpty(titleSceneName))
+        {
+            // Restore timescale in case anything upstream dropped it (hitstop etc.) so
+            // the loaded scene doesn't start frozen.
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(titleSceneName);
         }
     }
 
