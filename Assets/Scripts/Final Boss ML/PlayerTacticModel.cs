@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerTacticalModel : MonoBehaviour
 {
+    // TODO: modify to make four clusters and add the balanced tactic
+    // -- EXPERIMENT EDITS -- 
     public enum TacticType
     {
         Aggressive, 
@@ -28,6 +30,8 @@ public class PlayerTacticalModel : MonoBehaviour
     private float timer = 0f; 
 
     public GMMModel gmmModel; 
+    public NeuralNetwork neuralModel;
+    public bool useNeural = false; 
 
     void Start()
     {
@@ -38,7 +42,7 @@ public class PlayerTacticalModel : MonoBehaviour
     }
     
     void Update()
-    {
+    {   
         timer += Time.deltaTime;
 
         if (timer >= windowDuration)
@@ -53,7 +57,19 @@ public class PlayerTacticalModel : MonoBehaviour
     void DetermineTactics()
     {
         float[] features = BuildFeatureVector();
-        float[] clusterProbs = gmmModel.PredictProba(features);
+        float[] probs;
+
+        if (useNeural)
+            probs = neuralModel.Predict(features);
+        else
+            probs = gmmModel.PredictProba(features);
+
+        int predictedCluster = GetPredictedCluster(probs); 
+
+        if (ExperimentManager.Instance != null)
+        {
+            ExperimentManager.Instance.LogResult(predictedCluster, "TODO_BOSS_BEHAVIOUR"); 
+        }
 
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 
@@ -63,14 +79,31 @@ public class PlayerTacticalModel : MonoBehaviour
         }  
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = clusterProbs[2]; 
-        tacticBeliefs[TacticType.Evasive] = clusterProbs[3];
-        tacticBeliefs[TacticType.Cautious] = clusterProbs[0];
+        tacticBeliefs[TacticType.Aggressive] = probs[1]; 
+        tacticBeliefs[TacticType.Evasive] = probs[0];
+        tacticBeliefs[TacticType.Cautious] = probs[2];
 
-        tacticBeliefs[TacticType.Aggressive] += 0.5f * clusterProbs[1];
-        tacticBeliefs[TacticType.Evasive] += 0.5f * clusterProbs[1];
+        tacticBeliefs[TacticType.Aggressive] += 0.5f * probs[1];
+        tacticBeliefs[TacticType.Evasive] += 0.5f * probs[1];
 
         NormaliseBeliefs(); 
+    }
+
+    int GetPredictedCluster(float[] probs)
+    {
+        int maxIndex = 0;
+        float maxVal = probs[0]; 
+
+        for (int i = 1; i < probs.Length; i++)
+        {
+            if (probs[i] > maxVal)
+            {
+                maxVal = probs[i];
+                maxIndex = i; 
+            }
+        }
+        
+        return maxIndex; 
     }
 
     float[] BuildFeatureVector()
@@ -81,7 +114,7 @@ public class PlayerTacticalModel : MonoBehaviour
         float dashRate   = dashCount / duration;
         float jumpRate   = (jumpCount + wallJumpCount) / duration;
         float meleeRate  = meleeHits / duration;   
-        float spellRate  = spellCount / duration;
+        float spellRate  = (spellCount + rainSpellCount) / duration;
         float rewindRate = rewindCount / duration;
         float damageRate = damageTaken / duration;
 

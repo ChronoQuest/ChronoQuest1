@@ -45,6 +45,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerTacticalModel
   gmmModel: {fileID: 9141565510492581181}
+  neuralModel: {fileID: 2470380908138082500}
+  useNeural: 0
+--- !u!1 &6245179231771419398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7867079465724325577}
+  - component: {fileID: 2470380908138082500}
+  m_Layer: 0
+  m_Name: NeuralNetwork
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7867079465724325577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245179231771419398}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6869472570071237673}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2470380908138082500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245179231771419398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e17d0c3463f4cbca345dbc2f3c86c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::NeuralNetwork
 --- !u!1 &7120571893640590351
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +170,7 @@ Transform:
   m_Children:
   - {fileID: 8719313547461422463}
   - {fileID: 6076824185952755672}
+  - {fileID: 7867079465724325577}
   - {fileID: 5328639492261816170}
   - {fileID: 8898895020055927715}
   m_Father: {fileID: 0}
@@ -224,6 +271,10 @@ PrefabInstance:
     - target: {fileID: 5027198386291128183, guid: 19f6b5f4797fe4b14ba537e2deaadb7e, type: 3}
       propertyPath: m_Name
       value: DataCollectionService
+      objectReference: {fileID: 0}
+    - target: {fileID: 5027198386291128183, guid: 19f6b5f4797fe4b14ba537e2deaadb7e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
