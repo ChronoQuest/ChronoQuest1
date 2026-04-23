@@ -3761,6 +3761,21 @@ MonoBehaviour:
   minPitch: 0.6
   maxPitch: 0.7
   charsPerSound: 2
+  enablePlaystyleHint: 1
+  hintDamageThreshold: 4
+  hintMinPhase2Time: 20
+  hintLinesAggressive:
+  - Not a thought in that head... just mindlessly attacking.
+  - Maybe if you were a little more cautious, you'd stand a chance.
+  hintLinesEvasive:
+  - All that running and nothing to show for it.
+  - Stop fleeing and fight back. Hit me if you can.
+  hintLinesCautious:
+  - You just... stand there. Waiting. Watching.
+  - Hesitation is death. Come at me before I come at you.
+  hintLinesFallback:
+  - You're struggling.
+  - Perhaps a change of approach is in order...
 --- !u!61 &431215193
 BoxCollider2D:
   m_ObjectHideFlags: 0
