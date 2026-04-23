@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TimeRewind;
 
-public class PlayerCombat : MonoBehaviour
+public class PlayerCombat : MonoBehaviour, IRewindable
 {
     [Header("Melee Settings")]
     public float meleeRange = 1.6f;
@@ -56,6 +57,37 @@ public class PlayerCombat : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         manaSystem = GetComponent<PlayerMana>();
     }
+
+    void OnEnable()
+    {
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
+    }
+
+    void OnDisable()
+    {
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
+    }
+
+    // Combat flags only clear via animation events (EndAttack, EndRainAttack). When a
+    // rewind yanks the animator away mid-attack those events never fire, leaving the
+    // flags stuck true — which gates both rain recasts and melee. Force-clear on rewind.
+    public void OnStartRewind()
+    {
+        if (isRainAttacking) EndRainAttack();
+        isAttacking = false;
+        queuedAttack = false;
+        comboStep = 0;
+        attackTimer = 0f;
+    }
+
+    public void OnStopRewind() { }
+
+    public RewindState CaptureState()
+    {
+        return RewindState.Create(transform.position, transform.rotation, Time.time);
+    }
+
+    public void ApplyState(RewindState state) { }
 
     void Update()
     {

@@ -19,7 +19,6 @@ using TimeRewind;
 // The latch is one-way on purpose: if the player rewinds afterwards we don't
 // want the phase-2 transition to replay. Boss.fightStage is also deliberately
 // not part of the rewind snapshot so Phase2 persists through rewinds.
-
 [RequireComponent(typeof(Collider2D))]
 public class BossFightController : MonoBehaviour
 {
@@ -99,6 +98,19 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private float pauseBetweenLines = 1.2f;
     [SerializeField] private float pauseAfterLastLine = 0.8f;
 
+    [Header("Phase 2 Final Line Emphasis")]
+    [Tooltip("Characters-per-second used only for the last line of phase 2. Lower = " +
+             "slower delivery for extra weight on the killing-blow beat.")]
+    [SerializeField] private float lastLineCharactersPerSecond = 12f;
+
+    [Tooltip("Per-character shake radius (in text local units) applied to every " +
+             "visible glyph on the final phase 2 line.")]
+    [SerializeField] private float lastLineShakeAmount = 1.5f;
+
+    [Tooltip("Shake radius applied to characters wrapped in <link=heavy> on the " +
+             "final phase 2 line. Use this to emphasise the scariest word.")]
+    [SerializeField] private float lastLineHeavyShakeAmount = 4f;
+
     [Header("Phase 2 Trigger")]
     [Tooltip("Seconds of fight time after BeginFight before the boss-driven " +
              "rewind triggers phase 2.")]
@@ -140,38 +152,19 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private float maxPitch = 0.7f;
     [SerializeField] private int charsPerSound = 2;
 
-    [Header("Phase 2 Playstyle Hint")]
-    [Tooltip("Enable the mid-fight hint that tells the player to change playstyle.")]
-    [SerializeField] private bool enablePlaystyleHint = true;
-    [Tooltip("How many times the player must take damage in Phase 2 before the hint fires.")]
-    [SerializeField] private int hintDamageThreshold = 5;
-    [Tooltip("Minimum seconds into Phase 2 before the hint can trigger.")]
-    [SerializeField] private float hintMinPhase2Time = 15f;
+    [Header("Boss Rewind")]
+    [Tooltip("PlayerRewindController on the player. Put into external mode " +
+             "during the boss rewind so mana isn't spent and it doesn't stop " +
+             "because R isn't held.")]
+    
+    [Min(0.1f)]
+    [SerializeField] private float bossRewindSpeedMultiplier = 3f;
 
-    [TextArea(2, 5)]
-    [SerializeField] private string[] hintLinesAggressive = new string[]
-    {
-        "Not a thought in that head... just mindlessly attacking.",
-        "Maybe if you were a little more cautious, you'd stand a chance."
-    };
-    [TextArea(2, 5)]
-    [SerializeField] private string[] hintLinesEvasive = new string[]
-    {
-        "All that running and nothing to show for it.",
-        "Stop fleeing and fight back. Hit me if you can."
-    };
-    [TextArea(2, 5)]
-    [SerializeField] private string[] hintLinesAbilityFocused = new string[]
-    {
-        "Spells won't save you forever, little mage.",
-        "Your magic is predictable. Try something I haven't already seen."
-    };
-    [TextArea(2, 5)]
-    [SerializeField] private string[] hintLinesFallback = new string[]
-    {
-        "You're struggling.",
-        "Perhaps a change of approach is in order..."
-    };
+    [Tooltip("Read-only preview: approximate real seconds the boss rewind will " +
+             "take given the current multiplier. Actual duration can shift by " +
+             "~30% because idle segments fast-forward and the final 0.75s eases " +
+             "out. Updates in the editor when you tweak the fields above.")]
+    [SerializeField] private float estimatedBossRewindDurationSeconds;
 
     private bool fightStarted;
     private bool phase2Triggered;
@@ -185,38 +178,32 @@ public class BossFightController : MonoBehaviour
     // what we actually disabled (anything already disabled stays that way).
     private readonly List<MonoBehaviour> disabledDuringDialogue = new List<MonoBehaviour>();
 
-    [Header("Boss Death Dialogue")]
-    [SerializeField] private float deathDialogueDelay = 1.5f;
+    // Recomputes the boss-rewind duration preview whenever the Inspector changes
+    // a relevant field. Pulls rewindSpeed from the scene's TimeRewindManager if
+    // present so the estimate stays in sync with the manager's setting; falls
+    // back to the default (1.3) if the manager isn't in the scene yet.
+    private void OnValidate()
+    {
+        float managerSpeed = 1.3f;
+#if UNITY_EDITOR
+        TimeRewindManager mgr = FindFirstObjectByType<TimeRewindManager>();
+        if (mgr != null) managerSpeed = mgr.RewindSpeed;
+#endif
+        float effective = Mathf.Max(0.01f, managerSpeed * bossRewindSpeedMultiplier);
+        estimatedBossRewindDurationSeconds = phase2TimerSeconds / effective;
+    }
 
     private void Awake()
     {
         if (dialogueContainer != null) dialogueContainer.SetActive(false);
 
+        // Force middle-center alignment so multi-line lines stay centered inside
+        // the dialogue box instead of pushing the block up from a top-aligned anchor.
+        if (dialogueText != null) dialogueText.alignment = TextAlignmentOptions.Center;
+
         // Make sure our own collider is a trigger — otherwise OnTriggerEnter2D never fires.
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
-
-        if (boss != null)
-            boss.OnDeath += OnBossDied;
-    }
-
-    private void OnDestroy()
-    {
-        if (cachedPlayerHealth != null)
-            cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
-        if (boss != null)
-            boss.OnDeath -= OnBossDied;
-    }
-
-    private void OnBossDied()
-    {
-        StartCoroutine(RunBossDeathDialogue());
-    }
-
-    private IEnumerator RunBossDeathDialogue()
-    {
-        yield return new WaitForSeconds(deathDialogueDelay);
-        yield return StartCoroutine(PlayHintDialogue(new[] { "Impossible..." }));
     }
 
     private void Update()
@@ -232,16 +219,6 @@ public class BossFightController : MonoBehaviour
         {
             phase2Triggered = true;
             StartCoroutine(RunPhase2Transition());
-        }
-
-        // Phase 2 playstyle hint
-        if (enablePlaystyleHint && !hintTriggered && boss.fightStage == Boss.FightStage.Phase2
-            && phase2DamageCount >= hintDamageThreshold
-            && Time.time - phase2StartTime >= hintMinPhase2Time
-            && !boss.dialoguePaused)
-        {
-            hintTriggered = true;
-            StartCoroutine(RunPlaystyleHint());
         }
     }
 
@@ -260,7 +237,7 @@ public class BossFightController : MonoBehaviour
         // player's idle animation keeps playing.
         LockPlayer();
 
-        yield return StartCoroutine(PlayDialogue(phase1Lines));
+        yield return StartCoroutine(PlayDialogue(phase1Lines, false));
 
         UnlockPlayer();
         if (boss != null) boss.BeginFight(Boss.FightStage.Phase1);
@@ -296,6 +273,10 @@ public class BossFightController : MonoBehaviour
             {
                 audioSource.PlayOneShot(bossRewindStartClip, bossRewindVolume);
             }
+            // Scope the boss-only speed boost around this single rewind. StopRewind
+            // also clears the multiplier as a safety net, but we pair explicitly
+            // so an aborted rewind path doesn't leak into the next player rewind.
+            manager.PushSpeedMultiplier(bossRewindSpeedMultiplier);
             manager.StartRewind();
 
             // Drive the rewind until it lands back at the start of the fight,
@@ -309,6 +290,8 @@ public class BossFightController : MonoBehaviour
                 }
                 yield return null;
             }
+
+            manager.ClearSpeedMultiplier();
         }
 
         if (playerRewindController != null) playerRewindController.SetExternalRewindActive(false);
@@ -330,7 +313,7 @@ public class BossFightController : MonoBehaviour
         ClearBossAttacks();
         RefillPlayerMana();
 
-        yield return StartCoroutine(PlayDialogue(phase2Lines));
+        yield return StartCoroutine(PlayDialogue(phase2Lines, true));
 
         UnlockPlayer();
         if (boss != null)
@@ -338,111 +321,6 @@ public class BossFightController : MonoBehaviour
             boss.dialoguePaused = false;
             boss.AdvanceToPhase2();
         }
-
-        // Start tracking damage for the playstyle hint
-        phase2StartTime = Time.time;
-        phase2DamageCount = 0;
-
-        if (cachedPlayerHealth == null && playerScriptsRoot != null)
-            cachedPlayerHealth = playerScriptsRoot.GetComponent<PlayerHealth>();
-        if (cachedPlayerHealth == null)
-            cachedPlayerHealth = FindFirstObjectByType<PlayerHealth>();
-
-        if (cachedPlayerHealth != null)
-            cachedPlayerHealth.OnHealthChanged += OnPlayerDamagedInPhase2;
-    }
-
-    private void OnPlayerDamagedInPhase2(int current, int max)
-    {
-        // OnHealthChanged fires for both damage and healing; only count damage
-        phase2DamageCount++;
-    }
-
-    private IEnumerator RunPlaystyleHint()
-    {
-        // Unsubscribe — hint only fires once
-        if (cachedPlayerHealth != null)
-            cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
-
-        // Non-freezing: gameplay continues while the hint types out
-        string[] lines = GetPlaystyleHintLines();
-        yield return StartCoroutine(PlayHintDialogue(lines));
-    }
-
-    /// <summary>
-    /// Lightweight typewriter that does NOT pause the boss or lock the player.
-    /// Shows text over the fight, then hides itself.
-    /// </summary>
-    private IEnumerator PlayHintDialogue(string[] lines)
-    {
-        if (dialogueText == null || lines == null || lines.Length == 0) yield break;
-
-        WatcherCommentary.DialogueLocked = true;
-
-        if (dialogueContainer != null)
-        {
-            Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
-            if (parentCanvas != null) parentCanvas.gameObject.SetActive(true);
-            dialogueContainer.SetActive(true);
-        }
-
-        yield return null;
-
-        float cps = Mathf.Max(1f, charactersPerSecond);
-        float timePerChar = 1f / cps;
-
-        foreach (string line in lines)
-        {
-            if (string.IsNullOrEmpty(line)) continue;
-
-            dialogueText.enableAutoSizing = true;
-            dialogueText.text = line;
-            dialogueText.ForceMeshUpdate();
-            float fitted = dialogueText.fontSize;
-
-            dialogueText.enableAutoSizing = false;
-            dialogueText.fontSize = fitted;
-            dialogueText.maxVisibleCharacters = 0;
-            yield return null;
-
-            for (int i = 1; i <= line.Length; i++)
-            {
-                dialogueText.maxVisibleCharacters = i;
-                yield return new WaitForSeconds(timePerChar);
-            }
-
-            yield return new WaitForSeconds(pauseBetweenLines);
-        }
-
-        yield return new WaitForSeconds(pauseAfterLastLine);
-
-        if (dialogueContainer != null) dialogueContainer.SetActive(false);
-        dialogueText.text = "";
-        dialogueText.maxVisibleCharacters = int.MaxValue;
-        dialogueText.enableAutoSizing = true;
-
-        WatcherCommentary.DialogueLocked = false;
-    }
-
-    private string[] GetPlaystyleHintLines()
-    {
-        if (boss == null || boss.playerStrategyModel == null
-            || boss.playerStrategyModel.strategyBeliefs == null
-            || boss.playerStrategyModel.strategyBeliefs.Count == 0)
-            return hintLinesFallback;
-
-        var beliefs = boss.playerStrategyModel.strategyBeliefs;
-        float aggressive = 0f, defensive = 0f, abilityFocused = 0f;
-        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.AggressivePlayer, out aggressive);
-        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.DefensivePlayer, out defensive);
-        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.AbilityFocusedPlayer, out abilityFocused);
-
-        if (aggressive >= defensive && aggressive >= abilityFocused)
-            return hintLinesAggressive;
-        else if (defensive >= aggressive && defensive >= abilityFocused)
-            return hintLinesEvasive;
-        else
-            return hintLinesAbilityFocused;
     }
 
     // Mirrors IntroCutscene.DisablePlayerControl's script-disable pass. Stops
@@ -453,9 +331,6 @@ public class BossFightController : MonoBehaviour
     private RigidbodyConstraints2D originalRigidbodyConstraints;
     private bool rigidbodyConstraintsCaptured;
     private Coroutine lockedAnimatorRoutine;
-    // which we toggle separately). Also zeroes out the rigidbody and forces the
-    // animator to idle so lingering velocity / mid-air frames don't bleed through.
-    private bool rigidbodyWasDynamic;
 
     private void LockPlayer()
     {
@@ -471,10 +346,6 @@ public class BossFightController : MonoBehaviour
             playerRigidbody.linearVelocity = new Vector2(0f, playerRigidbody.linearVelocity.y);
             playerRigidbody.angularVelocity = 0f;
             playerRigidbody.constraints = originalRigidbodyConstraints | RigidbodyConstraints2D.FreezePositionX;
-            rigidbodyWasDynamic = playerRigidbody.bodyType == RigidbodyType2D.Dynamic;
-            playerRigidbody.linearVelocity = Vector2.zero;
-            playerRigidbody.angularVelocity = 0f;
-            playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
         }
 
         ForcePlayerIdleAnimation();
@@ -545,13 +416,9 @@ public class BossFightController : MonoBehaviour
                 playerAnimator.SetBool("isGrounded", PlayerIsGrounded());
             }
             yield return null;
-            if (playerRigidbody != null && rigidbodyWasDynamic)
-            {
-                playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
-            }
         }
     }
-
+s
     private void ForcePlayerIdleAnimation()
     {
         if (playerAnimator == null) return;
@@ -665,7 +532,9 @@ public class BossFightController : MonoBehaviour
 
     // Mirrors the typewriter flow in IntroCutscene.PlayIntroDialogue, but uses
     // unscaled time so it keeps running while Time.timeScale is 0.
-    private IEnumerator PlayDialogue(string[] lines)
+    // emphasizeLastLine: slows the typewriter + starts a per-glyph shake on the
+    // final line — used for phase 2's "Prepare to DIE" beat.
+    private IEnumerator PlayDialogue(string[] lines, bool emphasizeLastLine)
     {
         if (dialogueText == null || lines == null || lines.Length == 0) yield break;
 
@@ -678,11 +547,16 @@ public class BossFightController : MonoBehaviour
 
         yield return null;
 
-        float cps = Mathf.Max(1f, charactersPerSecond);
-        float timePerChar = 1f / cps;
+        float baseCps = Mathf.Max(1f, charactersPerSecond);
+        float slowCps = Mathf.Max(1f, lastLineCharactersPerSecond);
+        Coroutine shakeRoutine = null;
 
-        foreach (string line in lines)
+        for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
         {
+            string line = lines[lineIndex];
+            bool emphasise = emphasizeLastLine && lineIndex == lines.Length - 1;
+            float timePerChar = 1f / (emphasise ? slowCps : baseCps);
+
             if (string.IsNullOrEmpty(line))
             {
                 dialogueText.text = "";
@@ -701,7 +575,15 @@ public class BossFightController : MonoBehaviour
             dialogueText.maxVisibleCharacters = 0;
             yield return null;
 
-            for (int i = 1; i <= line.Length; i++)
+            // Rich-text tags (colour, link) inflate line.Length but don't count
+            // toward visible glyphs — drive the typewriter off textInfo so tags
+            // don't cause phantom pauses while the boss "types" invisible markup.
+            dialogueText.ForceMeshUpdate();
+            int glyphCount = dialogueText.textInfo.characterCount;
+
+            if (emphasise) shakeRoutine = StartCoroutine(ShakeDialogueText());
+
+            for (int i = 1; i <= glyphCount; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
 
@@ -719,9 +601,94 @@ public class BossFightController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(pauseAfterLastLine);
 
+        if (shakeRoutine != null)
+        {
+            StopCoroutine(shakeRoutine);
+            shakeRoutine = null;
+        }
+
         if (dialogueContainer != null) dialogueContainer.SetActive(false);
         dialogueText.text = "";
         dialogueText.maxVisibleCharacters = int.MaxValue;
         dialogueText.enableAutoSizing = true;
+    }
+
+    // Per-glyph jitter driven off the TMP character vertex buffer. Characters inside
+    // a <link=heavy> tag get a larger radius so a single word (e.g. "DIE") shakes
+    // more violently than the rest of the line. Runs every frame until stopped;
+    // PlayDialogue cancels it after the final pause.
+    private IEnumerator ShakeDialogueText()
+    {
+        if (dialogueText == null) yield break;
+
+        Vector3[][] baseline = null;
+
+        while (true)
+        {
+            // Rebuild each frame so the freshly-layed-out verts (post typewriter
+            // increment) are our shake origin — otherwise we'd accumulate offsets.
+            dialogueText.ForceMeshUpdate();
+            TMPro.TMP_TextInfo info = dialogueText.textInfo;
+            int meshCount = info.meshInfo.Length;
+
+            if (baseline == null || baseline.Length != meshCount)
+                baseline = new Vector3[meshCount][];
+
+            for (int m = 0; m < meshCount; m++)
+            {
+                Vector3[] src = info.meshInfo[m].vertices;
+                if (baseline[m] == null || baseline[m].Length != src.Length)
+                    baseline[m] = new Vector3[src.Length];
+                System.Array.Copy(src, baseline[m], src.Length);
+            }
+
+            // Find the "heavy" link range if present — those glyphs get the larger
+            // shake radius. Missing link just means the whole line shakes uniformly.
+            int heavyStart = -1;
+            int heavyEnd = -1;
+            for (int l = 0; l < info.linkCount; l++)
+            {
+                TMPro.TMP_LinkInfo link = info.linkInfo[l];
+                if (link.GetLinkID() == "heavy")
+                {
+                    heavyStart = link.linkTextfirstCharacterIndex;
+                    heavyEnd = heavyStart + link.linkTextLength;
+                    break;
+                }
+            }
+
+            int visible = Mathf.Min(dialogueText.maxVisibleCharacters, info.characterCount);
+            for (int c = 0; c < visible; c++)
+            {
+                TMPro.TMP_CharacterInfo ci = info.characterInfo[c];
+                if (!ci.isVisible) continue;
+
+                int m = ci.materialReferenceIndex;
+                int v = ci.vertexIndex;
+
+                float amp = c >= heavyStart && c < heavyEnd
+                    ? lastLineHeavyShakeAmount
+                    : lastLineShakeAmount;
+
+                Vector3 offset = new Vector3(
+                    Random.Range(-amp, amp),
+                    Random.Range(-amp, amp),
+                    0f);
+
+                Vector3[] verts = info.meshInfo[m].vertices;
+                verts[v + 0] = baseline[m][v + 0] + offset;
+                verts[v + 1] = baseline[m][v + 1] + offset;
+                verts[v + 2] = baseline[m][v + 2] + offset;
+                verts[v + 3] = baseline[m][v + 3] + offset;
+            }
+
+            for (int m = 0; m < meshCount; m++)
+            {
+                info.meshInfo[m].mesh.vertices = info.meshInfo[m].vertices;
+                dialogueText.UpdateGeometry(info.meshInfo[m].mesh, m);
+            }
+
+            yield return null;
+        }
     }
 }
