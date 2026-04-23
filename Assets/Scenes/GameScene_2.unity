@@ -11293,6 +11293,12 @@ MonoBehaviour:
   skillCommentDelay: 1.5
   maxCommentsPerScene: 3
   commentCooldown: 15
+  audioSource: {fileID: 1068174379}
+  dialogueBlip: {fileID: 8300000, guid: 7207e8e5f559b3044b61955a1f37e708, type: 3}
+  dialogueBlipVolume: 1
+  minPitch: 0.6
+  maxPitch: 0.7
+  charsPerSound: 2
 --- !u!4 &270732972
 Transform:
   m_ObjectHideFlags: 0
@@ -37127,6 +37133,15 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+  damageClips: []
+  damageVolume: 0.5
+  deathClip: {fileID: 0}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips: []
+  idleVolume: 0.5
+  idleIntervalRange: {x: 3, y: 5}
   detectionRange: 8
   shootRange: 6
   safeDistance: 3
@@ -37143,6 +37158,8 @@ MonoBehaviour:
   pushOffDuration: 0.25
   _player: {fileID: 936638525}
   arrowPrefab: {fileID: 0}
+  fireClip: {fileID: 0}
+  fireVolume: 1
   arrowPoolSize: 5
   arrowSpawnOffset: {x: 0.3, y: 0.5}
   reviveAnimDuration: 0.9
@@ -516123,6 +516140,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1116170665}
   m_SourcePrefab: {fileID: 100100000, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+--- !u!82 &1068174379 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2412794728691430052, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
+  m_PrefabInstance: {fileID: 1068174378}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1069954545
 GameObject:
   m_ObjectHideFlags: 0
