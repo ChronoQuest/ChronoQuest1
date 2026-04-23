@@ -418,7 +418,6 @@ public class BossFightController : MonoBehaviour
             yield return null;
         }
     }
-s
     private void ForcePlayerIdleAnimation()
     {
         if (playerAnimator == null) return;
