@@ -200,7 +200,7 @@ MonoBehaviour:
   fireExplosionClip: {fileID: 8300000, guid: 2558a701cec1df540b28e08b8bc7ef1c, type: 3}
   fireExplosionVolume: 0.5
   fallingClip: {fileID: 8300000, guid: 2357ce413e2a61943ab6a9f2f242d004, type: 3}
-  fallingVolume: 0.5
+  fallingVolume: 0.3
 --- !u!82 &-8416473592454218106
 AudioSource:
   m_ObjectHideFlags: 0

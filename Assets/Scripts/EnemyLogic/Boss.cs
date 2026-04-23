@@ -118,8 +118,13 @@ public class Boss : EnemyBase, IRewindable
     bool meleeHitApplied;
     [Header("Audio")]
     [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private float jumpVolume = 1f;
     [SerializeField] private AudioClip smashClip;
     [SerializeField] private float smashVolume = 0.4f;
+    [SerializeField] private AudioClip swingClip;
+    [SerializeField] private float swingVolume = 0.8f;
+    [SerializeField] private AudioClip[] footstepClips;
+    [SerializeField] private float footstepVolume = 0.5f;
     
 
     void Start()
@@ -238,7 +243,7 @@ public class Boss : EnemyBase, IRewindable
         posMove = PosMove.Melee;
         off = OffMove.None;
         res = ResMove.None;
-        return;  */
+        return; */
 
         // Phase 1: dumber roll — same 20% positional split, but every move within each
         // branch is equally likely and the GMM is not consulted.
@@ -892,6 +897,7 @@ public class Boss : EnemyBase, IRewindable
         if (wasDead) return;
         wasDead = true;
         isDead = true;
+        DeathSound();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
 
@@ -1140,16 +1146,34 @@ public class Boss : EnemyBase, IRewindable
     }
     public void playJumpSound()
     {
-        if(base.audioSource != null && jumpClip != null)
+        if(audioSource != null && jumpClip != null)
         {
-            base.audioSource.PlayOneShot(jumpClip);
+            audioSource.PlayOneShot(jumpClip, jumpVolume);
         }
     }
-        public void playSmashSound()
+    public void playSmashSound()
     {
-        if(base.audioSource != null && smashClip != null)
+        if(audioSource != null && smashClip != null)
         {
-            base.audioSource.PlayOneShot(smashClip, smashVolume);
+            audioSource.PlayOneShot(smashClip, smashVolume);
+        }
+    }
+    public void playSwingSound()
+    {
+        if(audioSource != null && swingClip != null)
+        {
+            audioSource.PlayOneShot(swingClip, swingVolume);
+        }
+    }
+    public void PlayFootstep(float vol = -1)
+    {
+        // Default to footstepVolume if unspecified
+        if (vol == -1) vol = footstepVolume;
+        if (footstepClips != null && footstepClips.Length > 0 && audioSource != null)
+        {
+            int randomIndex = Random.Range(0, footstepClips.Length);
+            Debug.Log("HELLO");
+            audioSource.PlayOneShot(footstepClips[randomIndex], vol);
         }
     }
 }

@@ -189,6 +189,9 @@ MonoBehaviour:
   groundDetectionOffset: 1.3
   hitboxRadius: 0.6
   hitboxOffset: 0.8
+  pushOffXSpeed: 1.5
+  pushOffYSpeed: 1
+  pushOffDuration: 0.25
   reviveAnimDuration: 0.9
   _player: {fileID: 0}
   dodgeTriggerDistance: 5
@@ -269,7 +272,7 @@ MonoBehaviour:
   triggerCost: 0.3
   audioSource: {fileID: 4032850218328781176}
   foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
-  volume: 0.4
+  volume: 0.8
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2

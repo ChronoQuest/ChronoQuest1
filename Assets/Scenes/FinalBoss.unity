@@ -3753,6 +3753,13 @@ MonoBehaviour:
   bossRewindBurstTint: {r: 1, g: 0.25, b: 0.25, a: 0.45}
   rewindGhostTrail: {fileID: 0}
   bossSprite: {fileID: 508054502}
+  audioSource: {fileID: 508054511}
+  bossRewindStartClip: {fileID: 8300000, guid: 624ccd865a783bb459395ffa396d3cd3, type: 3}
+  bossRewindVolume: 1
+  dialogueBlip: {fileID: 8300000, guid: 7207e8e5f559b3044b61955a1f37e708, type: 3}
+  minPitch: 0.6
+  maxPitch: 0.7
+  charsPerSound: 2
 --- !u!61 &431215193
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -52495,6 +52502,7 @@ GameObject:
   - component: {fileID: 508054507}
   - component: {fileID: 508054508}
   - component: {fileID: 508054510}
+  - component: {fileID: 508054511}
   m_Layer: 7
   m_Name: Boss
   m_TagString: Boss
@@ -52669,10 +52677,11 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
-  damageClips: []
+  damageClips:
+  - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
   damageVolume: 0.5
-  deathClip: {fileID: 0}
-  deathVolume: 0.5
+  deathClip: {fileID: 8300000, guid: 4a814b10c75ff6946bf12e39f39a26d3, type: 3}
+  deathVolume: 1
   reviveClip: {fileID: 0}
   reviveVolume: 0.5
   idleClips: []
@@ -52690,6 +52699,20 @@ MonoBehaviour:
   meleeRunSpeed: 35
   meleeStopBuffer: 0.6
   meleeHitReach: 1.5
+  jumpClip: {fileID: 8300000, guid: df3685f8479d43a4b98cd0026551f7a5, type: 3}
+  jumpVolume: 1
+  smashClip: {fileID: 8300000, guid: cac2e6a2be83f8c48a75f9b4c37fb896, type: 3}
+  smashVolume: 0.6
+  swingClip: {fileID: 8300000, guid: 48b1fd71e6fb84847a0a8321541f7b69, type: 3}
+  swingVolume: 0.5
+  footstepClips:
+  - {fileID: 8300000, guid: 1792e0f69674b9e45bd4984dbe3940cb, type: 3}
+  - {fileID: 8300000, guid: 24a13f25c7686954285dc9afdf29b855, type: 3}
+  - {fileID: 8300000, guid: f0bfb6e588de53c45befc3e225b1743a, type: 3}
+  - {fileID: 8300000, guid: 1c04eb9a4dcc12e4a99cc5a8ccfdf0f4, type: 3}
+  - {fileID: 8300000, guid: 343488cbc04993744a85f8449d661264, type: 3}
+  - {fileID: 8300000, guid: 47a44250730d0754bb97b2fc76302f50, type: 3}
+  footstepVolume: 0.5
 --- !u!114 &508054508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52740,6 +52763,103 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::BossHealthBarDriver
   healthBarUI: {fileID: 887291609}
   bossName: THE WATCHER
+--- !u!82 &508054511
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508054501}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &526924364
 PrefabInstance:
   m_ObjectHideFlags: 0

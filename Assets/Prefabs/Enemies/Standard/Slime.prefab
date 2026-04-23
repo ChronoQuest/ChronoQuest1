@@ -411,7 +411,7 @@ MonoBehaviour:
   triggerCost: 0.3
   audioSource: {fileID: 8339760720650091388}
   foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
-  volume: 0.4
+  volume: 0.8
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2

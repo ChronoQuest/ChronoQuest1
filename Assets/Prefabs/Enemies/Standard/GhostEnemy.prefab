@@ -200,6 +200,13 @@ MonoBehaviour:
   damageClips:
   - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
   damageVolume: 1
+  deathClip: {fileID: 0}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips: []
+  idleVolume: 0.5
+  idleIntervalRange: {x: 3, y: 5}
   detectionRange: 7
   moveSpeed: 2
   attackCooldown: 1
@@ -253,7 +260,7 @@ MonoBehaviour:
   triggerCost: 0.3
   audioSource: {fileID: -8307491888426681607}
   foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
-  volume: 0.4
+  volume: 0.8
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2

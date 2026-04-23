@@ -240,7 +240,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   roarClip: {fileID: 8300000, guid: 6e0e392570541d54a805339913668e32, type: 3}
-  roarVolume: 0.5
+  roarVolume: 0.8
   detectionRange: 10
   dodgeTriggerDistance: 5
   currentState: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   triggerCost: 0.3
   audioSource: {fileID: 5172124036911726069}
   foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
-  volume: 0.4
+  volume: 0.8
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2

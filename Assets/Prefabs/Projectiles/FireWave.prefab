@@ -127,7 +127,7 @@ MonoBehaviour:
   bossFacingDirection: 1
   audioSource: {fileID: -1985806336859426626}
   fireLoopClip: {fileID: 8300000, guid: 47127ded08830ad4ea4e27e9785a622a, type: 3}
-  fireVolume: 0.8
+  fireVolume: 0.5
 --- !u!212 &8331900289904958844
 SpriteRenderer:
   serializedVersion: 2

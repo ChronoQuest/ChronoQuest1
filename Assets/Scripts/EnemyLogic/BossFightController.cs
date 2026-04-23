@@ -133,6 +133,11 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private AudioClip bossRewindStartClip;
     [Range(0f, 1f)]
     [SerializeField] private float bossRewindVolume = 1f;
+    [SerializeField] private AudioClip dialogueBlip;
+    [SerializeField] private float dialogueBlipVolume = 1.5f;
+    [SerializeField] private float minPitch = 0.6f;
+    [SerializeField] private float maxPitch = 0.7f;
+    [SerializeField] private int charsPerSound = 2;
 
     private bool fightStarted;
     private bool phase2Triggered;
@@ -510,6 +515,13 @@ public class BossFightController : MonoBehaviour
             for (int i = 1; i <= line.Length; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
+
+                if (audioSource != null && dialogueBlip != null && i % charsPerSound == 0)
+                {
+                    audioSource.pitch = Random.Range(minPitch, maxPitch);
+                    audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
+                }
+
                 yield return new WaitForSecondsRealtime(timePerChar);
             }
 

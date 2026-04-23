@@ -322,6 +322,9 @@ MonoBehaviour:
   isStatic: 0
   damage: 1
   shootCooldown: 2
+  pushOffXSpeed: 1.5
+  pushOffYSpeed: 1
+  pushOffDuration: 0.25
   _player: {fileID: 0}
   arrowPrefab: {fileID: 2949883894860106733, guid: 6a850dd841c3d8a46a68b198ac367c0a, type: 3}
   fireClip: {fileID: 8300000, guid: ea6cc08915dda8f4c978990632907c35, type: 3}
@@ -351,7 +354,7 @@ MonoBehaviour:
   triggerCost: 0.3
   audioSource: {fileID: -6549629612259132547}
   foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
-  volume: 0.4
+  volume: 0.8
   futureLookaheadSteps: 20
   weightDistance: 0.5
   weightVelocity: 0.2
