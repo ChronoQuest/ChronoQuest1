@@ -70,8 +70,16 @@ public class EndCredits : MonoBehaviour
 
         Image bg;
         RectTransform textRT;
+        TextMeshProUGUI tmp;
         float textHeight;
-        BuildOverlay(out bg, out textRT, out textHeight);
+        BuildOverlay(out bg, out textRT, out tmp, out textHeight);
+
+        // Keep the text hidden during the fade — the background renders under the
+        // text, so at partial bg alpha the still-visible gameplay would show
+        // through with white credits painted on top of it.
+        Color textColor = tmp.color;
+        textColor.a = 0f;
+        tmp.color = textColor;
 
         // Fade to black.
         float t = 0f;
@@ -82,6 +90,10 @@ public class EndCredits : MonoBehaviour
             yield return null;
         }
         bg.color = Color.black;
+
+        // Screen is fully black — safe to show the text now before the scroll starts.
+        textColor.a = 1f;
+        tmp.color = textColor;
 
         // Scroll the text upward: start below the bottom of the screen, finish above the top.
         float screenH = Screen.height;
@@ -115,7 +127,7 @@ public class EndCredits : MonoBehaviour
         }
     }
 
-    private void BuildOverlay(out Image background, out RectTransform textRT, out float textHeight)
+    private void BuildOverlay(out Image background, out RectTransform textRT, out TextMeshProUGUI textComponent, out float textHeight)
     {
         GameObject canvasGO = new GameObject("EndCreditsCanvas");
         canvasGO.transform.SetParent(transform, false);
@@ -158,6 +170,7 @@ public class EndCredits : MonoBehaviour
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.white;
         tmp.raycastTarget = false;
+        textComponent = tmp;
 
         // Place the text off-screen below to start; the scroll phase drives it upward.
         textRT.anchoredPosition = new Vector2(0f, -Screen.height * 0.5f - textHeight * 0.5f);
