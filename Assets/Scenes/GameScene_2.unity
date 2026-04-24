@@ -3952,6 +3952,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 936638525}
     - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
       propertyPath: knockbackResistance
       value: 30
       objectReference: {fileID: 0}
@@ -8051,6 +8055,11 @@ MonoBehaviour:
   physicsCollider: {fileID: 1424034720}
   tilemapRenderer: {fileID: 1424034719}
   breakParticles: {fileID: 0}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  breakClip: {fileID: 0}
+  rumbleVolume: 0.5
+  breakVolume: 0.7
 --- !u!1 &202139121
 GameObject:
   m_ObjectHideFlags: 0
@@ -9118,6 +9127,11 @@ MonoBehaviour:
   respawnTime: 2
   ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 220856467}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  fallClip: {fileID: 0}
+  rumbleVolume: 0.5
+  fallVolume: 0.7
 --- !u!50 &220856469
 Rigidbody2D:
   serializedVersion: 5
@@ -11905,6 +11919,9 @@ MonoBehaviour:
   - {fileID: 780348099}
   speed: 4
   waitTimeAtPoint: 1
+  audioSource: {fileID: 0}
+  movingClip: {fileID: 0}
+  movingVolume: 0.3
 --- !u!66 &286704151
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -19895,6 +19912,11 @@ MonoBehaviour:
   respawnTime: 3
   ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 494275481}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  fallClip: {fileID: 0}
+  rumbleVolume: 0.5
+  fallVolume: 0.7
 --- !u!50 &494275483
 Rigidbody2D:
   serializedVersion: 5
@@ -119511,6 +119533,11 @@ MonoBehaviour:
   respawnTime: 3
   ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 980998060}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  fallClip: {fileID: 0}
+  rumbleVolume: 0.5
+  fallVolume: 0.7
 --- !u!50 &980998056
 Rigidbody2D:
   serializedVersion: 5
@@ -121657,6 +121684,11 @@ MonoBehaviour:
   physicsCollider: {fileID: 846227798}
   tilemapRenderer: {fileID: 846227797}
   breakParticles: {fileID: 0}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  breakClip: {fileID: 0}
+  rumbleVolume: 0.5
+  breakVolume: 0.7
 --- !u!1 &1031049217 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 390456860282783827, guid: 3992f4ff9bbe8374987ef085a805e602, type: 3}
@@ -519246,6 +519278,11 @@ MonoBehaviour:
   physicsCollider: {fileID: 725604300}
   tilemapRenderer: {fileID: 725604296}
   breakParticles: {fileID: 0}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  breakClip: {fileID: 0}
+  rumbleVolume: 0.5
+  breakVolume: 0.7
 --- !u!4 &1121751738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5872285249089179435, guid: e5c0050a11a3e416d94534eee0a50f3e, type: 3}
@@ -521217,6 +521254,9 @@ MonoBehaviour:
   - {fileID: 1240570428}
   speed: 6
   waitTimeAtPoint: 1
+  audioSource: {fileID: 0}
+  movingClip: {fileID: 0}
+  movingVolume: 0.3
 --- !u!50 &1168468951
 Rigidbody2D:
   serializedVersion: 5
@@ -522538,6 +522578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
   hintType: 10
   tutorial: {fileID: 1455075769}
+  hasTriggered: 0
 --- !u!4 &1187109573 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: 8460a8462faed5e42ad2997b6a44c43a, type: 3}
@@ -526765,6 +526806,11 @@ MonoBehaviour:
   physicsCollider: {fileID: 866386364}
   tilemapRenderer: {fileID: 866386363}
   breakParticles: {fileID: 0}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  breakClip: {fileID: 0}
+  rumbleVolume: 0.5
+  breakVolume: 0.7
 --- !u!1 &1311865773
 GameObject:
   m_ObjectHideFlags: 0
@@ -536061,6 +536107,11 @@ MonoBehaviour:
   respawnTime: 2
   ignoreTierNoFallingLock: 0
   platformCollider: {fileID: 1549788526}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  fallClip: {fileID: 0}
+  rumbleVolume: 0.5
+  fallVolume: 0.7
 --- !u!50 &1549788528
 Rigidbody2D:
   serializedVersion: 5
@@ -540386,6 +540437,9 @@ MonoBehaviour:
   - {fileID: 487827587}
   speed: 3
   waitTimeAtPoint: 1
+  audioSource: {fileID: 0}
+  movingClip: {fileID: 0}
+  movingVolume: 0.3
 --- !u!1 &1667222702
 GameObject:
   m_ObjectHideFlags: 0
@@ -545679,6 +545733,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: _player
       value: 
       objectReference: {fileID: 936638525}
     - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
@@ -556441,6 +556499,9 @@ MonoBehaviour:
   - {fileID: 365228309}
   speed: 8
   waitTimeAtPoint: 1
+  audioSource: {fileID: 0}
+  movingClip: {fileID: 0}
+  movingVolume: 0.3
 --- !u!50 &2039152400
 Rigidbody2D:
   serializedVersion: 5
@@ -557926,6 +557987,9 @@ MonoBehaviour:
   - {fileID: 30133036}
   speed: 6
   waitTimeAtPoint: 1
+  audioSource: {fileID: 0}
+  movingClip: {fileID: 0}
+  movingVolume: 0.3
 --- !u!66 &2067053971
 CompositeCollider2D:
   m_ObjectHideFlags: 0
