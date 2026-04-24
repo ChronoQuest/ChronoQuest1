@@ -19,6 +19,8 @@ namespace TimeRewind
         [SerializeField] private float manaDrainPerSecond = 10f;
         [Tooltip("Minimum mana required to START rewinding while dead (revive rewind). Prevents confusing 1-frame rewinds.")]
         [SerializeField] private float minManaToStartRewindWhenDead = 15f;
+        [Tooltip("Minimum mana required to START rewinding while alive.")]
+        [SerializeField] private float minManaToStartRewind = 10f;
         [Header("Effects")]
         [SerializeField] private AudioSource sfxSource;
         [SerializeField] private AudioClip rewindStartClip;
@@ -31,6 +33,7 @@ namespace TimeRewind
         private float _rewindHoldTimer;
         private int _releaseFrameCount;
         private bool blockRewindInput = false;
+        private bool _rewindInputWasHeld;
         // Set by external systems (e.g. BossFightController) that want to rewind the
         // player without consuming mana or auto-stopping because the rewind button
         // isn't held. The external caller is responsible for calling StopRewind.
@@ -102,9 +105,17 @@ namespace TimeRewind
             bool isDead = _playerHealth != null && _playerHealth.IsDead;
             bool hasManaForStart = HasManaToStartRewind(isDead);
 
-            if (_rewindInputHeld && hasManaForStart && !TimeRewindManager.Instance.IsRewinding && !_externalRewindActive)
+            if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding && !_externalRewindActive)
             {
-                TimeRewindManager.Instance.StartRewind();
+                if (hasManaForStart)
+                {
+                    TimeRewindManager.Instance.StartRewind();
+                }
+                else if (!_rewindInputWasHeld && _playerMana != null)
+                {
+                    // First frame of input with insufficient mana — fire the warning once
+                    _playerMana.NotifySpendFailed();
+                }
             }
             else if (TimeRewindManager.Instance.IsRewinding && !_externalRewindActive)
             {
@@ -141,6 +152,8 @@ namespace TimeRewind
             {
                 blockRewindInput = false;
             }
+
+            _rewindInputWasHeld = _rewindInputHeld;
         }
 
         public float MinManaToStartRewindWhenDead => minManaToStartRewindWhenDead;
@@ -153,7 +166,7 @@ namespace TimeRewind
         private bool HasManaToStartRewind(bool isDead)
         {
             if (_playerMana == null) return false;
-            if (!isDead) return _playerMana.CurrentMana > 0f;
+            if (!isDead) return _playerMana.CurrentMana >= minManaToStartRewind;
             return _playerMana.CurrentMana >= Mathf.Max(0.01f, minManaToStartRewindWhenDead);
         }
         

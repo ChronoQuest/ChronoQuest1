@@ -82,6 +82,14 @@ public class PlayerMana : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Called by external systems (e.g. rewind) to trigger the insufficient mana warning.
+    /// </summary>
+    public void NotifySpendFailed()
+    {
+        OnManaSpendFailed?.Invoke();
+    }
+
     // Specifically for the Rewind Mechanic (called every frame while rewinding)
     public bool DrainManaContinuous(float amountPerSecond)
     {
