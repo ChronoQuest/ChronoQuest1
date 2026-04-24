@@ -544,7 +544,7 @@ public class TutorialManager : MonoBehaviour
             RestoreEnemies();
             AllowAll();
 
-            OnPlayerRewind();
+            //OnPlayerRewind();
         }
         
         if (currentStep == TutorialStep.SpikeHint)
@@ -554,6 +554,10 @@ public class TutorialManager : MonoBehaviour
     }
     private void HandleRewindStopped()
     {
+        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        {
+            OnPlayerRewind(); 
+        }
         if (pendingForesightAfterRewind)
         {
             pendingForesightAfterRewind = false;
@@ -695,6 +699,14 @@ public class TutorialManager : MonoBehaviour
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
 
             pendingForesightAfterRewind = true;
+        }
+    }
+    public void OnJumpTriggerHitDuringRewind()
+    {
+        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        {
+            player.GetComponent<PlayerRewindController>()?.ForceStopRewind();
+            //OnPlayerRewind();
         }
     }
 
