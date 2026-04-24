@@ -29375,7 +29375,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4279242949
-  m_fontColor: {r: 0.7735849, g: 0.062032763, b: 0.062032763, a: 1}
+  m_fontColor: {r: 0.8980392, g: 0.23921569, b: 0.25490198, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -30569,9 +30569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
-  damage: 1
-  knockbackForce: 8
-  upwardForce: 6
 --- !u!1 &735167235
 GameObject:
   m_ObjectHideFlags: 0
@@ -36824,9 +36821,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
-  damage: 1
-  knockbackForce: 8
-  upwardForce: 6
 --- !u!1 &895182336
 GameObject:
   m_ObjectHideFlags: 0
@@ -118463,8 +118457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
-  damageAmount: 1
-  respawnPlayer: 1
 --- !u!114 &951982566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121790,8 +121782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
-  damageAmount: 1
-  respawnPlayer: 1
 --- !u!1 &1033135303
 GameObject:
   m_ObjectHideFlags: 0
@@ -526819,17 +526809,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5f70ca3b5ef46c8801c1bbc350a86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
-  shakeDuration: 0.5
-  shakeIntensity: 0.05
-  restoreDelay: 5
-  physicsCollider: {fileID: 0}
-  tilemapRenderer: {fileID: 0}
-  breakParticles: {fileID: 0}
-  audioSource: {fileID: 0}
-  rumbleClip: {fileID: 0}
-  breakClip: {fileID: 0}
-  rumbleVolume: 0.5
-  breakVolume: 0.7
 --- !u!114 &1309321255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528177,6 +528156,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2951455475209262563, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -3.112601
+      objectReference: {fileID: 0}
     - target: {fileID: 2951455475209262563, guid: 2b1f0bcd4330e484da09c2986d25ed0b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 47.65
@@ -536532,9 +536515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
-  damage: 1
-  knockbackForce: 8
-  upwardForce: 6
 --- !u!1 &1570810903
 GameObject:
   m_ObjectHideFlags: 0
@@ -544960,9 +544940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
-  damage: 1
-  knockbackForce: 8
-  upwardForce: 6
 --- !u!1 &1756035672
 GameObject:
   m_ObjectHideFlags: 0
@@ -546222,9 +546199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
-  damage: 1
-  knockbackForce: 8
-  upwardForce: 6
 --- !u!114 &1795284307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556301,14 +556275,6 @@ PrefabInstance:
       propertyPath: isStatic
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 936638525}
-    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 936638525}
     - target: {fileID: 1239436902015136738, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: m_Name
       value: SkeletonWarrior
@@ -556353,6 +556319,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
