@@ -116,6 +116,42 @@ public class BossFightController : MonoBehaviour
              "rewind triggers phase 2.")]
     [SerializeField] private float phase2TimerSeconds = 25f;
 
+    [Header("Phase 2 Playstyle Hint")]
+    [Tooltip("Enable the mid-fight hint that tells the player to change playstyle.")]
+    [SerializeField] private bool enablePlaystyleHint = true;
+    [Tooltip("How many times the player must take damage in Phase 2 before the hint fires.")]
+    [SerializeField] private int hintDamageThreshold = 5;
+    [Tooltip("Minimum seconds into Phase 2 before the hint can trigger.")]
+    [SerializeField] private float hintMinPhase2Time = 15f;
+
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesAggressive = new string[]
+    {
+        "Not a thought in that head... just mindlessly attacking.",
+        "Maybe if you were a little more cautious, you'd stand a chance."
+    };
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesEvasive = new string[]
+    {
+        "All that running and nothing to show for it.",
+        "Stop fleeing and fight back. Hit me if you can."
+    };
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesAbilityFocused = new string[]
+    {
+        "Spells won't save you forever, little mage.",
+        "Your magic is predictable. Try something I haven't already seen."
+    };
+    [TextArea(2, 5)]
+    [SerializeField] private string[] hintLinesFallback = new string[]
+    {
+        "You're struggling.",
+        "Perhaps a change of approach is in order..."
+    };
+
+    [Header("Boss Death Dialogue")]
+    [SerializeField] private float deathDialogueDelay = 1.5f;
+
     [Header("Boss Rewind")]
     [Tooltip("PlayerRewindController on the player. Put into external mode " +
              "during the boss rewind so mana isn't spent and it doesn't stop " +
@@ -204,21 +240,45 @@ public class BossFightController : MonoBehaviour
         // Make sure our own collider is a trigger — otherwise OnTriggerEnter2D never fires.
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
+
+        if (boss != null)
+            boss.OnDeath += OnBossDied;
+    }
+
+    private void OnDestroy()
+    {
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
+        if (boss != null)
+            boss.OnDeath -= OnBossDied;
     }
 
     private void Update()
     {
-        if (!fightStarted || phase2Triggered || boss == null) return;
-        if (boss.fightStage != Boss.FightStage.Phase1) return;
+        if (!fightStarted || boss == null) return;
 
-        // If the player is mid-rewind (their own), wait — starting ours on top
-        // would collide with the manager's already-active rewind state.
-        if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
-
-        if (Time.time - fightStartTime >= phase2TimerSeconds)
+        // Phase 1 → Phase 2 transition (timer-based boss rewind)
+        if (!phase2Triggered && boss.fightStage == Boss.FightStage.Phase1)
         {
-            phase2Triggered = true;
-            StartCoroutine(RunPhase2Transition());
+            // If the player is mid-rewind (their own), wait — starting ours on top
+            // would collide with the manager's already-active rewind state.
+            if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
+
+            if (Time.time - fightStartTime >= phase2TimerSeconds)
+            {
+                phase2Triggered = true;
+                StartCoroutine(RunPhase2Transition());
+            }
+        }
+
+        // Phase 2 playstyle hint
+        if (enablePlaystyleHint && !hintTriggered && boss.fightStage == Boss.FightStage.Phase2
+            && phase2DamageCount >= hintDamageThreshold
+            && Time.time - phase2StartTime >= hintMinPhase2Time
+            && !boss.dialoguePaused)
+        {
+            hintTriggered = true;
+            StartCoroutine(RunPlaystyleHint());
         }
     }
 
@@ -321,6 +381,128 @@ public class BossFightController : MonoBehaviour
             boss.dialoguePaused = false;
             boss.AdvanceToPhase2();
         }
+
+        // Start tracking damage for the playstyle hint
+        phase2StartTime = Time.time;
+        phase2DamageCount = 0;
+
+        if (cachedPlayerHealth == null && playerScriptsRoot != null)
+            cachedPlayerHealth = playerScriptsRoot.GetComponent<PlayerHealth>();
+        if (cachedPlayerHealth == null)
+            cachedPlayerHealth = FindFirstObjectByType<PlayerHealth>();
+
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged += OnPlayerDamagedInPhase2;
+    }
+
+    private void OnPlayerDamagedInPhase2(int current, int max)
+    {
+        phase2DamageCount++;
+    }
+
+    private void OnBossDied()
+    {
+        StartCoroutine(RunBossDeathDialogue());
+    }
+
+    private IEnumerator RunBossDeathDialogue()
+    {
+        yield return new WaitForSeconds(deathDialogueDelay);
+        yield return StartCoroutine(PlayHintDialogue(new[] { "Impossible..." }));
+    }
+
+    private IEnumerator RunPlaystyleHint()
+    {
+        // Unsubscribe — hint only fires once
+        if (cachedPlayerHealth != null)
+            cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
+
+        // Non-freezing: gameplay continues while the hint types out
+        string[] lines = GetPlaystyleHintLines();
+        yield return StartCoroutine(PlayHintDialogue(lines));
+    }
+
+    /// <summary>
+    /// Lightweight typewriter that does NOT pause the boss or lock the player.
+    /// Shows text over the fight, then hides itself.
+    /// </summary>
+    private IEnumerator PlayHintDialogue(string[] lines)
+    {
+        if (dialogueText == null || lines == null || lines.Length == 0) yield break;
+
+        WatcherCommentary.DialogueLocked = true;
+
+        if (dialogueContainer != null)
+        {
+            Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
+            if (parentCanvas != null) parentCanvas.gameObject.SetActive(true);
+            dialogueContainer.SetActive(true);
+        }
+
+        yield return null;
+
+        float cps = Mathf.Max(1f, charactersPerSecond);
+        float timePerChar = 1f / cps;
+
+        foreach (string line in lines)
+        {
+            if (string.IsNullOrEmpty(line)) continue;
+
+            dialogueText.enableAutoSizing = true;
+            dialogueText.text = line;
+            dialogueText.ForceMeshUpdate();
+            float fitted = dialogueText.fontSize;
+
+            dialogueText.enableAutoSizing = false;
+            dialogueText.fontSize = fitted;
+            dialogueText.maxVisibleCharacters = 0;
+            yield return null;
+
+            for (int i = 1; i <= line.Length; i++)
+            {
+                dialogueText.maxVisibleCharacters = i;
+
+                if (audioSource != null && dialogueBlip != null && i % charsPerSound == 0)
+                {
+                    audioSource.pitch = Random.Range(minPitch, maxPitch);
+                    audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
+                }
+
+                yield return new WaitForSeconds(timePerChar);
+            }
+
+            yield return new WaitForSeconds(pauseBetweenLines);
+        }
+
+        yield return new WaitForSeconds(pauseAfterLastLine);
+
+        if (dialogueContainer != null) dialogueContainer.SetActive(false);
+        dialogueText.text = "";
+        dialogueText.maxVisibleCharacters = int.MaxValue;
+        dialogueText.enableAutoSizing = true;
+
+        WatcherCommentary.DialogueLocked = false;
+    }
+
+    private string[] GetPlaystyleHintLines()
+    {
+        if (boss == null || boss.playerStrategyModel == null
+            || boss.playerStrategyModel.strategyBeliefs == null
+            || boss.playerStrategyModel.strategyBeliefs.Count == 0)
+            return hintLinesFallback;
+
+        var beliefs = boss.playerStrategyModel.strategyBeliefs;
+        float aggressive = 0f, defensive = 0f, abilityFocused = 0f;
+        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.AggressivePlayer, out aggressive);
+        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.DefensivePlayer, out defensive);
+        beliefs.TryGetValue(PlayerStrategyModel.StrategyType.AbilityFocusedPlayer, out abilityFocused);
+
+        if (aggressive >= defensive && aggressive >= abilityFocused)
+            return hintLinesAggressive;
+        else if (defensive >= aggressive && defensive >= abilityFocused)
+            return hintLinesEvasive;
+        else
+            return hintLinesAbilityFocused;
     }
 
     // Mirrors IntroCutscene.DisablePlayerControl's script-disable pass. Stops

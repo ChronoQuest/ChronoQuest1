@@ -169,6 +169,33 @@ namespace TimeRewind
             musicSource.loop = _originalLoop;
         }
 
+        /// <summary>
+        /// Enables or disables a low-pass filter on the AudioListener to create
+        /// a muffled / underwater effect across all game audio.
+        /// </summary>
+        public void SetMuffled(bool muffled, float cutoffFrequency = 800f)
+        {
+            var listener = FindFirstObjectByType<AudioListener>();
+            if (listener == null)
+                return;
+
+            var filter = listener.GetComponent<AudioLowPassFilter>();
+
+            if (muffled)
+            {
+                if (filter == null)
+                    filter = listener.gameObject.AddComponent<AudioLowPassFilter>();
+
+                filter.cutoffFrequency = cutoffFrequency;
+                filter.enabled = true;
+            }
+            else
+            {
+                if (filter != null)
+                    filter.enabled = false;
+            }
+        }
+
         public void SetMusicSource(AudioSource source)
         {
             musicSource = source;
