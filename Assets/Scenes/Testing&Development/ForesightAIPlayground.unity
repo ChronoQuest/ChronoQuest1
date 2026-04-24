@@ -522,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6869955167663698504, guid: 9a2bcd804cee143af817fb205cba95a7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -972,6 +972,83 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &987045151
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1166915399}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1166915399}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: damageClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: 'damageClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
+    - target: {fileID: 6675584266539241849, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_Name
+      value: DeathKnight (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861005612423617087, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502400155805893037, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
 --- !u!114 &1166915390 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1617120741941747, guid: 5fbd50c3fa1708e448c41746f2c57dd9, type: 3}
@@ -4751,3 +4828,4 @@ SceneRoots:
   - {fileID: 1259730072}
   - {fileID: 2123877077}
   - {fileID: 320687145}
+  - {fileID: 987045151}

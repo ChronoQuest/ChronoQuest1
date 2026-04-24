@@ -101,6 +101,19 @@ namespace TimeRewind
             }
             else
                 _rewindHoldTimer = 0f;
+
+            if (blockRewindInput)
+            {
+                Debug.Log("BLOCKED SOME INPUT");
+                if (!_rewindInputHeld)
+                {
+                    blockRewindInput = false; 
+                }
+                else
+                {
+                    _rewindInputHeld = false; 
+                }
+            }
             
             bool isDead = _playerHealth != null && _playerHealth.IsDead;
             bool hasManaForStart = HasManaToStartRewind(isDead);
@@ -147,11 +160,6 @@ namespace TimeRewind
             {
                 _releaseFrameCount = 0;
             }
-            
-            if (blockRewindInput && !_rewindInputHeld)
-            {
-                blockRewindInput = false;
-            }
 
             _rewindInputWasHeld = _rewindInputHeld;
         }
@@ -174,6 +182,19 @@ namespace TimeRewind
         public void SetRewindBlocked(bool blocked)
         {
             blockRewindInput = blocked;
+        }
+
+        public void ForceStopRewind()
+        {
+            if (TimeRewindManager.Instance.IsRewinding)
+            {
+                TimeRewindManager.Instance.StopRewind();
+            }
+            
+            // Block further rewind input until the player releases the key/trigger
+            blockRewindInput = true;
+            _rewindInputHeld = false;
+            _releaseFrameCount = 0;
         }
 
         // Toggle a mode where the rewind is being driven externally (e.g. the boss

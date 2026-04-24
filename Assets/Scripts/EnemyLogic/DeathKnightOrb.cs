@@ -18,6 +18,10 @@ public class DeathKnightOrb : MonoBehaviour, IRewindable
     private bool isRewinding;
     private float elapsedLifetime;
     private RigidbodyType2D originalBodyType;
+    [SerializeField] private AudioClip spellClip;
+    [SerializeField] private float spellVolume = 1f;
+    [SerializeField] private AudioClip spellExplosionClip;
+    [SerializeField] private float spellExplosionVolume = 0.5f;
 
     void Awake()
     {
@@ -39,6 +43,7 @@ public class DeathKnightOrb : MonoBehaviour, IRewindable
 
     public void Launch(Vector2 direction, int orbDamage)
     {
+        if(spellClip != null) AudioSource.PlayClipAtPoint(spellClip, transform.position, spellVolume);
         damage = orbDamage;
         isActive = true;
         elapsedLifetime = 0f;
@@ -77,6 +82,7 @@ public class DeathKnightOrb : MonoBehaviour, IRewindable
     IEnumerator DetonationRoutine()
     {
         animator?.Play("OrbDetonate", 0, 0f);
+        if(spellExplosionClip != null) AudioSource.PlayClipAtPoint(spellExplosionClip, transform.position, spellExplosionVolume);
         yield return null; // wait one frame for animator to enter the state
         if (animator != null)
         {

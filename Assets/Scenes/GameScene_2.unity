@@ -3952,6 +3952,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 936638525}
     - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
       propertyPath: knockbackResistance
       value: 30
       objectReference: {fileID: 0}
@@ -522574,6 +522578,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TutorialHintTrigger
   hintType: 10
   tutorial: {fileID: 1455075769}
+  hasTriggered: 0
 --- !u!4 &1187109573 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2999419454741437746, guid: 8460a8462faed5e42ad2997b6a44c43a, type: 3}
@@ -545761,6 +545766,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 936638525}
     - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 5138650307241577681, guid: f4d152e657bd68c4e90b13501022c0c9, type: 3}
       propertyPath: knockbackResistance
       value: 30
       objectReference: {fileID: 0}
@@ -556275,6 +556284,14 @@ PrefabInstance:
       propertyPath: isStatic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
     - target: {fileID: 1239436902015136738, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: m_Name
       value: SkeletonWarrior
@@ -556319,14 +556336,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 936638525}
-    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 936638525}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
