@@ -11,11 +11,22 @@ public class TrapFloor : MonoBehaviour, IRewindable
 
     [Header("References")]
     [Tooltip("The Tilemap Collider that holds the player up")]
-    [SerializeField] private Collider2D physicsCollider; 
+    [SerializeField] private Collider2D physicsCollider;
     [Tooltip("The Tilemap Renderer (to hide visual)")]
     [SerializeField] private Renderer tilemapRenderer;
     [Tooltip("Optional particles when breaking")]
     [SerializeField] private ParticleSystem breakParticles;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [Tooltip("Rumble sound that plays while the floor is shaking.")]
+    [SerializeField] private AudioClip rumbleClip;
+    [Tooltip("Sound when the floor breaks.")]
+    [SerializeField] private AudioClip breakClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float rumbleVolume = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float breakVolume = 0.7f;
 
     private bool _isBroken = false;
     private bool _isShaking = false;
@@ -51,6 +62,15 @@ public class TrapFloor : MonoBehaviour, IRewindable
         _isShaking = true;
         float timer = 0f;
 
+        // Start rumble sound
+        if (audioSource != null && rumbleClip != null)
+        {
+            audioSource.clip = rumbleClip;
+            audioSource.loop = true;
+            audioSource.volume = rumbleVolume;
+            audioSource.Play();
+        }
+
         // 1. Shake
         while (timer < shakeDuration)
         {
@@ -67,6 +87,15 @@ public class TrapFloor : MonoBehaviour, IRewindable
 
         // 2. Break
         transform.localPosition = _originalPos; // Reset position
+
+        // Stop rumble, play break sound
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            if (breakClip != null)
+                audioSource.PlayOneShot(breakClip, breakVolume);
+        }
+
         SetBrokenState(true);
         _isShaking = false;
         
@@ -99,6 +128,7 @@ public class TrapFloor : MonoBehaviour, IRewindable
         if (_breakRoutine != null) StopCoroutine(_breakRoutine);
         _isShaking = false;
         transform.localPosition = _originalPos;
+        if (audioSource != null) audioSource.Stop();
     }
 
     public void OnStopRewind()

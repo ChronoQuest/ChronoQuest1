@@ -438,6 +438,7 @@ public class WatcherCommentary : MonoBehaviour
 
     private IEnumerator PlayDialogue(string[] lines)
     {
+        
         isPlaying = true;
         DialogueLocked = true;
 

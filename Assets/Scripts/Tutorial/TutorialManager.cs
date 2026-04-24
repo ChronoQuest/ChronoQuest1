@@ -52,6 +52,7 @@ public class TutorialManager : MonoBehaviour
     public PlayerHealth playerHealth;
 
     bool moveCompleted = false;
+    public bool rainSpellLocked = true;
     bool attackCompleted = false;
     public bool rewindCompleted = false;
     bool jumpCompleted = false;
@@ -544,7 +545,7 @@ public class TutorialManager : MonoBehaviour
             RestoreEnemies();
             AllowAll();
 
-            OnPlayerRewind();
+            //OnPlayerRewind();
         }
         
         if (currentStep == TutorialStep.SpikeHint)
@@ -554,6 +555,10 @@ public class TutorialManager : MonoBehaviour
     }
     private void HandleRewindStopped()
     {
+        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        {
+            OnPlayerRewind(); 
+        }
         if (pendingForesightAfterRewind)
         {
             pendingForesightAfterRewind = false;
@@ -695,6 +700,14 @@ public class TutorialManager : MonoBehaviour
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
 
             pendingForesightAfterRewind = true;
+        }
+    }
+    public void OnJumpTriggerHitDuringRewind()
+    {
+        if (currentStep == TutorialStep.Rewind && !rewindCompleted)
+        {
+            player.GetComponent<PlayerRewindController>()?.ForceStopRewind();
+            //OnPlayerRewind();
         }
     }
 
@@ -859,6 +872,7 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(wallJumpText);
                 break;
             case TutorialStep.RainSpell:
+                rainSpellLocked = false;
                 AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell);
                 SlowingEnemies(20f, 0.15f);
                 activeHint = rainSpellHint;

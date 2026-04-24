@@ -30,8 +30,9 @@ public class DoorSceneLoader : MonoBehaviour
         if (!isExitDoor) animator.SetBool("IsOpened", true);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
+        if (WatcherCommentary.DialogueLocked) return;
         if (other.CompareTag("Player"))
         {
             if (isExitDoor)

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TimeRewind;
 
-public class DeathKnightEnemy : EnemyBase
+public class DeathKnightEnemy : EnemyBase, IForesightEnemy
 {
     [Header("Stats")]
     public float detectionRange = 8f;
@@ -26,19 +26,40 @@ public class DeathKnightEnemy : EnemyBase
     public int orbPoolSize = 3;
 
     [Header("References")]
-    public Transform player;
+    public Transform _player;
+    public Transform player
+    {
+        get => _player;
+        set => _player = value;
+    }
 
     private Animator animator;
 
     private float lastAttackTime = -99f;
     private float lastRangedAttackTime = -99f;
     private bool isAttacking;
-
+    private SpriteRenderer spriteRenderer;
     private DeathKnightOrb[] orbPool;
     private Vector2 pendingOrbDirection;
 
     private enum State { Idle, Chase, Attack, RangedAttack }
     private State currentState = State.Idle;
+    
+    [Header("Audio")]
+    public AudioClip swingClip;
+    [Range(0f, 1f)] public float swingVolume = 1f;
+
+    [Header("Foresight")]
+    public float dodgeTriggerDistance = 5f;
+    private bool isDodging = false;
+    private float dodgeDuration = 0.75f;
+    private ForesightSystem foresightSystem;
+    private float rewindStartTime;
+    private bool hasForesight = false;
+
+    private Collider2D playerCollider;
+    private PlayerCombat playerCombat;
+    private PlayerSpellSystem playerSpells;
 
     protected override void Awake()
     {
@@ -49,9 +70,19 @@ public class DeathKnightEnemy : EnemyBase
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         BuildOrbPool();
+
+        // --- Foresight Setup ---
+        foresightSystem = GetComponent<ForesightSystem>();
+        if (player != null)
+        {
+            playerCollider = player.GetComponent<Collider2D>();
+            playerCombat = player.GetComponent<PlayerCombat>();
+            playerSpells = player.GetComponent<PlayerSpellSystem>();
+        }
     }
 
     void BuildOrbPool()
@@ -77,7 +108,8 @@ public class DeathKnightEnemy : EnemyBase
     public override void Update()
     {
         base.Update();
-        if (isRewinding || wasDead) return;
+        // Added isDodging block
+        if (isRewinding || wasDead || isDodging) return; 
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -108,7 +140,8 @@ public class DeathKnightEnemy : EnemyBase
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isStunned || isAttacking) return;
+        // Added isDodging block
+        if (isRewinding || wasDead || isStunned || isAttacking || isDodging) return;
 
         switch (currentState)
         {
@@ -138,7 +171,6 @@ public class DeathKnightEnemy : EnemyBase
         isAttacking = false;
     }
 
-    // Called by Animation Event on the attack clip
     public void MeleeHit()
     {
         if (wasDead || isRewinding || player == null) return;
@@ -161,7 +193,6 @@ public class DeathKnightEnemy : EnemyBase
         isAttacking = false;
     }
 
-    // Called by Animation Event on the ranged attack clip
     public void FireOrb()
     {
         if (wasDead || isRewinding) return;
@@ -181,7 +212,7 @@ public class DeathKnightEnemy : EnemyBase
 
     public override void TakeDamage(int amount)
     {
-        if (wasDead) return;
+        if (wasDead || isDodging) return; // Ignore damage if dodging
         base.TakeDamage(amount);
         if (!wasDead)
             animator?.SetTrigger("Hit");
@@ -190,6 +221,7 @@ public class DeathKnightEnemy : EnemyBase
     public override void Die()
     {
         isAttacking = false;
+        isDodging = false;
         StopAllCoroutines();
         animator?.SetTrigger("Die");
         base.Die();
@@ -207,12 +239,12 @@ public class DeathKnightEnemy : EnemyBase
     {
         base.Revive();
         rb.simulated = true;
+        isDodging = false;
     }
 
     public override IEnumerator DeathRoutine()
     {
         yield return new WaitForSeconds(deathAnimationDuration);
-        // Intentionally leave sprite visible — body stays as a corpse
     }
 
     // ================= REWIND =================
@@ -220,14 +252,26 @@ public class DeathKnightEnemy : EnemyBase
     public override void OnStartRewind()
     {
         base.OnStartRewind();
+        rewindStartTime = Time.time; // Log rewind time for Foresight math
         StopAllCoroutines();
         isAttacking = false;
+        isDodging = false;
     }
 
     public override void OnStopRewind()
     {
         base.OnStopRewind();
+        
+        // Feed the gap to the foresight system
+        if (foresightSystem != null)
+        {
+            float timeRewound = rewindStartTime - TimeRewindManager.Instance.CurrentRewindTime;
+            int statesErased = Mathf.RoundToInt(timeRewound / foresightSystem.recordInterval);
+            foresightSystem.HandleRewindStop(statesErased);
+        }
+
         isAttacking = false;
+        isDodging = false;
     }
 
     public override RewindState CaptureState()
@@ -236,6 +280,8 @@ public class DeathKnightEnemy : EnemyBase
         state.SetCustomData("lastAttackTime",       lastAttackTime);
         state.SetCustomData("lastRangedAttackTime", lastRangedAttackTime);
         state.SetCustomData("spriteEnabled",        sprite != null && sprite.enabled);
+        state.SetCustomData("isDodging",            isDodging);
+        state.SetCustomData("hasForesight",         hasForesight);
 
         if (animator != null)
         {
@@ -253,6 +299,8 @@ public class DeathKnightEnemy : EnemyBase
         isAttacking          = false;
         lastAttackTime       = state.GetCustomData<float>("lastAttackTime");
         lastRangedAttackTime = state.GetCustomData<float>("lastRangedAttackTime");
+        isDodging            = state.GetCustomData<bool>("isDodging");
+        hasForesight         = state.GetCustomData<bool>("hasForesight");
 
         if (sprite != null)
             sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
@@ -272,6 +320,151 @@ public class DeathKnightEnemy : EnemyBase
         }
     }
 
+    // ================= FORESIGHT SYSTEM METHODS =================
+    
+    public int GetPlayerAttackState()
+    {
+        if (playerCombat != null && playerCombat.isAttacking) return 1;
+        if (playerSpells != null && playerSpells.isCasting) return 2;
+        return 0;
+    }
+    public void SetForesightState(bool state)
+    {
+        hasForesight = state;
+        if (hasForesight) detectionRange *= 2;
+        
+        if (animator != null) animator.SetBool("hasForesight", hasForesight);
+        if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        
+        if (player != null)
+        {
+            Vector2 direction = (player.position - transform.position).normalized;
+            if (direction.x > 0) sprite.flipX = false;
+            else if (direction.x < 0) sprite.flipX = true;
+        }
+    }
+    new public bool IsDead() => wasDead;
+    public bool IsRewinding() => isRewinding;
+    public float GetDistanceToPlayer()
+    {
+        if (playerCollider != null) return Vector2.Distance(transform.position, playerCollider.bounds.center);
+        return Vector2.Distance(transform.position, player.position);
+    }
+
+    public bool IsPerformingForesightAction()
+    {
+        return isDodging;
+    }
+    public void ExecuteLunge()
+    {
+        if (isDodging || isAttacking || wasDead) return;
+        
+        // Verify standard melee cooldown
+        if (Time.time < lastAttackTime + attackCooldown)
+            return;
+
+        StartCoroutine(LungeRoutine());
+    }
+    private IEnumerator LungeRoutine()
+    {
+        isAttacking = true; 
+        lastAttackTime = Time.time;
+
+        float timer = 0f;
+        float lungeTime = 1f; 
+
+        while (timer < lungeTime)
+        {
+            if (player != null && !wasDead && !isStunned)
+            {
+                animator.SetBool("isRunning", true);
+                float dist = Vector2.Distance(transform.position, player.position);
+
+                // Stop lunging and use native Death Knight attack if we reach the player
+                if (dist <= attackRange)
+                {
+                    rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+                    animator?.SetBool("isRunning", false);
+                    StartCoroutine(AttackRoutine()); // Directly swaps to native attack routine
+                    yield break;
+                }
+
+                Vector2 dir = (player.position - transform.position).normalized;
+                rb.linearVelocity = new Vector2(dir.x * moveSpeed * 2.5f, rb.linearVelocity.y);
+                
+                sprite.flipX = dir.x < 0;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        animator.SetBool("isRunning", false);
+        isAttacking = false;
+    }
+    public void ExecuteDodge()
+    {
+        if (isDodging) return; // Prevent dodging if already in a dodge state
+
+        GameObject spellObj = playerSpells != null ? playerSpells.latestSpell : null;
+        bool shouldDodge = false;
+        Vector2 jumpMove = new Vector2(0f, 0f);
+
+        // Check if player or spell is close enough to trigger the dodge
+        if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
+        {
+            shouldDodge = true;
+            Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
+            jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
+        }
+        else if (spellObj != null && spellObj.activeInHierarchy)
+        {
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
+            {
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+                    {
+                        shouldDodge = true;
+                        jumpMove = new Vector2 (0f, 3f);
+                    }
+                }
+            }
+        }
+
+        if (shouldDodge)
+        {
+            StartCoroutine(PhaseDodgeRoutine(jumpMove));
+        }
+    }
+
+    IEnumerator PhaseDodgeRoutine(Vector2 jumpMove)
+    {
+        isDodging = true;
+        int originalLayer = gameObject.layer;
+        gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
+        
+        animator.SetBool("hasForesight", true);
+        if (foresightGlow != null) foresightGlow.SetActive(true);
+
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+
+        // Do a little jump to show dodging
+        
+        rb.linearVelocity = jumpMove;
+        animator.SetBool("isGrounded", false);
+        yield return new WaitForSeconds(dodgeDuration);
+        animator.SetBool("isGrounded", true);
+
+        
+        spriteRenderer.color = originalColor;
+        gameObject.layer = originalLayer;
+        isDodging = false;
+    }
+
     void OnDrawGizmosSelected()
     {
         float dir = (sprite != null && sprite.flipX) ? -1f : 1f;
@@ -285,5 +478,9 @@ public class DeathKnightEnemy : EnemyBase
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, rangedAttackRange);
         Gizmos.DrawWireSphere(transform.position, rangedMinRange);
+    }
+    public void playSwing()
+    {
+        if(swingClip != null && audioSource != null) audioSource.PlayOneShot(swingClip, swingVolume);
     }
 }

@@ -70,6 +70,9 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
 
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
+    [Header("Audio")]
+    public AudioClip swingClip;
+    [Range(0f, 1f)] public float swingVolume = 1f;
 
     protected override void Awake()
     {
@@ -492,5 +495,9 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
             float checkDist = col.bounds.extents.y + groundDetectionOffset;
             Gizmos.DrawRay(transform.position, Vector2.down * checkDist);
         }
+    }
+    public void playSwing()
+    {
+        if(swingClip != null && audioSource != null) audioSource.PlayOneShot(swingClip, swingVolume);
     }
 }

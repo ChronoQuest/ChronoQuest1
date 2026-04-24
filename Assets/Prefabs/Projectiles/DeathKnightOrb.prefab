@@ -196,3 +196,7 @@ MonoBehaviour:
   speed: 6
   lifetime: 4
   detonationDuration: 0.5
+  spellClip: {fileID: 8300000, guid: 04cc17430fc9c9f4e88bba9a1bdf7713, type: 3}
+  spellVolume: 1
+  spellExplosionClip: {fileID: 8300000, guid: fb826c7567925814e8a1a6461863e813, type: 3}
+  spellExplosionVolume: 0.5

@@ -44,6 +44,7 @@ public class PlayerCombat : MonoBehaviour, IRewindable
     public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
     public bool isRainAttacking { get; private set; }
+    [SerializeField] private TutorialManager tutorialManager;
 
     [Header("Combat Audio")]
     [SerializeField] private AudioSource sfxSource;
@@ -137,6 +138,13 @@ public class PlayerCombat : MonoBehaviour, IRewindable
 
         if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame))
         {
+            if(tutorialManager != null){
+                if (tutorialManager.rainSpellLocked)
+                {
+                    Debug.Log("Rain Spell blocked: action not allowed");
+                    return; 
+                }
+            }
             if (!movement.isDashing && !isRainAttacking && movement.isGrounded)
             {
                 if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))

@@ -178,7 +178,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
             Vector3 primarySafeSpot = new Vector3(43f, -2.5f, player.position.z);
             Vector3 backupSafeSpot  = new Vector3(47f, -2.5f, player.position.z);
 
-            float safeSpotThreshold = 0.75f;
+            float safeSpotThreshold = 1.25f;
 
             Vector3 chosenSafeSpot = primarySafeSpot;
 

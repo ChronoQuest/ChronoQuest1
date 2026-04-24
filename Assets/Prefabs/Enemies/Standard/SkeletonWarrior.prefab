@@ -195,6 +195,8 @@ MonoBehaviour:
   reviveAnimDuration: 0.9
   _player: {fileID: 0}
   dodgeTriggerDistance: 5
+  swingClip: {fileID: 8300000, guid: 34a58beb6a77fb747bda217192e2b692, type: 3}
+  swingVolume: 1
 --- !u!70 &853483887166070529
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

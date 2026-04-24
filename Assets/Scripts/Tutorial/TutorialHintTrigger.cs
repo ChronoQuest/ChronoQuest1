@@ -17,7 +17,7 @@ public class TutorialHintTrigger : MonoBehaviour
 
     [SerializeField] private HintType hintType; 
     [SerializeField] private TutorialManager tutorial; 
-    private bool hasTriggered = false;          // bool variable to ensure hints only activate once
+    public bool hasTriggered = false;          // bool variable to ensure hints only activate once
     private PlayerPlatformer player;
     private bool waitingForSpellConditions = false;
     private void Update()
@@ -33,7 +33,14 @@ public class TutorialHintTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (hasTriggered) return;
+        if (hasTriggered)
+        {
+            if (hintType == HintType.Jump)
+            {
+                tutorial.OnJumpTriggerHitDuringRewind();
+            }
+            return;
+        }
         if (!other.CompareTag("Player")) return;
 
         player = other.GetComponent<PlayerPlatformer>();
