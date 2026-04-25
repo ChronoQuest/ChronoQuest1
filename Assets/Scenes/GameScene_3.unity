@@ -63991,7 +63991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75eca3db666fb4681857d3e71a367202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::LowHealthVisualController
-  postProcessVolume: {fileID: 527099164}
+  postProcessVolume: {fileID: 1541368225}
   playerPulseLight: {fileID: 1324473629}
   globalLight: {fileID: 1105236305}
   pulseSpeed: 6.2

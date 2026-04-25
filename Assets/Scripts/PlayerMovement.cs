@@ -90,6 +90,8 @@ public class PlayerPlatformer : MonoBehaviour
     private bool jumpPressedThisFrame;
     private bool wasGrounded;
     private bool isLanding;
+    private bool _jumpHandledThisFrame;
+    private bool _dashHandledThisFrame;
 
     // references and locks for player movement in tutorial
     public TutorialManager tutorialManager;
@@ -146,8 +148,11 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void Update()
-    {   
-        bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
+    {
+        _jumpHandledThisFrame = false;
+        _dashHandledThisFrame = false;
+
+        bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false;
 
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position, 
@@ -181,6 +186,47 @@ public class PlayerPlatformer : MonoBehaviour
         if (Mathf.Abs(horizontalInput) > 0.1f)
         {
             tutorialManager?.OnPlayerMoved();
+        }
+
+        // Poll-based jump (resilient to PlayerInput callback disconnection)
+        bool jumpPressed = false;
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            jumpPressed = true;
+        if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)
+            jumpPressed = true;
+        if (jumpPressed && !PauseMenu.isPaused && IsActionAllowed(PlayerAction.Jump)
+            && !(GetComponent<PlayerHealth>()?.IsDead == true)
+            && !(TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding))
+        {
+            _jumpHandledThisFrame = true;
+            if (isWallSliding)
+                StartCoroutine(WallJumpLogic());
+            else if (coyoteTimeCounter > 0f || extraJumpsRemaining > 0)
+            {
+                if (coyoteTimeCounter <= 0f) extraJumpsRemaining--;
+                StartCoroutine(JumpRoutine(extraJumpsRemaining));
+            }
+            jumpBufferCounter = jumpBufferTime;
+            playerTacticModel?.RecordJump();
+        }
+
+        // Poll-based dash (resilient to PlayerInput callback disconnection)
+        bool dashPressed = false;
+        if (Keyboard.current != null && Keyboard.current.leftShiftKey.wasPressedThisFrame)
+            dashPressed = true;
+        if (Gamepad.current != null && Gamepad.current.rightTrigger.wasPressedThisFrame
+            && Gamepad.current.leftTrigger.ReadValue() < 0.5f)
+            dashPressed = true;
+        if (dashPressed && !PauseMenu.isPaused && IsActionAllowed(PlayerAction.Dash)
+            && !(GetComponent<PlayerHealth>()?.IsDead == true)
+            && !isDashing && !_isRewinding)
+        {
+            PlayerSpellSystem spellSys2 = GetComponent<PlayerSpellSystem>();
+            if (!(spellSys2 != null && spellSys2.IsMovementLocked()) && canDash)
+            {
+                _dashHandledThisFrame = true;
+                StartCoroutine(Dash());
+            }
         }
 
         // Check if feet are touching the ground layer
@@ -389,14 +435,17 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        // Skip if polling already handled this frame's input
+        if (_jumpHandledThisFrame) return;
+
         if (!IsActionAllowed(PlayerAction.Jump))
             return;
-            
-        playerTacticModel.RecordJump(); 
-        
+
+        playerTacticModel?.RecordJump();
+
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
-        
+
         if (PauseMenu.isPaused)
             return;
 
@@ -514,13 +563,11 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        Debug.Log($"DASH callback: phase={context.phase}, control={context.control}, device={context.control?.device}");
+        // Skip if polling already handled this frame's input
+        if (_dashHandledThisFrame) return;
 
         if (!IsActionAllowed(PlayerAction.Dash))
-        {
-            Debug.Log("JUMP blocked: action not allowed");
             return;
-        }
     
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
