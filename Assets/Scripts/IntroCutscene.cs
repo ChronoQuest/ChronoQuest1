@@ -450,7 +450,7 @@ public class IntroCutscene : MonoBehaviour
         yield return StartCoroutine(RunRewindSequence());
 
         // ── 8. Play the rewind cutscene video ─────────────────────────────
-        yield return StartCoroutine(PlayRewindVideo());
+        //yield return StartCoroutine(PlayRewindVideo());
 
         // ── 9. Load the gameplay scene ────────────────────────────────────
         OnCutsceneEnd();
@@ -613,6 +613,11 @@ public class IntroCutscene : MonoBehaviour
             yield return null;
         }
 
+        // Freeze the visual effects at full intensity before stopping the rewind
+        // so they don't fade out during the transition to the video.
+        if (rewindEffects != null)
+            rewindEffects.FreezeEffects();
+
         if (rewindManager.IsRewinding)
             rewindManager.StopRewind();
 
@@ -620,7 +625,7 @@ public class IntroCutscene : MonoBehaviour
         // {
         //     sfxSource.PlayOneShot(reviveClip);
         // }
-
+        yield return StartCoroutine(PlayRewindVideo());
         // Disable player input again
         if (playerInput != null)
             playerInput.enabled = false;
@@ -660,11 +665,9 @@ public class IntroCutscene : MonoBehaviour
             yield break;
         }
 
-        PrepareForVideoPlayback();
-
         if (rewindVideoCanvas != null)
             rewindVideoCanvas.SetActive(true);
-
+        PrepareForVideoPlayback();
         rewindVideoPlayer.clip        = rewindVideoClip;
         rewindVideoPlayer.isLooping   = false;
         rewindVideoPlayer.playOnAwake = false;
