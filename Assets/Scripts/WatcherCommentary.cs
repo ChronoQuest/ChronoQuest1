@@ -35,7 +35,7 @@ public class WatcherCommentary : MonoBehaviour
     [Tooltip("Seconds into the scene before playstyle polling starts.")]
     [SerializeField] private float initialCooldown = 30f;
     [Tooltip("How often to poll the ML model for a playstyle comment.")]
-    [SerializeField] private float pollInterval = 20f;
+    [SerializeField] private float pollInterval = 15f;
     [Tooltip("Minimum tactic belief to trigger a playstyle comment.")]
     [SerializeField] private float beliefThreshold = 0.55f;
 
@@ -79,6 +79,7 @@ public class WatcherCommentary : MonoBehaviour
     // Event subscriptions
     private PlayerRewindController cachedRewindController;
     private PlayerHealth cachedPlayerHealth;
+    private PlayerPlatformer cachedPlatformer;
     private List<EnemyBase> subscribedEnemies = new List<EnemyBase>();
 
     // Rewind awareness persists across scenes via static
@@ -146,6 +147,11 @@ public class WatcherCommentary : MonoBehaviour
             enemy.OnDeath += () => OnEnemyKilled(enemy);
             subscribedEnemies.Add(enemy);
         }
+
+        // Dash events
+        cachedPlatformer = FindFirstObjectByType<PlayerPlatformer>();
+        if (cachedPlatformer != null)
+            cachedPlatformer.OnDashed += OnPlayerDashed;
     }
 
     private void UnsubscribeFromEvents()
@@ -155,6 +161,9 @@ public class WatcherCommentary : MonoBehaviour
 
         if (cachedPlayerHealth != null)
             cachedPlayerHealth.OnHealthChanged -= OnPlayerHealthChanged;
+
+        if (cachedPlatformer != null)
+            cachedPlatformer.OnDashed -= OnPlayerDashed;
     }
 
     // ── Event handlers ──────────────────────────────────────────────────────
@@ -199,7 +208,7 @@ public class WatcherCommentary : MonoBehaviour
         if (ddm == null) return;
 
         string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
+        if (sceneName != "GameScene_2" && sceneName != "GameScene_3") return;
 
         // Only trigger on damage (health went down) for struggling players
         if (ddm.CurrentTier == DifficultyTier.Easy || ddm.CurrentTier == DifficultyTier.VeryEasy)
@@ -219,9 +228,47 @@ public class WatcherCommentary : MonoBehaviour
         if (ddm == null) return;
 
         string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
+        if (sceneName != "GameScene_2" && sceneName != "GameScene_3") return;
 
         // Trigger on kill for good/normal players
+        if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
+        {
+            StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
+        }
+    }
+
+    private void OnPlayerDashed()
+    {
+        if (!enableSkillComments) return;
+        if (skillCommentFired) return;
+        if (Time.time - sceneStartTime < skillMinSceneTime) return;
+        if (!CanComment()) return;
+
+        var ddm = DynamicDifficultyManager.Instance;
+        if (ddm == null) return;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName != "GameScene_2" && sceneName != "GameScene_3") return;
+
+        if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
+        {
+            StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
+        }
+    }
+
+    /// <summary>
+    /// Called externally (e.g. by PlatformSectionGoal) to trigger a skill comment
+    /// for Normal/Hard players without the usual scene-time gate.
+    /// </summary>
+    public void TryFireSkillComment()
+    {
+        if (!enableSkillComments) return;
+        if (skillCommentFired) return;
+        if (!CanComment()) return;
+
+        var ddm = DynamicDifficultyManager.Instance;
+        if (ddm == null) return;
+
         if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
         {
             StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
@@ -305,7 +352,15 @@ public class WatcherCommentary : MonoBehaviour
 
         string[] lines = null;
 
-        if (aggressive >= defensive && aggressive >= abilityFocused && aggressive >= beliefThreshold)
+        // Check for balanced playstyle — all three beliefs individually close to 0.33
+        bool isBalanced = aggressive > 0.2f && defensive > 0.2f && abilityFocused > 0.2f
+            && Mathf.Abs(aggressive - defensive) < 0.15f
+            && Mathf.Abs(aggressive - abilityFocused) < 0.15f
+            && Mathf.Abs(defensive - abilityFocused) < 0.15f;
+        if (isBalanced)
+            lines = GetBalancedLines(sceneName);
+
+        if (lines == null && aggressive >= defensive && aggressive >= abilityFocused && aggressive >= beliefThreshold)
             lines = GetAggressiveLines(sceneName);
         else if (defensive >= aggressive && defensive >= abilityFocused && defensive >= beliefThreshold)
             lines = GetEvasiveLines(sceneName);
@@ -341,6 +396,21 @@ public class WatcherCommentary : MonoBehaviour
     }
 
     // ── Dialogue lines ──────────────────────────────────────────────────────
+
+    private string[] GetBalancedLines(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "GameScene":
+                return new[] { "You adapt... blade, spell, instinct.", "I haven't seen that in a long time." };
+            case "GameScene_2":
+                return new[] { "No weakness to exploit. You fight with everything you have.", "That makes you... dangerous." };
+            case "GameScene_3":
+                return new[] { "Balanced in every way.", "I almost respect it." };
+            default:
+                return null;
+        }
+    }
 
     private string[] GetAggressiveLines(string sceneName)
     {

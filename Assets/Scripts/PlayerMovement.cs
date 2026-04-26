@@ -102,7 +102,8 @@ public class PlayerPlatformer : MonoBehaviour
 
     [Header("Action Permissions")]
     public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
-    public PlayerTacticalModel playerTacticModel; 
+    public PlayerTacticalModel playerTacticModel;
+    public event System.Action OnDashed;
 
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;
@@ -624,6 +625,7 @@ public class PlayerPlatformer : MonoBehaviour
 
         tutorialManager?.OnPlayerDash();
         DataCollectionService.Instance?.RecordDash();
+        OnDashed?.Invoke();
 
         if (anim != null) 
         {

@@ -11245,7 +11245,7 @@ MonoBehaviour:
   rewindCountThreshold: 3
   rewindCommentDelay: 1.5
   skillMinSceneTime: 20
-  skillCommentDelay: 1.5
+  skillCommentDelay: 0.75
   maxCommentsPerScene: 3
   commentCooldown: 15
   audioSource: {fileID: 1068174379}
@@ -30464,6 +30464,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &735167235
 GameObject:
   m_ObjectHideFlags: 0
@@ -36716,6 +36719,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &895182336
 GameObject:
   m_ObjectHideFlags: 0
@@ -37021,7 +37027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b605f32554b147bcb1fed19f403aa347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlatformingSectionAssist
-  assistAfterSeconds: 10
+  assistAfterSeconds: 80
   logWhenAssistApplied: 1
   fallingPlatforms:
   - {fileID: 1517634018}
@@ -118352,6 +118358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
+  damageAmount: 1
+  respawnPlayer: 1
 --- !u!114 &951982566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121677,6 +121685,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00664873bd4494cb03ae1bce700f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::SpikeDamage
+  damageAmount: 1
+  respawnPlayer: 1
 --- !u!1 &1033135303
 GameObject:
   m_ObjectHideFlags: 0
@@ -519048,7 +519058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1005ecb8ae254b68bc7df679871a9bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PlayerFallHint
-  fallVelocityThreshold: -17
+  fallVelocityThreshold: -14
   fallTimeThreshold: 0.7
 --- !u!1 &1117496504
 GameObject:
@@ -526826,6 +526836,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5f70ca3b5ef46c8801c1bbc350a86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapFloor
+  shakeDuration: 0.5
+  shakeIntensity: 0.05
+  restoreDelay: 5
+  physicsCollider: {fileID: 0}
+  tilemapRenderer: {fileID: 0}
+  breakParticles: {fileID: 0}
+  audioSource: {fileID: 0}
+  rumbleClip: {fileID: 0}
+  breakClip: {fileID: 0}
+  rumbleVolume: 0.5
+  breakVolume: 0.7
 --- !u!114 &1309321255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536532,6 +536553,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &1570810903
 GameObject:
   m_ObjectHideFlags: 0
@@ -544957,6 +544981,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!1 &1756035672
 GameObject:
   m_ObjectHideFlags: 0
@@ -546220,6 +546247,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046a832781855465881260065a676785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TrapDamage
+  damage: 1
+  knockbackForce: 8
+  upwardForce: 6
 --- !u!114 &1795284307
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -59,6 +59,9 @@ public class PlatformingSectionAssist : MonoBehaviour
             _sectionStartUnscaledTime = 0f;
     }
 
+    /// <summary>True if the assist timer has not yet fired (player is still within the time limit).</summary>
+    public bool IsWithinTimeLimit => !_assistApplied;
+
     /// <summary>Call from a goal trigger (see <see cref="PlatformSectionGoal"/>) when the section is completed.</summary>
     public void MarkCleared()
     {
