@@ -57,21 +57,27 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected GameObject foresightGlow;
     public GameObject ForesightGlow => foresightGlow;
 
+    /// <summary>When true, dynamic difficulty will not scale this enemy's HP.</summary>
+    public bool immuneToDifficultyScaling;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         flash = GetComponent<HitFlash>();
 
-        float hpMult = 1f;
-        if (DynamicDifficultyManager.Instance != null)
+        if (!immuneToDifficultyScaling)
         {
-            hpMult = DynamicDifficultyManager.Instance.GetEnemyHpMultiplierForScene(SceneManager.GetActiveScene().name);
-        }
+            float hpMult = 1f;
+            if (DynamicDifficultyManager.Instance != null)
+            {
+                hpMult = DynamicDifficultyManager.Instance.GetEnemyHpMultiplierForScene(SceneManager.GetActiveScene().name);
+            }
 
-        if (hpMult != 1f)
-        {
-            health = Mathf.Max(1, Mathf.RoundToInt(health * hpMult));
+            if (hpMult != 1f)
+            {
+                health = Mathf.Max(1, Mathf.RoundToInt(health * hpMult));
+            }
         }
 
         GameObject hitAudioObj = new GameObject("HitAudio");

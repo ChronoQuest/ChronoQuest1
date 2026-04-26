@@ -96,9 +96,9 @@ public class DifficultyTuning : ScriptableObject
         public static TierMultipliers HardDefaults() => new TierMultipliers
         {
             manaRegenMultiplier = 0.90f,
-            manaOnHitMultiplier = 0.95f,
+            manaOnHitMultiplier = 0.85f,
             healingMultiplier = 0.90f,
-            enemyHpMultiplier = 1.20f
+            enemyHpMultiplier = 1.40f
         };
     }
 

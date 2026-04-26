@@ -67,6 +67,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     [Tooltip("On-screen panel (top-left). Enable on the DontDestroyOnLoad object while playing: Hierarchy → DynamicDifficultyManager.")]
     [SerializeField] private bool showDebugOverlay = false;
 
+    public bool ShowDebugOverlay { get => showDebugOverlay; set => showDebugOverlay = value; }
+
     public DifficultyTier CurrentTier { get; private set; } = DifficultyTier.Normal;
     public bool TutorialSafetyActive { get; private set; }
 
@@ -458,6 +460,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         float extraMult = Mathf.Clamp(t.tutorialEnemyHpMultiplier, 0.1f, 1f);
         foreach (var enemy in FindObjectsOfType<EnemyBase>(true))
         {
+            if (enemy.immuneToDifficultyScaling) continue;
             int id = enemy.GetInstanceID();
             if (_tutorialEnemyHpAdjusted.Contains(id)) continue;
             _tutorialEnemyHpAdjusted.Add(id);

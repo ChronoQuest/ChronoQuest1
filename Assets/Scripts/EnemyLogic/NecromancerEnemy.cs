@@ -184,6 +184,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
     protected override void Awake()
     {
+        immuneToDifficultyScaling = true;
         base.Awake();
         animator      = GetComponent<Animator>();
         col           = GetComponent<Collider2D>();
