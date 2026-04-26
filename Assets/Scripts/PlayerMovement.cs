@@ -61,6 +61,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isWallSliding;
+    public bool IsWallSliding => isWallSliding;
     private float wallAnimationVisualTimer;
     private const float WALL_GRACE_TIME = 0.08f; // 0.1 seconds of "memory"
 

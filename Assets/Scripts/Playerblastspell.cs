@@ -167,7 +167,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         // Down cast ONLY in air
         if (y < -0.5f && !player.isGrounded) return Vector2.down;
 
-        // Forward cast
+        // Forward cast — if wall sliding, fire away from the wall (opposite of facing direction)
+        if (player.IsWallSliding)
+            return sprite.flipX ? Vector2.right : Vector2.left;
         return sprite.flipX ? Vector2.left : Vector2.right;
     }
 

@@ -396,6 +396,9 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         _isRewinding = false;
         if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0f, 0f);
 
+        // Re-evaluate whether low-health effects should be active now that rewind has ended.
+        UpdateLowHealthHeartbeat();
+
         // If we revived during rewind, play the "getting up" effect on exit so it's visible/consistent.
         if (_pendingRewindReviveEffect && !IsDead)
         {
