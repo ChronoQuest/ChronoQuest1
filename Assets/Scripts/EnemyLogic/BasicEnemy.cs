@@ -129,6 +129,7 @@ public class BasicEnemy : MonoBehaviour
 
     void Die()
     {
+        DataCollectionService.Instance?.RecordEnemyKill();
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) 
         {

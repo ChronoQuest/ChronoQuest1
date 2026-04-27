@@ -81,10 +81,10 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     public float HealingMultiplier => GetCurrentMultipliers().healingMultiplier;
 
     /// <summary>
-    /// VeryEasy and Easy: falling platforms stay solid (same idea as tutorial safety lock).
+    /// VeryEasy only: falling platforms stay solid (same idea as tutorial safety lock).
     /// </summary>
     public bool LockFallingPlatformsForCurrentTier =>
-        (int)CurrentTier <= (int)DifficultyTier.Easy;
+        CurrentTier == DifficultyTier.VeryEasy;
 
     private float _nextSampleTime;
     private float _nextEvalTime;
@@ -108,6 +108,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         public int meleeHits;
         public int spellCasts;
         public int spellHits;
+        public int enemyKills;
     }
 
     private struct Sample
@@ -120,6 +121,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         public int dMeleeHits;
         public int dSpellCasts;
         public int dSpellHits;
+        public int dEnemyKills;
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -142,6 +144,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        DataCollectionService.SessionGameplayCountersReset += OnSessionGameplayCountersReset;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
         _activeSceneName = SceneManager.GetActiveScene().name;
         _sceneEnterUnscaledTime = Time.unscaledTime;
@@ -156,6 +159,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     {
         if (Instance == this)
         {
+            DataCollectionService.SessionGameplayCountersReset -= OnSessionGameplayCountersReset;
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
             Instance = null;
         }
@@ -203,8 +207,9 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         GUILayout.Label($"Tier: {CurrentTier}  (VeryEasy=0, Easy=1, Normal=2, Hard=3)");
         GUILayout.Label($"Performance score: {LastPerformanceScore:F2}  (rough -1 ... strong +1)");
         GUILayout.Label($"Rolling window fill: {accDt:F0}s / {t.rollingWindowSeconds:F0}s max");
-        GUILayout.Label($"Thresholds: VeryEasy≤{t.veryEasyThreshold:F2}  Easy≤{t.easyThreshold:F2}  Hard≥{t.hardThreshold:F2}");
-        GUILayout.Label($"Falling platforms locked (VeryEasy/Easy): {LockFallingPlatformsForCurrentTier}");
+        GUILayout.Label($"Thresholds: VeryEasy≤{t.veryEasyThreshold:F2}  Easy≤{t.easyThreshold:F2}  Hard≥{t.hardThreshold:F2}  Hard↓≤{t.hardDemotionScore:F2}");
+        GUILayout.Label($"Falling platforms locked (VeryEasy): {LockFallingPlatformsForCurrentTier}");
+        GUILayout.Label($"Neutral score hold (|score|≤{t.neutralScoreHoldRadius:F2}): no tier change");
         GUILayout.Label($"Tutorial safety: {TutorialSafetyActive}");
         GUILayout.Label($"Enemy HP mult: {EnemyHpMultiplier:F2}");
         GUILayout.Label($"Next tier change allowed in: {cooldownLeft:F0}s (cooldown after a change)");
@@ -221,8 +226,31 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         _nextSampleTime = Time.unscaledTime + GetSampleIntervalSeconds();
         _nextEvalTime = Time.unscaledTime + Mathf.Max(0.5f, GetTuning().evaluateEverySeconds);
 
-        ResetSampling();
+        if (ShouldResetPerformanceWindowOnSceneChange(oldScene, newScene))
+            ResetSampling();
+
         ApplySceneRules();
+    }
+
+    /// <summary>
+    /// <see cref="DataCollectionService.SaveSessionAndStartNew"/> zeros counters; rebaseline so the next sample is not a bogus negative delta.
+    /// </summary>
+    private void OnSessionGameplayCountersReset()
+    {
+        _lastSnapshot = CaptureSnapshot();
+    }
+
+    /// <summary>
+    /// Clears the rolling difficulty window only when starting (or returning to) the first level from elsewhere —
+    /// not on progression between level scenes, and not when reloading the same tutorial scene.
+    /// </summary>
+    private static bool ShouldResetPerformanceWindowOnSceneChange(Scene oldScene, Scene newScene)
+    {
+        if (!IsPrimaryTutorialScene(newScene.name)) return false;
+        if (!oldScene.IsValid()) return true;
+        if (string.Equals(oldScene.name, newScene.name, StringComparison.OrdinalIgnoreCase))
+            return false;
+        return !IsPrimaryTutorialScene(oldScene.name);
     }
 
     private float GetSampleIntervalSeconds()
@@ -299,6 +327,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         s.meleeHits = d.MeleeHits;
         s.spellCasts = d.SpellCasts;
         s.spellHits = d.SpellHits;
+        s.enemyKills = d.EnemyKillCount;
         return s;
     }
 
@@ -310,13 +339,14 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         var sample = new Sample
         {
             dt = dt,
-            dDeaths = current.deaths - _lastSnapshot.deaths,
-            dDamage = current.damageTaken - _lastSnapshot.damageTaken,
-            dTrapHits = current.trapHits - _lastSnapshot.trapHits,
-            dMeleeAttacks = current.meleeAttacks - _lastSnapshot.meleeAttacks,
-            dMeleeHits = current.meleeHits - _lastSnapshot.meleeHits,
-            dSpellCasts = current.spellCasts - _lastSnapshot.spellCasts,
-            dSpellHits = current.spellHits - _lastSnapshot.spellHits
+            dDeaths = Mathf.Max(0, current.deaths - _lastSnapshot.deaths),
+            dDamage = Mathf.Max(0, current.damageTaken - _lastSnapshot.damageTaken),
+            dTrapHits = Mathf.Max(0, current.trapHits - _lastSnapshot.trapHits),
+            dMeleeAttacks = Mathf.Max(0, current.meleeAttacks - _lastSnapshot.meleeAttacks),
+            dMeleeHits = Mathf.Max(0, current.meleeHits - _lastSnapshot.meleeHits),
+            dSpellCasts = Mathf.Max(0, current.spellCasts - _lastSnapshot.spellCasts),
+            dSpellHits = Mathf.Max(0, current.spellHits - _lastSnapshot.spellHits),
+            dEnemyKills = Mathf.Max(0, current.enemyKills - _lastSnapshot.enemyKills)
         };
 
         _lastSnapshot = current;
@@ -338,32 +368,33 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     {
         if (accDt <= 0.01f) return 0f;
 
-        int dDeaths = 0, dDamage = 0, dTrap = 0, dMeleeA = 0, dMeleeH = 0, dSpellC = 0, dSpellH = 0;
+        int dDeaths = 0, dDamage = 0, dTrap = 0, dMeleeH = 0, dSpellH = 0, dKills = 0;
         foreach (var s in _samples)
         {
             dDeaths += s.dDeaths;
             dDamage += s.dDamage;
             dTrap += s.dTrapHits;
-            dMeleeA += s.dMeleeAttacks;
             dMeleeH += s.dMeleeHits;
-            dSpellC += s.dSpellCasts;
             dSpellH += s.dSpellHits;
+            dKills += s.dEnemyKills;
         }
 
         float minutes = accDt / 60f;
         float deathsPerMin = dDeaths / Mathf.Max(0.001f, minutes);
         float damagePerMin = dDamage / Mathf.Max(0.001f, minutes);
         float trapsPerMin = dTrap / Mathf.Max(0.001f, minutes);
+        float meleeHitsPerMin = dMeleeH / Mathf.Max(0.001f, minutes);
+        float spellHitsPerMin = dSpellH / Mathf.Max(0.001f, minutes);
+        float killsPerMin = dKills / Mathf.Max(0.001f, minutes);
 
-        float meleeAcc = dMeleeA > 0 ? (float)dMeleeH / dMeleeA : 0.5f;
-        float spellAcc = dSpellC > 0 ? (float)dSpellH / dSpellC : 0.5f;
-        float acc = 0.5f * meleeAcc + 0.5f * spellAcc;
-
+        var tun = GetTuning();
         float score = 0f;
-        score += Mathf.Clamp((acc - 0.5f) * 1.2f, -0.6f, 0.6f);
-        score -= Mathf.Clamp(deathsPerMin * 0.9f, 0f, 1.0f);
-        score -= Mathf.Clamp(damagePerMin / 55f, 0f, 1.0f);
-        score -= Mathf.Clamp(trapsPerMin * 0.20f, 0f, 0.60f);
+        score += Mathf.Clamp(killsPerMin * tun.scoreEnemyKillPerMinuteScale, 0f, tun.scoreEnemyKillRewardMax);
+        score += Mathf.Clamp(meleeHitsPerMin * tun.scoreMeleeHitPerMinuteScale, 0f, tun.scoreMeleeHitRewardMax);
+        score += Mathf.Clamp(spellHitsPerMin * tun.scoreSpellHitPerMinuteScale, 0f, tun.scoreSpellHitRewardMax);
+        score -= Mathf.Clamp(deathsPerMin * tun.scoreDeathsPerMinuteScale, 0f, tun.scoreDeathPenaltyMax);
+        score -= Mathf.Clamp(damagePerMin / Mathf.Max(1f, tun.scoreDamagePerMinuteDivisor), 0f, tun.scoreDamagePenaltyMax);
+        score -= Mathf.Clamp(trapsPerMin * tun.scoreTrapsPerMinuteScale, 0f, tun.scoreTrapPenaltyMax);
 
         return Mathf.Clamp(score, -1f, 1f);
     }
@@ -372,6 +403,10 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     {
         var t = GetTuning();
         if (now - _lastTierChangeTime < Mathf.Max(0f, t.tierChangeCooldownSeconds))
+            return;
+
+        float neutral = Mathf.Max(0f, t.neutralScoreHoldRadius);
+        if (Mathf.Abs(score) <= neutral)
             return;
 
         var oldTier = CurrentTier;
@@ -398,7 +433,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
                     CurrentTier = DifficultyTier.Hard;
                 break;
             case DifficultyTier.Hard:
-                if (score < t.hardThreshold - margin)
+                if (score <= t.hardDemotionScore - margin)
                     CurrentTier = DifficultyTier.Normal;
                 break;
         }

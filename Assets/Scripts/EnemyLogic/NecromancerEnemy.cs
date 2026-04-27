@@ -1110,6 +1110,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         isDying     = true;
         isAttacking = false;
         isReviving  = false;
+        DataCollectionService.Instance?.RecordEnemyKill();
         base.DeathSound();
         animator?.SetBool("isWalking", false);
         if (col != null) col.enabled = false;

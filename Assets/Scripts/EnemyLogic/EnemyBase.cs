@@ -191,6 +191,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     public virtual void Die()
     {
         wasDead = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
         DeathSound();
         rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place — prevents falling through floor
         rb.linearVelocity = Vector2.zero;

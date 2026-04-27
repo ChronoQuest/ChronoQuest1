@@ -938,6 +938,7 @@ public class Boss : EnemyBase, IRewindable
         if (wasDead) return;
         wasDead = true;
         isDead = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
         DeathSound();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;

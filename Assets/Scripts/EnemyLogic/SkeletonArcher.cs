@@ -336,6 +336,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
         wasDead = true;
         isDying = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
 
         if (animator != null)
         {

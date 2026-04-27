@@ -235,6 +235,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         wasDead = true;
         isDying = true;
         isAttacking = false;
+        DataCollectionService.Instance?.RecordEnemyKill();
 
         if (animator != null)
         {
