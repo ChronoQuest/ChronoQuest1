@@ -41,16 +41,16 @@ public class DifficultyTuning : ScriptableObject
 
     [Header("Tier thresholds (score)")]
     [Tooltip("Score <= this (more negative = worse play) pushes toward VeryEasy.")]
-    public float veryEasyThreshold = -0.48f;
+    public float veryEasyThreshold = -0.39f;
 
     [Tooltip("Score <= easyThreshold (but above veryEasy band) pushes toward Easy.")]
-    public float easyThreshold = -0.26f;
+    public float easyThreshold = -0.17f;
 
     [Tooltip("Score >= hardThreshold (+ hysteresis) promotes Normal to Hard. Lower = easier to reach Hard.")]
-    public float hardThreshold = 0.08f;
+    public float hardThreshold = 0.20f;
 
     [Tooltip("While on Hard, score must be at or below this to drop to Normal (stops easy-mode swings after transitions).")]
-    public float hardDemotionScore = -0.1f;
+    public float hardDemotionScore = 0.02f;
 
     [Tooltip("Extra margin required to switch tiers (prevents flip-flopping).")]
     public float hysteresisMargin = 0.05f;
@@ -85,7 +85,7 @@ public class DifficultyTuning : ScriptableObject
     public float scoreDeathPenaltyMax = 0.55f;
 
     [Tooltip("Damage per minute is divided by this before the damage penalty clamp.")]
-    public float scoreDamagePerMinuteDivisor = 95f;
+    public float scoreDamagePerMinuteDivisor = 65f;
 
     [Tooltip("Upper cap on the damage penalty term.")]
     public float scoreDamagePenaltyMax = 0.65f;
