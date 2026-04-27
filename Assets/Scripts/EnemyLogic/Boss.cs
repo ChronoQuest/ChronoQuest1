@@ -1184,26 +1184,6 @@ public class Boss : EnemyBase, IRewindable
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.SyncAfterRewind();
     }
-<<<<<<< HEAD
-
-    public override void Die()
-    {
-        if (isDead) return; 
-        isDead = true; 
-
-        StartCoroutine(DeathRoutine()); 
-    }
-
-    IEnumerator DeathRoutine()
-    {
-        Debug.Log("Boss Defeated"); 
-
-        GameManager.Instance.GameOver(); 
-
-        yield return new WaitForSeconds(1f); 
-
-        base.Die(); 
-=======
     public void playJumpSound()
     {
         if(audioSource != null && jumpClip != null)
@@ -1235,6 +1215,5 @@ public class Boss : EnemyBase, IRewindable
             Debug.Log("HELLO");
             audioSource.PlayOneShot(footstepClips[randomIndex], vol);
         }
->>>>>>> dev
     }
 }
