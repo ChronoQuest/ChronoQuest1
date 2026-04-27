@@ -556465,6 +556465,14 @@ PrefabInstance:
       propertyPath: isStatic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 936638525}
+    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 936638525}
     - target: {fileID: 1239436902015136738, guid: 675e0291407d91841aaf63cd35ccdcaa, type: 3}
       propertyPath: m_Name
       value: SkeletonWarrior
@@ -556509,14 +556517,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 936638525}
-    - target: {fileID: 2374404326114978385, guid: 9d32d898f096ad7448684c96efc2d945, type: 3}
-      propertyPath: _player
-      value: 
-      objectReference: {fileID: 936638525}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -562872,6 +562872,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1272688344738289742, guid: c64a22ed351f24d988a4bfb435d300d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 867
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272688344738289742, guid: c64a22ed351f24d988a4bfb435d300d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 456
+      objectReference: {fileID: 0}
     - target: {fileID: 5477096340955279730, guid: c64a22ed351f24d988a4bfb435d300d8, type: 3}
       propertyPath: m_Name
       value: Pause_Canvas

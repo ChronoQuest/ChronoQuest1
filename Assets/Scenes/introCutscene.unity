@@ -52566,6 +52566,7 @@ MonoBehaviour:
   idleClips: []
   idleVolume: 0.5
   idleIntervalRange: {x: 3, y: 5}
+  immuneToDifficultyScaling: 0
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
   playerStrategyModel: {fileID: 659603002}
@@ -55441,6 +55442,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -176
       objectReference: {fileID: 0}
+    - target: {fileID: 5936818693286029105, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
+      propertyPath: m_text
+      value: 'Hold down both
+
+        triggers to rewind.'
+      objectReference: {fileID: 0}
     - target: {fileID: 6879838399642224235, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -623
@@ -55455,15 +55462,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6958479893052103642, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7548117816128951934, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 266.2197
       objectReference: {fileID: 0}
     - target: {fileID: 7548117816128951934, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -578
+      value: -591
       objectReference: {fileID: 0}
     - target: {fileID: 7548117816128951934, guid: 2bedf3784553a417aa94b5c353dede83, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -196.92503
+      value: -176
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
