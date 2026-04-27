@@ -12,7 +12,8 @@ public class TutorialHintTrigger : MonoBehaviour
         HideAttack,
         RainSpell,
         RewindRegion,
-        SpikeRewind
+        SpikeRewind,
+        Mana
     }
 
     [SerializeField] private HintType hintType; 
@@ -83,7 +84,10 @@ public class TutorialHintTrigger : MonoBehaviour
                 break;
             case HintType.SpikeRewind:
                 tutorial.TriggerSpikeHint();
-                break; 
+                break;
+            case HintType.Mana:
+                tutorial.TriggerManaHint();
+                break;
         }
     }
 
