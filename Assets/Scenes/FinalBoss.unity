@@ -52709,6 +52709,7 @@ MonoBehaviour:
   idleClips: []
   idleVolume: 0.5
   idleIntervalRange: {x: 3, y: 5}
+  immuneToDifficultyScaling: 0
   player: {fileID: 437452796}
   attackManager: {fileID: 1348428424}
   playerStrategyModel: {fileID: 659603002}
@@ -53024,11 +53025,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2999419454741437746, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.25
+      value: 5.94
       objectReference: {fileID: 0}
     - target: {fileID: 2999419454741437746, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.29
+      value: -4.24
       objectReference: {fileID: 0}
     - target: {fileID: 2999419454741437746, guid: ce0c9f2852c944140bd1f37171c2aeba, type: 3}
       propertyPath: m_LocalPosition.z

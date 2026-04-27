@@ -225,38 +225,55 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         if (wasDead || isDying) return;
-        
+
         base.DeathSound();
-        
+
+        // Kill any running coroutines (e.g. BlockRoutine, LungeRoutine) before starting death
+        StopAllCoroutines();
+        isDodging = false;
+
         wasDead = true;
         isDying = true;
         isAttacking = false;
-        animator?.SetBool("isRunning", false);
-        
+
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("hasForesight", false);
+        }
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+
+        // Cache collider metrics BEFORE disabling (disabled collider returns zero bounds)
+        // Use actual distance from pivot to collider bottom, not extents.y, in case the collider is offset
+        float feetOffset = (col != null) ? transform.position.y - col.bounds.min.y : 0f;
+        float groundCheckDist = feetOffset + groundDetectionOffset;
+
         if (col != null) col.enabled = false;
 
-        StartCoroutine(HandleSkeletonDeath());
+        OnDeath?.Invoke();
+        StartCoroutine(HandleSkeletonDeath(groundCheckDist, feetOffset));
     }
 
-    private IEnumerator HandleSkeletonDeath()
+    private IEnumerator HandleSkeletonDeath(float groundCheckDist, float feetOffset)
     {
         if (animator != null) animator.SetTrigger("Die");
 
-        if (col != null)
+        RaycastHit2D hit = default;
+        while (true)
         {
-            float checkDist = col.bounds.extents.y + groundDetectionOffset;
-            
-            while (!Physics2D.Raycast(transform.position, Vector2.down, checkDist, groundLayer))
-            {
-                yield return null;
-            }
+            hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDist, groundLayer);
+            if (hit.collider != null) break;
+            yield return null;
         }
 
-        rb.linearVelocity = Vector2.zero; 
+        // Snap so feet sit exactly on the ground surface
+        transform.position = new Vector3(transform.position.x, hit.point.y + feetOffset, transform.position.z);
+
+        rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
-        rb.bodyType = RigidbodyType2D.Kinematic; 
-        
-        isDying = false; 
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        isDying = false;
     }
 
     // ================= REVIVE =================
