@@ -136,6 +136,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::NecromancerSpell
   speed: 5
   lifetime: 4
+  detonationDuration: 0.5
+  spellClip: {fileID: 8300000, guid: 04cc17430fc9c9f4e88bba9a1bdf7713, type: 3}
+  spellExplosionClip: {fileID: 8300000, guid: fb826c7567925814e8a1a6461863e813, type: 3}
+  spellVolume: 1
 --- !u!70 &4547578044849108190
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

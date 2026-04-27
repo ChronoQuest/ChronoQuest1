@@ -15,9 +15,11 @@ public class PlatformController : MonoBehaviour, IRewindable
     private float topWaitProgress = 0f;
     private bool waitingAtTop = false;
     public bool cycleComplete;
+    private float spawnTime;
 
     void Start()
     {
+        spawnTime = Time.time;
         cycleComplete = false;
         rb = GetComponent<Rigidbody2D>();
         if (TimeRewindManager.Instance != null)
@@ -102,6 +104,8 @@ public class PlatformController : MonoBehaviour, IRewindable
 
     public void ApplyState(RewindState state)
     {
+        if (RewindSpawnLifecycle.TryDespawnIfRewoundBeforeSpawn(this, spawnTime, state)) return;
+
         transform.position = state.Position;
         transform.rotation = state.Rotation;
 

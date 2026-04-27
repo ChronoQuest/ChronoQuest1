@@ -1439,6 +1439,7 @@ GameObject:
   - component: {fileID: 1750678089}
   - component: {fileID: 1750678094}
   - component: {fileID: 1750678093}
+  - component: {fileID: 1750678095}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -1471,7 +1472,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1608,10 +1609,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::TimeRewind.RewindMusicController
   musicSource: {fileID: 1750678090}
   titleTrack: {fileID: 8300000, guid: 84383b211543842b5a7e53127135a3f6, type: 3}
-  tutorialTrack: {fileID: 8300000, guid: 8d8cf156c82f44d82861f2c690fed150, type: 3}
+  tutorialTrack: {fileID: 8300000, guid: de62f4324fd114154928a12bc990ac67, type: 3}
   bossFightTrack: {fileID: 8300000, guid: 74f2ef2f4e1a843d1b860ce5a5da8939, type: 3}
+  introCutsceneTrack: {fileID: 8300000, guid: 74f2ef2f4e1a843d1b860ce5a5da8939, type: 3}
+  level2Track: {fileID: 8300000, guid: 4d58febf2e34244ed868075f876a29b8, type: 3}
+  level3Track: {fileID: 8300000, guid: 8d8cf156c82f44d82861f2c690fed150, type: 3}
   rewindPitch: -1
   loopDuringRewind: 1
+--- !u!114 &1750678095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750678088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9043f3599b8874b1280277d8e533317c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::RewindHaptics
+  baseStrength: 0.035
+  globalStrengthScale: 0.45
+  baseBeatInterval: 0.75
+  fastBeatInterval: 0.28
+  beatGap: 0.1
+  strongBeatDuration: 0.12
+  weakBeatDuration: 0.08
+  lowMotorWeight: 0.35
+  highMotorWeight: 0.9
+  lubClip: {fileID: 8300000, guid: 73e720e385c954971b2a7ffd30dce687, type: 3}
+  dubClip: {fileID: 8300000, guid: 5445f78c363ef4a1e8ec4d2a6dd67119, type: 3}
+  heartbeatVolume: 0.6
+  rewindHeartbeatVolume: 0.5
+  muffle: 1
+  muffleCutoffFrequency: 800
 --- !u!1 &2004735333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,3 +1833,4 @@ SceneRoots:
   - {fileID: 45744280}
   - {fileID: 1139554111}
   - {fileID: 1750678092}
+  - {fileID: 177803636}

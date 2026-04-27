@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TimeRewind
 {
@@ -21,6 +22,15 @@ namespace TimeRewind
 
         [Tooltip("Boss fight music.")]
         [SerializeField] private AudioClip bossFightTrack;
+
+        [Tooltip("Intro cutscene music.")]
+        [SerializeField] private AudioClip introCutsceneTrack;
+
+        [Tooltip("Level 2 music.")]
+        [SerializeField] private AudioClip level2Track;
+
+        [Tooltip("Level 3 music.")]
+        [SerializeField] private AudioClip level3Track;
 
         [Header("Rewind Behaviour")]
         [Tooltip("Pitch used while rewinding. Negative values play audio backwards.")]
@@ -51,6 +61,8 @@ namespace TimeRewind
                 TimeRewindManager.Instance.OnRewindStart += HandleRewindStart;
                 TimeRewindManager.Instance.OnRewindStop += HandleRewindStop;
             }
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable()
@@ -59,6 +71,33 @@ namespace TimeRewind
             {
                 TimeRewindManager.Instance.OnRewindStart -= HandleRewindStart;
                 TimeRewindManager.Instance.OnRewindStop -= HandleRewindStop;
+            }
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            switch (scene.name)
+            {
+                case "TitleScreen":
+                    PlayTitleMusic();
+                    break;
+                case "introCutscene":
+                    PlayTrack(introCutsceneTrack);
+                    break;
+                case "GameScene":
+                    PlayTutorialMusic();
+                    break;
+                case "GameScene_2":
+                    PlayTrack(level2Track);
+                    break;
+                case "GameScene_3":
+                    PlayTrack(level3Track);
+                    break;
+                case "FinalBoss":
+                    PlayBossFightMusic();
+                    break;
             }
         }
 
@@ -96,6 +135,65 @@ namespace TimeRewind
         public void PlayCustomMusic(AudioClip clip, bool loop = true)
         {
             PlayTrack(clip, loop);
+        }
+
+        /// <summary>
+        /// Forces the music into reverse playback, independent of the rewind system.
+        /// Call this when you want the music to stay reversed even after a rewind ends.
+        /// </summary>
+        public void ForceReversePitch()
+        {
+            if (musicSource == null || musicSource.clip == null)
+                return;
+
+            musicSource.loop = loopDuringRewind;
+
+            if (musicSource.time <= 0f)
+                musicSource.time = Mathf.Max(0.01f, musicSource.clip.length - 0.01f);
+
+            musicSource.pitch = Mathf.Min(rewindPitch, -0.01f);
+
+            if (!musicSource.isPlaying)
+                musicSource.Play();
+        }
+
+        /// <summary>
+        /// Restores normal forward playback after a ForceReversePitch call.
+        /// </summary>
+        public void RestoreNormalPitch()
+        {
+            if (musicSource == null)
+                return;
+
+            musicSource.pitch = _originalPitch;
+            musicSource.loop = _originalLoop;
+        }
+
+        /// <summary>
+        /// Enables or disables a low-pass filter on the AudioListener to create
+        /// a muffled / underwater effect across all game audio.
+        /// </summary>
+        public void SetMuffled(bool muffled, float cutoffFrequency = 800f)
+        {
+            var listener = FindFirstObjectByType<AudioListener>();
+            if (listener == null)
+                return;
+
+            var filter = listener.GetComponent<AudioLowPassFilter>();
+
+            if (muffled)
+            {
+                if (filter == null)
+                    filter = listener.gameObject.AddComponent<AudioLowPassFilter>();
+
+                filter.cutoffFrequency = cutoffFrequency;
+                filter.enabled = true;
+            }
+            else
+            {
+                if (filter != null)
+                    filter.enabled = false;
+            }
         }
 
         public void SetMusicSource(AudioSource source)

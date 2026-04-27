@@ -13,27 +13,37 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Dropout 
 from tensorflow.keras.callbacks import EarlyStopping
-from preprocessing import preprocess 
+from preprocessing import preprocess
+from labels import gmm_labels, manual_labels
 
 EPOCHS = 30
 BATCH_SIZE = 16 
 FINAL_EPOCHS = 15 
 FINAL_BATCH_SIZE = 8
 
-X_scaled, scaler, feature_names = preprocess()
+USE_MANUAL = False
+
+# ===== PREPROCESSING =====
+X_scaled, scaler, df, feature_names = preprocess(return_df=True)
 
 tf.random.set_seed(42)
 np.random.seed(42)
 
 # ===== CREATING LABELS =====
-gmm = GaussianMixture(n_components=5, covariance_type="diag", random_state=42)
-gmm.fit(X_scaled)
+y_gmm, gmm = gmm_labels(X_scaled)
+y_manual = manual_labels(df)
 
-y = gmm.predict(X_scaled) 
+print("Unique GMM labels: ", np.unique(y_gmm))
+print("Unique manual labels: ", np.unique(y_manual))
+print("Manual label count: ")
+print(pd.Series(y_manual).value_counts())
 
-print("Cluster distribution:")
-print(pd.Series(y).value_counts())
-
+if USE_MANUAL:
+    y = y_manual
+    print("Using MANUAL labels")
+else:
+    y = y_gmm
+    print("Using GMM labels")
 
 # ===== TRAIN / TEST SPLIT =====
 # cross validation on collected data 
@@ -70,7 +80,7 @@ for fold, (train_idx, test_idx) in enumerate(kf.split(X_scaled)):
         epochs=15,
         batch_size=16,
         validation_data=(X_val, y_val),
-        shuffle=False, 
+        shuffle=True, 
         verbose=0
     )
 
@@ -252,12 +262,18 @@ with open(folds_dir / "folds_results.json", "w") as f:
     json.dump(folds_results, f, indent=4)
 
 # saving model to .json file for unity
+weights = model.get_weights()
+
 model_data = {
-    "weights": [w.tolist() for w in model.get_weights()],
+    "W1": weights[0].tolist(),
+    "b1": weights[1].tolist(),
+    "W2": weights[2].tolist(),
+    "b2": weights[3].tolist(),
+    "W3": weights[4].tolist(),
+    "b3": weights[5].tolist(),
+
     "scaler_mean": scaler.mean_.tolist(),
-    "scaler_scale": scaler.scale_.tolist(),
-    "input_size": X_train.shape[1],
-    "output_size": len(np.unique(y))
+    "scaler_scale": scaler.scale_.tolist()
 }
 
 unity_path = Path(__file__).resolve().parents[3] / "Assets" / "StreamingAssets"

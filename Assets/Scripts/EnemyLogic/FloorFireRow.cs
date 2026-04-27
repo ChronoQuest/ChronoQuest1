@@ -19,10 +19,13 @@ public class FloorFireRow : MonoBehaviour, IRewindable
     private bool isEnding = false;
     private BoxCollider2D boxCol;
     private SpriteRenderer fireSpriteRenderer;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip fireLoopClip;
+    [Range(0f, 1f)] public float fireVolume = 0.4f;
 
     void Start()
     {
-        Destroy(gameObject, 12f);
         rb = GetComponent<Rigidbody2D>();
         animator = fireVisual.GetComponent<Animator>();
         fireSpriteRenderer = fireVisual.GetComponent<SpriteRenderer>();
@@ -30,7 +33,13 @@ public class FloorFireRow : MonoBehaviour, IRewindable
         {
             TimeRewindManager.Instance.Register(this);
         }    
-        
+        if (audioSource != null && fireLoopClip != null)
+        {
+            audioSource.clip = fireLoopClip;
+            audioSource.loop = true;
+            audioSource.volume = fireVolume;
+            audioSource.Play();
+        }
         _age = 0f;
         currentGrowSize = 1f;
         boxCol = GetComponent<BoxCollider2D>();
@@ -87,8 +96,16 @@ public class FloorFireRow : MonoBehaviour, IRewindable
             }
             else
             {
+                if (audioSource != null) audioSource.Stop();
                 gameObject.SetActive(false);
             }
+        }
+        if (!isEnding && currentGrowSize > 2f && audioSource != null && !audioSource.isPlaying)
+        {
+            audioSource.clip = fireLoopClip;
+            audioSource.loop = true;
+            audioSource.volume = fireVolume;
+            audioSource.Play();
         }
     }
     void OnDestroy()

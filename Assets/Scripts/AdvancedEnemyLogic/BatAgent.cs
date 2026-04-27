@@ -60,6 +60,16 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
     private Color originalColor;
     public bool tutorialBat = false;
     private bool hasDoneTutorialLunge = false;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip[] wingFlapClips;
+    [Range(0f, 1f)] public float wingFlapVolume = 0.2f;
+    [Range(0f, 0.3f)] public float volumeVariation = 0.05f;
+    [Range(0f, 0.3f)] public float pitchVariation = 0.1f;
+    public AudioClip[] biteClips;
+    [Range(0f, 1f)] public float biteVolume = 0.7f;
+    [Range(0f, 0.3f)] public float biteVolumeVariation = 0.1f;
+    [Range(0f, 0.3f)] public float bitePitchVariation = 0.1f;
     void Start()
     {
         enemy = GetComponent<EnemyBase>();
@@ -168,7 +178,7 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
             Vector3 primarySafeSpot = new Vector3(43f, -2.5f, player.position.z);
             Vector3 backupSafeSpot  = new Vector3(47f, -2.5f, player.position.z);
 
-            float safeSpotThreshold = 0.75f;
+            float safeSpotThreshold = 1.25f;
 
             Vector3 chosenSafeSpot = primarySafeSpot;
 
@@ -636,5 +646,29 @@ public class BatEnemyAI : Agent, IRewindable, IBossSpawnable, IForesightEnemy
         if (col != null) col.enabled = state.GetCustomData<bool>("colEnabled");
         animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
         animator.Update(0f);
+    }
+    public void PlayWingFlap()
+    {
+        if (isDead || isRewinding) return;
+        if (audioSource == null || wingFlapClips == null || wingFlapClips.Length == 0) return;
+
+        int index = Random.Range(0, wingFlapClips.Length);
+
+        audioSource.pitch = 1f + Random.Range(-pitchVariation, pitchVariation);
+        float volume = wingFlapVolume * Random.Range(1f - volumeVariation, 1f + volumeVariation);
+
+        audioSource.PlayOneShot(wingFlapClips[index], volume);
+    }
+    public void PlayBiteSound()
+    {
+        if (isDead || isRewinding) return;
+        if (audioSource == null || biteClips == null || biteClips.Length == 0) return;
+
+        int index = Random.Range(0, biteClips.Length);
+
+        audioSource.pitch = 1f + Random.Range(-bitePitchVariation, bitePitchVariation);
+        float volume = biteVolume * Random.Range(1f - biteVolumeVariation, 1f + biteVolumeVariation);
+
+        audioSource.PlayOneShot(biteClips[index], volume);
     }
 }

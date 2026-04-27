@@ -118,6 +118,10 @@ InitTestScene*.unity*
 *.onnx.meta
 *.pt.meta
 
+# Python virtual environments and caches
+**/.venv/
+**/__pycache__/
+
 .DS_Store
 **/.DS_Store
 
