@@ -348,6 +348,8 @@ public class IntroCutscene : MonoBehaviour
 
         // Lock the player down before anything else.
         DisablePlayerControl();
+        // player shouldnt be able to rewind before prompted
+        playerRewindController.DisableManualRewind = true;
 
         // Disable any boss colliders/hitboxes.
         if (bossCollidersToDisable != null)

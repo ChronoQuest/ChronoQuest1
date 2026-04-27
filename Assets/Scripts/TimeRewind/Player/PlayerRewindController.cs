@@ -33,6 +33,7 @@ namespace TimeRewind
         private float _rewindHoldTimer;
         private int _releaseFrameCount;
         private bool blockRewindInput = false;
+        public bool DisableManualRewind { get; set; } = false;
         private bool _rewindInputWasHeld;
         // Set by external systems (e.g. BossFightController) that want to rewind the
         // player without consuming mana or auto-stopping because the rewind button
@@ -118,7 +119,7 @@ namespace TimeRewind
             bool isDead = _playerHealth != null && _playerHealth.IsDead;
             bool hasManaForStart = HasManaToStartRewind(isDead);
 
-            if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding && !_externalRewindActive)
+            if (_rewindInputHeld && !TimeRewindManager.Instance.IsRewinding && !_externalRewindActive && !DisableManualRewind)
             {
                 if (hasManaForStart)
                 {
