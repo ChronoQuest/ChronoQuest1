@@ -148,9 +148,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         }
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateUI();
-
-        ScoreManager.Instance.RemovePoints(50); 
+        UpdateUI(); 
 
         if (_rb != null && currentHealth > 0 && applyKnockback)
         {
@@ -273,7 +271,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
         ScoreManager.Instance.RemovePoints(100);
-        GameManager.Instance.PlayerDied(); 
+        // GameManager.Instance.PlayerDied(); 
 
         // Only set safety if the player dies during the tutorial.
         // Platforms read this PlayerPrefs key globally, so a tutorial death can keep later

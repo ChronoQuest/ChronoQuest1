@@ -117,4 +117,16 @@ public class PlayerStrategyModel : MonoBehaviour
 
         return best;
     }
+
+    public void Reset()
+    {
+        foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
+        {
+            strategyBeliefs[strategy] = 0f;
+        } 
+
+        timer = 0f;
+
+        Debug.Log("PlayerStrategyModel reset");
+    }
 }

@@ -502,4 +502,16 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         }
         return false;
     }
+
+    public float GetScoreMultiplier()
+    {
+        switch (CurrentTier)
+        {
+            case DifficultyTier.VeryEasy: return 0.7f;
+            case DifficultyTier.Easy:     return 0.85f;
+            case DifficultyTier.Normal:   return 1.0f;
+            case DifficultyTier.Hard:     return 1.25f;
+            default: return 1.0f;
+        }
+    }
 }

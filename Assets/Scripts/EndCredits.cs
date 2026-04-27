@@ -54,6 +54,7 @@ public class EndCredits : MonoBehaviour
         if (triggered || boss == null) return;
         if (!boss.isDead) return;
         triggered = true;
+        GameManager.Instance.GameOver(); 
         StartCoroutine(Run());
     }
 

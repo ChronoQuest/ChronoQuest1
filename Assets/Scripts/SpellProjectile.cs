@@ -84,7 +84,6 @@ public class SpellProjectile : MonoBehaviour, IRewindable
             {
                 if (!hasHit)
                 {
-                    ScoreManager.Instance.RemovePoints(50);
                     Debug.Log("Spell Missed");  
                 }
                 
@@ -101,7 +100,7 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         {
             hasHit = true; 
             collision.GetComponent<EnemyBase>()?.TakeDamage(damage); 
-            ScoreManager.Instance.AddPoints(50); 
+            ScoreManager.Instance.AddPoints(100); 
             ExecuteImpact(); 
             return; 
         }

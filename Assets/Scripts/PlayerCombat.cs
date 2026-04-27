@@ -299,7 +299,7 @@ public class PlayerCombat : MonoBehaviour, IRewindable
             {
                 hitAnything = true;
                 target.TakeDamage(meleeDamage);
-                ScoreManager.Instance.AddPoints(50);
+                ScoreManager.Instance.AddPoints(100);
                 DataCollectionService.Instance?.RecordMeleeHit();
                 if (manaSystem != null) manaSystem.AddManaOnHit();
 
@@ -324,7 +324,7 @@ public class PlayerCombat : MonoBehaviour, IRewindable
             TriggerHitstop(0.07f);
         } else
         {
-            ScoreManager.Instance.RemovePoints(50); 
+            ScoreManager.Instance.RemovePoints(0); 
         }
     }
 

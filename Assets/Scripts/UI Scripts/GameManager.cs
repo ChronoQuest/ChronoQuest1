@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     private int deathCount = 0;
     public int maxDeaths = 3; 
+    private bool scoreSent = false; 
 
     void Awake()
     {
@@ -36,14 +37,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
+    /*void Update()
     {
         // TESTING LEADERBOARD
         if (Input.GetKeyDown(KeyCode.K))
         {
             GameOver(); 
         }
-    }
+    } */ 
 
     void OnEnable()
     {
@@ -58,9 +59,19 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         deathCount = 0; 
+
+
+        if (scene.name == "TitleScreen")
+        {
+            scoreSent = false;
+            deathCount = 0; 
+
+            ScoreManager.Instance.ResetScore(); 
+            PlayerStrategyModel.Instance.Reset();
+        }
     }
 
-    public void PlayerDied()
+    /* public void PlayerDied()
     {
         deathCount++; 
         Debug.Log("Player died. Count: " + deathCount); 
@@ -72,6 +83,13 @@ public class GameManager : MonoBehaviour
                 GameOver(); 
             }
         }
+    }*/ 
+
+    public void ReturnToMenu()
+    {
+        Debug.Log("Returning to menu");
+        GameOver(); 
+        SceneManager.LoadScene("TitleScreen"); 
     }
 
     public void LevelComplete()
@@ -83,9 +101,21 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (scoreSent) return;  
+        scoreSent = true;
+
         Debug.Log("Game Over"); 
 
-        int finalScore = ScoreManager.Instance.GetScore(); 
+        int baseScore = ScoreManager.Instance.GetScore();
+
+        float multiplier = DynamicDifficultyManager.Instance != null
+            ? DynamicDifficultyManager.Instance.GetScoreMultiplier()
+            : 1f;
+
+        int finalScore = Mathf.RoundToInt(baseScore * multiplier);
+
+        Debug.Log($"Final Score: {baseScore} x {multiplier} = {finalScore}");
+
         string playerName = PlayerPrefs.GetString("playerName", "Player"); 
         PlayerStrategyModel.StrategyType strategy = PlayerStrategyModel.Instance.GetDominantStrategy(); 
 
