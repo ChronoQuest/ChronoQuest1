@@ -9,10 +9,18 @@ public class MovingPlatform : MonoBehaviour, IRewindable
     [SerializeField] private float speed = 3f;
     [SerializeField] private float waitTimeAtPoint = 1f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [Tooltip("Looping sound while the platform is in motion (stops at waypoint pauses).")]
+    [SerializeField] private AudioClip movingClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float movingVolume = 0.3f;
+
     private Rigidbody2D _rb;
     private int _targetIndex = 0;
     private float _waitTimer;
     private bool _isRewinding;
+    private bool _isMovingSoundPlaying;
     
     // We calculate this so the player can read it
     public Vector2 CurrentVelocity { get; private set; }
@@ -38,35 +46,39 @@ public class MovingPlatform : MonoBehaviour, IRewindable
 
     private void FixedUpdate()
     {
-        if (_isRewinding || waypoints.Length == 0) 
+        if (_isRewinding || waypoints.Length == 0)
         {
             CurrentVelocity = Vector2.zero;
+            StopMovingSound();
             return;
         }
 
         Vector2 target = waypoints[_targetIndex].position;
         Vector2 current = _rb.position;
 
-        // 1. Calculate the move
-        Vector2 newPos = Vector2.MoveTowards(current, target, speed * Time.fixedDeltaTime);
-        
-        // 2. Calculate the velocity (Distance / Time)
-        // We set this property so the Player script can read "platform.CurrentVelocity"
-        CurrentVelocity = (newPos - current) / Time.fixedDeltaTime;
-
-        // 3. Move the physics body
-        _rb.MovePosition(newPos);
-
-        // 4. Waypoint Logic
+        // 4. Waypoint Logic — check if waiting at a stop
         if (Vector2.Distance(current, target) < 0.05f)
         {
             CurrentVelocity = Vector2.zero; // Stop reporting velocity while waiting
+            StopMovingSound();
             _waitTimer += Time.fixedDeltaTime;
             if (_waitTimer >= waitTimeAtPoint)
             {
                 NextWaypoint();
             }
+            return;
         }
+
+        // 1. Calculate the move
+        Vector2 newPos = Vector2.MoveTowards(current, target, speed * Time.fixedDeltaTime);
+
+        // 2. Calculate the velocity (Distance / Time)
+        CurrentVelocity = (newPos - current) / Time.fixedDeltaTime;
+
+        // 3. Move the physics body
+        _rb.MovePosition(newPos);
+
+        StartMovingSound();
     }
 
     private void NextWaypoint()
@@ -75,10 +87,32 @@ public class MovingPlatform : MonoBehaviour, IRewindable
         _targetIndex = (_targetIndex + 1) % waypoints.Length;
     }
 
+    private void StartMovingSound()
+    {
+        if (_isMovingSoundPlaying || audioSource == null || movingClip == null)
+            return;
+
+        audioSource.clip = movingClip;
+        audioSource.loop = true;
+        audioSource.volume = movingVolume;
+        audioSource.Play();
+        _isMovingSoundPlaying = true;
+    }
+
+    private void StopMovingSound()
+    {
+        if (!_isMovingSoundPlaying || audioSource == null)
+            return;
+
+        audioSource.Stop();
+        _isMovingSoundPlaying = false;
+    }
+
     public void OnStartRewind()
     {
         _isRewinding = true;
         CurrentVelocity = Vector2.zero;
+        StopMovingSound();
     }
 
     public void OnStopRewind() 

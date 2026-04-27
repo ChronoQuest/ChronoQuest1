@@ -18,6 +18,10 @@ public class Firecolumns : MonoBehaviour, IRewindable
     private Animator animatorLeft;
     private Animator animatorRight;
     private bool isEnding = false;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip fireLoopClip;
+    [Range(0f, 1f)] public float fireVolume = 0.6f;
     void Start()
     {
         if (TimeRewindManager.Instance != null)
@@ -27,6 +31,13 @@ public class Firecolumns : MonoBehaviour, IRewindable
         rb = GetComponent<Rigidbody2D>();
         animatorLeft = fireVisualLeft.GetComponent<Animator>();
         animatorRight = fireVisualRight.GetComponent<Animator>();
+        if (audioSource != null && fireLoopClip != null)
+        {
+            audioSource.clip = fireLoopClip;
+            audioSource.loop = true;
+            audioSource.volume = fireVolume;
+            audioSource.Play();
+        }
         
         // Initialize our safe timers
         age = 0f;
@@ -62,11 +73,11 @@ public class Firecolumns : MonoBehaviour, IRewindable
                 animatorRight.SetBool("isEnding", true);
             }
         }
-        if(age > 5f) gameObject.SetActive(false);
-
-        
-        // Gameplay Safe Destruction (12 seconds)
-        if(age > 12f) Destroy(gameObject);
+        if (age > 5f)
+        {
+            if (audioSource != null) audioSource.Stop();
+            gameObject.SetActive(false);
+        }
 
         rb.MovePosition(rb.position + currentVelocity * Time.fixedDeltaTime);
     }
@@ -86,6 +97,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
     public void OnStartRewind()
     {
         _isRewinding = true;
+        if (audioSource != null) audioSource.Pause();
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         _originalBodyType = rb.bodyType;
         rb.bodyType = RigidbodyType2D.Kinematic;
@@ -95,6 +107,7 @@ public class Firecolumns : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
+        if (audioSource != null) audioSource.UnPause();
         rb.bodyType = _originalBodyType;
         if (_originalBodyType == RigidbodyType2D.Dynamic)
         {

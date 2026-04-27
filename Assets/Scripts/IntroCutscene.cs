@@ -255,6 +255,21 @@ public class IntroCutscene : MonoBehaviour
     [Tooltip("Name of the scene to load once the rewind video finishes. " +
              "Must be added to Build Settings.")]
     [SerializeField] private string nextSceneName = "GameScene";
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private float deathVolume = 0.5f;
+    [SerializeField] private AudioClip reviveClip;
+    [SerializeField] private float reviveVolume = 0.5f;
+    [SerializeField] private AudioClip rewindStartClip;
+    [SerializeField] private float rewindVolume = 1f;
+    [SerializeField] private AudioSource bossAudioSource;
+    [SerializeField] private AudioClip dialogueBlip;
+    [SerializeField] private float dialogueBlipVolume = 1.5f;
+    [SerializeField] private float minPitch = 0.6f;
+    [SerializeField] private float maxPitch = 0.7f;
+    [SerializeField] private int charsPerSound = 2;
 
     // Guard so a double-fired signal / end-call can't load the scene twice.
     private bool cutsceneEnded;
@@ -262,7 +277,7 @@ public class IntroCutscene : MonoBehaviour
     private Camera mainCamera;
     private RewindEffects rewindEffects;
     private RewindableAnimator bossAnimatorRewindable;
-    
+    private RewindMusicController musicController;
 
     // ---------------------------------------------------------------------
     // Unity lifecycle
@@ -271,6 +286,7 @@ public class IntroCutscene : MonoBehaviour
     private void Start()
     {
         rewindManager = TimeRewindManager.Instance;
+        musicController = FindFirstObjectByType<RewindMusicController>();
 
         // Find the main camera and ensure it has RewindEffects for visual feedback
         mainCamera = Camera.main;
@@ -570,6 +586,10 @@ public class IntroCutscene : MonoBehaviour
 
             yield return null;
         }
+        if (sfxSource != null && rewindStartClip != null)
+        {
+                sfxSource.PlayOneShot(rewindStartClip, rewindVolume);
+        }
 
         Debug.Log("[IntroCutscene] R pressed — starting rewind!");
 
@@ -596,6 +616,11 @@ public class IntroCutscene : MonoBehaviour
         if (rewindManager.IsRewinding)
             rewindManager.StopRewind();
 
+        // if (sfxSource != null && reviveClip != null)
+        // {
+        //     sfxSource.PlayOneShot(reviveClip);
+        // }
+
         // Disable player input again
         if (playerInput != null)
             playerInput.enabled = false;
@@ -616,6 +641,10 @@ public class IntroCutscene : MonoBehaviour
         {
             if (HasAnimatorParam(playerAnimator, playerDeathTriggerParam, AnimatorControllerParameterType.Trigger))
                 playerAnimator.SetTrigger(playerDeathTriggerParam);
+        }
+        if (sfxSource != null && deathClip != null)
+        {
+            sfxSource.PlayOneShot(deathClip);
         }
     }
 
@@ -700,7 +729,14 @@ public class IntroCutscene : MonoBehaviour
             for (int i = 1; i <= line.Length; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
-                yield return new WaitForSeconds(timePerChar);
+
+                if (bossAudioSource != null && dialogueBlip != null && i % charsPerSound == 0)
+                {
+                    bossAudioSource.pitch = Random.Range(minPitch, maxPitch);
+                    bossAudioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
+                }
+
+                yield return new WaitForSecondsRealtime(timePerChar);
             }
 
             yield return new WaitForSeconds(dialoguePauseBetweenLines);
@@ -902,6 +938,10 @@ public class IntroCutscene : MonoBehaviour
     {
         BlockAllPlayerInputForVideo();
         ResetTimeStateForNextScene();
+
+        // Keep the music playing in reverse during the video.
+        if (musicController != null)
+            musicController.ForceReversePitch();
     }
 
     /// <summary>

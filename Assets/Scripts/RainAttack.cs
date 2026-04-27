@@ -40,6 +40,8 @@ public class RainAttack : MonoBehaviour
             // Spawn the bolt
             Vector3 spawnPos = new Vector3(spawnOrigin.x, actualSpawnY + Random.Range(-0.5f, 0.5f), 0);
             GameObject bolt = Instantiate(projectilePrefab, spawnPos, Quaternion.Euler(0, 0, -90));
+            // Decrease volume of spell blast for rain spell
+            bolt.GetComponent<SpellProjectile>().spellBlastVolume *= 0.2f;
         
             float randomSpeed = Random.Range(12f, 18f);
             bolt.GetComponent<Rigidbody2D>().linearVelocity = Vector2.down * randomSpeed;

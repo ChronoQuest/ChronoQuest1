@@ -202,6 +202,9 @@ MonoBehaviour:
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
+  damageClips:
+  - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
+  damageVolume: 1
   detectionRange: 5
   attackRange: 1
   moveSpeed: 4

@@ -22,6 +22,12 @@ public class HomingFireball : MonoBehaviour, IRewindable
     private float explosionTimer = 0.5f;
     private GameObject player;
     private SpriteRenderer spriteRenderer;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip fireExplosionClip;
+    [Range(0f, 1f)] public float fireExplosionVolume = 0.5f;
+    public AudioClip fallingClip;
+    [Range(0f, 1f)] public float fallingVolume = 0.5f;
 
     void Start()
     {
@@ -96,6 +102,13 @@ public class HomingFireball : MonoBehaviour, IRewindable
 
             rb.linearVelocity = lockedDirection * speed;
             directionLocked = true;
+            if (audioSource != null && fallingClip != null)
+            {
+                audioSource.clip = fallingClip;
+                audioSource.loop = true;
+                audioSource.volume = fallingVolume;
+                audioSource.Play();
+            }
 
             RotateToDirection();
         }
@@ -133,6 +146,8 @@ public class HomingFireball : MonoBehaviour, IRewindable
             _collider.offset = new Vector2(0f, -1f);
             transform.rotation = Quaternion.identity;
 
+            if (audioSource != null) audioSource.Stop();
+            if(audioSource != null && fireExplosionClip != null) audioSource.PlayOneShot(fireExplosionClip, fireExplosionVolume);
             _isExploding = true;
             explosionTimer = 0.5f;
         }
@@ -147,6 +162,11 @@ public class HomingFireball : MonoBehaviour, IRewindable
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
+        
+        if (audioSource != null)
+        {
+            audioSource.Pause();
+        }
 
         if (anim != null) anim.speed = 0f;
     }
@@ -162,6 +182,10 @@ public class HomingFireball : MonoBehaviour, IRewindable
         {
             rb.linearVelocity = _lastAppliedState.Velocity;
             rb.angularVelocity = _lastAppliedState.AngularVelocity;
+        }
+        if (audioSource != null && !_isExploding)
+        {
+            audioSource.UnPause(); // resume falling if still in air
         }
 
         if (anim != null) anim.speed = 1f;

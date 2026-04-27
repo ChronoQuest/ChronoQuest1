@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TimeRewind;
 
 public class RewindHaptics : MonoBehaviour
 {
@@ -66,10 +67,38 @@ public class RewindHaptics : MonoBehaviour
     [Range(0f, 1f)]
     public float highMotorWeight = 0.9f;
 
+    [Header("Heartbeat Audio")]
+
+    [Tooltip("AudioClip for the strong beat (LUB). Played in sync with the strong motor pulse.")]
+    public AudioClip lubClip;
+
+    [Tooltip("AudioClip for the weak beat (dub). Played in sync with the weak motor pulse.")]
+    public AudioClip dubClip;
+
+    [Range(0f, 1f)]
+    [Tooltip("Volume of heartbeat sounds during normal (low-health) mode.")]
+    public float heartbeatVolume = 0.6f;
+
+    [Range(0f, 1f)]
+    [Tooltip("Volume of heartbeat sounds during rewind mode.")]
+    public float rewindHeartbeatVolume = 0.5f;
+
+    [Header("Muffled Audio Effect")]
+
+    [Tooltip("Apply a low-pass filter to the music when the heartbeat is active.")]
+    public bool muffle = true;
+
+    [Range(200f, 5000f)]
+    [Tooltip("Low-pass cutoff frequency while muffled. Lower = more underwater.")]
+    public float muffleCutoffFrequency = 800f;
+
     #endregion
 
     private Coroutine currentRoutine;
     private Coroutine hintTimeoutRoutine;
+    private AudioSource lubSource;
+    private AudioSource dubSource;
+    private RewindMusicController _musicController;
 
     private enum HeartMode
     {
@@ -86,6 +115,16 @@ public class RewindHaptics : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+
+            lubSource = gameObject.AddComponent<AudioSource>();
+            lubSource.playOnAwake = false;
+            lubSource.loop = false;
+            lubSource.spatialBlend = 0f;
+
+            dubSource = gameObject.AddComponent<AudioSource>();
+            dubSource.playOnAwake = false;
+            dubSource.loop = false;
+            dubSource.spatialBlend = 0f;
         }
         else
         {
@@ -145,10 +184,12 @@ public class RewindHaptics : MonoBehaviour
         switch (mode)
         {
             case HeartMode.ReverseHeartbeat:
+                SetMuffledEffect(true);
                 currentRoutine = StartCoroutine(ReverseHeartbeatRoutine());
                 break;
 
             case HeartMode.NormalHeartbeat:
+                SetMuffledEffect(true);
                 currentRoutine = StartCoroutine(NormalHeartbeatRoutine());
                 break;
         }
@@ -169,6 +210,7 @@ public class RewindHaptics : MonoBehaviour
         }
 
         StopMotors();
+        SetMuffledEffect(false);
         activeMode = HeartMode.None;
     }
 
@@ -191,14 +233,14 @@ public class RewindHaptics : MonoBehaviour
             float interval = Mathf.Lerp(baseBeatInterval, fastBeatInterval, normalized);
             float strength = baseStrength * globalStrengthScale;
 
-            // dub FIRST (weak)
-            yield return Beat(strength * 0.7f, weakBeatDuration);
+            // dub FIRST (weak) — reversed clip
+            yield return Beat(strength * 0.7f, weakBeatDuration, dubClip, rewindHeartbeatVolume, reverse: true);
 
             // Wait Gap
             yield return PausableWait(beatGap);
 
-            // LUB SECOND (strong)
-            yield return Beat(strength, strongBeatDuration);
+            // LUB SECOND (strong) — reversed clip
+            yield return Beat(strength, strongBeatDuration, lubClip, rewindHeartbeatVolume, reverse: true);
 
             // Speed-scaled pause
             yield return PausableWait(interval);
@@ -222,13 +264,13 @@ public class RewindHaptics : MonoBehaviour
             float strength = baseStrength * globalStrengthScale;
 
             // LUB FIRST (strong)
-            yield return Beat(strength, strongBeatDuration);
+            yield return Beat(strength, strongBeatDuration, lubClip, heartbeatVolume, reverse: false);
 
             // Wait Gap
             yield return PausableWait(beatGap);
 
             // dub SECOND (weak)
-            yield return Beat(strength * 0.7f, weakBeatDuration);
+            yield return Beat(strength * 0.7f, weakBeatDuration, dubClip, heartbeatVolume, reverse: false);
 
             // Long biological pause
             yield return PausableWait(baseBeatInterval);
@@ -239,15 +281,39 @@ public class RewindHaptics : MonoBehaviour
 
     #region Beat Execution
 
-    private IEnumerator Beat(float strength, float duration)
+    private IEnumerator Beat(float strength, float duration, AudioClip clip = null, float volume = 0.5f, bool reverse = false)
     {
-        if (Gamepad.current == null || PauseMenu.isPaused)
+        if (PauseMenu.isPaused)
             yield break;
+        if (Gamepad.current != null)
+                {
+                    float low = strength * lowMotorWeight;
+                    float high = strength * highMotorWeight;
+                    Gamepad.current.SetMotorSpeeds(low, high);
+                }
+        // Pick the right source so lub and dub can overlap
+        AudioSource source = (clip == lubClip) ? lubSource : dubSource;
 
-        float low = strength * lowMotorWeight;
-        float high = strength * highMotorWeight;
+        if (source != null && clip != null)
+        {
+            source.clip = clip;
+            source.volume = volume;
 
-        Gamepad.current.SetMotorSpeeds(low, high);
+            if (reverse)
+            {
+                source.pitch = -1f;
+                source.time = Mathf.Max(0.01f, clip.length - 0.01f);
+            }
+            else
+            {
+                source.pitch = 1f;
+                source.time = 0f;
+            }
+
+            source.Play();
+        }
+
+       
 
         // Custom timer instead of WaitForSeconds so we can abort mid-beat if paused
         float timer = 0f;
@@ -258,7 +324,7 @@ public class RewindHaptics : MonoBehaviour
                 StopMotors();
                 yield break; // Instantly abort this beat if the player pauses
             }
-            
+
             timer += Time.unscaledDeltaTime;
             yield return null;
         }
@@ -282,6 +348,22 @@ public class RewindHaptics : MonoBehaviour
     {
         yield return PausableWait(duration);
         StopHintHeartbeat();
+    }
+
+    #endregion
+
+    #region Muffled Effect
+
+    private void SetMuffledEffect(bool on)
+    {
+        if (!muffle)
+            return;
+
+        if (_musicController == null)
+            _musicController = FindFirstObjectByType<RewindMusicController>();
+
+        if (_musicController != null)
+            _musicController.SetMuffled(on, muffleCutoffFrequency);
     }
 
     #endregion

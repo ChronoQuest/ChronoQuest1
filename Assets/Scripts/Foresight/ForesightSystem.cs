@@ -8,12 +8,17 @@ public class ForesightSystem : MonoBehaviour
     public float anomalyZScore = -1.5f;
     private int memorySize = 50;
     public float instantTriggerCost = 0.5f;
+    public float triggerCost = 0.3f;
     private float maxPlayerSpeed = 20f; // Based on dash speed
     // Our custom queue data structures
     private FixedQueue<float> historicalCosts;
     private FixedQueue<PlayerState> currentTimeline;
     private FixedQueue<PlayerState> previousTimeline;
     private int bestMatchIndex = -1;
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip foresightActivationClip;
+    [Range(0f, 1f)] public float volume = 0.8f;
 
     // Possible 'tactics' a player could be employing
     public struct PlayerState
@@ -57,7 +62,15 @@ public class ForesightSystem : MonoBehaviour
     {
         if (enemy.IsDead() || enemy.IsRewinding() || enemy.IsPerformingForesightAction()) return;
         // If the player is too far away, don't store any info about the player
-        if(enemy.GetDistanceToPlayer() > minDistToPlayer) return;
+        if(enemy.GetDistanceToPlayer() > minDistToPlayer)
+        {
+            if (hasForesight)
+            {
+                hasForesight = false;
+                enemy.SetForesightState(false);
+            }
+            return;
+        }
 
         int currentAttackState = enemy.GetPlayerAttackState();
         if (currentAttackState > highestAttackThisInterval) 
@@ -75,23 +88,39 @@ public class ForesightSystem : MonoBehaviour
             if (previousTimeline.Count >= minTimelineSize)
             {
                 float currentCost = CalculateDTWCost();
-                bool isPredictable = EvaluateZScore(currentCost);
 
-                if (isPredictable)
+                if (!float.IsInfinity(currentCost))
                 {
-                    if (!hasForesight)
+                    bool isPredictable = EvaluateZScore(currentCost);
+
+                    if (isPredictable)
                     {
-                        hasForesight = true;
-                        enemy.SetForesightState(true);
-                    }
+                        if (!hasForesight)
+                        {
+                            hasForesight = true;
+                            enemy.SetForesightState(true);
+                            if (audioSource != null && foresightActivationClip != null)
+                            {
+                                audioSource.PlayOneShot(foresightActivationClip, volume);
+                            }
+                        }
 
-                    ForesightTactics tactic = DetermineForesightAction();
-                    if (tactic == ForesightTactics.Dodge) enemy.ExecuteDodge();
-                    else if (tactic == ForesightTactics.Lunge) enemy.ExecuteLunge();
+                        ForesightTactics tactic = DetermineForesightAction();
+                        if (tactic == ForesightTactics.Dodge) enemy.ExecuteDodge();
+                        else if (tactic == ForesightTactics.Lunge) enemy.ExecuteLunge();
+                    }
+                    else
+                    {
+                        // Player is behaving differently
+                        if (hasForesight)
+                        {
+                            hasForesight = false;
+                            enemy.SetForesightState(false);
+                        }
+                    }
                 }
-                else
+                else 
                 {
-                    // Player is behaving differently
                     if (hasForesight)
                     {
                         hasForesight = false;
@@ -148,10 +177,10 @@ public class ForesightSystem : MonoBehaviour
     float CalculateDTWCost()
     {
         // We need both timelines to have at least the window size number of samples
-        if (currentTimeline.Count < minTimelineSize || previousTimeline.Count < minTimelineSize) return 0f;
+        if (currentTimeline.Count < minTimelineSize || previousTimeline.Count < minTimelineSize) return float.PositiveInfinity;
 
         // If we reach an unobserved point in time, we can't trigger foresight
-        if (currentTimeline.Count > previousTimeline.Count) return 0f;
+        if (currentTimeline.Count > previousTimeline.Count) return float.PositiveInfinity;
 
         int c_len = currentTimeline.Count;
         int p_len = previousTimeline.Count;
@@ -243,14 +272,16 @@ public class ForesightSystem : MonoBehaviour
         float standardDeviation = Mathf.Sqrt(variance);
 
         // Prevent division by zero if all costs are perfectly identical
-        if (standardDeviation < 0.0001f) return false;
+        if (standardDeviation < 0.0001f) return currentCost <= triggerCost;
 
         float zScore = (currentCost - mean) / standardDeviation;
 
         Debug.Log($"Cost: {currentCost:F2} | Mean: {mean:F2} | Z-Score: {zScore:F2}");
 
-        // We want the cost to be lower than an anomalous score
-        return zScore <= anomalyZScore;
+        bool isVeryLowCost = currentCost <= triggerCost;
+        bool isStatisticallyLow = zScore <= anomalyZScore;
+        // We want the cost to be lower than an anomalous score OR be very low in cost
+        return isVeryLowCost || isStatisticallyLow;
     }
     ForesightTactics DetermineForesightAction()
     {
@@ -304,6 +335,10 @@ public class ForesightSystem : MonoBehaviour
     {
         hasForesight = true;
         enemy.SetForesightState(true);
+        if (audioSource != null && foresightActivationClip != null)
+        {
+            audioSource.PlayOneShot(foresightActivationClip, volume);
+        }
         // enemy.ExecuteDodge();
         enemy.ExecuteLunge();
     }

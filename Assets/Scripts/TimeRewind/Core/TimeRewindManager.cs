@@ -111,7 +111,12 @@ namespace TimeRewind
 
         private float _currentPlaybackMultiplier = 1f;
         private bool _isRecovering;
-        
+
+        // Extra speed scalar for externally-driven rewinds (e.g. the boss rewinding
+        // the fight in phase 2). Stacks multiplicatively with rewindSpeed and the
+        // playback multipliers so the caller doesn't need to know about them.
+        private float _externalSpeedMultiplier = 1f;
+
         #endregion
 
         #region Properties
@@ -348,6 +353,10 @@ namespace TimeRewind
             _isRewinding = false;
             RewindHaptics.Instance?.StopRewindPulse();
 
+            // Safety: clear any external multiplier so it can't leak into the next rewind
+            // if the caller forgot to pop. Push/Clear is still the intended contract.
+            _externalSpeedMultiplier = 1f;
+
             if (_cachedTimeScale <= 0f)
                 _cachedTimeScale = BaselineTimeScale;
 
@@ -449,6 +458,20 @@ namespace TimeRewind
                 Time.timeScale = 1f;
         }
         
+        // Scoped speed boost for externally-driven rewinds. Caller pairs PushSpeedMultiplier
+        // with ClearSpeedMultiplier; while non-1 it scales the rewind rate on top of the
+        // configured rewindSpeed. StopRewind also clears it as a safety net in case the
+        // caller bails without cleanup.
+        public void PushSpeedMultiplier(float multiplier)
+        {
+            _externalSpeedMultiplier = Mathf.Max(0.01f, multiplier);
+        }
+
+        public void ClearSpeedMultiplier()
+        {
+            _externalSpeedMultiplier = 1f;
+        }
+
         public void ClearHistory()
         {
             foreach (var buffer in _rewindables.Values)
@@ -533,7 +556,7 @@ namespace TimeRewind
             }
 
             // Use unscaled delta so rewind consistency doesn't change with timeScale (game over pause, slowmo, etc.)
-            _currentRewindTime -= Time.unscaledDeltaTime * rewindSpeed * _currentPlaybackMultiplier * arrivalFactor;
+            _currentRewindTime -= Time.unscaledDeltaTime * rewindSpeed * _currentPlaybackMultiplier * arrivalFactor * _externalSpeedMultiplier;
             
             float oldestTime = GetOldestRecordedTime();
             

@@ -26,6 +26,14 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public float shootCooldown = 2f;
     private bool isShooting = false;
 
+    [Header("Landed-On-Player Nudge")]
+    // Fired when the archer's collider rests on top of the player — small push so it
+    // slides off the head and gravity drops it to real ground.
+    public float pushOffXSpeed = 1.5f;
+    public float pushOffYSpeed = 1f;
+    public float pushOffDuration = 0.25f;
+    private float pushOffTimer;
+
     [Header("References")]
     [SerializeField] private Transform _player;
     public Transform player
@@ -38,6 +46,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         detectionRange *= 2f;
     }
     public GameObject arrowPrefab;
+    [Header("Audio")]
+    public AudioClip fireClip;
+    public float fireVolume = 1f;
     [Header("Arrow Pool")]
     public int arrowPoolSize = 5;
 
@@ -132,8 +143,10 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             if (reviveTimer <= 0) isReviving = false;
         }
 
+        if (pushOffTimer > 0f) pushOffTimer -= Time.deltaTime;
+
         // If dead, dying, reviving, launched, or stunned -> Do nothing.
-        if (wasDead || isDying || isReviving || isStunned || isLaunched) return;
+        if (wasDead || isDying || isReviving || isStunned || isLaunched || pushOffTimer > 0f) return;
         if (player == null) return;
         ResolvePlayerRefs();
 
@@ -154,7 +167,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isDying || isReviving || isStunned || isLaunched) return;
+        if (isRewinding || wasDead || isDying || isReviving || isStunned || isLaunched || pushOffTimer > 0f) return;
 
         switch (currentState)
         {
@@ -257,7 +270,44 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // This keeps your existing airborne landing stun logic intact
+        if (!wasDead && !isDying && !isRewinding && collision.gameObject.CompareTag("Player"))
+        {
+            bool skeletonOnPlayer = false;
+            bool playerOnSkeleton = false;
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.7f) skeletonOnPlayer = true;
+                if (contact.normal.y < -0.7f) playerOnSkeleton = true;
+            }
+
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            if (skeletonOnPlayer)
+            {
+                if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
+                if (Mathf.Approximately(pushDir, 0f))
+                    pushDir = transform.localScale.x >= 0f ? -1f : 1f;
+                rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+                pushOffTimer = pushOffDuration;
+                return;
+            }
+
+            if (playerOnSkeleton)
+            {
+                if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+                if (playerRb != null)
+                {
+                    float pushDir = Mathf.Sign(collision.transform.position.x - transform.position.x);
+                    if (Mathf.Approximately(pushDir, 0f))
+                        pushDir = transform.localScale.x >= 0f ? -1f : 1f;
+                    playerRb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+                }
+            }
+        }
+
+        // Airborne landing stun logic
         foreach (ContactPoint2D contact in collision.contacts)
         {
             if (contact.normal.y > 0.7f)
@@ -265,7 +315,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
                 if (isLaunched && stunOnLand)
                 {
                     stunTimer = 0.5f;
-                    isLaunched = false; 
+                    isLaunched = false;
                 }
                 isGrounded = true;
             }
@@ -277,6 +327,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         if (wasDead || isDying) return;
+
+        base.DeathSound();
 
         wasDead = true;
         isDying = true;
@@ -440,8 +492,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
         
         spriteRenderer.color = originalColor;
-        animator.SetBool("hasForesight", false);
-        if (foresightGlow != null) foresightGlow.SetActive(false);
         gameObject.layer = originalLayer;
         isDodging = false;
     }
@@ -454,6 +504,16 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public bool IsPerformingForesightAction()
     {
         return isDodging;
+    }
+
+    // ================= AUDIO =================
+
+    public void ArrowFireSound()
+    {
+        if(fireClip != null)
+        {
+            base.audioSource.PlayOneShot(fireClip, fireVolume);
+        }
     }
 
     // ================= REWIND =================
@@ -489,7 +549,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         
         state.SetCustomData("isReviving", isReviving);
         state.SetCustomData("reviveTimer", reviveTimer);
-        
+        state.SetCustomData("pushOffTimer", pushOffTimer);
+
         state.SetCustomData("isDying", isDying);
         state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
         state.SetCustomData("colEnabled", col != null && col.enabled);
@@ -513,7 +574,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         
         isReviving = state.GetCustomData<bool>("isReviving");
         reviveTimer = state.GetCustomData<float>("reviveTimer");
-        
+        pushOffTimer = state.GetCustomData<float>("pushOffTimer");
+
         isDying = state.GetCustomData<bool>("isDying");
 
         if (sprite != null)

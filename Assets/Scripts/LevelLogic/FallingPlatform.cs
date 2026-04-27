@@ -10,9 +10,24 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     [SerializeField] private float shakeAmount = 0.05f;
     [SerializeField] private float respawnTime = 3.0f; 
 
+    [Header("Difficulty rules")]
+    [Tooltip("If enabled, this platform will still fall even on VeryEasy/Easy (it ignores the tier-based no-falling rule).")]
+    [SerializeField] private bool ignoreTierNoFallingLock = false;
+
     [Header("References")]
     [Tooltip("Assign the Tilemap Collider or Box Collider here")]
     [SerializeField] private Collider2D platformCollider;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [Tooltip("Rumble sound while the platform shakes before falling.")]
+    [SerializeField] private AudioClip rumbleClip;
+    [Tooltip("Sound when the platform starts falling.")]
+    [SerializeField] private AudioClip fallClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float rumbleVolume = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float fallVolume = 0.7f;
 
     private Rigidbody2D _rb;
     private Vector3 _startPos;
@@ -33,8 +48,6 @@ public class FallingPlatform : MonoBehaviour, IRewindable
             platformCollider = GetComponent<Collider2D>();
 
         _startPos = transform.position;
-
-        RefreshTutorialSafetyLock();
     }
 
     private void Start()
@@ -52,38 +65,50 @@ public class FallingPlatform : MonoBehaviour, IRewindable
 
     private void HandleDifficultyChanged()
     {
-        RefreshTutorialSafetyLock();
+        if (IsFallLocked())
+            StopFallCoroutineAndResetPose();
     }
 
     private void OnEnable() => TimeRewindManager.Instance?.Register(this);
     private void OnDisable() => TimeRewindManager.Instance?.Unregister(this);
 
-    private bool _safetyLocked;
+    private bool _sectionAssistLocked;
 
-    /// <summary>
-    /// Physics can call OnCollisionEnter2D before Start(), so this must run from Awake / collision.
-    /// </summary>
-    private void RefreshTutorialSafetyLock()
+    public void SetSectionAssistLocked(bool locked) => _sectionAssistLocked = locked;
+
+    /// <summary>Cancels shake/fall and snaps back to the start pose (platforming assist).</summary>
+    public void CancelFallForAssist() => StopFallCoroutineAndResetPose();
+
+    private bool IsFallLocked()
     {
-        if (_safetyLocked) return;
+        if (_sectionAssistLocked) return true;
+        if (PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0) == 1)
+            return true;
+        if (DynamicDifficultyManager.Instance == null) return false;
+        if (DynamicDifficultyManager.Instance.TutorialSafetyActive) return true;
+        if (ignoreTierNoFallingLock) return false;
+        return DynamicDifficultyManager.Instance.LockFallingPlatformsForCurrentTier;
+    }
 
-        int prefVal = PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0);
-        bool managerSafety = DynamicDifficultyManager.Instance != null && DynamicDifficultyManager.Instance.TutorialSafetyActive;
-
-        if (prefVal == 1)
+    private void StopFallCoroutineAndResetPose()
+    {
+        if (_fallRoutine != null)
         {
-            _safetyLocked = true;
-            return;
+            StopCoroutine(_fallRoutine);
+            _fallRoutine = null;
         }
 
-        if (managerSafety)
-            _safetyLocked = true;
+        _isFalling = false;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+        transform.position = _startPos;
+        transform.rotation = Quaternion.identity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        RefreshTutorialSafetyLock();
-        if (_safetyLocked)
+        if (IsFallLocked())
             return;
 
         // Only trigger if Player stands on top
@@ -103,23 +128,40 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         _isFalling = true;
         float timer = 0f;
 
+        // Start rumble sound
+        if (audioSource != null && rumbleClip != null)
+        {
+            audioSource.clip = rumbleClip;
+            audioSource.loop = true;
+            audioSource.volume = rumbleVolume;
+            audioSource.Play();
+        }
+
         // 1. Shake Phase
         while (timer < fallDelay)
         {
-            if (_isRewinding) yield break; 
+            if (_isRewinding) yield break;
 
             float x = Random.Range(-1f, 1f) * shakeAmount;
-            transform.position = _startPos + new Vector3(x, 0, 0); 
-            
+            transform.position = _startPos + new Vector3(x, 0, 0);
+
             timer += Time.deltaTime;
             yield return null;
         }
 
         // 2. Fall Phase
         transform.position = _startPos; // Snap back to center
-        
+
+        // Stop rumble, play fall sound
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            if (fallClip != null)
+                audioSource.PlayOneShot(fallClip, fallVolume);
+        }
+
         // Physics Fall
-        _rb.bodyType = RigidbodyType2D.Dynamic; 
+        _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.gravityScale = 2.5f; // Fall slightly faster than player for dramatic effect
         
         // Wait 0.5 seconds while falling, so the player rides it down briefly
@@ -166,15 +208,23 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     {
         _isRewinding = true;
         if (_fallRoutine != null) StopCoroutine(_fallRoutine);
-        
+
         // Stop physics immediately so we don't fight the rewind position
         _rb.bodyType = RigidbodyType2D.Kinematic;
         _rb.linearVelocity = Vector2.zero;
+
+        if (audioSource != null) audioSource.Stop();
     }
 
     public void OnStopRewind()
     {
         _isRewinding = false;
+
+        if (IsFallLocked())
+        {
+            StopFallCoroutineAndResetPose();
+            return;
+        }
 
         // Now that _isFalling is correctly updated by ApplyState, this check works!
         if (_isFalling)

@@ -109,6 +109,10 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     public Transform        player;
     public List<EnemyBase>  minions = new List<EnemyBase>();
 
+    // ── Audio ─────────────────────────────────────────────────────────────────
+    [Header("Audio")]
+    [SerializeField] private AudioClip roarClip;
+    [SerializeField] private float roarVolume = 0.5f;
     // ──────────────────────────────────────────────────────────────────────────
     //  PRIVATE STATE  (all rewind-serialised — see CaptureState / ApplyState)
     // ──────────────────────────────────────────────────────────────────────────
@@ -918,6 +922,11 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         animator?.SetTrigger("Revive");
     }
 
+    public void RevivalSound()
+    {
+        if(roarClip != null) AudioSource.PlayClipAtPoint(roarClip, transform.position, roarVolume);
+    }
+
     bool CanAttack() =>
         !isAttacking && Time.time >= lastAttackTime + attackCooldown;
 
@@ -1100,6 +1109,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         isDying     = true;
         isAttacking = false;
         isReviving  = false;
+        base.DeathSound();
         animator?.SetBool("isWalking", false);
         if (col != null) col.enabled = false;
         OnDeath?.Invoke();

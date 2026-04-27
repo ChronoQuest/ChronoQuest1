@@ -62,15 +62,29 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool logTierChanges = false;
+    [Tooltip("Logs score + tier every evaluate cycle (Console).")]
+    [SerializeField] private bool logEveryEvaluation = false;
+    [Tooltip("On-screen panel (top-left). Enable on the DontDestroyOnLoad object while playing: Hierarchy → DynamicDifficultyManager.")]
+    [SerializeField] private bool showDebugOverlay = false;
 
     public DifficultyTier CurrentTier { get; private set; } = DifficultyTier.Normal;
     public bool TutorialSafetyActive { get; private set; }
+
+    /// <summary>Last value from <see cref="ComputePerformanceScore"/> at the most recent tier evaluation.</summary>
+    public float LastPerformanceScore { get; private set; }
 
     public float EnemyHpMultiplier => GetCurrentMultipliers().enemyHpMultiplier;
     public float ManaRegenMultiplier => GetCurrentMultipliers().manaRegenMultiplier;
     public float ManaOnHitMultiplier => GetCurrentMultipliers().manaOnHitMultiplier;
     public float HealingMultiplier => GetCurrentMultipliers().healingMultiplier;
 
+    /// <summary>
+    /// VeryEasy and Easy: falling platforms stay solid (same idea as tutorial safety lock).
+    /// </summary>
+    public bool LockFallingPlatformsForCurrentTier =>
+        (int)CurrentTier <= (int)DifficultyTier.Easy;
+
+    private float _nextSampleTime;
     private float _nextEvalTime;
     private float _lastTierChangeTime;
 
@@ -129,7 +143,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
         _activeSceneName = SceneManager.GetActiveScene().name;
         _sceneEnterUnscaledTime = Time.unscaledTime;
-        _nextEvalTime = Time.unscaledTime + GetTuning().evaluateEverySeconds;
+        _nextSampleTime = Time.unscaledTime + GetSampleIntervalSeconds();
+        _nextEvalTime = Time.unscaledTime + Mathf.Max(0.5f, GetTuning().evaluateEverySeconds);
 
         ResetSampling();
         ApplySceneRules();
@@ -152,12 +167,47 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
                 ApplySceneRules();
         }
 
+        if (Time.unscaledTime >= _nextSampleTime)
+        {
+            _nextSampleTime = Time.unscaledTime + GetSampleIntervalSeconds();
+            PushPerformanceSample();
+        }
+
         if (Time.unscaledTime >= _nextEvalTime)
         {
             _nextEvalTime = Time.unscaledTime + Mathf.Max(0.5f, GetTuning().evaluateEverySeconds);
-            TickSamplingAndTier();
+            TutorialSafetyActive = ComputeTutorialSafetyActive();
+            float accDt = ComputeAccumulatedSampleDt();
+            float score = ComputePerformanceScore(accDt);
+            LastPerformanceScore = score;
+            if (logEveryEvaluation)
+                Debug.Log($"[DynamicDifficulty] eval tier={CurrentTier} score={score:0.00} rollWindowDt={accDt:0.0}s " +
+                          $"platLock={LockFallingPlatformsForCurrentTier} tutorialSafety={TutorialSafetyActive}");
+            TryUpdateTier(Time.unscaledTime, score);
             ApplySceneRules();
         }
+    }
+
+    private void OnGUI()
+    {
+        if (!showDebugOverlay) return;
+
+        var t = GetTuning();
+        float accDt = ComputeAccumulatedSampleDt();
+        float cooldownLeft = Mathf.Max(0f, t.tierChangeCooldownSeconds - (Time.unscaledTime - _lastTierChangeTime));
+
+        GUILayout.BeginArea(new Rect(10, 10, 440, 260), GUI.skin.box);
+        GUILayout.Label("Dynamic difficulty (debug)");
+        GUILayout.Label($"Tier: {CurrentTier}  (VeryEasy=0, Easy=1, Normal=2, Hard=3)");
+        GUILayout.Label($"Performance score: {LastPerformanceScore:F2}  (rough -1 ... strong +1)");
+        GUILayout.Label($"Rolling window fill: {accDt:F0}s / {t.rollingWindowSeconds:F0}s max");
+        GUILayout.Label($"Thresholds: VeryEasy≤{t.veryEasyThreshold:F2}  Easy≤{t.easyThreshold:F2}  Hard≥{t.hardThreshold:F2}");
+        GUILayout.Label($"Falling platforms locked (VeryEasy/Easy): {LockFallingPlatformsForCurrentTier}");
+        GUILayout.Label($"Tutorial safety: {TutorialSafetyActive}");
+        GUILayout.Label($"Enemy HP mult: {EnemyHpMultiplier:F2}");
+        GUILayout.Label($"Next tier change allowed in: {cooldownLeft:F0}s (cooldown after a change)");
+        GUILayout.Label("Tip: enable Log Every Evaluation + Log Tier Changes for Console proof.");
+        GUILayout.EndArea();
     }
 
     private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
@@ -166,8 +216,27 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         _sceneEnterUnscaledTime = Time.unscaledTime;
         _tutorialEnemyHpAdjusted.Clear();
 
+        _nextSampleTime = Time.unscaledTime + GetSampleIntervalSeconds();
+        _nextEvalTime = Time.unscaledTime + Mathf.Max(0.5f, GetTuning().evaluateEverySeconds);
+
         ResetSampling();
         ApplySceneRules();
+    }
+
+    private float GetSampleIntervalSeconds()
+    {
+        var t = GetTuning();
+        if (t.sampleEverySeconds > 0f)
+            return Mathf.Max(0.25f, t.sampleEverySeconds);
+        return Mathf.Max(0.5f, t.evaluateEverySeconds);
+    }
+
+    private float ComputeAccumulatedSampleDt()
+    {
+        float accDt = 0f;
+        foreach (var sm in _samples)
+            accDt += sm.dt;
+        return accDt;
     }
 
     private DifficultyTuning GetTuning()
@@ -231,9 +300,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         return s;
     }
 
-    private void TickSamplingAndTier()
+    private void PushPerformanceSample()
     {
-        var now = Time.unscaledTime;
         var current = CaptureSnapshot();
 
         var dt = Mathf.Max(0.001f, current.t - _lastSnapshot.t);
@@ -262,9 +330,6 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         }
 
         TutorialSafetyActive = ComputeTutorialSafetyActive();
-
-        float score = ComputePerformanceScore(accDt);
-        TryUpdateTier(now, score);
     }
 
     private float ComputePerformanceScore(float accDt)
@@ -295,8 +360,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         float score = 0f;
         score += Mathf.Clamp((acc - 0.5f) * 1.2f, -0.6f, 0.6f);
         score -= Mathf.Clamp(deathsPerMin * 0.9f, 0f, 1.0f);
-        score -= Mathf.Clamp(damagePerMin / 40f, 0f, 1.0f);
-        score -= Mathf.Clamp(trapsPerMin * 0.25f, 0f, 0.75f);
+        score -= Mathf.Clamp(damagePerMin / 55f, 0f, 1.0f);
+        score -= Mathf.Clamp(trapsPerMin * 0.20f, 0f, 0.60f);
 
         return Mathf.Clamp(score, -1f, 1f);
     }
@@ -310,20 +375,30 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         var oldTier = CurrentTier;
         var margin = Mathf.Max(0f, t.hysteresisMargin);
 
-        if (CurrentTier == DifficultyTier.Easy)
+        switch (CurrentTier)
         {
-            if (score > t.easyThreshold + margin)
-                CurrentTier = DifficultyTier.Normal;
-        }
-        else if (CurrentTier == DifficultyTier.Hard)
-        {
-            if (score < t.hardThreshold - margin)
-                CurrentTier = DifficultyTier.Normal;
-        }
-        else
-        {
-            if (score <= t.easyThreshold - margin) CurrentTier = DifficultyTier.Easy;
-            else if (score >= t.hardThreshold + margin) CurrentTier = DifficultyTier.Hard;
+            case DifficultyTier.VeryEasy:
+                if (score > t.veryEasyThreshold + margin)
+                    CurrentTier = DifficultyTier.Easy;
+                break;
+            case DifficultyTier.Easy:
+                if (score <= t.veryEasyThreshold - margin)
+                    CurrentTier = DifficultyTier.VeryEasy;
+                else if (score > t.easyThreshold + margin)
+                    CurrentTier = DifficultyTier.Normal;
+                break;
+            case DifficultyTier.Normal:
+                if (score <= t.veryEasyThreshold - margin)
+                    CurrentTier = DifficultyTier.VeryEasy;
+                else if (score <= t.easyThreshold - margin)
+                    CurrentTier = DifficultyTier.Easy;
+                else if (score >= t.hardThreshold + margin)
+                    CurrentTier = DifficultyTier.Hard;
+                break;
+            case DifficultyTier.Hard:
+                if (score < t.hardThreshold - margin)
+                    CurrentTier = DifficultyTier.Normal;
+                break;
         }
 
         if (CurrentTier != oldTier)
