@@ -97,6 +97,7 @@ public class Level3IntroCutscene : MonoBehaviour
 
     private bool cutsceneFinished;
     private bool cutsceneStarted;
+    private Collider2D[] _triggerColliders;
 
     // ─────────────────────────────────────────────────────────────────────────
     //  Awake / Start — freeze necromancer AI and kill skeletons so they appear
@@ -105,6 +106,13 @@ public class Level3IntroCutscene : MonoBehaviour
 
     private void Awake()
     {
+        // Cache the trigger colliders for the OverlapPoint fallback in Update.
+        // Needed because the player's dash flips Physics2D.IgnoreLayerCollision
+        // for every layer in dashPhaseLayers, which suppresses OnTriggerEnter2D
+        // entirely if the trigger sits on one of those layers — letting the
+        // player dash straight through and skip the cutscene.
+        _triggerColliders = GetComponents<Collider2D>();
+
         // Disable necromancer AI only — leave physics and colliders alone so
         // it stays grounded naturally. It just stands in idle.
         if (necromancer != null)
@@ -157,6 +165,35 @@ public class Level3IntroCutscene : MonoBehaviour
         if (cutsceneStarted) return;
         if (other.GetComponent<PlayerPlatformer>() == null) return;
 
+        BeginCutscene();
+    }
+
+    // Fallback for when the player dashes through the trigger.
+    // PlayerMovement.Dash() calls Physics2D.IgnoreLayerCollision for every layer
+    // in dashPhaseLayers, which suppresses OnTriggerEnter2D for the duration of
+    // the dash. OverlapPoint is a direct geometric check on this specific
+    // collider and ignores the layer-collision matrix, so it still detects the
+    // player while phasing.
+    private void Update()
+    {
+        if (cutsceneStarted) return;
+        if (playerRigidbody == null || _triggerColliders == null) return;
+
+        Vector2 playerPos = playerRigidbody.position;
+        for (int i = 0; i < _triggerColliders.Length; i++)
+        {
+            var col = _triggerColliders[i];
+            if (col == null || !col.enabled || !col.isTrigger) continue;
+            if (col.OverlapPoint(playerPos))
+            {
+                BeginCutscene();
+                return;
+            }
+        }
+    }
+
+    private void BeginCutscene()
+    {
         cutsceneStarted = true;
         WatcherCommentary.DialogueLocked = true;
 
