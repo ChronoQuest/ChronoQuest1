@@ -108,9 +108,12 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float hintFadeDuration = 0.3f;
 
     [Header("Mana Hint")]
-    [SerializeField] private float manaHintDuration = 4f;     // realtime seconds the game stays paused
-    [SerializeField] private GameObject manaBarHighlight;     // glow/outline GameObject overlaid on mana bar; toggled on/off
+    [SerializeField] private float manaHintDuration = 4f;
+    [SerializeField] private float manaSlowTimeScale = 0.15f;
+    [SerializeField] private float manaHighlightBlinkInterval = 0.4f;
+    [SerializeField] private GameObject manaBarHighlight;
     private bool manaHintShown = false;
+    private Coroutine manaBlinkRoutine;
 
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
@@ -488,14 +491,34 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator ManaHintRoutine()
     {
-        Time.timeScale = 0f;
-        if (manaBarHighlight != null) manaBarHighlight.SetActive(true);
+        Time.timeScale = manaSlowTimeScale;
+
+        if (manaBarHighlight != null)
+        {
+            manaBarHighlight.SetActive(true);
+            manaBlinkRoutine = StartCoroutine(BlinkHighlight(manaBarHighlight, manaHighlightBlinkInterval));
+        }
 
         yield return new WaitForSecondsRealtime(manaHintDuration);
 
         Time.timeScale = 1f;
+
+        if (manaBlinkRoutine != null)
+        {
+            StopCoroutine(manaBlinkRoutine);
+            manaBlinkRoutine = null;
+        }
         if (manaBarHighlight != null) manaBarHighlight.SetActive(false);
         HideHint(manaHint);
+    }
+
+    private IEnumerator BlinkHighlight(GameObject target, float interval)
+    {
+        while (true)
+        {
+            target.SetActive(!target.activeSelf);
+            yield return new WaitForSecondsRealtime(interval);
+        }
     }
 
     public void TriggerSpellHint()
