@@ -104,6 +104,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float hintFadeDuration = 0.3f;
     [SerializeField] private float rainSpellZoomAmount = 1.5f;
     [SerializeField] private float rainSpellPostCastLinger = 1.5f;
+    [SerializeField] private float spellZoomAmount = 1.5f;
+    [SerializeField] private float spellPostCastLinger = 1.0f;
 
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
@@ -636,7 +638,15 @@ public class TutorialManager : MonoBehaviour
             spellCastTime = Time.time;
             if (spellBlocker != null) spellBlocker.SetActive(false);
             if (tutorialSkeleton != null) tutorialSkeleton.canShoot = true;
+
+            StartCoroutine(LingerThenRestoreSpellZoom());
         }
+    }
+
+    private IEnumerator LingerThenRestoreSpellZoom()
+    {
+        yield return new WaitForSeconds(spellPostCastLinger);
+        RestoreTempZoom();
     }
     public void OnPlayerForesightDemonstrated()
     {
@@ -854,6 +864,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Spell:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Spell | PlayerAction.Jump | PlayerAction.Dash);
+                ApplyTempZoom(spellZoomAmount);
                 activeHint = spellHint;
                 ShowHint(spellHint);
                 spellText.text = spellMessage;
