@@ -16,7 +16,8 @@ public class TutorialManager : MonoBehaviour
         Dash, 
         Jump,
         Attack,
-        Rewind, 
+        Mana,
+        Rewind,
         Spell,
         Foresight,
         WallJump, 
@@ -44,7 +45,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject foresightHint;
     public GameObject wallJumpHint;  
     public GameObject rainSpellHint;
-    public GameObject spikeHint; 
+    public GameObject spikeHint;
+    public GameObject manaHint;
     // public GameObject spotlight; 
 
     // references to movement and health systems to use for triggering hint pop-ups 
@@ -76,8 +78,9 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI spellText;
     public TextMeshProUGUI foresightText;
     public TextMeshProUGUI wallJumpText; 
-    public TextMeshProUGUI rainSpellText; 
-    public TextMeshProUGUI spikeText; 
+    public TextMeshProUGUI rainSpellText;
+    public TextMeshProUGUI spikeText;
+    public TextMeshProUGUI manaText;
 
     private string movementMessage;
     private string attackMessage;
@@ -87,8 +90,9 @@ public class TutorialManager : MonoBehaviour
     private string spellMessage;
     private string foresightMessage;
     private string wallJumpMessage; 
-    private string rainSpellMessage; 
-    private string spikeMessage; 
+    private string rainSpellMessage;
+    private string spikeMessage;
+    private string manaMessage;
 
     Vector2 lastPlayerPosition; 
     private float gameStartTime; 
@@ -99,9 +103,17 @@ public class TutorialManager : MonoBehaviour
     private bool jumpSucceeded = false; 
     private bool firstSpellCast = false;
     private float spellCastTime;
-    [SerializeField] private float attackHintDuration = 2f;                // temporary trigger time for attack hint
-    [SerializeField] private UIFollowPlayer rewindFollow; 
+    [SerializeField] private float attackHintDuration = 4f;                // temporary trigger time for attack hint
+    [SerializeField] private UIFollowPlayer rewindFollow;
     [SerializeField] private float hintFadeDuration = 0.3f;
+
+    [Header("Mana Hint")]
+    [SerializeField] private float manaHintDuration = 4f;
+    [SerializeField] private float manaSlowTimeScale = 0.15f;
+    [SerializeField] private float manaHighlightBlinkInterval = 0.4f;
+    [SerializeField] private GameObject manaBarHighlight;
+    private bool manaHintShown = false;
+    private Coroutine manaBlinkRoutine;
 
     // private bool attackEnemyCleared = false;      // flag to check if player has cleared the first enemy  
     [SerializeField] private Collider2D attackTutorialArea;
@@ -142,8 +154,9 @@ public class TutorialManager : MonoBehaviour
         spellMessage = spellText.text;
         foresightMessage = foresightText.text;
         wallJumpMessage = wallJumpText.text;
-        rainSpellMessage = rainSpellText.text; 
-        spikeMessage = spikeText.text; 
+        rainSpellMessage = rainSpellText.text;
+        spikeMessage = spikeText.text;
+        if (manaText != null) manaMessage = manaText.text;
 
         // player position is noted for checks (e.g. jump)
         lastPlayerPosition = player.transform.position;
@@ -458,12 +471,54 @@ public class TutorialManager : MonoBehaviour
     public void TriggerAttackHint()
     {
         if (attackCompleted) return;
-        if (currentStep == TutorialStep.Attack) return; 
+        if (currentStep == TutorialStep.Attack) return;
 
-        SetStep(TutorialStep.Attack); 
+        SetStep(TutorialStep.Attack);
 
         CancelInvoke(nameof(HideAttackHint));
-        Invoke(nameof(HideAttackHint), attackHintDuration); 
+        Invoke(nameof(HideAttackHint), attackHintDuration);
+    }
+
+    public void TriggerManaHint()
+    {
+        if (manaHintShown) return;
+        if (currentStep == TutorialStep.Mana) return;
+
+        manaHintShown = true;
+        SetStep(TutorialStep.Mana);
+        StartCoroutine(ManaHintRoutine());
+    }
+
+    private IEnumerator ManaHintRoutine()
+    {
+        Time.timeScale = manaSlowTimeScale;
+
+        if (manaBarHighlight != null)
+        {
+            manaBarHighlight.SetActive(true);
+            manaBlinkRoutine = StartCoroutine(BlinkHighlight(manaBarHighlight, manaHighlightBlinkInterval));
+        }
+
+        yield return new WaitForSecondsRealtime(manaHintDuration);
+
+        Time.timeScale = 1f;
+
+        if (manaBlinkRoutine != null)
+        {
+            StopCoroutine(manaBlinkRoutine);
+            manaBlinkRoutine = null;
+        }
+        if (manaBarHighlight != null) manaBarHighlight.SetActive(false);
+        HideHint(manaHint);
+    }
+
+    private IEnumerator BlinkHighlight(GameObject target, float interval)
+    {
+        while (true)
+        {
+            target.SetActive(!target.activeSelf);
+            yield return new WaitForSecondsRealtime(interval);
+        }
     }
 
     public void TriggerSpellHint()
@@ -882,26 +937,33 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.SpikeHint:
                 AllowOnly(PlayerAction.Rewind | PlayerAction.Movement);
-                activeHint = spikeHint; 
-                ShowHint(spikeHint); 
-                spikeText.text = spikeMessage; 
-                typewriter.StartTyping(spikeText); 
-                break; 
+                activeHint = spikeHint;
+                ShowHint(spikeHint);
+                spikeText.text = spikeMessage;
+                typewriter.StartTyping(spikeText);
+                break;
+            case TutorialStep.Mana:
+                activeHint = manaHint;
+                ShowHint(manaHint);
+                manaText.text = manaMessage;
+                typewriter.StartTyping(manaText);
+                break;
         }
     }
 
     // hints are disabled once tutorial is complete
     void DisableHints()
     {
-        HideHint(rewindHint); 
+        HideHint(rewindHint);
         HideHint(attackHint);
         HideHint(movementHint);
         HideHint(jumpHint);
-        HideHint(dashHint); 
+        HideHint(dashHint);
         HideHint(spellHint);
         HideHint(foresightHint);
         HideHint(wallJumpHint);
-        HideHint(spikeHint); 
+        HideHint(spikeHint);
+        HideHint(manaHint);
         RewindHaptics.Instance?.StopHintHeartbeat();
     }
     #endregion
