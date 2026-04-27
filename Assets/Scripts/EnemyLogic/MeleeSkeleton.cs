@@ -292,6 +292,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.bodyType = originalBodyType; 
         rb.gravityScale = 1f; 
         if (col != null) col.enabled = true;
+        if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
         
         spriteRenderer.enabled = true;
         animator?.SetTrigger("Revive");
@@ -375,6 +376,7 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
 
     public void SetForesightState(bool state)
     {
+        if (wasDead || isDying) return;
         hasForesight = state;
         if (hasForesight) detectionRange *= 2;
         animator.SetBool("hasForesight", hasForesight);

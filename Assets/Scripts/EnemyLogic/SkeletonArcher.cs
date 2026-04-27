@@ -393,6 +393,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.bodyType = originalBodyType; 
         rb.gravityScale = 1f; 
         if (col != null) col.enabled = true;
+        if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
         
         if (sprite != null) sprite.enabled = true;
         animator?.SetTrigger("Revive");
@@ -408,6 +409,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     }
     public void SetForesightState(bool state)
     {
+        if (wasDead || isDying) return;
         if (!state && lockForesightUntilDodge) return;
         if (hasForesight == state) return; 
         hasForesight = state;
