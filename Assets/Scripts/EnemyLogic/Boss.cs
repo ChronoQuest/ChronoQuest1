@@ -152,7 +152,7 @@ public class Boss : EnemyBase, IRewindable
     float meleeRetreatX;
     [Header("Melee Movement")]
     [Tooltip("Speed when charging toward the player")]
-    public float meleeRunSpeed = 70f;
+    public float meleeRunSpeed = 53f;
     public float meleeStopBuffer = 0.6f;
     // Extra horizontal reach of the swing beyond the stop distance — damage registers
     // if the player is within (bossHalfWidth + playerHalfWidth + meleeStopBuffer + meleeHitReach).
