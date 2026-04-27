@@ -492,6 +492,8 @@ public class WatcherCommentary : MonoBehaviour
 
         yield return new WaitForSeconds(pauseAfterLastLine);
 
+        audioSource.pitch = 1f;
+
         HideDialogue();
         isPlaying = false;
         DialogueLocked = false;
