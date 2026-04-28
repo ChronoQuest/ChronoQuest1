@@ -329,20 +329,22 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         if (wasDead || isDying) return;
 
         base.DeathSound();
-        
+
         wasDead = true;
         isDying = true;
-        
+
         if (animator != null) animator.SetFloat("Speed", 0f);
-        
-        if (col != null) col.enabled = false;
+        OnDeath?.Invoke();
+
+        if (col != null && player != null)
+            foreach (var pc in player.GetComponents<Collider2D>())
+                Physics2D.IgnoreCollision(col, pc, true);
 
         StartCoroutine(HandleSkeletonDeath());
     }
 
     private IEnumerator HandleSkeletonDeath()
     {
-        // Note: Your original script used "Dead" instead of "Die" for the trigger string. 
         if (animator != null) animator.SetTrigger("Dead");
 
         if (col != null)
@@ -354,11 +356,12 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             }
         }
 
-        rb.linearVelocity = Vector2.zero; 
+        rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
-        rb.bodyType = RigidbodyType2D.Kinematic; 
-        
-        isDying = false; 
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        if (col != null) col.enabled = false;
+
+        isDying = false;
     }
 
     // ================= REVIVE =================
@@ -376,7 +379,11 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.bodyType = originalBodyType; 
         rb.gravityScale = 1f; 
         if (col != null) col.enabled = true;
-        
+
+        if (col != null && player != null)
+            foreach (var pc in player.GetComponents<Collider2D>())
+                Physics2D.IgnoreCollision(col, pc, false);
+
         if (sprite != null) sprite.enabled = true;
         animator?.SetTrigger("Revive");
     }
@@ -579,6 +586,10 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+
+        if (justBecameAlive && col != null && player != null)
+            foreach (var pc in player.GetComponents<Collider2D>())
+                Physics2D.IgnoreCollision(col, pc, false);
     }
 
     void OnDrawGizmosSelected()
