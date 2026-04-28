@@ -47,8 +47,12 @@ public class PlatformingSectionAssist : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        _playerInside = true;
-        _sectionStartUnscaledTime = Time.unscaledTime;
+        if (!_playerInside)
+        {
+            _playerInside = true;
+            if (_sectionStartUnscaledTime <= 0f)
+                _sectionStartUnscaledTime = Time.unscaledTime;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

@@ -72,10 +72,10 @@ public class DifficultyTuning : ScriptableObject
     public float scoreSpellHitRewardMax = 0.24f;
 
     [Tooltip("Score += clamp(enemy kills/min * this, 0, scoreEnemyKillRewardMax). Kills are weighted more than individual hits.")]
-    public float scoreEnemyKillPerMinuteScale = 0.07f;
+    public float scoreEnemyKillPerMinuteScale = 0.12f;
 
     [Tooltip("Cap on the enemy-kill reward term.")]
-    public float scoreEnemyKillRewardMax = 0.4f;
+    public float scoreEnemyKillRewardMax = 0.30f;
 
     [Header("Performance score — penalties (lower = gentler dynamic difficulty)")]
     [Tooltip("Deaths per minute are multiplied by this before the death penalty clamp.")]
@@ -85,7 +85,7 @@ public class DifficultyTuning : ScriptableObject
     public float scoreDeathPenaltyMax = 0.55f;
 
     [Tooltip("Damage per minute is divided by this before the damage penalty clamp.")]
-    public float scoreDamagePerMinuteDivisor = 65f;
+    public float scoreDamagePerMinuteDivisor = 3f;
 
     [Tooltip("Upper cap on the damage penalty term.")]
     public float scoreDamagePenaltyMax = 0.65f;
