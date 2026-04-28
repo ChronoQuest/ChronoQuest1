@@ -6,7 +6,6 @@ public class PlayerStrategyModel : MonoBehaviour
 {
     public static PlayerStrategyModel Instance; 
     public PlayerTacticalModel playerTacticalModel; 
-    public List<Dictionary<StrategyType, float>> strategyHistory = new List<Dictionary<StrategyType, float>>(); 
 
     // enum defining the different types of strategies a player could fall into
     public enum StrategyType
@@ -21,8 +20,14 @@ public class PlayerStrategyModel : MonoBehaviour
     private float timer = 0f; 
 
     void Awake()
-    {
-        Instance = this; 
+    {   
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -63,6 +68,11 @@ public class PlayerStrategyModel : MonoBehaviour
         float cautious = tactics[PlayerTacticalModel.TacticType.Cautious];
         float idle = tactics[PlayerTacticalModel.TacticType.Idle]; 
 
+        Debug.Log($"[Tactics Input] Reckless: {tactics[PlayerTacticalModel.TacticType.Reckless]:F2}, " +
+          $"Evasive: {tactics[PlayerTacticalModel.TacticType.Evasive]:F2}, " +
+          $"Cautious: {tactics[PlayerTacticalModel.TacticType.Cautious]:F2}, " +
+          $"Idle: {tactics[PlayerTacticalModel.TacticType.Idle]:F2}");
+
         // reckless -> mostly aggressive, slightly defensive 
         strategyBeliefs[StrategyType.AggressivePlayer] += reckless * 0.8f;
         strategyBeliefs[StrategyType.DefensivePlayer] += reckless * 0.2f;
@@ -81,9 +91,21 @@ public class PlayerStrategyModel : MonoBehaviour
             strategyBeliefs[strategy] *= confidence; 
         }
 
+        Debug.Log($"[Pre-Normalise] Agg: {strategyBeliefs[StrategyType.AggressivePlayer]:F2}, " +
+          $"Def: {strategyBeliefs[StrategyType.DefensivePlayer]:F2}, " +
+          $"Abil: {strategyBeliefs[StrategyType.AbilityFocusedPlayer]:F2}");
+
         NormaliseStrategy();
 
-        strategyHistory.Add(new Dictionary<StrategyType, float>(strategyBeliefs));
+        Debug.Log($"[Post-Normalise] Agg: {strategyBeliefs[StrategyType.AggressivePlayer]:F2}, " +
+          $"Def: {strategyBeliefs[StrategyType.DefensivePlayer]:F2}, " +
+          $"Abil: {strategyBeliefs[StrategyType.AbilityFocusedPlayer]:F2}");
+
+        StrategyTracker.AddSample(strategyBeliefs);
+
+        Debug.Log($"[Sending to Tracker] Agg: {strategyBeliefs[StrategyType.AggressivePlayer]:F2}, " +
+          $"Def: {strategyBeliefs[StrategyType.DefensivePlayer]:F2}, " +
+          $"Abil: {strategyBeliefs[StrategyType.AbilityFocusedPlayer]:F2}");
     }
 
     void NormaliseStrategy()
@@ -103,55 +125,6 @@ public class PlayerStrategyModel : MonoBehaviour
         {
             strategyBeliefs[key] /= total; 
         }
-    }
-
-    public Dictionary<StrategyType, float> GetAverageStrategy()
-    {
-        Dictionary<StrategyType, float> avg = new Dictionary<StrategyType, float>(); 
-
-        foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
-        {
-            avg[strategy] = 0f;
-        }
-
-        if (strategyHistory.Count == 0)
-            return new Dictionary<StrategyType, float>(strategyBeliefs);
-
-        foreach (var snapshot in strategyHistory)
-        {
-            foreach (var pair in snapshot)
-            {
-                avg[pair.Key] += pair.Value;
-            }
-        }
-
-        int count = strategyHistory.Count;
-
-        foreach (StrategyType strategy in avg.Keys.ToList())
-        {
-            avg[strategy] /= count;
-        }
-
-        return avg;
-    }
-
-    public StrategyType GetAverageDominantStrategy()
-    {
-        var avg = GetAverageStrategy();
-
-        StrategyType best = StrategyType.AggressivePlayer;
-        float max = float.MinValue;
-
-        foreach (var pair in avg)
-        {
-            if (pair.Value > max)
-            {
-                max = pair.Value;
-                best = pair.Key;
-            }
-        }
-
-        return best;
     }
 
     void DebugStrategy()
@@ -191,7 +164,6 @@ public class PlayerStrategyModel : MonoBehaviour
             strategyBeliefs[strategy] = 0f;
         } 
 
-        strategyHistory.Clear(); 
         timer = 0f;
 
         Debug.Log("PlayerStrategyModel reset");

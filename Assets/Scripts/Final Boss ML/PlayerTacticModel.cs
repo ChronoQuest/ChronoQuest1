@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq; 
 using UnityEngine; 
 
 public class PlayerTacticalModel : MonoBehaviour
@@ -72,6 +73,16 @@ public class PlayerTacticalModel : MonoBehaviour
             ExperimentManager.Instance.LogResult(predictedCluster, "TODO_BOSS_BEHAVIOUR"); 
         }
 
+        float duration = Mathf.Max(timer, 0.001f);
+        float meleeRate = meleeHits / duration; 
+        float damageRate = damageTaken / duration;
+
+        float recklessSignal = (meleeRate * 0.75f) + (damageRate * 0.25f); 
+        recklessSignal = Mathf.Clamp01(recklessSignal); 
+
+        float recklessBase = Mathf.Max(probs[0], 0.1f); 
+        float boostedReckless = recklessBase + (recklessSignal * 0.3f); 
+
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 
         foreach (var key in keys)
@@ -81,7 +92,7 @@ public class PlayerTacticalModel : MonoBehaviour
 
         // saves score to the corresponding potential tactic
         tacticBeliefs[TacticType.Idle] = probs[1]; 
-        tacticBeliefs[TacticType.Reckless] = probs[0];
+        tacticBeliefs[TacticType.Reckless] = Mathf.Clamp01(boostedReckless);
         tacticBeliefs[TacticType.Evasive] = probs[2];
         tacticBeliefs[TacticType.Cautious] = probs[3]; 
 

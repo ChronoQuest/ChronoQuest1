@@ -49,5 +49,6 @@ public class TitleScreen : MonoBehaviour
         PlayerPrefs.DeleteKey(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey);
         PlayerPrefs.Save();
         SceneManager.LoadScene("introCutscene");
+        StrategyTracker.Reset();
     }
 }

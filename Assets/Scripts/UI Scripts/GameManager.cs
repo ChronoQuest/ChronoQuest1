@@ -94,8 +94,13 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Final Score: {baseScore} x {multiplier} = {finalScore}");
 
         string playerName = PlayerPrefs.GetString("playerName", "Player"); 
-        PlayerStrategyModel.Instance.DetermineStrategy(); 
-        PlayerStrategyModel.StrategyType strategy = PlayerStrategyModel.Instance.GetAverageDominantStrategy(); 
+        
+        if (PlayerStrategyModel.Instance != null)
+        {
+            PlayerStrategyModel.Instance.DetermineStrategy();
+        }
+        
+        PlayerStrategyModel.StrategyType strategy = StrategyTracker.GetAverageStrategy();
 
         string strategyString = strategy switch
         {
