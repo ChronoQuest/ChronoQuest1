@@ -56,6 +56,8 @@ public class PlayerStrategyModel : MonoBehaviour
     // -- EXPERIMENT EDITS --
     public void DetermineStrategy()
     {
+        Debug.Log($"TacticalModel ref: {playerTacticalModel}");
+        
         foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
         {
             strategyBeliefs[strategy] = 0f; 
@@ -74,18 +76,18 @@ public class PlayerStrategyModel : MonoBehaviour
           $"Idle: {tactics[PlayerTacticalModel.TacticType.Idle]:F2}");
 
         // reckless -> mostly aggressive, slightly defensive 
-        strategyBeliefs[StrategyType.AggressivePlayer] += reckless * 0.8f;
-        strategyBeliefs[StrategyType.DefensivePlayer] += reckless * 0.2f;
+        strategyBeliefs[StrategyType.AggressivePlayer] += reckless * 0.5f;
+        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += reckless * 0.5f;
 
         // evasive -> mostly defensive, slightly aggressive 
-        strategyBeliefs[StrategyType.DefensivePlayer] += evasive * 0.7f;
-        strategyBeliefs[StrategyType.AggressivePlayer] += evasive * 0.3f;
+        strategyBeliefs[StrategyType.AggressivePlayer] += evasive * 0.6f;
+        strategyBeliefs[StrategyType.DefensivePlayer] += evasive * 0.4f;
 
         // cautious -> mostly ability/control, slightly defensive 
-        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += cautious * 0.8f;
-        strategyBeliefs[StrategyType.DefensivePlayer] += cautious * 0.2f;
+        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += cautious * 0.4f;
+        strategyBeliefs[StrategyType.DefensivePlayer] += cautious * 0.6f;
 
-        float confidence = 1f - idle; 
+        float confidence = Mathf.Clamp01(1f - (idle * 0.7f));
         foreach (StrategyType strategy in strategyBeliefs.Keys.ToList())
         {
             strategyBeliefs[strategy] *= confidence; 

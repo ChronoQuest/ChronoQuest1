@@ -37,10 +37,17 @@ public class PlayerTacticalModel : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("TACTICAL MODEL START");
+
         foreach (TacticType tactic in System.Enum.GetValues(typeof(TacticType)))
         {
             tacticBeliefs[tactic] = 0f; 
         }
+    }
+
+    void OnEnable()
+    {
+        Debug.Log("TACTICAL MODEL ENABLED");
     }
     
     void Update()
@@ -81,7 +88,7 @@ public class PlayerTacticalModel : MonoBehaviour
         recklessSignal = Mathf.Clamp01(recklessSignal); 
 
         float recklessBase = Mathf.Max(probs[0], 0.08f); 
-        float boostedReckless = recklessBase + (recklessSignal * 0.15f); 
+        float boostedReckless = recklessBase + (recklessSignal * 0.12f); 
 
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 

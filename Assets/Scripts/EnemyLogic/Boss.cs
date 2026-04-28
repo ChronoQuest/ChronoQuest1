@@ -178,6 +178,7 @@ public class Boss : EnemyBase, IRewindable
         originalScale = transform.localScale;
         groundedY = transform.position.y;
         animator = GetComponent<Animator>();
+        playerStrategyModel = PlayerStrategyModel.Instance; 
         FacePlayer();
         musicController = FindFirstObjectByType<RewindMusicController>();
         EndPhase();
