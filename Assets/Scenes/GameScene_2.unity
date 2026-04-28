@@ -37075,7 +37075,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.08665064, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -37085,7 +37085,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.173301, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &906907960
 GameObject:
@@ -562874,11 +562874,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1272688344738289742, guid: c64a22ed351f24d988a4bfb435d300d8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 867
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 1272688344738289742, guid: c64a22ed351f24d988a4bfb435d300d8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 456
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 5477096340955279730, guid: c64a22ed351f24d988a4bfb435d300d8, type: 3}
       propertyPath: m_Name

@@ -18,27 +18,27 @@ MonoBehaviour:
   tutorialTimeThresholdSeconds: 360
   tutorialEnemyHpMultiplier: 0.75
   sampleEverySeconds: 1
-  evaluateEverySeconds: 10
+  evaluateEverySeconds: 15
   tierChangeCooldownSeconds: 60
   rollingWindowSeconds: 120
   veryEasyThreshold: -0.48
   easyThreshold: -0.26
-  hardThreshold: 0.08
+  hardThreshold: 0.2
   hardDemotionScore: -0.1
   hysteresisMargin: 0.05
   neutralScoreHoldRadius: 0.12
-  scoreMeleeHitPerMinuteScale: 0.038
-  scoreMeleeHitRewardMax: 0.24
-  scoreSpellHitPerMinuteScale: 0.042
-  scoreSpellHitRewardMax: 0.24
-  scoreEnemyKillPerMinuteScale: 0.1
-  scoreEnemyKillRewardMax: 0.5
-  scoreDeathsPerMinuteScale: 0.42
-  scoreDeathPenaltyMax: 0.55
-  scoreDamagePerMinuteDivisor: 95
-  scoreDamagePenaltyMax: 0.65
-  scoreTrapsPerMinuteScale: 0.1
-  scoreTrapPenaltyMax: 0.3
+  scoreMeleeHitPerMinuteScale: 0.022
+  scoreMeleeHitRewardMax: 0.15
+  scoreSpellHitPerMinuteScale: 0.026
+  scoreSpellHitRewardMax: 0.15
+  scoreEnemyKillPerMinuteScale: 0.06
+  scoreEnemyKillRewardMax: 0.3
+  scoreDeathsPerMinuteScale: 0.55
+  scoreDeathPenaltyMax: 0.7
+  scoreDamagePerMinuteDivisor: 9
+  scoreDamagePenaltyMax: 0.75
+  scoreTrapsPerMinuteScale: 0.14
+  scoreTrapPenaltyMax: 0.4
   veryEasy:
     manaRegenMultiplier: 1.35
     manaOnHitMultiplier: 1.15

@@ -95,6 +95,10 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
 
     private readonly Queue<Sample> _samples = new Queue<Sample>();
     private Snapshot _lastSnapshot;
+    // True when _lastSnapshot was captured while DataCollectionService.Instance was null
+    // (e.g. DDM was created on a scene that doesn't include the MLSystems prefab — TitleScreen).
+    // Cleared on the first sample tick where DCS is available, after rebaselining.
+    private bool _lastSnapshotIsBootstrap;
 
     private readonly HashSet<int> _tutorialEnemyHpAdjusted = new HashSet<int>();
 
@@ -238,6 +242,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     private void OnSessionGameplayCountersReset()
     {
         _lastSnapshot = CaptureSnapshot();
+        _lastSnapshotIsBootstrap = false;
     }
 
     /// <summary>
@@ -285,7 +290,11 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     private DifficultyTuning.TierMultipliers GetCurrentMultipliers()
     {
         var t = GetTuning();
-        if (IsTutorialSafetySceneActive(out _))
+        // Mirror GetEnemyHpMultiplierForScene: the tutorial HP cushion only applies once
+        // safety is actually triggered (player died in tutorial), not just because the
+        // tutorial scene is loaded. Without this gate, the overlay shows e.g. 1.2*0.75=0.9
+        // on Hard in GameScene even though gameplay correctly leaves enemies at 1.2.
+        if (TutorialSafetyActive)
         {
             var baseMult = t.GetMultipliers(CurrentTier);
             baseMult.enemyHpMultiplier *= Mathf.Clamp(t.tutorialEnemyHpMultiplier, 0.1f, 1f);
@@ -312,6 +321,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     {
         _samples.Clear();
         _lastSnapshot = CaptureSnapshot();
+        _lastSnapshotIsBootstrap = (DataCollectionService.Instance == null);
     }
 
     private Snapshot CaptureSnapshot()
@@ -333,6 +343,17 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
 
     private void PushPerformanceSample()
     {
+        // If the baseline was captured before DataCollectionService existed (DDM
+        // was constructed on TitleScreen, which has no MLSystems prefab), rebase
+        // as soon as DCS appears and skip emitting a sample for this tick. The
+        // would-be sample's deltas are meaningless against the bootstrap snapshot.
+        if (_lastSnapshotIsBootstrap && DataCollectionService.Instance != null)
+        {
+            _lastSnapshot = CaptureSnapshot();
+            _lastSnapshotIsBootstrap = false;
+            return;
+        }
+
         var current = CaptureSnapshot();
 
         var dt = Mathf.Max(0.001f, current.t - _lastSnapshot.t);
@@ -379,7 +400,14 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
             dKills += s.dEnemyKills;
         }
 
-        float minutes = accDt / 60f;
+        // Always normalise rates against the FULL rolling window, not the actual filled
+        // duration. Otherwise early-game extrapolation explodes — e.g. 5 kills in the first
+        // 30s would read as 10 kills/min, hitting the reward cap and locking the player
+        // into Hard for the rest of the run. With this floor, the same 5 kills count as
+        // 5 / (window_in_min) — proportional to sustained play. Once the window is fully
+        // filled (accDt == window), behaviour is identical to the old formula.
+        float windowSeconds = Mathf.Max(10f, GetTuning().rollingWindowSeconds);
+        float minutes = Mathf.Max(accDt, windowSeconds) / 60f;
         float deathsPerMin = dDeaths / Mathf.Max(0.001f, minutes);
         float damagePerMin = dDamage / Mathf.Max(0.001f, minutes);
         float trapsPerMin = dTrap / Mathf.Max(0.001f, minutes);
