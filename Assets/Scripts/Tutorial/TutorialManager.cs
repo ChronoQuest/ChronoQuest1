@@ -863,7 +863,7 @@ public class TutorialManager : MonoBehaviour
                 typewriter.StartTyping(dashText); 
                 break;
             case TutorialStep.Spell:
-                AllowOnly(PlayerAction.Movement | PlayerAction.Spell | PlayerAction.Jump | PlayerAction.Dash);
+                AllowOnly(PlayerAction.Movement | PlayerAction.Spell | PlayerAction.Jump | PlayerAction.Dash | PlayerAction.WallJump);
                 ApplyTempZoom(spellZoomAmount);
                 activeHint = spellHint;
                 ShowHint(spellHint);
