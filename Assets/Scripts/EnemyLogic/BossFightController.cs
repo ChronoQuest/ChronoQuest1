@@ -116,6 +116,12 @@ public class BossFightController : MonoBehaviour
              "rewind triggers phase 2.")]
     [SerializeField] private float phase2TimerSeconds = 25f;
 
+    [Tooltip("Health fraction (0-1) at or below which phase 2 triggers early, " +
+             "even if phase2TimerSeconds hasn't elapsed. Whichever fires first " +
+             "wins; the timer can't fire afterwards. Set to 0 to disable.")]
+    [Range(0f, 1f)]
+    [SerializeField] private float phase2HealthThreshold = 0.2f;
+
     [Header("Phase 2 Playstyle Hint")]
     [Tooltip("Enable the mid-fight hint that tells the player to change playstyle.")]
     [SerializeField] private bool enablePlaystyleHint = true;
@@ -257,14 +263,24 @@ public class BossFightController : MonoBehaviour
     {
         if (!fightStarted || boss == null) return;
 
-        // Phase 1 → Phase 2 transition (timer-based boss rewind)
+        // Phase 1 → Phase 2 transition: fires on the timer, OR early if the boss
+        // drops to phase2HealthThreshold HP first. The phase2Triggered latch is
+        // one-way, so once either path fires the other can't re-trigger.
         if (!phase2Triggered && boss.fightStage == Boss.FightStage.Phase1)
         {
             // If the player is mid-rewind (their own), wait — starting ours on top
             // would collide with the manager's already-active rewind state.
             if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 
-            if (Time.time - fightStartTime >= phase2TimerSeconds)
+            bool timerElapsed = Time.time - fightStartTime >= phase2TimerSeconds;
+            // Guard boss.health > 0 so a killing-blow doesn't race the OnDeath
+            // handler into starting a phase-2 transition on a dead boss.
+            bool lowHealth = phase2HealthThreshold > 0f
+                             && boss.health > 0
+                             && boss.startHealth > 0
+                             && (float)boss.health / boss.startHealth <= phase2HealthThreshold;
+
+            if (timerElapsed || lowHealth)
             {
                 phase2Triggered = true;
                 StartCoroutine(RunPhase2Transition());
@@ -702,6 +718,20 @@ public class BossFightController : MonoBehaviour
         if (playerMana != null) playerMana.SetMana(playerMana.MaxMana);
     }
 
+    // Drop-in for WaitForSecondsRealtime that freezes while the pause menu is up.
+    // Dialogue uses unscaled time so it can play through cutscene timescale=0 locks,
+    // but the pause menu also drives timeScale=0 and *should* stop dialogue — so we
+    // tick unscaled deltaTime only when PauseMenu.isPaused is false.
+    private static IEnumerator WaitRealtimeRespectingPause(float seconds)
+    {
+        float elapsed = 0f;
+        while (elapsed < seconds)
+        {
+            if (!PauseMenu.isPaused) elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+    }
+
     private static bool HasAnimatorParam(Animator animator, string name, AnimatorControllerParameterType type)
     {
         foreach (AnimatorControllerParameter p in animator.parameters)
@@ -741,7 +771,7 @@ public class BossFightController : MonoBehaviour
             if (string.IsNullOrEmpty(line))
             {
                 dialogueText.text = "";
-                yield return new WaitForSecondsRealtime(pauseBetweenLines);
+                yield return WaitRealtimeRespectingPause(pauseBetweenLines);
                 continue;
             }
 
@@ -774,13 +804,13 @@ public class BossFightController : MonoBehaviour
                     audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
                 }
 
-                yield return new WaitForSecondsRealtime(timePerChar);
+                yield return WaitRealtimeRespectingPause(timePerChar);
             }
 
-            yield return new WaitForSecondsRealtime(pauseBetweenLines);
+            yield return WaitRealtimeRespectingPause(pauseBetweenLines);
         }
 
-        yield return new WaitForSecondsRealtime(pauseAfterLastLine);
+        yield return WaitRealtimeRespectingPause(pauseAfterLastLine);
 
         if (shakeRoutine != null)
         {
@@ -806,6 +836,13 @@ public class BossFightController : MonoBehaviour
 
         while (true)
         {
+            // Hold the current glyph positions while paused — no rebuild, no jitter.
+            if (PauseMenu.isPaused)
+            {
+                yield return null;
+                continue;
+            }
+
             // Rebuild each frame so the freshly-layed-out verts (post typewriter
             // increment) are our shake origin — otherwise we'd accumulate offsets.
             dialogueText.ForceMeshUpdate();
