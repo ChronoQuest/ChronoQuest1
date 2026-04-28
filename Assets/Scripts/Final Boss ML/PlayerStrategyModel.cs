@@ -6,6 +6,7 @@ public class PlayerStrategyModel : MonoBehaviour
 {
     public static PlayerStrategyModel Instance; 
     public PlayerTacticalModel playerTacticalModel; 
+    private List<Dictionary<StrategyType, float>> strategyHistory = new List<Dictionary<StrategyType, float>>(); 
 
     // enum defining the different types of strategies a player could fall into
     public enum StrategyType
@@ -81,6 +82,8 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         NormaliseStrategy();
+
+        strategyHistory.Add(new Dictionary<StrategyType, float>(strategyBeliefs));
     }
 
     void NormaliseStrategy()
@@ -102,6 +105,55 @@ public class PlayerStrategyModel : MonoBehaviour
         }
     }
 
+    public Dictionary<StrategyType, float> GetAverageStrategy()
+    {
+        Dictionary<StrategyType, float> avg = new Dictionary<StrategyType, float>(); 
+
+        foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
+        {
+            avg[strategy] = 0f;
+        }
+
+        if (strategyHistory.Count == 0)
+            return avg;
+
+        foreach (var snapshot in strategyHistory)
+        {
+            foreach (var pair in snapshot)
+            {
+                avg[pair.Key] += pair.Value;
+            }
+        }
+
+        int count = strategyHistory.Count;
+
+        foreach (StrategyType strategy in avg.Keys.ToList())
+        {
+            avg[strategy] /= count;
+        }
+
+        return avg;
+    }
+
+    public StrategyType GetAverageDominantStrategy()
+{
+    var avg = GetAverageStrategy();
+
+    StrategyType best = StrategyType.AggressivePlayer;
+    float max = float.MinValue;
+
+    foreach (var pair in avg)
+    {
+        if (pair.Value > max)
+        {
+            max = pair.Value;
+            best = pair.Key;
+        }
+    }
+
+    return best;
+}
+
     void DebugStrategy()
     {
         string output = "STRATEGY: ";
@@ -112,8 +164,6 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         Debug.Log(output);
-
-        // TODO: add functionality to record all strategies in a session
     }
 
     // method to return the dominant strategy 
@@ -141,6 +191,7 @@ public class PlayerStrategyModel : MonoBehaviour
             strategyBeliefs[strategy] = 0f;
         } 
 
+        strategyHistory.clear(); 
         timer = 0f;
 
         Debug.Log("PlayerStrategyModel reset");

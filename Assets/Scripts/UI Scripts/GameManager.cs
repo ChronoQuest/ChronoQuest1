@@ -35,16 +35,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    /*void Update()
-    {
-        // TESTING LEADERBOARD
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            GameOver(); 
-        }
-    } */ 
+    } 
 
     void OnEnable()
     {
@@ -70,20 +61,6 @@ public class GameManager : MonoBehaviour
             PlayerStrategyModel.Instance.Reset();
         }
     }
-
-    /* public void PlayerDied()
-    {
-        deathCount++; 
-        Debug.Log("Player died. Count: " + deathCount); 
-
-        if(SceneManager.GetActiveScene().name == "FinalBoss")
-        {
-            if (deathCount >= maxDeaths)
-            {
-                GameOver(); 
-            }
-        }
-    }*/ 
 
     public void ReturnToMenu()
     {
@@ -117,7 +94,8 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Final Score: {baseScore} x {multiplier} = {finalScore}");
 
         string playerName = PlayerPrefs.GetString("playerName", "Player"); 
-        PlayerStrategyModel.StrategyType strategy = PlayerStrategyModel.Instance.GetDominantStrategy(); 
+        PlayerStrategyModel.Instance.DetermineStrategy(); 
+        PlayerStrategyModel.StrategyType strategy = PlayerStrategyModel.Instance.GetAverageDominantStrategy(); 
 
         string strategyString = strategy switch
         {
