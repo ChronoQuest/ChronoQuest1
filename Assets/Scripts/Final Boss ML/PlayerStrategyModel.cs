@@ -16,7 +16,7 @@ public class PlayerStrategyModel : MonoBehaviour
     }
 
     public Dictionary<StrategyType, float> strategyBeliefs = new Dictionary<StrategyType, float>(); 
-    private float windowDuration = 30f;
+    private float windowDuration = 25f;
     private float timer = 0f; 
 
     void Awake()

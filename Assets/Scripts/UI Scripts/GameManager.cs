@@ -65,8 +65,55 @@ public class GameManager : MonoBehaviour
     public void ReturnToMenu()
     {
         Debug.Log("Returning to menu");
-        GameOver(); 
-        SceneManager.LoadScene("TitleScreen"); 
+        StartCoroutine(ReturnToMenuCoroutine()); 
+    }
+
+    IEnumerator ReturnToMenuCoroutine()
+    {
+        if (!scoreSent)
+        {
+            yield return StartCoroutine(SendScoreFlow());
+        }
+
+        SceneManager.LoadScene("TitleScreen");
+    }
+
+    IEnumerator SendScoreFlow()
+    {
+        scoreSent = true;
+
+        Debug.Log("Sending score...");
+
+        int baseScore = ScoreManager.Instance.GetScore();
+
+        float multiplier = DynamicDifficultyManager.Instance != null
+            ? DynamicDifficultyManager.Instance.GetScoreMultiplier()
+            : 1f;
+
+        int finalScore = Mathf.RoundToInt(baseScore * multiplier);
+
+        Debug.Log($"Final Score: {baseScore} x {multiplier} = {finalScore}");
+
+        string playerName = PlayerPrefs.GetString("playerName", "Player"); 
+        
+        if (PlayerStrategyModel.Instance != null)
+        {
+            PlayerStrategyModel.Instance.DetermineStrategy();
+        }
+        
+        var strategy = StrategyTracker.GetAverageStrategy();
+
+        string strategyString = strategy switch
+        {
+            PlayerStrategyModel.StrategyType.AggressivePlayer => "aggressive",
+            PlayerStrategyModel.StrategyType.DefensivePlayer => "defensive",
+            PlayerStrategyModel.StrategyType.AbilityFocusedPlayer => "ability",
+            _ => "unknown"
+        };
+
+        yield return StartCoroutine(SendScore(playerName, finalScore, strategyString));
+
+        Debug.Log("Score POST complete");
     }
 
     public void LevelComplete()
@@ -77,6 +124,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void GameOver()
+    {
+        if (!scoreSent)
+        {
+            StartCoroutine(SendScoreFlow()); 
+        }
+    }
+
+    /* public void GameOver()
     {
         if (scoreSent) return;  
         scoreSent = true;
@@ -111,7 +166,7 @@ public class GameManager : MonoBehaviour
         };
 
         StartCoroutine(SendScore(playerName, finalScore, strategyString)); 
-    }
+    } */ 
 
     IEnumerator SendScore(string name, int score, string strategy)
     {  

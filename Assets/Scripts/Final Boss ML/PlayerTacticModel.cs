@@ -80,8 +80,8 @@ public class PlayerTacticalModel : MonoBehaviour
         float recklessSignal = (meleeRate * 0.75f) + (damageRate * 0.25f); 
         recklessSignal = Mathf.Clamp01(recklessSignal); 
 
-        float recklessBase = Mathf.Max(probs[0], 0.1f); 
-        float boostedReckless = recklessBase + (recklessSignal * 0.3f); 
+        float recklessBase = Mathf.Max(probs[0], 0.08f); 
+        float boostedReckless = recklessBase + (recklessSignal * 0.18f); 
 
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 
