@@ -95,15 +95,6 @@ public class SpellProjectile : MonoBehaviour, IRewindable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit) return;
-
-        if (collision.CompareTag("Enemy"))
-        {
-            hasHit = true; 
-            collision.GetComponent<EnemyBase>()?.TakeDamage(damage); 
-            ScoreManager.Instance.AddPoints(100); 
-            ExecuteImpact(); 
-            return; 
-        }
         
         // 1. Ignore the Player and dodging enemies entirely
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player")) return;
@@ -117,6 +108,7 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         {
             dmg.TakeDamage(damage);
             DataCollectionService.Instance?.RecordSpellHit();
+            ScoreManager.Instance.AddPoints(100);
 
             IKnockbackable kb = collision.GetComponent<IKnockbackable>();
             if (kb != null)
