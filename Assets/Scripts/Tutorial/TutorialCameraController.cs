@@ -10,10 +10,12 @@ public class TutorialCameraController : MonoBehaviour
     [SerializeField] private bool requireRewindCompleted = false;
     [SerializeField] private TutorialManager.TutorialStep requiredStep;
 
-    [SerializeField] private float panToEnemyDelay = 0.3f;
-    [SerializeField] private float focusDuration = 1.2f;
+    [SerializeField] private float panToEnemyDelay = 0.5f;
+    [SerializeField] private float focusDuration = 2.0f;
     [SerializeField] private int focusPriority = 30;
     [SerializeField] private float focusZoomSize = 4f;
+    [SerializeField] private float blendTime = 1.2f;
+    [SerializeField] private CinemachineBlendDefinition.Styles blendStyle = CinemachineBlendDefinition.Styles.EaseInOut;
 
     // Enemy freezing
     [SerializeField] private bool freezeEnemiesDuringPan = false;
@@ -59,6 +61,17 @@ public class TutorialCameraController : MonoBehaviour
 
     private IEnumerator CameraPanSequence(PlayerPlatformer p)
     {
+        // Override the brain's default blend so the pan in/out is slow and eased
+        var brain = Camera.main != null ? Camera.main.GetComponent<CinemachineBrain>() : null;
+        CinemachineBlendDefinition originalBlend = default;
+        bool blendOverridden = false;
+        if (brain != null)
+        {
+            originalBlend = brain.DefaultBlend;
+            brain.DefaultBlend = new CinemachineBlendDefinition(blendStyle, blendTime);
+            blendOverridden = true;
+        }
+
         yield return new WaitForSeconds(panToEnemyDelay);
 
         // Pan to enemy — set target here so each instance controls its own focus point
@@ -73,9 +86,10 @@ public class TutorialCameraController : MonoBehaviour
         focusCamera.Priority = 0;
 
         // Wait for the blend back to finish before restoring player control
-        var brain = Camera.main.GetComponent<CinemachineBrain>();
-        float blendTime = brain != null ? brain.DefaultBlend.Time : 0.3f;
         yield return new WaitForSeconds(blendTime + 0.1f);
+
+        if (blendOverridden)
+            brain.DefaultBlend = originalBlend;
 
         p.allowedActions = cachedActions;
 

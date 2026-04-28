@@ -570,6 +570,7 @@ MonoBehaviour:
   releaseFramesRequired: 2
   manaDrainPerSecond: 10
   minManaToStartRewindWhenDead: 15
+  minManaToStartRewind: 10
   sfxSource: {fileID: 2412794728691430052}
   rewindStartClip: {fileID: 8300000, guid: f17c67edb75418f498366f7b0eb8c566, type: 3}
   rewindVolume: 0.5
