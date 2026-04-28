@@ -1065,6 +1065,13 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("BundleSpawned", bundleSpawned);
         state.SetCustomData("FireRowSpawned", fireRowSpawned);
 
+        // Mirror the animator's attack-clip state. Without these, a rewind that lands
+        // between attacks could leave isPlayingAttack* stuck true (the AnimEvent_*Complete
+        // clears the flag, but the rewind skipped the clip), permanently blocking the
+        // SetTrigger gate in UpdateOffensive/UpdateRestrictive and stalling combat.
+        state.SetCustomData("PlayingAtk1", isPlayingAttack1);
+        state.SetCustomData("PlayingAtk2", isPlayingAttack2);
+
         state.SetCustomData("NextIsPositional", nextIsPositional);
         state.SetCustomData("NextPosMove", (int)nextPosMove);
         state.SetCustomData("NextOff", (int)nextOff);
@@ -1154,6 +1161,9 @@ public class Boss : EnemyBase, IRewindable
         resActionSpawned = state.GetCustomData<bool>("ResSpawned", false);
         bundleSpawned = state.GetCustomData<bool>("BundleSpawned", false);
         fireRowSpawned = state.GetCustomData<bool>("FireRowSpawned", false);
+
+        isPlayingAttack1 = state.GetCustomData<bool>("PlayingAtk1", false);
+        isPlayingAttack2 = state.GetCustomData<bool>("PlayingAtk2", false);
 
         nextIsPositional = state.GetCustomData<bool>("NextIsPositional", false);
         nextPosMove = (PosMove)state.GetCustomData<int>("NextPosMove", 0);

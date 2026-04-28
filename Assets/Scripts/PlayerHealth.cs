@@ -387,6 +387,15 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         isInvincible = false;
         if (spriteRenderer != null) spriteRenderer.enabled = true;
 
+        // Defuse a queued "Die" trigger so it can't fire after rewind ends. If the player
+        // pressed R within the same frame as the killing hit (or while the Die transition
+        // was mid-blend), the trigger may still be sitting in the animator's parameter
+        // dictionary, and animator.speed = 0 during rewind keeps it from being consumed.
+        // Without this reset, the animator transitions back to Player_Death the moment
+        // OnStopRewind sets speed = 1, leaving the player stuck on the death sprite until
+        // a dash trigger forces a different transition.
+        if (animator != null) animator.ResetTrigger("Die");
+
         var reviveEffect = GetComponent<PlayerReviveEffect>();
         if (reviveEffect != null && reviveEffect.IsReviving) reviveEffect.Cancel();
     }
