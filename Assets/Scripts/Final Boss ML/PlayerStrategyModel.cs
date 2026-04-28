@@ -6,7 +6,7 @@ public class PlayerStrategyModel : MonoBehaviour
 {
     public static PlayerStrategyModel Instance; 
     public PlayerTacticalModel playerTacticalModel; 
-    private List<Dictionary<StrategyType, float>> strategyHistory = new List<Dictionary<StrategyType, float>>(); 
+    public List<Dictionary<StrategyType, float>> strategyHistory = new List<Dictionary<StrategyType, float>>(); 
 
     // enum defining the different types of strategies a player could fall into
     public enum StrategyType
@@ -49,7 +49,7 @@ public class PlayerStrategyModel : MonoBehaviour
     }
      
     // -- EXPERIMENT EDITS --
-    void DetermineStrategy()
+    public void DetermineStrategy()
     {
         foreach (StrategyType strategy in System.Enum.GetValues(typeof(StrategyType)))
         {
@@ -115,7 +115,7 @@ public class PlayerStrategyModel : MonoBehaviour
         }
 
         if (strategyHistory.Count == 0)
-            return avg;
+            return new Dictionary<StrategyType, float>(strategyBeliefs);
 
         foreach (var snapshot in strategyHistory)
         {
@@ -136,23 +136,23 @@ public class PlayerStrategyModel : MonoBehaviour
     }
 
     public StrategyType GetAverageDominantStrategy()
-{
-    var avg = GetAverageStrategy();
-
-    StrategyType best = StrategyType.AggressivePlayer;
-    float max = float.MinValue;
-
-    foreach (var pair in avg)
     {
-        if (pair.Value > max)
-        {
-            max = pair.Value;
-            best = pair.Key;
-        }
-    }
+        var avg = GetAverageStrategy();
 
-    return best;
-}
+        StrategyType best = StrategyType.AggressivePlayer;
+        float max = float.MinValue;
+
+        foreach (var pair in avg)
+        {
+            if (pair.Value > max)
+            {
+                max = pair.Value;
+                best = pair.Key;
+            }
+        }
+
+        return best;
+    }
 
     void DebugStrategy()
     {
@@ -191,7 +191,7 @@ public class PlayerStrategyModel : MonoBehaviour
             strategyBeliefs[strategy] = 0f;
         } 
 
-        strategyHistory.clear(); 
+        strategyHistory.Clear(); 
         timer = 0f;
 
         Debug.Log("PlayerStrategyModel reset");
