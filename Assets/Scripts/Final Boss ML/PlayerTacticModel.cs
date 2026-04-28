@@ -7,7 +7,8 @@ public class PlayerTacticalModel : MonoBehaviour
     // -- EXPERIMENT EDITS -- 
     public enum TacticType
     {
-        Aggressive, 
+        Reckless, 
+        Idle, 
         Evasive,
         Cautious
     }
@@ -79,12 +80,10 @@ public class PlayerTacticalModel : MonoBehaviour
         }  
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = probs[1]; 
-        tacticBeliefs[TacticType.Evasive] = probs[0];
-        tacticBeliefs[TacticType.Cautious] = probs[2];
-
-        tacticBeliefs[TacticType.Aggressive] += 0.5f * probs[1];
-        tacticBeliefs[TacticType.Evasive] += 0.5f * probs[1];
+        tacticBeliefs[TacticType.Idle] = probs[1]; 
+        tacticBeliefs[TacticType.Reckless] = probs[0];
+        tacticBeliefs[TacticType.Evasive] = probs[2];
+        tacticBeliefs[TacticType.Cautious] = probs[3]; 
 
         NormaliseBeliefs(); 
     }

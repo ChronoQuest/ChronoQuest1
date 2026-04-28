@@ -1,4 +1,5 @@
 using System.Collections.Generic; 
+using System.Linq; 
 using UnityEngine;
 
 public class PlayerStrategyModel : MonoBehaviour
@@ -56,13 +57,28 @@ public class PlayerStrategyModel : MonoBehaviour
         
         var tactics = playerTacticalModel.tacticBeliefs; 
 
-        float aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
-        float defensive = tactics[PlayerTacticalModel.TacticType.Evasive];
-        float ability = tactics[PlayerTacticalModel.TacticType.Cautious]; 
+        float reckless = tactics[PlayerTacticalModel.TacticType.Reckless];
+        float evasive = tactics[PlayerTacticalModel.TacticType.Evasive];
+        float cautious = tactics[PlayerTacticalModel.TacticType.Cautious];
+        float idle = tactics[PlayerTacticalModel.TacticType.Idle]; 
 
-        strategyBeliefs[StrategyType.AggressivePlayer] += aggressive;
-        strategyBeliefs[StrategyType.DefensivePlayer] += defensive;
-        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += ability;
+        // reckless -> mostly aggressive, slightly defensive 
+        strategyBeliefs[StrategyType.AggressivePlayer] += reckless * 0.8f;
+        strategyBeliefs[StrategyType.DefensivePlayer] += reckless * 0.2f;
+
+        // evasive -> mostly defensive, slightly aggressive 
+        strategyBeliefs[StrategyType.DefensivePlayer] += evasive * 0.7f;
+        strategyBeliefs[StrategyType.AggressivePlayer] += evasive * 0.3f;
+
+        // cautious -> mostly ability/control, slightly defensive 
+        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += cautious * 0.8f;
+        strategyBeliefs[StrategyType.DefensivePlayer] += cautious * 0.2f;
+
+        float confidence = 1f - idle; 
+        foreach (StrategyType strategy in strategyBeliefs.Keys.ToList())
+        {
+            strategyBeliefs[strategy] *= confidence; 
+        }
 
         NormaliseStrategy();
     }

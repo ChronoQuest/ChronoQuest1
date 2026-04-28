@@ -74,7 +74,7 @@ public class Boss : EnemyBase, IRewindable
     // "no back-to-back Off" guard always has a fallback without falling out of pool.
     struct AttackPair { public OffMove off; public ResMove res; }
 
-    static readonly AttackPair[] AggressivePool =
+    static readonly AttackPair[] RecklessPool =
     {
         new AttackPair { off = OffMove.FireColumns,   res = ResMove.None },
         new AttackPair { off = OffMove.FireColumns,   res = ResMove.FireWave },
@@ -301,15 +301,15 @@ public class Boss : EnemyBase, IRewindable
             // Aggressive players press close → boss relocates (ChangeSides).
             // Cautious players camp → boss drops on them (GroundPound).
             // Cautious/evasive players who maintain distance invite the Melee chase.
-            ReadBeliefs(out float aggressive, out float evasive, out float cautious);
-            float meleeChance = Mathf.Clamp01(0.33f + 0.2f * cautious + 0.1f * evasive - 0.2f * aggressive);
+            ReadBeliefs(out float reckless, out float evasive, out float cautious, out float idle);
+            float meleeChance = Mathf.Clamp01(0.33f + 0.2f * cautious + 0.1f * evasive - 0.2f * reckless);
             if (Random.value < meleeChance)
             {
                 posMove = PosMove.Melee;
             }
             else
             {
-                float groundPoundChance = Mathf.Clamp01(0.5f + 0.3f * cautious - 0.3f * aggressive);
+                float groundPoundChance = Mathf.Clamp01(0.5f + 0.3f * cautious - 0.3f * reckless);
                 posMove = Random.value < groundPoundChance ? PosMove.GroundPound : PosMove.ChangeSides;
             }
             off = OffMove.None;
@@ -346,9 +346,9 @@ public class Boss : EnemyBase, IRewindable
 
     void RollCombatMoves(out OffMove off, out ResMove res)
     {
-        ReadBeliefs(out float aggressive, out float evasive, out float cautious);
+        ReadBeliefs(out float reckless, out float evasive, out float cautious, out float idle);
 
-        AttackPair[] pool = SelectPool(aggressive, evasive, cautious);
+        AttackPair[] pool = SelectPool(reckless, evasive, cautious, idle);
 
         // Block only triples (three same Off in a row). Doubles are allowed so each
         // pool's 2:1 ratio actually manifests — aggressive reads show mostly FireColumns
@@ -378,19 +378,19 @@ public class Boss : EnemyBase, IRewindable
     // Chooses which pair pool to draw from. Spoiler roll fires unconditionally; otherwise,
     // if no axis clears the dominance threshold, the player is treated as unreadable and
     // gets MixedPool — avoids the boss committing to a weak read.
-    AttackPair[] SelectPool(float aggressive, float evasive, float cautious)
+    AttackPair[] SelectPool(float reckless, float evasive, float cautious, float idle)
     {
         if (Random.value < SpoilerChance) return MixedPool;
 
-        float max = Mathf.Max(aggressive, Mathf.Max(evasive, cautious));
+        float max = Mathf.Max(reckless, Mathf.Max(evasive, cautious));
         if (max < AxisDominanceThreshold) return MixedPool;
 
-        if (aggressive >= evasive && aggressive >= cautious) return AggressivePool;
+        if (reckless >= evasive && reckless >= cautious) return RecklessPool;
         if (evasive    >= cautious)                          return EvasivePool;
         return CautiousPool;
     }
 
-    void ReadBeliefs(out float aggressive, out float evasive, out float cautious)
+    void ReadBeliefs(out float reckless, out float evasive, out float cautious, out float idle)
     {
         // TEST OVERRIDE: (1,0,0)=Aggressive, (0,1,0)=Evasive, (0,0,1)=Cautious. Comment out to use the GMM.
         //(aggressive, evasive, cautious) = (0.33f, 0.33f, 0.34f); return;
@@ -399,25 +399,26 @@ public class Boss : EnemyBase, IRewindable
             playerStrategyModel.playerTacticalModel == null ||
             playerStrategyModel.playerTacticalModel.tacticBeliefs == null)
         {
-            aggressive = evasive = cautious = 1f / 3f;
+            reckless = evasive = cautious = idle = 0.25f;
             return;
         }
 
         var tactics = playerStrategyModel.playerTacticalModel.tacticBeliefs;
-        aggressive = tactics[PlayerTacticalModel.TacticType.Aggressive];
-        evasive    = tactics[PlayerTacticalModel.TacticType.Evasive];
-        cautious   = tactics[PlayerTacticalModel.TacticType.Cautious];
+        reckless = tactics[PlayerTacticalModel.TacticType.Reckless];
+        evasive = tactics[PlayerTacticalModel.TacticType.Evasive];
+        cautious = tactics[PlayerTacticalModel.TacticType.Cautious];
+        idle = tactics[PlayerTacticalModel.TacticType.Idle]; 
     }
 
     // Pushes belief-derived tuning into combat timing + targeting. Called once per combat
     // phase so the feel of the fight matches the GMM's current read on the player.
     void ApplyBeliefModulation()
     {
-        ReadBeliefs(out float aggressive, out float evasive, out float cautious);
+        ReadBeliefs(out float reckless, out float evasive, out float cautious, out float idle);
 
         // Aggressive + cautious both invite faster pressure; evasive players already move
         // plenty, so keep their cadence close to the default to avoid over-saturation.
-        tempoMultiplier = Mathf.Clamp(1f - 0.3f * aggressive - 0.15f * cautious, 0.55f, 1.1f);
+        tempoMultiplier = Mathf.Clamp(1f - 0.3f * reckless - 0.15f * cautious, 0.55f, 1.1f);
 
         // Campers get spawns biased onto them; dashers get more random spread.
         if (attackManager != null)
