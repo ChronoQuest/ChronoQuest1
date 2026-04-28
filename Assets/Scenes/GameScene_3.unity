@@ -8385,7 +8385,7 @@ MonoBehaviour:
   skillCommentDelay: 1.5
   maxCommentsPerScene: 3
   commentCooldown: 15
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 1094889225}
   dialogueBlip: {fileID: 8300000, guid: 7207e8e5f559b3044b61955a1f37e708, type: 3}
   dialogueBlipVolume: 1
   minPitch: 0.6
