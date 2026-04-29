@@ -112,6 +112,7 @@ public class BasicEnemy : MonoBehaviour
     {
         health -= amount;
         Debug.Log("Enemy took damage! Health: " + health);
+        ScoreManager.Instance.AddPoints(50); 
 
         if (health <= 0)
         {

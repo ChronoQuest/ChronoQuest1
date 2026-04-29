@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using System.Collections; 
 
 public class PauseMenu : MonoBehaviour
 {
@@ -79,11 +80,23 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenuButton()
     {
+        StartCoroutine(ReturnToMenuRoutine());
+    }
+
+    IEnumerator ReturnToMenuRoutine()
+    {
         isPaused = false;
         Time.timeScale = 1f;
 
         if (container != null)
             container.SetActive(false);
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
+
+        yield return new WaitForSecondsRealtime(0.5f);
 
         SceneManager.LoadScene("TitleScreen");
     }

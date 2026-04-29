@@ -232,7 +232,9 @@ namespace TimeRewind
             _rewindStartTime = Time.unscaledTime;
             if (!_externalRewindActive && sfxSource != null && rewindStartClip != null)
             {
-                sfxSource.PlayOneShot(rewindStartClip, rewindVolume);
+                sfxSource.clip = rewindStartClip;
+                sfxSource.volume = rewindVolume;
+                sfxSource.Play();
             }
             DataCollectionService.Instance?.RecordRewindStarted();
             playerTacticalModel.RecordRewind(); 
@@ -259,6 +261,10 @@ namespace TimeRewind
                 _rb.angularVelocity = _lastAppliedState.AngularVelocity;
             }
             if (animator != null) animator.speed = 1;
+            if (sfxSource != null && sfxSource.isPlaying)
+            {
+                sfxSource.Stop();
+            }
         }
         
         public RewindState CaptureState()

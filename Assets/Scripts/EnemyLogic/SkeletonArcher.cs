@@ -394,7 +394,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.gravityScale = 1f; 
         if (col != null) col.enabled = true;
         if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
-        
+
         if (sprite != null) sprite.enabled = true;
         animator?.SetTrigger("Revive");
     }
@@ -598,6 +598,10 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+
+        if (justBecameAlive && col != null && player != null)
+            foreach (var pc in player.GetComponents<Collider2D>())
+                Physics2D.IgnoreCollision(col, pc, false);
     }
 
     void OnDrawGizmosSelected()

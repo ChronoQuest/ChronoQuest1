@@ -813,6 +813,14 @@ public class IntroCutscene : MonoBehaviour
         if (playerInput != null)
             playerInput.enabled = false;
 
+        // The PlayerRewindController stays enabled so its IRewindable hooks
+        // (CaptureState/ApplyState) keep working, but we mark the rewind as
+        // externally driven so the player can't trigger one with R / triggers
+        // before the cutscene's prompt appears. The cutscene calls
+        // TimeRewindManager.StartRewind() itself once R is pressed at the prompt.
+        if (playerRewindController != null)
+            playerRewindController.SetExternalRewindActive(true);
+
         if (playerRigidbody != null)
         {
             playerRigidbody.linearVelocity = Vector2.zero;

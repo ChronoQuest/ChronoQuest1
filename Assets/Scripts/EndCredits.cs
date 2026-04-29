@@ -54,6 +54,7 @@ public class EndCredits : MonoBehaviour
         if (triggered || boss == null) return;
         if (!boss.isDead) return;
         triggered = true;
+        GameManager.Instance.GameOver(); 
         StartCoroutine(Run());
     }
 
@@ -94,6 +95,8 @@ public class EndCredits : MonoBehaviour
             yield return null;
         }
         bg.color = Color.black;
+
+        MuteNonMusic();
 
         // Screen is fully black — safe to show the text now before the scroll starts.
         textColor.a = 1f;
@@ -178,5 +181,15 @@ public class EndCredits : MonoBehaviour
 
         // Place the text off-screen below to start; the scroll phase drives it upward.
         textRT.anchoredPosition = new Vector2(0f, -Screen.height * 0.5f - textHeight * 0.5f);
+    }
+    private void MuteNonMusic()
+    {
+        var sources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+
+        foreach (var src in sources)
+        {
+            if (!src.CompareTag("Music"))
+                src.mute = true;
+        }
     }
 }

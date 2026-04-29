@@ -106,6 +106,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private float attackHintDuration = 4f;                // temporary trigger time for attack hint
     [SerializeField] private UIFollowPlayer rewindFollow;
     [SerializeField] private float hintFadeDuration = 0.3f;
+    [SerializeField] private float rainSpellZoomAmount = 1.5f;
+    [SerializeField] private float rainSpellPostCastLinger = 1.5f;
+    [SerializeField] private float spellZoomAmount = 1.5f;
+    [SerializeField] private float spellPostCastLinger = 1.0f;
 
     [Header("Mana Hint")]
     [SerializeField] private float manaHintDuration = 4f;
@@ -300,27 +304,29 @@ public class TutorialManager : MonoBehaviour
     #region Zoom Methods
     void ApplyTempZoom(float amount)
     {
-        Debug.Log("Applying Zoom"); 
-        
-        if (cam == null) return; 
+        Debug.Log("Applying Zoom");
+
+        if (cam == null) return;
 
         if (!tempZoomActive)
         {
-            tempZoomPrevious = Camera.main.orthographicSize; 
-            tempZoomActive = true; 
-        } 
+            tempZoomPrevious = Camera.main.orthographicSize;
+            tempZoomActive = true;
+        }
 
-        cam.SetZoom(tempZoomPrevious - amount); 
+        cam.SetZoomSmoothTime(1.0f);
+        cam.SetZoom(tempZoomPrevious - amount);
     }
 
     void RestoreTempZoom()
     {
-        Debug.Log("Restoring Zoom"); 
+        Debug.Log("Restoring Zoom");
 
-        if (cam == null || !tempZoomActive) return; 
+        if (cam == null || !tempZoomActive) return;
 
-        cam.SetZoom(tempZoomPrevious); 
-        tempZoomActive = false; 
+        cam.SetZoomSmoothTime(1.0f);
+        cam.SetZoom(tempZoomPrevious);
+        tempZoomActive = false;
     }
     #endregion
 
@@ -687,7 +693,15 @@ public class TutorialManager : MonoBehaviour
             spellCastTime = Time.time;
             if (spellBlocker != null) spellBlocker.SetActive(false);
             if (tutorialSkeleton != null) tutorialSkeleton.canShoot = true;
+
+            StartCoroutine(LingerThenRestoreSpellZoom());
         }
+    }
+
+    private IEnumerator LingerThenRestoreSpellZoom()
+    {
+        yield return new WaitForSeconds(spellPostCastLinger);
+        RestoreTempZoom();
     }
     public void OnPlayerForesightDemonstrated()
     {
@@ -817,7 +831,14 @@ public class TutorialManager : MonoBehaviour
             AllowAll();
             Debug.Log("Player rain spell tutorial completed");
             DataCollectionService.Instance?.RecordTutorialStepCompleted();
+            StartCoroutine(LingerThenRestoreRainZoom());
         }
+    }
+
+    private IEnumerator LingerThenRestoreRainZoom()
+    {
+        yield return new WaitForSeconds(rainSpellPostCastLinger);
+        RestoreTempZoom();
     }
 
     public void OnPlayerSpike()
@@ -898,6 +919,7 @@ public class TutorialManager : MonoBehaviour
                 break;
             case TutorialStep.Spell:
                 AllowOnly(PlayerAction.Movement | PlayerAction.Spell | PlayerAction.Jump | PlayerAction.Dash);
+                ApplyTempZoom(spellZoomAmount);
                 activeHint = spellHint;
                 ShowHint(spellHint);
                 spellText.text = spellMessage;
@@ -930,6 +952,7 @@ public class TutorialManager : MonoBehaviour
                 rainSpellLocked = false;
                 AllowOnly(PlayerAction.Movement | PlayerAction.Attack | PlayerAction.RainSpell);
                 SlowingEnemies(20f, 0.15f);
+                ApplyTempZoom(rainSpellZoomAmount);
                 activeHint = rainSpellHint;
                 ShowHint(rainSpellHint);
                 rainSpellText.text = rainSpellMessage;
