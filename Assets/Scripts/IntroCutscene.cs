@@ -741,7 +741,7 @@ public class IntroCutscene : MonoBehaviour
                     bossAudioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
                 }
 
-                yield return new WaitForSecondsRealtime(timePerChar);
+                yield return PauseAwareWait.Seconds(timePerChar);
             }
 
             yield return new WaitForSeconds(dialoguePauseBetweenLines);

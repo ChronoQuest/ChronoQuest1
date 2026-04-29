@@ -516,7 +516,7 @@ public class Level3IntroCutscene : MonoBehaviour
                     audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
                 }
 
-                yield return new WaitForSecondsRealtime(timePerChar);
+                yield return PauseAwareWait.Seconds(timePerChar);
             }
 
             yield return new WaitForSeconds(dialoguePauseBetweenLines);

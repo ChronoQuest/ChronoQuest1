@@ -617,7 +617,7 @@ public class WatcherCommentary : MonoBehaviour
                     audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
                 }
 
-                yield return new WaitForSecondsRealtime(timePerChar);
+                yield return PauseAwareWait.Seconds(timePerChar);
             }
 
             yield return new WaitForSeconds(pauseBetweenLines);
