@@ -240,7 +240,20 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
 
     private IEnumerator HandleSkeletonDeath()
     {
-        if (animator != null) animator.SetTrigger("Die");
+        if (animator != null)
+        {
+            // Clear every non-death trigger before queuing Die. The killing blow can
+            // race with Update/coroutines that already fired Attack/Hit/Block/Revive —
+            // those triggers stay queued in the animator's parameter dictionary and
+            // consume Any State transitions out of the Death state right after we
+            // land in it, leaving the skeleton visually alive (in Attack/Hit/Idle).
+            // Resetting them here means only Die survives to be processed.
+            animator.ResetTrigger("Hit");
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("Block");
+            animator.ResetTrigger("Revive");
+            animator.SetTrigger("Die");
+        }
 
         if (col != null)
         {

@@ -86,6 +86,7 @@ public class Level3IntroCutscene : MonoBehaviour
     [Header("UI")]
     [Tooltip("HUD elements to hide during the cutscene.")]
     [SerializeField] private GameObject[] uiToHide;
+    [SerializeField] private CanvasGroup hudGroup;
     // ── Audio ───────────────────────────────────────────────────────────────────
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -198,9 +199,13 @@ public class Level3IntroCutscene : MonoBehaviour
         WatcherCommentary.DialogueLocked = true;
 
         // Hide HUD
-        if (uiToHide != null)
-            foreach (var go in uiToHide)
-                if (go != null) go.SetActive(false);
+        // if (uiToHide != null)
+        //     foreach (var go in uiToHide)
+        //         if (go != null) go.SetActive(false);
+        if (hudGroup != null)
+        {
+            hudGroup.alpha = 0;
+        }
 
         DisablePlayerControl();
 
@@ -443,9 +448,13 @@ public class Level3IntroCutscene : MonoBehaviour
             EnableNecromancerControl();
 
         // Restore HUD
-        if (uiToHide != null)
-            foreach (var go in uiToHide)
-                if (go != null) go.SetActive(true);
+        // if (uiToHide != null)
+        //     foreach (var go in uiToHide)
+        //         if (go != null) go.SetActive(true);
+        //         if (hudGroup != null)
+        {
+            hudGroup.alpha = 1;
+        }
 
         // Ensure cutscene camera is deactivated
         if (cutsceneCamera != null)
