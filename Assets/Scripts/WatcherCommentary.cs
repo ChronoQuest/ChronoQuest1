@@ -7,10 +7,11 @@ using TimeRewind;
 
 /// <summary>
 /// Reads ML model beliefs and difficulty tier to deliver Watcher commentary.
-/// Event-driven: rewind comments fire after rewinds, skill comments fire after
-/// kills or damage, playstyle comments fire on a poll timer.
-/// Weighted random selection between comment categories.
-/// Max 2 comments per scene. Does not freeze the player.
+/// Fully event-driven: rewind comments fire after rewinds, skill comments fire after
+/// kills/damage/dashes/platform clears, playstyle comments fire after melee hits
+/// (aggressive), spell casts (ability-focused), or dashes/jumps (defensive).
+/// Max 3 comments per scene. Does not freeze the player.
+/// Clash resolution: GameScene_2 favours skill over playstyle, GameScene_3 favours playstyle over skill.
 /// </summary>
 public class WatcherCommentary : MonoBehaviour
 {
@@ -26,18 +27,13 @@ public class WatcherCommentary : MonoBehaviour
     [SerializeField] private bool enableRewindComments = true;
     [SerializeField] private bool enableSkillComments = true;
 
-    [Header("Category Weights (higher = more likely to be picked)")]
-    [SerializeField] private float playstyleWeight = 1f;
-    [SerializeField] private float rewindWeight = 1.5f;
-    [SerializeField] private float skillWeight = 1f;
-
     [Header("Playstyle Timing")]
-    [Tooltip("Seconds into the scene before playstyle polling starts.")]
-    [SerializeField] private float initialCooldown = 30f;
-    [Tooltip("How often to poll the ML model for a playstyle comment.")]
-    [SerializeField] private float pollInterval = 20f;
+    [Tooltip("Seconds into the scene before playstyle events can trigger a comment.")]
+    [SerializeField] private float playstyleMinSceneTime = 30f;
     [Tooltip("Minimum tactic belief to trigger a playstyle comment.")]
     [SerializeField] private float beliefThreshold = 0.55f;
+    [Tooltip("Delay after the triggering event before the playstyle comment plays.")]
+    [SerializeField] private float playstyleCommentDelay = 1.5f;
 
     [Header("Rewind")]
     [Tooltip("Number of rewinds in this scene before a rewind comment can trigger.")]
@@ -66,7 +62,6 @@ public class WatcherCommentary : MonoBehaviour
     // ── State ───────────────────────────────────────────────────────────────
     private int commentsThisScene;
     private float sceneStartTime;
-    private float nextPollTime;
     private float lastCommentTime;
     private bool isPlaying;
 
@@ -79,6 +74,9 @@ public class WatcherCommentary : MonoBehaviour
     // Event subscriptions
     private PlayerRewindController cachedRewindController;
     private PlayerHealth cachedPlayerHealth;
+    private PlayerPlatformer cachedPlatformer;
+    private PlayerCombat cachedCombat;
+    private PlayerSpellSystem cachedSpellSystem;
     private List<EnemyBase> subscribedEnemies = new List<EnemyBase>();
 
     // Rewind awareness persists across scenes via static
@@ -112,7 +110,6 @@ public class WatcherCommentary : MonoBehaviour
             ResetAll();
 
         sceneStartTime = Time.time;
-        nextPollTime = Time.time + initialCooldown;
         lastCommentTime = -commentCooldown; // allow immediate first comment
         DialogueLocked = false;
         isPlaying = false;
@@ -135,17 +132,38 @@ public class WatcherCommentary : MonoBehaviour
         if (cachedRewindController != null)
             cachedRewindController.OnRewindStopped += OnRewindStopped;
 
-        // Player damage events
+        // Player damage events (skill trigger for struggling players)
         cachedPlayerHealth = FindFirstObjectByType<PlayerHealth>();
         if (cachedPlayerHealth != null)
             cachedPlayerHealth.OnHealthChanged += OnPlayerHealthChanged;
 
-        // Enemy death events — subscribe to all enemies in the scene
+        // Enemy death events (skill trigger for good players)
         foreach (var enemy in FindObjectsByType<EnemyBase>(FindObjectsSortMode.None))
         {
             enemy.OnDeath += () => OnEnemyKilled(enemy);
             subscribedEnemies.Add(enemy);
         }
+
+        // Dash and jump events (skill trigger + defensive playstyle trigger)
+        cachedPlatformer = FindFirstObjectByType<PlayerPlatformer>();
+        if (cachedPlatformer != null)
+        {
+            cachedPlatformer.OnDashed += OnPlayerDashed;
+            cachedPlatformer.OnJumped += OnPlayerJumped;
+        }
+
+        // Melee hit events (aggressive playstyle trigger)
+        cachedCombat = FindFirstObjectByType<PlayerCombat>();
+        if (cachedCombat != null)
+        {
+            cachedCombat.OnMeleeHit += OnPlayerMeleeHit;
+            cachedCombat.OnRainSpellCast += OnPlayerRainSpell;
+        }
+
+        // Spell cast events (ability-focused playstyle trigger)
+        cachedSpellSystem = FindFirstObjectByType<PlayerSpellSystem>();
+        if (cachedSpellSystem != null)
+            cachedSpellSystem.OnSpellCast += OnPlayerSpellCast;
     }
 
     private void UnsubscribeFromEvents()
@@ -155,9 +173,52 @@ public class WatcherCommentary : MonoBehaviour
 
         if (cachedPlayerHealth != null)
             cachedPlayerHealth.OnHealthChanged -= OnPlayerHealthChanged;
+
+        if (cachedPlatformer != null)
+        {
+            cachedPlatformer.OnDashed -= OnPlayerDashed;
+            cachedPlatformer.OnJumped -= OnPlayerJumped;
+        }
+
+        if (cachedCombat != null)
+        {
+            cachedCombat.OnMeleeHit -= OnPlayerMeleeHit;
+            cachedCombat.OnRainSpellCast -= OnPlayerRainSpell;
+        }
+
+        if (cachedSpellSystem != null)
+            cachedSpellSystem.OnSpellCast -= OnPlayerSpellCast;
     }
 
-    // ── Event handlers ──────────────────────────────────────────────────────
+    // ── Clash resolution ────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Returns true if a skill comment is allowed in the current scene context.
+    /// GameScene_3 favours playstyle — suppress skill if playstyle hasn't fired yet.
+    /// </summary>
+    private bool SkillAllowedByClash()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        // GameScene_3 favours playstyle: block skill if playstyle hasn't had its chance yet
+        if (sceneName == "GameScene_3" && enablePlaystyleComments && !playstyleCommentFired)
+            return false;
+        return true;
+    }
+
+    /// <summary>
+    /// Returns true if a playstyle comment is allowed in the current scene context.
+    /// GameScene_2 favours skill — suppress playstyle if skill hasn't fired yet.
+    /// </summary>
+    private bool PlaystyleAllowedByClash()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        // GameScene_2 favours skill: block playstyle if skill hasn't had its chance yet
+        if (sceneName == "GameScene_2" && enableSkillComments && !skillCommentFired)
+            return false;
+        return true;
+    }
+
+    // ── Rewind event handler ────────────────────────────────────────────────
 
     private void OnRewindStopped()
     {
@@ -168,7 +229,6 @@ public class WatcherCommentary : MonoBehaviour
         if (rewindsThisScene < rewindCountThreshold) return;
         if (!CanComment()) return;
 
-        // Try rewind via weighted selection (but it's the triggered category)
         StartCoroutine(DelayedRewindComment());
     }
 
@@ -179,7 +239,6 @@ public class WatcherCommentary : MonoBehaviour
         if (!CanComment()) yield break;
         if (rewindCommentFired) yield break;
 
-        string sceneName = SceneManager.GetActiveScene().name;
         string[] lines = GetRewindLines();
         if (lines == null) yield break;
 
@@ -188,20 +247,22 @@ public class WatcherCommentary : MonoBehaviour
         scenesWithHighRewind++;
     }
 
+    // ── Skill event handlers ────────────────────────────────────────────────
+
     private void OnPlayerHealthChanged(int current, int max)
     {
         if (!enableSkillComments) return;
         if (skillCommentFired) return;
         if (Time.time - sceneStartTime < skillMinSceneTime) return;
         if (!CanComment()) return;
+        if (!SkillAllowedByClash()) return;
 
         var ddm = DynamicDifficultyManager.Instance;
         if (ddm == null) return;
 
         string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
+        if (sceneName != "GameScene_2" && sceneName != "GameScene_3") return;
 
-        // Only trigger on damage (health went down) for struggling players
         if (ddm.CurrentTier == DifficultyTier.Easy || ddm.CurrentTier == DifficultyTier.VeryEasy)
         {
             StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
@@ -214,14 +275,54 @@ public class WatcherCommentary : MonoBehaviour
         if (skillCommentFired) return;
         if (Time.time - sceneStartTime < skillMinSceneTime) return;
         if (!CanComment()) return;
+        if (!SkillAllowedByClash()) return;
 
         var ddm = DynamicDifficultyManager.Instance;
         if (ddm == null) return;
 
         string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName != "GameScene" && sceneName != "GameScene_2") return;
+        if (sceneName != "GameScene_2" && sceneName != "GameScene_3") return;
 
-        // Trigger on kill for good/normal players
+        if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
+        {
+            StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
+        }
+    }
+
+    private void TrySkillFromDashOrKill()
+    {
+        if (!enableSkillComments) return;
+        if (skillCommentFired) return;
+        if (Time.time - sceneStartTime < skillMinSceneTime) return;
+        if (!CanComment()) return;
+        if (!SkillAllowedByClash()) return;
+
+        var ddm = DynamicDifficultyManager.Instance;
+        if (ddm == null) return;
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName != "GameScene_2" && sceneName != "GameScene_3") return;
+
+        if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
+        {
+            StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
+        }
+    }
+
+    /// <summary>
+    /// Called externally (e.g. by PlatformSectionGoal) to trigger a skill comment
+    /// for Normal/Hard players without the usual scene-time gate.
+    /// </summary>
+    public void TryFireSkillComment()
+    {
+        if (!enableSkillComments) return;
+        if (skillCommentFired) return;
+        if (!CanComment()) return;
+        if (!SkillAllowedByClash()) return;
+
+        var ddm = DynamicDifficultyManager.Instance;
+        if (ddm == null) return;
+
         if (ddm.CurrentTier == DifficultyTier.Hard || ddm.CurrentTier == DifficultyTier.Normal)
         {
             StartCoroutine(DelayedSkillComment(ddm.CurrentTier));
@@ -242,59 +343,55 @@ public class WatcherCommentary : MonoBehaviour
         skillCommentFired = true;
     }
 
-    // ── Poll-based playstyle check ──────────────────────────────────────────
+    // ── Playstyle event handlers ────────────────────────────────────────────
 
-    private void Update()
+    // Aggressive: melee hit
+    private void OnPlayerMeleeHit()
+    {
+        TryPlaystyleFromEvent("aggressive");
+    }
+
+    // Ability-focused: normal spell or rain spell
+    private void OnPlayerSpellCast()
+    {
+        TryPlaystyleFromEvent("ability");
+    }
+
+    private void OnPlayerRainSpell()
+    {
+        TryPlaystyleFromEvent("ability");
+    }
+
+    // Defensive: dash or jump
+    private void OnPlayerDashed()
+    {
+        // Dash triggers both skill (for good players) and defensive playstyle
+        TrySkillFromDashOrKill();
+        TryPlaystyleFromEvent("defensive");
+    }
+
+    private void OnPlayerJumped()
+    {
+        TryPlaystyleFromEvent("defensive");
+    }
+
+    private void TryPlaystyleFromEvent(string triggerCategory)
     {
         if (!enablePlaystyleComments) return;
-        if (isPlaying) return;
         if (playstyleCommentFired) return;
+        if (Time.time - sceneStartTime < playstyleMinSceneTime) return;
         if (!CanComment()) return;
-        if (Time.time < nextPollTime) return;
-
-        nextPollTime = Time.time + pollInterval;
-
         if (DialogueLocked) return;
+        if (!PlaystyleAllowedByClash()) return;
 
-        // Use weighted selection: if playstyle is chosen, try it.
-        // If not, we just skip this tick (event-driven categories handle themselves).
-        if (ShouldPickPlaystyle())
-        {
-            TryPlaystyleComment();
-        }
-    }
-
-    /// <summary>
-    /// Weighted coin flip: should we attempt a playstyle comment this tick?
-    /// Only considers playstyle vs "do nothing" — rewind and skill are event-driven.
-    /// Returns true with probability proportional to playstyleWeight.
-    /// </summary>
-    private bool ShouldPickPlaystyle()
-    {
-        // If the other event-driven categories haven't fired yet, they might still
-        // fire, so we scale down the playstyle chance proportionally.
-        float totalWeight = playstyleWeight;
-        if (enableRewindComments && !rewindCommentFired) totalWeight += rewindWeight;
-        if (enableSkillComments && !skillCommentFired) totalWeight += skillWeight;
-
-        float roll = Random.value * totalWeight;
-        return roll < playstyleWeight;
-    }
-
-    private void TryPlaystyleComment()
-    {
         var strategyModel = FindFirstObjectByType<PlayerStrategyModel>();
         if (strategyModel == null || strategyModel.playerTacticalModel == null
             || strategyModel.playerTacticalModel.gmmModel == null
             || strategyModel.playerTacticalModel.gmmModel.means == null)
         {
-            // GMM not loaded — Watcher can't read the player
-            PlayComment(new[] { "Hmm... I can't read you.", "What are you?" });
-            playstyleCommentFired = true;
+            StartCoroutine(DelayedPlaystyleComment(new[] { "Hmm... I can't read you.", "What are you?" }));
             return;
         }
-
-        string sceneName = SceneManager.GetActiveScene().name;
 
         float aggressive = 0f, defensive = 0f, abilityFocused = 0f;
         strategyModel.strategyBeliefs.TryGetValue(PlayerStrategyModel.StrategyType.AggressivePlayer, out aggressive);
@@ -303,27 +400,50 @@ public class WatcherCommentary : MonoBehaviour
 
         if (aggressive + defensive + abilityFocused < 0.01f) return;
 
+        string sceneName = SceneManager.GetActiveScene().name;
         string[] lines = null;
 
-        if (aggressive >= defensive && aggressive >= abilityFocused && aggressive >= beliefThreshold)
-            lines = GetAggressiveLines(sceneName);
-        else if (defensive >= aggressive && defensive >= abilityFocused && defensive >= beliefThreshold)
-            lines = GetEvasiveLines(sceneName);
-        else if (abilityFocused >= aggressive && abilityFocused >= defensive && abilityFocused >= beliefThreshold)
-            lines = GetCautiousLines(sceneName);
-
-        // Fallback after enough time
-        if (lines == null && Time.time - sceneStartTime > 45f)
+        // Check for balanced playstyle first
+        bool isBalanced = aggressive > 0.2f && defensive > 0.2f && abilityFocused > 0.2f
+            && Mathf.Abs(aggressive - defensive) < 0.15f
+            && Mathf.Abs(aggressive - abilityFocused) < 0.15f
+            && Mathf.Abs(defensive - abilityFocused) < 0.15f;
+        if (isBalanced)
         {
-            if (aggressive >= defensive && aggressive >= abilityFocused)
-                lines = GetAggressiveLines(sceneName);
-            else if (defensive >= aggressive && defensive >= abilityFocused)
-                lines = GetEvasiveLines(sceneName);
-            else
-                lines = GetCautiousLines(sceneName);
+            lines = GetBalancedLines(sceneName);
+        }
+        else
+        {
+            // Only fire if the trigger matches the dominant belief, or
+            // the dominant belief matches the trigger category
+            switch (triggerCategory)
+            {
+                case "aggressive":
+                    if (aggressive >= defensive && aggressive >= abilityFocused && aggressive >= beliefThreshold)
+                        lines = GetAggressiveLines(sceneName);
+                    break;
+                case "ability":
+                    if (abilityFocused >= aggressive && abilityFocused >= defensive && abilityFocused >= beliefThreshold)
+                        lines = GetCautiousLines(sceneName);
+                    break;
+                case "defensive":
+                    if (defensive >= aggressive && defensive >= abilityFocused && defensive >= beliefThreshold)
+                        lines = GetEvasiveLines(sceneName);
+                    break;
+            }
         }
 
         if (lines == null) return;
+
+        StartCoroutine(DelayedPlaystyleComment(lines));
+    }
+
+    private IEnumerator DelayedPlaystyleComment(string[] lines)
+    {
+        yield return new WaitForSeconds(playstyleCommentDelay);
+
+        if (!CanComment()) yield break;
+        if (playstyleCommentFired) yield break;
 
         PlayComment(lines);
         playstyleCommentFired = true;
@@ -341,6 +461,21 @@ public class WatcherCommentary : MonoBehaviour
     }
 
     // ── Dialogue lines ──────────────────────────────────────────────────────
+
+    private string[] GetBalancedLines(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "GameScene":
+                return new[] { "You adapt... blade, spell, instinct.", "I haven't seen that in a long time." };
+            case "GameScene_2":
+                return new[] { "No weakness to exploit. You fight with everything you have.", "That makes you... dangerous." };
+            case "GameScene_3":
+                return new[] { "Balanced in every way.", "I almost respect it." };
+            default:
+                return null;
+        }
+    }
 
     private string[] GetAggressiveLines(string sceneName)
     {
@@ -381,7 +516,7 @@ public class WatcherCommentary : MonoBehaviour
             case "GameScene_2":
                 return new[] { "Still leaning on your little magic.", "Every spell you cast... I learn something new about you." };
             case "GameScene_3":
-                return new[] { "You wield your magic like a crutch.", "When it fails you — and it will — what then?" };
+                return new[] { "You wield your magic like a crutch.", "When it fails you... and it will... what then?" };
             default:
                 return null;
         }
@@ -389,8 +524,6 @@ public class WatcherCommentary : MonoBehaviour
 
     private string[] GetRewindLines()
     {
-        // Awareness must progress in order — later lines only play
-        // if the earlier confused reaction has already happened
         if (scenesWithHighRewind == 0)
         {
             return new[] { "...What was that?", "Something shifted. What trick are you playing?" };
@@ -438,7 +571,7 @@ public class WatcherCommentary : MonoBehaviour
 
     private IEnumerator PlayDialogue(string[] lines)
     {
-        
+
         isPlaying = true;
         DialogueLocked = true;
 
@@ -484,7 +617,7 @@ public class WatcherCommentary : MonoBehaviour
                     audioSource.PlayOneShot(dialogueBlip, dialogueBlipVolume);
                 }
 
-                yield return new WaitForSecondsRealtime(timePerChar);
+                yield return PauseAwareWait.Seconds(timePerChar);
             }
 
             yield return new WaitForSeconds(pauseBetweenLines);

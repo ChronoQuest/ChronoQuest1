@@ -203,8 +203,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         lastShootTime = Time.time;
         if (animator != null)
         {
-            // TEMP DEBUG — pinpoint who fires Shoot during/after death.
-            Debug.Log($"[ArcherDeath] Shoot trigger from TryShoot: name={gameObject.name} wasDead={wasDead} isDying={isDying} isStunned={isStunned} isLaunched={isLaunched} pushOffTimer={pushOffTimer:F2} state={currentState}", this);
             animator.SetTrigger("Shoot");
         }
     }
@@ -335,20 +333,33 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
         base.DeathSound();
 
+        // Kill any running coroutines (e.g. PhaseDodgeRoutine) before starting death
+        StopAllCoroutines();
+        isDodging = false;
+
         wasDead = true;
         isDying = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
 
-        if (animator != null) animator.SetFloat("Speed", 0f);
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("hasForesight", false);
+        }
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+
+        // Cache collider metrics BEFORE disabling (disabled collider returns zero bounds)
+        // Use actual distance from pivot to collider bottom, not extents.y, in case the collider is offset
+        float feetOffset = (col != null) ? transform.position.y - col.bounds.min.y : 0f;
+        float groundCheckDist = feetOffset + groundDetectionOffset;
+
+        if (col != null) col.enabled = false;
+
         OnDeath?.Invoke();
-
-        if (col != null && player != null)
-            foreach (var pc in player.GetComponents<Collider2D>())
-                Physics2D.IgnoreCollision(col, pc, true);
-
-        StartCoroutine(HandleSkeletonDeath());
+        StartCoroutine(HandleSkeletonDeath(groundCheckDist, feetOffset));
     }
 
-    private IEnumerator HandleSkeletonDeath()
+    private IEnumerator HandleSkeletonDeath(float groundCheckDist, float feetOffset)
     {
         if (animator != null)
         {
@@ -362,57 +373,22 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             animator.ResetTrigger("Shoot");
             animator.ResetTrigger("Revive");
             animator.SetTrigger("Dead");
-
-            // TEMP DEBUG — track death state transitions for 3 seconds.
-            AnimatorStateInfo startInfo = animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] startClips = animator.GetCurrentAnimatorClipInfo(0);
-            string startName = startClips.Length > 0 && startClips[0].clip != null ? startClips[0].clip.name : "(none)";
-            Debug.Log($"[ArcherDeath] DEATH START name={gameObject.name} clip={startName} hash={startInfo.shortNameHash} t={startInfo.normalizedTime:F2} hasForesight={hasForesight} foresightBool={animator.GetBool("hasForesight")}", this);
-
-            float elapsed = 0f;
-            bool everInDeath = false;
-            int lastHash = startInfo.shortNameHash;
-            while (elapsed < 3f)
-            {
-                yield return null;
-                elapsed += Time.deltaTime;
-                AnimatorStateInfo cur = animator.GetCurrentAnimatorStateInfo(0);
-                if (cur.shortNameHash != lastHash)
-                {
-                    AnimatorClipInfo[] curClips = animator.GetCurrentAnimatorClipInfo(0);
-                    string curName = curClips.Length > 0 && curClips[0].clip != null ? curClips[0].clip.name : "(none)";
-                    bool inDeath = curName == "ArcherDeath" || curName == "ArcherDeathForesight";
-                    Debug.Log($"[ArcherDeath] STATE CHANGE @ {elapsed:F3}s: clip={curName} hash={cur.shortNameHash} t={cur.normalizedTime:F2} inDeath={inDeath} foresightBool={animator.GetBool("hasForesight")}", this);
-                    if (inDeath) everInDeath = true;
-                    if (everInDeath && !inDeath)
-                    {
-                        Debug.LogError($"[ArcherDeath] LEFT death state @ {elapsed:F3}s → clip={curName}", this);
-                    }
-                    lastHash = cur.shortNameHash;
-                }
-            }
-            if (!everInDeath)
-            {
-                AnimatorStateInfo finalInfo = animator.GetCurrentAnimatorStateInfo(0);
-                AnimatorClipInfo[] finalClips = animator.GetCurrentAnimatorClipInfo(0);
-                string finalName = finalClips.Length > 0 && finalClips[0].clip != null ? finalClips[0].clip.name : "(none)";
-                Debug.LogError($"[ArcherDeath] NEVER ENTERED death state during 3s window. final clip={finalName} hash={finalInfo.shortNameHash}", this);
-            }
         }
 
-        if (col != null)
+        RaycastHit2D hit = default;
+        while (true)
         {
-            float checkDist = col.bounds.extents.y + groundDetectionOffset;
-            while (!Physics2D.Raycast(transform.position, Vector2.down, checkDist, groundLayer))
-            {
-                yield return null;
-            }
+            hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDist, groundLayer);
+            if (hit.collider != null) break;
+            yield return null;
         }
+
+        // Snap so feet sit exactly on the ground surface
+        transform.position = new Vector3(transform.position.x, hit.point.y + feetOffset, transform.position.z);
 
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
         rb.bodyType = RigidbodyType2D.Kinematic;
-        if (col != null) col.enabled = false;
 
         isDying = false;
     }
@@ -432,10 +408,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.bodyType = originalBodyType; 
         rb.gravityScale = 1f; 
         if (col != null) col.enabled = true;
-
-        if (col != null && player != null)
-            foreach (var pc in player.GetComponents<Collider2D>())
-                Physics2D.IgnoreCollision(col, pc, false);
+        if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
 
         if (sprite != null) sprite.enabled = true;
         animator?.SetTrigger("Revive");
@@ -451,6 +424,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     }
     public void SetForesightState(bool state)
     {
+        if (wasDead || isDying) return;
         if (!state && lockForesightUntilDodge) return;
         if (hasForesight == state) return; 
         hasForesight = state;

@@ -44,6 +44,8 @@ public class PlayerCombat : MonoBehaviour, IRewindable
     public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
     public bool isRainAttacking { get; private set; }
+    public event System.Action OnMeleeHit;
+    public event System.Action OnRainSpellCast;
     [SerializeField] private TutorialManager tutorialManager;
 
     [Header("Combat Audio")]
@@ -153,6 +155,7 @@ public class PlayerCombat : MonoBehaviour, IRewindable
                     if (isAttacking) CancelAttack();
                     isRainAttacking = true;
                     anim.Play("Player_RainAttack_Charge", -1, 0f);
+                    OnRainSpellCast?.Invoke();
                 }
                 else
                 {
@@ -322,9 +325,10 @@ public class PlayerCombat : MonoBehaviour, IRewindable
         if (hitAnything)
         {
             TriggerHitstop(0.07f);
+            OnMeleeHit?.Invoke();
         } else
         {
-            ScoreManager.Instance.RemovePoints(0); 
+            ScoreManager.Instance.RemovePoints(0);
         }
     }
 

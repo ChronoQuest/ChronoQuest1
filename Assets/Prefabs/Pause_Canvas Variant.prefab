@@ -456,11 +456,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7645496443752017410, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1203.3451
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 7645496443752017410, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 617
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 8084928433777043374, guid: be900d087210b4dd089dc3aa0918ac13, type: 3}
       propertyPath: m_AnchoredPosition.y

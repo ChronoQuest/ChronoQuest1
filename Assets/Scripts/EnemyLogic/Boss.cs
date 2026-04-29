@@ -151,7 +151,9 @@ public class Boss : EnemyBase, IRewindable
     MeleeSubPhase meleeSubPhase;
     float meleeTargetX;
     float meleeRetreatX;
-    public float meleeRunSpeed = 35f;
+    [Header("Melee Movement")]
+    [Tooltip("Speed when charging toward the player")]
+    public float meleeRunSpeed = 63f;
     public float meleeStopBuffer = 0.6f;
     // Extra horizontal reach of the swing beyond the stop distance — damage registers
     // if the player is within (bossHalfWidth + playerHalfWidth + meleeStopBuffer + meleeHitReach).
@@ -939,6 +941,7 @@ public class Boss : EnemyBase, IRewindable
         if (wasDead) return;
         wasDead = true;
         isDead = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
         DeathSound();
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;

@@ -256,6 +256,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         wasDead = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
         StopAllCoroutines();
 
         animator?.SetTrigger("Die");

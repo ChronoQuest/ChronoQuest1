@@ -75,6 +75,7 @@ namespace TimeRewind
         // Current effect values
         private float _currentEffectWeight;
         private bool _isRewinding;
+        private bool _effectsFrozen;
         private float _burstTimer;
         private float _currentBurstMaxDuration;
 
@@ -220,11 +221,11 @@ namespace TimeRewind
                     _burstTimer = 0f;
             }
 
-            // Smoothly transition effect weight
-            float targetWeight = _isRewinding ? 1f : 0f;
+            // Smoothly transition effect weight (frozen = hold at 1 indefinitely)
+            float targetWeight = (_isRewinding || _effectsFrozen) ? 1f : 0f;
             _currentEffectWeight = Mathf.MoveTowards(
-                _currentEffectWeight, 
-                targetWeight, 
+                _currentEffectWeight,
+                targetWeight,
                 effectTransitionSpeed * Time.unscaledDeltaTime
             );
             
@@ -308,6 +309,24 @@ namespace TimeRewind
         public void SetAudioSource(AudioSource source)
         {
             audioSource = source;
+        }
+
+        /// <summary>
+        /// Locks the rewind visual effects at full intensity so they don't fade out
+        /// even after the rewind stops. Call before StopRewind to prevent a visible
+        /// flash back to normal. Call UnfreezeEffects to release.
+        /// </summary>
+        public void FreezeEffects()
+        {
+            _effectsFrozen = true;
+        }
+
+        /// <summary>
+        /// Releases the freeze and lets effects fade back to their normal state.
+        /// </summary>
+        public void UnfreezeEffects()
+        {
+            _effectsFrozen = false;
         }
 
         public void TriggerTimelineShift(float duration = 0.3f)

@@ -546,6 +546,26 @@ public class BossFightController : MonoBehaviour
             playerRigidbody.constraints = originalRigidbodyConstraints | RigidbodyConstraints2D.FreezePositionX;
         }
 
+        // Clear in-flight cast/attack state before ForcePlayerIdleAnimation interrupts
+        // the animator. The cast/attack flags (isCasting, isAttacking) are released by
+        // animation events (SpawnSpell→ReleaseCastLock, EndAttack) — switching the
+        // animator to Idle skips those events, so without this the flags stay stuck
+        // true through the dialogue. When that happens, PlayerSpellSystem's
+        // IsMovementLocked() blocks dash+movement, the spell recast gate blocks spells,
+        // gravityScale=0 (set by CastSpell) leaves the player floating, and
+        // PlayerCombat.queuedAttack starves with no EndAttack to consume it — the only
+        // recovery being a manual rewind, which calls these same OnStartRewind handlers.
+        // Reuse OnStartRewind on each component since it already encodes the exact
+        // reset we need (isCasting/recoilTimer for spells, isAttacking/queuedAttack/
+        // comboStep/attackTimer plus rain-attack handling for combat).
+        if (playerScriptsRoot != null)
+        {
+            var spell = playerScriptsRoot.GetComponent<PlayerSpellSystem>();
+            if (spell != null) spell.OnStartRewind();
+            var combat = playerScriptsRoot.GetComponent<PlayerCombat>();
+            if (combat != null) combat.OnStartRewind();
+        }
+
         ForcePlayerIdleAnimation();
 
         // While the player's scripts are disabled, keep the animator's isGrounded

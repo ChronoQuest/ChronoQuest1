@@ -250,6 +250,19 @@ namespace TimeRewind
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Unity fixed delta at <see cref="Time.timeScale"/> == 1, captured on first init.
+        /// When animating time scale (revive, recovery), use <c>Time.fixedDeltaTime = BaselineFixedDeltaTime * timeScale</c> to match <see cref="PostRewindRecovery"/> behavior.
+        /// </summary>
+        public float BaselineFixedDeltaTime
+        {
+            get
+            {
+                EnsureInitialized();
+                return _baselineFixedDeltaTime;
+            }
+        }
         
         public void Register(IRewindable rewindable)
         {

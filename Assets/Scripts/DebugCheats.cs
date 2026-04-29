@@ -45,5 +45,11 @@ public class DebugCheats : MonoBehaviour
 
         if (kb.f4Key.wasPressedThisFrame)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        if (kb.f5Key.wasPressedThisFrame && DynamicDifficultyManager.Instance != null)
+        {
+            DynamicDifficultyManager.Instance.ShowDebugOverlay = !DynamicDifficultyManager.Instance.ShowDebugOverlay;
+            Debug.Log($"Difficulty debug overlay: {DynamicDifficultyManager.Instance.ShowDebugOverlay}");
+        }
     }
 }

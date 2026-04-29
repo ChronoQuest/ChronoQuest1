@@ -1,16 +1,20 @@
 using UnityEngine;
 
 /// <summary>
-/// Place on a trigger collider that bounds a platforming section. If the player remains inside for
-/// <see cref="assistAfterSeconds"/> (default 1:20) without reaching a goal that calls <see cref="MarkCleared"/>,
-/// falls are cancelled, platforms are locked, and spikes are fully disabled.
-/// Timer resets when the player exits the bounds without clearing.
+/// Place on a trigger collider that bounds a platforming section. Once the player has
+/// accumulated <see cref="assistAfterSeconds"/> of total time inside (cumulative — brief exits
+/// from knockback, falling off a platform, dying and respawning at a checkpoint outside the
+/// bounds, etc. don't reset the counter), falls are cancelled, platforms are locked, and
+/// spikes are fully disabled.
+///
+/// The timer keeps accruing across re-entries until <see cref="PlatformSectionGoal"/> calls
+/// <see cref="MarkCleared"/> on this section. Once cleared, the assist will never fire.
 /// </summary>
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 public class PlatformingSectionAssist : MonoBehaviour
 {
-    [Tooltip("Uses unscaled time. Default 80 seconds = 1:20.")]
+    [Tooltip("Cumulative unscaled time the player must spend inside the bounds before the assist fires.")]
     [SerializeField] private float assistAfterSeconds = 80f;
 
     [Tooltip("Prints to Console when assist runs (for testing).")]
@@ -21,10 +25,19 @@ public class PlatformingSectionAssist : MonoBehaviour
     [SerializeField] private TrapDamage[] spikes;
 
     private Collider2D _bounds;
-    private bool _playerInside;
+    // Counts overlapping Player-tagged colliders. The player prefab has two colliders
+    // (Box + Capsule) on the same GameObject, both tagged Player, and they cross the
+    // trigger boundary independently — so a simple bool flag would double-count exits.
+    private int _playerColliderCount;
     private bool _cleared;
     private bool _assistApplied;
-    private float _sectionStartUnscaledTime;
+    // Sum of completed inside-intervals (closed when the player fully exits). Time spent
+    // in the current still-open interval is added on the fly in Update.
+    private float _accumulatedTimeInside;
+    // Unscaled time at which the most recent uninterrupted inside-interval started.
+    private float _intervalStartTime;
+
+    private bool PlayerInside => _playerColliderCount > 0;
 
     private void Awake()
     {
@@ -39,27 +52,39 @@ public class PlatformingSectionAssist : MonoBehaviour
 
     private void Update()
     {
-        if (_cleared || _assistApplied || !_playerInside) return;
-        if (Time.unscaledTime - _sectionStartUnscaledTime >= assistAfterSeconds)
+        if (_cleared || _assistApplied) return;
+
+        float total = _accumulatedTimeInside;
+        if (PlayerInside) total += Time.unscaledTime - _intervalStartTime;
+
+        if (total >= assistAfterSeconds)
             ApplyAssist();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        _playerInside = true;
-        _sectionStartUnscaledTime = Time.unscaledTime;
+        _playerColliderCount++;
+        // Open a new inside-interval only on the first collider; the second one piggybacks.
+        if (_playerColliderCount == 1)
+            _intervalStartTime = Time.unscaledTime;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
-        _playerInside = false;
-        if (!_cleared && !_assistApplied)
-            _sectionStartUnscaledTime = 0f;
+        if (_playerColliderCount > 0) _playerColliderCount--;
+        // Close the interval only when ALL Player colliders have exited.
+        if (_playerColliderCount == 0)
+            _accumulatedTimeInside += Time.unscaledTime - _intervalStartTime;
     }
 
-    /// <summary>Call from a goal trigger (see <see cref="PlatformSectionGoal"/>) when the section is completed.</summary>
+    /// <summary>True if the assist timer has not yet fired (player is still within the time limit).</summary>
+    public bool IsWithinTimeLimit => !_assistApplied;
+
+    /// <summary>Called by <see cref="PlatformSectionGoal"/> when the player reaches the goal trigger.
+    /// Permanently disables the assist for this section — the timer stops accumulating and
+    /// <see cref="ApplyAssist"/> can never fire afterwards.</summary>
     public void MarkCleared()
     {
         _cleared = true;
@@ -91,6 +116,6 @@ public class PlatformingSectionAssist : MonoBehaviour
         }
 
         if (logWhenAssistApplied)
-            Debug.Log($"[PlatformingSectionAssist] Assist applied on {name} after {assistAfterSeconds}s in bounds.", this);
+            Debug.Log($"[PlatformingSectionAssist] Assist applied on {name} after {assistAfterSeconds}s cumulative in bounds.", this);
     }
 }

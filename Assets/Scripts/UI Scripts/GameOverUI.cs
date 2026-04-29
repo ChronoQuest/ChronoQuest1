@@ -11,7 +11,6 @@ public class GameOverUI : MonoBehaviour
     [Header("Rewind After Death Hint")]
     [SerializeField] private TextMeshProUGUI rewindAfterDeathText;
     [SerializeField] private string rewindAvailableMessage = "Hold Rewind to rewind out of death";
-    [SerializeField] private string rewindNotEnoughManaMessage = "Not enough mana to rewind after death";
     public float fadeDuration = 1.5f; 
     private float fadeTimer = 0f; 
     private bool isFading = false;
@@ -140,20 +139,13 @@ public class GameOverUI : MonoBehaviour
             return;
         }
 
-        // Only show the hint while dead (including during fade-in).
-        rewindAfterDeathText.enabled = true;
-
         var rewindController = FindFirstObjectByType<TimeRewind.PlayerRewindController>();
         var mana = playerHealth.GetComponent<PlayerMana>();
 
         bool canRewind = false;
-        float required = 0f;
 
         if (rewindController != null)
-        {
-            required = rewindController.MinManaToStartRewindWhenDead;
             canRewind = rewindController.CanStartRewindWhenDeadNow();
-        }
         else if (mana != null)
         {
             // Fallback if controller can't be found: allow if there's any mana.
@@ -162,14 +154,12 @@ public class GameOverUI : MonoBehaviour
 
         if (canRewind)
         {
+            rewindAfterDeathText.enabled = true;
             rewindAfterDeathText.text = rewindAvailableMessage;
         }
         else
         {
-            if (required > 0.001f)
-                rewindAfterDeathText.text = $"{rewindNotEnoughManaMessage} (need {required:0} mana)";
-            else
-                rewindAfterDeathText.text = rewindNotEnoughManaMessage;
+            rewindAfterDeathText.enabled = false;
         }
     }
 

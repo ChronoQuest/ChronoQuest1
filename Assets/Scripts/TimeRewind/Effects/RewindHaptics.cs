@@ -108,6 +108,7 @@ public class RewindHaptics : MonoBehaviour
     }
 
     private HeartMode activeMode = HeartMode.None;
+    private bool _useAudio;
 
     private void Awake()
     {
@@ -137,6 +138,7 @@ public class RewindHaptics : MonoBehaviour
     // Called by TimeRewindManager
     public void StartRewindPulse()
     {
+        _useAudio = true;
         StartMode(HeartMode.ReverseHeartbeat);
     }
 
@@ -148,6 +150,9 @@ public class RewindHaptics : MonoBehaviour
     // Called by PlayerHealth or Hint systems
     public void StartHintHeartbeat(float duration = -1f)
     {
+        // Audio + muffle only for low-health (no duration).
+        // Timed hints (RewindHintZone, PlayerFallHint, etc.) get vibration only.
+        _useAudio = duration < 0f;
         StartMode(HeartMode.NormalHeartbeat);
 
         if (duration > 0f)
@@ -181,15 +186,16 @@ public class RewindHaptics : MonoBehaviour
 
         activeMode = mode;
 
+        if (_useAudio)
+            SetMuffledEffect(true);
+
         switch (mode)
         {
             case HeartMode.ReverseHeartbeat:
-                SetMuffledEffect(true);
                 currentRoutine = StartCoroutine(ReverseHeartbeatRoutine());
                 break;
 
             case HeartMode.NormalHeartbeat:
-                SetMuffledEffect(true);
                 currentRoutine = StartCoroutine(NormalHeartbeatRoutine());
                 break;
         }
@@ -294,7 +300,7 @@ public class RewindHaptics : MonoBehaviour
         // Pick the right source so lub and dub can overlap
         AudioSource source = (clip == lubClip) ? lubSource : dubSource;
 
-        if (source != null && clip != null)
+        if (_useAudio && source != null && clip != null)
         {
             source.clip = clip;
             source.volume = volume;

@@ -61,6 +61,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isWallSliding;
+    public bool IsWallSliding => isWallSliding;
     private float wallAnimationVisualTimer;
     private const float WALL_GRACE_TIME = 0.08f; // 0.1 seconds of "memory"
 
@@ -101,7 +102,9 @@ public class PlayerPlatformer : MonoBehaviour
 
     [Header("Action Permissions")]
     public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
-    public PlayerTacticalModel playerTacticModel; 
+    public PlayerTacticalModel playerTacticModel;
+    public event System.Action OnDashed;
+    public event System.Action OnJumped;
 
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;
@@ -360,10 +363,11 @@ public class PlayerPlatformer : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
 
-            jumpBufferCounter = 0f;            
+            jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f; // Prevent double jumping with coyote time
             if (anim != null) anim.SetTrigger("Jump");
             tutorialManager?.OnPlayerJump();
+            OnJumped?.Invoke();
         }
 
         if (isTouchingWall) 
@@ -507,7 +511,8 @@ public class PlayerPlatformer : MonoBehaviour
 
         yield return null;
 
-        tutorialManager?.OnPlayerJump(); 
+        tutorialManager?.OnPlayerJump();
+        OnJumped?.Invoke();
     }
     // =========================================================
     // AIRBORNE ANIMATION (GLOBAL)
@@ -596,7 +601,8 @@ public class PlayerPlatformer : MonoBehaviour
         float jumpDirection = spriteRenderer.flipX ? 1f : -1f;
         rb.linearVelocity = new Vector2(jumpDirection * wallJumpPower.x, wallJumpPower.y);
 
-        tutorialManager?.OnPlayerWallJump(); 
+        tutorialManager?.OnPlayerWallJump();
+        OnJumped?.Invoke();
 
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
         if (sfxSource != null)
@@ -623,6 +629,7 @@ public class PlayerPlatformer : MonoBehaviour
 
         tutorialManager?.OnPlayerDash();
         DataCollectionService.Instance?.RecordDash();
+        OnDashed?.Invoke();
 
         if (anim != null) 
         {

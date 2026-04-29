@@ -11,7 +11,7 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     [SerializeField] private float respawnTime = 3.0f; 
 
     [Header("Difficulty rules")]
-    [Tooltip("If enabled, this platform will still fall even on VeryEasy/Easy (it ignores the tier-based no-falling rule).")]
+    [Tooltip("If enabled, this platform will still fall even on VeryEasy (it ignores the tier-based no-falling rule).")]
     [SerializeField] private bool ignoreTierNoFallingLock = false;
 
     [Header("References")]

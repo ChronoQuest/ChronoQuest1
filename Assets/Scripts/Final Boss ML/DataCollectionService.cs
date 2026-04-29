@@ -12,6 +12,9 @@ public class DataCollectionService : MonoBehaviour
 {
     public static DataCollectionService Instance { get; private set; }
 
+    /// <summary>Fired after in-memory gameplay counters are zeroed (e.g. door transition session split). Dynamic difficulty rebaselines against this so deltas stay valid.</summary>
+    public static event System.Action SessionGameplayCountersReset;
+
     [Header("Export Settings")]
     [Tooltip("File name (within Application.persistentDataPath) for JSONL export.")]
     [SerializeField] private string fileName = "session_data.jsonl";
@@ -68,6 +71,7 @@ public class DataCollectionService : MonoBehaviour
     private int _spellCasts;
     private int _spellHits;
     private int _rainAttackUses;
+    private int _enemyKills;
 
     // Health / deaths
     private int _damageTakenTotal;
@@ -99,6 +103,7 @@ public class DataCollectionService : MonoBehaviour
         public int spell_casts;
         public int spell_hits;
         public int rain_attack_uses;
+        public int enemy_kills;
 
         public int damage_taken_total;
         public int death_count;
@@ -220,6 +225,12 @@ public class DataCollectionService : MonoBehaviour
         _rainAttackUses++;
     }
 
+    public void RecordEnemyKill()
+    {
+        if (!_sessionActive) return;
+        _enemyKills++;
+    }
+
     // Health / deaths
     public void RecordDamageTaken(int amount)
     {
@@ -296,6 +307,7 @@ public class DataCollectionService : MonoBehaviour
             spell_casts = _spellCasts,
             spell_hits = _spellHits,
             rain_attack_uses = _rainAttackUses,
+            enemy_kills = _enemyKills,
 
             damage_taken_total = _damageTakenTotal,
             death_count = _deathCount,
@@ -346,6 +358,7 @@ public class DataCollectionService : MonoBehaviour
         _spellCasts = 0;
         _spellHits = 0;
         _rainAttackUses = 0;
+        _enemyKills = 0;
 
         _damageTakenTotal = 0;
         _deathCount = 0;
@@ -357,6 +370,8 @@ public class DataCollectionService : MonoBehaviour
 
         if (enableDebugLogs)
             UnityEngine.Debug.Log($"[DataCollection] New session started. Data will be written to: {GetExportFilePath()}");
+
+        SessionGameplayCountersReset?.Invoke();
     }
 
     private void FlushSessionIfNeeded()
@@ -382,6 +397,7 @@ public class DataCollectionService : MonoBehaviour
     public int SpellCasts => _spellCasts;
     public int SpellHits => _spellHits;
     public int RainAttackUses => _rainAttackUses;
+    public int EnemyKillCount => _enemyKills;
 
     public int DamageTakenTotal => _damageTakenTotal;
     public int DeathCount => _deathCount;

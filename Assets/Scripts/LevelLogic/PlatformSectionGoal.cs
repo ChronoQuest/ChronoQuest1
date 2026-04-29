@@ -19,6 +19,17 @@ public class PlatformSectionGoal : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
+
+        // Check before marking cleared — was the player still within the time limit?
+        bool withinTime = section != null && section.IsWithinTimeLimit;
+
         section?.MarkCleared();
+
+        // Good players who cleared the platforming section in time get a skill comment
+        if (withinTime)
+        {
+            var watcher = FindFirstObjectByType<WatcherCommentary>();
+            watcher?.TryFireSkillComment();
+        }
     }
 }

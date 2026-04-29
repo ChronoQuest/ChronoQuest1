@@ -8,9 +8,13 @@ public class RainAttack : MonoBehaviour
     public float spawnAreaWidth = 10f;
     public float spawnHeight = 8f;
     public float delayBetweenShots = 0.1f;
-    public PlayerTacticalModel playerTacticalModel; 
+    // Per-bolt damage for the rain spell. The bolt prefab is shared with the basic
+    // spell, so we override damage on each instance instead of editing the prefab —
+    // editing the prefab would also weaken the basic spell.
+    public int boltDamage = 3;
+    public PlayerTacticalModel playerTacticalModel;
     public LayerMask groundLayer;
-    public TutorialManager tutorialManager; 
+    public TutorialManager tutorialManager;
 
     // This method will be called by the Animation Event
     public void StartProjectileRain()
@@ -40,8 +44,10 @@ public class RainAttack : MonoBehaviour
             // Spawn the bolt
             Vector3 spawnPos = new Vector3(spawnOrigin.x, actualSpawnY + Random.Range(-0.5f, 0.5f), 0);
             GameObject bolt = Instantiate(projectilePrefab, spawnPos, Quaternion.Euler(0, 0, -90));
+            SpellProjectile sp = bolt.GetComponent<SpellProjectile>();
             // Decrease volume of spell blast for rain spell
-            bolt.GetComponent<SpellProjectile>().spellBlastVolume *= 0.2f;
+            sp.spellBlastVolume *= 0.2f;
+            sp.damage = boltDamage;
         
             float randomSpeed = Random.Range(12f, 18f);
             bolt.GetComponent<Rigidbody2D>().linearVelocity = Vector2.down * randomSpeed;

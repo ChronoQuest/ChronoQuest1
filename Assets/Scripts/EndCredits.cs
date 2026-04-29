@@ -69,6 +69,10 @@ public class EndCredits : MonoBehaviour
             yield return null;
         }
 
+        // Stop low-health haptics/audio/visuals before the credits so they don't bleed through.
+        RewindHaptics.Instance?.StopHintHeartbeat();
+        LowHealthVisualController.Instance?.StopLowHealthEffect();
+
         Image bg;
         RectTransform textRT;
         TextMeshProUGUI tmp;

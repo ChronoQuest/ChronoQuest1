@@ -184,6 +184,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
     protected override void Awake()
     {
+        immuneToDifficultyScaling = true;
         base.Awake();
         animator      = GetComponent<Animator>();
         col           = GetComponent<Collider2D>();
@@ -1109,6 +1110,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         isDying     = true;
         isAttacking = false;
         isReviving  = false;
+        DataCollectionService.Instance?.RecordEnemyKill();
         base.DeathSound();
         animator?.SetBool("isWalking", false);
         if (col != null) col.enabled = false;

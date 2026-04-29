@@ -33,7 +33,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private float castFailsafeTimer;
     private const float MAX_CAST_TIME = 1.0f;
     private PlayerAction allowedActions;
-    public PlayerTacticalModel playerTacticalModel; 
+    public PlayerTacticalModel playerTacticalModel;
+    public event System.Action OnSpellCast;
     public GameObject latestSpell;
     [Header("Audio")]
     [SerializeField] private AudioSource chargeSource;
@@ -91,7 +92,8 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
                 CastSpell();
                 nextFireTime = Time.time + cooldown;
                 DataCollectionService.Instance?.RecordSpellCast();
-                playerTacticalModel.RecordSpell(); 
+                playerTacticalModel.RecordSpell();
+                OnSpellCast?.Invoke();
             }
             else 
             {
@@ -167,7 +169,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         // Down cast ONLY in air
         if (y < -0.5f && !player.isGrounded) return Vector2.down;
 
-        // Forward cast
+        // Forward cast — if wall sliding, fire away from the wall (opposite of facing direction)
+        if (player.IsWallSliding)
+            return sprite.flipX ? Vector2.right : Vector2.left;
         return sprite.flipX ? Vector2.left : Vector2.right;
     }
 
