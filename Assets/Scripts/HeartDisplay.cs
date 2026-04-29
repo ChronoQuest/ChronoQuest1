@@ -28,6 +28,13 @@ public class HeartDisplay : MonoBehaviour
             RefreshDisplay(playerHealth.CurrentHealth, playerHealth.MaxHealth);
         }
     }
+    private void OnEnable()
+    {
+        if (playerHealth != null)
+        {
+            RefreshDisplay(playerHealth.CurrentHealth, playerHealth.MaxHealth);
+        }
+    }
 
     private void OnDestroy()
     {

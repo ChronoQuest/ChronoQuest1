@@ -290,6 +290,7 @@ MonoBehaviour:
   cutsceneZoomSize: 4
   uiToHide:
   - {fileID: 583426506}
+  hudGroup: {fileID: 3212802410766754499}
   audioSource: {fileID: 1094889225}
   dialogueBlip: {fileID: 8300000, guid: 7207e8e5f559b3044b61955a1f37e708, type: 3}
   dialogueBlipVolume: 1
@@ -467006,6 +467007,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3244448901239096928, guid: c226cb5546b4348f58db7233e39ab7dc, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 1941470544}
     - target: {fileID: 1680352605740642317, guid: 0d556c51c023e0447a08fc80c7fd1b7a, type: 3}
       propertyPath: m_Name
       value: VCam_Default
@@ -467054,10 +467059,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3244448901239096928, guid: c226cb5546b4348f58db7233e39ab7dc, type: 3}
-      propertyPath: Target.TrackingTarget
-      value: 
-      objectReference: {fileID: 1941470544}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -468807,6 +468808,11 @@ MonoBehaviour:
     Use melee attacks or wait to get it back'
   displayDuration: 1.2
   fadeDuration: 0.4
+--- !u!225 &3212802410766754499 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4840881753501184061, guid: 19f0b6d728973744fb66bc5dd2137268, type: 3}
+  m_PrefabInstance: {fileID: 3212802410766754496}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7296222224498140105
 PrefabInstance:
   m_ObjectHideFlags: 0

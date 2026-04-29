@@ -201,7 +201,12 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         FaceDirection(pendingArrowDirection.x);
 
         lastShootTime = Time.time;
-        if (animator != null) animator.SetTrigger("Shoot");
+        if (animator != null)
+        {
+            // TEMP DEBUG — pinpoint who fires Shoot during/after death.
+            Debug.Log($"[ArcherDeath] Shoot trigger from TryShoot: name={gameObject.name} wasDead={wasDead} isDying={isDying} isStunned={isStunned} isLaunched={isLaunched} pushOffTimer={pushOffTimer:F2} state={currentState}", this);
+            animator.SetTrigger("Shoot");
+        }
     }
 
     /// <summary>
@@ -248,8 +253,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     public override void TakeDamage(int amount)
     {
-        if (wasDead || isDying || isDodging) return; 
-        
+        if (wasDead || isDying || isDodging) return;
+
         if (health - amount > 0)
         {
             animator?.SetTrigger("Hit");
@@ -262,9 +267,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         // Removed StopAllCoroutines() to prevent breaking the death fall sequence if hit immediately upon death
         base.ApplyKnockback(force);
 
-        if (animator != null && !isDying) 
+        if (animator != null && !isDying)
         {
-            animator.SetTrigger("Hit"); 
+            animator.SetTrigger("Hit");
         }
     }
 
@@ -358,7 +363,55 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     private IEnumerator HandleSkeletonDeath(float groundCheckDist, float feetOffset)
     {
-        if (animator != null) animator.SetTrigger("Dead");
+        if (animator != null)
+        {
+            // Clear every non-death trigger before queuing Dead. The killing blow can
+            // race with FixedUpdate's TryShoot or a non-lethal Hit fired the same
+            // frame — those triggers stay queued in the animator's parameter dictionary
+            // and consume Any State transitions out of the Death state right after we
+            // land in it, leaving the skeleton visually alive (in Shoot/Hit/Idle).
+            // Resetting them here means only Dead survives to be processed.
+            animator.ResetTrigger("Hit");
+            animator.ResetTrigger("Shoot");
+            animator.ResetTrigger("Revive");
+            animator.SetTrigger("Dead");
+
+            // TEMP DEBUG — track death state transitions for 3 seconds.
+            AnimatorStateInfo startInfo = animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorClipInfo[] startClips = animator.GetCurrentAnimatorClipInfo(0);
+            string startName = startClips.Length > 0 && startClips[0].clip != null ? startClips[0].clip.name : "(none)";
+            Debug.Log($"[ArcherDeath] DEATH START name={gameObject.name} clip={startName} hash={startInfo.shortNameHash} t={startInfo.normalizedTime:F2} hasForesight={hasForesight} foresightBool={animator.GetBool("hasForesight")}", this);
+
+            float elapsed = 0f;
+            bool everInDeath = false;
+            int lastHash = startInfo.shortNameHash;
+            while (elapsed < 3f)
+            {
+                yield return null;
+                elapsed += Time.deltaTime;
+                AnimatorStateInfo cur = animator.GetCurrentAnimatorStateInfo(0);
+                if (cur.shortNameHash != lastHash)
+                {
+                    AnimatorClipInfo[] curClips = animator.GetCurrentAnimatorClipInfo(0);
+                    string curName = curClips.Length > 0 && curClips[0].clip != null ? curClips[0].clip.name : "(none)";
+                    bool inDeath = curName == "ArcherDeath" || curName == "ArcherDeathForesight";
+                    Debug.Log($"[ArcherDeath] STATE CHANGE @ {elapsed:F3}s: clip={curName} hash={cur.shortNameHash} t={cur.normalizedTime:F2} inDeath={inDeath} foresightBool={animator.GetBool("hasForesight")}", this);
+                    if (inDeath) everInDeath = true;
+                    if (everInDeath && !inDeath)
+                    {
+                        Debug.LogError($"[ArcherDeath] LEFT death state @ {elapsed:F3}s → clip={curName}", this);
+                    }
+                    lastHash = cur.shortNameHash;
+                }
+            }
+            if (!everInDeath)
+            {
+                AnimatorStateInfo finalInfo = animator.GetCurrentAnimatorStateInfo(0);
+                AnimatorClipInfo[] finalClips = animator.GetCurrentAnimatorClipInfo(0);
+                string finalName = finalClips.Length > 0 && finalClips[0].clip != null ? finalClips[0].clip.name : "(none)";
+                Debug.LogError($"[ArcherDeath] NEVER ENTERED death state during 3s window. final clip={finalName} hash={finalInfo.shortNameHash}", this);
+            }
+        }
 
         RaycastHit2D hit = default;
         while (true)
