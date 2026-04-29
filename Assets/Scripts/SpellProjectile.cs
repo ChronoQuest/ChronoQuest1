@@ -82,6 +82,11 @@ public class SpellProjectile : MonoBehaviour, IRewindable
             currentLifetime += Time.deltaTime;
             if (currentLifetime >= lifetime)
             {
+                if (!hasHit)
+                {
+                    Debug.Log("Spell Missed");  
+                }
+                
                 ExecuteImpact();
             }
         }
@@ -103,6 +108,7 @@ public class SpellProjectile : MonoBehaviour, IRewindable
         {
             dmg.TakeDamage(damage);
             DataCollectionService.Instance?.RecordSpellHit();
+            ScoreManager.Instance.AddPoints(100);
 
             IKnockbackable kb = collision.GetComponent<IKnockbackable>();
             if (kb != null)
@@ -230,5 +236,4 @@ public class SpellProjectile : MonoBehaviour, IRewindable
             anim.Update(0f);
         }
     }
-
 }

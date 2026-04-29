@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq; 
 using UnityEngine; 
 
 public class PlayerTacticalModel : MonoBehaviour
@@ -7,7 +8,8 @@ public class PlayerTacticalModel : MonoBehaviour
     // -- EXPERIMENT EDITS -- 
     public enum TacticType
     {
-        Aggressive, 
+        Reckless, 
+        Idle, 
         Evasive,
         Cautious
     }
@@ -24,6 +26,7 @@ public class PlayerTacticalModel : MonoBehaviour
     private float rewindCount; 
     private float damageTaken; 
     private float wallJumpCount; 
+    private float meleeAttacks; 
 
     // tactic is determined and tracked in a 5 seconds window
     private float windowDuration = 5f; 
@@ -35,10 +38,17 @@ public class PlayerTacticalModel : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("TACTICAL MODEL START");
+
         foreach (TacticType tactic in System.Enum.GetValues(typeof(TacticType)))
         {
             tacticBeliefs[tactic] = 0f; 
         }
+    }
+
+    void OnEnable()
+    {
+        Debug.Log("TACTICAL MODEL ENABLED");
     }
     
     void Update()
@@ -56,6 +66,8 @@ public class PlayerTacticalModel : MonoBehaviour
     // calculates player tactic score based on events recorded in the game
     void DetermineTactics()
     {
+        Debug.Log($"[COUNTS] Dash:{dashCount}, Melee:{meleeHits}, Damage:{damageTaken}");
+        
         float[] features = BuildFeatureVector();
         float[] probs;
 
@@ -71,6 +83,26 @@ public class PlayerTacticalModel : MonoBehaviour
             ExperimentManager.Instance.LogResult(predictedCluster, "TODO_BOSS_BEHAVIOUR"); 
         }
 
+        float duration = Mathf.Max(timer, 0.001f);
+        float meleeRate = (meleeAttacks + meleeHits) / duration;
+        float damageRate = damageTaken / duration;
+
+        float recklessBase = probs[0];
+
+        float bias = 0f;
+
+        if (meleeRate > 0.6f)
+        {
+            bias += 0.05f;
+        }
+
+        if (damageRate > 0.2f)
+        {
+            bias += 0.05f;
+        }
+
+        float boostedReckless = Mathf.Clamp01(recklessBase + bias); 
+
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 
         foreach (var key in keys)
@@ -79,12 +111,10 @@ public class PlayerTacticalModel : MonoBehaviour
         }  
 
         // saves score to the corresponding potential tactic
-        tacticBeliefs[TacticType.Aggressive] = probs[1]; 
-        tacticBeliefs[TacticType.Evasive] = probs[0];
-        tacticBeliefs[TacticType.Cautious] = probs[2];
-
-        tacticBeliefs[TacticType.Aggressive] += 0.5f * probs[1];
-        tacticBeliefs[TacticType.Evasive] += 0.5f * probs[1];
+        tacticBeliefs[TacticType.Idle] = probs[1]; 
+        tacticBeliefs[TacticType.Reckless] = Mathf.Clamp01(boostedReckless);
+        tacticBeliefs[TacticType.Evasive] = probs[2];
+        tacticBeliefs[TacticType.Cautious] = probs[3]; 
 
         NormaliseBeliefs(); 
     }
@@ -113,7 +143,7 @@ public class PlayerTacticalModel : MonoBehaviour
 
         float dashRate   = dashCount / duration;
         float jumpRate   = (jumpCount + wallJumpCount) / duration;
-        float meleeRate  = meleeHits / duration;   
+        float meleeRate  = (meleeAttacks + meleeHits) / duration;   
         float spellRate  = (spellCount + rainSpellCount) / duration;
         float rewindRate = rewindCount / duration;
         float damageRate = damageTaken / duration;
@@ -211,5 +241,11 @@ public class PlayerTacticalModel : MonoBehaviour
     {
         Debug.Log("Recorded damage hit for tactic model"); 
         damageTaken += amount; 
+    }
+
+    public void RecordMeleeAttack()
+    {
+        Debug.Log("Recorded melee attack for tactic model"); 
+        meleeAttacks++; 
     }
 }
