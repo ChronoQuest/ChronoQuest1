@@ -30,13 +30,13 @@ lowest_aic = np.inf
 bic = []
 aic = []
 
-#n_components = range(2, 5)
+n_components = range(2, 5)
 cv_types = ["spherical", "tied", "diag", "full"]
 
 for cv_type in cv_types:
-    #for n_component in n_components:
+    for n_component in n_components:
         gmm = GaussianMixture (
-            n_components=3,
+            n_components=n_component,
             covariance_type=cv_type,
             random_state=42,
             n_init=10
@@ -51,11 +51,11 @@ for cv_type in cv_types:
             lowest_aic = aic[-1]
             best_gmm = gmm
             best_params = {
-                "n_components": 3, 
+                "n_components": n_component, 
                 "covariance_type": cv_type
             }
 
-        print(f"Testing: k={3}, cov={cv_type}, BIC={bic[-1]:.2f}")
+        print(f"Testing: k={n_component}, cov={cv_type}, BIC={bic[-1]:.2f}")
 
 # printing best model and parameters
 labels = best_gmm.predict(X_scaled)
@@ -68,7 +68,6 @@ print("Corresponding AIC: ", lowest_aic)
 
 
 # ======== EVALUATION METRICS =======
-# TODO move evaluation to notebook
 # printing cluster means
 cluster_means = df_numeric.groupby("cluster").mean()
 print("Cluster Means: ", cluster_means)

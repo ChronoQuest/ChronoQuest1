@@ -148,7 +148,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         }
         currentHealth += amount; // Amount is negative, so this subtracts
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateUI();
+        UpdateUI(); 
 
         if (_rb != null && currentHealth > 0 && applyKnockback)
         {
@@ -212,7 +212,7 @@ public class PlayerHealth : MonoBehaviour, IRewindable
     {
         var playerMovement = GetComponent<PlayerPlatformer>();  
         var rb = GetComponent<Rigidbody2D>();
-        var col = GetComponent<Collider2D>(); 
+        var col = GetComponent<Collider2D>();  
 
         if (col != null) col.enabled = false;
 
@@ -270,6 +270,8 @@ public class PlayerHealth : MonoBehaviour, IRewindable
         }
         OnDeath?.Invoke();
         DataCollectionService.Instance?.RecordDeath();
+        ScoreManager.Instance.RemovePoints(100);
+        // GameManager.Instance.PlayerDied(); 
 
         // Only set safety if the player dies during the tutorial.
         // Platforms read this PlayerPrefs key globally, so a tutorial death can keep later
