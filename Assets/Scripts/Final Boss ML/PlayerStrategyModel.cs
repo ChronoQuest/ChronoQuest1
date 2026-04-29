@@ -76,18 +76,18 @@ public class PlayerStrategyModel : MonoBehaviour
           $"Idle: {tactics[PlayerTacticalModel.TacticType.Idle]:F2}");
 
         // reckless -> mostly aggressive, slightly defensive 
-        strategyBeliefs[StrategyType.AggressivePlayer] += reckless * 0.5f;
-        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += reckless * 0.5f;
+        strategyBeliefs[StrategyType.AggressivePlayer] += reckless * 0.7f;
+        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += reckless * 0.3f;
 
         // evasive -> mostly defensive, slightly aggressive 
-        strategyBeliefs[StrategyType.AggressivePlayer] += evasive * 0.6f;
-        strategyBeliefs[StrategyType.DefensivePlayer] += evasive * 0.4f;
+        strategyBeliefs[StrategyType.AggressivePlayer] += evasive * 0.4f;
+        strategyBeliefs[StrategyType.DefensivePlayer] += evasive * 0.6f;
 
         // cautious -> mostly ability/control, slightly defensive 
-        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += cautious * 0.4f;
-        strategyBeliefs[StrategyType.DefensivePlayer] += cautious * 0.6f;
+        strategyBeliefs[StrategyType.AbilityFocusedPlayer] += cautious * 0.6f;
+        strategyBeliefs[StrategyType.DefensivePlayer] += cautious * 0.4f;
 
-        float confidence = Mathf.Clamp01(1f - (idle * 0.7f));
+        float confidence = Mathf.Clamp01(1f - (idle * 0.5f));
         foreach (StrategyType strategy in strategyBeliefs.Keys.ToList())
         {
             strategyBeliefs[strategy] *= confidence; 
@@ -119,7 +119,17 @@ public class PlayerStrategyModel : MonoBehaviour
             total += value; 
         }
 
-        if (total <= 0f) return; 
+        if (total <= 0f)
+        {
+            float equal = 1f / strategyBeliefs.Count;
+
+            foreach (var key in strategyBeliefs.Keys.ToList())
+            {
+                strategyBeliefs[key] = equal;
+            }
+
+            return;
+        }
 
         List<StrategyType> keys = new List<StrategyType>(strategyBeliefs.Keys);
 
@@ -144,20 +154,15 @@ public class PlayerStrategyModel : MonoBehaviour
     // method to return the dominant strategy 
     public StrategyType GetDominantStrategy()
     {
-        StrategyType best = StrategyType.AggressivePlayer;          // assigning player to aggressive as fallback option, only cause it's the first enum value
-        float max = float.MinValue;
+        float max = strategyBeliefs.Values.Max();
 
-        foreach (var pair in strategyBeliefs)
-        {
-            if (pair.Value > max)
-            {
-                max = pair.Value;
-                best = pair.Key; 
-            }
-        }
+        var topStrategies = strategyBeliefs
+            .Where(pair => Mathf.Approximately(pair.Value, max))
+            .Select(pair => pair.Key)
+            .ToList();
 
-        return best;
-    }
+        return topStrategies[Random.Range(0, topStrategies.Count)];
+    }   
 
     public void Reset()
     {

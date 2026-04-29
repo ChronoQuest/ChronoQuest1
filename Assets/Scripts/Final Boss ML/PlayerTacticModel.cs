@@ -26,6 +26,7 @@ public class PlayerTacticalModel : MonoBehaviour
     private float rewindCount; 
     private float damageTaken; 
     private float wallJumpCount; 
+    private float meleeAttacks; 
 
     // tactic is determined and tracked in a 5 seconds window
     private float windowDuration = 5f; 
@@ -65,6 +66,8 @@ public class PlayerTacticalModel : MonoBehaviour
     // calculates player tactic score based on events recorded in the game
     void DetermineTactics()
     {
+        Debug.Log($"[COUNTS] Dash:{dashCount}, Melee:{meleeHits}, Damage:{damageTaken}");
+        
         float[] features = BuildFeatureVector();
         float[] probs;
 
@@ -81,14 +84,24 @@ public class PlayerTacticalModel : MonoBehaviour
         }
 
         float duration = Mathf.Max(timer, 0.001f);
-        float meleeRate = meleeHits / duration; 
+        float meleeRate = (meleeAttacks + meleeHits) / duration;
         float damageRate = damageTaken / duration;
 
-        float recklessSignal = (meleeRate * 0.75f) + (damageRate * 0.25f); 
-        recklessSignal = Mathf.Clamp01(recklessSignal); 
+        float recklessBase = probs[0];
 
-        float recklessBase = Mathf.Max(probs[0], 0.08f); 
-        float boostedReckless = recklessBase + (recklessSignal * 0.12f); 
+        float bias = 0f;
+
+        if (meleeRate > 0.6f)
+        {
+            bias += 0.05f;
+        }
+
+        if (damageRate > 0.2f)
+        {
+            bias += 0.05f;
+        }
+
+        float boostedReckless = Mathf.Clamp01(recklessBase + bias); 
 
         List<TacticType> keys = new List<TacticType>(tacticBeliefs.Keys);
 
@@ -130,7 +143,7 @@ public class PlayerTacticalModel : MonoBehaviour
 
         float dashRate   = dashCount / duration;
         float jumpRate   = (jumpCount + wallJumpCount) / duration;
-        float meleeRate  = meleeHits / duration;   
+        float meleeRate  = (meleeAttacks + meleeHits) / duration;   
         float spellRate  = (spellCount + rainSpellCount) / duration;
         float rewindRate = rewindCount / duration;
         float damageRate = damageTaken / duration;
@@ -228,5 +241,11 @@ public class PlayerTacticalModel : MonoBehaviour
     {
         Debug.Log("Recorded damage hit for tactic model"); 
         damageTaken += amount; 
+    }
+
+    public void RecordMeleeAttack()
+    {
+        Debug.Log("Recorded melee attack for tactic model"); 
+        meleeAttacks++; 
     }
 }
