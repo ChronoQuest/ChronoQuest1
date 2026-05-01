@@ -19,6 +19,10 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
     [Header("References")]
     [SerializeField] private Collider2D platformCollider;
 
+    [Header("Difficulty rules")]
+    [Tooltip("If enabled, this platform will still fall even on VeryEasy (it ignores the tier-based no-falling rule).")]
+    [SerializeField] private bool ignoreTierNoFallingLock = false;
+
     // State Variables
     private Rigidbody2D _rb;
     private int _targetIndex = 0;
@@ -50,10 +54,75 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
 
         if (platformCollider == null) 
             platformCollider = GetComponent<Collider2D>();
+
+    }
+
+    private void Start()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged += HandleDifficultyChanged;
+        HandleDifficultyChanged();
+    }
+
+    private void OnDestroy()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged -= HandleDifficultyChanged;
+    }
+
+    private void HandleDifficultyChanged()
+    {
+        if (IsFallLocked())
+            StopFallCoroutineAndResetMovingPose();
     }
 
     private void OnEnable() => TimeRewindManager.Instance?.Register(this);
     private void OnDisable() => TimeRewindManager.Instance?.Unregister(this);
+
+    private bool _sectionAssistLocked;
+
+    public void SetSectionAssistLocked(bool locked) => _sectionAssistLocked = locked;
+
+    public void CancelFallForAssist() => StopFallCoroutineAndResetMovingPose();
+
+    private bool IsFallLocked()
+    {
+        if (_sectionAssistLocked) return true;
+        if (PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0) == 1)
+            return true;
+        if (DynamicDifficultyManager.Instance == null) return false;
+        if (DynamicDifficultyManager.Instance.TutorialSafetyActive) return true;
+        if (ignoreTierNoFallingLock) return false;
+        return DynamicDifficultyManager.Instance.LockFallingPlatformsForCurrentTier;
+    }
+
+    private void StopFallCoroutineAndResetMovingPose()
+    {
+        if (_fallRoutine != null)
+        {
+            StopCoroutine(_fallRoutine);
+            _fallRoutine = null;
+        }
+
+        if (_playerTransform != null)
+        {
+            _playerTransform.SetParent(null);
+            _playerTransform = null;
+        }
+
+        _isFalling = false;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+
+        if (platformCollider != null)
+            platformCollider.enabled = true;
+
+        if (waypoints.Length > 0)
+            transform.position = waypoints[_targetIndex].position;
+        else
+            transform.position = _initialPosition;
+    }
 
     private void FixedUpdate()
     {
@@ -98,6 +167,8 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (IsFallLocked()) return;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             // Check if player is on top (using contact normal)
@@ -214,6 +285,9 @@ public class MovingFallingPlatform : MonoBehaviour, IRewindable
     public void OnStopRewind()
     {
         _isRewinding = false;
+
+        if (IsFallLocked())
+            StopFallCoroutineAndResetMovingPose();
     }
 
     public RewindState CaptureState()

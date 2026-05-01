@@ -170,6 +170,7 @@ public class FlyingEnemy : EnemyBase
 
     void Die()
     {
+        DataCollectionService.Instance?.RecordEnemyKill();
         Debug.Log("Enemy died!");
         Destroy(gameObject);
     }

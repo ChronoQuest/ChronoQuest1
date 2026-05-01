@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using System.Collections; 
 
 public class PauseMenu : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class PauseMenu : MonoBehaviour
 
     [Header("UI Navigation")]
     [SerializeField] private GameObject firstSelectedButton;
+
+    private Canvas _canvas;
+
+    void Awake()
+    {
+        _canvas = GetComponent<Canvas>();
+        if (_canvas == null) _canvas = GetComponentInParent<Canvas>();
+    }
 
     void Update()
     {
@@ -43,6 +52,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         container.SetActive(true);
         Time.timeScale = 0f;
+        if (_canvas != null) _canvas.sortingOrder = 999;
 
         escapePressed++;
 
@@ -63,17 +73,30 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         container.SetActive(false);
         Time.timeScale = 1f;
+        if (_canvas != null) _canvas.sortingOrder = 0;
 
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void MainMenuButton()
     {
+        StartCoroutine(ReturnToMenuRoutine());
+    }
+
+    IEnumerator ReturnToMenuRoutine()
+    {
         isPaused = false;
         Time.timeScale = 1f;
 
         if (container != null)
             container.SetActive(false);
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
+
+        yield return new WaitForSecondsRealtime(0.5f);
 
         SceneManager.LoadScene("TitleScreen");
     }

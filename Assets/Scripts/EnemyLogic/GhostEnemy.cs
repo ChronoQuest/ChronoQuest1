@@ -47,7 +47,6 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private float dodgeCooldown = 1.5f;
     private float dodgeTimer = 0f;
@@ -78,8 +77,9 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding || wasDead || isTeleporting) return;
         if (player == null) return;
 
@@ -256,6 +256,7 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         wasDead = true;
+        DataCollectionService.Instance?.RecordEnemyKill();
         StopAllCoroutines();
 
         animator?.SetTrigger("Die");
@@ -278,7 +279,11 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         hasForesight = state;
         //if(hasForesight) detectionRange *= 2;
         animator.SetBool("hasForesight", hasForesight);
-        if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
+        if (foresightGlow != null) 
+        {
+            bool shouldGlow = hasForesight && spriteRenderer.enabled;
+            foresightGlow.SetActive(shouldGlow);
+        }
         Vector2 direction = (player.position - transform.position).normalized;
         if (direction.x > 0) spriteRenderer.flipX = false;
         else if (direction.x < 0) spriteRenderer.flipX = true;
@@ -295,14 +300,22 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-            float spellDist = Vector2.Distance(transform.position, spellPos);
-            float playerDist = Vector2.Distance(transform.position, threatPos);
-
-            if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                threatPos = spellPos;
-                shouldDodge = true;
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
+                    float spellDist = Vector2.Distance(transform.position, spellPos);
+                    float playerDist = Vector2.Distance(transform.position, threatPos);
+
+                    if (spellDist < playerDist && spellDist < dodgeTriggerDistance + 2f)
+                    {
+                        threatPos = spellPos;
+                        shouldDodge = true;
+                    }
+                }
             }
         }
         
@@ -321,7 +334,8 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public void ExecuteLunge()
     {
         if (wasDead || isRewinding || isTeleporting || isDodging || dodgeTimer > 0) return;
-        
+        // Make sure the ghost can't teleport from a large distance away!
+        if (GetDistanceToPlayer() > detectionRange * 1.5f) return;
         StartCoroutine(ForesightTeleportRoutine(true, Vector2.zero));
     }
 

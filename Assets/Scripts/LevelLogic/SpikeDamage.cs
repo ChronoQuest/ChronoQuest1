@@ -7,6 +7,32 @@ public class SpikeDamage : MonoBehaviour
     [Tooltip("If true, sends player back to last safe spot. If false, just damages.")]
     [SerializeField] private bool respawnPlayer = true;
 
+    private int _defaultDamage;
+    private bool _defaultRespawn;
+    private Collider2D _hazardCollider;
+
+    private void Awake()
+    {
+        _defaultDamage = damageAmount;
+        _defaultRespawn = respawnPlayer;
+        _hazardCollider = GetComponent<Collider2D>();
+    }
+
+    public int GetDamageAmount() => damageAmount;
+    public void SetDamageAmount(int value) => damageAmount = Mathf.Max(0, value);
+
+    public bool GetRespawnPlayer() => respawnPlayer;
+    public void SetRespawnPlayer(bool value) => respawnPlayer = value;
+
+    /// <summary>No damage, no respawn knockback, collider off — used by platforming assists.</summary>
+    public void SetHazardDisabled(bool disabled)
+    {
+        damageAmount = disabled ? 0 : _defaultDamage;
+        respawnPlayer = !disabled && _defaultRespawn;
+        if (_hazardCollider != null)
+            _hazardCollider.enabled = !disabled;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

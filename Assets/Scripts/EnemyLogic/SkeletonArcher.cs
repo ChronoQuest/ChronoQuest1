@@ -26,6 +26,14 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public float shootCooldown = 2f;
     private bool isShooting = false;
 
+    [Header("Landed-On-Player Nudge")]
+    // Fired when the archer's collider rests on top of the player — small push so it
+    // slides off the head and gravity drops it to real ground.
+    public float pushOffXSpeed = 1.5f;
+    public float pushOffYSpeed = 1f;
+    public float pushOffDuration = 0.25f;
+    private float pushOffTimer;
+
     [Header("References")]
     [SerializeField] private Transform _player;
     public Transform player
@@ -38,6 +46,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         detectionRange *= 2f;
     }
     public GameObject arrowPrefab;
+    [Header("Audio")]
+    public AudioClip fireClip;
+    public float fireVolume = 1f;
     [Header("Arrow Pool")]
     public int arrowPoolSize = 5;
 
@@ -64,7 +75,6 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private PlayerSpellSystem playerSpells;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 5f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private float dodgeDuration = 0.5f;
     private ForesightSystem foresightSystem;
@@ -73,6 +83,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool isMidJumpSequence = false;
     private bool isGrounded = true;
     private SpriteRenderer spriteRenderer;
+    // Used by skeleton archer in tutorial
+    public bool lockForesightUntilDodge = false;
+    public bool canShoot = true;
 
     // --- REWIND SAFE VARIABLES ---
     private bool isDying = false;
@@ -85,13 +98,18 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         animator = GetComponent<Animator>();
         col = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        foresightSystem = GetComponent<ForesightSystem>();
+        originalScale = transform.localScale;
+        stunOnLand = true;
+        BuildArrowPool();
+    }
+
+    void ResolvePlayerRefs()
+    {
+        if (playerCollider != null || player == null) return;
         playerCollider = player.GetComponent<Collider2D>();
         playerCombat = player.GetComponent<PlayerCombat>();
         playerSpells = player.GetComponent<PlayerSpellSystem>();
-        foresightSystem = GetComponent<ForesightSystem>();
-        originalScale = transform.localScale;
-        stunOnLand = true; // Keeps your existing OnCollisionEnter stun logic intact
-        BuildArrowPool();
     }
 
     void BuildArrowPool()
@@ -107,9 +125,16 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         }
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isRewinding) return;
+
+        // Always try to dodge if in 'tutorial' mode
+        if (lockForesightUntilDodge && hasForesight && !isDodging)
+        {
+            ExecuteDodge();
+        }
 
         // --- TIMER UPDATES ---
         if (isReviving)
@@ -118,9 +143,12 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
             if (reviveTimer <= 0) isReviving = false;
         }
 
+        if (pushOffTimer > 0f) pushOffTimer -= Time.deltaTime;
+
         // If dead, dying, reviving, launched, or stunned -> Do nothing.
-        if (wasDead || isDying || isReviving || isStunned || isLaunched) return;
+        if (wasDead || isDying || isReviving || isStunned || isLaunched || pushOffTimer > 0f) return;
         if (player == null) return;
+        ResolvePlayerRefs();
 
         float dist = Vector2.Distance(transform.position, player.position);
 
@@ -139,7 +167,7 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void FixedUpdate()
     {
-        if (isRewinding || wasDead || isDying || isReviving || isStunned || isLaunched) return;
+        if (isRewinding || wasDead || isDying || isReviving || isStunned || isLaunched || pushOffTimer > 0f) return;
 
         switch (currentState)
         {
@@ -166,13 +194,17 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void TryShoot()
     {
+        if (!canShoot) return;
         if (Time.time < lastShootTime + shootCooldown) return;
         isShooting=true;
         pendingArrowDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
         FaceDirection(pendingArrowDirection.x);
 
         lastShootTime = Time.time;
-        if (animator != null) animator.SetTrigger("Shoot");
+        if (animator != null)
+        {
+            animator.SetTrigger("Shoot");
+        }
     }
 
     /// <summary>
@@ -219,8 +251,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
 
     public override void TakeDamage(int amount)
     {
-        if (wasDead || isDying || isDodging) return; 
-        
+        if (wasDead || isDying || isDodging) return;
+
         if (health - amount > 0)
         {
             animator?.SetTrigger("Hit");
@@ -233,22 +265,60 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         // Removed StopAllCoroutines() to prevent breaking the death fall sequence if hit immediately upon death
         base.ApplyKnockback(force);
 
-        if (animator != null && !isDying) 
+        if (animator != null && !isDying)
         {
-            animator.SetTrigger("Hit"); 
+            animator.SetTrigger("Hit");
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // This keeps your existing airborne landing stun logic intact
+        if (!wasDead && !isDying && !isRewinding && collision.gameObject.CompareTag("Player"))
+        {
+            bool skeletonOnPlayer = false;
+            bool playerOnSkeleton = false;
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.7f) skeletonOnPlayer = true;
+                if (contact.normal.y < -0.7f) playerOnSkeleton = true;
+            }
+
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            if (skeletonOnPlayer)
+            {
+                if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                float pushDir = Mathf.Sign(transform.position.x - collision.transform.position.x);
+                if (Mathf.Approximately(pushDir, 0f))
+                    pushDir = transform.localScale.x >= 0f ? -1f : 1f;
+                rb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+                pushOffTimer = pushOffDuration;
+                return;
+            }
+
+            if (playerOnSkeleton)
+            {
+                if (playerHealth != null) playerHealth.ModifyHealth(-damage);
+                Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+                if (playerRb != null)
+                {
+                    float pushDir = Mathf.Sign(collision.transform.position.x - transform.position.x);
+                    if (Mathf.Approximately(pushDir, 0f))
+                        pushDir = transform.localScale.x >= 0f ? -1f : 1f;
+                    playerRb.linearVelocity = new Vector2(pushDir * pushOffXSpeed, pushOffYSpeed);
+                }
+            }
+        }
+
+        // Airborne landing stun logic
         foreach (ContactPoint2D contact in collision.contacts)
         {
             if (contact.normal.y > 0.7f)
             {
                 if (isLaunched && stunOnLand)
                 {
-                    StartCoroutine(HitStunRoutine(0.5f)); 
+                    stunTimer = 0.5f;
+                    isLaunched = false;
                 }
                 isGrounded = true;
             }
@@ -260,36 +330,67 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void Die()
     {
         if (wasDead || isDying) return;
-        
+
+        base.DeathSound();
+
+        // Kill any running coroutines (e.g. PhaseDodgeRoutine) before starting death
+        StopAllCoroutines();
+        isDodging = false;
+
         wasDead = true;
         isDying = true;
-        
-        if (animator != null) animator.SetFloat("Speed", 0f);
-        
+        DataCollectionService.Instance?.RecordEnemyKill();
+
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("hasForesight", false);
+        }
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+
+        // Cache collider metrics BEFORE disabling (disabled collider returns zero bounds)
+        // Use actual distance from pivot to collider bottom, not extents.y, in case the collider is offset
+        float feetOffset = (col != null) ? transform.position.y - col.bounds.min.y : 0f;
+        float groundCheckDist = feetOffset + groundDetectionOffset;
+
         if (col != null) col.enabled = false;
 
-        StartCoroutine(HandleSkeletonDeath());
+        OnDeath?.Invoke();
+        StartCoroutine(HandleSkeletonDeath(groundCheckDist, feetOffset));
     }
 
-    private IEnumerator HandleSkeletonDeath()
+    private IEnumerator HandleSkeletonDeath(float groundCheckDist, float feetOffset)
     {
-        // Note: Your original script used "Dead" instead of "Die" for the trigger string. 
-        if (animator != null) animator.SetTrigger("Dead");
-
-        if (col != null)
+        if (animator != null)
         {
-            float checkDist = col.bounds.extents.y + groundDetectionOffset;
-            while (!Physics2D.Raycast(transform.position, Vector2.down, checkDist, groundLayer))
-            {
-                yield return null;
-            }
+            // Clear every non-death trigger before queuing Dead. The killing blow can
+            // race with FixedUpdate's TryShoot or a non-lethal Hit fired the same
+            // frame — those triggers stay queued in the animator's parameter dictionary
+            // and consume Any State transitions out of the Death state right after we
+            // land in it, leaving the skeleton visually alive (in Shoot/Hit/Idle).
+            // Resetting them here means only Dead survives to be processed.
+            animator.ResetTrigger("Hit");
+            animator.ResetTrigger("Shoot");
+            animator.ResetTrigger("Revive");
+            animator.SetTrigger("Dead");
         }
 
-        rb.linearVelocity = Vector2.zero; 
+        RaycastHit2D hit = default;
+        while (true)
+        {
+            hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDist, groundLayer);
+            if (hit.collider != null) break;
+            yield return null;
+        }
+
+        // Snap so feet sit exactly on the ground surface
+        transform.position = new Vector3(transform.position.x, hit.point.y + feetOffset, transform.position.z);
+
+        rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
-        rb.bodyType = RigidbodyType2D.Kinematic; 
-        
-        isDying = false; 
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        isDying = false;
     }
 
     // ================= REVIVE =================
@@ -307,7 +408,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         rb.bodyType = originalBodyType; 
         rb.gravityScale = 1f; 
         if (col != null) col.enabled = true;
-        
+        if (foresightGlow != null) foresightGlow.SetActive(hasForesight);
+
         if (sprite != null) sprite.enabled = true;
         animator?.SetTrigger("Revive");
     }
@@ -315,14 +417,19 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     // =================== IForesightEnemy Implementation ===================
     public int GetPlayerAttackState()
     {
+        ResolvePlayerRefs();
         if (playerCombat != null && playerCombat.isAttacking) return 1;
         if (playerSpells != null && playerSpells.isCasting) return 2;
         return 0;
     }
     public void SetForesightState(bool state)
     {
+        if (wasDead || isDying) return;
+        if (!state && lockForesightUntilDodge) return;
+        if (hasForesight == state) return; 
         hasForesight = state;
-        if(hasForesight) detectionRange *= 2;
+        if (hasForesight) detectionRange *= 2f;
+        else detectionRange /= 2f; 
         animator.SetBool("hasForesight", hasForesight);
         if(foresightGlow != null) foresightGlow.SetActive(hasForesight);
         Vector2 direction = (player.position - transform.position).normalized;
@@ -334,10 +441,9 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     public void ExecuteLunge()
     {
         if (isDodging) return;
-        isDodging = true;
         if (Time.time < lastShootTime + shootCooldown)
             return;
-
+        isDodging = true;
         ArrowProjectile arrow = GetPooledArrow();
         if (arrow == null) return;
 
@@ -353,37 +459,50 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
         arrow.LaunchHoming(dir, damage, player);
         isDodging = false;
     }
-public void ExecuteDodge()
+    public void ExecuteDodge()
     {
         if (isDodging) return; // Prevent dodging if already in a dodge state
+        ResolvePlayerRefs();
 
-        GameObject spellObj = playerSpells.latestSpell;
+        GameObject spellObj = playerSpells != null ? playerSpells.latestSpell : null;
         bool shouldDodge = false;
+        Vector2 jumpMove = new Vector2(0f, 0f);
 
         // Check if player or spell is close enough to trigger the dodge
         if (Vector2.Distance(transform.position, playerCollider.bounds.center) < dodgeTriggerDistance - 1.5f)
         {
             shouldDodge = true;
+            Vector2 awayDir = (transform.position - playerCollider.bounds.center).normalized;
+            jumpMove = (awayDir + Vector2.up * 1.5f).normalized;
         }
-        else if (spellObj != null)
+        else if (spellObj != null && spellObj.activeInHierarchy)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                shouldDodge = true;
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+                    {
+                        shouldDodge = true;
+                        jumpMove = new Vector2 (0f, 3f);
+                    }
+                }
             }
         }
 
         if (shouldDodge)
         {
-            StopAllCoroutines(); 
-            StartCoroutine(PhaseDodgeRoutine());
+            StartCoroutine(PhaseDodgeRoutine(jumpMove));
         }
     }
 
-    IEnumerator PhaseDodgeRoutine()
+    IEnumerator PhaseDodgeRoutine(Vector2 jumpMove)
     {
         isDodging = true;
+        lockForesightUntilDodge = false;
         int originalLayer = gameObject.layer;
         gameObject.layer = LayerMask.NameToLayer("EnemyDodging");
         
@@ -394,24 +513,34 @@ public void ExecuteDodge()
         spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
 
         // Do a little jump to show dodging
-        rb.linearVelocity = new Vector2(0f, 3f);
+        rb.linearVelocity = jumpMove;
 
         yield return new WaitForSeconds(dodgeDuration);
 
         
         spriteRenderer.color = originalColor;
-        animator.SetBool("hasForesight", false);
-        if (foresightGlow != null) foresightGlow.SetActive(false);
         gameObject.layer = originalLayer;
         isDodging = false;
     }
     public float GetDistanceToPlayer()
     {
+        ResolvePlayerRefs();
+        if (playerCollider == null) return float.MaxValue;
         return Vector2.Distance(transform.position, playerCollider.bounds.center);
     }
     public bool IsPerformingForesightAction()
     {
         return isDodging;
+    }
+
+    // ================= AUDIO =================
+
+    public void ArrowFireSound()
+    {
+        if(fireClip != null)
+        {
+            base.audioSource.PlayOneShot(fireClip, fireVolume);
+        }
     }
 
     // ================= REWIND =================
@@ -447,7 +576,8 @@ public void ExecuteDodge()
         
         state.SetCustomData("isReviving", isReviving);
         state.SetCustomData("reviveTimer", reviveTimer);
-        
+        state.SetCustomData("pushOffTimer", pushOffTimer);
+
         state.SetCustomData("isDying", isDying);
         state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
         state.SetCustomData("colEnabled", col != null && col.enabled);
@@ -471,7 +601,8 @@ public void ExecuteDodge()
         
         isReviving = state.GetCustomData<bool>("isReviving");
         reviveTimer = state.GetCustomData<float>("reviveTimer");
-        
+        pushOffTimer = state.GetCustomData<float>("pushOffTimer");
+
         isDying = state.GetCustomData<bool>("isDying");
 
         if (sprite != null)
@@ -482,6 +613,10 @@ public void ExecuteDodge()
 
         if (animator != null && !justBecameAlive)
             animator.Play(state.AnimatorStateHash, 0, state.AnimatorNormalizedTime);
+
+        if (justBecameAlive && col != null && player != null)
+            foreach (var pc in player.GetComponents<Collider2D>())
+                Physics2D.IgnoreCollision(col, pc, false);
     }
 
     void OnDrawGizmosSelected()

@@ -20,7 +20,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     [Header("Hop Settings")]
     public float hopForce = 3f;
     public float hopCooldown = 1f;
-    public float animationSpeed = 0.1f; // Speed for start/end frames
+    public float animationSpeed = 0.0833f; // Speed for start/end frames
 
     [Header("Debug")]
     public float currentVelocityY; // Visible in Inspector to debug falling speed
@@ -57,14 +57,13 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool hasForesight = false;
     [Header("Foresight")]
     public float dodgeTriggerDistance = 3.4f;
-    public GameObject foresightGlow;
     private bool isDodging = false;    
     private ForesightSystem foresightSystem;
     private float rewindStartTime;
-
-
     private enum State { Idle, Chase, Attack }
     private State currentState = State.Idle;
+    private bool wasStunnedLastFrame = false;
+    private SlimeAudio slimeAudio;
 
     void Start()
     {
@@ -75,55 +74,88 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         playerCombat = player.GetComponent<PlayerCombat>();
         playerSpells = player.GetComponent<PlayerSpellSystem>();
         foresightSystem = GetComponent<ForesightSystem>();
+        slimeAudio = GetComponent<SlimeAudio>();
     }
 
     protected override void Awake()
     {
-        health = 10; // Slime unique HP
+    
         base.Awake();
         stunOnLand = true;
     }
 
 
-    void Update()
+    public override void Update()
     {
-        // 1. Pause logic if rewinding time or dead
-        if (isRewinding || wasDead || isStunned || isLaunched) return;
-
-        if (isStunned)
+        if (isRewinding || wasDead) return;
+        base.Update();
+        
+        bool justFinishedStun = !isStunned && wasStunnedLastFrame;
+        wasStunnedLastFrame = isStunned;
+        
+        // 1. Reset Animator smoothly when stun is completely over
+        if (justFinishedStun)
         {
-            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 2f), rb.linearVelocity.y);
-            SetFrame(0); // Reeling frame
-            return; 
+            animator.Rebind();
+            animator.speed = 1f;
+            SetFrame(0);
         }
 
-        // 2. Update Debug values
+        // 2. Pause logic if rewinding time or dead
+        if (isRewinding || wasDead) return;
+
+        // If we are flying from a hit OR stunned on the ground, freeze on the Hurt frame.
+        if (isLaunched || isStunned)
+        {
+            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+            if (!state.IsName("Slime_Hurt"))
+            {
+                animator.Play("Slime_Hurt", 0, 0f);
+            }
+            
+            animator.speed = 0f;
+
+            if (isStunned)
+            {
+                rb.linearVelocity = new Vector2(
+                    Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 2f),
+                    rb.linearVelocity.y
+                );
+            }
+            
+            return; // Skip all other logic
+        }
+
+        animator.speed = 1f;
+
         currentVelocityY = rb.linearVelocity.y;
 
-        // 3. Jump Guard: If the Jump Coroutine is running, stop here.
-        // The coroutine handles movement/animation while airborne.
         if (isMidJumpSequence) return;
+        
         if (isGrounded)
         {
-        float friction = isMidJumpSequence ? 3f : 20f;
-        rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 3f), rb.linearVelocity.y);
+            float friction = isMidJumpSequence ? 3f : 20f;
+            rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0f, Time.deltaTime * 3f), rb.linearVelocity.y);
         }
-        // 4. Default State (Ground Logic)
-        SetFrame(0); // Default to "Sitting" frame
+        
+        // 7. Default State (Ground Logic)
+        SetFrame(0); 
         animator.SetBool("isGrounded", isGrounded);
 
         if (player == null) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // 5. Determine State based on distance/contact
+        // 8. Determine State based on distance/contact
         if (playerInContact) currentState = State.Attack;
         else if (distanceToPlayer < detectionRange) currentState = State.Chase;
         else if (currentState == State.Chase && distanceToPlayer < loseRange) currentState = State.Chase;
         else currentState = State.Idle;
+        
         // Update Animator State Machine
         animator.SetInteger("state", (int)currentState);
-        // 6. Execute State Behavior
+        
+        // 9. Execute State Behavior
         if (currentState == State.Chase) Chase();
         if (currentState == State.Attack) Attack();
     }
@@ -159,9 +191,18 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         // Phase 1: Anticipation (Frames 0-2)
         // Play "Squash/Prepare" frames while still on the ground
-        SetFrame(0); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(1); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(2); yield return new WaitForSeconds(animationSpeed);
+        float timer = 0f;
+        float phaseDuration = animationSpeed * 3f; // 3 frames total
+
+        while (timer < phaseDuration)
+        {
+            if (timer < animationSpeed) SetFrame(0);
+            else if (timer < animationSpeed * 2f) SetFrame(1);
+            else SetFrame(2);
+            
+            timer += Time.deltaTime;
+            yield return null; // Wait exactly 1 frame, then check again
+        }
 
         // Phase 2: Launch
         int originalLayer = gameObject.layer;
@@ -172,11 +213,13 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         }
         currentStateLabel = "Launching";
         animator.SetTrigger("hop");
-        rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier,hopForce * heightMultiplier);
+        if (slimeAudio != null) slimeAudio.PlayJumpSquish();
+        rb.linearVelocity = new Vector2(xDir * moveSpeed * distanceMultiplier, hopForce * heightMultiplier);
         isGrounded = false;
         groundContacts = 0;
         liftoffTime = Time.time;
-        yield return new WaitForSeconds(0.1f); // Wait to ensure physical liftoff
+
+        yield return new WaitForFixedUpdate(); 
 
         // Phase 3: Air Loop (Physics Driven)
         float timeAirborne = 0f;
@@ -208,7 +251,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             else SetFrame(5); // Falling Fast (Clamped to frame 5)
 
             yield return null; // Wait for next frame
-        }
+
+        } 
 
         // Phase 4: Landing (Frames 6-8)
         currentStateLabel = "Landing";
@@ -217,17 +261,27 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             gameObject.layer = originalLayer;
             spriteRenderer.color = originalColor;
         }
-        // Stop sliding physics
+
         rb.linearVelocity = Vector2.zero;
-
         currentVelocityY = 0f;
-        // Force grounded state so Update() picks it up correctly next frame
         isGrounded = true;
-        SetFrame(6); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(7); yield return new WaitForSeconds(animationSpeed);
-        SetFrame(8); yield return new WaitForSeconds(animationSpeed);
 
-        isMidJumpSequence = false; // Return control to Update()
+        if (slimeAudio != null) slimeAudio.PlayJumpSquish();
+
+        // Reset timer for the landing phase
+        timer = 0f; 
+
+        while (timer < phaseDuration)
+        {
+            if (timer < animationSpeed) SetFrame(6);
+            else if (timer < animationSpeed * 2f) SetFrame(7);
+            else SetFrame(8);
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isMidJumpSequence = false;
         currentStateLabel = "Idle";
     }
 
@@ -255,7 +309,9 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
                 if (isLaunched && stunOnLand)
                 {
-                    StartCoroutine(HitStunRoutine(0.5f));
+                    stunTimer = 0.5f;
+                    isLaunched = false;
+                    currentState = State.Idle; 
                 }
 
                 groundContacts++;
@@ -266,23 +322,23 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
     void OnCollisionExit2D(Collision2D collision)
     {
-    if (collision.gameObject.CompareTag("Player"))
-    {
-    playerInContact = false;
-    return;
-    }
+        if (collision.gameObject.CompareTag("Player"))
+            {
+                playerInContact = false;
+                return;
+            }
 
-    // Reduce ground contact count
-    foreach(ContactPoint2D contact in collision.contacts) {
-    if(contact.normal.y > 0.7f) {
-    groundContacts--;
-    }
-    }
-    // Only set grounded to false if NO valid ground contacts remain
-    if (groundContacts <= 0) {
-    isGrounded = false;
-    groundContacts = 0; // Safety reset
-    }
+        // Reduce ground contact count
+        foreach(ContactPoint2D contact in collision.contacts) {
+            if(contact.normal.y > 0.7f) {
+                groundContacts--;
+            }
+        }
+        // Only set grounded to false if NO valid ground contacts remain
+        if (groundContacts <= 0) {
+            isGrounded = false;
+            groundContacts = 0; // Safety reset
+        }
     }
     void OnCollisionStay2D(Collision2D collision)
     {
@@ -307,10 +363,11 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     /// </summary>
     void SetFrame(int frameIndex)
     {
-    currentFrameIndex = frameIndex;
-    // 9 Frames total means we divide by 8 to get the 0-1 range.
-    float normalized = (float)frameIndex / 8f;
-    animator.SetFloat("VerticalNormal", normalized);
+        if (isStunned) return;
+        currentFrameIndex = frameIndex;
+        // 9 Frames total means we divide by 8 to get the 0-1 range.
+        float normalized = (float)frameIndex / 8f;
+        animator.SetFloat("VerticalNormal", normalized);
     }
 
     void Attack()
@@ -326,8 +383,7 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
     public override void ApplyKnockback(Vector2 force)
     {
-        //StopAllCoroutines();
-        //isMidJumpSequence = false;
+        if (isRewinding || wasDead) return;
 
         if (isMidJumpSequence)
         {
@@ -335,12 +391,9 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
             isMidJumpSequence = false;
         }
 
-        //Vector2 knockbackDir = force.normalized;
-        //float knockbackSpeed = 7f; 
-        //float upwardPop = 2f;
-        //rb.linearVelocity = new Vector2(knockbackDir.x * knockbackSpeed, upwardPop);
         base.ApplyKnockback(force);
-        SetFrame(0); 
+
+        animator.Play("Slime_Hurt", 0, 0f); // force start at frame 0
         currentStateLabel = "Launched";
     }
 
@@ -350,25 +403,28 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         // 1. Critical: Stop any active jump coroutine immediately
         StopAllCoroutines();
         isMidJumpSequence = false;
-
+        animator.speed = 1f; 
+        isStunned = false;
+        stunTimer = 0f;
+        // 2. Play Death Animation
+        animator.SetTrigger("die");
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) 
         {
             PlayerMana pm = p.GetComponent<PlayerMana>();
             if (pm != null) pm.ModifyMana(15f); // Reward 15 mana
         }
-        // 2. Play Death Animation
-        animator.SetTrigger("die");
+        
 
         // 3. Physics Cleanup: Stop X movement but allow gravity (falling death)
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.linearVelocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-
+        rb.bodyType = RigidbodyType2D.Kinematic;
         // 4. Disable collider and hide sprite so enemy disappears
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
         
-        StartCoroutine(base.DeathRoutine());
+        base.Die();
 
         // Do not disable script or Destroy - stay registered so rewind can restore us
     }
@@ -376,6 +432,62 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     {
         base.TakeDamage(amount);
         if (foresightSystem != null) foresightSystem.NotifyDamage();
+    }
+
+    IEnumerator AirborneRecoveryRoutine()
+    {
+        float timeAirborne = 0f;
+        float timeMotionless = 0f; 
+
+        while (!isGrounded && timeMotionless < 0.2f && timeAirborne < 3.0f)
+        {
+            currentStateLabel = "Air (Physics Recovery)";
+            float vy = rb.linearVelocity.y;
+            currentVelocityY = vy;
+            timeAirborne += Time.deltaTime;
+
+            if (Mathf.Abs(vy) < 0.01f) timeMotionless += Time.deltaTime;
+            else timeMotionless = 0f;
+
+            // Manual frame selection
+            if (vy > 1.0f) SetFrame(3); 
+            else if (vy > -1.0f) SetFrame(4); 
+            else if (vy > -3.0f) SetFrame(5); 
+            else SetFrame(5); 
+
+            yield return null; 
+        } 
+
+        currentStateLabel = "Landing";
+        
+        // Safety Reset for layer/color just in case we rewound into a Dodge state
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        spriteRenderer.color = Color.white;
+        isDodging = false;
+        if (foresightGlow != null) foresightGlow.SetActive(false);
+        animator.SetBool("hasForesight", false);
+
+        rb.linearVelocity = Vector2.zero;
+        currentVelocityY = 0f;
+        isGrounded = true;
+
+        if (slimeAudio != null) slimeAudio.PlayJumpSquish();
+
+        float timer = 0f; 
+        float phaseDuration = animationSpeed * 3f;
+
+        while (timer < phaseDuration)
+        {
+            if (timer < animationSpeed) SetFrame(6);
+            else if (timer < animationSpeed * 2f) SetFrame(7);
+            else SetFrame(8);
+            
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        isMidJumpSequence = false;
+        currentStateLabel = "Idle";
     }
 
     // ---------------------- IForesightEnemy Implementation ----------------------
@@ -430,14 +542,20 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
 
         if (spellObj != null)
         {
-            Vector2 spellPos = spellObj.GetComponent<Collider2D>().bounds.center;
-
-            if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+            SpriteRenderer spellSprite = spellObj.GetComponent<SpriteRenderer>();
+            if (spellSprite != null && spellSprite.enabled) 
             {
-                Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
-                Vector2 attackDirection = (spellRb.position - (Vector2)transform.position).normalized;
-
-                TriggerForesightDodge(attackDirection);
+                Collider2D spellCol = spellObj.GetComponent<Collider2D>();
+                if (spellCol != null)
+                {
+                    Vector2 spellPos = spellCol.bounds.center;
+                    if (Vector2.Distance(transform.position, spellPos) < dodgeTriggerDistance + 1.5f)
+                    {
+                        Rigidbody2D spellRb = spellObj.GetComponent<Rigidbody2D>();
+                        Vector2 attackDirection = (spellRb.position - (Vector2)transform.position).normalized;
+                        TriggerForesightDodge(attackDirection);
+                    }
+                }
             }
         }
     }
@@ -495,7 +613,10 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     public override void OnStopRewind()
     {
         base.OnStopRewind(); // IMPORTANT
-        isMidJumpSequence = false;
+        if (isMidJumpSequence)
+        {
+            StartCoroutine(AirborneRecoveryRoutine());
+        }
         if (foresightSystem != null)
         {
             // Calculate how much time passed in the real world while we were rewinding
@@ -511,6 +632,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     state.SetCustomData("isGrounded", isGrounded);
     state.SetCustomData("midJump", isMidJumpSequence);
     state.SetCustomData("frameIndex", currentFrameIndex);
+    state.SetCustomData("isLaunched", isLaunched);
+    state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
     var animState = animator.GetCurrentAnimatorStateInfo(0);
     state.AnimatorStateHash = animState.fullPathHash;
     state.AnimatorNormalizedTime = animState.normalizedTime;
@@ -525,7 +648,8 @@ public class SlimeEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
     spriteRenderer.flipX = state.GetCustomData<bool>("flipX");
     isGrounded = state.GetCustomData<bool>("isGrounded");
     isMidJumpSequence = state.GetCustomData<bool>("midJump");
-
+    isLaunched = state.GetCustomData<bool>("isLaunched", false);
+        if (sprite != null) sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
     int frameIndex = state.GetCustomData<int>("frameIndex");
     SetFrame(frameIndex);
 

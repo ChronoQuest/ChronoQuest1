@@ -1,18 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TimeRewind;
 
-public class PlayerCombat : MonoBehaviour
+public class PlayerCombat : MonoBehaviour, IRewindable
 {
     [Header("Melee Settings")]
-    public float meleeRange = 3.0f;
+    public float meleeRange = 1.6f;
     public int meleeDamage = 1;
     public float attackOffset = 1.0f; // Distance in front of player
-    public float topAttackOffset = 2.0f; // Offset for attacking upward
+    public float topAttackOffset = 1.0f; // Offset for attacking upward
+    public Vector2 verticalSlashSize = new Vector2(4.0f, 1.5f); // Width and Height
 
     [Header("Spell Settings")]
     public GameObject spellPrefab;
     public Transform firePoint;
+
+    [Header("Mana")]
+    public float rainManaCost = 50f;
 
     [Header("Knockback")]
     public float knockbackStrength = 8f;
@@ -38,6 +43,15 @@ public class PlayerCombat : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public PlayerTacticalModel playerTacticalModel;
     public bool isAttacking { get; private set; }
+    public bool isRainAttacking { get; private set; }
+    public event System.Action OnMeleeHit;
+    public event System.Action OnRainSpellCast;
+    [SerializeField] private TutorialManager tutorialManager;
+
+    [Header("Combat Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip[] meleeSwings;
+    [SerializeField] public float meleeVolume = 0.2f;
 
     void Start(){
         anim = GetComponent<Animator>();
@@ -46,6 +60,37 @@ public class PlayerCombat : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         manaSystem = GetComponent<PlayerMana>();
     }
+
+    void OnEnable()
+    {
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Register(this);
+    }
+
+    void OnDisable()
+    {
+        if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
+    }
+
+    // Combat flags only clear via animation events (EndAttack, EndRainAttack). When a
+    // rewind yanks the animator away mid-attack those events never fire, leaving the
+    // flags stuck true — which gates both rain recasts and melee. Force-clear on rewind.
+    public void OnStartRewind()
+    {
+        if (isRainAttacking) EndRainAttack();
+        isAttacking = false;
+        queuedAttack = false;
+        comboStep = 0;
+        attackTimer = 0f;
+    }
+
+    public void OnStopRewind() { }
+
+    public RewindState CaptureState()
+    {
+        return RewindState.Create(transform.position, transform.rotation, Time.time);
+    }
+
+    public void ApplyState(RewindState state) { }
 
     void Update()
     {
@@ -78,7 +123,7 @@ public class PlayerCombat : MonoBehaviour
         {
             attackPressed = true;
         }
-        if (attackPressed)
+        if (attackPressed && !isRainAttacking)
         {
             // If we are NOT attacking, start the combo immediately
             if (!isAttacking)
@@ -93,23 +138,36 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame)) 
+        if (Input.GetKeyDown(KeyCode.N)|| (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame))
         {
-            // Costs 20 mana
-            if (manaSystem != null && manaSystem.TrySpendMana(20f))
-            {
-                anim.SetTrigger("RainAttack");
+            if(tutorialManager != null){
+                if (tutorialManager.rainSpellLocked)
+                {
+                    Debug.Log("Rain Spell blocked: action not allowed");
+                    return; 
+                }
             }
-            else
+            if (!movement.isDashing && !isRainAttacking && movement.isGrounded)
             {
-                Debug.Log("Not enough mana for Rain Attack!");
+                if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
+                {
+                    // Rain interrupts melee — cancel whatever attack is in progress.
+                    if (isAttacking) CancelAttack();
+                    isRainAttacking = true;
+                    anim.Play("Player_RainAttack_Charge", -1, 0f);
+                    OnRainSpellCast?.Invoke();
+                }
+                else
+                {
+                    Debug.Log("Not enough mana for Rain Attack!");
+                }
             }
         }
     }
 
     private void PerformMelee()
     {
-
+        // 1. Handle Sprite Flipping
         float moveInput = Keyboard.current.dKey.isPressed ? 1 : (Keyboard.current.aKey.isPressed ? -1 : 0);
         if (Gamepad.current != null) moveInput += Gamepad.current.leftStick.x.ReadValue();
 
@@ -119,49 +177,52 @@ public class PlayerCombat : MonoBehaviour
         isAttacking = true;
         queuedAttack = false;
         attackTimer = 0f;
+
+        if (sfxSource != null && meleeSwings != null && meleeSwings.Length > 0)
+        {
+            int randomIndex = Random.Range(0, meleeSwings.Length);
+            sfxSource.PlayOneShot(meleeSwings[randomIndex], meleeVolume);
+        }
+
         DataCollectionService.Instance?.RecordMeleeAttempt();
         playerTacticalModel.RecordMeleeHit(); 
 
-        
         float dir = spriteRenderer.flipX ? -1f : 1f;
         bool isUp = false;
         bool isDown = false;
 
-        // Check Keyboard Directions
         if (Keyboard.current != null)
         {
             isUp |= Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
             isDown |= Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
         }
 
-        // Check Gamepad Directions (Left Stick or D-Pad)
         if (Gamepad.current != null)
         {
             isUp |= Gamepad.current.leftStick.y.ReadValue() > 0.5f || Gamepad.current.dpad.up.isPressed;
             isDown |= Gamepad.current.leftStick.y.ReadValue() < -0.5f || Gamepad.current.dpad.down.isPressed;
         }
-        bool isGrounded = movement != null && movement.isGrounded;
         
+        bool isGrounded = movement != null && movement.isGrounded;
+
         if (isGrounded && !isUp)
         {
-            // --- THE FIX: Force the animation state instantly ---
-            // The "-1, 0f" tells Unity to play it from frame 0, ignoring all transition blending
             if (comboStep == 0)
             {
-                anim.Play("Player_Slash", -1, 0f); // <-- CHANGE TO YOUR SLASH 1 STATE NAME
+                anim.Play("Player_Slash", -1, 0f); 
                 rb.linearVelocity = new Vector2(dir * 4f, rb.linearVelocity.y);
                 comboStep = 1;
             }
             else
             {
-                anim.Play("Player_Slash2", -1, 0f); // <-- CHANGE TO YOUR SLASH 2 STATE NAME
+                anim.Play("Player_Slash2", -1, 0f); 
                 rb.linearVelocity = new Vector2(dir * 6f, rb.linearVelocity.y);
                 comboStep = 0;
             }
         }
         else
         {
-            comboStep = 0; // Reset combo if we do an air/up attack
+            comboStep = 0; 
             if (isGrounded && isUp) anim.SetTrigger("TopSlash");
             else if (isUp) anim.SetTrigger("AirSlashUp");
             else if (isDown) anim.SetTrigger("AirSlashDown");
@@ -191,10 +252,16 @@ public class PlayerCombat : MonoBehaviour
     }
     public void CancelAttack()
     {
+        if (isRainAttacking) return;
         isAttacking = false;
         queuedAttack = false;
         comboStep = 0;
-        attackTimer = 0f; 
+        attackTimer = 0f;
+    }
+
+    public void EndRainAttack()
+    {
+        isRainAttacking = false;
     }
 
     public void HitEnemy() 
@@ -225,9 +292,9 @@ public class PlayerCombat : MonoBehaviour
             attackPosition += new Vector2(direction * attackOffset, 0);        
         }
         // 2. COLLISION DETECTION
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, meleeRange);
+        Collider2D[] hitEnemies = isUpAttack ? Physics2D.OverlapCapsuleAll(attackPosition, verticalSlashSize, CapsuleDirection2D.Horizontal, 0f) : Physics2D.OverlapCircleAll(attackPosition, meleeRange);
         bool hitAnything = false;
-
+        
         foreach (Collider2D enemy in hitEnemies)
         {
             EnemyBase target = enemy.GetComponent<EnemyBase>();
@@ -235,6 +302,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 hitAnything = true;
                 target.TakeDamage(meleeDamage);
+                ScoreManager.Instance.AddPoints(100);
                 DataCollectionService.Instance?.RecordMeleeHit();
                 if (manaSystem != null) manaSystem.AddManaOnHit();
 
@@ -257,6 +325,10 @@ public class PlayerCombat : MonoBehaviour
         if (hitAnything)
         {
             TriggerHitstop(0.07f);
+            OnMeleeHit?.Invoke();
+        } else
+        {
+            ScoreManager.Instance.RemovePoints(0);
         }
     }
 
@@ -279,8 +351,11 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPosition, meleeRange);
 
-        Gizmos.color = Color.blue; // Different color for clarity
+
+        Gizmos.color = Color.blue; 
         Vector2 topPos = (Vector2)transform.position + ((Vector2)transform.up * topAttackOffset);
-        Gizmos.DrawWireSphere(topPos, meleeRange);
+        Gizmos.DrawWireCube(topPos, verticalSlashSize);
+
+        
     }
 }

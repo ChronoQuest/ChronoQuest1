@@ -118,6 +118,10 @@ InitTestScene*.unity*
 *.onnx.meta
 *.pt.meta
 
+# Python virtual environments and caches
+**/.venv/
+**/__pycache__/
+
 .DS_Store
 **/.DS_Store
 
@@ -130,3 +134,7 @@ events.out.tfevents.*
 # ML Agents timers
 *.json
 *timers*
+\Assets\ML-Agents\Timers\
+
+\.env
+.env

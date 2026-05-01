@@ -14,12 +14,31 @@ public class PlayerMana : MonoBehaviour
     
     // Events: The UI Manager will listen to this to update the blue bar
     public event Action<float> OnManaChanged;
+    public event Action OnManaSpendFailed;
+
+    private float _baseManaGainOnHit;
+    private float _basePassiveRegenRate;
 
     private void Awake()
     {
         CurrentMana = maxMana;
+        _baseManaGainOnHit = manaGainOnHit;
+        _basePassiveRegenRate = passiveRegenRate;
         //OnManaChanged?.Invoke(CurrentMana / maxMana); // Update UI at start
         Debug.Log($"Mana System Awake: Current Mana set to {CurrentMana} using Max Mana {maxMana}");
+    }
+
+    private void OnEnable()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged += ApplyDifficulty;
+        ApplyDifficulty();
+    }
+
+    private void OnDisable()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged -= ApplyDifficulty;
     }
 
     private void Start() 
@@ -59,7 +78,16 @@ public class PlayerMana : MonoBehaviour
             ModifyMana(-cost);
             return true;
         }
+        OnManaSpendFailed?.Invoke();
         return false;
+    }
+
+    /// <summary>
+    /// Called by external systems (e.g. rewind) to trigger the insufficient mana warning.
+    /// </summary>
+    public void NotifySpendFailed()
+    {
+        OnManaSpendFailed?.Invoke();
     }
 
     // Specifically for the Rewind Mechanic (called every frame while rewinding)
@@ -104,5 +132,20 @@ public class PlayerMana : MonoBehaviour
         maxMana = newMax;
         CurrentMana = maxMana; // Refill mana when max is changed
         OnManaChanged?.Invoke(CurrentMana / maxMana);
+    }
+
+    private void ApplyDifficulty()
+    {
+        float manaOnHitMult = 1f;
+        float regenMult = 1f;
+
+        if (DynamicDifficultyManager.Instance != null)
+        {
+            manaOnHitMult = DynamicDifficultyManager.Instance.ManaOnHitMultiplier;
+            regenMult = DynamicDifficultyManager.Instance.ManaRegenMultiplier;
+        }
+
+        manaGainOnHit = _baseManaGainOnHit * manaOnHitMult;
+        passiveRegenRate = _basePassiveRegenRate * regenMult;
     }
 }

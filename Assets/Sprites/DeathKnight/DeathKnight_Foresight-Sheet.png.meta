@@ -1,0 +1,2199 @@
+fileFormatVersion: 2
+guid: 6a2dda7b8c57735459334b89dc558eea
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1856677589037662097
+    second: DeathKnight_Foresight-Sheet_0
+  - first:
+      213: 6785583523670546811
+    second: DeathKnight_Foresight-Sheet_1
+  - first:
+      213: -6808766612946570252
+    second: DeathKnight_Foresight-Sheet_2
+  - first:
+      213: 99215461726278427
+    second: DeathKnight_Foresight-Sheet_3
+  - first:
+      213: -7621640038951462836
+    second: DeathKnight_Foresight-Sheet_4
+  - first:
+      213: -2879734425746559205
+    second: DeathKnight_Foresight-Sheet_5
+  - first:
+      213: 9061132396119831445
+    second: DeathKnight_Foresight-Sheet_6
+  - first:
+      213: -3850619935065324525
+    second: DeathKnight_Foresight-Sheet_7
+  - first:
+      213: 4370108512069911949
+    second: DeathKnight_Foresight-Sheet_8
+  - first:
+      213: 6116759612077929716
+    second: DeathKnight_Foresight-Sheet_9
+  - first:
+      213: -6855749578263245891
+    second: DeathKnight_Foresight-Sheet_10
+  - first:
+      213: -8125477590884014045
+    second: DeathKnight_Foresight-Sheet_11
+  - first:
+      213: -5202525755073557030
+    second: DeathKnight_Foresight-Sheet_12
+  - first:
+      213: 3599956555083580823
+    second: DeathKnight_Foresight-Sheet_13
+  - first:
+      213: -6123682227205614236
+    second: DeathKnight_Foresight-Sheet_14
+  - first:
+      213: 3538602758710650688
+    second: DeathKnight_Foresight-Sheet_15
+  - first:
+      213: 8743479495246190654
+    second: DeathKnight_Foresight-Sheet_16
+  - first:
+      213: -8478357945658889954
+    second: DeathKnight_Foresight-Sheet_17
+  - first:
+      213: 227090441487294950
+    second: DeathKnight_Foresight-Sheet_18
+  - first:
+      213: -1466539484590629030
+    second: DeathKnight_Foresight-Sheet_19
+  - first:
+      213: 1961528414556260645
+    second: DeathKnight_Foresight-Sheet_20
+  - first:
+      213: 3671986069617514235
+    second: DeathKnight_Foresight-Sheet_21
+  - first:
+      213: -4868543843102363396
+    second: DeathKnight_Foresight-Sheet_22
+  - first:
+      213: 5248276566107015494
+    second: DeathKnight_Foresight-Sheet_23
+  - first:
+      213: 2921801471251321770
+    second: DeathKnight_Foresight-Sheet_24
+  - first:
+      213: -4266630243988556046
+    second: DeathKnight_Foresight-Sheet_25
+  - first:
+      213: -9054617743934825668
+    second: DeathKnight_Foresight-Sheet_26
+  - first:
+      213: -5339369958481860000
+    second: DeathKnight_Foresight-Sheet_27
+  - first:
+      213: -3287391996634629573
+    second: DeathKnight_Foresight-Sheet_28
+  - first:
+      213: -2979995698281222257
+    second: DeathKnight_Foresight-Sheet_29
+  - first:
+      213: -4622787557088603602
+    second: DeathKnight_Foresight-Sheet_30
+  - first:
+      213: 2406357940114856405
+    second: DeathKnight_Foresight-Sheet_31
+  - first:
+      213: -3122961309993618823
+    second: DeathKnight_Foresight-Sheet_32
+  - first:
+      213: 5078276894794277196
+    second: DeathKnight_Foresight-Sheet_33
+  - first:
+      213: -7074958633073438246
+    second: DeathKnight_Foresight-Sheet_34
+  - first:
+      213: -1077839381313054483
+    second: DeathKnight_Foresight-Sheet_35
+  - first:
+      213: -1279952747090559650
+    second: DeathKnight_Foresight-Sheet_36
+  - first:
+      213: -4317357656193727480
+    second: DeathKnight_Foresight-Sheet_37
+  - first:
+      213: -4982094897849079713
+    second: DeathKnight_Foresight-Sheet_38
+  - first:
+      213: -7531151912459542969
+    second: DeathKnight_Foresight-Sheet_39
+  - first:
+      213: -5567658759476336766
+    second: DeathKnight_Foresight-Sheet_40
+  - first:
+      213: -3541259928429710104
+    second: DeathKnight_Foresight-Sheet_41
+  - first:
+      213: -5568889526343914992
+    second: DeathKnight_Foresight-Sheet_42
+  - first:
+      213: -2787541006455914023
+    second: DeathKnight_Foresight-Sheet_43
+  - first:
+      213: 6367575883391129712
+    second: DeathKnight_Foresight-Sheet_44
+  - first:
+      213: -9047660750749442503
+    second: DeathKnight_Foresight-Sheet_45
+  - first:
+      213: 1539964506804560101
+    second: DeathKnight_Foresight-Sheet_46
+  - first:
+      213: 2275745904144774196
+    second: DeathKnight_Foresight-Sheet_47
+  - first:
+      213: 7143313653955571352
+    second: DeathKnight_Foresight-Sheet_48
+  - first:
+      213: 1937703103581438809
+    second: DeathKnight_Foresight-Sheet_49
+  - first:
+      213: -1133441351517284027
+    second: DeathKnight_Foresight-Sheet_50
+  - first:
+      213: -296486159908974653
+    second: DeathKnight_Foresight-Sheet_51
+  - first:
+      213: -366606027939686550
+    second: DeathKnight_Foresight-Sheet_52
+  - first:
+      213: -4974347015365350488
+    second: DeathKnight_Foresight-Sheet_53
+  - first:
+      213: 7551597598874972151
+    second: DeathKnight_Foresight-Sheet_54
+  - first:
+      213: 4006236568836371921
+    second: DeathKnight_Foresight-Sheet_55
+  - first:
+      213: 3178979909248447091
+    second: DeathKnight_Foresight-Sheet_56
+  - first:
+      213: 1404982928439257827
+    second: DeathKnight_Foresight-Sheet_57
+  - first:
+      213: 2791682425031609611
+    second: DeathKnight_Foresight-Sheet_58
+  - first:
+      213: -6675490785572731396
+    second: DeathKnight_Foresight-Sheet_59
+  - first:
+      213: 7746457116614342625
+    second: DeathKnight_Foresight-Sheet_60
+  - first:
+      213: -5777602021348528715
+    second: DeathKnight_Foresight-Sheet_61
+  - first:
+      213: 4362949407930025975
+    second: DeathKnight_Foresight-Sheet_62
+  - first:
+      213: 998027186498367981
+    second: DeathKnight_Foresight-Sheet_63
+  - first:
+      213: -4759740820511863262
+    second: DeathKnight_Foresight-Sheet_64
+  - first:
+      213: 3523003814032434765
+    second: DeathKnight_Foresight-Sheet_65
+  - first:
+      213: 7842665953606527734
+    second: DeathKnight_Foresight-Sheet_66
+  - first:
+      213: -4441609028848484818
+    second: DeathKnight_Foresight-Sheet_67
+  - first:
+      213: 3715896496858260831
+    second: DeathKnight_Foresight-Sheet_68
+  - first:
+      213: 8226069223478339409
+    second: DeathKnight_Foresight-Sheet_69
+  - first:
+      213: -9057132783728662393
+    second: DeathKnight_Foresight-Sheet_70
+  - first:
+      213: -5734527549087783859
+    second: DeathKnight_Foresight-Sheet_71
+  - first:
+      213: -7882065762596137210
+    second: DeathKnight_Foresight-Sheet_72
+  - first:
+      213: -8141243108775837424
+    second: DeathKnight_Foresight-Sheet_73
+  - first:
+      213: 1912053360373140772
+    second: DeathKnight_Foresight-Sheet_74
+  - first:
+      213: -194339850615785435
+    second: DeathKnight_Foresight-Sheet_75
+  - first:
+      213: -1899827033743106304
+    second: DeathKnight_Foresight-Sheet_76
+  - first:
+      213: 4051016359943897725
+    second: DeathKnight_Foresight-Sheet_77
+  - first:
+      213: 3414035458131727998
+    second: DeathKnight_Foresight-Sheet_78
+  - first:
+      213: 3072991254421670259
+    second: DeathKnight_Foresight-Sheet_79
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19fb40d1e6e34c910800000000000000
+      internalID: 1856677589037662097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b795022634c3b2e50800000000000000
+      internalID: 6785583523670546811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f3b7c407d66281a0800000000000000
+      internalID: -6808766612946570252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b13db60dfeb706100800000000000000
+      internalID: 99215461726278427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c48576804ce7a3690800000000000000
+      internalID: -7621640038951462836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1fa9e91cc02908d0800000000000000
+      internalID: -2879734425746559205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 593b18508eb9fbd70800000000000000
+      internalID: 9061132396119831445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 880
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 314c46d0299df8ac0800000000000000
+      internalID: -3850619935065324525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8586d3b98eb5ac30800000000000000
+      internalID: 4370108512069911949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f47c5e857813e450800000000000000
+      internalID: 6116759612077929716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbbc596f41c7bd0a0800000000000000
+      internalID: -6855749578263245891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32826f48e218c3f80800000000000000
+      internalID: -8125477590884014045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: add0502d36aecc7b0800000000000000
+      internalID: -5202525755073557030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7958898d96d95f130800000000000000
+      internalID: 3599956555083580823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4655902857f440ba0800000000000000
+      internalID: -6123682227205614236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 800
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0476a22f574ab1130800000000000000
+      internalID: 3538602758710650688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e389f07a644175970800000000000000
+      internalID: 8743479495246190654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1924626e52d65a80800000000000000
+      internalID: -8478357945658889954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e1acb8ad89c62300800000000000000
+      internalID: 227090441487294950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5f14ebdb1ec5abe0800000000000000
+      internalID: -1466539484590629030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 529067e43bfb83b10800000000000000
+      internalID: 1961528414556260645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf61cb310e385f230800000000000000
+      internalID: 3671986069617514235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf0f77a5b257f6cb0800000000000000
+      internalID: -4868543843102363396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 720
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 649c0d5fabf95d840800000000000000
+      internalID: 5248276566107015494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3162e25f25c8820800000000000000
+      internalID: 2921801471251321770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f6bf1f0662e9c4c0800000000000000
+      internalID: -4266630243988556046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3bd0d3a229875280800000000000000
+      internalID: -9054617743934825668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 640
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06aeb4cdf4fb6e5b0800000000000000
+      internalID: -5339369958481860000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3a712b7566d062d0800000000000000
+      internalID: -3287391996634629573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8f61cb73bde4a6d0800000000000000
+      internalID: -2979995698281222257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2253ab953f88dfb0800000000000000
+      internalID: -4622787557088603602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 560
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d99cfe0cc9156120800000000000000
+      internalID: 2406357940114856405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 972ba861c3309a4d0800000000000000
+      internalID: -3122961309993618823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4169411ee9a97640800000000000000
+      internalID: 5078276894794277196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad11313ab92b0dd90800000000000000
+      internalID: -7074958633073438246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de898e71bceba01f0800000000000000
+      internalID: -1077839381313054483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5db16c02c1bc3ee0800000000000000
+      internalID: -1279952747090559650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8048246061aa514c0800000000000000
+      internalID: -4317357656193727480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f586b60361b0cdab0800000000000000
+      internalID: -4982094897849079713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74e5854cc39fb7790800000000000000
+      internalID: -7531151912459542969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28722d26bd3bbb2b0800000000000000
+      internalID: -5567658759476336766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e43f948bdaeadec0800000000000000
+      internalID: -3541259928429710104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 480
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01aa0e42b7457b2b0800000000000000
+      internalID: -5568889526343914992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d14c51493aa059d0800000000000000
+      internalID: -2787541006455914023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0785fd1778c2e5850800000000000000
+      internalID: 6367575883391129712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93ed557db70407280800000000000000
+      internalID: -9047660750749442503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e0abc25f8d0f5510800000000000000
+      internalID: 1539964506804560101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4347997a7d2159f10800000000000000
+      internalID: 2275745904144774196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89e283fdbe5222360800000000000000
+      internalID: 7143313653955571352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 953c421d4ba14ea10800000000000000
+      internalID: 1937703103581438809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 549d21598153540f0800000000000000
+      internalID: -1133441351517284027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cf4ecd886ba2ebf0800000000000000
+      internalID: -296486159908974653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a67532c82cd89eaf0800000000000000
+      internalID: -366606027939686550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 400
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8abaf97aeb197fab0800000000000000
+      internalID: -4974347015365350488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ffa2af810aacc860800000000000000
+      internalID: 7551597598874972151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d5fba3fee2099730800000000000000
+      internalID: 4006236568836371921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3727bde62610e1c20800000000000000
+      internalID: 3178979909248447091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ea2c1d87808f7310800000000000000
+      internalID: 1404982928439257827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0dc5b5ef5c0eb620800000000000000
+      internalID: 2791682425031609611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf54b80bf74eb53a0800000000000000
+      internalID: -6675490785572731396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 320
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e7389f74b1f08b60800000000000000
+      internalID: 7746457116614342625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bd21f79295d1dfa0800000000000000
+      internalID: -5777602021348528715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f78ba0ee5f4c8c30800000000000000
+      internalID: 4362949407930025975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de1fa673074b9dd00800000000000000
+      internalID: 998027186498367981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22ec67221f002fdb0800000000000000
+      internalID: -4759740820511863262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d46efbd9d4934e030800000000000000
+      internalID: 3523003814032434765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa64c0f12fb6dc60800000000000000
+      internalID: 7842665953606527734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2e7154fe1c3c52c0800000000000000
+      internalID: -4441609028848484818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f55ea5d1d24819330800000000000000
+      internalID: 3715896496858260831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 157233b006ed82270800000000000000
+      internalID: 8226069223478339409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 240
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 788ee4e48b99e4280800000000000000
+      internalID: -9057132783728662393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d446ee1b39dda60b0800000000000000
+      internalID: -5734527549087783859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 607503c23f64d9290800000000000000
+      internalID: -7882065762596137210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 160
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 011c157d68e740f80800000000000000
+      internalID: -8141243108775837424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42d02a8966af88a10800000000000000
+      internalID: 1912053360373140772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 528f75e7fe09d4df0800000000000000
+      internalID: -194339850615785435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 80
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00fde07e06572a5e0800000000000000
+      internalID: -1899827033743106304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_77
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7280c98ae9183830800000000000000
+      internalID: 4051016359943897725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_78
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e76978c2927116f20800000000000000
+      internalID: 3414035458131727998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeathKnight_Foresight-Sheet_79
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 110
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3798fa5b34575aa20800000000000000
+      internalID: 3072991254421670259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a3b8eb2e58c16734490298e567c39185
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":14.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":80.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      DeathKnight_Foresight-Sheet_0: 1856677589037662097
+      DeathKnight_Foresight-Sheet_1: 6785583523670546811
+      DeathKnight_Foresight-Sheet_10: -6855749578263245891
+      DeathKnight_Foresight-Sheet_11: -8125477590884014045
+      DeathKnight_Foresight-Sheet_12: -5202525755073557030
+      DeathKnight_Foresight-Sheet_13: 3599956555083580823
+      DeathKnight_Foresight-Sheet_14: -6123682227205614236
+      DeathKnight_Foresight-Sheet_15: 3538602758710650688
+      DeathKnight_Foresight-Sheet_16: 8743479495246190654
+      DeathKnight_Foresight-Sheet_17: -8478357945658889954
+      DeathKnight_Foresight-Sheet_18: 227090441487294950
+      DeathKnight_Foresight-Sheet_19: -1466539484590629030
+      DeathKnight_Foresight-Sheet_2: -6808766612946570252
+      DeathKnight_Foresight-Sheet_20: 1961528414556260645
+      DeathKnight_Foresight-Sheet_21: 3671986069617514235
+      DeathKnight_Foresight-Sheet_22: -4868543843102363396
+      DeathKnight_Foresight-Sheet_23: 5248276566107015494
+      DeathKnight_Foresight-Sheet_24: 2921801471251321770
+      DeathKnight_Foresight-Sheet_25: -4266630243988556046
+      DeathKnight_Foresight-Sheet_26: -9054617743934825668
+      DeathKnight_Foresight-Sheet_27: -5339369958481860000
+      DeathKnight_Foresight-Sheet_28: -3287391996634629573
+      DeathKnight_Foresight-Sheet_29: -2979995698281222257
+      DeathKnight_Foresight-Sheet_3: 99215461726278427
+      DeathKnight_Foresight-Sheet_30: -4622787557088603602
+      DeathKnight_Foresight-Sheet_31: 2406357940114856405
+      DeathKnight_Foresight-Sheet_32: -3122961309993618823
+      DeathKnight_Foresight-Sheet_33: 5078276894794277196
+      DeathKnight_Foresight-Sheet_34: -7074958633073438246
+      DeathKnight_Foresight-Sheet_35: -1077839381313054483
+      DeathKnight_Foresight-Sheet_36: -1279952747090559650
+      DeathKnight_Foresight-Sheet_37: -4317357656193727480
+      DeathKnight_Foresight-Sheet_38: -4982094897849079713
+      DeathKnight_Foresight-Sheet_39: -7531151912459542969
+      DeathKnight_Foresight-Sheet_4: -7621640038951462836
+      DeathKnight_Foresight-Sheet_40: -5567658759476336766
+      DeathKnight_Foresight-Sheet_41: -3541259928429710104
+      DeathKnight_Foresight-Sheet_42: -5568889526343914992
+      DeathKnight_Foresight-Sheet_43: -2787541006455914023
+      DeathKnight_Foresight-Sheet_44: 6367575883391129712
+      DeathKnight_Foresight-Sheet_45: -9047660750749442503
+      DeathKnight_Foresight-Sheet_46: 1539964506804560101
+      DeathKnight_Foresight-Sheet_47: 2275745904144774196
+      DeathKnight_Foresight-Sheet_48: 7143313653955571352
+      DeathKnight_Foresight-Sheet_49: 1937703103581438809
+      DeathKnight_Foresight-Sheet_5: -2879734425746559205
+      DeathKnight_Foresight-Sheet_50: -1133441351517284027
+      DeathKnight_Foresight-Sheet_51: -296486159908974653
+      DeathKnight_Foresight-Sheet_52: -366606027939686550
+      DeathKnight_Foresight-Sheet_53: -4974347015365350488
+      DeathKnight_Foresight-Sheet_54: 7551597598874972151
+      DeathKnight_Foresight-Sheet_55: 4006236568836371921
+      DeathKnight_Foresight-Sheet_56: 3178979909248447091
+      DeathKnight_Foresight-Sheet_57: 1404982928439257827
+      DeathKnight_Foresight-Sheet_58: 2791682425031609611
+      DeathKnight_Foresight-Sheet_59: -6675490785572731396
+      DeathKnight_Foresight-Sheet_6: 9061132396119831445
+      DeathKnight_Foresight-Sheet_60: 7746457116614342625
+      DeathKnight_Foresight-Sheet_61: -5777602021348528715
+      DeathKnight_Foresight-Sheet_62: 4362949407930025975
+      DeathKnight_Foresight-Sheet_63: 998027186498367981
+      DeathKnight_Foresight-Sheet_64: -4759740820511863262
+      DeathKnight_Foresight-Sheet_65: 3523003814032434765
+      DeathKnight_Foresight-Sheet_66: 7842665953606527734
+      DeathKnight_Foresight-Sheet_67: -4441609028848484818
+      DeathKnight_Foresight-Sheet_68: 3715896496858260831
+      DeathKnight_Foresight-Sheet_69: 8226069223478339409
+      DeathKnight_Foresight-Sheet_7: -3850619935065324525
+      DeathKnight_Foresight-Sheet_70: -9057132783728662393
+      DeathKnight_Foresight-Sheet_71: -5734527549087783859
+      DeathKnight_Foresight-Sheet_72: -7882065762596137210
+      DeathKnight_Foresight-Sheet_73: -8141243108775837424
+      DeathKnight_Foresight-Sheet_74: 1912053360373140772
+      DeathKnight_Foresight-Sheet_75: -194339850615785435
+      DeathKnight_Foresight-Sheet_76: -1899827033743106304
+      DeathKnight_Foresight-Sheet_77: 4051016359943897725
+      DeathKnight_Foresight-Sheet_78: 3414035458131727998
+      DeathKnight_Foresight-Sheet_79: 3072991254421670259
+      DeathKnight_Foresight-Sheet_8: 4370108512069911949
+      DeathKnight_Foresight-Sheet_9: 6116759612077929716
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

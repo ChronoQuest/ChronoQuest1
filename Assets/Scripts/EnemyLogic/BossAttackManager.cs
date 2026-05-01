@@ -14,6 +14,15 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public GameObject floorFire;
     public GameObject fireExplosion;
     public Transform player;
+    public Transform boss;
+    // Updated by Boss.ApplyBeliefModulation each phase — cautious players get a higher
+    // chance of spawns landing near them, evasive players get more random spread.
+    public float playerTargetBias = 0.75f;
+    // Hard cap on boss-spawned enemies alive at once. Prevents accumulation across
+    // combat phases (Enemy + Fireballs can spawn 5 per phase, and nothing used to
+    // despawn leftovers on phase end).
+    public int maxActiveEnemies = 3;
+    private readonly List<GameObject> activeBossEnemies = new List<GameObject>();
     private bool isRewinding;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,21 +42,28 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 2.5f) * facingDirection;
-        Instantiate(fireball, new Vector3(randX,9f,0f), fireball.transform.rotation);
+        float spawnX = Random.value < playerTargetBias
+            ? player.position.x + Random.Range(-2f, 2f)
+            : Random.Range(-12f, 2.5f) * facingDirection;
+        Instantiate(fireball, new Vector3(spawnX, 9f, 0f), fireball.transform.rotation);
     }
     public void spawnHomingFireball(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 2.5f) * facingDirection;
-        Instantiate(homingFireball, new Vector3(randX,6f,0f), homingFireball.transform.rotation);
+        float playerX = player != null ? player.position.x : 0f;
+        float spawnX = Random.Range(-12f, 12f);
+        for (int i = 0; i < 8 && Mathf.Abs(spawnX - playerX) < 2f; i++)
+            spawnX = Random.Range(-12f, 12f);
+        Instantiate(homingFireball, new Vector3(spawnX, 6f, 0f), homingFireball.transform.rotation);
     }
     public void spawnFireExplosion(int facingDirection)
     {
         if (isRewinding) return;
-        float randX = Random.Range(-12f, 2.5f) * facingDirection;
+        float spawnX = Random.value < playerTargetBias
+            ? player.position.x + Random.Range(-2f, 2f)
+            : Random.Range(-12f, 2.5f) * facingDirection;
         float randY = Random.Range(-5.7f, -0.9f);
-        Instantiate(fireExplosion, new Vector3(randX,randY,0f), fireExplosion.transform.rotation);
+        Instantiate(fireExplosion, new Vector3(spawnX, randY, 0f), fireExplosion.transform.rotation);
     }
 
     public void spawnFireColumns(int facingDirection)
@@ -67,16 +83,24 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnFireRow(int facingDirection)
     {
         if (isRewinding) return;
-        GameObject fire_row = Instantiate(fireRow, new Vector3(3.35f * facingDirection, -4.25f, 0f), transform.rotation);
+        // Spawn a big persistent fire explosion in front of the boss as the visual source
+        GameObject explosion = Instantiate(fireExplosion, new Vector3(6.9f * facingDirection, -3f, -0.25f), fireExplosion.transform.rotation);
+        explosion.transform.localScale = new Vector3(2f, 2f, 1f);
+        FireExplosion fe = explosion.GetComponent<FireExplosion>();
+        fe.persistent = true;
+        // Fire row extends out from the explosion
+        GameObject fire_row = Instantiate(fireRow, new Vector3(6f * facingDirection, -4.25f, 0f), transform.rotation);
         FireRow fr = fire_row.GetComponent<FireRow>();
         fr.bossFacingDirection = facingDirection;
+        fr.sourceExplosion = explosion;
     }
 
     public void spawnFireWave(int facingDirection)
     {
         if (isRewinding) return;
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        GameObject wave = Instantiate(fireWave, new Vector3(6.5f * facingDirection, -6.15f, 0f), transform.rotation);
+        float spawnX = boss != null ? boss.position.x : 6.5f * facingDirection;
+        GameObject wave = Instantiate(fireWave, new Vector3(spawnX, -6.15f, 0f), transform.rotation);
         wave.transform.localScale = new Vector3(facingDirection * -2f, 2f, 1f);
         FireWave fw = wave.GetComponent<FireWave>();
         fw.bossFacingDirection = facingDirection;
@@ -90,6 +114,11 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public void spawnEnemy(int facingDirection)
     {
         if (isRewinding) return;
+
+        // Drop destroyed entries before checking the cap (Unity-null-aware).
+        activeBossEnemies.RemoveAll(e => e == null);
+        if (activeBossEnemies.Count >= maxActiveEnemies) return;
+
         float randX = Random.Range(-12f * facingDirection, 3.25f);
         int size = enemyList.Count;
         GameObject chosenEnemy = enemyList[Random.Range(0, size)];
@@ -99,6 +128,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
             enemyComponent.player = player;
             enemyComponent.DoubleDetectionRange();
         }
+        activeBossEnemies.Add(newEnemy);
     }
 
     public void spawnPlatforms(int facingDirection)

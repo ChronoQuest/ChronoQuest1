@@ -112,6 +112,7 @@ public class BasicEnemy : MonoBehaviour
     {
         health -= amount;
         Debug.Log("Enemy took damage! Health: " + health);
+        ScoreManager.Instance.AddPoints(50); 
 
         if (health <= 0)
         {
@@ -129,6 +130,7 @@ public class BasicEnemy : MonoBehaviour
 
     void Die()
     {
+        DataCollectionService.Instance?.RecordEnemyKill();
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) 
         {

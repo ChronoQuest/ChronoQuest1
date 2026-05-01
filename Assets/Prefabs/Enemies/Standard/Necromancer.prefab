@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 2084577653857788803}
   - component: {fileID: 1290270102497991921}
   - component: {fileID: 31513771389696814}
+  - component: {fileID: 7927002377006202997}
+  - component: {fileID: 7902310529069445977}
+  - component: {fileID: 5172124036911726069}
   m_Layer: 10
   m_Name: Necromancer
   m_TagString: Enemy
@@ -32,9 +35,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.11, y: -12.19, z: 0}
-  m_LocalScale: {x: 3.3276, y: 3.7211, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_LocalScale: {x: 4.0347147, y: 4.5118337, z: 1.2125}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 2066558013013780614}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8593109824147121500
@@ -171,27 +175,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3480c9c36735343823a8e8c8fbc94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::NecromancerEnemy
-  health: 3
+  health: 12
   startHealth: 0
-  stunOnLand: 0
+  stunOnLand: 1
   knockbackResistance: 1
   knockbackUpMultiplier: 0.8
   deathAnimationDuration: 0.6
-  detectionRange: 10
-  safeDistance: 4
+  damageClips:
+  - {fileID: 8300000, guid: d5b2dcab653fb8e4498431bdbd93ab0a, type: 3}
+  damageVolume: 1
+  deathClip: {fileID: 8300000, guid: 3de077192d9634640ba60b9ba82be2ba, type: 3}
+  deathVolume: 0.5
+  reviveClip: {fileID: 0}
+  reviveVolume: 0.5
+  idleClips:
+  - {fileID: 8300000, guid: e70bae9a8190f24499154c03236454c9, type: 3}
+  - {fileID: 8300000, guid: 9dd8de8078d162e42993663aebd85a23, type: 3}
+  - {fileID: 8300000, guid: 96e6cd48dc30fc3438f69118a578a272, type: 3}
+  - {fileID: 8300000, guid: 3e9336b2f9e69ee46b637fc19537ac63, type: 3}
+  idleVolume: 1
+  idleIntervalRange: {x: 3, y: 5}
   moveSpeed: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  groundCheck: {fileID: 0}
+  groundCheckWidth: 0.3
+  groundCheckHeight: 0.1
+  groundDetectionOffset: 1.3
+  fleeWaypoints: []
+  maxFleeDistance: 18
+  resumeFleeDistance: 14
+  maxJumpForce: 20
+  jumpClearanceBuffer: 0.5
+  wallAheadDistance: 0.9
+  wallTopScanStep: 0.25
+  wallTopScanMax: 5
+  jumpCooldown: 0.6
+  jumpUpThreshold: 0.8
+  jumpUpXRange: 2.5
+  totalJumpFrames: 9
+  midAirSpeedMultiplier: 1.8
+  launchSeekRange: 20
+  corneredWallCheckDist: 1.8
+  ledgeDropCheckDist: 3
+  corneredAttackCooldown: 1.2
+  corneredMinDuration: 3
+  stuckTimeThreshold: 2.5
+  stuckDistanceThreshold: 0.3
+  waypointTimeoutDuration: 30
+  fleeCastIntervalMin: 4
+  fleeCastIntervalMax: 9
   reviveCooldown: 5
   reviveAnimDuration: 1.2
-  attackRange: 8
+  minionDeadRequiredTime: 3
+  reviveHealthBonus: 1
   attackCooldown: 3
   attackAnimDuration: 0.8
   attackDamage: 1
   spellPrefab: {fileID: 4829135501635859076, guid: 1452b2040651f9d4aac41a3e7c657e75, type: 3}
-  spellPoolSize: 3
+  spellPoolSize: 6
   player: {fileID: 0}
   minions:
   - {fileID: 0}
   - {fileID: 0}
+  roarClip: {fileID: 8300000, guid: 6e0e392570541d54a805339913668e32, type: 3}
+  roarVolume: 0.8
+  detectionRange: 10
+  dodgeTriggerDistance: 5
+  currentState: 0
 --- !u!70 &31513771389696814
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -208,7 +260,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -229,3 +281,176 @@ CapsuleCollider2D:
   m_Offset: {x: 0.020938953, y: -0.06337564}
   m_Size: {x: 0.20123862, y: 0.4421022}
   m_Direction: 0
+--- !u!114 &7927002377006202997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2742979974419632661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3e81db2b01de3439d3efac68fe554b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::ForesightSystem
+  baselineHistorySize: 30
+  anomalyZScore: -1.5
+  instantTriggerCost: 0.5
+  triggerCost: 0.3
+  audioSource: {fileID: 5172124036911726069}
+  foresightActivationClip: {fileID: 8300000, guid: 84fd1fd2fad39f748aaa8a16709d660a, type: 3}
+  volume: 0.8
+  futureLookaheadSteps: 20
+  weightDistance: 0.5
+  weightVelocity: 0.2
+  weightAttack: 2
+  minTimelineSize: 3
+  bandWidth: 6
+  recordInterval: 0.3
+  minDistToPlayer: 30
+--- !u!114 &7902310529069445977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2742979974419632661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6964993200dc34ca8ac15eb03f0192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::EnemyHealthBar
+  fillRect: {fileID: 0}
+  healthBarRoot: {fileID: 0}
+  hideWhenFull: 1
+  hideDelay: 2.5
+  lerpSpeed: 8
+  highHealthColor: {r: 0.18, g: 0.85, b: 0.35, a: 1}
+  midHealthColor: {r: 1, g: 0.8, b: 0.15, a: 1}
+  lowHealthColor: {r: 0.9, g: 0.18, b: 0.18, a: 1}
+  fillImage: {fileID: 0}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.12
+--- !u!82 &5172124036911726069
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2742979974419632661}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!1001 &7334677282613319899
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3099714618844641844}
+    m_Modifications:
+    - target: {fileID: 7177570115551517654, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_Name
+      value: Lit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+--- !u!4 &2066558013013780614 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8748208951065522269, guid: 4819c67d8c7da15429331677a158238a, type: 3}
+  m_PrefabInstance: {fileID: 7334677282613319899}
+  m_PrefabAsset: {fileID: 0}

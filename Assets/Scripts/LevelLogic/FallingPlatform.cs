@@ -10,9 +10,24 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     [SerializeField] private float shakeAmount = 0.05f;
     [SerializeField] private float respawnTime = 3.0f; 
 
+    [Header("Difficulty rules")]
+    [Tooltip("If enabled, this platform will still fall even on VeryEasy (it ignores the tier-based no-falling rule).")]
+    [SerializeField] private bool ignoreTierNoFallingLock = false;
+
     [Header("References")]
     [Tooltip("Assign the Tilemap Collider or Box Collider here")]
     [SerializeField] private Collider2D platformCollider;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [Tooltip("Rumble sound while the platform shakes before falling.")]
+    [SerializeField] private AudioClip rumbleClip;
+    [Tooltip("Sound when the platform starts falling.")]
+    [SerializeField] private AudioClip fallClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float rumbleVolume = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float fallVolume = 0.7f;
 
     private Rigidbody2D _rb;
     private Vector3 _startPos;
@@ -35,11 +50,67 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         _startPos = transform.position;
     }
 
+    private void Start()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged += HandleDifficultyChanged;
+        HandleDifficultyChanged();
+    }
+
+    private void OnDestroy()
+    {
+        if (DynamicDifficultyManager.Instance != null)
+            DynamicDifficultyManager.Instance.OnDifficultyChanged -= HandleDifficultyChanged;
+    }
+
+    private void HandleDifficultyChanged()
+    {
+        if (IsFallLocked())
+            StopFallCoroutineAndResetPose();
+    }
+
     private void OnEnable() => TimeRewindManager.Instance?.Register(this);
     private void OnDisable() => TimeRewindManager.Instance?.Unregister(this);
 
+    private bool _sectionAssistLocked;
+
+    public void SetSectionAssistLocked(bool locked) => _sectionAssistLocked = locked;
+
+    /// <summary>Cancels shake/fall and snaps back to the start pose (platforming assist).</summary>
+    public void CancelFallForAssist() => StopFallCoroutineAndResetPose();
+
+    private bool IsFallLocked()
+    {
+        if (_sectionAssistLocked) return true;
+        if (PlayerPrefs.GetInt(DynamicDifficultyManager.TutorialSafetyPlayerPrefsKey, 0) == 1)
+            return true;
+        if (DynamicDifficultyManager.Instance == null) return false;
+        if (DynamicDifficultyManager.Instance.TutorialSafetyActive) return true;
+        if (ignoreTierNoFallingLock) return false;
+        return DynamicDifficultyManager.Instance.LockFallingPlatformsForCurrentTier;
+    }
+
+    private void StopFallCoroutineAndResetPose()
+    {
+        if (_fallRoutine != null)
+        {
+            StopCoroutine(_fallRoutine);
+            _fallRoutine = null;
+        }
+
+        _isFalling = false;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
+        _rb.linearVelocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+        transform.position = _startPos;
+        transform.rotation = Quaternion.identity;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (IsFallLocked())
+            return;
+
         // Only trigger if Player stands on top
         if (!_isFalling && collision.gameObject.CompareTag("Player"))
         {
@@ -57,23 +128,40 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         _isFalling = true;
         float timer = 0f;
 
+        // Start rumble sound
+        if (audioSource != null && rumbleClip != null)
+        {
+            audioSource.clip = rumbleClip;
+            audioSource.loop = true;
+            audioSource.volume = rumbleVolume;
+            audioSource.Play();
+        }
+
         // 1. Shake Phase
         while (timer < fallDelay)
         {
-            if (_isRewinding) yield break; 
+            if (_isRewinding) yield break;
 
             float x = Random.Range(-1f, 1f) * shakeAmount;
-            transform.position = _startPos + new Vector3(x, 0, 0); 
-            
+            transform.position = _startPos + new Vector3(x, 0, 0);
+
             timer += Time.deltaTime;
             yield return null;
         }
 
         // 2. Fall Phase
         transform.position = _startPos; // Snap back to center
-        
+
+        // Stop rumble, play fall sound
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+            if (fallClip != null)
+                audioSource.PlayOneShot(fallClip, fallVolume);
+        }
+
         // Physics Fall
-        _rb.bodyType = RigidbodyType2D.Dynamic; 
+        _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.gravityScale = 2.5f; // Fall slightly faster than player for dramatic effect
         
         // Wait 0.5 seconds while falling, so the player rides it down briefly
@@ -86,8 +174,8 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         }
 
         // GHOST MODE: Disable collider so it passes through floor/spikes
-        if (platformCollider != null) 
-            platformCollider.enabled = false;
+        // if (platformCollider != null) 
+        //     platformCollider.enabled = false;
 
         // 3. Respawn Timer
         yield return new WaitForSeconds(respawnTime);
@@ -108,8 +196,8 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         transform.rotation = Quaternion.identity;
         
         // Re-enable Collider so player can stand on it again
-        if (platformCollider != null) 
-            platformCollider.enabled = true;
+        // if (platformCollider != null) 
+        //     platformCollider.enabled = true;
     }
 
     // ====================================================
@@ -120,15 +208,23 @@ public class FallingPlatform : MonoBehaviour, IRewindable
     {
         _isRewinding = true;
         if (_fallRoutine != null) StopCoroutine(_fallRoutine);
-        
+
         // Stop physics immediately so we don't fight the rewind position
         _rb.bodyType = RigidbodyType2D.Kinematic;
         _rb.linearVelocity = Vector2.zero;
+
+        if (audioSource != null) audioSource.Stop();
     }
 
     public void OnStopRewind()
     {
         _isRewinding = false;
+
+        if (IsFallLocked())
+        {
+            StopFallCoroutineAndResetPose();
+            return;
+        }
 
         // Now that _isFalling is correctly updated by ApplyState, this check works!
         if (_isFalling)
@@ -147,8 +243,6 @@ public class FallingPlatform : MonoBehaviour, IRewindable
                 _rb.bodyType = RigidbodyType2D.Dynamic;
                 _rb.gravityScale = 2.5f; 
                 
-                // Ensure collider is OFF so we don't get stuck in the floor
-                if (platformCollider != null) platformCollider.enabled = false;
 
                 // Start a "Rescue Timer" to ensure it respawns eventually
                 if (_fallRoutine != null) StopCoroutine(_fallRoutine);
@@ -190,8 +284,6 @@ public class FallingPlatform : MonoBehaviour, IRewindable
         _rb.bodyType = RigidbodyType2D.Kinematic;
         _rb.linearVelocity = Vector2.zero;
 
-        // 3. Visuals: If falling, ghost mode. If not, solid.
-        if (platformCollider != null) 
-            platformCollider.enabled = !_isFalling;
+  
     }
 }

@@ -1,78 +1,106 @@
 using UnityEngine;
-using System.Collections; 
+using System.Collections;
+using Unity.Cinemachine;
 
 public class TutorialCameraController : MonoBehaviour
 {
-    // references 
-    [SerializeField] private CameraFollow2D cameraFollow;
+    [SerializeField] private CinemachineCamera focusCamera;
     [SerializeField] private Transform enemyFocus;
     [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private bool requireRewindCompleted = false;
+    [SerializeField] private TutorialManager.TutorialStep requiredStep;
 
-    // timing
-    [SerializeField] private float panToEnemyDelay = 0.3f;
-    [SerializeField] private float focusDuration = 1.2f;
+    [SerializeField] private float panToEnemyDelay = 0.5f;
+    [SerializeField] private float focusDuration = 2.0f;
+    [SerializeField] private int focusPriority = 30;
+    [SerializeField] private float focusZoomSize = 4f;
+    [SerializeField] private float blendTime = 1.2f;
+    [SerializeField] private CinemachineBlendDefinition.Styles blendStyle = CinemachineBlendDefinition.Styles.EaseInOut;
 
-    // camera smoothness
-    [SerializeField] private float panSmoothTime = 0.45f;
-    [SerializeField] private float normalSmoothTime = 0.15f; 
-    [SerializeField] private float returnSmoothTime = 0.3f;
+    // Enemy freezing
+    [SerializeField] private bool freezeEnemiesDuringPan = false;
+    [SerializeField] private float enemyFreezeRadius = 20f;
 
-    private Transform player; 
-    private bool isTriggered; 
-
-    private PlayerAction cachedActions; 
-
-    private void Awake()
-    {
-        cameraFollow = Camera.main.GetComponent<CameraFollow2D>();
-    }
+    private bool isTriggered;
+    private PlayerAction cachedActions;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isTriggered) return;
 
+        if (tutorialManager != null)
+        {
+            if (requireRewindCompleted && !tutorialManager.rewindCompleted)
+                return;
+
+            if (tutorialManager.currentStep != requiredStep)
+                return;
+        }
+
         PlayerPlatformer p = other.GetComponent<PlayerPlatformer>();
         if (p == null) return;
 
         isTriggered = true;
-        player = p.transform;
 
-        // locking player movement 
         cachedActions = p.allowedActions;
         p.allowedActions = PlayerAction.None;
         p.FreezeMovement();
 
-        Animator animator = p.GetComponent<Animator>(); 
-        if (animator != null) {
-            animator.SetBool("IsFrozen", true);
+        // Slow/freeze enemies when triggered
+        if (freezeEnemiesDuringPan && tutorialManager != null)
+        {
+            tutorialManager.SlowingEnemies(enemyFreezeRadius, 0f);
         }
+
+        Animator animator = p.GetComponent<Animator>();
+        if (animator != null)
+            animator.SetBool("IsFrozen", true);
 
         StartCoroutine(CameraPanSequence(p));
     }
 
     private IEnumerator CameraPanSequence(PlayerPlatformer p)
     {
+        // Override the brain's default blend so the pan in/out is slow and eased
+        var brain = Camera.main != null ? Camera.main.GetComponent<CinemachineBrain>() : null;
+        CinemachineBlendDefinition originalBlend = default;
+        bool blendOverridden = false;
+        if (brain != null)
+        {
+            originalBlend = brain.DefaultBlend;
+            brain.DefaultBlend = new CinemachineBlendDefinition(blendStyle, blendTime);
+            blendOverridden = true;
+        }
+
         yield return new WaitForSeconds(panToEnemyDelay);
 
-        cameraFollow.SetSmoothTime(panSmoothTime);
-        cameraFollow.SetTemporaryTarget(enemyFocus);
+        // Pan to enemy — set target here so each instance controls its own focus point
+        if (enemyFocus != null)
+            focusCamera.Target.TrackingTarget = enemyFocus;
+        focusCamera.Lens.OrthographicSize = focusZoomSize;
+        focusCamera.Priority = focusPriority;
 
         yield return new WaitForSeconds(focusDuration);
 
-        cameraFollow.SetSmoothTime(returnSmoothTime); 
-        cameraFollow.RestoreTarget(player);
+        // Return — CinemachineBrain blend settings handle the transition
+        focusCamera.Priority = 0;
 
-        yield return new WaitForSeconds(0.4f);
+        // Wait for the blend back to finish before restoring player control
+        yield return new WaitForSeconds(blendTime + 0.1f);
 
-        cameraFollow.SetSmoothTime(normalSmoothTime);
+        if (blendOverridden)
+            brain.DefaultBlend = originalBlend;
 
-        // restore player movement after camera sequence
         p.allowedActions = cachedActions;
 
-        Animator animator = p.GetComponent<Animator>(); 
+        Animator animator = p.GetComponent<Animator>();
         if (animator != null)
+            animator.SetBool("IsFrozen", false);
+
+        // Restore enemies after the camera sequence finishes
+        if (freezeEnemiesDuringPan && tutorialManager != null)
         {
-            animator.SetBool("IsFrozen", false); 
+            tutorialManager.RestoreEnemies();
         }
     }
 }

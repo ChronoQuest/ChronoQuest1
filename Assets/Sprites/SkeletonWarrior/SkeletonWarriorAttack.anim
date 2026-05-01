@@ -89,7 +89,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.41666666
-    functionName: 
+    functionName: playSwing
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -97,6 +97,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.42857143
     functionName: MeleeHit
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.42857143
+    functionName: PlayAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

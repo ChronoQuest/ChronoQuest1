@@ -11,6 +11,34 @@ public class TrapDamage : MonoBehaviour
     public float knockbackForce = 8f;   // Horizontal push
     public float upwardForce = 6f;      // Vertical arc force
 
+    private int _defaultDamage;
+    private float _defaultKnockbackForce;
+    private float _defaultUpwardForce;
+    private Collider2D _hazardCollider;
+
+    private void Awake()
+    {
+        _defaultDamage = damage;
+        _defaultKnockbackForce = knockbackForce;
+        _defaultUpwardForce = upwardForce;
+        _hazardCollider = GetComponent<Collider2D>();
+    }
+
+    /// <summary>No damage, no knockback, collider off — used by platforming assists.</summary>
+    public void SetHazardDisabled(bool disabled)
+    {
+        damage = disabled ? 0 : _defaultDamage;
+        knockbackForce = disabled ? 0f : _defaultKnockbackForce;
+        upwardForce = disabled ? 0f : _defaultUpwardForce;
+        if (_hazardCollider != null)
+            _hazardCollider.enabled = !disabled;
+    }
+
+    public void RestoreDefaultDamage()
+    {
+        damage = _defaultDamage;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         TryDamage(other.gameObject, other.transform.position);

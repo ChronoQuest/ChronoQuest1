@@ -14,6 +14,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     public float recoilForce = 8f;
     public float recoilDuration = 0.2f;
 
+    [Header("Mana")]
+    public float manaCost = 15f;
+
     [Header("Dependencies")]
     private PlayerMana manaSystem;
 
@@ -30,8 +33,12 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
     private float castFailsafeTimer;
     private const float MAX_CAST_TIME = 1.0f;
     private PlayerAction allowedActions;
-    public PlayerTacticalModel playerTacticalModel; 
+    public PlayerTacticalModel playerTacticalModel;
+    public event System.Action OnSpellCast;
     public GameObject latestSpell;
+    [Header("Audio")]
+    [SerializeField] private AudioSource chargeSource;
+    [SerializeField] private AudioClip spellChargeClip;
 
     void Awake()
     {
@@ -73,18 +80,20 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
             {
                 isCasting = false;
                 rb.gravityScale = originalGravity;
+                if (chargeSource != null) chargeSource.Stop();
                 Debug.LogWarning("Spell animation interrupted! Failsafe restored gravity.");
             }
         }
         if (player.isDashing) return;
         if (WasCastPressed() && Time.time >= nextFireTime && !isCasting)
         {
-            if (manaSystem != null && manaSystem.TrySpendMana(5f)) 
+            if (manaSystem != null && manaSystem.TrySpendMana(manaCost))
             {
                 CastSpell();
                 nextFireTime = Time.time + cooldown;
                 DataCollectionService.Instance?.RecordSpellCast();
-                playerTacticalModel.RecordSpell(); 
+                playerTacticalModel.RecordSpell();
+                OnSpellCast?.Invoke();
             }
             else 
             {
@@ -106,6 +115,11 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         isCasting = true;
         castFailsafeTimer = MAX_CAST_TIME;
 
+        if (chargeSource != null && spellChargeClip != null)
+        {
+            chargeSource.clip = spellChargeClip;
+            chargeSource.Play();
+        }
 
         originalGravity = rb.gravityScale;
         rb.gravityScale = 0f; // Disable gravity so they float mid-air
@@ -117,6 +131,11 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         //isCasting = false;
         Invoke(nameof(ReleaseCastLock), 0.15f);
         rb.gravityScale = originalGravity;
+
+        if (chargeSource != null && chargeSource.isPlaying)
+        {
+            chargeSource.Stop();
+        }
         
         // Apply exact velocity instead of AddForce so it's snappy and consistent
         rb.linearVelocity = -dir * recoilForce;
@@ -150,7 +169,9 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         // Down cast ONLY in air
         if (y < -0.5f && !player.isGrounded) return Vector2.down;
 
-        // Forward cast
+        // Forward cast — if wall sliding, fire away from the wall (opposite of facing direction)
+        if (player.IsWallSliding)
+            return sprite.flipX ? Vector2.right : Vector2.left;
         return sprite.flipX ? Vector2.left : Vector2.right;
     }
 
@@ -191,6 +212,7 @@ public class PlayerSpellSystem : MonoBehaviour, IRewindable
         {
             isCasting = false;
             rb.gravityScale = originalGravity;
+            if (chargeSource != null) chargeSource.Stop();
         }
         recoilTimer = 0f;
     }

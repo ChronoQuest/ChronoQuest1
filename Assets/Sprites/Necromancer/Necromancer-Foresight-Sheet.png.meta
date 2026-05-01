@@ -1,0 +1,2467 @@
+fileFormatVersion: 2
+guid: 5276d93829b63ad489ad0d70be6523f1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6175635828681674842
+    second: Necromancer-Foresight-Sheet_0
+  - first:
+      213: 5437738261554073695
+    second: Necromancer-Foresight-Sheet_1
+  - first:
+      213: -5309899516393962274
+    second: Necromancer-Foresight-Sheet_2
+  - first:
+      213: -262989556157555692
+    second: Necromancer-Foresight-Sheet_3
+  - first:
+      213: 6856811111652256784
+    second: Necromancer-Foresight-Sheet_4
+  - first:
+      213: -2677964000334450102
+    second: Necromancer-Foresight-Sheet_5
+  - first:
+      213: -5229916586203951295
+    second: Necromancer-Foresight-Sheet_6
+  - first:
+      213: 3971912354422995824
+    second: Necromancer-Foresight-Sheet_7
+  - first:
+      213: 3967086397194499625
+    second: Necromancer-Foresight-Sheet_8
+  - first:
+      213: 4901982105338630948
+    second: Necromancer-Foresight-Sheet_9
+  - first:
+      213: -518757636152599482
+    second: Necromancer-Foresight-Sheet_10
+  - first:
+      213: -2079990867565943848
+    second: Necromancer-Foresight-Sheet_11
+  - first:
+      213: 1082816486427336201
+    second: Necromancer-Foresight-Sheet_12
+  - first:
+      213: 7668263780116615073
+    second: Necromancer-Foresight-Sheet_13
+  - first:
+      213: 3095039578176112225
+    second: Necromancer-Foresight-Sheet_14
+  - first:
+      213: 1068830339794071206
+    second: Necromancer-Foresight-Sheet_15
+  - first:
+      213: -5452836934789508831
+    second: Necromancer-Foresight-Sheet_16
+  - first:
+      213: 297515190907814839
+    second: Necromancer-Foresight-Sheet_17
+  - first:
+      213: -4777417562324170956
+    second: Necromancer-Foresight-Sheet_18
+  - first:
+      213: 6908766496133275567
+    second: Necromancer-Foresight-Sheet_19
+  - first:
+      213: -5388493647179606022
+    second: Necromancer-Foresight-Sheet_20
+  - first:
+      213: 2103098656453547599
+    second: Necromancer-Foresight-Sheet_21
+  - first:
+      213: 8403582308829557333
+    second: Necromancer-Foresight-Sheet_22
+  - first:
+      213: 751179836225744138
+    second: Necromancer-Foresight-Sheet_23
+  - first:
+      213: -8378407758138846412
+    second: Necromancer-Foresight-Sheet_24
+  - first:
+      213: 7997716668155567082
+    second: Necromancer-Foresight-Sheet_25
+  - first:
+      213: 1668361862217946629
+    second: Necromancer-Foresight-Sheet_26
+  - first:
+      213: -8882212232193000515
+    second: Necromancer-Foresight-Sheet_27
+  - first:
+      213: -657845057369016596
+    second: Necromancer-Foresight-Sheet_28
+  - first:
+      213: 5683145620328103461
+    second: Necromancer-Foresight-Sheet_29
+  - first:
+      213: 6864213128464723424
+    second: Necromancer-Foresight-Sheet_30
+  - first:
+      213: -4881832022928932870
+    second: Necromancer-Foresight-Sheet_31
+  - first:
+      213: -8815512952118008340
+    second: Necromancer-Foresight-Sheet_32
+  - first:
+      213: -5470132277807119552
+    second: Necromancer-Foresight-Sheet_33
+  - first:
+      213: -3670239619466256086
+    second: Necromancer-Foresight-Sheet_34
+  - first:
+      213: 1180571083832508912
+    second: Necromancer-Foresight-Sheet_35
+  - first:
+      213: 5008704914416162166
+    second: Necromancer-Foresight-Sheet_36
+  - first:
+      213: 277938317622960124
+    second: Necromancer-Foresight-Sheet_37
+  - first:
+      213: -8588920803497297789
+    second: Necromancer-Foresight-Sheet_38
+  - first:
+      213: 4033305982905049044
+    second: Necromancer-Foresight-Sheet_39
+  - first:
+      213: 8997374986929189354
+    second: Necromancer-Foresight-Sheet_40
+  - first:
+      213: -1028939398303972641
+    second: Necromancer-Foresight-Sheet_41
+  - first:
+      213: -5550196513593447764
+    second: Necromancer-Foresight-Sheet_42
+  - first:
+      213: 481144137128150754
+    second: Necromancer-Foresight-Sheet_43
+  - first:
+      213: -7236544425198789461
+    second: Necromancer-Foresight-Sheet_44
+  - first:
+      213: -4125044239543673311
+    second: Necromancer-Foresight-Sheet_45
+  - first:
+      213: 2784094112421373484
+    second: Necromancer-Foresight-Sheet_46
+  - first:
+      213: 8605850809570549671
+    second: Necromancer-Foresight-Sheet_47
+  - first:
+      213: -8000020832821427967
+    second: Necromancer-Foresight-Sheet_48
+  - first:
+      213: 66475807612104228
+    second: Necromancer-Foresight-Sheet_49
+  - first:
+      213: 6919816631495216247
+    second: Necromancer-Foresight-Sheet_50
+  - first:
+      213: -129415662897794215
+    second: Necromancer-Foresight-Sheet_51
+  - first:
+      213: 4661429703467425447
+    second: Necromancer-Foresight-Sheet_52
+  - first:
+      213: 6928607062958111955
+    second: Necromancer-Foresight-Sheet_53
+  - first:
+      213: 5486412720144356047
+    second: Necromancer-Foresight-Sheet_54
+  - first:
+      213: -6447057922528564720
+    second: Necromancer-Foresight-Sheet_55
+  - first:
+      213: -4146378630151080480
+    second: Necromancer-Foresight-Sheet_56
+  - first:
+      213: 7962665566272356446
+    second: Necromancer-Foresight-Sheet_57
+  - first:
+      213: -2379658461324911896
+    second: Necromancer-Foresight-Sheet_58
+  - first:
+      213: -6799513254803419634
+    second: Necromancer-Foresight-Sheet_59
+  - first:
+      213: 9089126822940846597
+    second: Necromancer-Foresight-Sheet_60
+  - first:
+      213: -2252205688379958692
+    second: Necromancer-Foresight-Sheet_61
+  - first:
+      213: -7750287104563203516
+    second: Necromancer-Foresight-Sheet_62
+  - first:
+      213: 2045484460239135388
+    second: Necromancer-Foresight-Sheet_63
+  - first:
+      213: 2552528714976441060
+    second: Necromancer-Foresight-Sheet_64
+  - first:
+      213: 7252091740045147525
+    second: Necromancer-Foresight-Sheet_65
+  - first:
+      213: 573040176159675386
+    second: Necromancer-Foresight-Sheet_66
+  - first:
+      213: 3408680773580824915
+    second: Necromancer-Foresight-Sheet_67
+  - first:
+      213: 3890742466286648915
+    second: Necromancer-Foresight-Sheet_68
+  - first:
+      213: 1284521320360110012
+    second: Necromancer-Foresight-Sheet_69
+  - first:
+      213: 2044713733190094859
+    second: Necromancer-Foresight-Sheet_70
+  - first:
+      213: -2753781783746722956
+    second: Necromancer-Foresight-Sheet_71
+  - first:
+      213: 8421764926812262722
+    second: Necromancer-Foresight-Sheet_72
+  - first:
+      213: 8627418409133334552
+    second: Necromancer-Foresight-Sheet_73
+  - first:
+      213: -9081094110441818240
+    second: Necromancer-Foresight-Sheet_74
+  - first:
+      213: -2237766195344404463
+    second: Necromancer-Foresight-Sheet_75
+  - first:
+      213: -8264130398304917186
+    second: Necromancer-Foresight-Sheet_76
+  - first:
+      213: 1314494546173552219
+    second: Necromancer-Foresight-Sheet_77
+  - first:
+      213: -3054382674077044199
+    second: Necromancer-Foresight-Sheet_78
+  - first:
+      213: -3842510614700621625
+    second: Necromancer-Foresight-Sheet_79
+  - first:
+      213: 7360341005125595004
+    second: Necromancer-Foresight-Sheet_80
+  - first:
+      213: 7752809112604147243
+    second: Necromancer-Foresight-Sheet_81
+  - first:
+      213: 3865051388889528836
+    second: Necromancer-Foresight-Sheet_82
+  - first:
+      213: 7498102187038635409
+    second: Necromancer-Foresight-Sheet_83
+  - first:
+      213: -3571444802051366079
+    second: Necromancer-Foresight-Sheet_84
+  - first:
+      213: -5560715473905688886
+    second: Necromancer-Foresight-Sheet_85
+  - first:
+      213: -3076351382667571825
+    second: Necromancer-Foresight-Sheet_86
+  - first:
+      213: 3179456290090766477
+    second: Necromancer-Foresight-Sheet_87
+  - first:
+      213: 4521763411067556790
+    second: Necromancer-Foresight-Sheet_88
+  - first:
+      213: -6871819057741881302
+    second: Necromancer-Foresight-Sheet_89
+  - first:
+      213: -4640460011253673052
+    second: Necromancer-Foresight-Sheet_90
+  - first:
+      213: -6720182402389284999
+    second: Necromancer-Foresight-Sheet_91
+  - first:
+      213: 5178693405427346511
+    second: Necromancer-Foresight-Sheet_92
+  - first:
+      213: -1971054964694847968
+    second: Necromancer-Foresight-Sheet_93
+  - first:
+      213: -982185490929315630
+    second: Necromancer-Foresight-Sheet_94
+  - first:
+      213: -1403670774397936648
+    second: Necromancer-Foresight-Sheet_95
+  - first:
+      213: 870261707125259841
+    second: Necromancer-Foresight-Sheet_96
+  - first:
+      213: -1710451089912349795
+    second: Necromancer-Foresight-Sheet_97
+  - first:
+      213: 5192465711912387137
+    second: Necromancer-Foresight-Sheet_98
+  - first:
+      213: -6889912676562900545
+    second: Necromancer-Foresight-Sheet_99
+  - first:
+      213: 4216982369020961516
+    second: Necromancer-Foresight-Sheet_100
+  - first:
+      213: 2834280439219839548
+    second: Necromancer-Foresight-Sheet_101
+  - first:
+      213: 3474180151945575053
+    second: Necromancer-Foresight-Sheet_102
+  - first:
+      213: 5946433112589018669
+    second: Necromancer-Foresight-Sheet_103
+  - first:
+      213: -638969467822201534
+    second: Necromancer-Foresight-Sheet_104
+  - first:
+      213: -1301723807204870248
+    second: Necromancer-Foresight-Sheet_105
+  - first:
+      213: -2609841284638830068
+    second: Necromancer-Foresight-Sheet_106
+  - first:
+      213: 8965986797561540238
+    second: Necromancer-Foresight-Sheet_107
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a501fb6f01444b550800000000000000
+      internalID: 6175635828681674842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f501b75732ab67b40800000000000000
+      internalID: 5437738261554073695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed4c15cd5827f46b0800000000000000
+      internalID: -5309899516393962274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41c579d546ca95cf0800000000000000
+      internalID: -262989556157555692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01cebf98069482f50800000000000000
+      internalID: 6856811111652256784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a42f7ce1ee5f5dad0800000000000000
+      internalID: -2677964000334450102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14fc36af29a9b67b0800000000000000
+      internalID: -5229916586203951295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 990
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07b3e540e311f1730800000000000000
+      internalID: 3971912354422995824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 926ff0a4f0ced0730800000000000000
+      internalID: 3967086397194499625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 423d704c0c6570440800000000000000
+      internalID: 4901982105338630948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64c5a9cada00dc8f0800000000000000
+      internalID: -518757636152599482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d3eca283536223e0800000000000000
+      internalID: -2079990867565943848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90e107e7bdfe60f00800000000000000
+      internalID: 1082816486427336201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1af48d1a7452b6a60800000000000000
+      internalID: 7668263780116615073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16646fe191ac3fa20800000000000000
+      internalID: 3095039578176112225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 900
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6aee598f78f35de00800000000000000
+      internalID: 1068830339794071206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 121ddbbb2b1a354b0800000000000000
+      internalID: -5452836934789508831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b3c7556d7cf02400800000000000000
+      internalID: 297515190907814839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43784f5f90433bdb0800000000000000
+      internalID: -4777417562324170956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafd426268ed0ef50800000000000000
+      internalID: 6908766496133275567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af7196dc3993835b0800000000000000
+      internalID: -5388493647179606022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f46d389d515bf2d10800000000000000
+      internalID: 2103098656453547599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 552fa86f5958f9470800000000000000
+      internalID: 8403582308829557333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 810
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0deba4c41abc6a00800000000000000
+      internalID: 751179836225744138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 433d1c0e88ae9bb80800000000000000
+      internalID: -8378407758138846412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 720
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeb12ab9fe89dfe60800000000000000
+      internalID: 7997716668155567082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 720
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5065f4a3646372710800000000000000
+      internalID: 1668361862217946629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 720
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbbb188e80b0cb480800000000000000
+      internalID: -8882212232193000515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 630
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce6f54ed76dded6f0800000000000000
+      internalID: -657845057369016596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 630
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52e3972c4d69ede40800000000000000
+      internalID: 5683145620328103461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 630
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ed66b0e875924f50800000000000000
+      internalID: 6864213128464723424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 630
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: affb134e3af304cb0800000000000000
+      internalID: -4881832022928932870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce5a6283da109a580800000000000000
+      internalID: -8815512952118008340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04388e2ecaf2614b0800000000000000
+      internalID: -5470132277807119552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2126290380b01dc0800000000000000
+      internalID: -3670239619466256086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f14fe3552b326010800000000000000
+      internalID: 1180571083832508912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6755788159e728540800000000000000
+      internalID: 5008704914416162166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cffd2636d6f6bd300800000000000000
+      internalID: 277938317622960124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 388b49709060ec880800000000000000
+      internalID: -8588920803497297789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4df538d0c6e29f730800000000000000
+      internalID: 4033305982905049044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae136e661e81ddc70800000000000000
+      internalID: 8997374986929189354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 540
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd200bc911978b1f0800000000000000
+      internalID: -1028939398303972641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caaa6a55dadb9f2b0800000000000000
+      internalID: -5550196513593447764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e609432b0e5da600800000000000000
+      internalID: 481144137128150754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bac51b6af21a29b90800000000000000
+      internalID: -7236544425198789461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12e5a3b9e16e0c6c0800000000000000
+      internalID: -4125044239543673311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c26e12038d613a620800000000000000
+      internalID: 2784094112421373484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7afd57e27bf1e6770800000000000000
+      internalID: 8605850809570549671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10144ff30773af090800000000000000
+      internalID: -8000020832821427967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42e60e2156b2ce000800000000000000
+      internalID: 66475807612104228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77ccc174090280060800000000000000
+      internalID: 6919816631495216247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 450
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 953fa98e329343ef0800000000000000
+      internalID: -129415662897794215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ae51a43e99b0b040800000000000000
+      internalID: 4661429703467425447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dc71e71a6b572060800000000000000
+      internalID: 6928607062958111955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc2936bfc47a32c40800000000000000
+      internalID: 5486412720144356047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01a21593af27786a0800000000000000
+      internalID: -6447057922528564720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e5f295ba9a1576c0800000000000000
+      internalID: -4146378630151080480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5006eef422118e60800000000000000
+      internalID: 7962665566272356446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ead9f5cc31c9fed0800000000000000
+      internalID: -2379658461324911896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0ec1e958b643a1a0800000000000000
+      internalID: -6799513254803419634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50a2ddf60b0132e70800000000000000
+      internalID: 9089126822940846597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5a9ffeebde8eb0e0800000000000000
+      internalID: -2252205688379958692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4423831f0f2717490800000000000000
+      internalID: -7750287104563203516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c92a2267745036c10800000000000000
+      internalID: 2045484460239135388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 360
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e2b727a7576c6320800000000000000
+      internalID: 2552528714976441060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58d7feba30b94a460800000000000000
+      internalID: 7252091740045147525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af3560e0109d3f700800000000000000
+      internalID: 573040176159675386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3512df58a111e4f20800000000000000
+      internalID: 3408680773580824915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35efa87b8a1bef530800000000000000
+      internalID: 3890742466286648915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb7ea7ec55983d110800000000000000
+      internalID: 1284521320360110012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0098269e48406c10800000000000000
+      internalID: 2044713733190094859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 660
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 473c5dece0a98c9d0800000000000000
+      internalID: -2753781783746722956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2411d7c949e10e470800000000000000
+      internalID: 8421764926812262722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 810ee05455fbab770800000000000000
+      internalID: 8627418409133334552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 087393f250979f180800000000000000
+      internalID: -9081094110441818240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1109e14608bd1f0e0800000000000000
+      internalID: -2237766195344404463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 1210
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e39278f1039ef4d80800000000000000
+      internalID: -8264130398304917186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_77
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b56ecd343d50e3210800000000000000
+      internalID: 1314494546173552219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_78
+      rect:
+        serializedVersion: 2
+        x: 1430
+        y: 270
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 912b7870427ac95d0800000000000000
+      internalID: -3054382674077044199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_79
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 180
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c00a1554f8acaac0800000000000000
+      internalID: -3842510614700621625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_80
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 180
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7fa04cb52f252660800000000000000
+      internalID: 7360341005125595004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_81
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 180
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2e7e20dfc2879b60800000000000000
+      internalID: 7752809112604147243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_82
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 90
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40af361a2cb63a530800000000000000
+      internalID: 3865051388889528836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_83
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 90
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1957404663c9e0860800000000000000
+      internalID: 7498102187038635409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_84
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 90
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14320d6ffddaf6ec0800000000000000
+      internalID: -3571444802051366079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_85
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ace55d80dbe54d2b0800000000000000
+      internalID: -5560715473905688886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_86
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8d41d777ba9e45d0800000000000000
+      internalID: -3076351382667571825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Necromancer-Foresight-Sheet_87
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 0
+        width: 110
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d80ddbd76a2bf1c20800000000000000
+      internalID: 3179456290090766477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 859e63010bddccc4aa7a7d31a3de816c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":110.0,"y":90.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Necromancer-Foresight-Sheet_0: 6175635828681674842
+      Necromancer-Foresight-Sheet_1: 5437738261554073695
+      Necromancer-Foresight-Sheet_10: -518757636152599482
+      Necromancer-Foresight-Sheet_11: -2079990867565943848
+      Necromancer-Foresight-Sheet_12: 1082816486427336201
+      Necromancer-Foresight-Sheet_13: 7668263780116615073
+      Necromancer-Foresight-Sheet_14: 3095039578176112225
+      Necromancer-Foresight-Sheet_15: 1068830339794071206
+      Necromancer-Foresight-Sheet_16: -5452836934789508831
+      Necromancer-Foresight-Sheet_17: 297515190907814839
+      Necromancer-Foresight-Sheet_18: -4777417562324170956
+      Necromancer-Foresight-Sheet_19: 6908766496133275567
+      Necromancer-Foresight-Sheet_2: -5309899516393962274
+      Necromancer-Foresight-Sheet_20: -5388493647179606022
+      Necromancer-Foresight-Sheet_21: 2103098656453547599
+      Necromancer-Foresight-Sheet_22: 8403582308829557333
+      Necromancer-Foresight-Sheet_23: 751179836225744138
+      Necromancer-Foresight-Sheet_24: -8378407758138846412
+      Necromancer-Foresight-Sheet_25: 7997716668155567082
+      Necromancer-Foresight-Sheet_26: 1668361862217946629
+      Necromancer-Foresight-Sheet_27: -8882212232193000515
+      Necromancer-Foresight-Sheet_28: -657845057369016596
+      Necromancer-Foresight-Sheet_29: 5683145620328103461
+      Necromancer-Foresight-Sheet_3: -262989556157555692
+      Necromancer-Foresight-Sheet_30: 6864213128464723424
+      Necromancer-Foresight-Sheet_31: -4881832022928932870
+      Necromancer-Foresight-Sheet_32: -8815512952118008340
+      Necromancer-Foresight-Sheet_33: -5470132277807119552
+      Necromancer-Foresight-Sheet_34: -3670239619466256086
+      Necromancer-Foresight-Sheet_35: 1180571083832508912
+      Necromancer-Foresight-Sheet_36: 5008704914416162166
+      Necromancer-Foresight-Sheet_37: 277938317622960124
+      Necromancer-Foresight-Sheet_38: -8588920803497297789
+      Necromancer-Foresight-Sheet_39: 4033305982905049044
+      Necromancer-Foresight-Sheet_4: 6856811111652256784
+      Necromancer-Foresight-Sheet_40: 8997374986929189354
+      Necromancer-Foresight-Sheet_41: -1028939398303972641
+      Necromancer-Foresight-Sheet_42: -5550196513593447764
+      Necromancer-Foresight-Sheet_43: 481144137128150754
+      Necromancer-Foresight-Sheet_44: -7236544425198789461
+      Necromancer-Foresight-Sheet_45: -4125044239543673311
+      Necromancer-Foresight-Sheet_46: 2784094112421373484
+      Necromancer-Foresight-Sheet_47: 8605850809570549671
+      Necromancer-Foresight-Sheet_48: -8000020832821427967
+      Necromancer-Foresight-Sheet_49: 66475807612104228
+      Necromancer-Foresight-Sheet_5: -2677964000334450102
+      Necromancer-Foresight-Sheet_50: 6919816631495216247
+      Necromancer-Foresight-Sheet_51: -129415662897794215
+      Necromancer-Foresight-Sheet_52: 4661429703467425447
+      Necromancer-Foresight-Sheet_53: 6928607062958111955
+      Necromancer-Foresight-Sheet_54: 5486412720144356047
+      Necromancer-Foresight-Sheet_55: -6447057922528564720
+      Necromancer-Foresight-Sheet_56: -4146378630151080480
+      Necromancer-Foresight-Sheet_57: 7962665566272356446
+      Necromancer-Foresight-Sheet_58: -2379658461324911896
+      Necromancer-Foresight-Sheet_59: -6799513254803419634
+      Necromancer-Foresight-Sheet_6: -5229916586203951295
+      Necromancer-Foresight-Sheet_60: 9089126822940846597
+      Necromancer-Foresight-Sheet_61: -2252205688379958692
+      Necromancer-Foresight-Sheet_62: -7750287104563203516
+      Necromancer-Foresight-Sheet_63: 2045484460239135388
+      Necromancer-Foresight-Sheet_64: 2552528714976441060
+      Necromancer-Foresight-Sheet_65: 7252091740045147525
+      Necromancer-Foresight-Sheet_66: 573040176159675386
+      Necromancer-Foresight-Sheet_67: 3408680773580824915
+      Necromancer-Foresight-Sheet_68: 3890742466286648915
+      Necromancer-Foresight-Sheet_69: 1284521320360110012
+      Necromancer-Foresight-Sheet_7: 3971912354422995824
+      Necromancer-Foresight-Sheet_70: 2044713733190094859
+      Necromancer-Foresight-Sheet_71: -2753781783746722956
+      Necromancer-Foresight-Sheet_72: 8421764926812262722
+      Necromancer-Foresight-Sheet_73: 8627418409133334552
+      Necromancer-Foresight-Sheet_74: -9081094110441818240
+      Necromancer-Foresight-Sheet_75: -2237766195344404463
+      Necromancer-Foresight-Sheet_76: -8264130398304917186
+      Necromancer-Foresight-Sheet_77: 1314494546173552219
+      Necromancer-Foresight-Sheet_78: -3054382674077044199
+      Necromancer-Foresight-Sheet_79: -3842510614700621625
+      Necromancer-Foresight-Sheet_8: 3967086397194499625
+      Necromancer-Foresight-Sheet_80: 7360341005125595004
+      Necromancer-Foresight-Sheet_81: 7752809112604147243
+      Necromancer-Foresight-Sheet_82: 3865051388889528836
+      Necromancer-Foresight-Sheet_83: 7498102187038635409
+      Necromancer-Foresight-Sheet_84: -3571444802051366079
+      Necromancer-Foresight-Sheet_85: -5560715473905688886
+      Necromancer-Foresight-Sheet_86: -3076351382667571825
+      Necromancer-Foresight-Sheet_87: 3179456290090766477
+      Necromancer-Foresight-Sheet_9: 4901982105338630948
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

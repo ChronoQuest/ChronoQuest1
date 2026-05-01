@@ -32,7 +32,7 @@ public class GMMModel : MonoBehaviour
 
         if (!File.Exists(path))
         {
-            Debug.LogError("GMM model file not found: " + path);
+            Debug.LogError("GMM file not found: " + path);
             return;
         }
 

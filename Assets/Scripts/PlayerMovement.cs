@@ -24,6 +24,10 @@ public class PlayerPlatformer : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private float totalJumpFrames = 9f;
 
+    [Header("Post-Rewind Responsiveness")]
+    [Tooltip("Fraction of normal apparent speed the player keeps during post-rewind slow-mo (0-1, 1 = full speed)")]
+    [SerializeField] private float postRewindResponsiveness = 0.75f;
+
     [Header("Dash Settings")]
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float dashDuration = 0.2f;
@@ -32,6 +36,8 @@ public class PlayerPlatformer : MonoBehaviour
     private bool canDash = true;
     public bool isDashing;
     private bool _isRewinding = false;
+    private float _postRewindSpeedMultiplier = 1f;
+    private Coroutine _postRewindSlowCoroutine;
     private PlayerRewindController rewindController;
 
     private Rigidbody2D rb;
@@ -55,6 +61,7 @@ public class PlayerPlatformer : MonoBehaviour
     [SerializeField] private float wallCheckDistance = 0.8f;
     [SerializeField] private bool isTouchingWall;
     [SerializeField] private bool isWallSliding;
+    public bool IsWallSliding => isWallSliding;
     private float wallAnimationVisualTimer;
     private const float WALL_GRACE_TIME = 0.08f; // 0.1 seconds of "memory"
 
@@ -84,6 +91,8 @@ public class PlayerPlatformer : MonoBehaviour
     private bool jumpPressedThisFrame;
     private bool wasGrounded;
     private bool isLanding;
+    private bool _jumpHandledThisFrame;
+    private bool _dashHandledThisFrame;
 
     // references and locks for player movement in tutorial
     public TutorialManager tutorialManager;
@@ -93,9 +102,37 @@ public class PlayerPlatformer : MonoBehaviour
 
     [Header("Action Permissions")]
     public PlayerAction allowedActions = PlayerAction.All;      // all actions are allowed by default
-    public PlayerTacticalModel playerTacticModel; 
+    public PlayerTacticalModel playerTacticModel;
+    public event System.Action OnDashed;
+    public event System.Action OnJumped;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip jumpShortClip;
+    [SerializeField] private AudioClip jumpLongClip;
+    [SerializeField] private AudioClip dashClip;
+    [SerializeField] private float dashVolume = 0.6f;
+    [SerializeField] private AudioClip[] footstepClips;
+    [SerializeField] private float footstepVolume = 0.4f;
+    [SerializeField] public AudioSource loopingAudioSource; 
+    [SerializeField] public AudioClip wallSlideClip;
+    [SerializeField] public float wallSlideVolume = 0.5f;
 
     private float knockbackTimer;
+
+    private void OnValidate()
+    {
+        postRewindResponsiveness = Mathf.Clamp(postRewindResponsiveness, 0.1f, 1f);
+    }
+
+    // External ground probe used by systems that lock the player (e.g. BossFightController
+    // during dialogue). Works even when this component is disabled because it's a plain
+    // Physics2D query — no dependency on Update running.
+    public bool CheckGrounded()
+    {
+        if (groundCheck == null) return false;
+        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
 
     private void Awake()
     {
@@ -114,8 +151,11 @@ public class PlayerPlatformer : MonoBehaviour
     }
 
     private void Update()
-    {   
-        bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false; 
+    {
+        _jumpHandledThisFrame = false;
+        _dashHandledThisFrame = false;
+
+        bool isDead = GetComponent<PlayerHealth>()?.IsDead ?? false;
 
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position, 
@@ -151,12 +191,56 @@ public class PlayerPlatformer : MonoBehaviour
             tutorialManager?.OnPlayerMoved();
         }
 
+        // Poll-based jump (resilient to PlayerInput callback disconnection)
+        bool jumpPressed = false;
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            jumpPressed = true;
+        if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)
+            jumpPressed = true;
+        if (jumpPressed && !PauseMenu.isPaused && IsActionAllowed(PlayerAction.Jump)
+            && !(GetComponent<PlayerHealth>()?.IsDead == true)
+            && !(TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding))
+        {
+            _jumpHandledThisFrame = true;
+            if (isWallSliding)
+                StartCoroutine(WallJumpLogic());
+            else if (coyoteTimeCounter > 0f || extraJumpsRemaining > 0)
+            {
+                if (coyoteTimeCounter <= 0f) extraJumpsRemaining--;
+                StartCoroutine(JumpRoutine(extraJumpsRemaining));
+            }
+            jumpBufferCounter = jumpBufferTime;
+            playerTacticModel?.RecordJump();
+        }
+
+        // Poll-based dash (resilient to PlayerInput callback disconnection)
+        bool dashPressed = false;
+        if (Keyboard.current != null && Keyboard.current.leftShiftKey.wasPressedThisFrame)
+            dashPressed = true;
+        if (Gamepad.current != null && Gamepad.current.rightTrigger.wasPressedThisFrame
+            && Gamepad.current.leftTrigger.ReadValue() < 0.5f)
+            dashPressed = true;
+        if (dashPressed && !PauseMenu.isPaused && IsActionAllowed(PlayerAction.Dash)
+            && !(GetComponent<PlayerHealth>()?.IsDead == true)
+            && !isDashing && !_isRewinding)
+        {
+            PlayerSpellSystem spellSys2 = GetComponent<PlayerSpellSystem>();
+            if (!(spellSys2 != null && spellSys2.IsMovementLocked()) && canDash)
+            {
+                _dashHandledThisFrame = true;
+                StartCoroutine(Dash());
+            }
+        }
+
         // Check if feet are touching the ground layer
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         if (isGrounded && !wasGrounded && !isLanding)
         {
-            StartCoroutine(LandingRoutine());
+            // Capture the downward speed (y is negative, so we use Mathf.Abs or -rb.linearVelocity.y)
+            float impactVelocity = Mathf.Abs(rb.linearVelocity.y); 
+            StartCoroutine(LandingRoutine(impactVelocity));
         }
+        
         wasGrounded = isGrounded;
 
         if (isGrounded && rb.linearVelocity.y <= 0.1f)
@@ -237,10 +321,33 @@ public class PlayerPlatformer : MonoBehaviour
             }
         }
 
+        if (isWallSliding)
+        {
+            if (loopingAudioSource != null && wallSlideClip != null && !loopingAudioSource.isPlaying)
+            {
+                loopingAudioSource.clip = wallSlideClip;
+                loopingAudioSource.pitch = Random.Range(0.8f, 1.2f);
+                loopingAudioSource.volume = wallSlideVolume;
+                loopingAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (loopingAudioSource != null && loopingAudioSource.isPlaying && loopingAudioSource.clip == wallSlideClip)
+            {
+                loopingAudioSource.Stop();
+            }
+        }
+
         // Update Animator Parameters
         if (anim != null)
         {
-            anim.SetFloat("Speed", Mathf.Abs(horizontalInput));
+            float normalizedSpeed = Mathf.Abs(rb.linearVelocity.x) / moveSpeed;
+            normalizedSpeed = Mathf.Clamp01(normalizedSpeed);
+
+            if (normalizedSpeed < 0.05f) normalizedSpeed = 0f;
+
+            anim.SetFloat("Speed", normalizedSpeed);
             if (!isLanding) 
             {
                 anim.SetBool("isGrounded", isGrounded);
@@ -256,10 +363,11 @@ public class PlayerPlatformer : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
 
-            jumpBufferCounter = 0f;            
+            jumpBufferCounter = 0f;
             coyoteTimeCounter = 0f; // Prevent double jumping with coyote time
             if (anim != null) anim.SetTrigger("Jump");
             tutorialManager?.OnPlayerJump();
+            OnJumped?.Invoke();
         }
 
         if (isTouchingWall) 
@@ -303,8 +411,7 @@ public class PlayerPlatformer : MonoBehaviour
 
         if (isDashing || isWallSliding || isWallJumping || spellLock || isKnockedBack) return;
 
-        // 1. Calculate Base Movement (Input)
-        float targetVelocityX = horizontalInput * moveSpeed;
+        float targetVelocityX = horizontalInput * moveSpeed * _postRewindSpeedMultiplier;
 
         // 2. CHECK FOR MOVING PLATFORM
         // We check if we are grounded and what we are standing on
@@ -332,14 +439,17 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        // Skip if polling already handled this frame's input
+        if (_jumpHandledThisFrame) return;
+
         if (!IsActionAllowed(PlayerAction.Jump))
             return;
-            
-        playerTacticModel.RecordJump(); 
-        
+
+        playerTacticModel?.RecordJump();
+
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
-        
+
         if (PauseMenu.isPaused)
             return;
 
@@ -375,6 +485,12 @@ public class PlayerPlatformer : MonoBehaviour
         coyoteTimeCounter = 0f;
         anim.SetTrigger("Jump");
 
+        if (sfxSource != null)
+        {
+            AudioClip clipToPlay = (extraJumpsRemaining == 0) ? jumpLongClip : jumpShortClip;
+            sfxSource.PlayOneShot(clipToPlay);
+        }
+
         if (extraJumpsRemaining>0)
         {
             anim.SetBool("isGrounded", true); 
@@ -395,7 +511,8 @@ public class PlayerPlatformer : MonoBehaviour
 
         yield return null;
 
-        tutorialManager?.OnPlayerJump(); 
+        tutorialManager?.OnPlayerJump();
+        OnJumped?.Invoke();
     }
     // =========================================================
     // AIRBORNE ANIMATION (GLOBAL)
@@ -435,9 +552,10 @@ public class PlayerPlatformer : MonoBehaviour
         anim.SetBool("isGrounded", true); // Return to idle
     }
 
-    IEnumerator LandingRoutine()
+    IEnumerator LandingRoutine(float impactForce)
     {
-
+        float calculatedVol = Mathf.Lerp(0.4f, 1.0f, impactForce / 15f);
+        PlayFootstep(calculatedVol);
         SetFrame(6);
         yield return new WaitForSeconds(0.05f);
         SetFrame(7);
@@ -450,13 +568,11 @@ public class PlayerPlatformer : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        Debug.Log($"DASH callback: phase={context.phase}, control={context.control}, device={context.control?.device}");
+        // Skip if polling already handled this frame's input
+        if (_dashHandledThisFrame) return;
 
         if (!IsActionAllowed(PlayerAction.Dash))
-        {
-            Debug.Log("JUMP blocked: action not allowed");
             return;
-        }
     
         if (GetComponent<PlayerHealth>()?.IsDead == true)
             return;
@@ -485,7 +601,15 @@ public class PlayerPlatformer : MonoBehaviour
         float jumpDirection = spriteRenderer.flipX ? 1f : -1f;
         rb.linearVelocity = new Vector2(jumpDirection * wallJumpPower.x, wallJumpPower.y);
 
+        tutorialManager?.OnPlayerWallJump();
+        OnJumped?.Invoke();
+
         if (anim != null) anim.SetTrigger("Jump"); // Or "WallJump" if you have it
+        if (sfxSource != null)
+        {
+            AudioClip clipToPlay = (extraJumpsRemaining == 0) ? jumpLongClip : jumpShortClip;
+            sfxSource.PlayOneShot(clipToPlay);
+        }
         DataCollectionService.Instance?.RecordJump(true, false);
     
         yield return new WaitForSeconds(wallJumpDuration);    
@@ -498,10 +622,14 @@ public class PlayerPlatformer : MonoBehaviour
         
         isDashing = true;
         canDash = false;
+        if (sfxSource != null && dashClip != null)
+        {
+            sfxSource.PlayOneShot(dashClip, dashVolume);
+        }
 
         tutorialManager?.OnPlayerDash();
-        tutorialManager?.OnPlayerDodge(); 
         DataCollectionService.Instance?.RecordDash();
+        OnDashed?.Invoke();
 
         if (anim != null) 
         {
@@ -591,6 +719,12 @@ public class PlayerPlatformer : MonoBehaviour
         knockbackTimer = duration;
     }
 
+    public void ForceFaceRight()
+    {
+        spriteRenderer.flipX = false;
+        playerCollider.offset = new Vector2(-0.06f, playerCollider.offset.y);
+    }
+
     // Visualization for the Ground Check in the Scene View
     private void OnDrawGizmosSelected()
     {
@@ -615,11 +749,38 @@ public class PlayerPlatformer : MonoBehaviour
     void OnStartRewind()
     {
         _isRewinding = true;
+
+        if (loopingAudioSource != null) loopingAudioSource.Stop();
+
+        if (_postRewindSlowCoroutine != null)
+        {
+            StopCoroutine(_postRewindSlowCoroutine);
+            _postRewindSlowCoroutine = null;
+            SetDashPhasing(false);
+        }
+        _postRewindSpeedMultiplier = 1f;
     }
 
     void OnStopRewind()
     {
         _isRewinding = false;
+        _postRewindSlowCoroutine = StartCoroutine(PostRewindSlowdown());
+    }
+
+    private IEnumerator PostRewindSlowdown()
+    {
+        SetDashPhasing(true);
+
+        while (Time.timeScale < 0.9f)
+        {
+            float ts = Mathf.Max(Time.timeScale, 0.05f);
+            _postRewindSpeedMultiplier = Mathf.Min(postRewindResponsiveness / ts, 8f);
+            yield return null;
+        }
+
+        SetDashPhasing(false);
+        _postRewindSpeedMultiplier = 1f;
+        _postRewindSlowCoroutine = null;
     }
 
     public bool IsActionAllowed(PlayerAction action)
@@ -630,5 +791,16 @@ public class PlayerPlatformer : MonoBehaviour
     public void FreezeMovement()
     {
         rb.linearVelocity = Vector2.zero;
+    }
+    public void PlayFootstep(float vol = -1)
+    {
+        // Default to footstepVolume if unspecified
+        if (vol == -1) vol = footstepVolume;
+        if (isGrounded && footstepClips != null && footstepClips.Length > 0 && sfxSource != null)
+        {
+            int randomIndex = Random.Range(0, footstepClips.Length);
+            
+            sfxSource.PlayOneShot(footstepClips[randomIndex], vol);
+        }
     }
 }

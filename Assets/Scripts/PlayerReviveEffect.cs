@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
+using TimeRewind;
 
 [RequireComponent(typeof(PlayerHealth))]
 public class PlayerReviveEffect : MonoBehaviour
@@ -10,8 +11,9 @@ public class PlayerReviveEffect : MonoBehaviour
     [SerializeField] private float hitstopDuration = 0.12f;
 
     [Header("Slow Motion")]
-    [SerializeField] private float slowMotionScale = 0.03f;
-    [SerializeField] private float slowMotionDuration = 2.0f;
+    // This effect is primarily used for "rewind out of death" and should feel heavy/intentional.
+    [SerializeField] private float slowMotionScale = 0.015f;
+    [SerializeField] private float slowMotionDuration = 3.0f;
 
     [Header("Camera Shake")]
     [SerializeField] private float shakeDuration = 0.25f;
@@ -66,7 +68,7 @@ public class PlayerReviveEffect : MonoBehaviour
     private Color _originalColor;
     private Vector3 _originalScale;
     private bool _isReviving;
-    private float _savedTimeScale;
+    private const float NormalTimeScale = 1f;
 
     public bool IsReviving => _isReviving;
     public event Action OnReviveComplete;
@@ -131,7 +133,8 @@ public class PlayerReviveEffect : MonoBehaviour
         if (movement != null)
             movement.TriggerKnockbackLock(movementLockDuration);
 
-        _savedTimeScale = Time.timeScale;
+        // Hitstop: do not read Time.timeScale as a "restore" target (after rewind exit it is the
+        // post-rewind slow value from TimeRewindManager, e.g. 0.08). The revive slow-mo ramps to normal 1f.
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(hitstopDuration);
 
@@ -167,13 +170,17 @@ public class PlayerReviveEffect : MonoBehaviour
         if (_sprite != null)
             StartCoroutine(SpawnGhosts());
 
+        float baselineFixed = GetBaselineFixedDelta();
         Time.timeScale = slowMotionScale;
+        Time.fixedDeltaTime = baselineFixed * slowMotionScale;
         float slowElapsed = 0f;
         while (slowElapsed < slowMotionDuration)
         {
             slowElapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(slowElapsed / slowMotionDuration);
-            Time.timeScale = Mathf.Lerp(slowMotionScale, _savedTimeScale, EaseOutQuad(t));
+            float scale = Mathf.Lerp(slowMotionScale, NormalTimeScale, EaseOutQuad(t));
+            Time.timeScale = scale;
+            Time.fixedDeltaTime = baselineFixed * scale;
 
             if (_sprite != null && slowElapsed <= flashFadeDuration)
             {
@@ -190,7 +197,8 @@ public class PlayerReviveEffect : MonoBehaviour
             yield return null;
         }
 
-        Time.timeScale = _savedTimeScale;
+        Time.timeScale = NormalTimeScale;
+        Time.fixedDeltaTime = baselineFixed;
         if (_sprite != null) _sprite.color = _originalColor;
         transform.localScale = _originalScale;
 
@@ -287,7 +295,8 @@ public class PlayerReviveEffect : MonoBehaviour
 
     private void Cleanup()
     {
-        Time.timeScale = _savedTimeScale > 0f ? _savedTimeScale : 1f;
+        Time.timeScale = NormalTimeScale;
+        Time.fixedDeltaTime = GetBaselineFixedDelta();
 
         if (_sprite != null)
         {
@@ -329,5 +338,12 @@ public class PlayerReviveEffect : MonoBehaviour
     private static float EaseOutQuad(float t)
     {
         return 1f - (1f - t) * (1f - t);
+    }
+
+    private static float GetBaselineFixedDelta()
+    {
+        if (TimeRewindManager.Instance != null)
+            return TimeRewindManager.Instance.BaselineFixedDeltaTime;
+        return 0.02f;
     }
 }

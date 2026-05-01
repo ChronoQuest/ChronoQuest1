@@ -75,7 +75,19 @@ namespace TimeRewind
         // Current effect values
         private float _currentEffectWeight;
         private bool _isRewinding;
+        private bool _effectsFrozen;
         private float _burstTimer;
+        private float _currentBurstMaxDuration;
+
+        // Temporary tint override (used by e.g. the boss-forced rewind to paint it red).
+        private bool _tintOverrideActive;
+        private Color _savedRewindTint;
+        private Color _savedBurstTint;
+
+        // True while the tint is visibly applied (still fading in or out). Callers
+        // that push an override color can wait on this before popping to avoid
+        // the original color flashing back while the effect is still on screen.
+        public bool IsTintVisuallyActive => _currentEffectWeight > 0.02f;
         
         #region Unity Lifecycle
         
@@ -151,6 +163,7 @@ namespace TimeRewind
         {
             _isRewinding = true;
             _burstTimer = rewindBurstDuration;
+            _currentBurstMaxDuration = rewindBurstDuration;
             
             if (audioSource != null && rewindStartSound != null)
             {
@@ -208,11 +221,11 @@ namespace TimeRewind
                     _burstTimer = 0f;
             }
 
-            // Smoothly transition effect weight
-            float targetWeight = _isRewinding ? 1f : 0f;
+            // Smoothly transition effect weight (frozen = hold at 1 indefinitely)
+            float targetWeight = (_isRewinding || _effectsFrozen) ? 1f : 0f;
             _currentEffectWeight = Mathf.MoveTowards(
-                _currentEffectWeight, 
-                targetWeight, 
+                _currentEffectWeight,
+                targetWeight,
                 effectTransitionSpeed * Time.unscaledDeltaTime
             );
             
@@ -223,8 +236,8 @@ namespace TimeRewind
         private void ApplyPostProcessingEffects()
         {
             float burstWeight = 0f;
-            if (rewindBurstDuration > 0f && _burstTimer > 0f)
-                burstWeight = Mathf.Clamp01(_burstTimer / rewindBurstDuration);
+            if (_currentBurstMaxDuration > 0f && _burstTimer > 0f)
+                burstWeight = Mathf.Clamp01(_burstTimer / _currentBurstMaxDuration);
 
             if (_colorAdjustments != null)
             {
@@ -296,6 +309,51 @@ namespace TimeRewind
         public void SetAudioSource(AudioSource source)
         {
             audioSource = source;
+        }
+
+        /// <summary>
+        /// Locks the rewind visual effects at full intensity so they don't fade out
+        /// even after the rewind stops. Call before StopRewind to prevent a visible
+        /// flash back to normal. Call UnfreezeEffects to release.
+        /// </summary>
+        public void FreezeEffects()
+        {
+            _effectsFrozen = true;
+        }
+
+        /// <summary>
+        /// Releases the freeze and lets effects fade back to their normal state.
+        /// </summary>
+        public void UnfreezeEffects()
+        {
+            _effectsFrozen = false;
+        }
+
+        public void TriggerTimelineShift(float duration = 0.3f)
+        {
+            _currentBurstMaxDuration = duration;
+            _burstTimer = duration;
+        }
+
+        // Swap the rewind/burst tint colors for a single rewind (e.g. the boss-forced
+        // red rewind). Call before StartRewind; call PopTintOverride after the rewind
+        // stops to restore the original colors.
+        public void PushTintOverride(Color newRewindTint, Color newBurstTint)
+        {
+            if (_tintOverrideActive) return;
+            _savedRewindTint = rewindTintColor;
+            _savedBurstTint = burstTintColor;
+            rewindTintColor = newRewindTint;
+            burstTintColor = newBurstTint;
+            _tintOverrideActive = true;
+        }
+
+        public void PopTintOverride()
+        {
+            if (!_tintOverrideActive) return;
+            rewindTintColor = _savedRewindTint;
+            burstTintColor = _savedBurstTint;
+            _tintOverrideActive = false;
         }
         
         #endregion

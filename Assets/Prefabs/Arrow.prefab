@@ -182,6 +182,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::ArrowProjectile
   speed: 8
   lifetime: 5
+  isHoming: 0
+  homingTarget: {fileID: 0}
+  homingTurnSpeed: 6
+  homingTime: 1.5
+  impactClip: {fileID: 8300000, guid: 7ebedf584f78305439d8658ed1793c5c, type: 3}
+  impactVolume: 0.5
 --- !u!95 &2641856951258674116
 Animator:
   serializedVersion: 7
