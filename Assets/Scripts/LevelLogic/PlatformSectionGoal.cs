@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
-/// Trigger at the end of a <see cref="PlatformingSectionAssist"/> route. Marks the section cleared so timed assists do not fire.
-/// </summary>
+// trigger at the end of a platforming section. marks it cleared so timed assists dont fire
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 public class PlatformSectionGoal : MonoBehaviour
@@ -20,12 +18,12 @@ public class PlatformSectionGoal : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        // Check before marking cleared — was the player still within the time limit?
+        // check before marking cleared - was the player still in time?
         bool withinTime = section != null && section.IsWithinTimeLimit;
 
         section?.MarkCleared();
 
-        // Good players who cleared the platforming section in time get a skill comment
+        // good players who cleared the section in time get a skill comment
         if (withinTime)
         {
             var watcher = FindFirstObjectByType<WatcherCommentary>();

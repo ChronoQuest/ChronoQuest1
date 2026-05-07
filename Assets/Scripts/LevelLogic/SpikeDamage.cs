@@ -24,7 +24,7 @@ public class SpikeDamage : MonoBehaviour
     public bool GetRespawnPlayer() => respawnPlayer;
     public void SetRespawnPlayer(bool value) => respawnPlayer = value;
 
-    /// <summary>No damage, no respawn knockback, collider off — used by platforming assists.</summary>
+    // no damage, no respawn knockback, collider off. used by platforming assists
     public void SetHazardDisabled(bool disabled)
     {
         damageAmount = disabled ? 0 : _defaultDamage;

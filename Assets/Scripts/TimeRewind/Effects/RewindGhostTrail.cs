@@ -50,9 +50,9 @@ namespace TimeRewind
         [SerializeField] private int maxPathGhosts = 30;
 
         private SpriteRenderer _playerSprite;
-        // Optional alternate sprite source for a single rewind (e.g. the boss
-        // pulling the player back — the trail should retrace the boss's motion,
-        // not the player's). Null means use _playerSprite.
+        // optional alternate sprite source for a single rewind (e.g. the boss
+        // pulling the player back, the trail should retrace the boss's motion,
+        // not the player's). null = use _playerSprite
         private SpriteRenderer _sourceOverride;
         private PlayerRewindController _rewindController;
         private float _spawnTimer;

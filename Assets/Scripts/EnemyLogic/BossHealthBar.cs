@@ -100,7 +100,7 @@ public class BossHealthBar : MonoBehaviour
         targetFill = Mathf.Clamp01(fraction);
     }
 
-    ///Snap fill instantly — used when rewind restores health
+    // snap fill instantly, used when rewind restores health
     public void SyncImmediate(float fraction)
     {
         targetFill    = Mathf.Clamp01(fraction);

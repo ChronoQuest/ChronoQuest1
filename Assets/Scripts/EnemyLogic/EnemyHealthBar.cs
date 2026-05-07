@@ -41,7 +41,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     private Coroutine flashRoutine;
 
-    // full width of fillRect at scale 1 — captured once so we can set localScale.x
+    // full width of fillRect at scale 1, captured once so we can set localScale.x
     private float originalFillWidth;
 
     // Authored local scale of the healthbar root, captured so we can counter-flip
@@ -162,7 +162,7 @@ public class EnemyHealthBar : MonoBehaviour
     {
         if (fillRect == null) return;
 
-        // Scale the fill rect on the X axis — pivot must be (0, 0.5) in the Inspector
+        // scale the fill rect on the X axis. pivot must be (0, 0.5) in the inspector
         Vector3 s = fillRect.localScale;
         s.x = Mathf.Clamp01(t);
         fillRect.localScale = s;

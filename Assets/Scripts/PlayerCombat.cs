@@ -71,9 +71,9 @@ public class PlayerCombat : MonoBehaviour, IRewindable
         if (TimeRewindManager.Instance != null) TimeRewindManager.Instance.Unregister(this);
     }
 
-    // Combat flags only clear via animation events (EndAttack, EndRainAttack). When a
-    // rewind yanks the animator away mid-attack those events never fire, leaving the
-    // flags stuck true — which gates both rain recasts and melee. Force-clear on rewind.
+    // combat flags only clear via anim events (EndAttack, EndRainAttack). if a rewind
+    // yanks the animator mid-attack those events never fire and the flags stay stuck
+    // true, which blocks rain recasts and melee. clear them manually
     public void OnStartRewind()
     {
         if (isRainAttacking) EndRainAttack();
@@ -151,7 +151,7 @@ public class PlayerCombat : MonoBehaviour, IRewindable
             {
                 if (manaSystem != null && manaSystem.TrySpendMana(rainManaCost))
                 {
-                    // Rain interrupts melee — cancel whatever attack is in progress.
+                    // rain interrupts melee, cancel whatever attack is in progress
                     if (isAttacking) CancelAttack();
                     isRainAttacking = true;
                     anim.Play("Player_RainAttack_Charge", -1, 0f);

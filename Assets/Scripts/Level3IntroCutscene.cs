@@ -4,20 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 
-/// <summary>
-/// Plays a short cutscene at the start of GameScene_3:
-///   1. Watcher dialogue ("if you want to get to me…")
-///   2. Necromancer revives 2 skeletons
-///   3. Necromancer turns and runs into the level
-///   4. Player regains control
-///
-/// Attach to an empty GameObject in the scene. Wire Inspector refs per the
-/// header tooltips. Skeletons should be placed in the scene with their
-/// GameObjects set ACTIVE but with health set to 0 (dead) — or simply
-/// disable their SpriteRenderers and Colliders manually. The cutscene
-/// calls Revive() on each, which handles re-enabling everything and
-/// playing the rise animation.
-/// </summary>
+// short cutscene at the start of GameScene_3:
+//   1. watcher dialogue
+//   2. necromancer revives 2 skeletons
+//   3. necromancer turns and runs offscreen
+//   4. player regains control
+// skeletons should start active with health 0 so they appear as corpses,
+// the cutscene calls Revive() on each.
 public class Level3IntroCutscene : MonoBehaviour
 {
     // ── Player ──────────────────────────────────────────────────────────────
@@ -26,8 +19,7 @@ public class Level3IntroCutscene : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private Animator playerAnimator;
     [SerializeField] private string playerIdleStateName = "Player_Idle";
-    [Tooltip("Every MonoBehaviour on the player root to disable during the " +
-             "cutscene (except PlayerInput, which we handle separately).")]
+    [Tooltip("Every script on the player root gets disabled during the cutscene (except PlayerInput).")]
     [SerializeField] private GameObject playerScriptsRoot;
 
     // ── Necromancer ─────────────────────────────────────────────────────────
@@ -40,9 +32,7 @@ public class Level3IntroCutscene : MonoBehaviour
 
     // ── Skeletons ───────────────────────────────────────────────────────────
     [Header("Skeletons (start dead)")]
-    [Tooltip("Place 2 skeleton prefabs in the scene near the necromancer. " +
-             "Set their health to 0 in the Inspector so they begin dead " +
-             "(sprite hidden, collider off). The cutscene calls Revive().")]
+    [Tooltip("2 skeletons near the necromancer. Set their health to 0 so they start dead.")]
     [SerializeField] private EnemyBase[] skeletons = new EnemyBase[2];
 
     // ── Watcher Dialogue ────────────────────────────────────────────────────
@@ -75,9 +65,7 @@ public class Level3IntroCutscene : MonoBehaviour
 
     // ── Camera ──────────────────────────────────────────────────────────────
     [Header("Camera (optional)")]
-    [Tooltip("A secondary CinemachineCamera in the scene. During the revive " +
-             "its priority is raised so the brain blends to it, then dropped " +
-             "back to 0 when the cutscene ends. Leave empty to skip.")]
+    [Tooltip("Secondary CinemachineCamera. Priority is raised during the revive, dropped back at the end.")]
     [SerializeField] private CinemachineCamera cutsceneCamera;
     [SerializeField] private int cutsceneCameraPriority = 30;
     [SerializeField] private float cutsceneZoomSize = 5f;
@@ -100,26 +88,23 @@ public class Level3IntroCutscene : MonoBehaviour
     private bool cutsceneStarted;
     private Collider2D[] _triggerColliders;
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Awake / Start — freeze necromancer AI and kill skeletons so they appear
-    //                  as corpses on the ground from the moment the scene loads.
-    // ─────────────────────────────────────────────────────────────────────────
+    // freeze necromancer AI and kill skeletons so they appear as corpses on
+    // the ground from scene load
 
     private void Awake()
     {
-        // Cache the trigger colliders for the OverlapPoint fallback in Update.
-        // Needed because the player's dash flips Physics2D.IgnoreLayerCollision
-        // for every layer in dashPhaseLayers, which suppresses OnTriggerEnter2D
-        // entirely if the trigger sits on one of those layers — letting the
-        // player dash straight through and skip the cutscene.
+        // cache trigger colliders for the OverlapPoint fallback in Update.
+        // dashing flips Physics2D.IgnoreLayerCollision for the dash layers and
+        // suppresses OnTriggerEnter2D, so the player can dash straight through
+        // and skip the cutscene without it
         _triggerColliders = GetComponents<Collider2D>();
 
-        // Disable necromancer AI only — leave physics and colliders alone so
-        // it stays grounded naturally. It just stands in idle.
+        // disable AI only, leave physics and colliders alone so the necromancer
+        // stays grounded
         if (necromancer != null)
             necromancer.enabled = false;
 
-        // Force necromancer into grounded idle pose
+        // grounded idle pose
         if (necromancerAnimator != null)
         {
             necromancerAnimator.SetBool("isGrounded", true);
@@ -130,36 +115,29 @@ public class Level3IntroCutscene : MonoBehaviour
 
     private void Start()
     {
-        // Kill skeletons one frame after Start so their own Start() has run
-        // and initialised animator/collider references. Die() must be called
-        // while the MonoBehaviour is still enabled so its coroutine can run.
+        // kill skeletons one frame after Start so their own Start() has run
         StartCoroutine(KillSkeletonsDeferred());
     }
 
     private IEnumerator KillSkeletonsDeferred()
     {
-        // Wait one frame so every skeleton's Start() has executed
         yield return null;
 
         foreach (var skeleton in skeletons)
         {
             if (skeleton == null) continue;
-            skeleton.Die();             // triggers death anim, leaves corpse visible
+            skeleton.Die();             // death anim, corpse stays visible
         }
 
-        // Wait for death animations to finish, then disable AI
+        // wait for death anims, then disable AI
         yield return new WaitForSeconds(1f);
 
         foreach (var skeleton in skeletons)
         {
             if (skeleton == null) continue;
-            skeleton.enabled = false;   // AI off so they can't act while dead
+            skeleton.enabled = false;
         }
     }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Trigger — player walks into this object's Collider2D (set to IsTrigger)
-    // ─────────────────────────────────────────────────────────────────────────
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -169,12 +147,9 @@ public class Level3IntroCutscene : MonoBehaviour
         BeginCutscene();
     }
 
-    // Fallback for when the player dashes through the trigger.
-    // PlayerMovement.Dash() calls Physics2D.IgnoreLayerCollision for every layer
-    // in dashPhaseLayers, which suppresses OnTriggerEnter2D for the duration of
-    // the dash. OverlapPoint is a direct geometric check on this specific
-    // collider and ignores the layer-collision matrix, so it still detects the
-    // player while phasing.
+    // fallback for when the player dashes through the trigger.
+    // dash sets Physics2D.IgnoreLayerCollision so OnTriggerEnter2D doesnt fire.
+    // OverlapPoint is a direct geometric check that ignores the layer matrix
     private void Update()
     {
         if (cutsceneStarted) return;
@@ -198,10 +173,7 @@ public class Level3IntroCutscene : MonoBehaviour
         cutsceneStarted = true;
         WatcherCommentary.DialogueLocked = true;
 
-        // Hide HUD
-        // if (uiToHide != null)
-        //     foreach (var go in uiToHide)
-        //         if (go != null) go.SetActive(false);
+        // hide HUD
         if (hudGroup != null)
         {
             hudGroup.alpha = 0;
@@ -212,21 +184,17 @@ public class Level3IntroCutscene : MonoBehaviour
         StartCoroutine(RunCutscene());
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Cutscene sequence
-    // ─────────────────────────────────────────────────────────────────────────
-
     private IEnumerator RunCutscene()
     {
         yield return new WaitForSeconds(initialDelay);
 
-        // ── 1. Watcher dialogue ──────────────────────────────────────────────
+        // 1. watcher dialogue
         yield return StartCoroutine(PlayDialogue());
 
-        // ── 2. Necromancer faces the skeletons / camera ──────────────────────
+        // 2. pause before revive
         yield return new WaitForSeconds(pauseBeforeRevive);
 
-        // ── 3. Pan camera to the necromancer ─────────────────────────────────
+        // 3. pan camera to necromancer
         if (cutsceneCamera != null)
         {
             cutsceneCamera.Follow = necromancer.transform;
@@ -234,35 +202,33 @@ public class Level3IntroCutscene : MonoBehaviour
             cutsceneCamera.Lens.OrthographicSize = cutsceneZoomSize;
             cutsceneCamera.Priority = cutsceneCameraPriority;
 
-            // Wait for the CinemachineBrain blend to finish before starting the revive
+            // wait for the brain blend before starting revive
             var brain = Camera.main != null ? Camera.main.GetComponent<CinemachineBrain>() : null;
             float blendTime = brain != null ? brain.DefaultBlend.Time : 0.5f;
             yield return new WaitForSeconds(blendTime);
         }
 
-        // ── 4. Necromancer casts revive ──────────────────────────────────────
+        // 4. revive
         if (necromancerAnimator != null)
             necromancerAnimator.SetTrigger("Revive");
 
-        // Wait until the right moment in the animation to pop the skeletons up
         yield return new WaitForSeconds(necromancerReviveAnimDuration * skeletonReviveMoment);
 
         foreach (var skeleton in skeletons)
         {
             if (skeleton == null) continue;
-            skeleton.Revive();       // restores health, collider, sprite, plays Revive anim
-            skeleton.enabled = true; // re-enable AI so they fight after the cutscene
+            skeleton.Revive();
+            skeleton.enabled = true;
         }
 
-        // Wait for the rest of the revive animation
         float remaining = necromancerReviveAnimDuration * (1f - skeletonReviveMoment);
         yield return new WaitForSeconds(remaining);
         yield return new WaitForSeconds(pauseAfterRevive);
 
-        // ── 5. Necromancer turns and runs out of frame ────────────────────────
+        // 5. necromancer runs offscreen
         yield return new WaitForSeconds(pauseBeforeRun);
 
-        // Always run away from the player
+        // always run away from the player
         float dir = Mathf.Sign(necromancer.transform.position.x - playerRigidbody.transform.position.x);
         if (dir == 0f) dir = 1f;
         FaceNecromancer(dir);
@@ -270,7 +236,6 @@ public class Level3IntroCutscene : MonoBehaviour
         if (necromancerAnimator != null)
             necromancerAnimator.SetBool("isWalking", true);
 
-        // Run until the necromancer is off-screen
         float runTimer = 0f;
         bool cameraPanned = false;
         Camera cam = Camera.main;
@@ -281,7 +246,7 @@ public class Level3IntroCutscene : MonoBehaviour
             pos.x += dir * necromancerRunSpeed * Time.deltaTime;
             necromancer.transform.position = pos;
 
-            // Check if the necromancer is off-screen (with a small margin)
+            // offscreen check with a small margin
             if (cam != null)
             {
                 Vector3 viewPos = cam.WorldToViewportPoint(pos);
@@ -291,7 +256,7 @@ public class Level3IntroCutscene : MonoBehaviour
 
             runTimer += Time.deltaTime;
 
-            // After enough time on camera, pan back and give the player control
+            // pan back + give player control once enough on-camera time has passed
             if (!cameraPanned && runTimer >= necromancerRunOnCameraDuration)
             {
                 cameraPanned = true;
@@ -299,15 +264,14 @@ public class Level3IntroCutscene : MonoBehaviour
                 if (cutsceneCamera != null)
                     cutsceneCamera.Priority = 0;
 
-                // Give the player control back, but keep necromancer AI off
-                // so it doesn't override our movement loop
+                // keep necromancer AI off so it doesnt override the run loop
                 EndCutscene(enableNecromancer: false);
             }
 
             yield return null;
         }
 
-        // In case the exit was very close and the loop ended before the pan
+        // in case the exit was close and the loop ended before the pan
         if (!cameraPanned)
         {
             if (cutsceneCamera != null)
@@ -316,16 +280,12 @@ public class Level3IntroCutscene : MonoBehaviour
             EndCutscene(enableNecromancer: false);
         }
 
-        // Run loop finished — now hand the necromancer to its AI
+        // run loop done, hand the necromancer back to its AI
         if (necromancerAnimator != null)
             necromancerAnimator.SetBool("isWalking", false);
 
         EnableNecromancerControl();
     }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Player lock / unlock
-    // ─────────────────────────────────────────────────────────────────────────
 
     private void DisablePlayerControl()
     {
@@ -339,7 +299,7 @@ public class Level3IntroCutscene : MonoBehaviour
             playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
         }
 
-        // Disable all gameplay scripts on the player
+        // disable all gameplay scripts
         if (playerScriptsRoot != null)
         {
             foreach (MonoBehaviour mb in playerScriptsRoot.GetComponents<MonoBehaviour>())
@@ -362,7 +322,6 @@ public class Level3IntroCutscene : MonoBehaviour
 
     private void EnablePlayerControl()
     {
-        // Re-enable all gameplay scripts
         if (playerScriptsRoot != null)
         {
             foreach (MonoBehaviour mb in playerScriptsRoot.GetComponents<MonoBehaviour>())
@@ -378,10 +337,6 @@ public class Level3IntroCutscene : MonoBehaviour
         if (playerInput != null)
             playerInput.enabled = true;
     }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Necromancer lock / unlock
-    // ─────────────────────────────────────────────────────────────────────────
 
     private void DisableNecromancerControl()
     {
@@ -421,20 +376,12 @@ public class Level3IntroCutscene : MonoBehaviour
             necromancer.enabled = true;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Necromancer helpers
-    // ─────────────────────────────────────────────────────────────────────────
-
     private void FaceNecromancer(float dir)
     {
         Vector3 scale = necromancer.transform.localScale;
         scale.x = Mathf.Abs(scale.x) * dir;
         necromancer.transform.localScale = scale;
     }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  End
-    // ─────────────────────────────────────────────────────────────────────────
 
     private void EndCutscene(bool enableNecromancer = true)
     {
@@ -447,30 +394,22 @@ public class Level3IntroCutscene : MonoBehaviour
         if (enableNecromancer)
             EnableNecromancerControl();
 
-        // Restore HUD
-        // if (uiToHide != null)
-        //     foreach (var go in uiToHide)
-        //         if (go != null) go.SetActive(true);
-        //         if (hudGroup != null)
+        // restore HUD
         {
             hudGroup.alpha = 1;
         }
 
-        // Ensure cutscene camera is deactivated
         if (cutsceneCamera != null)
             cutsceneCamera.Priority = 0;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Dialogue — same typewriter system as IntroCutscene
-    // ─────────────────────────────────────────────────────────────────────────
-
+    // typewriter, same flow as IntroCutscene
     private IEnumerator PlayDialogue()
     {
         if (dialogueText == null || dialogueLines == null || dialogueLines.Length == 0)
             yield break;
 
-        // Show container + parent canvas
+        // show container + parent canvas
         if (dialogueContainer != null)
         {
             Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
@@ -479,7 +418,7 @@ public class Level3IntroCutscene : MonoBehaviour
             dialogueContainer.SetActive(true);
         }
 
-        // Wait a frame for TMP layout
+        // wait a frame for TMP layout
         yield return null;
 
         float cps = Mathf.Max(1f, dialogueCharactersPerSecond);
@@ -494,7 +433,7 @@ public class Level3IntroCutscene : MonoBehaviour
                 continue;
             }
 
-            // Pre-compute auto-size then lock it so the text doesn't jitter
+            // pre-compute auto-size then lock it so the text doesnt jitter
             dialogueText.enableAutoSizing = true;
             dialogueText.text = line;
             dialogueText.ForceMeshUpdate();
@@ -505,7 +444,6 @@ public class Level3IntroCutscene : MonoBehaviour
             dialogueText.maxVisibleCharacters = 0;
             yield return null;
 
-            // Typewriter reveal
             for (int i = 1; i <= line.Length; i++)
             {
                 dialogueText.maxVisibleCharacters = i;
@@ -524,7 +462,7 @@ public class Level3IntroCutscene : MonoBehaviour
 
         yield return new WaitForSeconds(dialoguePauseAfterLastLine);
 
-        // Hide dialogue
+        // hide dialogue
         if (dialogueContainer != null)
         {
             Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);

@@ -5,14 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TimeRewind;
 
-/// <summary>
-/// Reads ML model beliefs and difficulty tier to deliver Watcher commentary.
-/// Fully event-driven: rewind comments fire after rewinds, skill comments fire after
-/// kills/damage/dashes/platform clears, playstyle comments fire after melee hits
-/// (aggressive), spell casts (ability-focused), or dashes/jumps (defensive).
-/// Max 3 comments per scene. Does not freeze the player.
-/// Clash resolution: GameScene_2 favours skill over playstyle, GameScene_3 favours playstyle over skill.
-/// </summary>
+// reads ML beliefs + difficulty tier to fire watcher commentary. event-driven.
+// rewind/skill/playstyle each fire from their own triggers. max 3 per scene.
+// GameScene_2 favours skill over playstyle, GameScene_3 favours playstyle over skill
 public class WatcherCommentary : MonoBehaviour
 {
     [Header("Dialogue UI")]
@@ -84,15 +79,10 @@ public class WatcherCommentary : MonoBehaviour
 
     // ── Clash detection ─────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Static flag other dialogue scripts set while they're showing text.
-    /// </summary>
+    // other dialogue scripts set this while showing text
     public static bool DialogueLocked { get; set; }
 
-    /// <summary>
-    /// Call this when the player restarts or returns to the main menu
-    /// to reset all cross-scene Watcher state.
-    /// </summary>
+    // call on restart / main menu to reset cross-scene watcher state
     public static void ResetAll()
     {
         scenesWithHighRewind = 0;
@@ -192,10 +182,7 @@ public class WatcherCommentary : MonoBehaviour
 
     // ── Clash resolution ────────────────────────────────────────────────────
 
-    /// <summary>
-    /// Returns true if a skill comment is allowed in the current scene context.
-    /// GameScene_3 favours playstyle — suppress skill if playstyle hasn't fired yet.
-    /// </summary>
+    // GameScene_3 favours playstyle, so block skill if playstyle hasnt fired yet
     private bool SkillAllowedByClash()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -205,10 +192,7 @@ public class WatcherCommentary : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// Returns true if a playstyle comment is allowed in the current scene context.
-    /// GameScene_2 favours skill — suppress playstyle if skill hasn't fired yet.
-    /// </summary>
+    // GameScene_2 favours skill, so block playstyle if skill hasnt fired yet
     private bool PlaystyleAllowedByClash()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -309,10 +293,8 @@ public class WatcherCommentary : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called externally (e.g. by PlatformSectionGoal) to trigger a skill comment
-    /// for Normal/Hard players without the usual scene-time gate.
-    /// </summary>
+    // called by PlatformSectionGoal etc. to trigger a skill comment for Normal/Hard
+    // players without the scene-time gate
     public void TryFireSkillComment()
     {
         if (!enableSkillComments) return;

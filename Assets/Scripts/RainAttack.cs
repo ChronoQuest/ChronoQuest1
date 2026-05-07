@@ -8,9 +8,9 @@ public class RainAttack : MonoBehaviour
     public float spawnAreaWidth = 10f;
     public float spawnHeight = 8f;
     public float delayBetweenShots = 0.1f;
-    // Per-bolt damage for the rain spell. The bolt prefab is shared with the basic
-    // spell, so we override damage on each instance instead of editing the prefab —
-    // editing the prefab would also weaken the basic spell.
+    // per-bolt damage. the prefab is shared with the basic spell so we override
+    // damage on each instance instead of editing the prefab (which would weaken
+    // the basic spell too)
     public int boltDamage = 3;
     public PlayerTacticalModel playerTacticalModel;
     public LayerMask groundLayer;

@@ -21,8 +21,8 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     public float hitboxOffset = 0.8f;
 
     [Header("Landed-On-Player Nudge")]
-    // Fired when the skeleton's collider rests on top of the player — small push so it
-    // slides off the head and gravity drops it to real ground.
+    // fired when the skeleton's collider rests on top of the player. small push so
+    // it slides off the head and gravity drops it to real ground
     public float pushOffXSpeed = 1.5f;
     public float pushOffYSpeed = 1f;
     public float pushOffDuration = 0.25f;
@@ -179,9 +179,9 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
         }
     }
 
-    // The attack hitbox only probes horizontally (see MeleeHit), so if the skeleton lands
-    // on the player's head it never connects. Catch that case via contact normal and deal
-    // damage + a small nudge so the skeleton slides off rather than walking on the player.
+    // the attack hitbox only probes horizontally (see MeleeHit), so a skeleton landing
+    // on the player's head never connects. catch that via contact normal and deal damage
+    // + a small nudge so it slides off
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (wasDead || isDying || isRewinding) return;
@@ -259,12 +259,10 @@ public class MeleeSkeleton : EnemyBase, IBossSpawnable, IForesightEnemy
     {
         if (animator != null)
         {
-            // Clear every non-death trigger before queuing Die. The killing blow can
-            // race with Update/coroutines that already fired Attack/Hit/Block/Revive —
-            // those triggers stay queued in the animator's parameter dictionary and
-            // consume Any State transitions out of the Death state right after we
-            // land in it, leaving the skeleton visually alive (in Attack/Hit/Idle).
-            // Resetting them here means only Die survives to be processed.
+            // clear every non-death trigger before queuing Die. the killing blow can
+            // race with Update/coroutines that already fired Attack/Hit/Block/Revive,
+            // and those queued triggers eat Any State transitions out of Death right
+            // after we land in it, leaving the skeleton visually alive
             animator.ResetTrigger("Hit");
             animator.ResetTrigger("Attack");
             animator.ResetTrigger("Block");

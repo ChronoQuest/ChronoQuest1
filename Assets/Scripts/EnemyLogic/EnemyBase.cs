@@ -48,7 +48,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected RigidbodyType2D originalBodyType;
     protected bool isRewinding;
     protected bool wasDead;
-    protected bool justBecameAlive; // true for one ApplyState frame when transitioning dead→alive
+    protected bool justBecameAlive; // true for one ApplyState frame on dead -> alive transition
 
     public bool IsDead => health <= 0;
     protected bool isStunned;
@@ -57,7 +57,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
     protected GameObject foresightGlow;
     public GameObject ForesightGlow => foresightGlow;
 
-    /// <summary>When true, dynamic difficulty will not scale this enemy's HP.</summary>
+    // when true, dynamic difficulty wont scale this enemy's HP
     public bool immuneToDifficultyScaling;
 
     protected virtual void Awake()
@@ -93,7 +93,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
 
         startHealth = health;
-        originalBodyType = rb.bodyType; // captured once — represents alive body type
+        originalBodyType = rb.bodyType; // captured once, alive body type
         foresightGlow = transform.Find("Lit")?.gameObject;
         _healthBar = GetComponent<EnemyHealthBar>();
     }
@@ -193,7 +193,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         wasDead = true;
         DataCollectionService.Instance?.RecordEnemyKill();
         DeathSound();
-        rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place — prevents falling through floor
+        rb.bodyType = RigidbodyType2D.Kinematic; // freeze in place, prevents falling through floor
         rb.linearVelocity = Vector2.zero;
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
@@ -305,7 +305,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
 
         if (state.Health > 0 && wasDead)
         {
-            // dead → alive transition
+            // dead -> alive transition
             justBecameAlive = true;
             wasDead = false;
             rb.bodyType = originalBodyType;
@@ -315,7 +315,7 @@ public class EnemyBase : MonoBehaviour, IDamageable, IKnockbackable, IRewindable
         }
         else if (state.Health <= 0 && !wasDead)
         {
-            // alive → dead transition (rewinding past the death event)
+            // alive -> dead transition (rewinding past the death event)
             wasDead = true;
             rb.bodyType = RigidbodyType2D.Kinematic;
             rb.linearVelocity = Vector2.zero;

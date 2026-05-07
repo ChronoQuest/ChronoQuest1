@@ -2,11 +2,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// Listens for an EnemyBase.OnDeath event and plays a Watcher dialogue.
-/// Attach to any GameObject in the scene, wire the enemy and dialogue refs.
-/// Does not freeze the player — text appears and fades while gameplay continues.
-/// </summary>
+// listens for EnemyBase.OnDeath and plays a watcher dialogue. doesnt freeze
+// the player, text appears and fades while gameplay continues
 public class WatcherDialogueTrigger : MonoBehaviour
 {
     [Header("Enemy to watch")]

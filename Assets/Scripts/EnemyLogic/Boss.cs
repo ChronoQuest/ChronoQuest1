@@ -12,16 +12,14 @@ public class Boss : EnemyBase, IRewindable
     public float damageCooldown = 1.5f;
     public float playerPushSpeed = 3f;
 
-    // Belief-driven spell cadence multiplier, refreshed per combat phase from the GMM.
+    // spell cadence multiplier, set per phase from the GMM
     float tempoMultiplier = 1f;
     CameraShake cameraShake;
 
     bool _isRewinding;
     bool offActionSpawned;
     bool resActionSpawned;
-    // Once-per-phase spawn guards for the two "heavy / one-shot" payloads. FireExplosion and
-    // FireWave spawn per Attack2 event on purpose (interleaving is the intended fantasy); only
-    // the FireColumns bundle and FireRow must never stack within a single combat round.
+    // stops fire columns + fire row spawning twice in one round
     bool bundleSpawned;
     bool fireRowSpawned;
     int facingDirection = 1;
@@ -31,17 +29,13 @@ public class Boss : EnemyBase, IRewindable
     bool isPlayingAttack1;
     bool isPlayingAttack2;
 
-    // Two-phase fight progression. Waiting = pre-dialogue, boss idle, no music/health
-    // bar. Phase1 = dumber equal-weight rolls, no GMM. Phase2 = full GMM-driven behavior.
-    // Intentionally NOT captured in rewind state so rewinding past the 80% threshold
-    // doesn't demote the boss back to Phase1 (which would also re-trigger the dialogue
-    // via the controller's one-way latch).
+    // not captured in rewind state, so rewinding past the threshold doesnt demote the
+    // boss back to phase1 + re-trigger the dialogue
     public enum FightStage { Waiting, Phase1, Phase2 }
     public FightStage fightStage = FightStage.Waiting;
 
-    // Set by BossFightController while a mid-fight dialogue is up, so Update() freezes
-    // the boss without us having to touch Time.timeScale (which would also halt the
-    // player's idle animation). Not rewind-captured — purely transient UI state.
+    // BossFightController flips this during dialogue so Update freezes the boss
+    // without needing Time.timeScale (which would freeze the player too)
     public bool dialoguePaused;
 
     enum BossPhase { Idle, Positional, Combat }
@@ -69,9 +63,7 @@ public class Boss : EnemyBase, IRewindable
     OffMove lastLastOff = OffMove.None;
     ResMove lastRes = ResMove.None;
 
-    // Combat pair pools. Belief read picks a pool; a random pair is drawn from it.
-    // Each pool intentionally contains at least two distinct Off moves so the
-    // "no back-to-back Off" guard always has a fallback without falling out of pool.
+    // belief read picks a pool, then a random pair is drawn from it
     struct AttackPair { public OffMove off; public ResMove res; }
 
     static readonly AttackPair[] RecklessPool =
@@ -92,8 +84,7 @@ public class Boss : EnemyBase, IRewindable
         new AttackPair { off = OffMove.HomingFireballs, res = ResMove.FireRow },
         new AttackPair { off = OffMove.FireExplosion,   res = ResMove.FireWave },
     };
-    // Picked when no belief axis dominates, or when the spoiler roll fires. Three
-    // distinct Off moves so it's maximally unpredictable.
+    // fallback when no belief axis dominates, or when the spoiler roll fires
     static readonly AttackPair[] MixedPool =
     {
         new AttackPair { off = OffMove.FireColumns,     res = ResMove.Enemy },
@@ -101,14 +92,13 @@ public class Boss : EnemyBase, IRewindable
         new AttackPair { off = OffMove.HomingFireballs, res = ResMove.None },
     };
 
-    // If max belief falls below this, treat the player as unreadable and pick from MixedPool.
+    // below this, treat the player as unreadable and pick from MixedPool
     const float AxisDominanceThreshold = 0.40f;
-    // Unconditional "keep them guessing" roll that ignores beliefs entirely.
+    // random roll that ignores beliefs
     const float SpoilerChance = 0.20f;
 
-    // The boss keeps a 2-deep queue of upcoming actions ("next" and "nextNext"). Both slots
-    // are part of the rewind state, so rewinding past the current attack still preserves the
-    // next attack's identity — forward play will hit the same roll.
+    // 2-deep action queue. both slots are part of rewind state so rewinding past
+    // the current attack still hits the same next roll on forward play
     bool nextIsPositional;
     PosMove nextPosMove;
     OffMove nextOff;
@@ -118,26 +108,21 @@ public class Boss : EnemyBase, IRewindable
     OffMove nextNextOff;
     ResMove nextNextRes;
 
-    // Seconds the boss stays idle between phases. Longer gives the player more room to rewind
-    // into the idle window without losing the pre-rolled attack.
+    // idle time between phases
     const float IdleDuration = 1.5f;
 
     // Movement Tracking
     Vector2 moveStart;
     Vector2 movePeak;
     Vector2 moveTarget;
-    // Pushed to the stage edge (was ±11) so there's no behind-boss strip for
-    // the player to stand on and cheese ranged fights. Positional attacks
-    // (ChangeSides / GroundPound / Melee) and TeleportToSafeEdge all clamp to
-    // these, so their behaviour scales with the bounds — the Melee ±1 buffer
-    // is still 1 unit from the new edge.
+    // arena bounds. was ±11 but moved to ±12 so theres no strip behind the boss
+    // to cheese ranged fights from
     const float ArenaMinX = -12f;
     const float ArenaMaxX =  12f;
-    // Safety net: if the boss's x exceeds this (e.g. launched off a stray platform),
-    // it gets teleported back to the matching arena edge. Kept one unit past the
-    // clamp so normal movement never trips it.
+    // if boss x exceeds this, teleport it back. kept 1 past the clamp so normal
+    // movement doesnt trip it
     const float OffSceneThreshold = 13f;
-    // Beyond this |x|, we don't shove the player further toward the edge on a jump-landing hit.
+    // beyond this |x|, dont shove the player further toward the edge on a jump-landing hit
     const float SafePushEdgeX = 9.5f;
     const float JumpAttackPushSpeed = 1.5f;
     float finalTargetX;
@@ -146,8 +131,8 @@ public class Boss : EnemyBase, IRewindable
     private Animator animator;
     private float groundedY;
 
-    // Melee attack state: the boss snapshots the player's x at the start, walks there,
-    // swings, then retreats to the nearest arena edge. All three sub-phases share posTimer.
+    // melee state: snapshot player x, walk there, swing, retreat to nearest edge.
+    // all three sub-phases share posTimer
     MeleeSubPhase meleeSubPhase;
     float meleeTargetX;
     float meleeRetreatX;
@@ -155,8 +140,8 @@ public class Boss : EnemyBase, IRewindable
     [Tooltip("Speed when charging toward the player")]
     public float meleeRunSpeed = 63f;
     public float meleeStopBuffer = 0.6f;
-    // Extra horizontal reach of the swing beyond the stop distance — damage registers
-    // if the player is within (bossHalfWidth + playerHalfWidth + meleeStopBuffer + meleeHitReach).
+    // extra horizontal reach beyond the stop distance. damage registers if player is
+    // within (bossHalfWidth + playerHalfWidth + meleeStopBuffer + meleeHitReach)
     public float meleeHitReach = 1.5f;
     const float MeleeReachTolerance = 0.15f;
     const float MeleeSwingDuration = 0.7f;
@@ -186,12 +171,11 @@ public class Boss : EnemyBase, IRewindable
         EndPhase();
         InitializeActionQueue();
         if (attackManager != null) attackManager.boss = transform;
-        // Music + health bar are deferred to BeginFight() so the intro dialogue plays first.
+        // music + health bar wait until BeginFight() so the intro dialogue plays first
     }
 
-    // Called by BossFightController once the intro dialogue completes. Before this
-    // runs, fightStage is Waiting and Update() early-returns, so the boss just stands
-    // idle in the scene with no music and no visible health bar.
+    // called by BossFightController after the intro dialogue ends. before this,
+    // fightStage is Waiting and Update early-returns
     public void BeginFight(FightStage stage)
     {
         fightStage = stage;
@@ -200,8 +184,7 @@ public class Boss : EnemyBase, IRewindable
         if (driver != null) driver.StartFight();
     }
 
-    // Flip to phase 2 and re-roll the lookahead queue so upcoming plans use the GMM
-    // branch instead of the phase-1 equal-weight roller.
+    // flip to phase 2 and re-roll the queue so upcoming plans use the GMM branch
     public void AdvanceToPhase2()
     {
         fightStage = FightStage.Phase2;
@@ -227,9 +210,8 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
-    // Safety net for when stray platforms (or any other hazard) launch the boss off-screen.
-    // Snaps the boss back to the arena edge on the same side it left from, facing inward,
-    // wipes any lingering platforms, and resets to Idle so combat can resume cleanly.
+    // if a stray platform launches the boss off-screen, snap it back to the same-side
+    // edge facing inward, wipe lingering platforms, reset to Idle
     void TeleportToSafeEdge()
     {
         float edgeX = transform.position.x < 0f ? ArenaMinX : ArenaMaxX;
@@ -263,15 +245,14 @@ public class Boss : EnemyBase, IRewindable
         animator.SetBool("isRunning", false);
     }
 
-    // Fills both queue slots. Called once from Start so there's always a 2-move lookahead.
+    // fills both queue slots, called once from Start
     void InitializeActionQueue()
     {
         RollPlan(out nextIsPositional, out nextPosMove, out nextOff, out nextRes);
         RollPlan(out nextNextIsPositional, out nextNextPosMove, out nextNextOff, out nextNextRes);
     }
 
-    // Consume the front plan (next*) and shift nextNext into its place; roll a fresh back slot.
-    // Called right after an action is kicked off in UpdateIdle.
+    // consume next*, shift nextNext into its place, roll a fresh back slot
     void AdvanceQueue()
     {
         nextIsPositional = nextNextIsPositional;
@@ -281,8 +262,7 @@ public class Boss : EnemyBase, IRewindable
         RollPlan(out nextNextIsPositional, out nextNextPosMove, out nextNextOff, out nextNextRes);
     }
 
-    // Rolls a single action plan. Positional-vs-combat split, then the specifics.
-    // Writes into out params so the same routine can target either queue slot.
+    // rolls a single action plan. positional/combat split first, then specifics
     void RollPlan(out bool isPositional, out PosMove posMove, out OffMove off, out ResMove res)
     {
         /* TEST: force every attack to be Melee. Remove this block to restore normal rolls.
@@ -301,9 +281,9 @@ public class Boss : EnemyBase, IRewindable
         isPositional = Random.value > 0.8f;
         if (isPositional)
         {
-            // Aggressive players press close → boss relocates (ChangeSides).
-            // Cautious players camp → boss drops on them (GroundPound).
-            // Cautious/evasive players who maintain distance invite the Melee chase.
+            // aggressive players press close, so boss relocates (ChangeSides)
+            // cautious players camp, so boss drops on them (GroundPound)
+            // cautious/evasive players who keep distance invite the Melee chase
             ReadBeliefs(out float reckless, out float evasive, out float cautious, out float idle);
             float meleeChance = Mathf.Clamp01(0.33f + 0.2f * cautious + 0.1f * evasive - 0.2f * reckless);
             if (Random.value < meleeChance)
@@ -325,9 +305,8 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
-    // Phase-1 roller: 20% positional (equal weight across the three positional moves),
-    // otherwise equal chance among the three canonical off/res pairs that the GMM
-    // would normally bias between. No beliefs read, no tempo modulation.
+    // phase 1 roller: 20% positional, otherwise equal-chance off/res pair. no beliefs,
+    // no tempo modulation
     void RollPlanDumb(out bool isPositional, out PosMove posMove, out OffMove off, out ResMove res)
     {
         isPositional = Random.value < 0.2f;
@@ -353,16 +332,14 @@ public class Boss : EnemyBase, IRewindable
 
         AttackPair[] pool = SelectPool(reckless, evasive, cautious, idle);
 
-        // Block only triples (three same Off in a row). Doubles are allowed so each
-        // pool's 2:1 ratio actually manifests — aggressive reads show mostly FireColumns
-        // with FireExplosion breaks, rather than being forced into strict alternation.
+        // block triples only (three same Off in a row). doubles are fine so the
+        // pool's 2:1 ratio actually shows up
         AttackPair picked = pool[Random.Range(0, pool.Length)];
         for (int tries = 0; tries < 6 && picked.off == lastOff && picked.off == lastLastOff; tries++)
         {
             picked = pool[Random.Range(0, pool.Length)];
         }
-        // Safety fallback: if the pool can't break a triple, pull any differing pair
-        // from MixedPool (shouldn't trigger given pool construction, but guard anyway).
+        // if the pool somehow cant break a triple, pull a differing pair from MixedPool
         if (picked.off == lastOff && picked.off == lastLastOff)
         {
             for (int i = 0; i < MixedPool.Length; i++)
@@ -378,9 +355,8 @@ public class Boss : EnemyBase, IRewindable
         lastRes = res;
     }
 
-    // Chooses which pair pool to draw from. Spoiler roll fires unconditionally; otherwise,
-    // if no axis clears the dominance threshold, the player is treated as unreadable and
-    // gets MixedPool — avoids the boss committing to a weak read.
+    // picks a pool. spoiler roll fires no matter what; otherwise if no axis clears the
+    // dominance threshold, fall back to MixedPool
     AttackPair[] SelectPool(float reckless, float evasive, float cautious, float idle)
     {
         if (Random.value < SpoilerChance) return MixedPool;
@@ -413,17 +389,16 @@ public class Boss : EnemyBase, IRewindable
         idle = tactics[PlayerTacticalModel.TacticType.Idle]; 
     }
 
-    // Pushes belief-derived tuning into combat timing + targeting. Called once per combat
-    // phase so the feel of the fight matches the GMM's current read on the player.
+    // pushes belief-derived tuning into combat timing + targeting, once per combat phase
     void ApplyBeliefModulation()
     {
         ReadBeliefs(out float reckless, out float evasive, out float cautious, out float idle);
 
-        // Aggressive + cautious both invite faster pressure; evasive players already move
-        // plenty, so keep their cadence close to the default to avoid over-saturation.
+        // aggressive and cautious both invite faster pressure. evasive players already
+        // move a lot so keep their cadence near default
         tempoMultiplier = Mathf.Clamp(1f - 0.3f * reckless - 0.15f * cautious, 0.55f, 1.1f);
 
-        // Campers get spawns biased onto them; dashers get more random spread.
+        // campers get spawns biased onto them, dashers get more random spread
         if (attackManager != null)
             attackManager.playerTargetBias = Mathf.Clamp01(0.75f + 0.2f * cautious - 0.2f * evasive);
     }
@@ -580,12 +555,12 @@ public class Boss : EnemyBase, IRewindable
     {
         currentPos = PosMove.Melee;
         meleeSubPhase = MeleeSubPhase.WalkToPlayer;
-        // Snapshot the player's x so the boss commits to a fixed strike point; rewind-friendly
-        // because it's captured in state and we don't re-read player.position mid-attack.
+        // snapshot player x so the boss commits to a fixed strike point. rewind-safe
+        // because its captured in state
         float playerX = player.position.x;
 
-        // Pull the strike point back by the sum of the two colliders' half-widths plus a small
-        // buffer, so the boss stops just short of touching the player instead of overrunning them.
+        // pull the strike point back by both half-widths + a buffer so the boss stops
+        // just short of the player instead of overrunning
         float bossHalfWidth = 0f;
         var bossCol = GetComponent<Collider2D>();
         if (bossCol != null) bossHalfWidth = bossCol.bounds.extents.x;
@@ -620,9 +595,9 @@ public class Boss : EnemyBase, IRewindable
                 break;
 
             case MeleeSubPhase.Attacking:
-                // Partway through the swing, check once if the player is within reach and
-                // apply damage directly — the collision hit no longer fires because the boss
-                // deliberately stops short of the player.
+                // partway through the swing, check once if the player is in reach and
+                // apply damage directly. collision hit doesnt fire because the boss stops
+                // short of the player
                 if (!meleeHitApplied && posTimer >= MeleeHitTime)
                 {
                     meleeHitApplied = true;
@@ -646,8 +621,8 @@ public class Boss : EnemyBase, IRewindable
                     meleeSubPhase = MeleeSubPhase.WalkAway;
                     posTimer = 0f;
                     animator.SetBool("isRunning", true);
-                    // Force out of Melee even if the clip hasn't reached its exit time yet —
-                    // otherwise the slowed Melee clip keeps playing while the boss runs back.
+                    // force out of Melee even if the clip isnt at its exit time, otherwise
+                    // the slowed Melee clip keeps playing while the boss runs back
                     animator.Play("Run", 0, 0f);
                 }
                 break;
@@ -665,8 +640,8 @@ public class Boss : EnemyBase, IRewindable
         }
     }
 
-    // Shared horizontal mover for both melee walk sub-phases. Faces the direction of travel
-    // and clamps to groundedY so the boss can't drift off the floor mid-walk.
+    // shared horizontal mover for both melee walk sub-phases. clamps to groundedY so
+    // the boss cant drift off the floor mid-walk
     void WalkMeleeTowards(float targetX)
     {
         float delta = targetX - transform.position.x;
@@ -689,7 +664,7 @@ public class Boss : EnemyBase, IRewindable
         FacePlayer();
         facingDirection = player.position.x > transform.position.x ? -1 : 1;
 
-        // Phase 1 uses default tempo + targeting (no GMM). Phase 2 pulls from beliefs.
+        // phase 1 uses default tempo + targeting, phase 2 pulls from beliefs
         if (fightStage == FightStage.Phase2) ApplyBeliefModulation();
 
         currentPhase = BossPhase.Combat;
@@ -746,7 +721,7 @@ public class Boss : EnemyBase, IRewindable
                 isPlayingAttack2 = true;
                 offActionSpawned = true;
             }
-            // Full bundle mode (no res spell): wait for platforms to finish their cycle.
+            // full bundle (no res spell): wait for platforms to finish their cycle
             if (currentRes == ResMove.None)
             {
                 PlatformController platform = FindFirstObjectByType<PlatformController>();
@@ -798,8 +773,8 @@ public class Boss : EnemyBase, IRewindable
         if (resTimer < 1.5f) return false;
         else if (currentRes == ResMove.FireRow)
         {
-            // Skip the res trigger entirely if FireRow was already spawned by the offensive
-            // side's Attack2 event — prevents the boss playing a cast animation for nothing.
+            // skip the res trigger if FireRow was already spawned by the off side's Attack2
+            // event, otherwise the boss plays a cast animation for nothing
             if (!fireRowSpawned && !resActionSpawned && resTimer > 1.5f && resTimer < 1.6f)
             {
                 if (isPlayingAttack2) return false;
@@ -836,13 +811,13 @@ public class Boss : EnemyBase, IRewindable
                 resIndex++;
             }
 
-            // Completion: sync to off phase when paired with HomingFireballs; otherwise cap at 7 waves.
+            // sync to off phase when paired with HomingFireballs, otherwise cap at 7 waves
             if (currentOff == OffMove.HomingFireballs) return offIndex >= 14;
             return resIndex >= 7;
         }
         else if (currentRes == ResMove.Platforms)
         {
-            // Platforms, FloorFire and FireColumns are a combined attack — spawned together in AnimEvent_Attack2
+            // Platforms, FloorFire and FireColumns spawn together in AnimEvent_Attack2
             PlatformController platform = FindFirstObjectByType<PlatformController>();
             if (platform == null) return currentOff != OffMove.FireColumns;
             return platform.cycleComplete;
@@ -852,9 +827,8 @@ public class Boss : EnemyBase, IRewindable
 
     public void AnimEvent_Attack1()
     {
-        // Animator events keep firing even when Update() is gated by dialoguePaused,
-        // so a late Attack1 event could spawn an enemy/fireball mid phase-2 dialogue —
-        // after BossFightController.ClearBossAttacks already wiped the scene.
+        // animator events keep firing even when Update is gated by dialoguePaused, so
+        // a late Attack1 could spawn stuff mid phase-2 dialogue after the scene was wiped
         if (dialoguePaused || _isRewinding) return;
 
         // Check if we should spawn an Offensive attack
@@ -884,15 +858,14 @@ public class Boss : EnemyBase, IRewindable
     {
         if (dialoguePaused || _isRewinding) return;
 
-        // Each payload decides its own spawn cadence. Bundle (FireColumns + Platforms +
-        // FloorFire) and FireRow are one-shot per combat phase (stacking them is undodgeable).
-        // FireExplosion and FireWave spawn on every Attack2 event — that's what gives the
-        // "interleaved spells" feeling when both sides use Attack2.
+        // bundle (FireColumns + Platforms + FloorFire) and FireRow only spawn once per
+        // combat phase (stacking them would be undodgeable). FireExplosion and FireWave
+        // can spawn on every Attack2
         if (currentOff == OffMove.FireColumns && !bundleSpawned)
         {
             attackManager.spawnFireColumns(facingDirection);
-            // Platforms + floor fire only come along as the full bundle — when no res
-            // spell is paired. Otherwise FireColumns is just the columns alone.
+            // platforms + floor fire only come along as the full bundle, when no res
+            // spell is paired. otherwise its just the columns
             if (currentRes == ResMove.None)
             {
                 attackManager.spawnPlatforms(facingDirection);
@@ -946,18 +919,18 @@ public class Boss : EnemyBase, IRewindable
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.linearVelocity = Vector2.zero;
 
-        // Every collider off — body contact, attack hit, everything. Include children
-        // so any separate hitbox objects parented under the boss also get disabled.
+        // every collider off, including children so any separate hitbox objects get
+        // disabled too
         foreach (var c in GetComponentsInChildren<Collider2D>(true)) c.enabled = false;
 
         if (foresightGlow != null) foresightGlow.SetActive(false);
 
-        // Any-state → Die transition; the clip's last frame holds because we never clear the bool.
+        // Any-state -> Die transition. clip's last frame holds because we never clear the bool
         if (animator != null) animator.SetBool("Death", true);
 
         OnDeath?.Invoke();
-        // Intentionally skip DeathRoutine — boss stays visible on the final death frame instead
-        // of vanishing like regular enemies.
+        // skip DeathRoutine so the boss stays visible on the death frame instead of
+        // vanishing like regular enemies
     }
 
     public override void Revive()
@@ -986,14 +959,14 @@ public class Boss : EnemyBase, IRewindable
                                     (currentPos == PosMove.GroundPound || currentPos == PosMove.ChangeSides);
                 if (isJumpAttack)
                 {
-                    // Shove opposite to the boss's horizontal travel so the player clears
-                    // the path of the continuing jump instead of eating a second hit.
+                    // shove opposite to the boss's travel so the player clears the path
+                    // of the continuing jump instead of eating a second hit
                     float travel = moveTarget.x - moveStart.x;
                     pushDir = travel >= 0f ? -1f : 1f;
                     pushSpeed = JumpAttackPushSpeed;
 
-                    // If this direction would send the player past the safe edge, cancel
-                    // the horizontal shove so they can't get knocked off the stage.
+                    // if the shove would send the player past the safe edge, cancel it
+                    // so they cant get knocked off the stage
                     float playerX = col.transform.position.x;
                     if ((pushDir > 0f && playerX > SafePushEdgeX) ||
                         (pushDir < 0f && playerX < -SafePushEdgeX))
@@ -1003,7 +976,7 @@ public class Boss : EnemyBase, IRewindable
                 }
                 else
                 {
-                    // Push toward whichever side of the stage has more room
+                    // push toward whichever side has more room
                     pushDir = col.transform.position.x <= 0f ? 1f : -1f;
                     pushSpeed = playerPushSpeed;
                 }
@@ -1021,9 +994,8 @@ public class Boss : EnemyBase, IRewindable
     {
         base.OnStartRewind();
         _isRewinding = true;
-        // Freeze the animator so Play()/Update(0f) in ApplyState fully drives the
-        // visible state each rewind tick. Without this, the animator keeps
-        // advancing forward between ticks and every state bleeds back to Idle.
+        // freeze the animator so Play/Update(0f) in ApplyState drives the visible state
+        // each tick. without this, every state bleeds back to Idle
         if (animator != null) animator.speed = 0f;
     }
     //public override void OnStopRewind() { base.OnStopRewind(); _isRewinding = false; }
@@ -1033,7 +1005,7 @@ public class Boss : EnemyBase, IRewindable
         _isRewinding = false;
         if (animator != null) animator.speed = 1f;
 
-        // Snap health bar to rewound health value
+        // snap health bar to rewound health
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.SyncAfterRewind();
     }
@@ -1071,10 +1043,8 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("BundleSpawned", bundleSpawned);
         state.SetCustomData("FireRowSpawned", fireRowSpawned);
 
-        // Mirror the animator's attack-clip state. Without these, a rewind that lands
-        // between attacks could leave isPlayingAttack* stuck true (the AnimEvent_*Complete
-        // clears the flag, but the rewind skipped the clip), permanently blocking the
-        // SetTrigger gate in UpdateOffensive/UpdateRestrictive and stalling combat.
+        // mirror animator attack-clip state. without these, a rewind landing between
+        // attacks can leave isPlayingAttack* stuck true and stall combat
         state.SetCustomData("PlayingAtk1", isPlayingAttack1);
         state.SetCustomData("PlayingAtk2", isPlayingAttack2);
 
@@ -1090,10 +1060,8 @@ public class Boss : EnemyBase, IRewindable
         state.SetCustomData("LastLastOff", (int)lastLastOff);
         state.SetCustomData("LastRes", (int)lastRes);
 
-        // Capture animator state so the boss's animations rewind the same way the
-        // player's do. Use the built-in top-level fields on RewindState — those
-        // survive RewindState.Lerp; custom-data keys do not unless Lerp is taught
-        // about them explicitly.
+        // capture animator state so the boss animates back the same way the player does.
+        // top-level fields survive RewindState.Lerp, custom-data keys dont
         if (animator != null)
         {
             AnimatorStateInfo animInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -1109,8 +1077,8 @@ public class Boss : EnemyBase, IRewindable
         bool wasDeadBefore = wasDead;
         base.ApplyState(state);
 
-        // Base handles wasDead + the first collider + sprite; boss needs the Death animator
-        // bool and every collider synced too, plus the health bar re-shown on revive.
+        // base handles wasDead + first collider + sprite. boss also needs Death bool,
+        // every collider, and the health bar re-shown on revive
         if (wasDead)
         {
             isDead = true;
@@ -1153,8 +1121,8 @@ public class Boss : EnemyBase, IRewindable
         meleeRetreatX = state.GetCustomData<float>("MeleeRetreatX", 0f);
         meleeHitApplied = state.GetCustomData<bool>("MeleeHitApplied", false);
 
-        // Keep the run-bool in sync with the restored melee state so the walk clip resumes
-        // (or stops) correctly when rewind lands mid-attack.
+        // keep the run bool in sync with the restored melee state so the walk clip
+        // resumes/stops right when rewind lands mid-attack
         if (animator != null)
         {
             bool shouldRun = currentPos == PosMove.Melee &&
@@ -1183,10 +1151,8 @@ public class Boss : EnemyBase, IRewindable
         lastLastOff = (OffMove)state.GetCustomData<int>("LastLastOff", 0);
         lastRes = (ResMove)state.GetCustomData<int>("LastRes", 0);
 
-        // Restore animator state so the boss's animations rewind like the
-        // player's. Bump speed to 1 briefly so Play + Update(0f) actually
-        // commits the state change (speed=0 leaves it uncommitted), then
-        // freeze again so no transitions fire before the next rewind tick.
+        // restore animator state. bump speed to 1 briefly so Play + Update(0f)
+        // commits the change (speed=0 leaves it uncommitted), then freeze again
         if (animator != null && state.AnimatorStateHash != 0)
         {
             animator.speed = 1f;
@@ -1195,7 +1161,7 @@ public class Boss : EnemyBase, IRewindable
             if (_isRewinding) animator.speed = 0f;
         }
 
-        // Keep health bar in sync during rewind scrubbing
+        // keep health bar in sync during rewind scrubbing
         BossHealthBarDriver driver = GetComponent<BossHealthBarDriver>();
         if (driver != null) driver.SyncAfterRewind();
     }
@@ -1222,7 +1188,7 @@ public class Boss : EnemyBase, IRewindable
     }
     public void PlayFootstep(float vol = -1)
     {
-        // Default to footstepVolume if unspecified
+        // default to footstepVolume if unspecified
         if (vol == -1) vol = footstepVolume;
         if (footstepClips != null && footstepClips.Length > 0 && audioSource != null)
         {

@@ -127,7 +127,7 @@ namespace TimeRewind
                 }
                 else if (!_rewindInputWasHeld && _playerMana != null)
                 {
-                    // First frame of input with insufficient mana — fire the warning once
+                    // first frame of input with insufficient mana, fire the warning once
                     _playerMana.NotifySpendFailed();
                 }
             }

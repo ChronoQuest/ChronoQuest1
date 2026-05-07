@@ -96,11 +96,10 @@ public class PlayerSafetyNet : MonoBehaviour
 
         if (!foundSolidGround) return false;
 
-        // Belt-and-braces: spikes (SpikeDamage) and traps (TrapDamage) live on a hazard
-        // layer the feet-mask can't see and aren't tagged Trap, so the feet check above
-        // misses them. Make sure the player's body isn't currently overlapping any of
-        // those before we record this spot — otherwise we'd memorise a position that
-        // teleports the player back into the spike they just fell on.
+        // spikes (SpikeDamage) and traps (TrapDamage) live on a hazard layer the
+        // feet-mask cant see and arent tagged Trap, so the feet check above misses
+        // them. check the body isnt overlapping any of those, otherwise we'd save
+        // a spot that teleports back into the spike
         if (IsHazardOverlapping((Vector2)transform.position)) return false;
 
         return true;
@@ -108,13 +107,12 @@ public class PlayerSafetyNet : MonoBehaviour
 
     private static readonly Collider2D[] _hazardOverlapBuffer = new Collider2D[16];
 
-    /// <summary>True if any SpikeDamage / TrapDamage collider overlaps a player-sized
-    /// box at <paramref name="worldPos"/>. Layer-agnostic — uses the component, not the
-    /// tag, since hazards in this project are untagged.</summary>
+    // true if any SpikeDamage / TrapDamage collider overlaps a player-sized box at
+    // worldPos. checks by component since hazards in this project are untagged
     private bool IsHazardOverlapping(Vector2 worldPos)
     {
-        // Slightly larger than the player's collider so a candidate that's flush
-        // against a spike still counts as unsafe.
+        // slightly larger than the player's collider so a candidate flush against a
+        // spike still counts as unsafe
         Vector2 bodySize = new Vector2(0.6f, 1.2f);
         int hitCount = Physics2D.OverlapBoxNonAlloc(worldPos, bodySize, 0f, _hazardOverlapBuffer);
         for (int i = 0; i < hitCount; i++)
@@ -179,10 +177,9 @@ private IEnumerator RespawnRoutine()
         }
 
         transform.position = GetClearRespawnPosition();
-        // Force the physics engine to refresh trigger overlap state from the new
-        // transform. Without this, if the new position happens to overlap a hazard,
-        // OnTriggerEnter2D may not fire on re-enabling simulation, leaving the player
-        // visually stuck inside the spike with no second teleport attempt.
+        // refresh trigger overlap from the new transform. without this, if the new
+        // position overlaps a hazard, OnTriggerEnter2D doesnt fire on re-enabling
+        // simulation and the player gets stuck inside the spike
         Physics2D.SyncTransforms();
 
         yield return new WaitForSeconds(0.1f);
@@ -201,10 +198,9 @@ private IEnumerator RespawnRoutine()
             }
         }
 
-        // No recorded position is currently safe (e.g. all the platforms the player
-        // crossed have since fallen, or every saved spot is now flush with a spike).
-        // Lift the player straight up from their current position to break out of any
-        // hazard they're sitting in. Step upwards until we find clear air.
+        // no recorded spot is currently safe (e.g. all platforms have since fallen,
+        // or every saved spot is now flush with a spike). lift up from the current
+        // position to break out of any hazard, stepping until we find clear air
         Vector3 here = transform.position;
         for (float lift = 2f; lift <= 8f; lift += 1f)
         {
@@ -222,8 +218,7 @@ private IEnumerator RespawnRoutine()
         return _lastSafePosition;
     }
 
-    /// <summary>A candidate respawn position is usable only if it's clear of the boss
-    /// AND not overlapping any hazard collider (spikes / traps).</summary>
+    // candidate respawn must be clear of the boss AND not overlapping a hazard
     private bool IsCandidatePositionValid(Vector3 pos)
     {
         if (!IsPositionClearOfBoss(pos)) return false;

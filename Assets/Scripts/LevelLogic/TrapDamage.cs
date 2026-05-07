@@ -1,9 +1,7 @@
 using UnityEngine;
 
-/// <summary>
-/// Reusable component: add to any hazard (blade, spikes, saw, etc.) to deal damage and optional knockback on contact.
-/// Works with both trigger and solid colliders.
-/// </summary>
+// add to any hazard (blade, spikes, saw, etc.) to deal damage and optional
+// knockback on contact. works with trigger and solid colliders
 public class TrapDamage : MonoBehaviour
 {
     [Header("Settings")]
@@ -24,7 +22,7 @@ public class TrapDamage : MonoBehaviour
         _hazardCollider = GetComponent<Collider2D>();
     }
 
-    /// <summary>No damage, no knockback, collider off — used by platforming assists.</summary>
+    // no damage, no knockback, collider off. used by platforming assists
     public void SetHazardDisabled(bool disabled)
     {
         damage = disabled ? 0 : _defaultDamage;
