@@ -13,7 +13,6 @@ using Unity.Cinemachine;
 // the cutscene calls Revive() on each.
 public class Level3IntroCutscene : MonoBehaviour
 {
-    // ── Player ──────────────────────────────────────────────────────────────
     [Header("Player")]
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private Rigidbody2D playerRigidbody;
@@ -22,7 +21,6 @@ public class Level3IntroCutscene : MonoBehaviour
     [Tooltip("Every script on the player root gets disabled during the cutscene (except PlayerInput).")]
     [SerializeField] private GameObject playerScriptsRoot;
 
-    // ── Necromancer ─────────────────────────────────────────────────────────
     [Header("Necromancer")]
     [SerializeField] private NecromancerEnemy necromancer;
     [SerializeField] private Animator necromancerAnimator;
@@ -30,12 +28,10 @@ public class Level3IntroCutscene : MonoBehaviour
     [SerializeField] private Collider2D[] necromancerCollidersToDisable;
     [SerializeField] private float necromancerRunSpeed = 4f;
 
-    // ── Skeletons ───────────────────────────────────────────────────────────
     [Header("Skeletons (start dead)")]
     [Tooltip("2 skeletons near the necromancer. Set their health to 0 so they start dead.")]
     [SerializeField] private EnemyBase[] skeletons = new EnemyBase[2];
 
-    // ── Watcher Dialogue ────────────────────────────────────────────────────
     [Header("Watcher Dialogue")]
     [SerializeField] private GameObject dialogueContainer;
     [SerializeField] private TMP_Text dialogueText;
@@ -49,7 +45,6 @@ public class Level3IntroCutscene : MonoBehaviour
     [SerializeField] private float dialoguePauseBetweenLines = 1.2f;
     [SerializeField] private float dialoguePauseAfterLastLine = 0.8f;
 
-    // ── Timing ──────────────────────────────────────────────────────────────
     [Header("Timing")]
     [SerializeField] private float initialDelay = 0.5f;
     [SerializeField] private float pauseBeforeRevive = 0.4f;
@@ -63,19 +58,16 @@ public class Level3IntroCutscene : MonoBehaviour
     [Tooltip("How long the necromancer runs on screen before the camera pans back.")]
     [SerializeField] private float necromancerRunOnCameraDuration = 1.5f;
 
-    // ── Camera ──────────────────────────────────────────────────────────────
     [Header("Camera (optional)")]
     [Tooltip("Secondary CinemachineCamera. Priority is raised during the revive, dropped back at the end.")]
     [SerializeField] private CinemachineCamera cutsceneCamera;
     [SerializeField] private int cutsceneCameraPriority = 30;
     [SerializeField] private float cutsceneZoomSize = 5f;
 
-    // ── UI ───────────────────────────────────────────────────────────────────
     [Header("UI")]
     [Tooltip("HUD elements to hide during the cutscene.")]
     [SerializeField] private GameObject[] uiToHide;
     [SerializeField] private CanvasGroup hudGroup;
-    // ── Audio ───────────────────────────────────────────────────────────────────
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip dialogueBlip;

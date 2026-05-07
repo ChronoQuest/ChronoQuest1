@@ -114,7 +114,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
 
-        // Drop destroyed entries before checking the cap (Unity-null-aware).
+        // drop destroyed entries before checking the cap
         activeBossEnemies.RemoveAll(e => e == null);
         if (activeBossEnemies.Count >= maxActiveEnemies) return;
 

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace TimeRewind
 {
-    // Destroys an IRewindable's gameObject when a rewind would go back to before it spawned,
-    // so the boss (or any caster) can re-cast cleanly without leaving orphans behind.
+    // destroys an IRewindable when a rewind goes past its spawn time, so the boss
+    // (or any caster) can re-cast without leaving orphans behind
     public static class RewindSpawnLifecycle
     {
         // Grace window: applied states with a timestamp this close to (or earlier than) spawn

@@ -98,7 +98,7 @@ public class PlayerMana : MonoBehaviour
             return true;
         }
         // not enough mana to continue, drain whatever is left to zero so the
-        // hasMana check cleanly prevents rewind from restarting
+        // so the hasMana check stops rewind from restarting
         ModifyMana(-CurrentMana);
         return false;
     }

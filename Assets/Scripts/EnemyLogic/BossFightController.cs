@@ -307,7 +307,7 @@ public class BossFightController : MonoBehaviour
                 audioSource.PlayOneShot(bossRewindStartClip, bossRewindVolume);
             }
             // scope the speed boost around this single rewind. StopRewind also clears
-            // it but pairing explicitly stops it leaking into the next player rewind
+            // it but pairing it here stops it leaking into the next player rewind
             manager.PushSpeedMultiplier(bossRewindSpeedMultiplier);
             manager.StartRewind();
 

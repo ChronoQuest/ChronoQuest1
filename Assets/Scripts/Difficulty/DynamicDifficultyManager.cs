@@ -464,7 +464,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         var t = GetTuning();
         if (!t.tutorialSafetyEnabled) return false;
 
-        // safety is set explicitly by PlayerHealth when the player dies in a tutorial
+        // safety is set by PlayerHealth when the player dies in a tutorial
         // scene. dont auto-enable by time-in-scene
         return PlayerPrefs.GetInt(TutorialSafetyPlayerPrefsKey, 0) == 1;
     }

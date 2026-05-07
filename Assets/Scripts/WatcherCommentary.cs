@@ -54,7 +54,6 @@ public class WatcherCommentary : MonoBehaviour
     [SerializeField] private float maxPitch = 0.7f;
     [SerializeField] private int charsPerSound = 2;
 
-    // ── State ───────────────────────────────────────────────────────────────
     private int commentsThisScene;
     private float sceneStartTime;
     private float lastCommentTime;
@@ -77,8 +76,6 @@ public class WatcherCommentary : MonoBehaviour
     // Rewind awareness persists across scenes via static
     private static int scenesWithHighRewind;
 
-    // ── Clash detection ─────────────────────────────────────────────────────
-
     // other dialogue scripts set this while showing text
     public static bool DialogueLocked { get; set; }
 
@@ -88,8 +85,6 @@ public class WatcherCommentary : MonoBehaviour
         scenesWithHighRewind = 0;
         DialogueLocked = false;
     }
-
-    // ── Lifecycle ───────────────────────────────────────────────────────────
 
     private void Start()
     {
@@ -180,8 +175,6 @@ public class WatcherCommentary : MonoBehaviour
             cachedSpellSystem.OnSpellCast -= OnPlayerSpellCast;
     }
 
-    // ── Clash resolution ────────────────────────────────────────────────────
-
     // GameScene_3 favours playstyle, so block skill if playstyle hasnt fired yet
     private bool SkillAllowedByClash()
     {
@@ -201,8 +194,6 @@ public class WatcherCommentary : MonoBehaviour
             return false;
         return true;
     }
-
-    // ── Rewind event handler ────────────────────────────────────────────────
 
     private void OnRewindStopped()
     {
@@ -230,8 +221,6 @@ public class WatcherCommentary : MonoBehaviour
         rewindCommentFired = true;
         scenesWithHighRewind++;
     }
-
-    // ── Skill event handlers ────────────────────────────────────────────────
 
     private void OnPlayerHealthChanged(int current, int max)
     {
@@ -325,9 +314,7 @@ public class WatcherCommentary : MonoBehaviour
         skillCommentFired = true;
     }
 
-    // ── Playstyle event handlers ────────────────────────────────────────────
-
-    // Aggressive: melee hit
+    // aggressive: melee hit
     private void OnPlayerMeleeHit()
     {
         TryPlaystyleFromEvent("aggressive");
@@ -431,8 +418,6 @@ public class WatcherCommentary : MonoBehaviour
         playstyleCommentFired = true;
     }
 
-    // ── Shared helpers ──────────────────────────────────────────────────────
-
     private bool CanComment()
     {
         if (commentsThisScene >= maxCommentsPerScene) return false;
@@ -441,8 +426,6 @@ public class WatcherCommentary : MonoBehaviour
         if (Time.time - lastCommentTime < commentCooldown) return false;
         return true;
     }
-
-    // ── Dialogue lines ──────────────────────────────────────────────────────
 
     private string[] GetBalancedLines(string sceneName)
     {
@@ -540,8 +523,6 @@ public class WatcherCommentary : MonoBehaviour
                 return null;
         }
     }
-
-    // ── Playback ─────────────────────────────────────────────────────────────
 
     private void PlayComment(string[] lines)
     {

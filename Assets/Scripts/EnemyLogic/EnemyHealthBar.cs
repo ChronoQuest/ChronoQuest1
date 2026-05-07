@@ -44,8 +44,8 @@ public class EnemyHealthBar : MonoBehaviour
     // full width of fillRect at scale 1, captured once so we can set localScale.x
     private float originalFillWidth;
 
-    // Authored local scale of the healthbar root, captured so we can counter-flip
-    // when the enemy's transform.localScale.x flips for facing direction.
+    // original local scale, saved so we can counter-flip when the enemy flips
+    // its transform for facing direction
     private Vector3 originalHealthBarLocalScale = Vector3.one;
 
 
@@ -121,7 +121,7 @@ public class EnemyHealthBar : MonoBehaviour
                 HideBar();
         }
 
-        // ── Always hide when dead (sprite is disabled anyway) ─────────────────
+        // always hide when dead (sprite is disabled anyway)
         if (dead && !isHidden)
             HideBar();
         else if (!dead && isHidden && currentHealth < enemy.startHealth)
