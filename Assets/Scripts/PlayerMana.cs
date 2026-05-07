@@ -82,9 +82,7 @@ public class PlayerMana : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Called by external systems (e.g. rewind) to trigger the insufficient mana warning.
-    /// </summary>
+    // called by external systems (e.g. rewind) to trigger the insufficient mana warning
     public void NotifySpendFailed()
     {
         OnManaSpendFailed?.Invoke();
@@ -99,8 +97,8 @@ public class PlayerMana : MonoBehaviour
             ModifyMana(-cost);
             return true;
         }
-        // Not enough mana to continue — drain whatever is left to zero
-        // so the "hasMana" check cleanly prevents rewind from restarting
+        // not enough mana to continue, drain whatever is left to zero so the
+        // so the hasMana check stops rewind from restarting
         ModifyMana(-CurrentMana);
         return false;
     }

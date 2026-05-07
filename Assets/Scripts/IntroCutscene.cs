@@ -11,95 +11,58 @@ using TimeRewind;
 
 public class IntroCutscene : MonoBehaviour
 {
-    // ---------------------------------------------------------------------
-    // Inspector references — assign these in the IntroCutscene scene.
-    // ---------------------------------------------------------------------
+    // inspector refs
 
     [Header("Timeline (optional)")]
-    [Tooltip("PlayableDirector that holds a Timeline cutscene. If left empty " +
-             "the script runs a built-in coroutine sequence instead.")]
+    [Tooltip("PlayableDirector for a Timeline cutscene. If empty, the built-in coroutine runs instead.")]
     [SerializeField] private PlayableDirector director;
 
     [Header("Player References")]
-    [Tooltip("Player's Rigidbody2D — set to kinematic during the cutscene so " +
-             "gravity and forces can't displace the player while the " +
-             "sequence is running.")]
+    [Tooltip("Set to kinematic during the cutscene so forces dont displace the player.")]
     [SerializeField] private Rigidbody2D playerRigidbody;
 
-    [Tooltip("Player's PlayerInput — disabled during the cutscene so input " +
-             "actions don't fire.")]
+    [Tooltip("Disabled during the cutscene so input actions dont fire.")]
     [SerializeField] private PlayerInput playerInput;
 
-    [Tooltip("Player's Collider2D — disabled during the cutscene so that " +
-             "rotating the player's transform during the fall can't cause " +
-             "the physics engine to teleport the player to resolve ground " +
-             "overlap. Drag the Player GameObject here; Unity will pick its " +
-             "Collider2D automatically.")]
+    [Tooltip("Disabled during the cutscene. Rotating the player while the collider is on " +
+             "can cause physics to teleport the player to resolve ground overlap.")]
     [SerializeField] private Collider2D playerCollider;
 
-    [Tooltip("Player's root Transform. Used by the scripted sequence so the " +
-             "boss knows where to walk to. Also rotated during the fall " +
-             "unless a separate Player Sprite Transform is assigned.")]
+    [Tooltip("Player's root Transform. Used so the boss knows where to walk to.")]
     [SerializeField] private Transform playerTransform;
 
-    [Tooltip("Optional — a child Transform holding just the SpriteRenderer. " +
-             "If assigned, only this child is rotated during the fall " +
-             "(leaving the root's collider upright). If empty, the root is " +
-             "rotated instead — which is safe as long as Player Collider is " +
-             "assigned above.")]
+    [Tooltip("Optional child transform holding just the SpriteRenderer. If set, only this child " +
+             "is rotated during the fall, keeping the root's collider upright.")]
     [SerializeField] private Transform playerSpriteTransform;
 
-    [Tooltip("Drag the Player GameObject here. Every MonoBehaviour script " +
-             "on it gets disabled during the cutscene (except PlayerInput " +
-             "and CutsceneSignalReceiver, which we need alive). This is " +
-             "how we stop PlayerPlatformer, PlayerHealth, PlayerSafetyNet, " +
-             "etc. from moving or teleporting the player mid-cutscene.")]
+    [Tooltip("Player root. Every MonoBehaviour on it gets disabled during the cutscene, " +
+             "except PlayerInput and CutsceneSignalReceiver.")]
     [SerializeField] private GameObject playerScriptsRoot;
 
-    [Tooltip("Player's Animator. At cutscene start it gets forced to its " +
-             "Idle state so it doesn't freeze mid-animation when the " +
-             "movement scripts stop feeding it parameters.")]
+    [Tooltip("Forced to idle state at cutscene start so it doesnt freeze mid-animation.")]
     [SerializeField] private Animator playerAnimator;
 
-    [Tooltip("Name of the Idle state on the player's Animator Controller. " +
-             "Must match exactly (case-sensitive). For this project's " +
-             "player that's 'Player_Idle'. If your Idle state is in a " +
-             "sub-state machine, use the full path like 'Base.Idle'.")]
+    [Tooltip("Name of the idle state on the player Animator. Case-sensitive.")]
     [SerializeField] private string playerIdleStateName = "Player_Idle";
 
-    [Tooltip("Bool parameter names on the player's Animator that should be " +
-             "force-set to TRUE at cutscene start (e.g. 'isGrounded' — " +
-             "without this, an Any State -> Jump/Fall transition can fire " +
-             "right after we Play the Idle state and the player pops back " +
-             "into the jump pose).")]
+    [Tooltip("Animator bools forced TRUE on cutscene start (e.g. isGrounded).")]
     [SerializeField] private string[] playerAnimatorBoolsToForceTrue = new string[] { "isGrounded" };
 
-    [Tooltip("Bool parameter names on the player's Animator that should be " +
-             "force-set to FALSE at cutscene start (e.g. 'isWallSliding', " +
-             "'IsFrozen').")]
+    [Tooltip("Animator bools forced FALSE on cutscene start (e.g. isWallSliding).")]
     [SerializeField] private string[] playerAnimatorBoolsToForceFalse = new string[] { "isWallSliding", "IsFrozen" };
 
     [Header("Boss References")]
-    [Tooltip("Boss root Transform — the thing that will actually move across " +
-             "the scene during the intro.")]
+    [Tooltip("Boss root Transform.")]
     [SerializeField] private Transform bossTransform;
 
-    [Tooltip("Boss Animator — used to set run/attack parameters during the " +
-             "scripted sequence. Leave empty if your boss doesn't have an " +
-             "Animator and you just want the transform movement.")]
+    [Tooltip("Boss Animator. Leave empty if your boss has none.")]
     [SerializeField] private Animator bossAnimator;
 
-    [Tooltip("Optional — boss Rigidbody2D. If set, it will be forced " +
-             "kinematic during the walk so colliders can't shove the boss " +
-             "back while the script moves its transform.")]
+    [Tooltip("Optional. Forced kinematic during the walk so colliders cant shove the boss.")]
     [SerializeField] private Rigidbody2D bossRigidbody;
 
-    [Tooltip("Boss colliders / hitboxes to disable for the whole cutscene. " +
-             "Important: if the boss has a damage hitbox, leaving it " +
-             "enabled will trigger the player's hit reaction (respawn, " +
-             "knockback, etc.) the moment the boss walks into the player — " +
-             "before the scripted attack even fires. Drag every Collider2D " +
-             "the boss uses for attacks or body contact here.")]
+    [Tooltip("Boss colliders to disable for the whole cutscene. If the damage hitbox stays " +
+             "on, walking into the player would trigger a hit before the scripted attack.")]
     [SerializeField] private Collider2D[] bossCollidersToDisable;
 
     [Header("Sequence Timing")]
@@ -113,70 +76,47 @@ public class IntroCutscene : MonoBehaviour
     [Tooltip("How fast the boss walks toward the player (world units/sec).")]
     [SerializeField] private float bossWalkSpeed = 3f;
 
-    [Tooltip("The boss stops this many units away from the player — a little " +
-             "gap so the attack animation lines up.")]
+    [Tooltip("Boss stops this many units from the player so the attack animation lines up.")]
     [SerializeField] private float bossStopDistance = 2.3f;
 
     [Tooltip("Pause after the boss reaches the player, before the attack.")]
     [SerializeField] private float pauseBeforeHit = 0.3f;
 
-    [Tooltip("Delay between the attack trigger firing and the player " +
-             "actually reacting (tune this to land on the swing's impact " +
-             "frame).")]
+    [Tooltip("Delay between attack trigger and player reacting. Tune to land on the swing's impact frame.")]
     [SerializeField] private float hitImpactDelay = 0.35f;
 
-    [Tooltip("How long to linger on the fallen/dead player before the " +
-             "rewind begins. Gives the death animation a moment to " +
-             "settle.")]
+    [Tooltip("How long to linger on the dead player before the rewind begins.")]
     [SerializeField] private float postHitDelay = 1.5f;
 
     [Header("Boss Animator Parameters")]
-    [Tooltip("Bool parameter name on the boss Animator that toggles the " +
-             "walk/run animation. Leave empty if you don't have one.")]
+    [Tooltip("Bool param that toggles boss walk/run anim. Leave empty if none.")]
     [SerializeField] private string bossRunBoolParam = "isRunning";
 
-    [Tooltip("Trigger parameter name on the boss Animator used to fire the " +
-             "attack animation. Leave empty if you don't have one.")]
+    [Tooltip("Trigger param that fires the boss attack anim. Leave empty if none.")]
     [SerializeField] private string bossAttackTriggerParam = "Attack";
 
     [Header("Player Death Reaction")]
-    [Tooltip("Trigger parameter name on the player's Animator used to fire " +
-             "the death animation when the boss hits them. Must match " +
-             "exactly what it's called in your Animator Controller. " +
-             "Leave empty to skip.")]
+    [Tooltip("Trigger that fires the player's death anim. Leave empty to skip.")]
     [SerializeField] private string playerDeathTriggerParam = "Death";
 
     [Header("Rewind Settings")]
-    [Tooltip("The PlayerRewindController (or whatever IRewindable component " +
-             "is on the player). We need a reference so we can force-register " +
-             "it with TimeRewindManager and wait until it has recorded enough " +
-             "history before the cutscene hit lands.")]
+    [Tooltip("Force-registered with TimeRewindManager so the buffer fills up before the killing blow.")]
     [SerializeField] private PlayerRewindController playerRewindController;
 
-    [Tooltip("OPTIONAL: The Boss script (which implements IRewindable). If left empty, " +
-             "the script will attempt to find it from bossTransform. We register it " +
-             "during warmup to ensure the boss's transform and state are captured for rewind.")]
+    [Tooltip("Optional. If empty, resolved from bossTransform. Registered during warmup.")]
     [SerializeField] private Boss bossRewindable;
 
-    [Tooltip("The RewindGhostTrail component (if present). If not assigned, the script " +
-             "will find it on the player automatically to ensure ghost trail visuals " +
-             "are visible during rewind.")]
+    [Tooltip("Optional. Resolved from the player at runtime if not assigned.")]
     [SerializeField] private RewindGhostTrail rewindGhostTrail;
 
-    [Tooltip("Global Volume used for the rewind screen effect. Assign the intro scene's " +
-             "'RewindVolume' object here so the visual treatment applies to the whole scene.")]
+    [Tooltip("Global Volume for the rewind screen effect. Assign the scene's RewindVolume.")]
     [SerializeField] private Volume rewindPostProcessVolume;
 
-    [Tooltip("How many seconds of rewind history must be buffered before the " +
-             "boss is allowed to deliver the killing blow. This ensures the " +
-             "rewind actually has something to play back. Must be > 0. " +
-             "Typically 1–3 s. The scene will show the idle player for this " +
-             "long before anything happens, so keep it short.")]
+    [Tooltip("Seconds of rewind history that must be buffered before the killing blow. " +
+             "Typically 1-3s. The player just stands idle during this window.")]
     [SerializeField] private float requiredRewindHistorySeconds = 2.5f;
 
-    [Tooltip("How many seconds to rewind the player before the video plays. " +
-             "Should be <= requiredRewindHistorySeconds and <= the " +
-             "TimeRewindManager's maxRewindDuration.")]
+    [Tooltip("Seconds to rewind before the video plays. Should be <= requiredRewindHistorySeconds.")]
     [SerializeField] private float rewindDuration = 3.5f;
 
     [Header("Rewind UI Prompt")]
@@ -186,52 +126,30 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private GameObject rewindHintPrefab;
 
     [Header("Rewind Cutscene Video")]
-    [Tooltip("A full-screen RawImage Canvas (or similar overlay GameObject) " +
-             "that sits in front of everything. It is hidden at the start " +
-             "of the intro and made visible right before the video plays. " +
-             "Attach a VideoPlayer component to this same GameObject (or " +
-             "to any child) and reference it in Rewind Video Player below.")]
+    [Tooltip("Full-screen overlay shown right before the video plays. Hidden at start.")]
     [SerializeField] private GameObject rewindVideoCanvas;
 
-    [Tooltip("The VideoPlayer that will play the rewind cutscene. Configure " +
-             "its Render Mode in the Inspector (e.g. Render Texture or " +
-             "Camera Near Plane). The clip is assigned at runtime from the " +
-             "Rewind Video Clip field below, so leave the VideoPlayer's " +
-             "own clip slot empty.")]
+    [Tooltip("Plays the rewind cutscene. Clip is assigned at runtime so leave its clip slot empty.")]
     [SerializeField] private VideoPlayer rewindVideoPlayer;
 
-    [Tooltip("The imported RewindCutscene.mov video clip. Drag the .mov " +
-             "asset from Assets/Animations/ here. Unity imports .mov files " +
-             "as VideoClip assets automatically.")]
+    [Tooltip("RewindCutscene.mov from Assets/Animations/.")]
     [SerializeField] private VideoClip rewindVideoClip;
 
-    [Tooltip("How long to wait after the video finishes before loading the " +
-             "gameplay scene. A small value (0.1 – 0.5 s) gives a clean " +
-             "cut; set to 0 for an immediate transition.")]
+    [Tooltip("Wait after the video before loading the gameplay scene. 0 = instant cut.")]
     [SerializeField] private float postVideoDelay = 0.2f;
 
     [Header("UI")]
-    [Tooltip("GameObjects to hide for the duration of the cutscene — drag " +
-             "the health bar, mana bar, any HUD Canvas, minimap, etc. in " +
-             "here. They get SetActive(false) at cutscene start. Scene " +
-             "unloads at the end so no need to re-enable them.")]
+    [Tooltip("HUD elements to hide during the cutscene (health bar, mana, minimap, etc).")]
     [SerializeField] private GameObject[] uiToHide;
 
     [Header("Intro Dialogue")]
-    [Tooltip("Root GameObject of the dialogue UI (e.g. the panel that " +
-             "holds the text, background, portrait). It gets SetActive " +
-             "true at the start of the dialogue and false once the last " +
-             "line finishes. Leave empty to skip the dialogue entirely.")]
+    [Tooltip("Dialogue UI root. Toggled at the start/end of the dialogue. Empty = skip.")]
     [SerializeField] private GameObject dialogueContainer;
 
-    [Tooltip("TextMeshProUGUI where the dialogue lines are typed out. " +
-             "Usually a child of the dialogue container above.")]
+    [Tooltip("TMP text where dialogue types out.")]
     [SerializeField] private TMP_Text dialogueText;
 
-    [Tooltip("Lines the boss says before the fight begins. Each entry is " +
-             "one line, displayed sequentially with a typewriter effect. " +
-             "Add more or edit in the Inspector at any time — no code " +
-             "changes needed.")]
+    [Tooltip("Boss lines before the fight. One entry per line, typewriter reveal.")]
     [TextArea(2, 5)]
     [SerializeField] private string[] dialogueLines = new string[]
     {
@@ -243,17 +161,14 @@ public class IntroCutscene : MonoBehaviour
     [Tooltip("How fast each line types out, in characters per second.")]
     [SerializeField] private float dialogueCharactersPerSecond = 30f;
 
-    [Tooltip("Pause (seconds) after a line fully types out before the next " +
-             "line starts.")]
+    [Tooltip("Pause after each line finishes before the next.")]
     [SerializeField] private float dialoguePauseBetweenLines = 1.2f;
 
-    [Tooltip("Pause (seconds) after the last line finishes before the " +
-             "dialogue panel hides and the boss starts moving.")]
+    [Tooltip("Pause after the last line before the dialogue hides and the boss moves.")]
     [SerializeField] private float dialoguePauseAfterLastLine = 0.8f;
 
     [Header("Scene Flow")]
-    [Tooltip("Name of the scene to load once the rewind video finishes. " +
-             "Must be added to Build Settings.")]
+    [Tooltip("Scene to load after the rewind video. Must be in Build Settings.")]
     [SerializeField] private string nextSceneName = "GameScene";
     [Header("Audio")]
     [SerializeField] private AudioSource sfxSource;
@@ -271,7 +186,7 @@ public class IntroCutscene : MonoBehaviour
     [SerializeField] private float maxPitch = 0.7f;
     [SerializeField] private int charsPerSound = 2;
 
-    // Guard so a double-fired signal / end-call can't load the scene twice.
+    // guard so a double-fired signal cant load the scene twice
     private bool cutsceneEnded;
     private TimeRewindManager rewindManager;
     private Camera mainCamera;
@@ -279,29 +194,22 @@ public class IntroCutscene : MonoBehaviour
     private RewindableAnimator bossAnimatorRewindable;
     private RewindMusicController musicController;
 
-    // ---------------------------------------------------------------------
-    // Unity lifecycle
-    // ---------------------------------------------------------------------
-
     private void Start()
     {
         rewindManager = TimeRewindManager.Instance;
         musicController = FindFirstObjectByType<RewindMusicController>();
 
-        // Find the main camera and ensure it has RewindEffects for visual feedback
         mainCamera = Camera.main;
         if (mainCamera != null)
         {
             rewindEffects = mainCamera.GetComponent<RewindEffects>();
             if (rewindEffects == null)
             {
-                // Add RewindEffects component if it doesn't exist
                 rewindEffects = mainCamera.gameObject.AddComponent<RewindEffects>();
                 Debug.Log("[IntroCutscene] Added RewindEffects component to main camera");
             }
-            
-            // Use the intro scene's dedicated rewind volume so the effect applies
-            // consistently to the whole camera output, not whichever Volume is found first.
+
+            // use the scene's RewindVolume so the effect applies to the whole camera output
             var volume = ResolveRewindVolume();
             if (volume != null)
             {
@@ -319,13 +227,11 @@ public class IntroCutscene : MonoBehaviour
             }
         }
 
-        // Find RewindGhostTrail if not assigned (it provides ghost trail visuals during rewind)
         if (rewindGhostTrail == null && playerRewindController != null)
         {
             rewindGhostTrail = playerRewindController.GetComponent<RewindGhostTrail>();
             if (rewindGhostTrail == null)
             {
-                // Add RewindGhostTrail if it doesn't exist
                 rewindGhostTrail = playerRewindController.gameObject.AddComponent<RewindGhostTrail>();
                 Debug.Log("[IntroCutscene] Added RewindGhostTrail component to player for visual feedback");
             }
@@ -333,7 +239,7 @@ public class IntroCutscene : MonoBehaviour
 
         EnsureBossAnimatorRewindable();
 
-        // Hide any HUD/UI the designer dragged in.
+        // hide HUD
         if (uiToHide != null)
         {
             foreach (GameObject go in uiToHide)
@@ -342,16 +248,13 @@ public class IntroCutscene : MonoBehaviour
             }
         }
 
-        // Keep the rewind video overlay hidden until we need it.
         if (rewindVideoCanvas != null)
             rewindVideoCanvas.SetActive(false);
 
-        // Lock the player down before anything else.
         DisablePlayerControl();
         // player shouldnt be able to rewind before prompted
         playerRewindController.DisableManualRewind = true;
 
-        // Disable any boss colliders/hitboxes.
         if (bossCollidersToDisable != null)
         {
             foreach (Collider2D c in bossCollidersToDisable)
@@ -360,7 +263,7 @@ public class IntroCutscene : MonoBehaviour
             }
         }
 
-        // Force the boss rigidbody to Kinematic for the ENTIRE cutscene.
+        // boss rigidbody kinematic for the whole cutscene
         if (bossRigidbody != null)
         {
             bossRigidbody.linearVelocity = Vector2.zero;
@@ -378,30 +281,23 @@ public class IntroCutscene : MonoBehaviour
         }
     }
 
-    // ---------------------------------------------------------------------
-    // Scripted cutscene sequence
-    // ---------------------------------------------------------------------
-
     private IEnumerator RunScriptedSequence()
     {
         yield return new WaitForSeconds(initialDelay);
 
-        // ── 0. Register the player with the rewind manager and wait until
-        //        enough history has been recorded to make the rewind visible.
-        //        This is the key step that was missing before: in a fresh scene
-        //        the buffer starts empty, so we must let it fill up first.
+        // 0. fill the rewind buffer first, fresh scene starts empty
         yield return StartCoroutine(WarmUpRewindHistory());
 
-        // ── 1. Intro dialogue ────────────────────────────────────────────
+        // 1. intro dialogue
         yield return StartCoroutine(PlayIntroDialogue());
 
-        // ── 2. Boss turns around to face the player ──────────────────────
+        // 2. boss turns to face the player
         if (bossTransform != null && playerTransform != null)
             FaceBossTowardPlayer();
 
         yield return new WaitForSeconds(pauseAfterTurn);
 
-        // ── 3. Boss walks toward the player ──────────────────────────────
+        // 3. boss walks toward the player
         SetBossRunning(true);
 
         if (bossRigidbody != null)
@@ -434,53 +330,42 @@ public class IntroCutscene : MonoBehaviour
 
         SetBossRunning(false);
 
-        // ── 4. Boss attacks ───────────────────────────────────────────────
+        // 4. boss attacks
         yield return new WaitForSeconds(pauseBeforeHit);
         TriggerBossAttack();
 
         yield return new WaitForSeconds(hitImpactDelay);
 
-        // ── 5. Player is killed ───────────────────────────────────────────
+        // 5. player dies
         TriggerPlayerDeath();
 
-        // ── 6. Hold on the death animation ───────────────────────────────
+        // 6. hold on death anim
         yield return new WaitForSeconds(postHitDelay);
 
-        // ── 7. REWIND ─────────────────────────────────────────────────────
-        // Stop recording new history so the buffer stays at its current
-        // "alive" state while we replay backwards through it.
+        // 7. rewind
         yield return StartCoroutine(RunRewindSequence());
 
-        // ── 8. Play the rewind cutscene video ─────────────────────────────
-        //yield return StartCoroutine(PlayRewindVideo());
+        // 8. video plays inside RunRewindSequence
 
-        // ── 9. Load the gameplay scene ────────────────────────────────────
+        // 9. load gameplay scene
         OnCutsceneEnd();
     }
 
-    // ---------------------------------------------------------------------
-    // Rewind warm-up — build history BEFORE the hit lands
-    // ---------------------------------------------------------------------
-
-    /// <summary>
-    /// Registers the player with TimeRewindManager (if not already registered)
-    /// and waits until the buffer contains at least <see cref="requiredRewindHistorySeconds"/>
-    /// of recorded states. The player just stands idle during this window —
-    /// keep the value small (1–3 s) so it feels invisible.
-    /// </summary>
+    // builds rewind history before the hit lands. fresh scene = empty buffer,
+    // so wait until enough is recorded for the rewind to actually have something
+    // to play back
     private IEnumerator WarmUpRewindHistory()
     {
         if (rewindManager == null)
         {
-            Debug.LogWarning("[IntroCutscene] TimeRewindManager not found — rewind will be skipped.");
+            Debug.LogWarning("[IntroCutscene] TimeRewindManager not found, rewind will be skipped.");
             yield break;
         }
 
         Debug.Log("[IntroCutscene] Starting rewind history warmup...");
 
-        // Force-register the player's IRewindable component so the manager
-        // starts filling its buffer immediately, even if the component's own
-        // OnEnable hasn't run (because we disabled all player scripts above).
+        // force-register so the manager starts filling its buffer even though we
+        // disabled all the player scripts above
         if (playerRewindController != null && playerRewindController is IRewindable playerRewindable)
         {
             rewindManager.Register(playerRewindable);
@@ -493,8 +378,7 @@ public class IntroCutscene : MonoBehaviour
             yield break;
         }
 
-        // Force-register the boss's IRewindable component so its transform,
-        // animator state, and other rewindable data are captured during warmup.
+        // also register the boss so its transform/animator state are captured
         if (bossRewindable == null && bossTransform != null)
         {
             bossRewindable = bossTransform.GetComponent<Boss>();
@@ -518,7 +402,7 @@ public class IntroCutscene : MonoBehaviour
             Debug.Log("[IntroCutscene] Registered boss animator rewind helper");
         }
 
-        // Wait until the buffer has accumulated enough history.
+        // wait for the buffer to fill
         float timeout = requiredRewindHistorySeconds + 3f; // safety ceiling
         float waited  = 0f;
 
@@ -528,7 +412,7 @@ public class IntroCutscene : MonoBehaviour
 
             if (waited > timeout)
             {
-                Debug.LogWarning("[IntroCutscene] Timed out waiting for rewind history — proceeding anyway.");
+                Debug.LogWarning("[IntroCutscene] Timed out waiting for rewind history, proceeding anyway.");
                 break;
             }
 
@@ -537,7 +421,6 @@ public class IntroCutscene : MonoBehaviour
 
         Debug.Log($"[IntroCutscene] Warmup complete. CanRewind={rewindManager.CanRewind}");
 
-        // Double-check we actually have states; warn loudly if not.
         if (!rewindManager.CanRewind)
         {
             Debug.LogWarning("[IntroCutscene] CanRewind is still false after warm-up. " +
@@ -545,10 +428,6 @@ public class IntroCutscene : MonoBehaviour
                              "and that the component's FixedUpdate/recording path is active.");
         }
     }
-
-    // ---------------------------------------------------------------------
-    // Rewind sequence
-    // ---------------------------------------------------------------------
 
     private IEnumerator RunRewindSequence()
     {
@@ -561,7 +440,7 @@ public class IntroCutscene : MonoBehaviour
 
         Debug.Log("[IntroCutscene] Showing rewind hint, waiting for player input...");
 
-        // Show the rewind hint and ensure its animator runs while the game is frozen
+        // show the rewind hint and make sure its animator runs while frozen
         if (rewindHintPrefab != null)
         {
             rewindHintPrefab.SetActive(true);
@@ -570,10 +449,10 @@ public class IntroCutscene : MonoBehaviour
                 hintAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         }
 
-        // Freeze the game until the player presses R
+        // freeze until the player presses R
         Time.timeScale = 0f;
 
-        // Wait indefinitely for the player to press R or both triggers
+        // wait indefinitely for R or both triggers
         while (true)
         {
             var keyboard = Keyboard.current;
@@ -593,17 +472,14 @@ public class IntroCutscene : MonoBehaviour
                 sfxSource.PlayOneShot(rewindStartClip, rewindVolume);
         }
 
-        Debug.Log("[IntroCutscene] R pressed — starting rewind!");
+        Debug.Log("[IntroCutscene] R pressed, starting rewind");
 
-        // Hide the rewind hint
         if (rewindHintPrefab != null)
             rewindHintPrefab.SetActive(false);
 
-        // Unfreeze and trigger the rewind
         Time.timeScale = 1f;
         rewindManager.StartRewind();
 
-        // Let the rewind play out (with all visual effects!)
         float rewindTimer = 0f;
         while (rewindTimer < rewindDuration)
         {
@@ -615,8 +491,8 @@ public class IntroCutscene : MonoBehaviour
             yield return null;
         }
 
-        // Freeze the visual effects at full intensity before stopping the rewind
-        // so they don't fade out during the transition to the video.
+        // freeze the FX at full intensity before stopping the rewind so they dont
+        // fade out during the transition to the video
         if (rewindEffects != null)
             rewindEffects.FreezeEffects();
 
@@ -628,19 +504,14 @@ public class IntroCutscene : MonoBehaviour
         //     sfxSource.PlayOneShot(reviveClip);
         // }
         yield return StartCoroutine(PlayRewindVideo());
-        // Disable player input again
         if (playerInput != null)
             playerInput.enabled = false;
 
-        // Let slow-motion recovery play
+        // let slow-mo recovery play
         yield return new WaitForSecondsRealtime(0.1f);
 
         Debug.Log("[IntroCutscene] Rewind complete, ready for video");
     }
-
-    // ---------------------------------------------------------------------
-    // Player death
-    // ---------------------------------------------------------------------
 
     private void TriggerPlayerDeath()
     {
@@ -655,15 +526,11 @@ public class IntroCutscene : MonoBehaviour
         }
     }
 
-    // ---------------------------------------------------------------------
-    // Rewind video playback
-    // ---------------------------------------------------------------------
-
     private IEnumerator PlayRewindVideo()
     {
         if (rewindVideoPlayer == null || rewindVideoClip == null)
         {
-            Debug.LogWarning("[IntroCutscene] Rewind video player or clip not assigned — skipping video.");
+            Debug.LogWarning("[IntroCutscene] Rewind video player or clip not assigned, skipping video.");
             yield break;
         }
 
@@ -686,16 +553,12 @@ public class IntroCutscene : MonoBehaviour
         yield return new WaitForSeconds(postVideoDelay);
     }
 
-    // ---------------------------------------------------------------------
-    // Dialogue
-    // ---------------------------------------------------------------------
-
     private IEnumerator PlayIntroDialogue()
     {
         if (dialogueText == null || dialogueLines == null || dialogueLines.Length == 0)
             yield break;
 
-        // Activate the dialogue container and its parent canvas (if hidden).
+        // show the dialogue container and its parent canvas
         if (dialogueContainer != null)
         {
             Canvas parentCanvas = dialogueContainer.GetComponentInParent<Canvas>(true);
@@ -704,7 +567,7 @@ public class IntroCutscene : MonoBehaviour
             dialogueContainer.SetActive(true);
         }
 
-        // Wait a frame so the canvas and TMP components fully initialize.
+        // wait a frame so canvas + TMP fully initialise
         yield return null;
 
         float cps        = Mathf.Max(1f, dialogueCharactersPerSecond);
@@ -719,8 +582,7 @@ public class IntroCutscene : MonoBehaviour
                 continue;
             }
 
-            // Compute the auto-sized font for the full line, then lock it in
-            // so the size stays stable during the typewriter reveal.
+            // pre-compute auto-size then lock it so the text doesnt jitter
             dialogueText.enableAutoSizing = true;
             dialogueText.text = line;
             dialogueText.ForceMeshUpdate();
@@ -762,10 +624,6 @@ public class IntroCutscene : MonoBehaviour
         dialogueText.enableAutoSizing = true;
     }
 
-    // ---------------------------------------------------------------------
-    // Boss helpers
-    // ---------------------------------------------------------------------
-
     private void FaceBossTowardPlayer()
     {
         Vector3 scale    = bossTransform.localScale;
@@ -792,10 +650,6 @@ public class IntroCutscene : MonoBehaviour
         }
     }
 
-    // ---------------------------------------------------------------------
-    // Public API
-    // ---------------------------------------------------------------------
-
     public void OnCutsceneEnd()
     {
         if (cutsceneEnded) return;
@@ -804,20 +658,14 @@ public class IntroCutscene : MonoBehaviour
         SceneManager.LoadScene(nextSceneName, LoadSceneMode.Single);
     }
 
-    // ---------------------------------------------------------------------
-    // Helpers
-    // ---------------------------------------------------------------------
-
     private void DisablePlayerControl()
     {
         if (playerInput != null)
             playerInput.enabled = false;
 
-        // The PlayerRewindController stays enabled so its IRewindable hooks
-        // (CaptureState/ApplyState) keep working, but we mark the rewind as
-        // externally driven so the player can't trigger one with R / triggers
-        // before the cutscene's prompt appears. The cutscene calls
-        // TimeRewindManager.StartRewind() itself once R is pressed at the prompt.
+        // PlayerRewindController stays enabled so its rewind hooks keep working,
+        // but we set external mode so the player cant trigger a rewind themselves
+        // before the prompt
         if (playerRewindController != null)
             playerRewindController.SetExternalRewindActive(true);
 
@@ -838,11 +686,10 @@ public class IntroCutscene : MonoBehaviour
                 if (mb is PlayerInput) continue;
                 if (mb is CutsceneSignalReceiver) continue;
                 if (mb is RewindGhostTrail) continue;
-                // Disable PlayerRewindController's input handling to prevent interference
-                // with the automatic cutscene rewind. We'll re-enable it after the rewind.
+                // dont disable PlayerRewindController, we still need its rewind hooks.
+                // input is suppressed via DisableManualRewind / external mode instead
                 if (playerRewindController != null && mb == playerRewindController)
                 {
-                    // Don't disable entirely - just set a flag or disable later
                     continue;
                 }
                 mb.enabled = false;
@@ -957,10 +804,7 @@ public class IntroCutscene : MonoBehaviour
             musicController.ForceReversePitch();
     }
 
-    /// <summary>
-    /// Ensures the post-processing volume has the required components for rewind visual effects.
-    /// Creates ColorAdjustments, ChromaticAberration, and Vignette if missing.
-    /// </summary>
+    // adds ColorAdjustments / ChromaticAberration / Vignette to the volume if missing
     private void EnsurePostProcessingComponents(Volume volume)
     {
         if (volume == null || volume.profile == null)
@@ -968,21 +812,18 @@ public class IntroCutscene : MonoBehaviour
 
         var profile = volume.profile;
 
-        // Ensure ColorAdjustments component exists
         if (!profile.Has<ColorAdjustments>())
         {
             profile.Add<ColorAdjustments>();
             Debug.Log("[IntroCutscene] Added ColorAdjustments to post-processing profile");
         }
 
-        // Ensure ChromaticAberration component exists
         if (!profile.Has<ChromaticAberration>())
         {
             profile.Add<ChromaticAberration>();
             Debug.Log("[IntroCutscene] Added ChromaticAberration to post-processing profile");
         }
 
-        // Ensure Vignette component exists
         if (!profile.Has<Vignette>())
         {
             profile.Add<Vignette>();

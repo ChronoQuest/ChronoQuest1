@@ -56,7 +56,7 @@ public class MovingPlatform : MonoBehaviour, IRewindable
         Vector2 target = waypoints[_targetIndex].position;
         Vector2 current = _rb.position;
 
-        // 4. Waypoint Logic — check if waiting at a stop
+        // 4. waypoint logic, check if waiting at a stop
         if (Vector2.Distance(current, target) < 0.05f)
         {
             CurrentVelocity = Vector2.zero; // Stop reporting velocity while waiting

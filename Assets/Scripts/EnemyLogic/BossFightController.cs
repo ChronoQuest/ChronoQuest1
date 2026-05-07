@@ -5,20 +5,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TimeRewind;
 
-// Drives the two-phase boss fight flow:
-//   1. Player walks into the trigger on this GameObject. Phase-1 intro dialogue
-//      types out, then Boss.BeginFight kicks off the fight proper.
-//   2. After phase2TimerSeconds of fight time, the boss itself "rewinds" — we
-//      force the shared TimeRewindManager on and drive it until the rewind lands
-//      back at the start of the fight, painted red instead of blue to sell the
-//      idea that the boss is doing the rewinding, not the player. The player's
-//      mana isn't spent during this.
-//   3. Once the rewind lands, we play the phase-2 dialogue and call
-//      Boss.AdvanceToPhase2 so the GMM takes over.
-//
-// The latch is one-way on purpose: if the player rewinds afterwards we don't
-// want the phase-2 transition to replay. Boss.fightStage is also deliberately
-// not part of the rewind snapshot so Phase2 persists through rewinds.
+// drives the two-phase boss fight. player walks into the trigger -> phase 1 dialogue
+// -> Boss.BeginFight. after phase2TimerSeconds, the boss "rewinds" the fight back to
+// the start (red tint instead of blue), then phase 2 dialogue + AdvanceToPhase2.
+// phase2 latch is one-way so a later rewind doesnt replay the dialogue
 [RequireComponent(typeof(Collider2D))]
 public class BossFightController : MonoBehaviour
 {
@@ -26,50 +16,40 @@ public class BossFightController : MonoBehaviour
     [Tooltip("The Boss this controller drives. BeginFight/AdvanceToPhase2 are called on it.")]
     [SerializeField] private Boss boss;
 
-    [Tooltip("Player's PlayerInput — disabled while the dialogue panel is up so " +
-             "input actions don't fire during the lock.")]
+    [Tooltip("Disabled during dialogue so input actions dont fire.")]
     [SerializeField] private PlayerInput playerInput;
 
-    [Tooltip("Player root GameObject. Every MonoBehaviour on it gets disabled " +
-             "while the dialogue is up (except this controller and PlayerInput). " +
-             "Colliders are left untouched.")]
+    [Tooltip("Player root. Every MonoBehaviour on it gets disabled during dialogue, " +
+             "except this controller and PlayerInput. Colliders untouched.")]
     [SerializeField] private GameObject playerScriptsRoot;
 
-    [Tooltip("Player's Rigidbody2D — X position is frozen via constraints while " +
-             "the dialogue is up so horizontal velocity (e.g. spell recoil) can't " +
-             "push the player sideways. Y stays unconstrained so gravity still " +
-             "pulls the player down if they were airborne when the dialogue opened.")]
+    [Tooltip("X is frozen during dialogue so spell recoil cant push the player " +
+             "sideways. Y stays free so gravity still pulls down if airborne.")]
     [SerializeField] private Rigidbody2D playerRigidbody;
 
-    [Tooltip("Player's PlayerPlatformer — used to poll grounded state while the " +
-             "player's scripts are disabled during dialogue, so the animator's " +
-             "isGrounded bool stays truthful and a mid-air lock doesn't look " +
-             "like walking on air.")]
+    [Tooltip("Used to poll grounded state during dialogue so the animator's " +
+             "isGrounded bool stays correct and a mid-air lock doesnt look like " +
+             "walking on air.")]
     [SerializeField] private PlayerPlatformer playerPlatformer;
 
-    [Tooltip("Player's Animator — forced to its idle state when dialogue starts " +
-             "so the player doesn't stay stuck on the fall/jump/cast frame.")]
+    [Tooltip("Forced to idle state on dialogue so the player doesnt stay stuck " +
+             "on the fall/jump/cast frame.")]
     [SerializeField] private Animator playerAnimator;
 
-    [Tooltip("Name of the idle state on the player Animator. Case-sensitive; " +
-             "use the full path (e.g. 'Base.Idle') if it lives inside a sub-state " +
-             "machine. For this project it's typically 'Player_Idle'.")]
+    [Tooltip("Name of the idle state on the player Animator. Case-sensitive.")]
     [SerializeField] private string playerIdleStateName = "Player_Idle";
 
-    [Tooltip("Animator bool parameters forced to TRUE on lock (e.g. 'isGrounded' " +
-             "so an Any State -> Jump/Fall transition doesn't fire the moment we " +
-             "play the Idle state).")]
+    [Tooltip("Animator bools forced TRUE on lock (e.g. isGrounded).")]
     [SerializeField] private string[] playerAnimatorBoolsToForceTrue = new string[] { "isGrounded" };
 
-    [Tooltip("Animator bool parameters forced to FALSE on lock (e.g. 'isWallSliding').")]
+    [Tooltip("Animator bools forced FALSE on lock (e.g. isWallSliding).")]
     [SerializeField] private string[] playerAnimatorBoolsToForceFalse = new string[] { "isWallSliding", "IsFrozen" };
 
-    [Tooltip("Player's PlayerMana — refilled to max when phase 2 starts.")]
+    [Tooltip("Refilled to max when phase 2 starts.")]
     [SerializeField] private PlayerMana playerMana;
 
     [Header("Dialogue UI")]
-    [Tooltip("Root GameObject of the dialogue panel. Hidden at start, activated " +
-             "during each dialogue, deactivated when the last line finishes.")]
+    [Tooltip("Dialogue panel root. Hidden at start, shown during dialogue, hidden again at end.")]
     [SerializeField] private GameObject dialogueContainer;
 
     [Tooltip("TextMeshProUGUI inside the dialogue panel where lines type out.")]
@@ -99,26 +79,21 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private float pauseAfterLastLine = 0.8f;
 
     [Header("Phase 2 Final Line Emphasis")]
-    [Tooltip("Characters-per-second used only for the last line of phase 2. Lower = " +
-             "slower delivery for extra weight on the killing-blow beat.")]
+    [Tooltip("Slower CPS for the last line of phase 2. Adds weight to the final beat.")]
     [SerializeField] private float lastLineCharactersPerSecond = 12f;
 
-    [Tooltip("Per-character shake radius (in text local units) applied to every " +
-             "visible glyph on the final phase 2 line.")]
+    [Tooltip("Per-glyph shake radius for every visible character on the last phase 2 line.")]
     [SerializeField] private float lastLineShakeAmount = 1.5f;
 
-    [Tooltip("Shake radius applied to characters wrapped in <link=heavy> on the " +
-             "final phase 2 line. Use this to emphasise the scariest word.")]
+    [Tooltip("Shake radius for characters wrapped in <link=heavy> on the last phase 2 line.")]
     [SerializeField] private float lastLineHeavyShakeAmount = 4f;
 
     [Header("Phase 2 Trigger")]
-    [Tooltip("Seconds of fight time after BeginFight before the boss-driven " +
-             "rewind triggers phase 2.")]
+    [Tooltip("Seconds of fight time after BeginFight before phase 2 fires.")]
     [SerializeField] private float phase2TimerSeconds = 25f;
 
-    [Tooltip("Health fraction (0-1) at or below which phase 2 triggers early, " +
-             "even if phase2TimerSeconds hasn't elapsed. Whichever fires first " +
-             "wins; the timer can't fire afterwards. Set to 0 to disable.")]
+    [Tooltip("Health fraction (0-1) at or below which phase 2 fires early. " +
+             "Whichever fires first wins. Set to 0 to disable.")]
     [Range(0f, 1f)]
     [SerializeField] private float phase2HealthThreshold = 0.2f;
 
@@ -159,29 +134,24 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private float deathDialogueDelay = 1.5f;
 
     [Header("Boss Rewind")]
-    [Tooltip("PlayerRewindController on the player. Put into external mode " +
-             "during the boss rewind so mana isn't spent and it doesn't stop " +
-             "because R isn't held.")]
+    [Tooltip("Put into external mode during the boss rewind so mana isnt spent " +
+             "and it doesnt stop when R is released.")]
     [SerializeField] private PlayerRewindController playerRewindController;
 
-    [Tooltip("RewindEffects component. Temporarily swapped to red during the " +
-             "boss rewind, restored to its original blue afterwards.")]
+    [Tooltip("Swapped to red during the boss rewind, restored to blue after.")]
     [SerializeField] private RewindEffects rewindEffects;
 
-    [Tooltip("Rewind tint color used while the boss is rewinding.")]
+    [Tooltip("Rewind tint while the boss is rewinding.")]
     [SerializeField] private Color bossRewindTint = new Color(1f, 0.55f, 0.55f, 0.2f);
 
-    [Tooltip("Burst tint color used at the start of the boss rewind.")]
+    [Tooltip("Burst tint at the start of the boss rewind.")]
     [SerializeField] private Color bossRewindBurstTint = new Color(1f, 0.45f, 0.45f, 0.35f);
 
-    [Tooltip("RewindGhostTrail on the player. Optional — if left empty we resolve " +
-             "it from playerRewindController at runtime. (PlayerRewindController " +
-             "adds this component in Awake if it isn't already there, which is " +
-             "why you may not be able to drag it in via the Inspector.)")]
+    [Tooltip("Optional. If left empty its resolved from playerRewindController at runtime " +
+             "(it gets added in Awake so its often not draggable in the Inspector).")]
     [SerializeField] private RewindGhostTrail rewindGhostTrail;
 
-    [Tooltip("Boss's SpriteRenderer — used as the ghost trail source during " +
-             "the boss rewind.")]
+    [Tooltip("Used as the ghost trail source during the boss rewind.")]
     [SerializeField] private SpriteRenderer bossSprite;
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -195,17 +165,11 @@ public class BossFightController : MonoBehaviour
     [SerializeField] private int charsPerSound = 2;
 
     [Header("Boss Rewind")]
-    [Tooltip("PlayerRewindController on the player. Put into external mode " +
-             "during the boss rewind so mana isn't spent and it doesn't stop " +
-             "because R isn't held.")]
-    
+    [Tooltip("Speed multiplier applied to the boss rewind on top of TimeRewindManager.rewindSpeed.")]
     [Min(0.1f)]
     [SerializeField] private float bossRewindSpeedMultiplier = 3f;
 
-    [Tooltip("Read-only preview: approximate real seconds the boss rewind will " +
-             "take given the current multiplier. Actual duration can shift by " +
-             "~30% because idle segments fast-forward and the final 0.75s eases " +
-             "out. Updates in the editor when you tweak the fields above.")]
+    [Tooltip("Read-only estimate of how long the boss rewind will take. Updates in editor.")]
     [SerializeField] private float estimatedBossRewindDurationSeconds;
 
     private bool fightStarted;
@@ -216,14 +180,12 @@ public class BossFightController : MonoBehaviour
     private float phase2StartTime;
     private PlayerHealth cachedPlayerHealth;
 
-    // Scripts we turned off during the current dialogue. Tracked so we only re-enable
-    // what we actually disabled (anything already disabled stays that way).
+    // scripts we turned off during dialogue. tracked so we only re-enable what we
+    // actually disabled (anything already disabled stays disabled)
     private readonly List<MonoBehaviour> disabledDuringDialogue = new List<MonoBehaviour>();
 
-    // Recomputes the boss-rewind duration preview whenever the Inspector changes
-    // a relevant field. Pulls rewindSpeed from the scene's TimeRewindManager if
-    // present so the estimate stays in sync with the manager's setting; falls
-    // back to the default (1.3) if the manager isn't in the scene yet.
+    // recomputes the rewind duration preview when the inspector changes. pulls speed
+    // from the scene's TimeRewindManager if its there, defaults to 1.3 otherwise
     private void OnValidate()
     {
         float managerSpeed = 1.3f;
@@ -239,11 +201,10 @@ public class BossFightController : MonoBehaviour
     {
         if (dialogueContainer != null) dialogueContainer.SetActive(false);
 
-        // Force middle-center alignment so multi-line lines stay centered inside
-        // the dialogue box instead of pushing the block up from a top-aligned anchor.
+        // middle-center alignment so multi-line text stays centered in the box
         if (dialogueText != null) dialogueText.alignment = TextAlignmentOptions.Center;
 
-        // Make sure our own collider is a trigger — otherwise OnTriggerEnter2D never fires.
+        // make sure our collider is a trigger, otherwise OnTriggerEnter2D never fires
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.isTrigger = true;
 
@@ -263,18 +224,17 @@ public class BossFightController : MonoBehaviour
     {
         if (!fightStarted || boss == null) return;
 
-        // Phase 1 → Phase 2 transition: fires on the timer, OR early if the boss
-        // drops to phase2HealthThreshold HP first. The phase2Triggered latch is
-        // one-way, so once either path fires the other can't re-trigger.
+        // phase 1 -> phase 2 fires on the timer, or early if boss health drops below
+        // phase2HealthThreshold. latch is one-way so only the first path triggers
         if (!phase2Triggered && boss.fightStage == Boss.FightStage.Phase1)
         {
-            // If the player is mid-rewind (their own), wait — starting ours on top
-            // would collide with the manager's already-active rewind state.
+            // if the player is mid-rewind, wait. starting ours would collide with the
+            // manager's already-active rewind
             if (TimeRewindManager.Instance != null && TimeRewindManager.Instance.IsRewinding) return;
 
             bool timerElapsed = Time.time - fightStartTime >= phase2TimerSeconds;
-            // Guard boss.health > 0 so a killing-blow doesn't race the OnDeath
-            // handler into starting a phase-2 transition on a dead boss.
+            // health > 0 guard so a killing blow doesnt race OnDeath into starting
+            // phase 2 on a dead boss
             bool lowHealth = phase2HealthThreshold > 0f
                              && boss.health > 0
                              && boss.startHealth > 0
@@ -308,9 +268,8 @@ public class BossFightController : MonoBehaviour
 
     private IEnumerator RunPhase1Intro()
     {
-        // Phase 1 dialogue: boss is still in Waiting stage so its Update already
-        // early-returns; we just lock the player. Time.timeScale stays at 1 so the
-        // player's idle animation keeps playing.
+        // boss is still Waiting so its Update already early-returns. just lock the player.
+        // timeScale stays at 1 so the idle anim keeps playing
         LockPlayer();
 
         yield return StartCoroutine(PlayDialogue(phase1Lines, false));
@@ -322,22 +281,20 @@ public class BossFightController : MonoBehaviour
 
     private IEnumerator RunPhase2Transition()
     {
-        // Phase 2 begins with the *boss* rewinding the fight back to the start.
-        // We reuse the existing TimeRewindManager (so player + boss + everything
-        // rewindable winds back together), force it on without touching the
-        // player's mana, and tint it red to signal the boss is driving this.
+        // phase 2 starts with the boss rewinding the fight back to the start. reuse
+        // TimeRewindManager so everything rewindable winds back together, tint it red
+        // so it looks like the boss is driving it
         if (boss != null) boss.dialoguePaused = true;
 
-        // Kill player input during the rewind. We don't call LockPlayer yet
-        // because it disables every MonoBehaviour on the player — including the
-        // PlayerRewindController we need registered with the rewind manager.
+        // kill player input but dont call LockPlayer yet, that would also disable
+        // PlayerRewindController which needs to stay registered with the manager
         if (playerInput != null) playerInput.enabled = false;
 
         if (playerRewindController != null) playerRewindController.SetExternalRewindActive(true);
         if (rewindEffects != null) rewindEffects.PushTintOverride(bossRewindTint, bossRewindBurstTint);
 
-        // Resolve the ghost trail lazily: PlayerRewindController.Awake adds it at
-        // runtime, so it's typically not there at edit time and can't be dragged in.
+        // grab the ghost trail at runtime. PlayerRewindController.Awake adds it so
+        // its usually not there at edit time and cant be dragged in
         if (rewindGhostTrail == null && playerRewindController != null)
             rewindGhostTrail = playerRewindController.GetComponent<RewindGhostTrail>();
         if (rewindGhostTrail != null && bossSprite != null) rewindGhostTrail.SetSourceOverride(bossSprite);
@@ -349,14 +306,13 @@ public class BossFightController : MonoBehaviour
             {
                 audioSource.PlayOneShot(bossRewindStartClip, bossRewindVolume);
             }
-            // Scope the boss-only speed boost around this single rewind. StopRewind
-            // also clears the multiplier as a safety net, but we pair explicitly
-            // so an aborted rewind path doesn't leak into the next player rewind.
+            // scope the speed boost around this single rewind. StopRewind also clears
+            // it but pairing it here stops it leaking into the next player rewind
             manager.PushSpeedMultiplier(bossRewindSpeedMultiplier);
             manager.StartRewind();
 
-            // Drive the rewind until it lands back at the start of the fight,
-            // or the manager aborts for any reason.
+            // drive the rewind until it lands at the start of the fight, or the
+            // manager aborts
             while (manager.IsRewinding)
             {
                 if (manager.CurrentRewindTime <= fightStartTime)
@@ -373,16 +329,15 @@ public class BossFightController : MonoBehaviour
         if (playerRewindController != null) playerRewindController.SetExternalRewindActive(false);
         if (rewindGhostTrail != null) rewindGhostTrail.ClearSourceOverride();
 
-        // Wait for the red tint to fully fade out before popping the override —
-        // otherwise the original blue tint would flash back on screen during the
-        // tail of the post-process fade.
+        // wait for the red tint to fully fade out before popping the override,
+        // otherwise the blue tint flashes back during the tail of the fade
         if (rewindEffects != null)
         {
             while (rewindEffects.IsTintVisuallyActive) yield return null;
             rewindEffects.PopTintOverride();
         }
 
-        // Give the post-rewind slow-motion a frame to settle before we lock.
+        // give the post-rewind slow-mo a frame to settle before locking
         yield return null;
 
         LockPlayer();
@@ -398,7 +353,7 @@ public class BossFightController : MonoBehaviour
             boss.AdvanceToPhase2();
         }
 
-        // Start tracking damage for the playstyle hint
+        // start tracking damage for the playstyle hint
         phase2StartTime = Time.time;
         phase2DamageCount = 0;
 
@@ -429,19 +384,16 @@ public class BossFightController : MonoBehaviour
 
     private IEnumerator RunPlaystyleHint()
     {
-        // Unsubscribe — hint only fires once
+        // unsub, hint only fires once
         if (cachedPlayerHealth != null)
             cachedPlayerHealth.OnHealthChanged -= OnPlayerDamagedInPhase2;
 
-        // Non-freezing: gameplay continues while the hint types out
+        // non-freezing, gameplay continues while the hint types out
         string[] lines = GetPlaystyleHintLines();
         yield return StartCoroutine(PlayHintDialogue(lines));
     }
 
-    /// <summary>
-    /// Lightweight typewriter that does NOT pause the boss or lock the player.
-    /// Shows text over the fight, then hides itself.
-    /// </summary>
+    // lightweight typewriter that doesnt pause the boss or lock the player
     private IEnumerator PlayHintDialogue(string[] lines)
     {
         if (dialogueText == null || lines == null || lines.Length == 0) yield break;
@@ -521,11 +473,9 @@ public class BossFightController : MonoBehaviour
             return hintLinesAbilityFocused;
     }
 
-    // Mirrors IntroCutscene.DisablePlayerControl's script-disable pass. Stops
-    // movement, attacks, spellcasting, etc. by shutting down every MonoBehaviour on
-    // the player root except the two we need alive (this controller and PlayerInput,
-    // which we toggle separately). Freezes the rigidbody's X so the player can't
-    // slide sideways while still letting gravity pull an airborne player down.
+    // mirrors IntroCutscene.DisablePlayerControl. shuts down every MonoBehaviour on
+    // the player root except this controller and PlayerInput. freezes rigidbody X so
+    // they cant slide sideways but still fall if airborne
     private RigidbodyConstraints2D originalRigidbodyConstraints;
     private bool rigidbodyConstraintsCaptured;
     private Coroutine lockedAnimatorRoutine;
@@ -538,26 +488,17 @@ public class BossFightController : MonoBehaviour
         {
             originalRigidbodyConstraints = playerRigidbody.constraints;
             rigidbodyConstraintsCaptured = true;
-            // Zero X velocity so lingering horizontal motion doesn't bleed through,
-            // but preserve Y so an airborne player can still fall. FreezePositionX
-            // stops any further horizontal drift from collisions/knockback.
+            // zero X velocity but keep Y so an airborne player can still fall.
+            // FreezePositionX stops further horizontal drift from collisions
             playerRigidbody.linearVelocity = new Vector2(0f, playerRigidbody.linearVelocity.y);
             playerRigidbody.angularVelocity = 0f;
             playerRigidbody.constraints = originalRigidbodyConstraints | RigidbodyConstraints2D.FreezePositionX;
         }
 
-        // Clear in-flight cast/attack state before ForcePlayerIdleAnimation interrupts
-        // the animator. The cast/attack flags (isCasting, isAttacking) are released by
-        // animation events (SpawnSpell→ReleaseCastLock, EndAttack) — switching the
-        // animator to Idle skips those events, so without this the flags stay stuck
-        // true through the dialogue. When that happens, PlayerSpellSystem's
-        // IsMovementLocked() blocks dash+movement, the spell recast gate blocks spells,
-        // gravityScale=0 (set by CastSpell) leaves the player floating, and
-        // PlayerCombat.queuedAttack starves with no EndAttack to consume it — the only
-        // recovery being a manual rewind, which calls these same OnStartRewind handlers.
-        // Reuse OnStartRewind on each component since it already encodes the exact
-        // reset we need (isCasting/recoilTimer for spells, isAttacking/queuedAttack/
-        // comboStep/attackTimer plus rain-attack handling for combat).
+        // clear in-flight cast/attack state before forcing the animator to idle.
+        // those flags are normally cleared by anim events (EndAttack etc.), but
+        // playing Idle skips them so they get stuck true and lock the player.
+        // reuse OnStartRewind since it already does the exact reset we need
         if (playerScriptsRoot != null)
         {
             var spell = playerScriptsRoot.GetComponent<PlayerSpellSystem>();
@@ -568,9 +509,8 @@ public class BossFightController : MonoBehaviour
 
         ForcePlayerIdleAnimation();
 
-        // While the player's scripts are disabled, keep the animator's isGrounded
-        // bool in sync with actual ground contact so a mid-air lock transitions to
-        // idle on landing instead of staying stuck in one frame.
+        // while scripts are disabled, keep isGrounded in sync with real contact so
+        // a mid-air lock transitions to idle on landing
         if (lockedAnimatorRoutine != null) StopCoroutine(lockedAnimatorRoutine);
         lockedAnimatorRoutine = StartCoroutine(MaintainLockedAnimator());
 
@@ -585,11 +525,10 @@ public class BossFightController : MonoBehaviour
             if (mb == this) continue;
             if (mb is PlayerInput) continue;
 
-            // Disabling a MonoBehaviour alone doesn't stop its active coroutines.
-            // RainAttack.SpawnRain would keep spawning drops after `enabled = false`,
-            // so stop it specifically. Calling StopAllCoroutines on every script
-            // instead would also kill PlayerHealth.InvincibilityRoutine mid-flash
-            // and leave the sprite hidden — so we stay surgical.
+            // disabling a script doesnt stop its coroutines, and RainAttack.SpawnRain
+            // keeps spawning drops. stop it specifically. cant just call
+            // StopAllCoroutines on everything, that kills PlayerHealth's invincibility
+            // flash and leaves the sprite hidden
             if (mb is RainAttack) mb.StopAllCoroutines();
             mb.enabled = false;
             disabledDuringDialogue.Add(mb);
@@ -648,8 +587,8 @@ public class BossFightController : MonoBehaviour
             {
                 if (string.IsNullOrEmpty(param)) continue;
                 if (!HasAnimatorParam(playerAnimator, param, AnimatorControllerParameterType.Bool)) continue;
-                // isGrounded has to reflect reality — forcing it true while the
-                // player is airborne would play a walking-on-air idle clip.
+                // isGrounded has to reflect reality, forcing it true while airborne
+                // would play a walking-on-air idle
                 bool value = param == "isGrounded" ? grounded : true;
                 playerAnimator.SetBool(param, value);
             }
@@ -664,9 +603,8 @@ public class BossFightController : MonoBehaviour
             }
         }
 
-        // Only snap to the grounded idle state when actually grounded; airborne,
-        // leave the animator in whatever fall state it already reached so it
-        // naturally transitions via isGrounded once the player lands.
+        // only snap to idle when grounded. if airborne, leave the animator in its
+        // fall state so it transitions via isGrounded once the player lands
         if (grounded && !string.IsNullOrEmpty(playerIdleStateName))
         {
             playerAnimator.Play(playerIdleStateName, 0, 0f);
@@ -674,9 +612,7 @@ public class BossFightController : MonoBehaviour
         }
     }
 
-    // Wipes every boss-spawned projectile/hazard currently in the scene so the
-    // phase-2 dialogue starts from a clean slate. Each of these is a self-contained
-    // prefab spawned by BossAttackManager — destroying the GameObject is enough.
+    // wipes every boss-spawned projectile/hazard so phase 2 dialogue starts clean
     private void ClearBossAttacks()
     {
         DestroyAllOfType<Fireball>();
@@ -687,21 +623,14 @@ public class BossFightController : MonoBehaviour
         DestroyAllOfType<FireExplosion>();
         DestroyAllOfType<FloorFireRow>();
         DestroyAllOfType<PlatformController>();
-        // Player spells: SpellProjectile covers the basic blast + each rain drop.
-        // RainAttack is the spawner coroutine — destroying it stops mid-spawn rain
-        // from dropping more projectiles after the dialogue starts.
+        // SpellProjectile covers the basic blast + each rain drop. RainAttack lives
+        // on the player so we cant destroy it, but LockPlayer already stopped its
+        // coroutine
         DestroyAllOfType<SpellProjectile>();
-        // RainAttack lives on the player itself, so we can't Destroy its GameObject
-        // without destroying the player. LockPlayer already disables it and stops
-        // its coroutine, so any in-flight rain drops are caught by the SpellProjectile
-        // sweep above and no more will spawn.
-        // Belt-and-suspenders: the SpellPrefab (and rain drops spawned from it) is
-        // tagged "Spell", so wipe by tag too. Catches any spell prefab that happens
-        // not to carry a SpellProjectile component.
+        // also wipe by tag, catches any spell prefab without a SpellProjectile component
         DestroyAllWithTag("Spell");
 
-        // Wipe any boss-spawned (or otherwise present) regular enemies, but leave
-        // the boss itself alone.
+        // wipe regular enemies but leave the boss alone
         foreach (EnemyBase e in FindObjectsByType<EnemyBase>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             if (e == null) continue;
@@ -729,7 +658,7 @@ public class BossFightController : MonoBehaviour
         }
         catch (UnityException)
         {
-            // Tag not defined in the project — silently skip rather than throwing.
+            // tag not defined in the project, just skip
         }
     }
 
@@ -738,10 +667,9 @@ public class BossFightController : MonoBehaviour
         if (playerMana != null) playerMana.SetMana(playerMana.MaxMana);
     }
 
-    // Drop-in for WaitForSecondsRealtime that freezes while the pause menu is up.
-    // Dialogue uses unscaled time so it can play through cutscene timescale=0 locks,
-    // but the pause menu also drives timeScale=0 and *should* stop dialogue — so we
-    // tick unscaled deltaTime only when PauseMenu.isPaused is false.
+    // like WaitForSecondsRealtime but freezes while the pause menu is up. dialogue
+    // uses unscaled time so it plays through cutscene timeScale=0 locks, but pause
+    // ALSO drives timeScale=0 and should stop the typewriter
     private static IEnumerator WaitRealtimeRespectingPause(float seconds)
     {
         float elapsed = 0f;
@@ -761,10 +689,9 @@ public class BossFightController : MonoBehaviour
         return false;
     }
 
-    // Mirrors the typewriter flow in IntroCutscene.PlayIntroDialogue, but uses
-    // unscaled time so it keeps running while Time.timeScale is 0.
-    // emphasizeLastLine: slows the typewriter + starts a per-glyph shake on the
-    // final line — used for phase 2's "Prepare to DIE" beat.
+    // mirrors IntroCutscene.PlayIntroDialogue but uses unscaled time so it keeps
+    // running while timeScale=0. emphasizeLastLine slows the typewriter + starts
+    // a per-glyph shake on the final line
     private IEnumerator PlayDialogue(string[] lines, bool emphasizeLastLine)
     {
         if (dialogueText == null || lines == null || lines.Length == 0) yield break;
@@ -795,7 +722,7 @@ public class BossFightController : MonoBehaviour
                 continue;
             }
 
-            // Lock the auto-sized font so the text doesn't rescale mid-typewriter.
+            // lock the auto-sized font so text doesnt rescale mid-typewriter
             dialogueText.enableAutoSizing = true;
             dialogueText.text = line;
             dialogueText.ForceMeshUpdate();
@@ -806,9 +733,8 @@ public class BossFightController : MonoBehaviour
             dialogueText.maxVisibleCharacters = 0;
             yield return null;
 
-            // Rich-text tags (colour, link) inflate line.Length but don't count
-            // toward visible glyphs — drive the typewriter off textInfo so tags
-            // don't cause phantom pauses while the boss "types" invisible markup.
+            // rich-text tags inflate line.Length but arent visible glyphs. drive the
+            // typewriter off textInfo so tags dont cause phantom pauses
             dialogueText.ForceMeshUpdate();
             int glyphCount = dialogueText.textInfo.characterCount;
 
@@ -844,10 +770,8 @@ public class BossFightController : MonoBehaviour
         dialogueText.enableAutoSizing = true;
     }
 
-    // Per-glyph jitter driven off the TMP character vertex buffer. Characters inside
-    // a <link=heavy> tag get a larger radius so a single word (e.g. "DIE") shakes
-    // more violently than the rest of the line. Runs every frame until stopped;
-    // PlayDialogue cancels it after the final pause.
+    // per-glyph jitter via the TMP vertex buffer. chars inside <link=heavy> get a
+    // larger radius so a single word can shake harder than the rest of the line
     private IEnumerator ShakeDialogueText()
     {
         if (dialogueText == null) yield break;
@@ -856,15 +780,15 @@ public class BossFightController : MonoBehaviour
 
         while (true)
         {
-            // Hold the current glyph positions while paused — no rebuild, no jitter.
+            // hold current glyph positions while paused, no rebuild, no jitter
             if (PauseMenu.isPaused)
             {
                 yield return null;
                 continue;
             }
 
-            // Rebuild each frame so the freshly-layed-out verts (post typewriter
-            // increment) are our shake origin — otherwise we'd accumulate offsets.
+            // rebuild each frame so the fresh verts are our shake origin, otherwise
+            // we accumulate offsets
             dialogueText.ForceMeshUpdate();
             TMPro.TMP_TextInfo info = dialogueText.textInfo;
             int meshCount = info.meshInfo.Length;
@@ -880,8 +804,8 @@ public class BossFightController : MonoBehaviour
                 System.Array.Copy(src, baseline[m], src.Length);
             }
 
-            // Find the "heavy" link range if present — those glyphs get the larger
-            // shake radius. Missing link just means the whole line shakes uniformly.
+            // find the "heavy" link range. those glyphs get the larger radius.
+            // no link = whole line shakes uniformly
             int heavyStart = -1;
             int heavyEnd = -1;
             for (int l = 0; l < info.linkCount; l++)

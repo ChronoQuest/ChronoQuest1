@@ -15,12 +15,11 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     public GameObject fireExplosion;
     public Transform player;
     public Transform boss;
-    // Updated by Boss.ApplyBeliefModulation each phase — cautious players get a higher
-    // chance of spawns landing near them, evasive players get more random spread.
+    // set by Boss.ApplyBeliefModulation each phase. cautious players get spawns
+    // biased onto them, evasive players get more random spread
     public float playerTargetBias = 0.75f;
-    // Hard cap on boss-spawned enemies alive at once. Prevents accumulation across
-    // combat phases (Enemy + Fireballs can spawn 5 per phase, and nothing used to
-    // despawn leftovers on phase end).
+    // cap on boss-spawned enemies alive at once. Enemy + Fireballs can spawn 5 per
+    // phase, this stops them piling up across phases
     public int maxActiveEnemies = 3;
     private readonly List<GameObject> activeBossEnemies = new List<GameObject>();
     private bool isRewinding;
@@ -115,7 +114,7 @@ public class BossAttackManager : MonoBehaviour, IRewindable
     {
         if (isRewinding) return;
 
-        // Drop destroyed entries before checking the cap (Unity-null-aware).
+        // drop destroyed entries before checking the cap
         activeBossEnemies.RemoveAll(e => e == null);
         if (activeBossEnemies.Count >= maxActiveEnemies) return;
 

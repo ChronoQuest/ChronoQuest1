@@ -74,7 +74,7 @@ public class TutorialCameraController : MonoBehaviour
 
         yield return new WaitForSeconds(panToEnemyDelay);
 
-        // Pan to enemy — set target here so each instance controls its own focus point
+        // pan to enemy. set target here so each instance controls its own focus point
         if (enemyFocus != null)
             focusCamera.Target.TrackingTarget = enemyFocus;
         focusCamera.Lens.OrthographicSize = focusZoomSize;
@@ -82,7 +82,7 @@ public class TutorialCameraController : MonoBehaviour
 
         yield return new WaitForSeconds(focusDuration);
 
-        // Return — CinemachineBrain blend settings handle the transition
+        // return: CinemachineBrain blend settings handle the transition
         focusCamera.Priority = 0;
 
         // Wait for the blend back to finish before restoring player control

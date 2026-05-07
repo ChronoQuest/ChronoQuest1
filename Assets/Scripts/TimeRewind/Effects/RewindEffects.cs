@@ -79,14 +79,13 @@ namespace TimeRewind
         private float _burstTimer;
         private float _currentBurstMaxDuration;
 
-        // Temporary tint override (used by e.g. the boss-forced rewind to paint it red).
+        // temporary tint override (e.g. the boss-forced rewind paints it red)
         private bool _tintOverrideActive;
         private Color _savedRewindTint;
         private Color _savedBurstTint;
 
-        // True while the tint is visibly applied (still fading in or out). Callers
-        // that push an override color can wait on this before popping to avoid
-        // the original color flashing back while the effect is still on screen.
+        // true while the tint is on screen (still fading in or out). callers can
+        // wait on this before popping the override so the old color doesnt flash back
         public bool IsTintVisuallyActive => _currentEffectWeight > 0.02f;
         
         #region Unity Lifecycle
@@ -335,9 +334,8 @@ namespace TimeRewind
             _burstTimer = duration;
         }
 
-        // Swap the rewind/burst tint colors for a single rewind (e.g. the boss-forced
-        // red rewind). Call before StartRewind; call PopTintOverride after the rewind
-        // stops to restore the original colors.
+        // swap tint colors for one rewind (e.g. the boss-forced red rewind). call
+        // before StartRewind, then PopTintOverride after to restore them
         public void PushTintOverride(Color newRewindTint, Color newBurstTint)
         {
             if (_tintOverrideActive) return;

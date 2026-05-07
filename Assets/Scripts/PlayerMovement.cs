@@ -125,9 +125,8 @@ public class PlayerPlatformer : MonoBehaviour
         postRewindResponsiveness = Mathf.Clamp(postRewindResponsiveness, 0.1f, 1f);
     }
 
-    // External ground probe used by systems that lock the player (e.g. BossFightController
-    // during dialogue). Works even when this component is disabled because it's a plain
-    // Physics2D query — no dependency on Update running.
+    // external ground probe used by systems that lock the player (e.g. boss dialogue).
+    // works when this component is disabled, its just a Physics2D query
     public bool CheckGrounded()
     {
         if (groundCheck == null) return false;

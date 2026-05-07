@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum DifficultyTier
 {
-    /// <summary>Strongest assists (lowest enemy HP, platforms may be locked).</summary>
+    // strongest assists, lowest enemy HP, platforms may be locked
     VeryEasy = 0,
     Easy = 1,
     Normal = 2,
@@ -58,7 +58,7 @@ public class DifficultyTuning : ScriptableObject
     [Tooltip("If |performance score| is at or below this, tier is left unchanged (neutral / idle play).")]
     public float neutralScoreHoldRadius = 0.12f;
 
-    [Header("Performance score — combat rewards (missed swings/casts ignored)")]
+    [Header("Performance score - combat rewards (missed swings/casts ignored)")]
     [Tooltip("Score += clamp(melee hits/min * this, 0, scoreMeleeHitRewardMax). Misses do not reduce score.")]
     public float scoreMeleeHitPerMinuteScale = 0.038f;
 
@@ -77,7 +77,7 @@ public class DifficultyTuning : ScriptableObject
     [Tooltip("Cap on the enemy-kill reward term.")]
     public float scoreEnemyKillRewardMax = 0.30f;
 
-    [Header("Performance score — penalties (lower = gentler dynamic difficulty)")]
+    [Header("Performance score - penalties (lower = gentler difficulty)")]
     [Tooltip("Deaths per minute are multiplied by this before the death penalty clamp.")]
     public float scoreDeathsPerMinuteScale = 0.42f;
 

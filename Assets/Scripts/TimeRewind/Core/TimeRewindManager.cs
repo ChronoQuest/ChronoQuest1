@@ -112,9 +112,8 @@ namespace TimeRewind
         private float _currentPlaybackMultiplier = 1f;
         private bool _isRecovering;
 
-        // Extra speed scalar for externally-driven rewinds (e.g. the boss rewinding
-        // the fight in phase 2). Stacks multiplicatively with rewindSpeed and the
-        // playback multipliers so the caller doesn't need to know about them.
+        // extra speed scalar for external rewinds (e.g. the boss phase 2 rewind).
+        // stacks multiplicatively with rewindSpeed
         private float _externalSpeedMultiplier = 1f;
 
         #endregion
@@ -366,8 +365,7 @@ namespace TimeRewind
             _isRewinding = false;
             RewindHaptics.Instance?.StopRewindPulse();
 
-            // Safety: clear any external multiplier so it can't leak into the next rewind
-            // if the caller forgot to pop. Push/Clear is still the intended contract.
+            // clear any leftover multiplier so it doesnt leak into the next rewind
             _externalSpeedMultiplier = 1f;
 
             if (_cachedTimeScale <= 0f)
@@ -401,8 +399,9 @@ namespace TimeRewind
 
             while (elapsed < duration)
             {
-                // If another system (pause, cutscene, revive slowmo, etc.) overrides timeScale mid-recovery,
-                // abort cleanly and restore fixed timestep so we don't leave physics in a scaled state.
+                // if another system (pause, cutscene, revive slowmo, etc.) overrides
+                // timeScale mid-recovery, bail and restore fixed timestep so physics
+                // doesnt stay scaled
                 if (!Mathf.Approximately(Time.timeScale, lastAppliedScale))
                 {
                     if (enableDebugLogs)
@@ -471,10 +470,9 @@ namespace TimeRewind
                 Time.timeScale = 1f;
         }
         
-        // Scoped speed boost for externally-driven rewinds. Caller pairs PushSpeedMultiplier
-        // with ClearSpeedMultiplier; while non-1 it scales the rewind rate on top of the
-        // configured rewindSpeed. StopRewind also clears it as a safety net in case the
-        // caller bails without cleanup.
+        // speed boost for external rewinds. caller pairs Push with Clear. while non-1 it
+        // scales the rewind rate on top of rewindSpeed. StopRewind clears it too in case
+        // the caller bails
         public void PushSpeedMultiplier(float multiplier)
         {
             _externalSpeedMultiplier = Mathf.Max(0.01f, multiplier);

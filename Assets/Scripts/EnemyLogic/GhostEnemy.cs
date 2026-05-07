@@ -135,19 +135,19 @@ public class GhostEnemy : EnemyBase, IBossSpawnable, IForesightEnemy
         }
     }
 
-    // Fade out → teleport near player → fade in
+    // fade out -> teleport near player -> fade in
     IEnumerator TeleportRoutine()
     {
         isTeleporting = true;
         rb.linearVelocity = Vector2.zero;
         if (col != null) col.enabled = false;
 
-        // Phase out — ghost sinks underground
+        // phase out, ghost sinks underground
         animator?.SetTrigger("PhaseOut");
         yield return new WaitForSeconds(phaseOutDuration);
         if (spriteRenderer != null) spriteRenderer.enabled = false;
 
-        // Ghost is now underground in the animation — safe to snap position
+        // ghost is now underground in the animation, safe to snap position
         float side = Random.value > 0.5f ? 1f : -1f;
         Vector2 targetX = (Vector2)player.position + new Vector2(side * teleportOffset, 1f);
         RaycastHit2D hit = Physics2D.Raycast(targetX, Vector2.down, 10f, LayerMask.GetMask("Ground"));

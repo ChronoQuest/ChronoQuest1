@@ -239,13 +239,13 @@ public class RewindHaptics : MonoBehaviour
             float interval = Mathf.Lerp(baseBeatInterval, fastBeatInterval, normalized);
             float strength = baseStrength * globalStrengthScale;
 
-            // dub FIRST (weak) — reversed clip
+            // dub FIRST (weak), reversed clip
             yield return Beat(strength * 0.7f, weakBeatDuration, dubClip, rewindHeartbeatVolume, reverse: true);
 
             // Wait Gap
             yield return PausableWait(beatGap);
 
-            // LUB SECOND (strong) — reversed clip
+            // LUB SECOND (strong), reversed clip
             yield return Beat(strength, strongBeatDuration, lubClip, rewindHeartbeatVolume, reverse: true);
 
             // Speed-scaled pause

@@ -159,7 +159,7 @@ public class DeathKnightEnemy : EnemyBase, IForesightEnemy
     bool CanAttack()       => !isAttacking && Time.time >= lastAttackTime       + attackCooldown;
     bool CanRangedAttack() => !isAttacking && Time.time >= lastRangedAttackTime + rangedAttackCooldown;
 
-    // ─── Melee ───────────────────────────────────────────────────────────────
+    // melee
 
     IEnumerator AttackRoutine()
     {
@@ -180,7 +180,7 @@ public class DeathKnightEnemy : EnemyBase, IForesightEnemy
             player.GetComponent<PlayerHealth>()?.ModifyHealth(-attackDamage);
     }
 
-    // ─── Ranged ──────────────────────────────────────────────────────────────
+    // ranged
 
     IEnumerator RangedAttackRoutine()
     {
@@ -203,7 +203,7 @@ public class DeathKnightEnemy : EnemyBase, IForesightEnemy
         orb.Launch(pendingOrbDirection, rangedAttackDamage);
     }
 
-    // ─── Shared ──────────────────────────────────────────────────────────────
+    // shared
 
     void FacePlayer()
     {

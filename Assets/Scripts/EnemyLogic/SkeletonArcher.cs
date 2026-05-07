@@ -27,8 +27,8 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     private bool isShooting = false;
 
     [Header("Landed-On-Player Nudge")]
-    // Fired when the archer's collider rests on top of the player — small push so it
-    // slides off the head and gravity drops it to real ground.
+    // fired when the archer's collider rests on top of the player. small push so
+    // it slides off and gravity drops it to real ground
     public float pushOffXSpeed = 1.5f;
     public float pushOffYSpeed = 1f;
     public float pushOffDuration = 0.25f;
@@ -363,12 +363,10 @@ public class SkeletonArcher : EnemyBase, IBossSpawnable, IForesightEnemy
     {
         if (animator != null)
         {
-            // Clear every non-death trigger before queuing Dead. The killing blow can
-            // race with FixedUpdate's TryShoot or a non-lethal Hit fired the same
-            // frame — those triggers stay queued in the animator's parameter dictionary
-            // and consume Any State transitions out of the Death state right after we
-            // land in it, leaving the skeleton visually alive (in Shoot/Hit/Idle).
-            // Resetting them here means only Dead survives to be processed.
+            // clear every non-death trigger before queuing Dead. the killing blow can
+            // race with FixedUpdate's TryShoot or a non-lethal Hit fired the same frame,
+            // and those queued triggers eat Any State transitions out of Death right
+            // after we land in it, leaving the skeleton visually alive
             animator.ResetTrigger("Hit");
             animator.ResetTrigger("Shoot");
             animator.ResetTrigger("Revive");

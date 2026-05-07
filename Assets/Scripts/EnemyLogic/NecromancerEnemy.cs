@@ -5,37 +5,30 @@ using TimeRewind;
 
 public class NecromancerEnemy : EnemyBase, IForesightEnemy
 {
-    // ──────────────────────────────────────────────────────────────────────────
-    //  INSPECTOR
-    // ──────────────────────────────────────────────────────────────────────────
-
     [Header("Movement")]
     public float moveSpeed = 2f;
 
     [Header("Physics & Environment")]
     public LayerMask groundLayer;
-    [Tooltip("Child transform positioned at the Necromancer's feet — centre of the ground check capsule.")]
+    [Tooltip("Child transform at the necromancer's feet, centre of the ground check capsule.")]
     public Transform groundCheck;
     [Tooltip("Half-width of the ground check capsule (horizontal extent from centre).")]
     public float groundCheckWidth = 0.3f;
-    [Tooltip("Half-height of the ground check capsule (vertical extent — keep small).")]
+    [Tooltip("Half-height of the ground check capsule. Keep small.")]
     public float groundCheckHeight = 0.1f;
     [Tooltip("Extra distance below collider extents used by the death-land detection (keep at ~1.3).")]
     public float groundDetectionOffset = 1.3f;
 
-    // ── Flee – Waypoints ──────────────────────────────────────────────────────
-    [Header("Flee – Waypoints")]
-    [Tooltip("Ordered waypoints the Necromancer flees toward. Each needs a WaypointZone component with a Collider2D trigger sized as desired.")]
+    [Header("Flee Waypoints")]
+    [Tooltip("Ordered waypoints to flee toward. Each needs a WaypointZone with a trigger collider.")]
     public WaypointZone[] fleeWaypoints;
 
-    // ── Flee – Distance Management ────────────────────────────────────────────
-    [Header("Flee – Distance Management")]
-    [Tooltip("Distance at which the Necromancer stops and waits for the player (~1.5× camera width).")]
+    [Header("Flee Distance")]
+    [Tooltip("Distance at which the necromancer stops and waits for the player.")]
     public float maxFleeDistance = 18f;
-    [Tooltip("Player must close to this distance before the Necromancer resumes fleeing.")]
+    [Tooltip("Player must close to this distance before the necromancer resumes fleeing.")]
     public float resumeFleeDistance = 14f;
 
-    // ── Jump ──────────────────────────────────────────────────────────────────
     [Header("Jump")]
     [Tooltip("Maximum vertical impulse that can be applied for any jump.")]
     public float maxJumpForce = 20f;
@@ -60,7 +53,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     [Tooltip("How far left and right FindLaunchPositionDir scans (in world units) to find a clear vertical column to jump from. Independent of wallTopScanMax.")]
     public float launchSeekRange = 20f;
 
-    // ── Cornered ──────────────────────────────────────────────────────────────
     [Header("Cornered")]
     [Tooltip("Horizontal distance ahead to check for a blocking wall.")]
     public float corneredWallCheckDist = 1.8f;
@@ -71,7 +63,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     [Tooltip("Minimum time the Necromancer stays cornered before attempting to flee again.")]
     public float corneredMinDuration = 3f;
 
-    // ── Stuck Failsafe ────────────────────────────────────────────────────────
     [Header("Stuck Failsafe")]
     [Tooltip("Seconds without meaningful movement (while fleeing) before falling back to Cornered.")]
     public float stuckTimeThreshold = 2.5f;
@@ -80,14 +71,12 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     [Tooltip("If the Necromancer has not reached the current waypoint within this many seconds it gives up and enters Final Stand. Set to 0 to disable.")]
     public float waypointTimeoutDuration = 30f;
 
-    // ── Flee Interrupts ───────────────────────────────────────────────────────
     [Header("Flee Interrupts")]
-    [Tooltip("Minimum seconds between opportunistic actions (spell / revive) while fleeing.")]
+    [Tooltip("Min seconds between flee-interrupt actions (spell / revive).")]
     public float fleeCastIntervalMin = 4f;
-    [Tooltip("Maximum seconds between opportunistic actions while fleeing.")]
+    [Tooltip("Max seconds between flee-interrupt actions.")]
     public float fleeCastIntervalMax = 9f;
 
-    // ── Revive ────────────────────────────────────────────────────────────────
     [Header("Revive")]
     public float reviveCooldown = 5f;
     public float reviveAnimDuration = 1.2f;
@@ -96,7 +85,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     [Tooltip("Health gained by the Necromancer each time it successfully revives a minion. Set to 0 to disable.")]
     public int   reviveHealthBonus = 1;
 
-    // ── Attack ────────────────────────────────────────────────────────────────
     [Header("Attack")]
     public float attackCooldown = 3f;
     public float attackAnimDuration = 0.8f;
@@ -104,18 +92,14 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     public GameObject spellPrefab;
     public int   spellPoolSize = 3;
 
-    // ── References ────────────────────────────────────────────────────────────
     [Header("References")]
     public Transform        player;
     public List<EnemyBase>  minions = new List<EnemyBase>();
 
-    // ── Audio ─────────────────────────────────────────────────────────────────
     [Header("Audio")]
     [SerializeField] private AudioClip roarClip;
     [SerializeField] private float roarVolume = 0.5f;
-    // ──────────────────────────────────────────────────────────────────────────
-    //  PRIVATE STATE  (all rewind-serialised — see CaptureState / ApplyState)
-    // ──────────────────────────────────────────────────────────────────────────
+    //  PRIVATE STATE  (all rewind-serialised, see CaptureState / ApplyState)
 
     private Animator   animator;
     private Collider2D col;
@@ -123,7 +107,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
     // Waypoint navigation
     private int   currentWaypointIndex  = 0;
-    private bool  finalStand            = false; // true once all waypoints visited — permanent Cornered
+    private bool  finalStand            = false; // true once all waypoints visited, permanent Cornered
     private float waypointFleeTimer     = 0f;    // seconds spent in Flee state toward the current waypoint
 
     // Stuck / cornered
@@ -178,9 +162,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     private enum State { Idle, Flee, Wait, Cornered }
     [SerializeField] private State currentState = State.Idle;
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  LIFECYCLE
-    // ──────────────────────────────────────────────────────────────────────────
 
     protected override void Awake()
     {
@@ -202,9 +184,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         ScheduleNextFleeCast();
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  SPELL POOL
-    // ──────────────────────────────────────────────────────────────────────────
 
     void BuildSpellPool()
     {
@@ -226,9 +206,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         return null;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  UPDATE
-    // ──────────────────────────────────────────────────────────────────────────
 
     public override void Update()
     {
@@ -256,9 +234,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         UpdateAnimation();
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  FIXED UPDATE
-    // ──────────────────────────────────────────────────────────────────────────
 
     void FixedUpdate()
     {
@@ -277,7 +253,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         {
             if (isGrounded)
             {
-                isJumping     = false;  // landed — resume normal movement next frame
+                isJumping     = false;  // landed, resume normal movement next frame
                 seekLaunchDir = 0f;     // re-evaluate seek direction fresh next time
             }
             else
@@ -286,8 +262,8 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
                 if (feetY >= jumpTargetSurfaceY)
                 {
-                    // Feet have cleared the platform surface — steer toward it.
-                    // Cast from the leading edge so detection is reliable even when touching.
+                    // feet have cleared the platform surface, steer toward it.
+                    // cast from the leading edge so detection is reliable even when touching
                     float hDir   = jumpMoveDir;
                     float edgeX  = col != null ? col.bounds.center.x + col.bounds.extents.x * hDir : transform.position.x;
                     bool wallAtMid  = col != null && Physics2D.Raycast(
@@ -300,15 +276,15 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                     if (wallAtMid || wallAtHead)
                     {
                         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-                        // If descending and still blocked, bail out of the jump state so
-                        // we don't stay pinned against the wall — HandleFlee re-evaluates on landing.
+                        // if descending and still blocked, bail out of the jump state.
+                        // HandleFlee re-evaluates on landing
                         if (rb.linearVelocity.y <= 0f)
                             isJumping = false;
                     }
                     else
                         rb.linearVelocity = new Vector2(hDir * moveSpeed * midAirSpeedMultiplier, rb.linearVelocity.y);
                 }
-                // else: still rising through the gap — no horizontal movement yet
+                // else: still rising through the gap, no horizontal movement yet
                 return;
             }
         }
@@ -327,28 +303,26 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         }
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  STATE MACHINE
-    // ──────────────────────────────────────────────────────────────────────────
 
     /// <summary>Pure state-transition logic. No side effects beyond setting currentState.</summary>
     void DetermineState(float dist)
     {
-        // ── Final stand — all waypoints visited, lock into Cornered permanently ──
+        // final stand: all waypoints visited, lock into Cornered permanently
         if (finalStand)
         {
             currentState = State.Cornered;
             return;
         }
 
-        // ── Too far → wait ────────────────────────────────────────────────────
+        // too far -> wait
         if (dist > maxFleeDistance)
         {
             currentState = State.Wait;
             return;
         }
 
-        // ── Currently waiting → leave only when player is close enough ────────
+        // waiting -> leave only when the player gets close enough
         if (currentState == State.Wait)
         {
             if (dist <= resumeFleeDistance)
@@ -359,7 +333,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             return;
         }
 
-        // ── Currently cornered → leave only after min duration + unblocked ────
+        // cornered -> leave only after min duration + unblocked
         if (currentState == State.Cornered)
         {
             if (Time.time >= corneredUntilTime && !IsCornered(GetCurrentFleeDir()))
@@ -400,13 +374,11 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         }
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  FLEE MOVEMENT (FixedUpdate)
-    // ──────────────────────────────────────────────────────────────────────────
 
     void HandleFlee()
     {
-        // Fallback: no waypoints configured — flee directly away from player
+        // no waypoints configured, flee directly away from player
         if (fleeWaypoints == null || fleeWaypoints.Length == 0)
         {
             float fallbackDir = Mathf.Sign(transform.position.x - player.position.x);
@@ -427,9 +399,9 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             if (wp == null) return;
         }
 
-        // ── Determine desired horizontal direction toward waypoint ─────────────
+        // pick a horizontal direction toward the waypoint.
         // Always move toward the waypoint regardless of where the player is.
-        // The player is never a navigation obstacle — we jump over them if needed.
+        // the player is never a nav obstacle, we jump over them if needed
         float wpX    = wp.transform.position.x;
         float wpY    = wp.transform.position.y;
         float xDiff  = wpX - transform.position.x;
@@ -437,7 +409,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         float moveDir = xDiff != 0f ? Mathf.Sign(xDiff) : (yDiff > 0f ? 1f : -1f);
         if (moveDir == 0f) moveDir = 1f;
 
-        // ── Per-frame navigation decision ─────────────────────────────────────
+        // per-frame nav decision.
         // Only make jump decisions when grounded and cooldown has elapsed.
         if (isGrounded && Time.time >= lastJumpTime + jumpCooldown)
         {
@@ -451,10 +423,9 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                     return;
 
                 case NavDecision.JumpUp:
-                    // We are already in a clear position (IsClearAbove passed).
-                    // Jump with reduced horizontal speed so we rise through the gap
-                    // rather than clipping the platform edge. Mid-air wall avoidance
-                    // will stop horizontal movement if we graze anything on the way up.
+                    // jump with reduced horizontal speed so we rise through the gap
+                    // instead of clipping the edge. mid-air wall check stops sideways
+                    // motion if we graze anything on the way up
                     float platformH = GetPlatformEdgeAboveHeight(moveDir);
                     if (platformH < 0f) platformH = Mathf.Min(yDiff, wallTopScanMax);
                     PerformCalculatedJump(moveDir, platformH, moveSpeed * 0.4f);
@@ -465,7 +436,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                     float seekDir = FindLaunchPositionDir(yDiff, moveDir);
 
                     // Once we're standing in a clear spot, zero any residual vertical
-                    // velocity and immediately attempt the jump — don't walk further.
+                    // velocity and immediately attempt the jump, dont walk further
                     if (IsClearAbove(yDiff))
                     {
                         // Stop horizontal drift and kill any lingering vertical velocity
@@ -479,7 +450,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                         return;
                     }
 
-                    // Not clear yet — keep walking toward the clear spot
+                    // not clear yet, keep walking toward the clear spot
                     rb.linearVelocity = new Vector2(seekDir * moveSpeed, rb.linearVelocity.y);
                     return;
                 }
@@ -489,7 +460,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                     // PerformCalculatedJump sets vertical impulse and zeros X, then we
                     // immediately restore horizontal so the necromancer doesn't stop at the edge.
                     PerformCalculatedJump(moveDir, jumpClearanceBuffer, moveSpeed);
-                    // Enable horizontal from launch — feet are already at the target surface Y
+                    // enable horizontal from launch, feet are already at the target surface Y
                     jumpTargetSurfaceY = col != null ? col.bounds.min.y : transform.position.y;
                     rb.linearVelocity = new Vector2(moveDir * moveSpeed * midAirSpeedMultiplier, rb.linearVelocity.y);
                     return;
@@ -512,9 +483,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             rb.linearVelocity = new Vector2(moveDir * moveSpeed * airMult, rb.linearVelocity.y);
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  NAVIGATION DECISION SYSTEM
-    // ──────────────────────────────────────────────────────────────────────────
 
     private enum NavDecision { Walk, JumpOverWall, JumpUp, JumpGap, WalkOffLedge, SeekLaunchPos }
 
@@ -522,40 +491,39 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     /// Reads the immediate environment and returns what the necromancer should do
     /// this frame to make progress toward the waypoint.
     ///
-    ///  JumpOverWall  — a wall is blocking at foot level and is jumpable
-    ///  JumpUp        — the waypoint is above and a climbable platform edge is
-    ///                  within reach in one jump in the move direction
-    ///  WalkOffLedge  — the waypoint is below / same level, ground ends ahead
-    ///  Walk          — clear path, just move
+    ///  JumpOverWall  - wall blocks at foot level, jumpable
+    ///  JumpUp        - waypoint is above, climbable platform edge in reach
+    ///  WalkOffLedge  - waypoint is below / same level, ground ends ahead
+    ///  Walk          - clear path, just move
     /// </summary>
     NavDecision EvaluateNavDecision(float moveDir, float yDiff)
     {
         bool wallAhead  = HasWallAhead(moveDir);
         bool groundAhead = HasGroundAhead(moveDir);
 
-        // ── Wall blocking horizontal path ──────────────────────────────────────
+        // wall blocking horizontal path
         if (wallAhead)
         {
             float wallTop = GetWallTopHeight(moveDir);
             if (wallTop >= 0f && IsClearAbove(wallTop))
                 return NavDecision.JumpOverWall;
-            // Wall too tall or ceiling blocked — can't jump, cornered logic handles it
+            // wall too tall or ceiling blocked, cornered logic handles it
             return NavDecision.Walk;
         }
 
-        // ── Waypoint is above ─────────────────────────────────────────────────
+        // waypoint is above
         if (yDiff > jumpUpThreshold)
         {
             float platformH = GetPlatformEdgeAboveHeight(moveDir);
             if (platformH >= 0f && IsClearAbove(platformH))
                 return NavDecision.JumpUp;
 
-            // Can't jump from here — either we're under an overhang blocking the path
+            // cant jump from here. either under an overhang blocking the path
             // up, or there's no visible platform edge yet. Move to a clear launch spot.
             return NavDecision.SeekLaunchPos;
         }
 
-        // ── No ground ahead — gap or intentional drop ────────────────────────
+        // no ground ahead: gap or intentional drop
         if (!groundAhead)
         {
             float gapWidth = MeasureGapWidth(moveDir);
@@ -567,9 +535,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         return NavDecision.Walk;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  ENVIRONMENT SENSORS
-    // ──────────────────────────────────────────────────────────────────────────
 
     /// <summary>Returns true if there is a solid ground-layer wall at foot level ahead.
     /// Only checks groundLayer so the player's collider is never mistaken for a wall.</summary>
@@ -577,7 +543,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     {
         if (col == null) return false;
         Vector2 footOrigin = new Vector2(col.bounds.center.x, col.bounds.min.y + 0.05f);
-        // Also check at mid-body height — a wall that starts above feet still blocks us
+        // also check at mid-body height, a wall that starts above feet still blocks us
         Vector2 midOrigin  = new Vector2(col.bounds.center.x, col.bounds.center.y);
         return Physics2D.Raycast(footOrigin, Vector2.right * moveDir, wallAheadDistance, groundLayer).collider != null
             && Physics2D.Raycast(midOrigin,  Vector2.right * moveDir, wallAheadDistance, groundLayer).collider != null;
@@ -613,7 +579,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
             if (hit.collider != null)
             {
-                // Found ground on the other side — check it's roughly level (not a big drop)
+                // found ground on the other side, check its roughly level (no big drop)
                 float landingY = hit.point.y;
                 float dropDiff = footY - landingY;
                 if (dropDiff > 2f) return -1f;  // too far down, treat as drop
@@ -677,7 +643,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             float   probeY = topY + h;
             Vector2 origin = new Vector2(centerX + moveDir * halfW, probeY);
 
-            // Reject probes whose origin is above a ceiling — the Necromancer cannot
+            // reject probes whose origin is above a ceiling, the necromancer cant
             // reach that space by jumping from below.  Cast upward from our head to the
             // probe origin at the same X; any ground-layer hit means a ceiling intervenes.
             if (Physics2D.Raycast(new Vector2(origin.x, topY), Vector2.up, h, groundLayer).collider != null)
@@ -690,11 +656,11 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             // its bottom) and near-vertical surfaces (cave wall edges).
             if (hit.normal.y < 0.5f) continue;
 
-            // Reject surfaces at or below head level — these are ground roughness or
+            // reject surfaces at or below head level (ground roughness or
             // raised tiles next to the Necromancer, not meaningful jump targets.
             if (hit.point.y <= topY) continue;
 
-            // Use the actual surface Y from the hit, not the probe start — avoids the
+            // use the actual surface Y from the hit, not the probe start. avoids the
             // up-to-wallTopScanStep*2 overestimate that causes excess jump force.
             float heightAboveFeet = hit.point.y - footY;
             float g  = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale;
@@ -748,7 +714,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             : transform.position.y + obstacleTopHeight;
         jumpMoveDir = moveDir;
 
-        // Launch vertically only — horizontal movement is applied mid-air once clear
+        // launch vertically only, horizontal movement is applied mid-air once clear
         rb.linearVelocity = new Vector2(0f, vy);
         isJumping    = true;
         lastJumpTime = Time.time;
@@ -760,13 +726,13 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     /// and the one whose nearest clear column is closer wins; preferredDir (toward the
     /// waypoint) is used as the tie-breaker and the fallback when neither side finds
     /// anything within range.  Once committed the direction is locked for the rest of
-    /// this SeekLaunchPos session — no per-frame re-scanning, no oscillation.
+    /// this SeekLaunchPos session, no per-frame re-scanning, no oscillation.
     /// seekLaunchDir is reset to 0 on landing (FixedUpdate) and when re-entering Flee
     /// after Cornered (DetermineState), so the decision is always fresh.
     /// </summary>
     float FindLaunchPositionDir(float requiredHeight, float preferredDir = 0f)
     {
-        // Already committed — keep walking in the chosen direction without re-scanning.
+        // already committed, keep walking in the chosen direction without re-scanning
         if (seekLaunchDir != 0f) return seekLaunchDir;
 
         // Establish candidate directions.
@@ -814,9 +780,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         return seekLaunchDir;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  CORNERED / STUCK
-    // ──────────────────────────────────────────────────────────────────────────
 
     /// <summary>
     /// Returns true when a wall blocks the flee direction AND there is no ledge
@@ -832,7 +796,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
         if (!wallAhead) return false;
 
-        // A ledge drop is a valid escape — if ground disappears ahead, not cornered
+        // a ledge drop is a valid escape. if ground disappears ahead, not cornered
         Vector2 ledgeCheckPos = (Vector2)transform.position + Vector2.right * fleeDir * corneredWallCheckDist;
         bool canDropOff = !Physics2D.Raycast(ledgeCheckPos, Vector2.down, ledgeDropCheckDist, groundLayer).collider;
 
@@ -849,7 +813,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     {
         if (currentState != State.Flee) { ResetStuckCheck(); return; }
 
-        // Only count time actually spent fleeing — pauses in Wait/Cornered don't penalise.
+        // only count time actually spent fleeing. pauses in Wait/Cornered dont penalise
         waypointFleeTimer += Time.deltaTime;
         if (waypointTimeoutDuration > 0f && waypointFleeTimer >= waypointTimeoutDuration)
         {
@@ -887,9 +851,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     bool CanAttackCornered() =>
         !isAttacking && Time.time >= lastAttackTime + corneredAttackCooldown;
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  FLEE INTERRUPTS
-    // ──────────────────────────────────────────────────────────────────────────
 
     void TryFleeInterrupt()
     {
@@ -901,9 +863,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     void ScheduleNextFleeCast() =>
         nextFleeCastTime = Time.time + Random.Range(fleeCastIntervalMin, fleeCastIntervalMax);
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  REVIVE / ATTACK
-    // ──────────────────────────────────────────────────────────────────────────
 
     bool CanRevive() =>
         !isReviving && Time.time >= lastReviveTime + reviveCooldown && HasRevivableMinion();
@@ -980,9 +940,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         }
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  HELPERS
-    // ──────────────────────────────────────────────────────────────────────────
 
     bool CheckGrounded()
     {
@@ -1004,7 +962,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         if (fleeWaypoints == null || fleeWaypoints.Length == 0) return;
         if (currentWaypointIndex >= fleeWaypoints.Length - 1)
         {
-            finalStand = true;  // all waypoints visited — trigger permanent Cornered
+            finalStand = true;  // all waypoints visited, trigger permanent Cornered
             return;
         }
         currentWaypointIndex++;
@@ -1052,7 +1010,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
         if (!isGrounded)
         {
-            // Map vertical velocity to a normalised frame index — same scheme as the player
+            // map vertical velocity to a normalised frame index, same scheme as the player
             float vy    = rb.linearVelocity.y;
             float frame = vy > 5f    ? 2f :
                           vy > 0.1f  ? 3f :
@@ -1091,9 +1049,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         }
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  DAMAGE / DEATH
-    // ──────────────────────────────────────────────────────────────────────────
 
     public override void TakeDamage(int amount)
     {
@@ -1145,9 +1101,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         }
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  REVIVE / REWIND
-    // ──────────────────────────────────────────────────────────────────────────
 
     public override void Revive()
     {
@@ -1185,15 +1139,12 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         rb.bodyType = wasDead ? RigidbodyType2D.Kinematic : originalBodyType;
     }
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  REWIND STATE
-    // ──────────────────────────────────────────────────────────────────────────
 
     public override RewindState CaptureState()
     {
         var state = base.CaptureState();
 
-        // ── Existing fields ───────────────────────────────────────────────────
         state.SetCustomData("lastReviveTime",   lastReviveTime);
         state.SetCustomData("isReviving",       isReviving);
         state.SetCustomData("reviveTimer",      reviveTimer);
@@ -1207,7 +1158,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         state.SetCustomData("spriteEnabled", sprite != null && sprite.enabled);
         state.SetCustomData("localScale",    transform.localScale);
 
-        // ── New fields ────────────────────────────────────────────────────────
         state.SetCustomData("currentWaypointIndex", currentWaypointIndex);
         state.SetCustomData("finalStand",           finalStand);
         state.SetCustomData("waypointFleeTimer",    waypointFleeTimer);
@@ -1235,7 +1185,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
     {
         base.ApplyState(state);
 
-        // ── Existing fields ───────────────────────────────────────────────────
         lastReviveTime = state.GetCustomData<float>("lastReviveTime");
         isReviving     = state.GetCustomData<bool> ("isReviving");
         reviveTimer    = state.GetCustomData<float>("reviveTimer");
@@ -1251,7 +1200,6 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
         if (col    != null) col.enabled    = state.GetCustomData<bool>("colEnabled",    true);
         if (sprite != null) sprite.enabled = state.GetCustomData<bool>("spriteEnabled", true);
 
-        // ── New fields ────────────────────────────────────────────────────────
         currentWaypointIndex = state.GetCustomData<int>    ("currentWaypointIndex");
         finalStand           = state.GetCustomData<bool>   ("finalStand");
         waypointFleeTimer    = state.GetCustomData<float>  ("waypointFleeTimer");
@@ -1406,16 +1354,14 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
     Transform IForesightEnemy.player => player;
 
-    // ──────────────────────────────────────────────────────────────────────────
     //  GIZMOS
-    // ──────────────────────────────────────────────────────────────────────────
 
     private void OnDrawGizmosSelected()
     {
         Collider2D gizmoCol = col != null ? col : GetComponent<Collider2D>();
         float gizmoDir      = Application.isPlaying ? GetCurrentFleeDir() : 1f;
 
-        // ── Ground check ──────────────────────────────────────────────────────
+        // ground check
         {
             Color gcColour = (Application.isPlaying && isGrounded) ? Color.green : Color.red;
             Gizmos.color   = gcColour;
@@ -1441,7 +1387,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 #endif
         }
 
-        // ── Navigation sensors ────────────────────────────────────────────────
+        // nav sensors
         if (gizmoCol != null)
         {
             float footY    = gizmoCol.bounds.min.y;
@@ -1450,12 +1396,12 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             float centerX  = gizmoCol.bounds.center.x;
             float edgeX    = centerX + halfW * gizmoDir;
 
-            // Wall-ahead ray (magenta) — foot level horizontal
+            // wall-ahead ray (magenta), foot level horizontal
             Gizmos.color = Color.magenta;
             Vector3 footOrigin = new Vector3(centerX, footY + 0.05f, 0f);
             Gizmos.DrawLine(footOrigin, footOrigin + Vector3.right * gizmoDir * wallAheadDistance);
 
-            // Wall-top scan rays (faded magenta) — vertical scan to find wall height
+            // wall-top scan rays (faded magenta), vertical scan to find wall height
             for (float h = wallTopScanStep; h <= wallTopScanMax; h += wallTopScanStep)
             {
                 float t = h / wallTopScanMax;
@@ -1468,7 +1414,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                 "wall\nahead", new GUIStyle { normal = { textColor = Color.magenta }, fontSize = 9 });
 #endif
 
-            // Ground-ahead ray (orange) — checks for ledge drop
+            // ground-ahead ray (orange), checks for ledge drop
             Vector3 ledgeProbe = new Vector3(edgeX + gizmoDir * 0.3f, footY, 0f);
             Gizmos.color = new Color(1f, 0.5f, 0f);
             Gizmos.DrawLine(ledgeProbe, ledgeProbe + Vector3.down * ledgeDropCheckDist);
@@ -1478,7 +1424,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                 "ledge\ncheck", new GUIStyle { normal = { textColor = new Color(1f, 0.5f, 0f) }, fontSize = 9 });
 #endif
 
-            // Platform-above scan rays (cyan) — finds platform to jump onto
+            // platform-above scan rays (cyan), finds platform to jump onto
             for (float h = wallTopScanStep; h <= wallTopScanMax; h += wallTopScanStep)
             {
                 float t = h / wallTopScanMax;
@@ -1493,7 +1439,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 
         }
 
-        // ── Cornered wall check ───────────────────────────────────────────────
+        // cornered wall check
         Vector3 corneredEnd = transform.position + Vector3.right * gizmoDir * corneredWallCheckDist;
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, corneredEnd);
@@ -1504,7 +1450,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             new GUIStyle { normal = { textColor = Color.red }, fontSize = 9 });
 #endif
 
-        // ── Ledge drop check (from cornered end) ──────────────────────────────
+        // ledge drop check (from cornered end)
         Vector3 ledgeEnd = corneredEnd + Vector3.down * ledgeDropCheckDist;
         Gizmos.color = new Color(1f, 0.5f, 0f);
         Gizmos.DrawLine(corneredEnd, ledgeEnd);
@@ -1515,7 +1461,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             new GUIStyle { normal = { textColor = new Color(1f, 0.5f, 0f) }, fontSize = 9 });
 #endif
 
-        // ── Distance rings ────────────────────────────────────────────────────
+        // distance rings
         Gizmos.color = Color.yellow;
         DrawGizmoCircle(transform.position, maxFleeDistance);
 #if UNITY_EDITOR
@@ -1532,7 +1478,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             new GUIStyle { normal = { textColor = Color.cyan }, fontSize = 10 });
 #endif
 
-        // ── Waypoints ─────────────────────────────────────────────────────────
+        // waypoints
         if (fleeWaypoints != null)
         {
             for (int i = 0; i < fleeWaypoints.Length; i++)
@@ -1542,7 +1488,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
                 bool    isCurrent = Application.isPlaying && i == currentWaypointIndex;
                 Vector3 wpPos     = fleeWaypoints[i].transform.position;
 
-                // The WaypointZone's own OnDrawGizmos draws the collider shape —
+                // WaypointZone's own OnDrawGizmos draws the collider shape,
                 // draw a connecting arrow here and a label above it
                 Gizmos.color = isCurrent ? Color.yellow : Color.green;
                 Gizmos.DrawWireSphere(wpPos, 0.2f);  // small dot at centre
@@ -1565,7 +1511,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             }
         }
 
-        // ── IsClearAbove rays ─────────────────────────────────────────────────
+        // IsClearAbove rays
         if (gizmoCol != null)
         {
             float halfW   = gizmoCol.bounds.extents.x;
@@ -1582,12 +1528,8 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
 #endif
         }
 
-        // ── Jump arc ──────────────────────────────────────────────────────────
-        // Green arc  = vertical-only phase (rising to clear obstacle).
-        // Yellow arc = horizontal-movement phase (after feet clear surface).
-        // Cyan sphere  = clearance point where horizontal kicks in.
-        // Orange sphere = predicted landing.
-        // Yellow dashed = peak height.   Cyan dashed = surface clearance level.
+        // jump arc gizmo. green = vertical phase, yellow = horizontal phase,
+        // cyan sphere = clearance point, orange sphere = predicted landing
         if (Application.isPlaying && col != null && rb != null)
         {
             float g = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale;
@@ -1650,7 +1592,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             }
         }
 
-        // ── Runtime-only overlay ──────────────────────────────────────────────
+        // runtime-only overlay
 #if UNITY_EDITOR
         if (Application.isPlaying)
         {
@@ -1783,8 +1725,8 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             }
 
             Gizmos.color = horizontalStarted
-                ? new Color(1f, 0.85f, 0f, 0.9f)   // yellow — horizontal phase
-                : new Color(0.2f, 1f, 0.3f, 0.9f); // green  — vertical phase
+                ? new Color(1f, 0.85f, 0f, 0.9f)   // yellow = horizontal phase
+                : new Color(0.2f, 1f, 0.3f, 0.9f); // green  = vertical phase
             Gizmos.DrawLine(prev, pos);
             prev = pos;
 
@@ -1792,14 +1734,14 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             if (peakFound && pos.y < startPos.y - 0.5f) break;
         }
 
-        // ── Peak height line ──────────────────────────────────────────────
+        // peak height line
         float lineMinX = Mathf.Min(startPos.x, prev.x) - 0.5f;
         float lineMaxX = Mathf.Max(startPos.x, prev.x) + 0.5f;
 
         Gizmos.color = new Color(1f, 1f, 0f, 0.5f);
         Gizmos.DrawLine(new Vector3(lineMinX, peakY, 0f), new Vector3(lineMaxX, peakY, 0f));
 
-        // ── Surface clearance line ────────────────────────────────────────
+        // surface clearance line
         float footYAtLaunch = startPos.y + footOffset;
         if (surfaceY > footYAtLaunch + 0.05f)
         {
@@ -1807,7 +1749,7 @@ public class NecromancerEnemy : EnemyBase, IForesightEnemy
             Gizmos.DrawLine(new Vector3(lineMinX, surfaceY, 0f), new Vector3(lineMaxX, surfaceY, 0f));
         }
 
-        // ── Key spheres ───────────────────────────────────────────────────
+        // key spheres
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.9f);   // landing
         Gizmos.DrawWireSphere(prev, 0.13f);
 

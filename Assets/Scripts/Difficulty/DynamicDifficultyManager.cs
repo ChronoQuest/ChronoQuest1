@@ -5,26 +5,21 @@ using UnityEngine.SceneManagement;
 
 public sealed class DynamicDifficultyManager : MonoBehaviour
 {
-    /// <summary>Set to 1 when the player dies in a tutorial scene (see <see cref="DifficultyTuning.tutorialSceneNames"/>).</summary>
+    // set to 1 when the player dies in a tutorial scene
     public const string TutorialSafetyPlayerPrefsKey = "ChronoQuest.TutorialSafetyActive";
 
-    /// <summary>Build name of the only tutorial level (must match the scene asset name in Build Settings).</summary>
+    // build name of the tutorial level, must match the scene asset name
     public const string PrimaryTutorialSceneName = "GameScene";
 
-    /// <summary>
-    /// True for the main tutorial scene regardless of <see cref="DifficultyTuning"/> inspector mistakes
-    /// (case-insensitive, trimmed).
-    /// </summary>
+    // true for the main tutorial scene, case-insensitive
     public static bool IsPrimaryTutorialScene(string sceneName)
     {
         if (string.IsNullOrEmpty(sceneName)) return false;
         return string.Equals(sceneName.Trim(), PrimaryTutorialSceneName, StringComparison.OrdinalIgnoreCase);
     }
 
-    /// <summary>
-    /// True if <see cref="PrimaryTutorialSceneName"/> is loaded (any slot). Use for PlayerPrefs / death when the
-    /// level uses additive loading and <see cref="SceneManager.GetActiveScene"/> may not be the tutorial scene.
-    /// </summary>
+    // true if the tutorial scene is loaded in any slot. for additive loading where
+    // GetActiveScene may not be the tutorial
     public static bool IsPrimaryTutorialSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -36,10 +31,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// True when any loaded scene counts as tutorial (including primary). Prefer over
-    /// <c>IsSceneNameTutorial(GetActiveScene().name)</c> when additive scenes are used.
-    /// </summary>
+    // true when any loaded scene counts as tutorial. prefer this over
+    // IsSceneNameTutorial(GetActiveScene().name) for additive scenes
     public static bool IsTutorialSceneContextActive()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -64,7 +57,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     [SerializeField] private bool logTierChanges = false;
     [Tooltip("Logs score + tier every evaluate cycle (Console).")]
     [SerializeField] private bool logEveryEvaluation = false;
-    [Tooltip("On-screen panel (top-left). Enable on the DontDestroyOnLoad object while playing: Hierarchy → DynamicDifficultyManager.")]
+    [Tooltip("On-screen debug panel (top-left). Toggle on the DontDestroyOnLoad object at runtime.")]
     [SerializeField] private bool showDebugOverlay = false;
 
     public bool ShowDebugOverlay { get => showDebugOverlay; set => showDebugOverlay = value; }
@@ -72,7 +65,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     public DifficultyTier CurrentTier { get; private set; } = DifficultyTier.Normal;
     public bool TutorialSafetyActive { get; private set; }
 
-    /// <summary>Last value from <see cref="ComputePerformanceScore"/> at the most recent tier evaluation.</summary>
+    // last performance score from the most recent tier evaluation
     public float LastPerformanceScore { get; private set; }
 
     public float EnemyHpMultiplier => GetCurrentMultipliers().enemyHpMultiplier;
@@ -80,9 +73,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     public float ManaOnHitMultiplier => GetCurrentMultipliers().manaOnHitMultiplier;
     public float HealingMultiplier => GetCurrentMultipliers().healingMultiplier;
 
-    /// <summary>
-    /// VeryEasy only: falling platforms stay solid (same idea as tutorial safety lock).
-    /// </summary>
+    // VeryEasy only: falling platforms stay solid
     public bool LockFallingPlatformsForCurrentTier =>
         CurrentTier == DifficultyTier.VeryEasy;
 
@@ -95,9 +86,9 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
 
     private readonly Queue<Sample> _samples = new Queue<Sample>();
     private Snapshot _lastSnapshot;
-    // True when _lastSnapshot was captured while DataCollectionService.Instance was null
-    // (e.g. DDM was created on a scene that doesn't include the MLSystems prefab — TitleScreen).
-    // Cleared on the first sample tick where DCS is available, after rebaselining.
+    // true when _lastSnapshot was captured while DataCollectionService was null
+    // (e.g. DDM was created on TitleScreen which has no MLSystems prefab). cleared
+    // on the first sample tick where DCS is available, after rebaselining
     private bool _lastSnapshotIsBootstrap;
 
     private readonly HashSet<int> _tutorialEnemyHpAdjusted = new HashSet<int>();
@@ -236,19 +227,15 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         ApplySceneRules();
     }
 
-    /// <summary>
-    /// <see cref="DataCollectionService.SaveSessionAndStartNew"/> zeros counters; rebaseline so the next sample is not a bogus negative delta.
-    /// </summary>
+    // SaveSessionAndStartNew zeros counters, so rebaseline to avoid a bogus negative delta
     private void OnSessionGameplayCountersReset()
     {
         _lastSnapshot = CaptureSnapshot();
         _lastSnapshotIsBootstrap = false;
     }
 
-    /// <summary>
-    /// Clears the rolling difficulty window only when starting (or returning to) the first level from elsewhere —
-    /// not on progression between level scenes, and not when reloading the same tutorial scene.
-    /// </summary>
+    // clears the rolling window only when starting (or returning to) the first level
+    // from elsewhere. not on level-to-level progression, not on tutorial reload
     private static bool ShouldResetPerformanceWindowOnSceneChange(Scene oldScene, Scene newScene)
     {
         if (!IsPrimaryTutorialScene(newScene.name)) return false;
@@ -290,10 +277,9 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
     private DifficultyTuning.TierMultipliers GetCurrentMultipliers()
     {
         var t = GetTuning();
-        // Mirror GetEnemyHpMultiplierForScene: the tutorial HP cushion only applies once
-        // safety is actually triggered (player died in tutorial), not just because the
-        // tutorial scene is loaded. Without this gate, the overlay shows e.g. 1.2*0.75=0.9
-        // on Hard in GameScene even though gameplay correctly leaves enemies at 1.2.
+        // mirrors GetEnemyHpMultiplierForScene: the tutorial HP cushion only applies
+        // once safety is actually triggered, not just because the tutorial scene is loaded.
+        // without this gate the overlay shows the wrong multiplier even though gameplay is right
         if (TutorialSafetyActive)
         {
             var baseMult = t.GetMultipliers(CurrentTier);
@@ -343,10 +329,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
 
     private void PushPerformanceSample()
     {
-        // If the baseline was captured before DataCollectionService existed (DDM
-        // was constructed on TitleScreen, which has no MLSystems prefab), rebase
-        // as soon as DCS appears and skip emitting a sample for this tick. The
-        // would-be sample's deltas are meaningless against the bootstrap snapshot.
+        // if the baseline was captured before DCS existed, rebase as soon as DCS
+        // appears and skip this tick. the deltas vs the bootstrap snapshot are meaningless
         if (_lastSnapshotIsBootstrap && DataCollectionService.Instance != null)
         {
             _lastSnapshot = CaptureSnapshot();
@@ -400,12 +384,11 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
             dKills += s.dEnemyKills;
         }
 
-        // Always normalise rates against the FULL rolling window, not the actual filled
-        // duration. Otherwise early-game extrapolation explodes — e.g. 5 kills in the first
-        // 30s would read as 10 kills/min, hitting the reward cap and locking the player
-        // into Hard for the rest of the run. With this floor, the same 5 kills count as
-        // 5 / (window_in_min) — proportional to sustained play. Once the window is fully
-        // filled (accDt == window), behaviour is identical to the old formula.
+        // normalise rates against the FULL window, not the actual filled duration.
+        // early-game extrapolation explodes otherwise: 5 kills in 30s reads as 10
+        // kills/min, hits the reward cap, and locks the player into Hard for the rest
+        // of the run. once the window is fully filled (accDt == window) the formula
+        // is the same as before
         float windowSeconds = Mathf.Max(10f, GetTuning().rollingWindowSeconds);
         float minutes = Mathf.Max(accDt, windowSeconds) / 60f;
         float deathsPerMin = dDeaths / Mathf.Max(0.001f, minutes);
@@ -481,8 +464,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         var t = GetTuning();
         if (!t.tutorialSafetyEnabled) return false;
 
-        // Safety is activated explicitly by the player dying in a tutorial scene (see PlayerHealth).
-        // Do not auto-enable by time-in-scene; if the player never dies, hazards/platforms should behave normally.
+        // safety is set by PlayerHealth when the player dies in a tutorial
+        // scene. dont auto-enable by time-in-scene
         return PlayerPrefs.GetInt(TutorialSafetyPlayerPrefsKey, 0) == 1;
     }
 
@@ -504,9 +487,9 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
         if (!TutorialSafetyActive)
             return;
 
-        // Do not disable FallingPlatform / MovingFallingPlatform here — disabling the component
-        // breaks rewind registration and does not reliably block fall logic. Platforms lock via
-        // PlayerPrefs + RefreshTutorialSafetyLock in their own scripts.
+        // dont disable FallingPlatform / MovingFallingPlatform here. disabling the
+        // component breaks rewind registration. platforms lock via PlayerPrefs +
+        // RefreshTutorialSafetyLock in their own scripts
 
         foreach (var spike in FindObjectsOfType<SpikeDamage>(true))
         {
@@ -514,8 +497,8 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
             spike.SetRespawnPlayer(false);
         }
 
-        // Traps should still deal damage (eg. swinging blades). Restore any traps that may have been
-        // zeroed by earlier builds / play sessions during this run.
+        // traps should still deal damage (e.g. swinging blades). restore any traps
+        // that earlier builds may have zeroed
         foreach (var trap in FindObjectsOfType<TrapDamage>(true))
             trap.RestoreDefaultDamage();
 
@@ -535,9 +518,7 @@ public sealed class DynamicDifficultyManager : MonoBehaviour
 
     private bool IsInTutorialScene(string sceneName) => IsSceneNameTutorial(sceneName);
 
-    /// <summary>
-    /// Used by falling platforms (Awake may run before Instance exists). Same rules as <see cref="DifficultyTuning.tutorialSceneNames"/>.
-    /// </summary>
+    // used by falling platforms (their Awake may run before Instance exists)
     public static bool IsSceneNameTutorial(string sceneName)
     {
         if (IsPrimaryTutorialScene(sceneName))

@@ -69,7 +69,7 @@ public class EndCredits : MonoBehaviour
             yield return null;
         }
 
-        // Stop low-health haptics/audio/visuals before the credits so they don't bleed through.
+        // stop low-health haptics/audio/visuals before the credits so they dont bleed through
         RewindHaptics.Instance?.StopHintHeartbeat();
         LowHealthVisualController.Instance?.StopLowHealthEffect();
 
@@ -79,9 +79,9 @@ public class EndCredits : MonoBehaviour
         float textHeight;
         BuildOverlay(out bg, out textRT, out tmp, out textHeight);
 
-        // Keep the text hidden during the fade — the background renders under the
-        // text, so at partial bg alpha the still-visible gameplay would show
-        // through with white credits painted on top of it.
+        // hide the text during the fade. the background renders behind the text,
+        // so at partial bg alpha the gameplay still shows through with the white
+        // credits painted on top of it
         Color textColor = tmp.color;
         textColor.a = 0f;
         tmp.color = textColor;
@@ -98,7 +98,7 @@ public class EndCredits : MonoBehaviour
 
         MuteNonMusic();
 
-        // Screen is fully black — safe to show the text now before the scroll starts.
+        // screen is fully black, safe to show the text now before the scroll starts
         textColor.a = 1f;
         tmp.color = textColor;
 

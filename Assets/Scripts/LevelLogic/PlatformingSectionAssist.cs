@@ -1,15 +1,9 @@
 using UnityEngine;
 
-/// <summary>
-/// Place on a trigger collider that bounds a platforming section. Once the player has
-/// accumulated <see cref="assistAfterSeconds"/> of total time inside (cumulative — brief exits
-/// from knockback, falling off a platform, dying and respawning at a checkpoint outside the
-/// bounds, etc. don't reset the counter), falls are cancelled, platforms are locked, and
-/// spikes are fully disabled.
-///
-/// The timer keeps accruing across re-entries until <see cref="PlatformSectionGoal"/> calls
-/// <see cref="MarkCleared"/> on this section. Once cleared, the assist will never fire.
-/// </summary>
+// trigger collider that bounds a platforming section. once the player has spent
+// assistAfterSeconds (cumulative) inside, falls cancel, platforms lock, spikes
+// disable. the timer keeps adding up across re-entries until the goal trigger
+// calls MarkCleared. once cleared the assist never fires
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider2D))]
 public class PlatformingSectionAssist : MonoBehaviour
@@ -25,16 +19,15 @@ public class PlatformingSectionAssist : MonoBehaviour
     [SerializeField] private TrapDamage[] spikes;
 
     private Collider2D _bounds;
-    // Counts overlapping Player-tagged colliders. The player prefab has two colliders
-    // (Box + Capsule) on the same GameObject, both tagged Player, and they cross the
-    // trigger boundary independently — so a simple bool flag would double-count exits.
+    // count of overlapping Player colliders. the player has two colliders (Box +
+    // Capsule), both tagged Player, that cross the boundary separately, so a bool
+    // would double-count exits
     private int _playerColliderCount;
     private bool _cleared;
     private bool _assistApplied;
-    // Sum of completed inside-intervals (closed when the player fully exits). Time spent
-    // in the current still-open interval is added on the fly in Update.
+    // sum of completed inside-intervals. the still-open interval is added in Update
     private float _accumulatedTimeInside;
-    // Unscaled time at which the most recent uninterrupted inside-interval started.
+    // unscaled time when the current inside-interval started
     private float _intervalStartTime;
 
     private bool PlayerInside => _playerColliderCount > 0;
@@ -65,7 +58,7 @@ public class PlatformingSectionAssist : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         _playerColliderCount++;
-        // Open a new inside-interval only on the first collider; the second one piggybacks.
+        // open a new interval only on the first collider, the second piggybacks
         if (_playerColliderCount == 1)
             _intervalStartTime = Time.unscaledTime;
     }
@@ -74,17 +67,16 @@ public class PlatformingSectionAssist : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         if (_playerColliderCount > 0) _playerColliderCount--;
-        // Close the interval only when ALL Player colliders have exited.
+        // close the interval only when ALL player colliders have exited
         if (_playerColliderCount == 0)
             _accumulatedTimeInside += Time.unscaledTime - _intervalStartTime;
     }
 
-    /// <summary>True if the assist timer has not yet fired (player is still within the time limit).</summary>
+    // true if the assist timer hasnt fired yet
     public bool IsWithinTimeLimit => !_assistApplied;
 
-    /// <summary>Called by <see cref="PlatformSectionGoal"/> when the player reaches the goal trigger.
-    /// Permanently disables the assist for this section — the timer stops accumulating and
-    /// <see cref="ApplyAssist"/> can never fire afterwards.</summary>
+    // called by the goal trigger when the player clears the section. disables the
+    // assist permanently
     public void MarkCleared()
     {
         _cleared = true;
@@ -105,8 +97,9 @@ public class PlatformingSectionAssist : MonoBehaviour
         foreach (var p in movingFallingPlatforms)
         {
             if (p == null) continue;
-            // Intentionally NOT locked by section assist.
-            // "Runway" style moving/falling platforms should still fall normally even after the assist timer.
+            // not locked by the assist. runway-style moving/falling platforms still
+            // fall normally even after the timer
+
         }
 
         foreach (var s in spikes)

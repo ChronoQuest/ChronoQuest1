@@ -1,11 +1,8 @@
 using UnityEngine;
 
-/// <summary>
-/// Attach to a waypoint GameObject alongside a Collider2D (set as trigger).
-/// Resize and reshape the collider in the Inspector to define the zone the
-/// Necromancer must enter for the waypoint to count as reached — no fixed radius,
-/// each waypoint can have a unique shape and size.
-/// </summary>
+// attach to a waypoint with a Collider2D (trigger). resize the collider in the
+// inspector to define the zone the necromancer must enter. no fixed radius, each
+// waypoint can be its own shape/size
 [RequireComponent(typeof(Collider2D))]
 public class WaypointZone : MonoBehaviour
 {
@@ -17,7 +14,7 @@ public class WaypointZone : MonoBehaviour
         zone.isTrigger = true;
     }
 
-    /// <summary>Returns true when <paramref name="point"/> is inside this zone's collider.</summary>
+    // true if point is inside this zone's collider
     public bool IsInside(Vector2 point) => zone != null && zone.OverlapPoint(point);
 
 #if UNITY_EDITOR
